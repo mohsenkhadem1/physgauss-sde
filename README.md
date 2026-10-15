@@ -39,7 +39,7 @@ Open `runs/cpu-demo/report.html` for an animated comparison, trajectory/uncertai
 
 The default experiment uses 21 timestamps, six observed RGB frames, a 0.3-0.7 second observation gap, 24x24 images, and 64 posterior samples. All six input frames contribute to offline smoothing. This is deliberately small enough to inspect and run on CPU; it is not a high-resolution scene reconstruction.
 
-`physgauss check` runs 22 numerical and physical checks with the standard-library test runner. GitHub Actions runs these checks, a small end-to-end demo, and a two-case adaptive-noise smoke study.
+`physgauss check` runs 26 numerical and physical checks with the standard-library test runner. GitHub Actions runs these checks, a small end-to-end demo, a two-case adaptive-noise smoke study, and a nonlinear likelihood audit.
 
 ## Adaptive noise and independent-realization study
 
@@ -52,6 +52,18 @@ physgauss study --plan configs/scale_study.json --output runs/scale-study --resu
 ```
 
 See [the adaptive-noise method and study protocol](docs/ADAPTIVE_NOISE.md). The full plan contains 18 cases: three independent seeds, two matched six-image schedules, and three ground-truth conditions. Coverage, interval width, CRPS, ranking metrics, scale-prior sensitivity, and linearization error are recorded. This remains a known-geometry experiment.
+
+The [completed 18-case results](docs/SCALE_RESULTS.md) and [self-contained study report](examples/scale-study/report.html) are versioned. Adaptive inference suppresses unnecessary noise in deterministic cases and improves the stochastic cases in this small study. Unmodelled deterministic forcing still produces severe under-coverage and a nonzero inferred noise scale.
+
+## Nonlinear likelihood audit
+
+The local likelihood can be fragile even when average pixel error is small. The new audit evaluates independent proposals using the full nonlinear observed-image likelihood and records importance-weight ESS, concentration, physical failures, and source compatibility. It does not call reweighted intervals calibrated.
+
+```sh
+physgauss audit --study runs/scale-study --source-ref d225760 --output runs/likelihood-audit --samples 256
+```
+
+That command targets the historical milestone-2 run. For a fresh study from the current committed checkout use `--source-ref HEAD`. See [audit equations and provenance requirements](docs/LIKELIHOOD_AUDIT.md).
 
 ## First measured results
 
@@ -78,6 +90,7 @@ See [docs/METHOD.md](docs/METHOD.md) for equations, likelihood, physical units, 
 | `inference.py` | Joint MAP smoothing and local Gauss-Newton Laplace approximation |
 | `scale_inference.py` | Integrated scale evidence and zero-noise/positive-noise posterior mixture |
 | `study.py` / `study_report.py` | Matched controls, independent realization/gap sweeps, and aggregate reports |
+| `likelihood_audit.py` / `audit_report.py` | Nonlinear likelihood overlap and reproducibility diagnostics |
 | `metrics.py` / `report.py` | Predictive scores, physical diagnostics, and experiment report |
 | `cli.py` | Reproducible execution and checkpoint handling |
 

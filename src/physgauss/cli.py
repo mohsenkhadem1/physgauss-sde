@@ -130,6 +130,13 @@ def main():
     study.add_argument("--output", type=Path, default=Path("runs/scale-study"))
     study.add_argument("--quick", action="store_true", help="Two-case smoke study, not a calibration result.")
     study.add_argument("--resume", action="store_true")
+    audit = sub.add_parser("audit", help="Compare local posteriors with the full nonlinear observed-image likelihood.")
+    audit.add_argument("--study", type=Path, required=True)
+    audit.add_argument("--source-ref", required=True, help="Committed source ref whose fingerprint matches the study.")
+    audit.add_argument("--output", type=Path, default=Path("runs/likelihood-audit"))
+    audit.add_argument("--samples", type=int, default=256)
+    audit.add_argument("--seed", type=int, default=55001)
+    audit.add_argument("--resume", action="store_true")
     args = parser.parse_args()
     if args.command == "check":
         tests = Path(__file__).resolve().parents[2] / "tests"
@@ -137,6 +144,10 @@ def main():
             parser.error("Run check from an editable installation or repository checkout containing tests/.")
         result = unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.discover(str(tests)))
         raise SystemExit(0 if result.wasSuccessful() else 1)
+    if args.command == "audit":
+        from .likelihood_audit import audit_study
+        audit_study(args.study, args.output, args.source_ref, args.samples, args.seed, args.resume)
+        return
     if args.command == "study":
         from .study import quick_plan, run_study
         if args.quick and args.plan:

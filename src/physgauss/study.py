@@ -142,6 +142,9 @@ def run_case(config, diffusion, grid, spike_probability, slab_std, output, finge
                 "jacobian": posterior.jacobian, "weights": posterior.posterior_weights,
                 "means": torch.stack([c.mean for c in posterior.components]),
                 "precision_cholesky": torch.stack([c.precision_cholesky for c in posterior.components]),
+                "observed_rgb": benchmark.observations.rgb,
+                "observed_indices": benchmark.observations.indices,
+                "observation_sigma": benchmark.observations.sigma,
                 "source_fingerprint": fingerprint}, temporary_checkpoint)
     temporary_checkpoint.replace(checkpoint_path)
     # A summary is the completion marker, written only after the posterior exists.
@@ -202,6 +205,7 @@ def run_study(plan, output, resume=False):
     print("Calibrating diffusion once, independently of all study observations...", flush=True)
     diffusion, calibration = train_diffusion(config_for_calibration.diffusion_seed,
                                             config_for_calibration.diffusion_steps)
+    torch.save(diffusion.state_dict(), output / "diffusion.pt")
     cases = []
     count = len(plan["conditions"]) * len(plan["schedules"]) * len(plan["seeds"])
     for condition in plan["conditions"]:
