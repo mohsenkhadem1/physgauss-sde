@@ -25,6 +25,42 @@ def interval_metrics(samples, target, probability=.9):
             "mean_width_m": float((hi - lo).mean())}
 
 
+def uncertainty_ranking(samples, target):
+    """Ranking-only diagnostics on scalar coordinates; not calibration tests.
+
+    AUSE integrates normalized remaining absolute error above the oracle curve
+    over retained fractions 0.05,...,1. Spearman uses average ranks for ties.
+    """
+    import numpy as np
+    error = (samples.mean(0) - target).abs().flatten().cpu().numpy()
+    uncertainty = samples.std(0, unbiased=False).flatten().cpu().numpy()
+    n = len(error)
+    order = np.argsort(uncertainty, kind="stable")
+    oracle = np.sort(error)
+    fractions = np.linspace(.05, 1., 20)
+    counts = np.maximum(1, np.ceil(fractions * n).astype(int))
+    risk = np.array([error[order[:k]].mean() for k in counts])
+    oracle_risk = np.array([oracle[:k].mean() for k in counts])
+    relative = (risk - oracle_risk) / max(float(error.mean()), 1e-12)
+    ause = np.sum(.5 * (relative[:-1] + relative[1:]) * np.diff(fractions))
+
+    def average_rank(values):
+        indices = np.argsort(values, kind="stable")
+        sorted_values = values[indices]
+        starts = np.r_[0, np.flatnonzero(np.diff(sorted_values)) + 1]
+        ends = np.r_[starts[1:], len(values)]
+        ranks = np.empty(len(values), dtype=float)
+        for a, b in zip(starts, ends):
+            ranks[indices[a:b]] = .5 * (a + b - 1)
+        return ranks
+
+    a, b = average_rank(error), average_rank(uncertainty)
+    rho = None if a.std() == 0 or b.std() == 0 else float(np.corrcoef(a, b)[0, 1])
+    return {"normalized_ause": float(ause), "spearman_error_uncertainty": rho,
+            "retained_fractions": fractions.tolist(), "remaining_mae_m": risk.tolist(),
+            "oracle_remaining_mae_m": oracle_risk.tolist()}
+
+
 def evaluate(samples, benchmark, mesh):
     truth = benchmark.truth.x[0]
     free = ~mesh.pinned

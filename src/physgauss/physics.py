@@ -104,7 +104,7 @@ class Trajectory:
 def simulate(mesh: Mesh, times: Tensor, young: Tensor, drag: Tensor,
              offset: Tensor, initial_velocity: Tensor, substeps=3,
              gravity=-0.6, white: Tensor | None = None, diffusion=None,
-             noise_basis: Tensor | None = None) -> Trajectory:
+             noise_basis: Tensor | None = None, external_acceleration=None) -> Trajectory:
     """Semi-implicit Euler; stochastic impulses use the pre-step state (Ito).
 
     Shapes: parameters [B], offset/velocity [B,3], white [B,steps,rank].
@@ -130,11 +130,14 @@ def simulate(mesh: Mesh, times: Tensor, young: Tensor, drag: Tensor,
     xs, vs = [x], [v]
     g = x.new_tensor([0.0, gravity, 0.0])
     step = 0
+    current_time = float(times[0])
     for interval in range(len(times) - 1):
         dt = float(times[interval + 1] - times[interval]) / substeps
         for _ in range(substeps):
             force, _, _ = material_response(x, mesh, young)
             acceleration = force / mesh.mass[None, :, None] + g - drag[:, None, None] * v
+            if external_acceleration is not None:
+                acceleration = acceleration + external_acceleration(current_time, x, v)
             impulse = torch.zeros_like(x)
             if white is not None:
                 impulse = edge_impulses(x, v, mesh, white[:, step] * math.sqrt(dt),
@@ -144,6 +147,7 @@ def simulate(mesh: Mesh, times: Tensor, young: Tensor, drag: Tensor,
             x_new = x + dt * v
             x = torch.where(mesh.pinned[None, :, None], mesh.rest[None], x_new)
             step += 1
+            current_time += dt
         xs.append(x)
         vs.append(v)
     # Validate the final state as well as every force-evaluation state.

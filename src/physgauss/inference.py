@@ -69,8 +69,8 @@ def fit_map(model: SceneModel, observations: Observations, adam_steps=100,
     return z.detach()[0], history, elapsed, float(final.detach()), float(grad.norm())
 
 
-def laplace_precision(model, observations, mean, chunk=12, delta=1e-3, progress=print):
-    """Central finite-difference image Jacobian; H = J^T R^-1 J + I.
+def image_jacobian(model, observations, mean, chunk=12, delta=1e-3, progress=print):
+    """Central finite-difference Jacobian whitened by known observation sigma.
 
     Coordinates include Brownian increments for the SDE. The identity is the
     common standardized normal prior, not an arbitrary uncertainty temperature.
@@ -90,10 +90,13 @@ def laplace_precision(model, observations, mean, chunk=12, delta=1e-3, progress=
                             / (2 * delta * observations.sigma)).T)
             if progress and (end == dimension or start == 0 or end % (chunk * 5) == 0):
                 progress(f"  uncertainty Jacobian {end}/{dimension}")
-        jac = torch.cat(columns, dim=1)
-        precision = jac.T @ jac + torch.eye(dimension, dtype=mean.dtype)
-        chol = torch.linalg.cholesky(precision)
-    return chol
+    return torch.cat(columns, dim=1)
+
+
+def laplace_precision(model, observations, mean, chunk=12, delta=1e-3, progress=print):
+    jac = image_jacobian(model, observations, mean, chunk, delta, progress)
+    precision = jac.T @ jac + torch.eye(model.dimension, dtype=mean.dtype)
+    return torch.linalg.cholesky(precision)
 
 
 def fit(model, observations, progress=print):

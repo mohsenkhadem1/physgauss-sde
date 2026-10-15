@@ -1,4 +1,4 @@
-"""Commands: physgauss check; physgauss demo [--quick] [--resume]."""
+"""Commands: physgauss check; physgauss demo; physgauss study."""
 import argparse
 from dataclasses import asdict
 import hashlib
@@ -125,6 +125,11 @@ def main():
     demo.add_argument("--output", type=Path, default=Path("runs/cpu-demo"))
     demo.add_argument("--quick", action="store_true", help="Small smoke test, not a research result.")
     demo.add_argument("--resume", action="store_true", help="Resume matching fits or rebuild samples/report from a checkpoint.")
+    study = sub.add_parser("study", help="Matched noise-scale inference over seeds and observation schedules.")
+    study.add_argument("--plan", type=Path)
+    study.add_argument("--output", type=Path, default=Path("runs/scale-study"))
+    study.add_argument("--quick", action="store_true", help="Two-case smoke study, not a calibration result.")
+    study.add_argument("--resume", action="store_true")
     args = parser.parse_args()
     if args.command == "check":
         tests = Path(__file__).resolve().parents[2] / "tests"
@@ -132,6 +137,14 @@ def main():
             parser.error("Run check from an editable installation or repository checkout containing tests/.")
         result = unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.discover(str(tests)))
         raise SystemExit(0 if result.wasSuccessful() else 1)
+    if args.command == "study":
+        from .study import quick_plan, run_study
+        if args.quick and args.plan:
+            parser.error("Choose --quick or --plan, not both.")
+        plan = quick_plan() if args.quick else json.loads(
+            (args.plan or Path("configs/scale_study.json")).read_text(encoding="utf-8"))
+        run_study(plan, args.output, args.resume)
+        return
     if args.quick and args.config:
         parser.error("Choose --quick or --config, not both.")
     if args.quick:

@@ -16,6 +16,7 @@ jobs:
       - run: python -m pip install -e .
       - run: physgauss check
       - run: physgauss demo --quick --output runs/ci-smoke
+      - run: physgauss study --quick --output runs/ci-scale-smoke
       - uses: actions/upload-artifact@v4
         with:
           name: cpu-smoke-report
@@ -23,3 +24,5 @@ jobs:
             runs/ci-smoke/summary.json
             runs/ci-smoke/report.html
             runs/ci-smoke/preview.png
+            runs/ci-scale-smoke/summary.json
+            runs/ci-scale-smoke/report.html

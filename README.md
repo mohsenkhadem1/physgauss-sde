@@ -39,7 +39,19 @@ Open `runs/cpu-demo/report.html` for an animated comparison, trajectory/uncertai
 
 The default experiment uses 21 timestamps, six observed RGB frames, a 0.3-0.7 second observation gap, 24x24 images, and 64 posterior samples. All six input frames contribute to offline smoothing. This is deliberately small enough to inspect and run on CPU; it is not a high-resolution scene reconstruction.
 
-`physgauss check` runs 12 numerical and physical checks with the standard-library test runner. GitHub Actions runs these checks and a small end-to-end demo.
+`physgauss check` runs 22 numerical and physical checks with the standard-library test runner. GitHub Actions runs these checks, a small end-to-end demo, and a two-case adaptive-noise smoke study.
+
+## Adaptive noise and independent-realization study
+
+Version 0.2 adds an explicit zero-process-noise component and observation-only inference over noise scale. It analytically integrates scene parameters and stochastic increments under a common local image likelihood. Matched no-noise, fixed-SDE, and adaptive-mixture controls use the same inference approximation. Positive scale does not automatically mean physical randomness: the study also tests an unmodelled deterministic force.
+
+```sh
+physgauss study --quick --output runs/scale-smoke
+physgauss study --plan configs/scale_study.json --output runs/scale-study
+physgauss study --plan configs/scale_study.json --output runs/scale-study --resume
+```
+
+See [the adaptive-noise method and study protocol](docs/ADAPTIVE_NOISE.md). The full plan contains 18 cases: three independent seeds, two matched six-image schedules, and three ground-truth conditions. Coverage, interval width, CRPS, ranking metrics, scale-prior sensitivity, and linearization error are recorded. This remains a known-geometry experiment.
 
 ## First measured results
 
@@ -64,6 +76,8 @@ See [docs/METHOD.md](docs/METHOD.md) for equations, likelihood, physical units, 
 | `stochastic.py` | Neural noise amplitudes and correlated spatial basis |
 | `benchmark.py` | Separate observation and evaluation data; explicit scene priors |
 | `inference.py` | Joint MAP smoothing and local Gauss-Newton Laplace approximation |
+| `scale_inference.py` | Integrated scale evidence and zero-noise/positive-noise posterior mixture |
+| `study.py` / `study_report.py` | Matched controls, independent realization/gap sweeps, and aggregate reports |
 | `metrics.py` / `report.py` | Predictive scores, physical diagnostics, and experiment report |
 | `cli.py` | Reproducible execution and checkpoint handling |
 

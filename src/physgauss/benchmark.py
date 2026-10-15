@@ -21,6 +21,8 @@ class Config:
     noise_rank: int = 3
     observation_sigma: float = .015
     truth_stochastic: bool = True
+    truth_process_scale: float = 1.0
+    truth_external_pulse: bool = False
     adam_steps: int = 100
     lbfgs_steps: int = 20
     posterior_samples: int = 64
@@ -38,6 +40,8 @@ class Config:
             raise ValueError("This offline smoothing demo needs observed endpoints and withheld frames.")
         if self.substeps < 1 or self.observation_sigma <= 0 or self.noise_rank < 1:
             raise ValueError("Invalid step count, observation noise, or noise rank.")
+        if not math.isfinite(self.truth_process_scale) or self.truth_process_scale < 0:
+            raise ValueError("Truth process scale must be finite and nonnegative.")
         if self.posterior_samples < 4 or self.finite_difference_chunk < 1 or self.threads < 1:
             raise ValueError("Need >=4 posterior samples, positive chunk size and thread count.")
         if min(self.adam_steps, self.lbfgs_steps, self.diffusion_steps) < 0:
@@ -74,7 +78,9 @@ class ParameterPrior:
 
 
 class SceneModel:
-    def __init__(self, config: Config, diffusion=None):
+    def __init__(self, config: Config, diffusion=None, process_scale=1.0):
+        if not math.isfinite(process_scale) or process_scale < 0:
+            raise ValueError("Process scale must be finite and nonnegative.")
         self.config = config.validate()
         self.mesh = cube_mesh()
         self.times = torch.linspace(0, config.duration, config.frames, dtype=torch.float64)
@@ -82,6 +88,7 @@ class SceneModel:
         self.renderer = GaussianRenderer(self.mesh, config.image_size)
         self.prior = ParameterPrior()
         self.diffusion = diffusion
+        self.process_scale = process_scale
         self.basis = spatial_basis(self.mesh, config.noise_rank)
         self.nsteps = (config.frames - 1) * config.substeps
         self.dimension = 8 + (self.nsteps * config.noise_rank if diffusion is not None else 0)
@@ -91,6 +98,8 @@ class SceneModel:
             raise ValueError(f"Expected [batch,{self.dimension}] standardized coordinates.")
         young, drag, offset, velocity = self.prior.decode(z)
         white = z[:, 8:].reshape(-1, self.nsteps, self.config.noise_rank) if self.diffusion else None
+        if white is not None:
+            white = self.process_scale * white
         return simulate(self.mesh, self.times, young, drag, offset, velocity,
                         self.config.substeps, white=white, diffusion=self.diffusion,
                         noise_basis=self.basis)
@@ -122,11 +131,19 @@ def make_benchmark(config: Config) -> Benchmark:
     velocity = scene.times.new_tensor([[-.12, .04, .10]])
     white = None
     if config.truth_stochastic:
-        white = torch.randn(1, scene.nsteps, config.noise_rank, generator=gen, dtype=torch.float64)
+        white = config.truth_process_scale * torch.randn(
+            1, scene.nsteps, config.noise_rank, generator=gen, dtype=torch.float64)
+    external = None
+    if config.truth_external_pulse:
+        def external(t, x, v):
+            # Deterministic external acceleration absent from all inference models.
+            strength = math.exp(-.5 * ((t / config.duration - .5) / .08) ** 2)
+            height = (~scene.mesh.pinned).to(x.dtype)[None, :, None]
+            return strength * height * x.new_tensor([.45, 0., -.30])
     with torch.no_grad():
         truth = simulate(scene.mesh, scene.times, young, drag, offset, velocity, config.substeps,
                          white=white, diffusion=calibration_law if white is not None else None,
-                         noise_basis=scene.basis)
+                         noise_basis=scene.basis, external_acceleration=external)
         rgb = scene.renderer(truth.x, scene.eye, scene.rotation)[0]
         novel = scene.renderer(truth.x, *orbit(scene.times, offset_degrees=100))[0]
     indices = torch.tensor(config.observed_frames, dtype=torch.long)
@@ -137,4 +154,6 @@ def make_benchmark(config: Config) -> Benchmark:
     return Benchmark(config, Observations(indices, observed, config.observation_sigma),
                      truth, rgb, novel,
                      {"young_pa": float(young[0]), "drag_per_second": float(drag[0]),
+                      "process_scale": config.truth_process_scale if config.truth_stochastic else 0.,
+                      "unmodeled_external_pulse": config.truth_external_pulse,
                       "offset_m": offset[0].tolist(), "velocity_m_per_second": velocity[0].tolist()})
