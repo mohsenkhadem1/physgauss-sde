@@ -19,6 +19,7 @@ class Fit:
     elapsed_seconds: float
     objective: float
     gradient_norm: float
+    newton_decrement: float = float("nan")
 
 
 def objective(model: SceneModel, observations: Observations, z: Tensor):
@@ -101,7 +102,38 @@ def fit(model, observations, progress=print):
                                                c.lbfgs_steps, progress)
     start = time.perf_counter()
     chol = laplace_precision(model, observations, mean, c.finite_difference_chunk, progress=progress)
-    return Fit(mean, chol, history, seconds + time.perf_counter() - start, loss, grad)
+    # A local covariance should be centered near a stationary solution. Refine
+    # with the same Gauss-Newton metric and an objective-decreasing line search.
+    changed = False
+    for _ in range(3):
+        variable = mean[None].clone().requires_grad_()
+        value = objective(model, observations, variable)
+        gradient, = torch.autograd.grad(value, variable)
+        direction = -torch.cholesky_solve(gradient.T, chol).T[0]
+        decrement = float((-gradient[0] @ direction).clamp_min(0).sqrt())
+        if decrement < .02:
+            break
+        accepted = False
+        for backtrack in range(12):
+            scale = .5 ** backtrack
+            candidate = mean + scale * direction
+            with torch.no_grad():
+                candidate_value = float(objective(model, observations, candidate[None]))
+            if candidate_value < float(value.detach()) + 1e-4 * scale * float(gradient[0] @ direction):
+                mean = candidate
+                history.append(candidate_value)
+                changed = accepted = True
+                break
+        if not accepted:
+            break
+    if changed:
+        chol = laplace_precision(model, observations, mean, c.finite_difference_chunk, progress=progress)
+    variable = mean[None].clone().requires_grad_()
+    final = objective(model, observations, variable)
+    gradient, = torch.autograd.grad(final, variable)
+    decrement = float((gradient @ torch.cholesky_solve(gradient.T, chol)).clamp_min(0).sqrt().detach())
+    return Fit(mean.detach(), chol, history, seconds + time.perf_counter() - start,
+               float(final.detach()), float(gradient.norm()), decrement)
 
 
 def sample_coordinates(fit_result: Fit, samples, seed):
