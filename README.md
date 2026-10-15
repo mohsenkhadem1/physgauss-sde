@@ -60,10 +60,12 @@ The [completed 18-case results](docs/SCALE_RESULTS.md) and [self-contained study
 The local likelihood can be fragile even when average pixel error is small. The new audit evaluates independent proposals using the full nonlinear observed-image likelihood and records importance-weight ESS, concentration, physical failures, and source compatibility. It does not call reweighted intervals calibrated.
 
 ```sh
-physgauss audit --study runs/scale-study --source-ref d225760 --output runs/likelihood-audit --samples 256
+physgauss audit --study runs/scale-study --source-ref HEAD --output runs/likelihood-audit --samples 256
 ```
 
-That command targets the historical milestone-2 run. For a fresh study from the current committed checkout use `--source-ref HEAD`. See [audit equations and provenance requirements](docs/LIKELIHOOD_AUDIT.md).
+That command targets a fresh study from the current committed checkout. The historical milestone-2 raw local run requires `--source-ref d225760`. See [audit equations and provenance requirements](docs/LIKELIHOOD_AUDIT.md).
+
+The [completed audit](docs/AUDIT_RESULTS.md) evaluated all 18 configurations with 256 proposals per method. Adaptive proposals fell below the predeclared relative-ESS threshold in **14 of 18 configurations**. The apparent accuracy gains therefore do not establish reliable nonlinear posterior uncertainty. The [audit report](examples/likelihood-audit/report.html) records the failures and their source provenance; a nonlinear smoother/sampler is the next inference milestone.
 
 ## First measured results
 
