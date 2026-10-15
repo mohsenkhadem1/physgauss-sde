@@ -1,0 +1,242 @@
+{
+  "scope": "Synthetic known-rest-geometry, known-camera offline smoothing proof of concept",
+  "posterior": "Joint standardized scene parameters and Brownian increments; local Gauss-Newton Laplace",
+  "config": {
+    "seed": 1729,
+    "diffusion_seed": 918,
+    "frames": 21,
+    "duration": 1.0,
+    "image_size": 24,
+    "substeps": 3,
+    "observed_frames": [
+      0,
+      3,
+      6,
+      14,
+      17,
+      20
+    ],
+    "noise_rank": 3,
+    "observation_sigma": 0.015,
+    "truth_stochastic": false,
+    "adam_steps": 100,
+    "lbfgs_steps": 20,
+    "posterior_samples": 64,
+    "diffusion_steps": 350,
+    "finite_difference_chunk": 12,
+    "threads": 2
+  },
+  "source_fingerprint_sha256": "187bad66219174685c04ed54d2a9145f257001776996f5e4116bbaa01e5c378e",
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.0.0",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "device": "cpu"
+  },
+  "diffusion_calibration": {
+    "supervision": "independent synthetic conditional Gaussian innovations",
+    "seed": 918,
+    "train_examples": 4096,
+    "validation_examples": 1024,
+    "steps": 350,
+    "relative_sigma_rmse": 0.14586955342294383
+  },
+  "truth_parameters_evaluation_only": {
+    "young_pa": 19.5,
+    "drag_per_second": 0.55,
+    "offset_m": [
+      0.11,
+      -0.035,
+      0.06
+    ],
+    "velocity_m_per_second": [
+      -0.12,
+      0.04,
+      0.1
+    ]
+  },
+  "methods": {
+    "physical": {
+      "latent_dimension": 8,
+      "fit_seconds": 4.943880300037563,
+      "map_objective": 5106.554871898699,
+      "map_gradient_norm": 5.475088649894426,
+      "map_gauss_newton_decrement": 0.36957357311162353,
+      "posterior_samples": 64,
+      "failed_samples": 0,
+      "young_pa_q05_q50_q95": [
+        19.420556607131626,
+        19.475573489086706,
+        19.53756267017633
+      ],
+      "drag_q05_q50_q95": [
+        0.5729905054108896,
+        0.6547745958155045,
+        0.7629904648597222
+      ],
+      "scores": {
+        "observed": {
+          "frames": 6,
+          "position_rmse_m": 0.0011699952386827245,
+          "position_crps_m": 0.0006889918155369972,
+          "trajectory_energy_score_m": 0.002686619966335645,
+          "component_90_coverage": 0.5,
+          "component_90_mean_width_m": 0.001766784397228568,
+          "rgb_psnr_db": 63.79702255439703,
+          "novel_view_psnr_db": 60.04331454382792
+        },
+        "withheld": {
+          "frames": 15,
+          "position_rmse_m": 0.0011031065819363248,
+          "position_crps_m": 0.0006288756977563076,
+          "trajectory_energy_score_m": 0.0025405339553593227,
+          "component_90_coverage": 0.6222222222222222,
+          "component_90_mean_width_m": 0.002024689872564276,
+          "rgb_psnr_db": 62.84341693425634,
+          "novel_view_psnr_db": 60.77118000063871
+        },
+        "long_gap": {
+          "frames": 7,
+          "position_rmse_m": 0.0012212146549106604,
+          "position_crps_m": 0.0006536394303211768,
+          "trajectory_energy_score_m": 0.002742900183987881,
+          "component_90_coverage": 0.7261904761904762,
+          "component_90_mean_width_m": 0.002508203422189772,
+          "rgb_psnr_db": 62.299333254564615,
+          "novel_view_psnr_db": 60.70153482863497
+        },
+        "definitions": {
+          "uncertainty": "local joint Gauss-Newton Laplace; finite posterior samples; no calibration guarantee",
+          "coverage": "central componentwise intervals on free-node positions only; pinned nodes excluded",
+          "energy_score": "Euclidean joint free-node position score per timestamp, averaged over timestamps",
+          "novel_view": "same times, known camera path offset by 100 degrees; evaluation-only images",
+          "rgb": "posterior mean render versus noise-free truth; PSNR data range 1",
+          "long_gap": "strictly between observed frame 6 and 14"
+        }
+      },
+      "physics": {
+        "fixed_total_mass_kg": 0.27462500000000006,
+        "minimum_det_F": 0.9185741413845556,
+        "maximum_internal_net_force_n": 1.8041124150158794e-16,
+        "maximum_internal_net_torque_nm": 1.942890293094024e-16,
+        "maximum_support_position_error_m": 0.0,
+        "mechanical_energy_mean_j": [
+          0.13533688529582338,
+          0.13340611960180154,
+          0.13429249664052312,
+          0.13141978734088022,
+          0.13117073217743294,
+          0.1284301412790646,
+          0.1259003379888992,
+          0.12657547343307257,
+          0.1237476940385957,
+          0.12251097959037287,
+          0.12196969059617634,
+          0.11989063061610447,
+          0.1204349020958031,
+          0.11896573031616575,
+          0.11708174470553662,
+          0.11765056351590295,
+          0.11593975142850624,
+          0.11488301772254389,
+          0.11420271909081021,
+          0.11191610054818263,
+          0.11207969695265657
+        ],
+        "energy_note": "Gravity potential included. Drag dissipates and stochastic forcing exchanges energy; total energy need not be constant."
+      }
+    },
+    "physical_sde": {
+      "latent_dimension": 188,
+      "fit_seconds": 12.192764300387353,
+      "map_objective": 5099.662035978038,
+      "map_gradient_norm": 0.5281579764185841,
+      "map_gauss_newton_decrement": 0.39055238092721095,
+      "posterior_samples": 64,
+      "failed_samples": 0,
+      "young_pa_q05_q50_q95": [
+        19.091784794621542,
+        19.39834788792164,
+        19.7066862187756
+      ],
+      "drag_q05_q50_q95": [
+        0.45061683056818175,
+        0.6080705184135958,
+        0.7710528977781516
+      ],
+      "scores": {
+        "observed": {
+          "frames": 6,
+          "position_rmse_m": 0.0014586670190124829,
+          "position_crps_m": 0.000868686420135274,
+          "trajectory_energy_score_m": 0.0036701241943564427,
+          "component_90_coverage": 0.9305555555555556,
+          "component_90_mean_width_m": 0.006465328574660988,
+          "rgb_psnr_db": 62.00243015583535,
+          "novel_view_psnr_db": 59.77282507302705
+        },
+        "withheld": {
+          "frames": 15,
+          "position_rmse_m": 0.0014168219526775351,
+          "position_crps_m": 0.0008977331341960241,
+          "trajectory_energy_score_m": 0.0037949865602156705,
+          "component_90_coverage": 0.9555555555555556,
+          "component_90_mean_width_m": 0.007827839626652943,
+          "rgb_psnr_db": 59.33065530300155,
+          "novel_view_psnr_db": 60.25109852796046
+        },
+        "long_gap": {
+          "frames": 7,
+          "position_rmse_m": 0.001243621689652674,
+          "position_crps_m": 0.0008642897780995427,
+          "trajectory_energy_score_m": 0.003671026759870562,
+          "component_90_coverage": 1.0,
+          "component_90_mean_width_m": 0.008749263770212385,
+          "rgb_psnr_db": 59.499541096980096,
+          "novel_view_psnr_db": 61.4617752912678
+        },
+        "definitions": {
+          "uncertainty": "local joint Gauss-Newton Laplace; finite posterior samples; no calibration guarantee",
+          "coverage": "central componentwise intervals on free-node positions only; pinned nodes excluded",
+          "energy_score": "Euclidean joint free-node position score per timestamp, averaged over timestamps",
+          "novel_view": "same times, known camera path offset by 100 degrees; evaluation-only images",
+          "rgb": "posterior mean render versus noise-free truth; PSNR data range 1",
+          "long_gap": "strictly between observed frame 6 and 14"
+        }
+      },
+      "physics": {
+        "fixed_total_mass_kg": 0.27462500000000006,
+        "minimum_det_F": 0.8938850707692839,
+        "maximum_internal_net_force_n": 1.6653345369377348e-16,
+        "maximum_internal_net_torque_nm": 1.942890293094024e-16,
+        "maximum_support_position_error_m": 0.0,
+        "mechanical_energy_mean_j": [
+          0.13496918470325842,
+          0.13299935484697423,
+          0.1338188819290802,
+          0.1313895146610715,
+          0.1311094655096365,
+          0.12815449760451111,
+          0.12591409279112556,
+          0.12664808843952313,
+          0.12411818534434715,
+          0.12333835013959396,
+          0.12303362932962625,
+          0.12099755071427055,
+          0.12189588431596529,
+          0.12028225544485895,
+          0.11832577667792075,
+          0.11907910161990591,
+          0.11729813476280215,
+          0.11618584727023941,
+          0.11522144723351477,
+          0.11318522557288274,
+          0.11350799053149546
+        ],
+        "energy_note": "Gravity potential included. Drag dissipates and stochastic forcing exchanges energy; total energy need not be constant."
+      }
+    }
+  },
+  "run_seconds_before_report": 24.595801200252026
+}

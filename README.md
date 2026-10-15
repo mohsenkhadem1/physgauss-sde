@@ -29,6 +29,8 @@ python -m pip install -e .
 physgauss check
 physgauss demo --quick --output runs/smoke
 physgauss demo --config configs/cpu_demo.json --output runs/cpu-demo
+# Matched control: ground truth has no process noise.
+physgauss demo --config configs/cpu_deterministic.json --output runs/deterministic-control
 # Reuse matching fits and rebuild posterior samples/report:
 physgauss demo --config configs/cpu_demo.json --output runs/cpu-demo --resume
 ```
@@ -38,6 +40,14 @@ Open `runs/cpu-demo/report.html` for an animated comparison, trajectory/uncertai
 The default experiment uses 21 timestamps, six observed RGB frames, a 0.3-0.7 second observation gap, 24x24 images, and 64 posterior samples. All six input frames contribute to offline smoothing. This is deliberately small enough to inspect and run on CPU; it is not a high-resolution scene reconstruction.
 
 `physgauss check` runs 12 numerical and physical checks with the standard-library test runner. GitHub Actions runs these checks and a small end-to-end demo.
+
+## First measured results
+
+Both experiments ran locally and CI passed on Linux. In the stochastic synthetic realization, missing-interval free-node coordinate RMSE was 2.794 mm for uncertain deterministic mechanics and 1.340 mm with the neural SDE. In the deterministic control the results were 1.221 mm and 1.244 mm, respectively. The SDE intervals were substantially wider and over-covered the truth in both cases. This is a useful ablation, not a calibration or generalization claim.
+
+See [complete measurements and interpretation](docs/RESULTS.md), the [stochastic report](examples/cpu-demo/report.html), and the [deterministic control report](examples/deterministic-control/report.html). Download/open the HTML reports locally; GitHub's file viewer does not execute them.
+
+![Missing-frame comparison](examples/cpu-demo/preview.png)
 
 ## Research boundaries
 
@@ -59,5 +69,5 @@ See [docs/METHOD.md](docs/METHOD.md) for equations, likelihood, physical units, 
 
 ## Handover
 
-See [HANDOVER.md](HANDOVER.md) for current status and [docs/RESEARCH.md](docs/RESEARCH.md) for the experimental plan. Development uses small pushed commits. Generated data and large checkpoints are excluded; the repository will include reproducible commands and a compact result summary.
+See [HANDOVER.md](HANDOVER.md) for current status and [docs/RESEARCH.md](docs/RESEARCH.md) for the experimental plan. Development uses small pushed commits. The repository includes source, configurations, tests, compact result snapshots, and self-contained reports. Generated raw data and large checkpoints are excluded and reproducible through the run commands.
 
