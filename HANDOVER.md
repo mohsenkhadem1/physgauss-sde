@@ -6,7 +6,7 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
-Repository created. Implementing a controlled CPU benchmark before attempting full real-video reconstruction. No experimental claims yet.
+Repository created and first mechanics milestone verified on CPU. Seven tests pass: reference mass/volume, zero rest stress, force-energy consistency, rotation objectivity, internal force/torque balance, stochastic impulse balance, time-step refinement, and differentiable rendering (some share one test). Synthetic benchmark and observation-only inference are implemented; the end-to-end demo and results are being completed. No reconstruction-performance claims yet.
 
 ## Decisions
 
