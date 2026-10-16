@@ -1,0 +1,5368 @@
+{
+  "sampler_source_fingerprint_sha256": "451bc87a18c9cd96fadb1433797de9bfddc3e974a996d5cb9fa7dd7615716ec0",
+  "study_source_fingerprint_sha256": "a45f19852a86bcaf679f36849c0453511c1d9e252d67b3aa05f9072e81084b61",
+  "study_summary_sha256": "4054b6ada037c51e53f5012aa92e6439a38fdd43ad9fe7702ef561139190691e",
+  "checkpoint_sha256": {
+    "deterministic__long_gap__3101": "4c948adeee717098c613e6619512cd135726cc1234dd4027379a50b9ca9918be",
+    "stochastic__long_gap__3101": "4c37a24caffca4fc70ed70f90a469f26ebff45dc1b2e73957815ff03164cd981",
+    "unmodeled_pulse__long_gap__3101": "8a67392e73baff88d7c13e2a82667b53eb5b015976d340f86e68582c0755dedc"
+  },
+  "diffusion_checkpoint_sha256": null,
+  "sampler": {
+    "chains": 4,
+    "warmup": 1000,
+    "draws": 2000,
+    "beta": 0.5,
+    "defensive_mass": 0.05,
+    "independent_probability": 0.15,
+    "transport_probability": 0.15,
+    "seed": 67001,
+    "langevin": true
+  },
+  "method": "adaptive_sde",
+  "case_labels": [
+    "deterministic__long_gap__3101",
+    "stochastic__long_gap__3101",
+    "unmodeled_pulse__long_gap__3101"
+  ],
+  "evaluation_samples": 256,
+  "study_source_commit": "d2257600229055cf9aac612f662d2f2d32b1e55b",
+  "verified_model_module_sha256": {
+    "src/physgauss/benchmark.py": "20629b316bcafc8a6a946a822c925723d417d5c0e6c915a2596e012a6617777a",
+    "src/physgauss/camera.py": "ba314c052844034f9aaec9211493875f5c616332bb85baf8a740f196a790191b",
+    "src/physgauss/physics.py": "e0f0940ee8b1f80ad83d07d5cdcd04eafc04b9959252b626c98c768e719063d3",
+    "src/physgauss/render.py": "fd5c0bf1eb4b76555b72eb9a4ec4e6602bc9da7813759b089f107270b2c7ad57",
+    "src/physgauss/stochastic.py": "1087b8d168c80f6f1e3cc454746a2297905150f40f5301e13068e010d9052075",
+    "src/physgauss/inference.py": "4fc6a5bbea53d9e1c8696bddfd9832159627934a926369f99477bcaa897b3e8b",
+    "src/physgauss/scale_inference.py": "a494bcdaaa331f6843a6965525f9cae9ffb5472c7eb0de13a1e27c540b760d44"
+  },
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.0.0",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "cases": [
+    {
+      "label": "deterministic__long_gap__3101",
+      "condition": "deterministic",
+      "schedule": "long_gap",
+      "realization_seed": 3101,
+      "sampler": {
+        "chains": 4,
+        "warmup": 1000,
+        "draws": 2000,
+        "beta": 0.5,
+        "defensive_mass": 0.05,
+        "independent_probability": 0.15,
+        "transport_probability": 0.15,
+        "seed": 67001,
+        "langevin": true
+      },
+      "sampler_source_fingerprint_sha256": "451bc87a18c9cd96fadb1433797de9bfddc3e974a996d5cb9fa7dd7615716ec0",
+      "observations_sha256": "f16fadc922aa4942413f5bd9aba421c698f2bddb1eee4c81414cf787a72887e0",
+      "legacy_observations_regenerated": true,
+      "diagnostics": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": false,
+        "failed_quantities": [
+          "log_young",
+          "log_drag",
+          "velocity_y",
+          "process_scale"
+        ],
+        "quantities": {
+          "log_young": {
+            "rank_folded_split_rhat": 1.0315607518882681,
+            "bulk_ess": 179.34576872198426,
+            "tail_ess": 345.052906812345,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "log_drag": {
+            "rank_folded_split_rhat": 1.1384448892765122,
+            "bulk_ess": 19.116213098768796,
+            "tail_ess": 185.51776398098798,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "offset_x": {
+            "rank_folded_split_rhat": 1.0040083595786558,
+            "bulk_ess": 1212.6275489738787,
+            "tail_ess": 1266.499185766706,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "offset_y": {
+            "rank_folded_split_rhat": 1.0016554105525877,
+            "bulk_ess": 1420.6591699677444,
+            "tail_ess": 1676.8808788890244,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "offset_z": {
+            "rank_folded_split_rhat": 1.005333133207954,
+            "bulk_ess": 1027.2687758094926,
+            "tail_ess": 1531.4751073518391,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "velocity_x": {
+            "rank_folded_split_rhat": 1.0034259226176558,
+            "bulk_ess": 1368.7826854341965,
+            "tail_ess": 1470.3343577700834,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "velocity_y": {
+            "rank_folded_split_rhat": 1.0112105387976633,
+            "bulk_ess": 1111.884565589905,
+            "tail_ess": 1352.0077145476043,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "velocity_z": {
+            "rank_folded_split_rhat": 1.004912989114698,
+            "bulk_ess": 1309.8856389573562,
+            "tail_ess": 1509.7236153512142,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_0": {
+            "rank_folded_split_rhat": 1.0027580486019543,
+            "bulk_ess": 1424.0745327899654,
+            "tail_ess": 1598.4087721241283,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_1": {
+            "rank_folded_split_rhat": 1.001649615102147,
+            "bulk_ess": 1372.0899768032607,
+            "tail_ess": 1442.4078513622055,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_2": {
+            "rank_folded_split_rhat": 1.0034672714068658,
+            "bulk_ess": 1250.8364491357427,
+            "tail_ess": 1407.0028788071752,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_3": {
+            "rank_folded_split_rhat": 1.0033605895867623,
+            "bulk_ess": 1352.0670811402572,
+            "tail_ess": 1427.9349304370119,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_4": {
+            "rank_folded_split_rhat": 1.0023664152066305,
+            "bulk_ess": 1332.7452541896062,
+            "tail_ess": 1474.754242876147,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_5": {
+            "rank_folded_split_rhat": 1.00336749580486,
+            "bulk_ess": 1336.9577679209715,
+            "tail_ess": 1619.3668990619942,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_6": {
+            "rank_folded_split_rhat": 1.0061796683652564,
+            "bulk_ess": 1224.1148966754527,
+            "tail_ess": 1440.8312207324393,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_7": {
+            "rank_folded_split_rhat": 1.0064798183629333,
+            "bulk_ess": 1372.860752463352,
+            "tail_ess": 1740.0575070839304,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_8": {
+            "rank_folded_split_rhat": 1.0023508671542867,
+            "bulk_ess": 1298.6940965020788,
+            "tail_ess": 1457.9337634794852,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_9": {
+            "rank_folded_split_rhat": 1.0022538234897984,
+            "bulk_ess": 1093.2888605270632,
+            "tail_ess": 1722.5935559544994,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_10": {
+            "rank_folded_split_rhat": 1.0036446815136437,
+            "bulk_ess": 1162.8782930892953,
+            "tail_ess": 1505.6666633943366,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_11": {
+            "rank_folded_split_rhat": 1.0098590626066517,
+            "bulk_ess": 1211.1038976756997,
+            "tail_ess": 1625.5217058481476,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_12": {
+            "rank_folded_split_rhat": 1.0006255738310808,
+            "bulk_ess": 1371.7849369810754,
+            "tail_ess": 1325.694521629745,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_13": {
+            "rank_folded_split_rhat": 1.0041623063130745,
+            "bulk_ess": 1285.6995050824883,
+            "tail_ess": 1303.981584399663,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_14": {
+            "rank_folded_split_rhat": 1.0042407564142908,
+            "bulk_ess": 1324.4224045849323,
+            "tail_ess": 1508.6786123998368,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_15": {
+            "rank_folded_split_rhat": 1.0027179442191976,
+            "bulk_ess": 1370.3082009473796,
+            "tail_ess": 1236.3066085906928,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_16": {
+            "rank_folded_split_rhat": 1.00124277489503,
+            "bulk_ess": 1277.187621122465,
+            "tail_ess": 1385.0603806413583,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_17": {
+            "rank_folded_split_rhat": 1.0019392219022334,
+            "bulk_ess": 1191.5336483696358,
+            "tail_ess": 1463.9282748699568,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_18": {
+            "rank_folded_split_rhat": 1.0011232594048594,
+            "bulk_ess": 1398.5382842819627,
+            "tail_ess": 1496.7535766020374,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_19": {
+            "rank_folded_split_rhat": 1.0017840702408864,
+            "bulk_ess": 1350.997412345263,
+            "tail_ess": 1848.326343275965,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_20": {
+            "rank_folded_split_rhat": 1.0026338998863338,
+            "bulk_ess": 1389.7275510058607,
+            "tail_ess": 1598.4952211821592,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_21": {
+            "rank_folded_split_rhat": 1.0046416795141588,
+            "bulk_ess": 1354.7238932589144,
+            "tail_ess": 1559.3114603627507,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_22": {
+            "rank_folded_split_rhat": 1.0013408962942965,
+            "bulk_ess": 1206.2636193047306,
+            "tail_ess": 1307.209109234732,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_23": {
+            "rank_folded_split_rhat": 1.0033555068352151,
+            "bulk_ess": 1243.8096604680754,
+            "tail_ess": 1421.6250451082576,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_24": {
+            "rank_folded_split_rhat": 1.0041486537569855,
+            "bulk_ess": 1406.465165480459,
+            "tail_ess": 1538.246854273384,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_25": {
+            "rank_folded_split_rhat": 1.0041622030588508,
+            "bulk_ess": 1287.2937305769553,
+            "tail_ess": 1515.355487667005,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_26": {
+            "rank_folded_split_rhat": 1.0042676752289106,
+            "bulk_ess": 1334.3404148311095,
+            "tail_ess": 1526.234268812894,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_27": {
+            "rank_folded_split_rhat": 1.0013648081619118,
+            "bulk_ess": 1340.406099201879,
+            "tail_ess": 1656.735657767594,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_28": {
+            "rank_folded_split_rhat": 1.0042647668019518,
+            "bulk_ess": 1387.9229967141216,
+            "tail_ess": 1307.1310845659718,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_29": {
+            "rank_folded_split_rhat": 1.0026641737716755,
+            "bulk_ess": 1349.0421725870472,
+            "tail_ess": 1513.6515306146098,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_30": {
+            "rank_folded_split_rhat": 1.0025494144485851,
+            "bulk_ess": 1299.482073590841,
+            "tail_ess": 1562.2774555731278,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_31": {
+            "rank_folded_split_rhat": 1.003015526843103,
+            "bulk_ess": 1414.4738487877164,
+            "tail_ess": 1570.6453636390029,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_32": {
+            "rank_folded_split_rhat": 1.0026302064743196,
+            "bulk_ess": 1409.6926587367177,
+            "tail_ess": 1650.4754509044405,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_33": {
+            "rank_folded_split_rhat": 1.003945256180352,
+            "bulk_ess": 1163.0511155331662,
+            "tail_ess": 1305.4896360128218,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_34": {
+            "rank_folded_split_rhat": 1.0037911262369124,
+            "bulk_ess": 1325.545139984094,
+            "tail_ess": 1581.933823929632,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_35": {
+            "rank_folded_split_rhat": 1.0014202472614109,
+            "bulk_ess": 1435.0096268155196,
+            "tail_ess": 1711.2058526228461,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_36": {
+            "rank_folded_split_rhat": 1.0028855304776876,
+            "bulk_ess": 1201.3861193574448,
+            "tail_ess": 1072.0012996362386,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_37": {
+            "rank_folded_split_rhat": 1.0035863848119684,
+            "bulk_ess": 1444.918490363276,
+            "tail_ess": 1599.295577318275,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_38": {
+            "rank_folded_split_rhat": 1.0032088238381134,
+            "bulk_ess": 1269.8302635536897,
+            "tail_ess": 1426.1578594016958,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_39": {
+            "rank_folded_split_rhat": 1.0035915907184787,
+            "bulk_ess": 1353.266127530351,
+            "tail_ess": 1480.8003725927733,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_40": {
+            "rank_folded_split_rhat": 1.0033270631449438,
+            "bulk_ess": 1286.1716282735695,
+            "tail_ess": 1461.3182486712026,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_41": {
+            "rank_folded_split_rhat": 1.003954266629729,
+            "bulk_ess": 1257.4179972805694,
+            "tail_ess": 1411.3979294246192,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_42": {
+            "rank_folded_split_rhat": 1.0048719455007329,
+            "bulk_ess": 1431.648598135744,
+            "tail_ess": 1384.3590597438351,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_43": {
+            "rank_folded_split_rhat": 1.0015011306502546,
+            "bulk_ess": 1432.5636008576414,
+            "tail_ess": 1319.085098177753,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_44": {
+            "rank_folded_split_rhat": 1.002414484188166,
+            "bulk_ess": 1261.0610065769513,
+            "tail_ess": 1247.752943787103,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_45": {
+            "rank_folded_split_rhat": 1.0046671331250472,
+            "bulk_ess": 1217.089255571908,
+            "tail_ess": 1595.1601688686428,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_46": {
+            "rank_folded_split_rhat": 1.004989452322054,
+            "bulk_ess": 1322.8145962167323,
+            "tail_ess": 1334.1766966487264,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_47": {
+            "rank_folded_split_rhat": 1.0031014626119354,
+            "bulk_ess": 1179.2473835075875,
+            "tail_ess": 1545.6100196867812,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_48": {
+            "rank_folded_split_rhat": 1.0034376105811742,
+            "bulk_ess": 1260.882179524894,
+            "tail_ess": 1469.3875238417327,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_49": {
+            "rank_folded_split_rhat": 1.0036874634644102,
+            "bulk_ess": 1454.484753510365,
+            "tail_ess": 1498.4829751218024,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_50": {
+            "rank_folded_split_rhat": 1.0033609573688713,
+            "bulk_ess": 1268.437954464839,
+            "tail_ess": 1357.0577551196602,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_51": {
+            "rank_folded_split_rhat": 1.0037050947579464,
+            "bulk_ess": 1555.6282981986474,
+            "tail_ess": 1526.7324982825376,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_52": {
+            "rank_folded_split_rhat": 1.0025395300726132,
+            "bulk_ess": 1300.0371939206295,
+            "tail_ess": 1337.199219382441,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_53": {
+            "rank_folded_split_rhat": 1.0023976655321118,
+            "bulk_ess": 1353.9385034291804,
+            "tail_ess": 1507.5831406005277,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_54": {
+            "rank_folded_split_rhat": 1.0015639966775802,
+            "bulk_ess": 1481.1825923420338,
+            "tail_ess": 1387.8109105926744,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_55": {
+            "rank_folded_split_rhat": 1.0026581364908904,
+            "bulk_ess": 1331.9031554569297,
+            "tail_ess": 1631.9584102622691,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_56": {
+            "rank_folded_split_rhat": 1.0081975149393991,
+            "bulk_ess": 1104.7729488865255,
+            "tail_ess": 1557.288843442578,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_57": {
+            "rank_folded_split_rhat": 1.004735775931043,
+            "bulk_ess": 1227.6643596646163,
+            "tail_ess": 1360.2103214445328,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_58": {
+            "rank_folded_split_rhat": 1.0031012619579878,
+            "bulk_ess": 1456.650816927238,
+            "tail_ess": 1508.6913303018596,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_59": {
+            "rank_folded_split_rhat": 1.0030630706001975,
+            "bulk_ess": 1184.8007875411386,
+            "tail_ess": 1257.705963481468,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_60": {
+            "rank_folded_split_rhat": 1.0052832044312836,
+            "bulk_ess": 1388.8797318318234,
+            "tail_ess": 1443.7303639075515,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_61": {
+            "rank_folded_split_rhat": 1.0031410209955596,
+            "bulk_ess": 1246.110274560519,
+            "tail_ess": 1295.1864718729723,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_62": {
+            "rank_folded_split_rhat": 1.0004343271187341,
+            "bulk_ess": 1523.8876687544675,
+            "tail_ess": 1035.3375994777768,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_63": {
+            "rank_folded_split_rhat": 1.0039623914623494,
+            "bulk_ess": 1300.002086582834,
+            "tail_ess": 1472.0415695168201,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_64": {
+            "rank_folded_split_rhat": 1.0021688510416642,
+            "bulk_ess": 1188.1074032194565,
+            "tail_ess": 1009.1331163400763,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_65": {
+            "rank_folded_split_rhat": 1.0015970623832446,
+            "bulk_ess": 1185.956308725992,
+            "tail_ess": 1573.2952615733293,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_66": {
+            "rank_folded_split_rhat": 1.0038735742554732,
+            "bulk_ess": 1238.7424623364302,
+            "tail_ess": 1352.8856246802434,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_67": {
+            "rank_folded_split_rhat": 1.0016147136266806,
+            "bulk_ess": 1452.7236608776159,
+            "tail_ess": 1706.3376474759175,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_68": {
+            "rank_folded_split_rhat": 1.0014119360708504,
+            "bulk_ess": 1322.0615103280752,
+            "tail_ess": 1502.8904161603382,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_69": {
+            "rank_folded_split_rhat": 1.0049179155954957,
+            "bulk_ess": 1187.1260244747593,
+            "tail_ess": 1379.8884202710535,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_70": {
+            "rank_folded_split_rhat": 1.0045226684202733,
+            "bulk_ess": 1336.9186589152837,
+            "tail_ess": 1406.602393945905,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_71": {
+            "rank_folded_split_rhat": 1.0012406070925386,
+            "bulk_ess": 1291.7348955178304,
+            "tail_ess": 1216.3576912363199,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_72": {
+            "rank_folded_split_rhat": 1.003662222854625,
+            "bulk_ess": 1374.7260081991928,
+            "tail_ess": 1697.7386070097796,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_73": {
+            "rank_folded_split_rhat": 1.0053919577838755,
+            "bulk_ess": 1381.216892389501,
+            "tail_ess": 1167.8123998737278,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_74": {
+            "rank_folded_split_rhat": 1.0039384415523382,
+            "bulk_ess": 1278.9549258175496,
+            "tail_ess": 1538.5358027168472,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_75": {
+            "rank_folded_split_rhat": 1.003853153043445,
+            "bulk_ess": 1382.9234764910505,
+            "tail_ess": 1361.7966142730402,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_76": {
+            "rank_folded_split_rhat": 1.0024338965292774,
+            "bulk_ess": 1280.9542500347338,
+            "tail_ess": 1548.555196622237,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_77": {
+            "rank_folded_split_rhat": 1.0016742705759474,
+            "bulk_ess": 1449.860946572017,
+            "tail_ess": 1505.5135373272726,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_78": {
+            "rank_folded_split_rhat": 1.0054470910078899,
+            "bulk_ess": 1164.2073490927398,
+            "tail_ess": 1517.2857369255287,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_79": {
+            "rank_folded_split_rhat": 1.0036993838216597,
+            "bulk_ess": 1372.5466575898101,
+            "tail_ess": 1626.3697563115047,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_80": {
+            "rank_folded_split_rhat": 1.0032360084606382,
+            "bulk_ess": 1195.394469598606,
+            "tail_ess": 1525.6707592150021,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_81": {
+            "rank_folded_split_rhat": 1.0040362630437227,
+            "bulk_ess": 1129.7141102961996,
+            "tail_ess": 1275.4719535631875,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_82": {
+            "rank_folded_split_rhat": 1.0019783844455132,
+            "bulk_ess": 1064.3277881735212,
+            "tail_ess": 1448.9557457614874,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_83": {
+            "rank_folded_split_rhat": 1.0038783293681004,
+            "bulk_ess": 1362.2862147816238,
+            "tail_ess": 1583.2791824362118,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_84": {
+            "rank_folded_split_rhat": 1.0028573138665144,
+            "bulk_ess": 1316.0443901484136,
+            "tail_ess": 1518.5491314312094,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_85": {
+            "rank_folded_split_rhat": 1.0043683785785709,
+            "bulk_ess": 1341.6094222598265,
+            "tail_ess": 1599.5826060554614,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_86": {
+            "rank_folded_split_rhat": 1.002408890720581,
+            "bulk_ess": 1245.1015326134839,
+            "tail_ess": 1669.6307367610161,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_87": {
+            "rank_folded_split_rhat": 1.0038217395405475,
+            "bulk_ess": 1052.6747884819613,
+            "tail_ess": 1418.203824061793,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_88": {
+            "rank_folded_split_rhat": 1.0020376818295054,
+            "bulk_ess": 1503.1263204742334,
+            "tail_ess": 1632.3461124062303,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_89": {
+            "rank_folded_split_rhat": 1.0025343480966407,
+            "bulk_ess": 1262.242566096318,
+            "tail_ess": 948.4903473032904,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_90": {
+            "rank_folded_split_rhat": 1.0019807561192757,
+            "bulk_ess": 1261.8693539486949,
+            "tail_ess": 1671.8755001376155,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_91": {
+            "rank_folded_split_rhat": 1.002244683478849,
+            "bulk_ess": 1468.875450615977,
+            "tail_ess": 1804.0583134137182,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_92": {
+            "rank_folded_split_rhat": 1.0032215255017851,
+            "bulk_ess": 1580.162760030796,
+            "tail_ess": 1332.211438168593,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_93": {
+            "rank_folded_split_rhat": 1.0034347687074594,
+            "bulk_ess": 1229.293765302753,
+            "tail_ess": 1547.325402164323,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_94": {
+            "rank_folded_split_rhat": 1.0017226893349165,
+            "bulk_ess": 1327.3888928848905,
+            "tail_ess": 1601.8489145997548,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_95": {
+            "rank_folded_split_rhat": 1.0055794415703487,
+            "bulk_ess": 1347.6891450191163,
+            "tail_ess": 1556.2890314065528,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_96": {
+            "rank_folded_split_rhat": 1.0031045198079769,
+            "bulk_ess": 1392.8330683638046,
+            "tail_ess": 1553.4348177149461,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_97": {
+            "rank_folded_split_rhat": 1.0019800855337835,
+            "bulk_ess": 1364.3839097087227,
+            "tail_ess": 1721.5910416638312,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_98": {
+            "rank_folded_split_rhat": 1.0032072325215664,
+            "bulk_ess": 1288.3515858408098,
+            "tail_ess": 1638.2519396562354,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_99": {
+            "rank_folded_split_rhat": 1.0020574895128795,
+            "bulk_ess": 1293.8138426720645,
+            "tail_ess": 1497.6595759730826,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_100": {
+            "rank_folded_split_rhat": 1.0030772659114182,
+            "bulk_ess": 1331.3504218031171,
+            "tail_ess": 1429.8733973727744,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_101": {
+            "rank_folded_split_rhat": 1.002177617794951,
+            "bulk_ess": 1366.020419908975,
+            "tail_ess": 1536.530314997438,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_102": {
+            "rank_folded_split_rhat": 1.003924820713333,
+            "bulk_ess": 1367.2998913092895,
+            "tail_ess": 1360.4012440151644,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_103": {
+            "rank_folded_split_rhat": 1.0042290194421368,
+            "bulk_ess": 1297.5954302310677,
+            "tail_ess": 1233.7137945422971,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_104": {
+            "rank_folded_split_rhat": 1.0020819207855334,
+            "bulk_ess": 1358.5507789009541,
+            "tail_ess": 1439.608851576809,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_105": {
+            "rank_folded_split_rhat": 1.0022728571770847,
+            "bulk_ess": 1345.6566032052299,
+            "tail_ess": 1270.3356187981237,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_106": {
+            "rank_folded_split_rhat": 1.005019862023685,
+            "bulk_ess": 1337.1279573038637,
+            "tail_ess": 1351.4812625497716,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_107": {
+            "rank_folded_split_rhat": 1.0019356254950487,
+            "bulk_ess": 1152.7329375701702,
+            "tail_ess": 1430.7760532791538,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_108": {
+            "rank_folded_split_rhat": 1.0046924201003606,
+            "bulk_ess": 1520.818096953408,
+            "tail_ess": 1786.4818570525147,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_109": {
+            "rank_folded_split_rhat": 1.003018728414155,
+            "bulk_ess": 1186.2427399619144,
+            "tail_ess": 993.4392987696403,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_110": {
+            "rank_folded_split_rhat": 1.0036985832112888,
+            "bulk_ess": 1255.1557963704693,
+            "tail_ess": 1636.0722016705154,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_111": {
+            "rank_folded_split_rhat": 1.0041845111886774,
+            "bulk_ess": 1443.8375176268164,
+            "tail_ess": 1380.6559748900381,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_112": {
+            "rank_folded_split_rhat": 1.0017098034907408,
+            "bulk_ess": 1253.2011242990884,
+            "tail_ess": 1190.9960263533158,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_113": {
+            "rank_folded_split_rhat": 1.0063699208086891,
+            "bulk_ess": 1444.955620323557,
+            "tail_ess": 1526.207682765162,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_114": {
+            "rank_folded_split_rhat": 1.0033147333031605,
+            "bulk_ess": 1199.1463514137613,
+            "tail_ess": 1594.3963632070968,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_115": {
+            "rank_folded_split_rhat": 1.004248709301578,
+            "bulk_ess": 1332.9023182318683,
+            "tail_ess": 1423.2362059016095,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_116": {
+            "rank_folded_split_rhat": 1.003278605352636,
+            "bulk_ess": 1220.1918783895594,
+            "tail_ess": 871.8721038425248,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_117": {
+            "rank_folded_split_rhat": 1.0030175542861481,
+            "bulk_ess": 1369.06573075158,
+            "tail_ess": 1430.2788801211325,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_118": {
+            "rank_folded_split_rhat": 1.0020929627171111,
+            "bulk_ess": 1204.1909310689834,
+            "tail_ess": 1196.4359874934255,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_119": {
+            "rank_folded_split_rhat": 1.0010626742906321,
+            "bulk_ess": 1274.7238795733092,
+            "tail_ess": 1562.1544693499668,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_120": {
+            "rank_folded_split_rhat": 1.0047878213048118,
+            "bulk_ess": 1276.6062417325534,
+            "tail_ess": 1649.8223761218612,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_121": {
+            "rank_folded_split_rhat": 1.0011489410835286,
+            "bulk_ess": 1447.972843466222,
+            "tail_ess": 1572.874002844373,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_122": {
+            "rank_folded_split_rhat": 1.0025123648700542,
+            "bulk_ess": 1275.8086369807434,
+            "tail_ess": 1356.3429622533029,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_123": {
+            "rank_folded_split_rhat": 1.0019666177398379,
+            "bulk_ess": 1456.7569533299152,
+            "tail_ess": 1485.2722138797446,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_124": {
+            "rank_folded_split_rhat": 1.0045178951371345,
+            "bulk_ess": 1207.7307190911818,
+            "tail_ess": 1414.524573132485,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_125": {
+            "rank_folded_split_rhat": 1.0020050548194284,
+            "bulk_ess": 1352.7642385900097,
+            "tail_ess": 1498.5335902863687,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_126": {
+            "rank_folded_split_rhat": 1.0028926286525432,
+            "bulk_ess": 1361.4436300062657,
+            "tail_ess": 1518.530218780471,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_127": {
+            "rank_folded_split_rhat": 1.0006844308087088,
+            "bulk_ess": 1276.3675273991284,
+            "tail_ess": 1425.9141502200548,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_128": {
+            "rank_folded_split_rhat": 1.0027444813992652,
+            "bulk_ess": 1318.743746104896,
+            "tail_ess": 1477.1839581122792,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_129": {
+            "rank_folded_split_rhat": 1.0031391226587318,
+            "bulk_ess": 1454.0610916414796,
+            "tail_ess": 1596.6869183048848,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_130": {
+            "rank_folded_split_rhat": 1.003854132496477,
+            "bulk_ess": 1353.8039777135068,
+            "tail_ess": 1568.726585456916,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_131": {
+            "rank_folded_split_rhat": 1.0028955488093776,
+            "bulk_ess": 1390.3535283591812,
+            "tail_ess": 1582.4119661237028,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_132": {
+            "rank_folded_split_rhat": 1.001538081650975,
+            "bulk_ess": 1252.5308491696958,
+            "tail_ess": 1381.7289914635937,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_133": {
+            "rank_folded_split_rhat": 1.001741088299384,
+            "bulk_ess": 1301.0034074059763,
+            "tail_ess": 1221.0191410936452,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_134": {
+            "rank_folded_split_rhat": 1.0038658094939763,
+            "bulk_ess": 1451.6693254865652,
+            "tail_ess": 1690.559141311114,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_135": {
+            "rank_folded_split_rhat": 1.005489572425801,
+            "bulk_ess": 1371.424832106761,
+            "tail_ess": 1623.541801543983,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_136": {
+            "rank_folded_split_rhat": 1.0026498513747844,
+            "bulk_ess": 1375.9662297828183,
+            "tail_ess": 1279.244636532074,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_137": {
+            "rank_folded_split_rhat": 1.003391538126783,
+            "bulk_ess": 1421.244557393406,
+            "tail_ess": 1485.9827440111528,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_138": {
+            "rank_folded_split_rhat": 1.005908482697019,
+            "bulk_ess": 1147.354952873396,
+            "tail_ess": 1347.2498477644695,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_139": {
+            "rank_folded_split_rhat": 1.002987562773463,
+            "bulk_ess": 1193.9892572324277,
+            "tail_ess": 1623.2616030783608,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_140": {
+            "rank_folded_split_rhat": 1.0010714435888972,
+            "bulk_ess": 1396.1214013939446,
+            "tail_ess": 1199.0512066763972,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_141": {
+            "rank_folded_split_rhat": 1.0027642609463023,
+            "bulk_ess": 1442.95619639313,
+            "tail_ess": 1566.9977706170353,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_142": {
+            "rank_folded_split_rhat": 1.0010352273587233,
+            "bulk_ess": 1499.2640788496392,
+            "tail_ess": 1616.3634878470564,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_143": {
+            "rank_folded_split_rhat": 1.0045648638051068,
+            "bulk_ess": 1209.2542979779375,
+            "tail_ess": 1488.9616678569091,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_144": {
+            "rank_folded_split_rhat": 1.0034013145399079,
+            "bulk_ess": 1351.6860185945434,
+            "tail_ess": 1508.5969532244617,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_145": {
+            "rank_folded_split_rhat": 1.0053437914152983,
+            "bulk_ess": 1402.1726191537803,
+            "tail_ess": 1291.18366052784,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_146": {
+            "rank_folded_split_rhat": 1.0018414081764673,
+            "bulk_ess": 1293.8026286601396,
+            "tail_ess": 1436.7295389178203,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_147": {
+            "rank_folded_split_rhat": 1.0016084253434634,
+            "bulk_ess": 1544.5277927798159,
+            "tail_ess": 1485.6239119956347,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_148": {
+            "rank_folded_split_rhat": 1.002728842998442,
+            "bulk_ess": 1117.5540416496083,
+            "tail_ess": 1373.8746913505252,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_149": {
+            "rank_folded_split_rhat": 1.0034033555857078,
+            "bulk_ess": 1343.818546373927,
+            "tail_ess": 1679.9532645745294,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_150": {
+            "rank_folded_split_rhat": 1.0016456077085465,
+            "bulk_ess": 1448.195945294119,
+            "tail_ess": 1469.5427989652585,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_151": {
+            "rank_folded_split_rhat": 1.0021199946605297,
+            "bulk_ess": 1502.1012343846714,
+            "tail_ess": 1502.3431978265512,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_152": {
+            "rank_folded_split_rhat": 1.0017380229748898,
+            "bulk_ess": 1344.494751397331,
+            "tail_ess": 1424.0030781496796,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_153": {
+            "rank_folded_split_rhat": 1.0015495071740361,
+            "bulk_ess": 1330.9763197488437,
+            "tail_ess": 1094.5598394782537,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_154": {
+            "rank_folded_split_rhat": 1.0022182374611068,
+            "bulk_ess": 1217.0463148286822,
+            "tail_ess": 1688.6005847036563,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_155": {
+            "rank_folded_split_rhat": 1.0034822953704758,
+            "bulk_ess": 1408.164635043832,
+            "tail_ess": 1639.0567985299874,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_156": {
+            "rank_folded_split_rhat": 1.0023697365677136,
+            "bulk_ess": 1460.5140756933877,
+            "tail_ess": 1750.763991074662,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_157": {
+            "rank_folded_split_rhat": 1.0016287137771032,
+            "bulk_ess": 1447.4537908341956,
+            "tail_ess": 1624.2843748752762,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_158": {
+            "rank_folded_split_rhat": 1.005411588915806,
+            "bulk_ess": 1136.068844135706,
+            "tail_ess": 1126.0863147037674,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_159": {
+            "rank_folded_split_rhat": 1.0019609814410344,
+            "bulk_ess": 1319.1816243684962,
+            "tail_ess": 1455.7638992546774,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_160": {
+            "rank_folded_split_rhat": 1.0017217649718857,
+            "bulk_ess": 1149.6145903495308,
+            "tail_ess": 1360.8154981475657,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_161": {
+            "rank_folded_split_rhat": 1.0022580385021282,
+            "bulk_ess": 1352.5020180169563,
+            "tail_ess": 1387.421558292944,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_162": {
+            "rank_folded_split_rhat": 1.0034889597888255,
+            "bulk_ess": 1278.1702267758994,
+            "tail_ess": 1165.7628147096448,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_163": {
+            "rank_folded_split_rhat": 1.0016998659705534,
+            "bulk_ess": 1209.7759024498266,
+            "tail_ess": 1639.4313322002286,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_164": {
+            "rank_folded_split_rhat": 1.0033943404970547,
+            "bulk_ess": 1597.3384203459334,
+            "tail_ess": 1568.100990795481,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_165": {
+            "rank_folded_split_rhat": 1.0027102267788872,
+            "bulk_ess": 1355.4947693399458,
+            "tail_ess": 1393.5900621872133,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_166": {
+            "rank_folded_split_rhat": 1.0035931134766862,
+            "bulk_ess": 1241.2849233448921,
+            "tail_ess": 1411.2536951084508,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_167": {
+            "rank_folded_split_rhat": 1.004655688093497,
+            "bulk_ess": 1484.8507102410026,
+            "tail_ess": 1733.3265753481398,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_168": {
+            "rank_folded_split_rhat": 1.0036797700286162,
+            "bulk_ess": 1425.1204591774067,
+            "tail_ess": 1405.445488052111,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_169": {
+            "rank_folded_split_rhat": 1.001134872248823,
+            "bulk_ess": 1316.8984370293927,
+            "tail_ess": 1438.1492677483525,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_170": {
+            "rank_folded_split_rhat": 1.0036941632563277,
+            "bulk_ess": 1390.35901434589,
+            "tail_ess": 1606.5451991201853,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_171": {
+            "rank_folded_split_rhat": 1.0019158699835857,
+            "bulk_ess": 1276.6799217006799,
+            "tail_ess": 1371.4381279625431,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_172": {
+            "rank_folded_split_rhat": 1.0017742550203772,
+            "bulk_ess": 1528.4296665630488,
+            "tail_ess": 1809.9000719786338,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_173": {
+            "rank_folded_split_rhat": 1.004687669487155,
+            "bulk_ess": 1370.9300460425154,
+            "tail_ess": 1849.2398988760926,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_174": {
+            "rank_folded_split_rhat": 1.0015887526397471,
+            "bulk_ess": 1399.2056510566306,
+            "tail_ess": 1796.4144421000708,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_175": {
+            "rank_folded_split_rhat": 1.005901839219433,
+            "bulk_ess": 1185.3235280318036,
+            "tail_ess": 1609.0226317404756,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_176": {
+            "rank_folded_split_rhat": 1.0063685473150783,
+            "bulk_ess": 1425.7405932593824,
+            "tail_ess": 1487.1240754631694,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_177": {
+            "rank_folded_split_rhat": 1.0026207424726357,
+            "bulk_ess": 1483.0144369497907,
+            "tail_ess": 1465.0172051601596,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_178": {
+            "rank_folded_split_rhat": 1.001938844761976,
+            "bulk_ess": 1140.5356650816275,
+            "tail_ess": 984.6553772660169,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_179": {
+            "rank_folded_split_rhat": 1.0034062608956023,
+            "bulk_ess": 1510.5574154120736,
+            "tail_ess": 1580.0874990154387,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "observed_log_likelihood": {
+            "rank_folded_split_rhat": 1.0009476767685308,
+            "bulk_ess": 1245.886797845143,
+            "tail_ess": 942.9530549050086,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "process_scale": {
+            "rank_folded_split_rhat": null,
+            "bulk_ess": null,
+            "tail_ess": null,
+            "frozen_chains": 4,
+            "diagnostic_pass": false
+          }
+        },
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "scale_counts_per_chain": [
+        {
+          "0.0": 2000,
+          "0.125": 0,
+          "0.25": 0,
+          "0.5": 0,
+          "1.0": 0,
+          "2.0": 0,
+          "4.0": 0
+        },
+        {
+          "0.0": 2000,
+          "0.125": 0,
+          "0.25": 0,
+          "0.5": 0,
+          "1.0": 0,
+          "2.0": 0,
+          "4.0": 0
+        },
+        {
+          "0.0": 2000,
+          "0.125": 0,
+          "0.25": 0,
+          "0.5": 0,
+          "1.0": 0,
+          "2.0": 0,
+          "4.0": 0
+        },
+        {
+          "0.0": 2000,
+          "0.125": 0,
+          "0.25": 0,
+          "0.5": 0,
+          "1.0": 0,
+          "2.0": 0,
+          "4.0": 0
+        }
+      ],
+      "final_beta_per_chain": [
+        0.98,
+        0.98,
+        0.98,
+        0.98
+      ],
+      "transition_counts": {
+        "warmup": {
+          "pcn_attempts": [
+            693,
+            723,
+            691,
+            717
+          ],
+          "pcn_accepts": [
+            361,
+            385,
+            365,
+            352
+          ],
+          "independent_attempts": [
+            156,
+            159,
+            144,
+            141
+          ],
+          "independent_accepts": [
+            7,
+            1,
+            3,
+            0
+          ],
+          "transport_attempts": [
+            151,
+            118,
+            165,
+            142
+          ],
+          "transport_accepts": [
+            146,
+            116,
+            161,
+            137
+          ],
+          "scale_change_attempts": [
+            9,
+            5,
+            6,
+            8
+          ],
+          "scale_change_accepts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "invalid_proposals": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "retained": {
+          "pcn_attempts": [
+            1411,
+            1432,
+            1410,
+            1433
+          ],
+          "pcn_accepts": [
+            722,
+            671,
+            754,
+            752
+          ],
+          "independent_attempts": [
+            279,
+            284,
+            299,
+            280
+          ],
+          "independent_accepts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "transport_attempts": [
+            310,
+            284,
+            291,
+            287
+          ],
+          "transport_accepts": [
+            295,
+            273,
+            280,
+            283
+          ],
+          "scale_change_attempts": [
+            19,
+            15,
+            13,
+            13
+          ],
+          "scale_change_accepts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "invalid_proposals": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "evaluation_samples": 256,
+      "evaluation_subsampling": "equal evenly spaced retained states per chain for rendering cost only; diagnostics use every retained state",
+      "evaluations": {
+        "local_reference": {
+          "scores": {
+            "observed": {
+              "frames": 6,
+              "position_rmse_m": 0.0004827642828854517,
+              "position_crps_m": 0.0002717759983526648,
+              "trajectory_energy_score_m": 0.0011030618031776277,
+              "component_90_coverage": 0.9722222222222222,
+              "component_90_mean_width_m": 0.0015999455747788603,
+              "rgb_psnr_db": 68.4076153792737,
+              "novel_view_psnr_db": 68.5764877280024
+            },
+            "withheld": {
+              "frames": 15,
+              "position_rmse_m": 0.0004573074996924019,
+              "position_crps_m": 0.00026115486133175444,
+              "trajectory_energy_score_m": 0.001051042420088397,
+              "component_90_coverage": 0.9444444444444444,
+              "component_90_mean_width_m": 0.0016382091435224238,
+              "rgb_psnr_db": 69.71738414667753,
+              "novel_view_psnr_db": 69.00003125303925
+            },
+            "long_gap": {
+              "frames": 7,
+              "position_rmse_m": 0.00036778637960268185,
+              "position_crps_m": 0.0002194903755852481,
+              "trajectory_energy_score_m": 0.0008848081798470003,
+              "component_90_coverage": 0.9880952380952381,
+              "component_90_mean_width_m": 0.0017760043286727655,
+              "rgb_psnr_db": 70.91543952244562,
+              "novel_view_psnr_db": 71.10976954990147
+            },
+            "definitions": {
+              "uncertainty": "local Gaussian reference",
+              "coverage": "central componentwise intervals on free-node positions only; pinned nodes excluded",
+              "energy_score": "Euclidean joint free-node position score per timestamp, averaged over timestamps",
+              "novel_view": "same times, known camera path offset by 100 degrees; evaluation-only images",
+              "rgb": "posterior mean render versus noise-free truth; PSNR data range 1",
+              "long_gap": "strictly between observed frame 6 and 14"
+            }
+          },
+          "physics": {
+            "fixed_total_mass_kg": 0.27462500000000006,
+            "minimum_det_F": 0.9167396196180767,
+            "maximum_internal_net_force_n": 1.942890293094024e-16,
+            "maximum_internal_net_torque_nm": 1.8041124150158794e-16,
+            "maximum_support_position_error_m": 0.0,
+            "mechanical_energy_mean_j": [
+              0.1350310794443757,
+              0.13310891298336738,
+              0.1342540934351861,
+              0.13156027693784375,
+              0.13164185220752536,
+              0.12919262131999532,
+              0.12685118188013828,
+              0.12793201397377493,
+              0.12525199443263432,
+              0.12415432430853182,
+              0.12377738907878408,
+              0.12163768828438695,
+              0.12231369926377872,
+              0.12082403053116536,
+              0.11885886920106108,
+              0.1196738895634517,
+              0.11803001578471675,
+              0.11710202878298873,
+              0.11664796679806207,
+              0.11432672112006576,
+              0.11471619198233063
+            ],
+            "energy_note": "Gravity potential included. Drag dissipates and stochastic forcing exchanges energy; total energy need not be constant."
+          }
+        },
+        "nonlinear_mcmc": {
+          "scores": {
+            "observed": {
+              "frames": 6,
+              "position_rmse_m": 0.0005310943383030814,
+              "position_crps_m": 0.0002999652680153319,
+              "trajectory_energy_score_m": 0.0012248427730535145,
+              "component_90_coverage": 1.0,
+              "component_90_mean_width_m": 0.0017128847800438201,
+              "rgb_psnr_db": 69.5917490760492,
+              "novel_view_psnr_db": 68.22579170225562
+            },
+            "withheld": {
+              "frames": 15,
+              "position_rmse_m": 0.0004839138138856261,
+              "position_crps_m": 0.00027757020215128783,
+              "trajectory_energy_score_m": 0.0011191857755365534,
+              "component_90_coverage": 0.9888888888888889,
+              "component_90_mean_width_m": 0.0017223854292826783,
+              "rgb_psnr_db": 70.19071869756759,
+              "novel_view_psnr_db": 68.92150328167298
+            },
+            "long_gap": {
+              "frames": 7,
+              "position_rmse_m": 0.00036314560713164215,
+              "position_crps_m": 0.00021929392293708436,
+              "trajectory_energy_score_m": 0.0008940514645010827,
+              "component_90_coverage": 1.0,
+              "component_90_mean_width_m": 0.0018184438671535364,
+              "rgb_psnr_db": 72.45722029238492,
+              "novel_view_psnr_db": 72.17165200015569
+            },
+            "definitions": {
+              "uncertainty": "finite correlated nonlinear MCMC; reliability is conditional on diagnostics",
+              "coverage": "central componentwise intervals on free-node positions only; pinned nodes excluded",
+              "energy_score": "Euclidean joint free-node position score per timestamp, averaged over timestamps",
+              "novel_view": "same times, known camera path offset by 100 degrees; evaluation-only images",
+              "rgb": "posterior mean render versus noise-free truth; PSNR data range 1",
+              "long_gap": "strictly between observed frame 6 and 14"
+            }
+          },
+          "physics": {
+            "fixed_total_mass_kg": 0.27462500000000006,
+            "minimum_det_F": 0.9163104337882441,
+            "maximum_internal_net_force_n": 2.636779683484747e-16,
+            "maximum_internal_net_torque_nm": 1.6653345369377348e-16,
+            "maximum_support_position_error_m": 0.0,
+            "mechanical_energy_mean_j": [
+              0.13502131080087912,
+              0.1330945819293779,
+              0.1342418104676975,
+              0.1315535209335056,
+              0.13162401408777427,
+              0.1292004987744921,
+              0.1268367649549884,
+              0.12792074642831697,
+              0.12526212373875545,
+              0.12413385922107212,
+              0.12378330076814403,
+              0.12163544285395428,
+              0.12229670251189176,
+              0.12085000292391335,
+              0.1188527143459065,
+              0.11965914491389007,
+              0.1180569355413547,
+              0.11708500956696061,
+              0.11666972870982277,
+              0.11434238517301075,
+              0.11468807452584663
+            ],
+            "energy_note": "Gravity potential included. Drag dissipates and stochastic forcing exchanges energy; total energy need not be constant."
+          }
+        }
+      },
+      "seconds": 440.03069879999384
+    },
+    {
+      "label": "stochastic__long_gap__3101",
+      "condition": "stochastic",
+      "schedule": "long_gap",
+      "realization_seed": 3101,
+      "sampler": {
+        "chains": 4,
+        "warmup": 1000,
+        "draws": 2000,
+        "beta": 0.5,
+        "defensive_mass": 0.05,
+        "independent_probability": 0.15,
+        "transport_probability": 0.15,
+        "seed": 67001,
+        "langevin": true
+      },
+      "sampler_source_fingerprint_sha256": "451bc87a18c9cd96fadb1433797de9bfddc3e974a996d5cb9fa7dd7615716ec0",
+      "observations_sha256": "00409cd59f1dccbfb9979e31db3a9530aa7e7631d0f86e34f8bd8d9756a16e36",
+      "legacy_observations_regenerated": true,
+      "diagnostics": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": false,
+        "failed_quantities": [
+          "log_young",
+          "log_drag",
+          "offset_x",
+          "velocity_x",
+          "velocity_y",
+          "velocity_z",
+          "white_increment_0",
+          "white_increment_1",
+          "white_increment_4",
+          "white_increment_6",
+          "white_increment_8",
+          "white_increment_9",
+          "white_increment_10",
+          "white_increment_11",
+          "white_increment_12",
+          "white_increment_13",
+          "white_increment_14",
+          "white_increment_19",
+          "white_increment_20",
+          "white_increment_21",
+          "white_increment_24",
+          "white_increment_27",
+          "white_increment_28",
+          "white_increment_29",
+          "white_increment_31",
+          "white_increment_33",
+          "white_increment_34",
+          "white_increment_36",
+          "white_increment_37",
+          "white_increment_38",
+          "white_increment_41",
+          "white_increment_43",
+          "white_increment_44",
+          "white_increment_45",
+          "white_increment_46",
+          "white_increment_47",
+          "white_increment_48",
+          "white_increment_49",
+          "white_increment_50",
+          "white_increment_51",
+          "white_increment_52",
+          "white_increment_53",
+          "white_increment_59",
+          "white_increment_60",
+          "white_increment_61",
+          "white_increment_62",
+          "white_increment_63",
+          "white_increment_64",
+          "white_increment_65",
+          "white_increment_67",
+          "white_increment_68",
+          "white_increment_69",
+          "white_increment_70",
+          "white_increment_71",
+          "white_increment_72",
+          "white_increment_73",
+          "white_increment_74",
+          "white_increment_75",
+          "white_increment_78",
+          "white_increment_79",
+          "white_increment_80",
+          "white_increment_83",
+          "white_increment_84",
+          "white_increment_85",
+          "white_increment_86",
+          "white_increment_89",
+          "white_increment_92",
+          "white_increment_93",
+          "white_increment_96",
+          "white_increment_98",
+          "white_increment_100",
+          "white_increment_101",
+          "white_increment_102",
+          "white_increment_103",
+          "white_increment_106",
+          "white_increment_108",
+          "white_increment_110",
+          "white_increment_112",
+          "white_increment_113",
+          "white_increment_114",
+          "white_increment_115",
+          "white_increment_117",
+          "white_increment_118",
+          "white_increment_119",
+          "white_increment_120",
+          "white_increment_121",
+          "white_increment_122",
+          "white_increment_123",
+          "white_increment_125",
+          "white_increment_127",
+          "white_increment_130",
+          "white_increment_132",
+          "white_increment_133",
+          "white_increment_134",
+          "white_increment_135",
+          "white_increment_137",
+          "white_increment_138",
+          "white_increment_139",
+          "white_increment_142",
+          "white_increment_143",
+          "white_increment_144",
+          "white_increment_145",
+          "white_increment_146",
+          "white_increment_149",
+          "white_increment_150",
+          "white_increment_151",
+          "white_increment_152",
+          "white_increment_157",
+          "white_increment_158",
+          "white_increment_161",
+          "white_increment_162",
+          "white_increment_163",
+          "white_increment_164",
+          "white_increment_167",
+          "white_increment_168",
+          "white_increment_169",
+          "white_increment_170",
+          "white_increment_171",
+          "white_increment_174",
+          "white_increment_176",
+          "white_increment_178",
+          "white_increment_179"
+        ],
+        "quantities": {
+          "log_young": {
+            "rank_folded_split_rhat": 1.0034677926796283,
+            "bulk_ess": 335.6744102685927,
+            "tail_ess": 639.5616085793364,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "log_drag": {
+            "rank_folded_split_rhat": 1.0239756437398977,
+            "bulk_ess": 172.6886626947976,
+            "tail_ess": 205.72240967841682,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "offset_x": {
+            "rank_folded_split_rhat": 1.0077716197906987,
+            "bulk_ess": 353.8979413341415,
+            "tail_ess": 523.4719453478807,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "offset_y": {
+            "rank_folded_split_rhat": 1.0032911653790642,
+            "bulk_ess": 413.24185551449074,
+            "tail_ess": 518.5258913275095,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "offset_z": {
+            "rank_folded_split_rhat": 1.0082080196779788,
+            "bulk_ess": 403.5341100123432,
+            "tail_ess": 714.3597862059825,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "velocity_x": {
+            "rank_folded_split_rhat": 1.0081037484846456,
+            "bulk_ess": 340.16081901444653,
+            "tail_ess": 764.94378683079,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "velocity_y": {
+            "rank_folded_split_rhat": 1.0107522741979278,
+            "bulk_ess": 361.91423257941426,
+            "tail_ess": 602.8534954766566,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "velocity_z": {
+            "rank_folded_split_rhat": 1.0053568104117787,
+            "bulk_ess": 377.86470850562785,
+            "tail_ess": 569.8970370513478,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_0": {
+            "rank_folded_split_rhat": 1.0048903213309348,
+            "bulk_ess": 342.10936253482157,
+            "tail_ess": 475.1429717991818,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_1": {
+            "rank_folded_split_rhat": 1.022169806178347,
+            "bulk_ess": 280.70114556919077,
+            "tail_ess": 337.9701893079811,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_2": {
+            "rank_folded_split_rhat": 1.005634446278045,
+            "bulk_ess": 457.70379832729236,
+            "tail_ess": 649.8278619588029,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_3": {
+            "rank_folded_split_rhat": 1.0063709572632957,
+            "bulk_ess": 429.1393142722541,
+            "tail_ess": 619.83705464447,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_4": {
+            "rank_folded_split_rhat": 1.008080218043567,
+            "bulk_ess": 289.1650573916101,
+            "tail_ess": 539.347014906774,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_5": {
+            "rank_folded_split_rhat": 1.007916284519128,
+            "bulk_ess": 429.6988875661135,
+            "tail_ess": 607.7384281027279,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_6": {
+            "rank_folded_split_rhat": 1.0055315374239857,
+            "bulk_ess": 395.65486764464544,
+            "tail_ess": 651.2001053250032,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_7": {
+            "rank_folded_split_rhat": 1.004161668932726,
+            "bulk_ess": 515.4687283910015,
+            "tail_ess": 599.7290808390464,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_8": {
+            "rank_folded_split_rhat": 1.0216753327013897,
+            "bulk_ess": 267.47900673866974,
+            "tail_ess": 316.95048127171145,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_9": {
+            "rank_folded_split_rhat": 1.014730693221107,
+            "bulk_ess": 345.7858819407621,
+            "tail_ess": 460.8793641887254,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_10": {
+            "rank_folded_split_rhat": 1.0111261474113835,
+            "bulk_ess": 284.90995991256847,
+            "tail_ess": 596.1067799402962,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_11": {
+            "rank_folded_split_rhat": 1.0108767296447578,
+            "bulk_ess": 400.8276891710419,
+            "tail_ess": 537.3721783487641,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_12": {
+            "rank_folded_split_rhat": 1.014125086413644,
+            "bulk_ess": 363.7368877084203,
+            "tail_ess": 448.66203146138497,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_13": {
+            "rank_folded_split_rhat": 1.011596251608694,
+            "bulk_ess": 308.20129610933907,
+            "tail_ess": 481.69801902896177,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_14": {
+            "rank_folded_split_rhat": 1.0275783694997649,
+            "bulk_ess": 282.563245213428,
+            "tail_ess": 531.2256205236833,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_15": {
+            "rank_folded_split_rhat": 1.006612409890138,
+            "bulk_ess": 495.9816103346791,
+            "tail_ess": 643.9798219502369,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_16": {
+            "rank_folded_split_rhat": 1.0058190221269776,
+            "bulk_ess": 532.8466401619852,
+            "tail_ess": 587.9541235220792,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_17": {
+            "rank_folded_split_rhat": 1.0044631164290108,
+            "bulk_ess": 468.4120669941055,
+            "tail_ess": 681.9723671057093,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_18": {
+            "rank_folded_split_rhat": 1.0043724243789796,
+            "bulk_ess": 418.58588307420206,
+            "tail_ess": 659.6213466797412,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_19": {
+            "rank_folded_split_rhat": 1.015820739090861,
+            "bulk_ess": 345.26504534335294,
+            "tail_ess": 583.5833648004079,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_20": {
+            "rank_folded_split_rhat": 1.0053702837866103,
+            "bulk_ess": 315.8724942113808,
+            "tail_ess": 631.3591335321086,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_21": {
+            "rank_folded_split_rhat": 1.007055901167435,
+            "bulk_ess": 398.2255059339947,
+            "tail_ess": 642.1032751954306,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_22": {
+            "rank_folded_split_rhat": 1.0062031524946482,
+            "bulk_ess": 541.8721834103839,
+            "tail_ess": 792.0442265397697,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_23": {
+            "rank_folded_split_rhat": 1.0037248033034776,
+            "bulk_ess": 476.4007445889758,
+            "tail_ess": 726.3875566675146,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_24": {
+            "rank_folded_split_rhat": 1.0087821942699235,
+            "bulk_ess": 393.4965560987365,
+            "tail_ess": 658.9580315132448,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_25": {
+            "rank_folded_split_rhat": 1.0083356951779345,
+            "bulk_ess": 433.5079300310793,
+            "tail_ess": 452.8773478846074,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_26": {
+            "rank_folded_split_rhat": 1.0073357280701238,
+            "bulk_ess": 499.3479619804768,
+            "tail_ess": 700.3169091309944,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_27": {
+            "rank_folded_split_rhat": 1.0047249055353755,
+            "bulk_ess": 481.6358972025817,
+            "tail_ess": 376.6086943620772,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_28": {
+            "rank_folded_split_rhat": 1.0039383356236977,
+            "bulk_ess": 317.1467907248882,
+            "tail_ess": 434.24411437263217,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_29": {
+            "rank_folded_split_rhat": 1.0148808496669497,
+            "bulk_ess": 355.2062691195212,
+            "tail_ess": 848.6337039067552,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_30": {
+            "rank_folded_split_rhat": 1.0069067452807396,
+            "bulk_ess": 469.0804901788048,
+            "tail_ess": 733.1916797524901,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_31": {
+            "rank_folded_split_rhat": 1.0111061562380734,
+            "bulk_ess": 377.5856797560266,
+            "tail_ess": 603.3794142135638,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_32": {
+            "rank_folded_split_rhat": 1.003615554827756,
+            "bulk_ess": 473.61009795000217,
+            "tail_ess": 663.9517381485747,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_33": {
+            "rank_folded_split_rhat": 1.0128884589053735,
+            "bulk_ess": 456.51203217219734,
+            "tail_ess": 730.8570825864902,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_34": {
+            "rank_folded_split_rhat": 1.0054407682674402,
+            "bulk_ess": 384.0913705670947,
+            "tail_ess": 559.6659329788683,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_35": {
+            "rank_folded_split_rhat": 1.006504321106454,
+            "bulk_ess": 422.65984878400303,
+            "tail_ess": 703.8563152554406,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_36": {
+            "rank_folded_split_rhat": 1.0137524305840293,
+            "bulk_ess": 362.7819424736358,
+            "tail_ess": 371.56678112628157,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_37": {
+            "rank_folded_split_rhat": 1.0119888413121174,
+            "bulk_ess": 505.2112924631871,
+            "tail_ess": 836.6378181306441,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_38": {
+            "rank_folded_split_rhat": 1.0127385724442408,
+            "bulk_ess": 423.98466161798797,
+            "tail_ess": 754.4541439729446,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_39": {
+            "rank_folded_split_rhat": 1.005728961558437,
+            "bulk_ess": 458.1691707769159,
+            "tail_ess": 588.5149087447305,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_40": {
+            "rank_folded_split_rhat": 1.0084654126929182,
+            "bulk_ess": 442.45681538794605,
+            "tail_ess": 613.8573954099303,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_41": {
+            "rank_folded_split_rhat": 1.0102481462252544,
+            "bulk_ess": 391.9282980311377,
+            "tail_ess": 658.6872904513995,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_42": {
+            "rank_folded_split_rhat": 1.007693993151009,
+            "bulk_ess": 491.5542873826343,
+            "tail_ess": 755.8732413964602,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_43": {
+            "rank_folded_split_rhat": 1.028459308697718,
+            "bulk_ess": 370.8678994721897,
+            "tail_ess": 604.7270532945274,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_44": {
+            "rank_folded_split_rhat": 1.0171244941571913,
+            "bulk_ess": 338.0445054677327,
+            "tail_ess": 528.3902785507847,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_45": {
+            "rank_folded_split_rhat": 1.0134219183175035,
+            "bulk_ess": 439.2450060383744,
+            "tail_ess": 556.6660485187099,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_46": {
+            "rank_folded_split_rhat": 1.0055586674986874,
+            "bulk_ess": 376.85528691328994,
+            "tail_ess": 492.61289346220445,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_47": {
+            "rank_folded_split_rhat": 1.0186108914363998,
+            "bulk_ess": 391.3661176666935,
+            "tail_ess": 438.9983040308682,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_48": {
+            "rank_folded_split_rhat": 1.0108098925532296,
+            "bulk_ess": 365.6724309641353,
+            "tail_ess": 561.0576309184285,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_49": {
+            "rank_folded_split_rhat": 1.0165721436798345,
+            "bulk_ess": 396.41736481199973,
+            "tail_ess": 578.0604845448502,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_50": {
+            "rank_folded_split_rhat": 1.0109551866852275,
+            "bulk_ess": 452.4015333188232,
+            "tail_ess": 727.9053109775698,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_51": {
+            "rank_folded_split_rhat": 1.007922586995148,
+            "bulk_ess": 410.12275554083277,
+            "tail_ess": 360.73056032025465,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_52": {
+            "rank_folded_split_rhat": 1.0092418891316348,
+            "bulk_ess": 351.6098449771346,
+            "tail_ess": 718.7027336841347,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_53": {
+            "rank_folded_split_rhat": 1.0063096892114043,
+            "bulk_ess": 363.9826092152681,
+            "tail_ess": 714.8443150352962,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_54": {
+            "rank_folded_split_rhat": 1.0096273386248074,
+            "bulk_ess": 419.2167082286309,
+            "tail_ess": 850.5168782825875,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_55": {
+            "rank_folded_split_rhat": 1.00666134133027,
+            "bulk_ess": 460.59827501051143,
+            "tail_ess": 747.0600293295965,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_56": {
+            "rank_folded_split_rhat": 1.0050730736709657,
+            "bulk_ess": 487.49485921823117,
+            "tail_ess": 874.0347286936988,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_57": {
+            "rank_folded_split_rhat": 1.003536997709208,
+            "bulk_ess": 474.86963605302145,
+            "tail_ess": 701.5918380656522,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_58": {
+            "rank_folded_split_rhat": 1.0050294918730645,
+            "bulk_ess": 413.6496254436232,
+            "tail_ess": 625.9617819061505,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_59": {
+            "rank_folded_split_rhat": 1.0100666145862038,
+            "bulk_ess": 419.39756289487923,
+            "tail_ess": 711.7728732971669,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_60": {
+            "rank_folded_split_rhat": 1.0153238992770155,
+            "bulk_ess": 355.860952181337,
+            "tail_ess": 594.3889079340712,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_61": {
+            "rank_folded_split_rhat": 1.0124765731866525,
+            "bulk_ess": 362.93046528332,
+            "tail_ess": 627.6046439915706,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_62": {
+            "rank_folded_split_rhat": 1.010169474916397,
+            "bulk_ess": 389.13082496454996,
+            "tail_ess": 598.984695712283,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_63": {
+            "rank_folded_split_rhat": 1.0059499043389315,
+            "bulk_ess": 338.3603751743897,
+            "tail_ess": 648.5752066007824,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_64": {
+            "rank_folded_split_rhat": 1.0077949602120855,
+            "bulk_ess": 371.85423067862354,
+            "tail_ess": 635.3721378496496,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_65": {
+            "rank_folded_split_rhat": 1.0192993926538314,
+            "bulk_ess": 310.6584376860221,
+            "tail_ess": 554.1983836579241,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_66": {
+            "rank_folded_split_rhat": 1.0077674533794625,
+            "bulk_ess": 423.27574127787227,
+            "tail_ess": 496.763374631174,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_67": {
+            "rank_folded_split_rhat": 1.0134105537758265,
+            "bulk_ess": 395.85480461219885,
+            "tail_ess": 421.9132280022689,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_68": {
+            "rank_folded_split_rhat": 1.0034768320837613,
+            "bulk_ess": 384.36052583274875,
+            "tail_ess": 818.6422241411722,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_69": {
+            "rank_folded_split_rhat": 1.0217790232914679,
+            "bulk_ess": 344.8514874027521,
+            "tail_ess": 628.7324537381519,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_70": {
+            "rank_folded_split_rhat": 1.0188584831891614,
+            "bulk_ess": 369.3461651662408,
+            "tail_ess": 654.5651089629172,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_71": {
+            "rank_folded_split_rhat": 1.0066127091992192,
+            "bulk_ess": 428.8561900838726,
+            "tail_ess": 380.57855524720935,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_72": {
+            "rank_folded_split_rhat": 1.0092352860529643,
+            "bulk_ess": 347.66634464949635,
+            "tail_ess": 414.4750012016517,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_73": {
+            "rank_folded_split_rhat": 1.0215462522681187,
+            "bulk_ess": 369.3340819794474,
+            "tail_ess": 585.0255512712577,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_74": {
+            "rank_folded_split_rhat": 1.021821088380449,
+            "bulk_ess": 477.45238887497857,
+            "tail_ess": 637.9900819746802,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_75": {
+            "rank_folded_split_rhat": 1.007779536417408,
+            "bulk_ess": 349.70923781855254,
+            "tail_ess": 528.3541240155299,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_76": {
+            "rank_folded_split_rhat": 1.005273554151196,
+            "bulk_ess": 509.173778087613,
+            "tail_ess": 765.8651367525276,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_77": {
+            "rank_folded_split_rhat": 1.0091356700126513,
+            "bulk_ess": 463.1404908334979,
+            "tail_ess": 632.608617170518,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_78": {
+            "rank_folded_split_rhat": 1.015220302646904,
+            "bulk_ess": 415.0482835867905,
+            "tail_ess": 660.2762698366876,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_79": {
+            "rank_folded_split_rhat": 1.019704467523973,
+            "bulk_ess": 374.0501818522684,
+            "tail_ess": 731.3997089845122,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_80": {
+            "rank_folded_split_rhat": 1.0162742633632715,
+            "bulk_ess": 387.9021240313109,
+            "tail_ess": 559.6846357873768,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_81": {
+            "rank_folded_split_rhat": 1.0060211716303973,
+            "bulk_ess": 437.57942106284787,
+            "tail_ess": 658.5593460604526,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_82": {
+            "rank_folded_split_rhat": 1.0096116969056603,
+            "bulk_ess": 459.225491160432,
+            "tail_ess": 651.2456918952693,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_83": {
+            "rank_folded_split_rhat": 1.0068551281502558,
+            "bulk_ess": 314.4247011812578,
+            "tail_ess": 482.3887327482447,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_84": {
+            "rank_folded_split_rhat": 1.0088761196592857,
+            "bulk_ess": 397.16108638325653,
+            "tail_ess": 622.5559409308129,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_85": {
+            "rank_folded_split_rhat": 1.0067643158271111,
+            "bulk_ess": 351.2582225450613,
+            "tail_ess": 801.9768536871095,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_86": {
+            "rank_folded_split_rhat": 1.0143514078093068,
+            "bulk_ess": 355.21599944856104,
+            "tail_ess": 444.52122144993336,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_87": {
+            "rank_folded_split_rhat": 1.005069624137912,
+            "bulk_ess": 517.5997428584604,
+            "tail_ess": 592.3023407874811,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_88": {
+            "rank_folded_split_rhat": 1.009215371750852,
+            "bulk_ess": 505.9483575949708,
+            "tail_ess": 767.892908912099,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_89": {
+            "rank_folded_split_rhat": 1.01260510272631,
+            "bulk_ess": 378.6612266285183,
+            "tail_ess": 561.3137790133738,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_90": {
+            "rank_folded_split_rhat": 1.0037417571171379,
+            "bulk_ess": 423.03319945558854,
+            "tail_ess": 546.3057028019895,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_91": {
+            "rank_folded_split_rhat": 1.0060354036044763,
+            "bulk_ess": 472.2914396138734,
+            "tail_ess": 713.6295457884243,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_92": {
+            "rank_folded_split_rhat": 1.0278825444535662,
+            "bulk_ess": 344.8713560992623,
+            "tail_ess": 701.0475889494543,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_93": {
+            "rank_folded_split_rhat": 1.0105395489544264,
+            "bulk_ess": 447.7923110661869,
+            "tail_ess": 706.1312547798958,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_94": {
+            "rank_folded_split_rhat": 1.0082527122553933,
+            "bulk_ess": 524.2463949264128,
+            "tail_ess": 504.28771299081757,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_95": {
+            "rank_folded_split_rhat": 1.0050835214762492,
+            "bulk_ess": 520.0859246643947,
+            "tail_ess": 499.4702124677987,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_96": {
+            "rank_folded_split_rhat": 1.0151924813086348,
+            "bulk_ess": 442.03563115885754,
+            "tail_ess": 745.383012108835,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_97": {
+            "rank_folded_split_rhat": 1.0034954883118015,
+            "bulk_ess": 483.87788893724314,
+            "tail_ess": 761.0871268352117,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_98": {
+            "rank_folded_split_rhat": 1.0117500193469307,
+            "bulk_ess": 358.2793152921712,
+            "tail_ess": 671.3240040478416,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_99": {
+            "rank_folded_split_rhat": 1.008767941571487,
+            "bulk_ess": 432.73242536867025,
+            "tail_ess": 666.6320778317175,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_100": {
+            "rank_folded_split_rhat": 1.007041738849106,
+            "bulk_ess": 399.1589205145983,
+            "tail_ess": 729.3659411945687,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_101": {
+            "rank_folded_split_rhat": 1.0101425445303456,
+            "bulk_ess": 474.795240918662,
+            "tail_ess": 691.0658863075854,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_102": {
+            "rank_folded_split_rhat": 1.014515855073728,
+            "bulk_ess": 474.1525233549104,
+            "tail_ess": 502.19974384348603,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_103": {
+            "rank_folded_split_rhat": 1.0050668931172566,
+            "bulk_ess": 342.2488402769899,
+            "tail_ess": 710.1473292191224,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_104": {
+            "rank_folded_split_rhat": 1.004325659794155,
+            "bulk_ess": 457.1008418244203,
+            "tail_ess": 628.507569193658,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_105": {
+            "rank_folded_split_rhat": 1.007022095826448,
+            "bulk_ess": 406.6234461146313,
+            "tail_ess": 546.1194835000603,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_106": {
+            "rank_folded_split_rhat": 1.021393617306242,
+            "bulk_ess": 432.7146481700286,
+            "tail_ess": 891.4103106532135,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_107": {
+            "rank_folded_split_rhat": 1.0075914313680228,
+            "bulk_ess": 491.7976523652849,
+            "tail_ess": 487.88006464502223,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_108": {
+            "rank_folded_split_rhat": 1.010077256492784,
+            "bulk_ess": 480.46153977405027,
+            "tail_ess": 354.54815177675596,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_109": {
+            "rank_folded_split_rhat": 1.0074951469688584,
+            "bulk_ess": 477.66318868546097,
+            "tail_ess": 644.2376099426442,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_110": {
+            "rank_folded_split_rhat": 1.0233948794215073,
+            "bulk_ess": 399.2485482167798,
+            "tail_ess": 582.8994766272963,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_111": {
+            "rank_folded_split_rhat": 1.0047760818350846,
+            "bulk_ess": 439.6101556738254,
+            "tail_ess": 690.4846717322534,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_112": {
+            "rank_folded_split_rhat": 1.0060067041860201,
+            "bulk_ess": 329.73453023426174,
+            "tail_ess": 366.783521880873,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_113": {
+            "rank_folded_split_rhat": 1.010589091335358,
+            "bulk_ess": 404.61741257301384,
+            "tail_ess": 871.2673062132802,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_114": {
+            "rank_folded_split_rhat": 1.0134609786756832,
+            "bulk_ess": 329.0691044202422,
+            "tail_ess": 613.3892409894885,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_115": {
+            "rank_folded_split_rhat": 1.0186390291821605,
+            "bulk_ess": 427.8753378560289,
+            "tail_ess": 692.6133309476812,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_116": {
+            "rank_folded_split_rhat": 1.0084331021790045,
+            "bulk_ess": 446.21428946601236,
+            "tail_ess": 698.0548823348474,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_117": {
+            "rank_folded_split_rhat": 1.003657407164903,
+            "bulk_ess": 399.95767283463334,
+            "tail_ess": 594.4945508812858,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_118": {
+            "rank_folded_split_rhat": 1.0038866566917533,
+            "bulk_ess": 391.41100248897,
+            "tail_ess": 564.3643611365434,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_119": {
+            "rank_folded_split_rhat": 1.0072466106079736,
+            "bulk_ess": 392.34047492023853,
+            "tail_ess": 822.0635689463087,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_120": {
+            "rank_folded_split_rhat": 1.0131127056606701,
+            "bulk_ess": 452.44770993700405,
+            "tail_ess": 755.6561717776128,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_121": {
+            "rank_folded_split_rhat": 1.0200824040776182,
+            "bulk_ess": 229.80013188721892,
+            "tail_ess": 596.2735282073461,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_122": {
+            "rank_folded_split_rhat": 1.0144112646329082,
+            "bulk_ess": 457.0101042520449,
+            "tail_ess": 451.1394452982466,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_123": {
+            "rank_folded_split_rhat": 1.0127283137038863,
+            "bulk_ess": 292.06798426367027,
+            "tail_ess": 487.4958386601424,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_124": {
+            "rank_folded_split_rhat": 1.0091257977705532,
+            "bulk_ess": 470.87299265336463,
+            "tail_ess": 528.6010861742765,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_125": {
+            "rank_folded_split_rhat": 1.0263673628894963,
+            "bulk_ess": 412.1479228565214,
+            "tail_ess": 701.4544123695404,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_126": {
+            "rank_folded_split_rhat": 1.009449077634144,
+            "bulk_ess": 409.93609937927573,
+            "tail_ess": 833.0567350826932,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_127": {
+            "rank_folded_split_rhat": 1.0113508050608218,
+            "bulk_ess": 343.9062139565683,
+            "tail_ess": 587.4433609804178,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_128": {
+            "rank_folded_split_rhat": 1.0062071678696691,
+            "bulk_ess": 539.1174403509689,
+            "tail_ess": 836.5802511002854,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_129": {
+            "rank_folded_split_rhat": 1.0075910421064254,
+            "bulk_ess": 454.418095555532,
+            "tail_ess": 644.1688512247546,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_130": {
+            "rank_folded_split_rhat": 1.009911036963131,
+            "bulk_ess": 374.0020860663836,
+            "tail_ess": 537.4268781614371,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_131": {
+            "rank_folded_split_rhat": 1.0080253754376767,
+            "bulk_ess": 550.9527806979007,
+            "tail_ess": 880.0606224512707,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_132": {
+            "rank_folded_split_rhat": 1.0120957010854483,
+            "bulk_ess": 375.93892971250824,
+            "tail_ess": 566.009243759928,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_133": {
+            "rank_folded_split_rhat": 1.017906189922908,
+            "bulk_ess": 414.65091456090573,
+            "tail_ess": 696.1575744524133,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_134": {
+            "rank_folded_split_rhat": 1.0098951049095732,
+            "bulk_ess": 346.31525295578615,
+            "tail_ess": 499.22314455542636,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_135": {
+            "rank_folded_split_rhat": 1.024736860024033,
+            "bulk_ess": 360.410624255678,
+            "tail_ess": 387.94104939820477,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_136": {
+            "rank_folded_split_rhat": 1.0040441237192301,
+            "bulk_ess": 526.6562390124589,
+            "tail_ess": 771.3446842748446,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_137": {
+            "rank_folded_split_rhat": 1.009983624835169,
+            "bulk_ess": 399.00667552344004,
+            "tail_ess": 573.5313306699114,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_138": {
+            "rank_folded_split_rhat": 1.0291643301232196,
+            "bulk_ess": 200.56600525362325,
+            "tail_ess": 572.97618688638,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_139": {
+            "rank_folded_split_rhat": 1.0161688726074392,
+            "bulk_ess": 421.15162581785313,
+            "tail_ess": 432.9489446763813,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_140": {
+            "rank_folded_split_rhat": 1.0090721284942183,
+            "bulk_ess": 419.38887245685686,
+            "tail_ess": 411.23598940442463,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_141": {
+            "rank_folded_split_rhat": 1.0092629193102807,
+            "bulk_ess": 416.662365481288,
+            "tail_ess": 641.8898094443549,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_142": {
+            "rank_folded_split_rhat": 1.0142835984399092,
+            "bulk_ess": 307.30201986681243,
+            "tail_ess": 659.1884925406257,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_143": {
+            "rank_folded_split_rhat": 1.011674921587947,
+            "bulk_ess": 473.2104859727754,
+            "tail_ess": 746.0848405524604,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_144": {
+            "rank_folded_split_rhat": 1.0122764209185724,
+            "bulk_ess": 378.33488734806264,
+            "tail_ess": 537.8845909489523,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_145": {
+            "rank_folded_split_rhat": 1.0101011905696868,
+            "bulk_ess": 392.6471748245315,
+            "tail_ess": 769.593804783991,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_146": {
+            "rank_folded_split_rhat": 1.0091691053925116,
+            "bulk_ess": 352.8149393472171,
+            "tail_ess": 680.1691994522743,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_147": {
+            "rank_folded_split_rhat": 1.0055884233713204,
+            "bulk_ess": 470.8939516177536,
+            "tail_ess": 566.10108574521,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_148": {
+            "rank_folded_split_rhat": 1.0066024927382575,
+            "bulk_ess": 411.4151910531748,
+            "tail_ess": 714.8783356927406,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_149": {
+            "rank_folded_split_rhat": 1.0048660327178969,
+            "bulk_ess": 347.3671704337272,
+            "tail_ess": 636.5665329619758,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_150": {
+            "rank_folded_split_rhat": 1.0116876176192333,
+            "bulk_ess": 455.58429098807153,
+            "tail_ess": 549.5324213981618,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_151": {
+            "rank_folded_split_rhat": 1.0116043383977087,
+            "bulk_ess": 370.92079965214,
+            "tail_ess": 484.59180112818115,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_152": {
+            "rank_folded_split_rhat": 1.0068910808436775,
+            "bulk_ess": 381.2923136527749,
+            "tail_ess": 563.1078432349382,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_153": {
+            "rank_folded_split_rhat": 1.0097383248681324,
+            "bulk_ess": 411.95205789099293,
+            "tail_ess": 578.165065014492,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_154": {
+            "rank_folded_split_rhat": 1.0065260686950899,
+            "bulk_ess": 405.1935567505746,
+            "tail_ess": 626.5251633090687,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_155": {
+            "rank_folded_split_rhat": 1.0057589903700637,
+            "bulk_ess": 499.64785333067346,
+            "tail_ess": 600.7010813078394,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_156": {
+            "rank_folded_split_rhat": 1.008684884578913,
+            "bulk_ess": 440.0748461670505,
+            "tail_ess": 641.3137195709796,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_157": {
+            "rank_folded_split_rhat": 1.0070508333506862,
+            "bulk_ess": 366.34558044285995,
+            "tail_ess": 702.3623025331527,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_158": {
+            "rank_folded_split_rhat": 1.0118254745982156,
+            "bulk_ess": 422.8910452916095,
+            "tail_ess": 677.0635337602263,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_159": {
+            "rank_folded_split_rhat": 1.0076665080197684,
+            "bulk_ess": 401.7586153086698,
+            "tail_ess": 753.159412491123,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_160": {
+            "rank_folded_split_rhat": 1.0069524113266122,
+            "bulk_ess": 407.1240403585356,
+            "tail_ess": 719.8248952844788,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_161": {
+            "rank_folded_split_rhat": 1.0088482830234495,
+            "bulk_ess": 346.629862833535,
+            "tail_ess": 616.2761861406377,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_162": {
+            "rank_folded_split_rhat": 1.0110142133635829,
+            "bulk_ess": 470.12841870517326,
+            "tail_ess": 591.1101739028883,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_163": {
+            "rank_folded_split_rhat": 1.015572451974523,
+            "bulk_ess": 404.1171887860228,
+            "tail_ess": 497.251548073589,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_164": {
+            "rank_folded_split_rhat": 1.0056221359128414,
+            "bulk_ess": 298.85057179332307,
+            "tail_ess": 473.22532681863544,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_165": {
+            "rank_folded_split_rhat": 1.0016335253982287,
+            "bulk_ess": 533.2141415111029,
+            "tail_ess": 722.1399737334183,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_166": {
+            "rank_folded_split_rhat": 1.0088360345836815,
+            "bulk_ess": 412.17114918331634,
+            "tail_ess": 720.6367556393113,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_167": {
+            "rank_folded_split_rhat": 1.0144861571583261,
+            "bulk_ess": 265.78887728530253,
+            "tail_ess": 427.2260990867518,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_168": {
+            "rank_folded_split_rhat": 1.0088432441399606,
+            "bulk_ess": 373.7752294856641,
+            "tail_ess": 444.52793739226837,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_169": {
+            "rank_folded_split_rhat": 1.0306844654943474,
+            "bulk_ess": 334.15954962094014,
+            "tail_ess": 676.0070252864128,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_170": {
+            "rank_folded_split_rhat": 1.01206639039324,
+            "bulk_ess": 426.1311946534163,
+            "tail_ess": 549.4166855313418,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_171": {
+            "rank_folded_split_rhat": 1.0081587496932949,
+            "bulk_ess": 389.5596681683028,
+            "tail_ess": 607.0021996526591,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_172": {
+            "rank_folded_split_rhat": 1.0075671800236525,
+            "bulk_ess": 407.5045031062498,
+            "tail_ess": 445.1220556253699,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_173": {
+            "rank_folded_split_rhat": 1.0035373437084785,
+            "bulk_ess": 439.3968731326576,
+            "tail_ess": 706.6304967933827,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_174": {
+            "rank_folded_split_rhat": 1.0170774056771115,
+            "bulk_ess": 289.88598316340585,
+            "tail_ess": 599.3298588438647,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_175": {
+            "rank_folded_split_rhat": 1.006345202099441,
+            "bulk_ess": 499.2817489239945,
+            "tail_ess": 616.826348273148,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_176": {
+            "rank_folded_split_rhat": 1.0033604369193327,
+            "bulk_ess": 381.58998903116606,
+            "tail_ess": 709.8760244488606,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_177": {
+            "rank_folded_split_rhat": 1.0088987609260458,
+            "bulk_ess": 482.4371779935956,
+            "tail_ess": 786.5812062853743,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "white_increment_178": {
+            "rank_folded_split_rhat": 1.018628427481224,
+            "bulk_ess": 370.09486668448005,
+            "tail_ess": 781.2090062825307,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_179": {
+            "rank_folded_split_rhat": 1.0164898964716302,
+            "bulk_ess": 431.2375199494191,
+            "tail_ess": 493.7967594944446,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "observed_log_likelihood": {
+            "rank_folded_split_rhat": 1.0059790914165374,
+            "bulk_ess": 509.937610979234,
+            "tail_ess": 789.3241838833553,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          },
+          "process_scale": {
+            "rank_folded_split_rhat": 1.0038892887016695,
+            "bulk_ess": 551.5805710950741,
+            "tail_ess": 551.5805710950741,
+            "frozen_chains": 0,
+            "diagnostic_pass": true
+          }
+        },
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "scale_counts_per_chain": [
+        {
+          "0.0": 0,
+          "0.125": 0,
+          "0.25": 0,
+          "0.5": 1982,
+          "1.0": 18,
+          "2.0": 0,
+          "4.0": 0
+        },
+        {
+          "0.0": 0,
+          "0.125": 0,
+          "0.25": 0,
+          "0.5": 1995,
+          "1.0": 5,
+          "2.0": 0,
+          "4.0": 0
+        },
+        {
+          "0.0": 0,
+          "0.125": 0,
+          "0.25": 0,
+          "0.5": 1992,
+          "1.0": 8,
+          "2.0": 0,
+          "4.0": 0
+        },
+        {
+          "0.0": 0,
+          "0.125": 0,
+          "0.25": 0,
+          "0.5": 1956,
+          "1.0": 44,
+          "2.0": 0,
+          "4.0": 0
+        }
+      ],
+      "final_beta_per_chain": [
+        0.6183652975016157,
+        0.9097519638206423,
+        0.8696280946526361,
+        0.8543632509610115
+      ],
+      "transition_counts": {
+        "warmup": {
+          "pcn_attempts": [
+            693,
+            723,
+            691,
+            717
+          ],
+          "pcn_accepts": [
+            260,
+            278,
+            264,
+            261
+          ],
+          "independent_attempts": [
+            156,
+            159,
+            144,
+            141
+          ],
+          "independent_accepts": [
+            0,
+            0,
+            5,
+            3
+          ],
+          "transport_attempts": [
+            151,
+            118,
+            165,
+            142
+          ],
+          "transport_accepts": [
+            138,
+            101,
+            147,
+            119
+          ],
+          "scale_change_attempts": [
+            47,
+            36,
+            48,
+            33
+          ],
+          "scale_change_accepts": [
+            6,
+            0,
+            6,
+            0
+          ],
+          "invalid_proposals": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "retained": {
+          "pcn_attempts": [
+            1411,
+            1432,
+            1410,
+            1433
+          ],
+          "pcn_accepts": [
+            616,
+            468,
+            489,
+            465
+          ],
+          "independent_attempts": [
+            279,
+            284,
+            299,
+            280
+          ],
+          "independent_accepts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "transport_attempts": [
+            310,
+            284,
+            291,
+            287
+          ],
+          "transport_accepts": [
+            266,
+            260,
+            258,
+            256
+          ],
+          "scale_change_attempts": [
+            91,
+            65,
+            67,
+            75
+          ],
+          "scale_change_accepts": [
+            10,
+            2,
+            2,
+            6
+          ],
+          "invalid_proposals": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "evaluation_samples": 256,
+      "evaluation_subsampling": "equal evenly spaced retained states per chain for rendering cost only; diagnostics use every retained state",
+      "evaluations": {
+        "local_reference": {
+          "scores": {
+            "observed": {
+              "frames": 6,
+              "position_rmse_m": 0.0011922724105354581,
+              "position_crps_m": 0.0006966819424668164,
+              "trajectory_energy_score_m": 0.002909553877279629,
+              "component_90_coverage": 0.9861111111111112,
+              "component_90_mean_width_m": 0.005254849896447308,
+              "rgb_psnr_db": 64.18644262995159,
+              "novel_view_psnr_db": 61.54706770451372
+            },
+            "withheld": {
+              "frames": 15,
+              "position_rmse_m": 0.001734271390743731,
+              "position_crps_m": 0.0009678095815015918,
+              "trajectory_energy_score_m": 0.004065684228118416,
+              "component_90_coverage": 0.9,
+              "component_90_mean_width_m": 0.005978805208443159,
+              "rgb_psnr_db": 55.93236636279899,
+              "novel_view_psnr_db": 58.35037379517147
+            },
+            "long_gap": {
+              "frames": 7,
+              "position_rmse_m": 0.0018139556643253956,
+              "position_crps_m": 0.0010364670460407408,
+              "trajectory_energy_score_m": 0.00440599627356219,
+              "component_90_coverage": 0.8690476190476191,
+              "component_90_mean_width_m": 0.00661576129787617,
+              "rgb_psnr_db": 56.250106243020966,
+              "novel_view_psnr_db": 57.50313731780891
+            },
+            "definitions": {
+              "uncertainty": "local Gaussian reference",
+              "coverage": "central componentwise intervals on free-node positions only; pinned nodes excluded",
+              "energy_score": "Euclidean joint free-node position score per timestamp, averaged over timestamps",
+              "novel_view": "same times, known camera path offset by 100 degrees; evaluation-only images",
+              "rgb": "posterior mean render versus noise-free truth; PSNR data range 1",
+              "long_gap": "strictly between observed frame 6 and 14"
+            }
+          },
+          "physics": {
+            "fixed_total_mass_kg": 0.27462500000000006,
+            "minimum_det_F": 0.8851559800739784,
+            "maximum_internal_net_force_n": 2.498001805406602e-16,
+            "maximum_internal_net_torque_nm": 1.942890293094024e-16,
+            "maximum_support_position_error_m": 0.0,
+            "mechanical_energy_mean_j": [
+              0.1352317550610712,
+              0.13408163259962919,
+              0.1356622282604767,
+              0.1323516580554248,
+              0.13234100061489848,
+              0.12935933854547538,
+              0.12684683490148846,
+              0.12782859885556563,
+              0.12497742119075,
+              0.12552259609964828,
+              0.1252425321077647,
+              0.1231193058680481,
+              0.12431566178188316,
+              0.12184435874984285,
+              0.12032287380931397,
+              0.12148719009854378,
+              0.11914308685172148,
+              0.11948211152440072,
+              0.11866012039942304,
+              0.11613834061632247,
+              0.1171110290447809
+            ],
+            "energy_note": "Gravity potential included. Drag dissipates and stochastic forcing exchanges energy; total energy need not be constant."
+          }
+        },
+        "nonlinear_mcmc": {
+          "scores": {
+            "observed": {
+              "frames": 6,
+              "position_rmse_m": 0.0011973135108887534,
+              "position_crps_m": 0.0006698416161348258,
+              "trajectory_energy_score_m": 0.0028337363672561824,
+              "component_90_coverage": 0.9722222222222222,
+              "component_90_mean_width_m": 0.004933009218164358,
+              "rgb_psnr_db": 65.2352984280852,
+              "novel_view_psnr_db": 61.40486290876855
+            },
+            "withheld": {
+              "frames": 15,
+              "position_rmse_m": 0.0017215311231137105,
+              "position_crps_m": 0.0009500831006183245,
+              "trajectory_energy_score_m": 0.003984829547820224,
+              "component_90_coverage": 0.9055555555555556,
+              "component_90_mean_width_m": 0.005512305210839996,
+              "rgb_psnr_db": 55.66343053758385,
+              "novel_view_psnr_db": 57.90498145161365
+            },
+            "long_gap": {
+              "frames": 7,
+              "position_rmse_m": 0.0017746347130916953,
+              "position_crps_m": 0.0010133045186715695,
+              "trajectory_energy_score_m": 0.004277810989704138,
+              "component_90_coverage": 0.8928571428571429,
+              "component_90_mean_width_m": 0.0060141842855096755,
+              "rgb_psnr_db": 56.36533357220664,
+              "novel_view_psnr_db": 57.1607940239591
+            },
+            "definitions": {
+              "uncertainty": "finite correlated nonlinear MCMC; reliability is conditional on diagnostics",
+              "coverage": "central componentwise intervals on free-node positions only; pinned nodes excluded",
+              "energy_score": "Euclidean joint free-node position score per timestamp, averaged over timestamps",
+              "novel_view": "same times, known camera path offset by 100 degrees; evaluation-only images",
+              "rgb": "posterior mean render versus noise-free truth; PSNR data range 1",
+              "long_gap": "strictly between observed frame 6 and 14"
+            }
+          },
+          "physics": {
+            "fixed_total_mass_kg": 0.27462500000000006,
+            "minimum_det_F": 0.8889795184857072,
+            "maximum_internal_net_force_n": 2.498001805406602e-16,
+            "maximum_internal_net_torque_nm": 2.220446049250313e-16,
+            "maximum_support_position_error_m": 0.0,
+            "mechanical_energy_mean_j": [
+              0.13520096381079222,
+              0.13410516806450953,
+              0.1356003525443098,
+              0.13229127524566153,
+              0.1324203573850591,
+              0.1293399194261384,
+              0.12670828519846972,
+              0.12751941624501809,
+              0.12456803443157008,
+              0.1250873830656697,
+              0.12474287293970106,
+              0.12257210384228334,
+              0.12382055447482776,
+              0.12130733227534193,
+              0.11985906999449043,
+              0.12086252980246981,
+              0.11846333200872333,
+              0.11868505947216533,
+              0.11780151618415019,
+              0.11526394978026434,
+              0.11616416495196966
+            ],
+            "energy_note": "Gravity potential included. Drag dissipates and stochastic forcing exchanges energy; total energy need not be constant."
+          }
+        }
+      },
+      "seconds": 492.58172430004925
+    },
+    {
+      "label": "unmodeled_pulse__long_gap__3101",
+      "condition": "unmodeled_pulse",
+      "schedule": "long_gap",
+      "realization_seed": 3101,
+      "sampler": {
+        "chains": 4,
+        "warmup": 1000,
+        "draws": 2000,
+        "beta": 0.5,
+        "defensive_mass": 0.05,
+        "independent_probability": 0.15,
+        "transport_probability": 0.15,
+        "seed": 67001,
+        "langevin": true
+      },
+      "sampler_source_fingerprint_sha256": "451bc87a18c9cd96fadb1433797de9bfddc3e974a996d5cb9fa7dd7615716ec0",
+      "observations_sha256": "0be2a8be42fcc9ddf02bf52e85be1f12861b0a4516cfc86e8eeb9bcd45a207ab",
+      "legacy_observations_regenerated": true,
+      "diagnostics": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": false,
+        "failed_quantities": [
+          "log_young",
+          "log_drag",
+          "offset_x",
+          "offset_y",
+          "offset_z",
+          "velocity_x",
+          "velocity_y",
+          "velocity_z",
+          "white_increment_0",
+          "white_increment_1",
+          "white_increment_2",
+          "white_increment_3",
+          "white_increment_4",
+          "white_increment_5",
+          "white_increment_6",
+          "white_increment_7",
+          "white_increment_8",
+          "white_increment_9",
+          "white_increment_10",
+          "white_increment_11",
+          "white_increment_12",
+          "white_increment_13",
+          "white_increment_14",
+          "white_increment_15",
+          "white_increment_16",
+          "white_increment_17",
+          "white_increment_18",
+          "white_increment_19",
+          "white_increment_20",
+          "white_increment_21",
+          "white_increment_22",
+          "white_increment_23",
+          "white_increment_24",
+          "white_increment_25",
+          "white_increment_26",
+          "white_increment_27",
+          "white_increment_28",
+          "white_increment_29",
+          "white_increment_30",
+          "white_increment_31",
+          "white_increment_32",
+          "white_increment_33",
+          "white_increment_34",
+          "white_increment_35",
+          "white_increment_36",
+          "white_increment_37",
+          "white_increment_38",
+          "white_increment_39",
+          "white_increment_40",
+          "white_increment_41",
+          "white_increment_42",
+          "white_increment_43",
+          "white_increment_44",
+          "white_increment_45",
+          "white_increment_46",
+          "white_increment_47",
+          "white_increment_48",
+          "white_increment_49",
+          "white_increment_50",
+          "white_increment_51",
+          "white_increment_52",
+          "white_increment_53",
+          "white_increment_54",
+          "white_increment_55",
+          "white_increment_56",
+          "white_increment_57",
+          "white_increment_58",
+          "white_increment_59",
+          "white_increment_60",
+          "white_increment_61",
+          "white_increment_62",
+          "white_increment_63",
+          "white_increment_64",
+          "white_increment_65",
+          "white_increment_66",
+          "white_increment_67",
+          "white_increment_68",
+          "white_increment_69",
+          "white_increment_70",
+          "white_increment_71",
+          "white_increment_72",
+          "white_increment_73",
+          "white_increment_74",
+          "white_increment_75",
+          "white_increment_76",
+          "white_increment_77",
+          "white_increment_78",
+          "white_increment_79",
+          "white_increment_80",
+          "white_increment_81",
+          "white_increment_82",
+          "white_increment_83",
+          "white_increment_84",
+          "white_increment_85",
+          "white_increment_86",
+          "white_increment_87",
+          "white_increment_88",
+          "white_increment_89",
+          "white_increment_90",
+          "white_increment_91",
+          "white_increment_92",
+          "white_increment_93",
+          "white_increment_94",
+          "white_increment_95",
+          "white_increment_96",
+          "white_increment_97",
+          "white_increment_98",
+          "white_increment_99",
+          "white_increment_100",
+          "white_increment_101",
+          "white_increment_102",
+          "white_increment_103",
+          "white_increment_104",
+          "white_increment_105",
+          "white_increment_106",
+          "white_increment_107",
+          "white_increment_108",
+          "white_increment_109",
+          "white_increment_110",
+          "white_increment_111",
+          "white_increment_112",
+          "white_increment_113",
+          "white_increment_114",
+          "white_increment_115",
+          "white_increment_116",
+          "white_increment_117",
+          "white_increment_118",
+          "white_increment_119",
+          "white_increment_120",
+          "white_increment_121",
+          "white_increment_122",
+          "white_increment_123",
+          "white_increment_124",
+          "white_increment_125",
+          "white_increment_126",
+          "white_increment_127",
+          "white_increment_128",
+          "white_increment_129",
+          "white_increment_130",
+          "white_increment_131",
+          "white_increment_132",
+          "white_increment_133",
+          "white_increment_134",
+          "white_increment_135",
+          "white_increment_136",
+          "white_increment_137",
+          "white_increment_138",
+          "white_increment_139",
+          "white_increment_140",
+          "white_increment_141",
+          "white_increment_142",
+          "white_increment_143",
+          "white_increment_144",
+          "white_increment_145",
+          "white_increment_146",
+          "white_increment_147",
+          "white_increment_148",
+          "white_increment_149",
+          "white_increment_150",
+          "white_increment_151",
+          "white_increment_152",
+          "white_increment_153",
+          "white_increment_154",
+          "white_increment_155",
+          "white_increment_156",
+          "white_increment_157",
+          "white_increment_158",
+          "white_increment_159",
+          "white_increment_160",
+          "white_increment_161",
+          "white_increment_162",
+          "white_increment_163",
+          "white_increment_164",
+          "white_increment_165",
+          "white_increment_166",
+          "white_increment_167",
+          "white_increment_168",
+          "white_increment_169",
+          "white_increment_170",
+          "white_increment_171",
+          "white_increment_172",
+          "white_increment_173",
+          "white_increment_174",
+          "white_increment_175",
+          "white_increment_176",
+          "white_increment_177",
+          "white_increment_178",
+          "white_increment_179",
+          "observed_log_likelihood",
+          "process_scale"
+        ],
+        "quantities": {
+          "log_young": {
+            "rank_folded_split_rhat": 1.9546953491375298,
+            "bulk_ess": 7.796195461833569,
+            "tail_ess": 19.207391527517967,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "log_drag": {
+            "rank_folded_split_rhat": 2.673572438595037,
+            "bulk_ess": 4.689042429966916,
+            "tail_ess": 24.696369630648523,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "offset_x": {
+            "rank_folded_split_rhat": 1.5893338486120734,
+            "bulk_ess": 7.342644858292709,
+            "tail_ess": 14.298207956549206,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "offset_y": {
+            "rank_folded_split_rhat": 1.8270017737156425,
+            "bulk_ess": 5.823872097529264,
+            "tail_ess": 12.76875333272802,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "offset_z": {
+            "rank_folded_split_rhat": 1.5130440470520279,
+            "bulk_ess": 7.363016282432251,
+            "tail_ess": 13.163140281317427,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "velocity_x": {
+            "rank_folded_split_rhat": 1.8551536344435764,
+            "bulk_ess": 5.7224957400638194,
+            "tail_ess": 31.007517383727215,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "velocity_y": {
+            "rank_folded_split_rhat": 1.395751498596103,
+            "bulk_ess": 9.388952815368794,
+            "tail_ess": 12.347295953487238,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "velocity_z": {
+            "rank_folded_split_rhat": 1.6082680266100082,
+            "bulk_ess": 6.771142577770653,
+            "tail_ess": 18.584096015795353,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_0": {
+            "rank_folded_split_rhat": 1.8149248955802362,
+            "bulk_ess": 5.948548719728183,
+            "tail_ess": 13.955184875000372,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_1": {
+            "rank_folded_split_rhat": 2.575941389131303,
+            "bulk_ess": 4.755147394800627,
+            "tail_ess": 18.843036431558566,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_2": {
+            "rank_folded_split_rhat": 2.0809041766476537,
+            "bulk_ess": 5.490272598538312,
+            "tail_ess": 24.517630742082893,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_3": {
+            "rank_folded_split_rhat": 2.2513596371117464,
+            "bulk_ess": 7.224119730472899,
+            "tail_ess": 23.92997014287134,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_4": {
+            "rank_folded_split_rhat": 1.6058989258988638,
+            "bulk_ess": 6.704366190118796,
+            "tail_ess": 14.084055886867988,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_5": {
+            "rank_folded_split_rhat": 1.4751863576863138,
+            "bulk_ess": 7.620210488193291,
+            "tail_ess": 35.65158762640981,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_6": {
+            "rank_folded_split_rhat": 1.4449294078501314,
+            "bulk_ess": 8.193169738525965,
+            "tail_ess": 22.212323431752274,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_7": {
+            "rank_folded_split_rhat": 1.6711758041738662,
+            "bulk_ess": 6.491117934013541,
+            "tail_ess": 11.899486958486237,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_8": {
+            "rank_folded_split_rhat": 2.296391694248475,
+            "bulk_ess": 5.847423304373123,
+            "tail_ess": 12.149182348872761,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_9": {
+            "rank_folded_split_rhat": 1.7992089056578198,
+            "bulk_ess": 5.924864520547111,
+            "tail_ess": 13.15417823276207,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_10": {
+            "rank_folded_split_rhat": 1.4854159927470352,
+            "bulk_ess": 9.705741770849967,
+            "tail_ess": 10.72936913078382,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_11": {
+            "rank_folded_split_rhat": 3.3170477155824907,
+            "bulk_ess": 4.439359098270232,
+            "tail_ess": 13.277501987391572,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_12": {
+            "rank_folded_split_rhat": 1.295363451043213,
+            "bulk_ess": 10.600655103720499,
+            "tail_ess": 11.372643509904453,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_13": {
+            "rank_folded_split_rhat": 1.8444196774564496,
+            "bulk_ess": 5.8655511254541075,
+            "tail_ess": 14.818951788473655,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_14": {
+            "rank_folded_split_rhat": 2.5730440577594123,
+            "bulk_ess": 4.7427490082659824,
+            "tail_ess": 12.760488833711305,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_15": {
+            "rank_folded_split_rhat": 2.4103797713554758,
+            "bulk_ess": 6.329108112792341,
+            "tail_ess": 12.494554261608378,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_16": {
+            "rank_folded_split_rhat": 1.7488454721454174,
+            "bulk_ess": 6.115739497020552,
+            "tail_ess": 12.600873774829646,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_17": {
+            "rank_folded_split_rhat": 1.6161481498784147,
+            "bulk_ess": 6.738778121799999,
+            "tail_ess": 13.980329818885856,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_18": {
+            "rank_folded_split_rhat": 1.9762459903179086,
+            "bulk_ess": 5.503624723476104,
+            "tail_ess": 13.357578184804686,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_19": {
+            "rank_folded_split_rhat": 2.269002159155153,
+            "bulk_ess": 5.036169721415878,
+            "tail_ess": 20.536150361050627,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_20": {
+            "rank_folded_split_rhat": 2.1064282568835657,
+            "bulk_ess": 5.531361150503517,
+            "tail_ess": 23.693586870585595,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_21": {
+            "rank_folded_split_rhat": 2.8622465227203833,
+            "bulk_ess": 4.619051333191951,
+            "tail_ess": 12.818794937647649,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_22": {
+            "rank_folded_split_rhat": 2.225933577075262,
+            "bulk_ess": 5.069142055226662,
+            "tail_ess": 26.709550934982254,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_23": {
+            "rank_folded_split_rhat": 1.856534660458488,
+            "bulk_ess": 5.789427973849037,
+            "tail_ess": 17.299841449224516,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_24": {
+            "rank_folded_split_rhat": 2.5358551565711296,
+            "bulk_ess": 4.836635096524524,
+            "tail_ess": 17.309367537365112,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_25": {
+            "rank_folded_split_rhat": 2.3794983021426868,
+            "bulk_ess": 4.955853220814643,
+            "tail_ess": 13.547288724141955,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_26": {
+            "rank_folded_split_rhat": 2.360182778927723,
+            "bulk_ess": 4.922006767967662,
+            "tail_ess": 16.797426585482032,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_27": {
+            "rank_folded_split_rhat": 2.8738667806314484,
+            "bulk_ess": 4.612250852722829,
+            "tail_ess": 16.237374315522914,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_28": {
+            "rank_folded_split_rhat": 1.8096674007946705,
+            "bulk_ess": 5.938618604167422,
+            "tail_ess": 12.283648904359705,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_29": {
+            "rank_folded_split_rhat": 1.9244812731735939,
+            "bulk_ess": 5.605398417472367,
+            "tail_ess": 37.28413813652884,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_30": {
+            "rank_folded_split_rhat": 1.933325249096713,
+            "bulk_ess": 5.7411842881103965,
+            "tail_ess": 13.05310810108842,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_31": {
+            "rank_folded_split_rhat": 2.010618795195059,
+            "bulk_ess": 5.819076701617877,
+            "tail_ess": 10.657274134596603,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_32": {
+            "rank_folded_split_rhat": 1.73543350789483,
+            "bulk_ess": 6.088137534541988,
+            "tail_ess": 11.290971784955268,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_33": {
+            "rank_folded_split_rhat": 2.554632944397018,
+            "bulk_ess": 4.766352442232597,
+            "tail_ess": 14.128715730454699,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_34": {
+            "rank_folded_split_rhat": 2.1122502739582596,
+            "bulk_ess": 5.285600229810955,
+            "tail_ess": 22.159863939847526,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_35": {
+            "rank_folded_split_rhat": 1.5932676100214596,
+            "bulk_ess": 10.248364313713278,
+            "tail_ess": 19.3820281479932,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_36": {
+            "rank_folded_split_rhat": 1.8864485497146743,
+            "bulk_ess": 5.709717103717516,
+            "tail_ess": 18.361975677619,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_37": {
+            "rank_folded_split_rhat": 2.0257565121793104,
+            "bulk_ess": 5.436844657813816,
+            "tail_ess": 16.80676887424522,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_38": {
+            "rank_folded_split_rhat": 2.6668109153663364,
+            "bulk_ess": 4.67159615553973,
+            "tail_ess": 11.959455147933848,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_39": {
+            "rank_folded_split_rhat": 1.5859081288693784,
+            "bulk_ess": 6.838459577014481,
+            "tail_ess": 17.104128963104415,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_40": {
+            "rank_folded_split_rhat": 1.603595791317521,
+            "bulk_ess": 6.633382259030623,
+            "tail_ess": 20.325988665216677,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_41": {
+            "rank_folded_split_rhat": 1.4700974401644231,
+            "bulk_ess": 9.075499540199075,
+            "tail_ess": 11.775503603551385,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_42": {
+            "rank_folded_split_rhat": 1.9382417813884552,
+            "bulk_ess": 6.935457889143862,
+            "tail_ess": 12.68027176413108,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_43": {
+            "rank_folded_split_rhat": 2.784737977609367,
+            "bulk_ess": 4.64107241553061,
+            "tail_ess": 12.744233720000407,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_44": {
+            "rank_folded_split_rhat": 1.787430125802326,
+            "bulk_ess": 9.536523395343426,
+            "tail_ess": 12.072599686905013,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_45": {
+            "rank_folded_split_rhat": 1.8868586849378575,
+            "bulk_ess": 6.382537994871514,
+            "tail_ess": 11.781345300038462,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_46": {
+            "rank_folded_split_rhat": 1.96899585692637,
+            "bulk_ess": 5.4430627403783935,
+            "tail_ess": 11.156988026041528,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_47": {
+            "rank_folded_split_rhat": 1.6570927282644656,
+            "bulk_ess": 6.753456264394497,
+            "tail_ess": 11.002536677767786,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_48": {
+            "rank_folded_split_rhat": 2.273735412407592,
+            "bulk_ess": 5.0188941790078445,
+            "tail_ess": 11.27470226194287,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_49": {
+            "rank_folded_split_rhat": 2.638972091415504,
+            "bulk_ess": 4.706634034634792,
+            "tail_ess": 11.630013023026219,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_50": {
+            "rank_folded_split_rhat": 2.2214486376628293,
+            "bulk_ess": 5.073126332685863,
+            "tail_ess": 18.94131371403734,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_51": {
+            "rank_folded_split_rhat": 1.8967624462193653,
+            "bulk_ess": 5.600958062418756,
+            "tail_ess": 11.328810537058821,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_52": {
+            "rank_folded_split_rhat": 2.2467710297069847,
+            "bulk_ess": 5.173490270464633,
+            "tail_ess": 12.279439617337596,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_53": {
+            "rank_folded_split_rhat": 3.4691440554224453,
+            "bulk_ess": 4.384922885931215,
+            "tail_ess": 12.101791621748438,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_54": {
+            "rank_folded_split_rhat": 1.499198759766584,
+            "bulk_ess": 7.68485914581386,
+            "tail_ess": 29.79916773656355,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_55": {
+            "rank_folded_split_rhat": 1.6969534810863973,
+            "bulk_ess": 6.37566052099468,
+            "tail_ess": 11.660082924087627,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_56": {
+            "rank_folded_split_rhat": 2.321516768300044,
+            "bulk_ess": 4.960931693520432,
+            "tail_ess": 26.462704137360856,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_57": {
+            "rank_folded_split_rhat": 1.9856006334150802,
+            "bulk_ess": 5.485321703576403,
+            "tail_ess": 10.950359623553668,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_58": {
+            "rank_folded_split_rhat": 2.1493635873144665,
+            "bulk_ess": 6.648024343231351,
+            "tail_ess": 12.147533144489769,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_59": {
+            "rank_folded_split_rhat": 1.2963740281370268,
+            "bulk_ess": 10.795107825374062,
+            "tail_ess": 21.290259927244026,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_60": {
+            "rank_folded_split_rhat": 2.28888451733936,
+            "bulk_ess": 4.980614894300257,
+            "tail_ess": 21.461284726837267,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_61": {
+            "rank_folded_split_rhat": 2.552653170582348,
+            "bulk_ess": 4.773195857768869,
+            "tail_ess": 11.353125047009028,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_62": {
+            "rank_folded_split_rhat": 1.9690456068587763,
+            "bulk_ess": 5.449838123196086,
+            "tail_ess": 16.284390844132847,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_63": {
+            "rank_folded_split_rhat": 2.1456433191199995,
+            "bulk_ess": 5.236805079944931,
+            "tail_ess": 12.892684390707599,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_64": {
+            "rank_folded_split_rhat": 1.6683596115757544,
+            "bulk_ess": 6.484682416024985,
+            "tail_ess": 10.72936913078382,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_65": {
+            "rank_folded_split_rhat": 1.5513880431793279,
+            "bulk_ess": 7.040174528213938,
+            "tail_ess": 11.233273028868082,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_66": {
+            "rank_folded_split_rhat": 1.7099662352514573,
+            "bulk_ess": 6.181365059525804,
+            "tail_ess": 10.463867976122078,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_67": {
+            "rank_folded_split_rhat": 2.425640400267388,
+            "bulk_ess": 4.9160745391452085,
+            "tail_ess": 14.121436587865524,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_68": {
+            "rank_folded_split_rhat": 2.2152532539011403,
+            "bulk_ess": 5.1270422495060455,
+            "tail_ess": 12.728389977936516,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_69": {
+            "rank_folded_split_rhat": 1.4899664366474397,
+            "bulk_ess": 8.938397789655692,
+            "tail_ess": 38.851748952939154,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_70": {
+            "rank_folded_split_rhat": 1.9730955739480867,
+            "bulk_ess": 6.116947240379825,
+            "tail_ess": 46.710789925463324,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_71": {
+            "rank_folded_split_rhat": 2.4213319634406005,
+            "bulk_ess": 4.869433014165183,
+            "tail_ess": 12.953667058494052,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_72": {
+            "rank_folded_split_rhat": 2.4900086315394363,
+            "bulk_ess": 4.963892771781975,
+            "tail_ess": 14.58725491146626,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_73": {
+            "rank_folded_split_rhat": 1.319689178473882,
+            "bulk_ess": 10.565640144001726,
+            "tail_ess": 11.155838092613752,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_74": {
+            "rank_folded_split_rhat": 2.0920179032421222,
+            "bulk_ess": 6.7191897306777015,
+            "tail_ess": 17.143230182416357,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_75": {
+            "rank_folded_split_rhat": 2.799953380427976,
+            "bulk_ess": 4.609955265243046,
+            "tail_ess": 13.14240959804495,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_76": {
+            "rank_folded_split_rhat": 2.460414312009552,
+            "bulk_ess": 4.823161285614665,
+            "tail_ess": 27.224390906976726,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_77": {
+            "rank_folded_split_rhat": 2.2848817330571793,
+            "bulk_ess": 5.02781658650018,
+            "tail_ess": 27.48697566587259,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_78": {
+            "rank_folded_split_rhat": 2.1121953805498963,
+            "bulk_ess": 5.254063017522431,
+            "tail_ess": 28.700248492312262,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_79": {
+            "rank_folded_split_rhat": 2.7111766827598176,
+            "bulk_ess": 4.654375128977658,
+            "tail_ess": 13.850084612421558,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_80": {
+            "rank_folded_split_rhat": 2.166728925488548,
+            "bulk_ess": 5.617575881787544,
+            "tail_ess": 18.783812564650304,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_81": {
+            "rank_folded_split_rhat": 1.7388514707495974,
+            "bulk_ess": 6.137667985089469,
+            "tail_ess": 13.48499490461148,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_82": {
+            "rank_folded_split_rhat": 2.4397318762203044,
+            "bulk_ess": 4.907771336045021,
+            "tail_ess": 12.650130334783148,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_83": {
+            "rank_folded_split_rhat": 2.010176609347248,
+            "bulk_ess": 5.397120044166832,
+            "tail_ess": 11.775679520251108,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_84": {
+            "rank_folded_split_rhat": 2.324227823351849,
+            "bulk_ess": 4.979314382821776,
+            "tail_ess": 10.849651303718312,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_85": {
+            "rank_folded_split_rhat": 2.0705448602038676,
+            "bulk_ess": 5.271794738036614,
+            "tail_ess": 23.621501489546688,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_86": {
+            "rank_folded_split_rhat": 1.9082488586118815,
+            "bulk_ess": 9.384930850103935,
+            "tail_ess": 11.461114821207754,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_87": {
+            "rank_folded_split_rhat": 1.9517292772692743,
+            "bulk_ess": 5.572272476996535,
+            "tail_ess": 36.622925837260475,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_88": {
+            "rank_folded_split_rhat": 1.8728105254677807,
+            "bulk_ess": 5.675270488442765,
+            "tail_ess": 11.719269713082006,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_89": {
+            "rank_folded_split_rhat": 2.391716383232147,
+            "bulk_ess": 5.978004675099378,
+            "tail_ess": 11.845669459447356,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_90": {
+            "rank_folded_split_rhat": 2.1519600861822967,
+            "bulk_ess": 5.239627627739989,
+            "tail_ess": 12.354058438258452,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_91": {
+            "rank_folded_split_rhat": 2.795625476944423,
+            "bulk_ess": 4.624105218951751,
+            "tail_ess": 12.033150450687305,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_92": {
+            "rank_folded_split_rhat": 2.126512397315991,
+            "bulk_ess": 5.21137904519348,
+            "tail_ess": 22.659558559417633,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_93": {
+            "rank_folded_split_rhat": 2.14900501732063,
+            "bulk_ess": 5.135216369486789,
+            "tail_ess": 14.72773529664727,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_94": {
+            "rank_folded_split_rhat": 2.094763601722353,
+            "bulk_ess": 5.9977789576874265,
+            "tail_ess": 11.316972156261993,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_95": {
+            "rank_folded_split_rhat": 2.0809825437108698,
+            "bulk_ess": 5.267872955878468,
+            "tail_ess": 22.99430028277105,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_96": {
+            "rank_folded_split_rhat": 2.3603736869753793,
+            "bulk_ess": 4.923414321497111,
+            "tail_ess": 15.662233214488628,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_97": {
+            "rank_folded_split_rhat": 1.311611319764097,
+            "bulk_ess": 10.550365457146516,
+            "tail_ess": 12.422720584503908,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_98": {
+            "rank_folded_split_rhat": 2.2349890594923036,
+            "bulk_ess": 5.04666420012233,
+            "tail_ess": 11.090668544390793,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_99": {
+            "rank_folded_split_rhat": 2.1021727316893517,
+            "bulk_ess": 5.2076498088460506,
+            "tail_ess": 25.87469010508407,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_100": {
+            "rank_folded_split_rhat": 2.1584828790832584,
+            "bulk_ess": 5.442565715803296,
+            "tail_ess": 17.02595600199718,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_101": {
+            "rank_folded_split_rhat": 2.3898271777118576,
+            "bulk_ess": 5.6039644500627395,
+            "tail_ess": 15.054407134164881,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_102": {
+            "rank_folded_split_rhat": 2.509573771482549,
+            "bulk_ess": 4.776054632930742,
+            "tail_ess": 26.29542661036259,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_103": {
+            "rank_folded_split_rhat": 1.8702411511835895,
+            "bulk_ess": 7.839464063844973,
+            "tail_ess": 14.537768031011957,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_104": {
+            "rank_folded_split_rhat": 2.3504264407183504,
+            "bulk_ess": 4.9614066034367275,
+            "tail_ess": 23.339672304930613,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_105": {
+            "rank_folded_split_rhat": 2.1935819099860816,
+            "bulk_ess": 5.124171672304767,
+            "tail_ess": 11.327536277850864,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_106": {
+            "rank_folded_split_rhat": 1.6706385672068134,
+            "bulk_ess": 9.579115640269462,
+            "tail_ess": 11.775503603551385,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_107": {
+            "rank_folded_split_rhat": 1.7802968974746938,
+            "bulk_ess": 5.955410825598583,
+            "tail_ess": 25.272713333483566,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_108": {
+            "rank_folded_split_rhat": 2.829219414886189,
+            "bulk_ess": 4.613948475689988,
+            "tail_ess": 12.096536865120465,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_109": {
+            "rank_folded_split_rhat": 2.2777534736511043,
+            "bulk_ess": 4.992851764316339,
+            "tail_ess": 11.273726981422566,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_110": {
+            "rank_folded_split_rhat": 2.0339325087053353,
+            "bulk_ess": 5.773144378656332,
+            "tail_ess": 17.19956278697354,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_111": {
+            "rank_folded_split_rhat": 1.7532536097133071,
+            "bulk_ess": 6.188823397052985,
+            "tail_ess": 26.121771257215336,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_112": {
+            "rank_folded_split_rhat": 1.8810225561532294,
+            "bulk_ess": 5.751257626407278,
+            "tail_ess": 13.076812407941231,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_113": {
+            "rank_folded_split_rhat": 2.598920901168318,
+            "bulk_ess": 4.745908081931412,
+            "tail_ess": 14.177630109883717,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_114": {
+            "rank_folded_split_rhat": 2.1479560708317216,
+            "bulk_ess": 5.1800839964718985,
+            "tail_ess": 12.734449761176482,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_115": {
+            "rank_folded_split_rhat": 2.3113396198647487,
+            "bulk_ess": 4.990170079458164,
+            "tail_ess": 12.841771715034662,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_116": {
+            "rank_folded_split_rhat": 3.2077356454556076,
+            "bulk_ess": 4.443482740133702,
+            "tail_ess": 11.606405961467575,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_117": {
+            "rank_folded_split_rhat": 1.6931153743765046,
+            "bulk_ess": 6.46212303660505,
+            "tail_ess": 12.040223303760692,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_118": {
+            "rank_folded_split_rhat": 2.0201674787602464,
+            "bulk_ess": 6.549528478703876,
+            "tail_ess": 23.543086978083853,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_119": {
+            "rank_folded_split_rhat": 1.7321555649748368,
+            "bulk_ess": 6.068898659667323,
+            "tail_ess": 26.274814006780296,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_120": {
+            "rank_folded_split_rhat": 2.096661596520367,
+            "bulk_ess": 5.23814931253488,
+            "tail_ess": 36.74965837809493,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_121": {
+            "rank_folded_split_rhat": 1.914038417866781,
+            "bulk_ess": 5.640206156883809,
+            "tail_ess": 27.033687926206138,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_122": {
+            "rank_folded_split_rhat": 2.784524008792285,
+            "bulk_ess": 4.635315197965284,
+            "tail_ess": 29.688023236663312,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_123": {
+            "rank_folded_split_rhat": 2.2196330769758106,
+            "bulk_ess": 10.90684600603409,
+            "tail_ess": 12.040223303760692,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_124": {
+            "rank_folded_split_rhat": 1.5981793532552568,
+            "bulk_ess": 6.788008507627477,
+            "tail_ess": 12.563732141587286,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_125": {
+            "rank_folded_split_rhat": 2.1043016268107433,
+            "bulk_ess": 5.659624947141022,
+            "tail_ess": 11.642467112168768,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_126": {
+            "rank_folded_split_rhat": 1.9694760481555058,
+            "bulk_ess": 10.503048077341385,
+            "tail_ess": 12.267076591635778,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_127": {
+            "rank_folded_split_rhat": 1.9110005566961956,
+            "bulk_ess": 5.766195939114976,
+            "tail_ess": 13.349998714281504,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_128": {
+            "rank_folded_split_rhat": 2.0156223468972416,
+            "bulk_ess": 5.400047039016423,
+            "tail_ess": 17.86947794800061,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_129": {
+            "rank_folded_split_rhat": 2.87761921146551,
+            "bulk_ess": 4.611019541819745,
+            "tail_ess": 13.85578928165428,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_130": {
+            "rank_folded_split_rhat": 2.3061670030489623,
+            "bulk_ess": 5.013241451789819,
+            "tail_ess": 11.491426321385628,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_131": {
+            "rank_folded_split_rhat": 2.1359545167947327,
+            "bulk_ess": 5.200876393778588,
+            "tail_ess": 22.914176288211586,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_132": {
+            "rank_folded_split_rhat": 2.8178039507930523,
+            "bulk_ess": 4.87565847193782,
+            "tail_ess": 13.344870354858617,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_133": {
+            "rank_folded_split_rhat": 1.802996638925525,
+            "bulk_ess": 7.947297440335523,
+            "tail_ess": 11.017368606173411,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_134": {
+            "rank_folded_split_rhat": 1.9240335965922781,
+            "bulk_ess": 6.117837273977354,
+            "tail_ess": 18.784680703205183,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_135": {
+            "rank_folded_split_rhat": 2.2505194445459717,
+            "bulk_ess": 5.0653401829338875,
+            "tail_ess": 38.76704159183166,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_136": {
+            "rank_folded_split_rhat": 2.4606931458943437,
+            "bulk_ess": 4.849717563909578,
+            "tail_ess": 20.161801708278574,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_137": {
+            "rank_folded_split_rhat": 3.301282201932875,
+            "bulk_ess": 4.433957303619988,
+            "tail_ess": 12.600910665546845,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_138": {
+            "rank_folded_split_rhat": 2.8799433572297044,
+            "bulk_ess": 4.5960346797359275,
+            "tail_ess": 11.330669127163791,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_139": {
+            "rank_folded_split_rhat": 2.461325646883066,
+            "bulk_ess": 4.8244261041288174,
+            "tail_ess": 12.544950756986276,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_140": {
+            "rank_folded_split_rhat": 1.990021280147619,
+            "bulk_ess": 5.875677348965517,
+            "tail_ess": 15.605716626287467,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_141": {
+            "rank_folded_split_rhat": 1.9319470307353694,
+            "bulk_ess": 5.51237251605845,
+            "tail_ess": 20.614019179249368,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_142": {
+            "rank_folded_split_rhat": 1.8195618263721827,
+            "bulk_ess": 5.893747962312407,
+            "tail_ess": 16.25030009495457,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_143": {
+            "rank_folded_split_rhat": 2.1235060479841166,
+            "bulk_ess": 5.172220546988401,
+            "tail_ess": 31.06343939815741,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_144": {
+            "rank_folded_split_rhat": 2.0409782744968257,
+            "bulk_ess": 5.319896747198982,
+            "tail_ess": 10.746294677992564,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_145": {
+            "rank_folded_split_rhat": 2.066454618503116,
+            "bulk_ess": 5.266754227227315,
+            "tail_ess": 11.966074970915852,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_146": {
+            "rank_folded_split_rhat": 2.1068087754007023,
+            "bulk_ess": 5.298751889665814,
+            "tail_ess": 24.214256742613163,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_147": {
+            "rank_folded_split_rhat": 1.6263381107475308,
+            "bulk_ess": 6.650518345935164,
+            "tail_ess": 42.32446804811963,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_148": {
+            "rank_folded_split_rhat": 1.7970886914613218,
+            "bulk_ess": 6.393160516736773,
+            "tail_ess": 27.582675633189947,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_149": {
+            "rank_folded_split_rhat": 1.952352815379761,
+            "bulk_ess": 5.50882567140206,
+            "tail_ess": 26.64978215999968,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_150": {
+            "rank_folded_split_rhat": 2.2830140946720823,
+            "bulk_ess": 4.998850083313671,
+            "tail_ess": 16.676686139095768,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_151": {
+            "rank_folded_split_rhat": 2.2608172519427936,
+            "bulk_ess": 5.100099126723893,
+            "tail_ess": 17.520331471002237,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_152": {
+            "rank_folded_split_rhat": 2.052037245829932,
+            "bulk_ess": 6.499562021337972,
+            "tail_ess": 10.746294677992564,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_153": {
+            "rank_folded_split_rhat": 1.7352147903522064,
+            "bulk_ess": 6.207169657858369,
+            "tail_ess": 18.901730349605973,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_154": {
+            "rank_folded_split_rhat": 2.2713414201731625,
+            "bulk_ess": 5.04355735014561,
+            "tail_ess": 11.447007652038442,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_155": {
+            "rank_folded_split_rhat": 1.5114173686988708,
+            "bulk_ess": 7.509443175749286,
+            "tail_ess": 12.014750509200143,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_156": {
+            "rank_folded_split_rhat": 2.5178074517180744,
+            "bulk_ess": 4.8007961714799965,
+            "tail_ess": 13.494661309763648,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_157": {
+            "rank_folded_split_rhat": 2.913190293194401,
+            "bulk_ess": 4.696134694330506,
+            "tail_ess": 11.605461878523887,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_158": {
+            "rank_folded_split_rhat": 2.1816296621188265,
+            "bulk_ess": 5.110478212138309,
+            "tail_ess": 20.957557073338414,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_159": {
+            "rank_folded_split_rhat": 3.0178283922132665,
+            "bulk_ess": 4.541667042411725,
+            "tail_ess": 12.900978539222201,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_160": {
+            "rank_folded_split_rhat": 2.844320733452991,
+            "bulk_ess": 4.613044428525544,
+            "tail_ess": 15.604550767771952,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_161": {
+            "rank_folded_split_rhat": 2.4757863054830613,
+            "bulk_ess": 4.825208943090265,
+            "tail_ess": 11.622082779253066,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_162": {
+            "rank_folded_split_rhat": 1.8479092253673444,
+            "bulk_ess": 6.358577631391855,
+            "tail_ess": 40.20057660340235,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_163": {
+            "rank_folded_split_rhat": 2.0097001452372236,
+            "bulk_ess": 5.421411514530644,
+            "tail_ess": 14.86216804506175,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_164": {
+            "rank_folded_split_rhat": 2.238753671588228,
+            "bulk_ess": 5.071666817946485,
+            "tail_ess": 17.99256199741908,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_165": {
+            "rank_folded_split_rhat": 2.8372798835449937,
+            "bulk_ess": 4.579151473921206,
+            "tail_ess": 21.20663582905176,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_166": {
+            "rank_folded_split_rhat": 2.6665971870437306,
+            "bulk_ess": 4.712492182703665,
+            "tail_ess": 10.6277168756322,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_167": {
+            "rank_folded_split_rhat": 1.568512476959749,
+            "bulk_ess": 7.201916502423249,
+            "tail_ess": 20.92642212521641,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_168": {
+            "rank_folded_split_rhat": 1.470321586433414,
+            "bulk_ess": 10.706390658773039,
+            "tail_ess": 25.100468170265902,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_169": {
+            "rank_folded_split_rhat": 2.0173776522923847,
+            "bulk_ess": 5.350480581442709,
+            "tail_ess": 10.999942561519436,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_170": {
+            "rank_folded_split_rhat": 2.198427856583161,
+            "bulk_ess": 5.087471612945639,
+            "tail_ess": 10.835394251933305,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_171": {
+            "rank_folded_split_rhat": 2.3015168338232446,
+            "bulk_ess": 6.075733473366918,
+            "tail_ess": 15.726017065240926,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_172": {
+            "rank_folded_split_rhat": 1.5316876593245874,
+            "bulk_ess": 7.732200373985567,
+            "tail_ess": 16.596307018378276,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_173": {
+            "rank_folded_split_rhat": 2.835452237331231,
+            "bulk_ess": 4.63723681959998,
+            "tail_ess": 11.074693826245799,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_174": {
+            "rank_folded_split_rhat": 2.2069941632886714,
+            "bulk_ess": 5.153167222806731,
+            "tail_ess": 17.691792352195275,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_175": {
+            "rank_folded_split_rhat": 2.699048553806211,
+            "bulk_ess": 4.6941962786383815,
+            "tail_ess": 17.713984602361798,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_176": {
+            "rank_folded_split_rhat": 1.5333337377684513,
+            "bulk_ess": 7.680970063287441,
+            "tail_ess": 17.136962749778345,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_177": {
+            "rank_folded_split_rhat": 1.527991481355398,
+            "bulk_ess": 7.35768117801251,
+            "tail_ess": 23.53512164877359,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_178": {
+            "rank_folded_split_rhat": 1.9119269837242054,
+            "bulk_ess": 6.4247621035544515,
+            "tail_ess": 24.73366116128374,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "white_increment_179": {
+            "rank_folded_split_rhat": 2.1430892203524436,
+            "bulk_ess": 5.170384157321352,
+            "tail_ess": 14.829268509077599,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "observed_log_likelihood": {
+            "rank_folded_split_rhat": 1.6844779808498769,
+            "bulk_ess": 6.558889599510898,
+            "tail_ess": 11.97241977407283,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          },
+          "process_scale": {
+            "rank_folded_split_rhat": 1.4906748965235341,
+            "bulk_ess": 7.682267649166971,
+            "tail_ess": null,
+            "frozen_chains": 0,
+            "diagnostic_pass": false
+          }
+        },
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "scale_counts_per_chain": [
+        {
+          "0.0": 0,
+          "0.125": 0,
+          "0.25": 0,
+          "0.5": 0,
+          "1.0": 1905,
+          "2.0": 95,
+          "4.0": 0
+        },
+        {
+          "0.0": 0,
+          "0.125": 0,
+          "0.25": 0,
+          "0.5": 0,
+          "1.0": 378,
+          "2.0": 1622,
+          "4.0": 0
+        },
+        {
+          "0.0": 0,
+          "0.125": 0,
+          "0.25": 0,
+          "0.5": 0,
+          "1.0": 1460,
+          "2.0": 540,
+          "4.0": 0
+        },
+        {
+          "0.0": 0,
+          "0.125": 0,
+          "0.25": 0,
+          "0.5": 0,
+          "1.0": 1591,
+          "2.0": 409,
+          "4.0": 0
+        }
+      ],
+      "final_beta_per_chain": [
+        0.03,
+        0.03159479328814396,
+        0.054976627083649934,
+        0.07237449154419066
+      ],
+      "transition_counts": {
+        "warmup": {
+          "pcn_attempts": [
+            693,
+            723,
+            691,
+            717
+          ],
+          "pcn_accepts": [
+            56,
+            67,
+            115,
+            101
+          ],
+          "independent_attempts": [
+            156,
+            159,
+            144,
+            141
+          ],
+          "independent_accepts": [
+            3,
+            1,
+            3,
+            0
+          ],
+          "transport_attempts": [
+            151,
+            118,
+            165,
+            142
+          ],
+          "transport_accepts": [
+            89,
+            65,
+            93,
+            48
+          ],
+          "scale_change_attempts": [
+            127,
+            116,
+            152,
+            183
+          ],
+          "scale_change_accepts": [
+            6,
+            3,
+            11,
+            7
+          ],
+          "invalid_proposals": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "retained": {
+          "pcn_attempts": [
+            1411,
+            1432,
+            1410,
+            1433
+          ],
+          "pcn_accepts": [
+            122,
+            177,
+            254,
+            149
+          ],
+          "independent_attempts": [
+            279,
+            284,
+            299,
+            280
+          ],
+          "independent_accepts": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "transport_attempts": [
+            310,
+            284,
+            291,
+            287
+          ],
+          "transport_accepts": [
+            180,
+            82,
+            162,
+            161
+          ],
+          "scale_change_attempts": [
+            219,
+            354,
+            252,
+            222
+          ],
+          "scale_change_accepts": [
+            7,
+            3,
+            9,
+            11
+          ],
+          "invalid_proposals": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "evaluation_samples": 256,
+      "evaluation_subsampling": "equal evenly spaced retained states per chain for rendering cost only; diagnostics use every retained state",
+      "evaluations": {
+        "local_reference": {
+          "scores": {
+            "observed": {
+              "frames": 6,
+              "position_rmse_m": 0.004832271927757914,
+              "position_crps_m": 0.0026929435196859056,
+              "trajectory_energy_score_m": 0.011889499045127568,
+              "component_90_coverage": 0.6805555555555556,
+              "component_90_mean_width_m": 0.0080266067776158,
+              "rgb_psnr_db": 59.52624227764687,
+              "novel_view_psnr_db": 46.85727153142831
+            },
+            "withheld": {
+              "frames": 15,
+              "position_rmse_m": 0.004899043606981292,
+              "position_crps_m": 0.0028635057358567884,
+              "trajectory_energy_score_m": 0.012274786149986764,
+              "component_90_coverage": 0.6611111111111111,
+              "component_90_mean_width_m": 0.009873516071261721,
+              "rgb_psnr_db": 53.75855949857552,
+              "novel_view_psnr_db": 47.47310793076966
+            },
+            "long_gap": {
+              "frames": 7,
+              "position_rmse_m": 0.0042836100036705745,
+              "position_crps_m": 0.0024493986041315805,
+              "trajectory_energy_score_m": 0.010380105948374874,
+              "component_90_coverage": 0.7738095238095238,
+              "component_90_mean_width_m": 0.011084416015833825,
+              "rgb_psnr_db": 52.27347429213074,
+              "novel_view_psnr_db": 51.17153269217564
+            },
+            "definitions": {
+              "uncertainty": "local Gaussian reference",
+              "coverage": "central componentwise intervals on free-node positions only; pinned nodes excluded",
+              "energy_score": "Euclidean joint free-node position score per timestamp, averaged over timestamps",
+              "novel_view": "same times, known camera path offset by 100 degrees; evaluation-only images",
+              "rgb": "posterior mean render versus noise-free truth; PSNR data range 1",
+              "long_gap": "strictly between observed frame 6 and 14"
+            }
+          },
+          "physics": {
+            "fixed_total_mass_kg": 0.27462500000000006,
+            "minimum_det_F": 0.8890832018441719,
+            "maximum_internal_net_force_n": 2.220446049250313e-16,
+            "maximum_internal_net_torque_nm": 2.220446049250313e-16,
+            "maximum_support_position_error_m": 0.0,
+            "mechanical_energy_mean_j": [
+              0.13718485671061376,
+              0.13637125244583867,
+              0.13643470720639073,
+              0.1331813174517936,
+              0.13051620788114243,
+              0.12882614660317074,
+              0.12645816496089976,
+              0.1272297445520679,
+              0.12507819706712714,
+              0.1231469775643738,
+              0.12274060753412665,
+              0.1215265421685773,
+              0.12151561782106352,
+              0.12023888079288322,
+              0.11849930130043745,
+              0.12024228543246056,
+              0.11844148207273734,
+              0.11640070502952787,
+              0.11489559497101665,
+              0.11346072032852822,
+              0.11396839042383065
+            ],
+            "energy_note": "Gravity potential included. Drag dissipates and stochastic forcing exchanges energy; total energy need not be constant."
+          }
+        },
+        "nonlinear_mcmc": {
+          "scores": {
+            "observed": {
+              "frames": 6,
+              "position_rmse_m": 0.00501537154062114,
+              "position_crps_m": 0.0030007386663603265,
+              "trajectory_energy_score_m": 0.013260693805243277,
+              "component_90_coverage": 0.4305555555555556,
+              "component_90_mean_width_m": 0.005399984074368573,
+              "rgb_psnr_db": 61.48704373584097,
+              "novel_view_psnr_db": 46.67345452112294
+            },
+            "withheld": {
+              "frames": 15,
+              "position_rmse_m": 0.005154785012506569,
+              "position_crps_m": 0.003234677924641232,
+              "trajectory_energy_score_m": 0.014034070537074802,
+              "component_90_coverage": 0.4444444444444444,
+              "component_90_mean_width_m": 0.006693444981092159,
+              "rgb_psnr_db": 53.343816603488115,
+              "novel_view_psnr_db": 47.54311203724636
+            },
+            "long_gap": {
+              "frames": 7,
+              "position_rmse_m": 0.004812710597372199,
+              "position_crps_m": 0.003010565008155785,
+              "trajectory_energy_score_m": 0.012672867306209116,
+              "component_90_coverage": 0.5476190476190477,
+              "component_90_mean_width_m": 0.007874870227679217,
+              "rgb_psnr_db": 51.64058632908285,
+              "novel_view_psnr_db": 50.78856793196661
+            },
+            "definitions": {
+              "uncertainty": "finite correlated nonlinear MCMC; reliability is conditional on diagnostics",
+              "coverage": "central componentwise intervals on free-node positions only; pinned nodes excluded",
+              "energy_score": "Euclidean joint free-node position score per timestamp, averaged over timestamps",
+              "novel_view": "same times, known camera path offset by 100 degrees; evaluation-only images",
+              "rgb": "posterior mean render versus noise-free truth; PSNR data range 1",
+              "long_gap": "strictly between observed frame 6 and 14"
+            }
+          },
+          "physics": {
+            "fixed_total_mass_kg": 0.27462500000000006,
+            "minimum_det_F": 0.9026730569540652,
+            "maximum_internal_net_force_n": 1.942890293094024e-16,
+            "maximum_internal_net_torque_nm": 2.220446049250313e-16,
+            "maximum_support_position_error_m": 0.0,
+            "mechanical_energy_mean_j": [
+              0.1370173054808037,
+              0.13536735623100654,
+              0.13671935533622256,
+              0.1336426565636717,
+              0.13106759511244193,
+              0.1285857551641591,
+              0.12645252983615676,
+              0.12638127028030555,
+              0.12498276604609516,
+              0.12378787789068176,
+              0.12366353131698099,
+              0.12181465318622668,
+              0.12187427264305882,
+              0.11955187692410858,
+              0.11774462922229345,
+              0.11937582761453147,
+              0.11748065754703102,
+              0.11589039621519279,
+              0.1134954372021492,
+              0.11226845433381072,
+              0.1124568767282178
+            ],
+            "energy_note": "Gravity potential included. Drag dissipates and stochastic forcing exchanges energy; total energy need not be constant."
+          }
+        }
+      },
+      "seconds": 692.9169609998353
+    }
+  ],
+  "interpretation": "Metropolis targets the nonlinear model; finite runs still require convergence checks. No real-world or cross-scene calibration claim."
+}

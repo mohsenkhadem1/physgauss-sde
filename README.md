@@ -2,6 +2,8 @@
 
 Research prototype for physically constrained Gaussian scene reconstruction from **one moving camera with missing frames**.
 
+Current version: **0.3**, with nonlinear posterior sampling and 37 passing checks. The [latest selected-case experiments](docs/NONLINEAR_RESULTS.md) still fail the full convergence screen; reliable calibrated uncertainty and real-video reconstruction remain open work.
+
 The initial milestone is a small, reproducible CPU experiment. It is not a reproduction of PIDG or a completed real-video reconstruction system. We separate uncertainty over unknown scene parameters from stochastic forcing, and evaluate both against synthetic ground truth.
 
 ## Implemented first milestone
@@ -77,6 +79,8 @@ physgauss sample --study runs/new-local-reference --source-ref HEAD --output run
 ```
 
 Use a clean committed source ref matching the study. For the historical local `runs/scale-study`, use `--source-ref d225760`. Full default settings use four chains, 1,000 warmup transitions and 2,000 retained transitions per chain. Add `--langevin` for gradient-guided pCNL with the full reverse-proposal correction. Add `--case stochastic__long_gap__3101` to select one exact case; repeat `--case` for more. Failed convergence diagnostics leave predictions explicitly provisional. See [the target, transition derivation, diagnostics and reproduction instructions](docs/NONLINEAR_SAMPLING.md).
+
+The [selected long-gap experiments](docs/NONLINEAR_RESULTS.md) and [self-contained sampler report](examples/nonlinear-sampling/report.html) record deterministic, stochastic and missing-force cases with four chains each. They include convergence failures despite accurate-looking trajectories. This is a numerical investigation on one geometry and one realization seed, not a new calibration benchmark. The [next development sequence](docs/NEXT_EXPERIMENT.md) describes nonlinear proposal fitting, structured external forces, material viscosity, uncertain cameras and partially observed geometry; those extensions are not yet implemented.
 
 ## Historical first measured results
 
