@@ -137,6 +137,19 @@ def main():
     audit.add_argument("--samples", type=int, default=256)
     audit.add_argument("--seed", type=int, default=55001)
     audit.add_argument("--resume", action="store_true")
+    nonlinear = sub.add_parser("sample", help="Metropolis sampling with the full nonlinear observed-image likelihood.")
+    nonlinear.add_argument("--study", type=Path, required=True)
+    nonlinear.add_argument("--source-ref", required=True)
+    nonlinear.add_argument("--output", type=Path, default=Path("runs/nonlinear-sampling"))
+    nonlinear.add_argument("--case", action="append", help="Exact condition__schedule__seed label; repeat to select cases.")
+    nonlinear.add_argument("--method", choices=["physical", "fixed_sde", "adaptive_sde"], default="adaptive_sde")
+    nonlinear.add_argument("--chains", type=int, default=4)
+    nonlinear.add_argument("--warmup", type=int, default=1000)
+    nonlinear.add_argument("--draws", type=int, default=2000)
+    nonlinear.add_argument("--evaluation-samples", type=int, default=256)
+    nonlinear.add_argument("--seed", type=int, default=67001)
+    nonlinear.add_argument("--langevin", action="store_true", help="Use gradient-guided pCNL instead of pCN proposals.")
+    nonlinear.add_argument("--resume", action="store_true", help="Resume at completed-case boundaries with unchanged settings.")
     args = parser.parse_args()
     if args.command == "check":
         tests = Path(__file__).resolve().parents[2] / "tests"
@@ -147,6 +160,14 @@ def main():
     if args.command == "audit":
         from .likelihood_audit import audit_study
         audit_study(args.study, args.output, args.source_ref, args.samples, args.seed, args.resume)
+        return
+    if args.command == "sample":
+        from .mcmc import SamplerConfig
+        from .nonlinear_study import run_nonlinear
+        settings = SamplerConfig(chains=args.chains, warmup=args.warmup, draws=args.draws,
+                                  seed=args.seed, langevin=args.langevin)
+        run_nonlinear(args.study, args.output, args.source_ref, settings, args.case, args.method,
+                      args.evaluation_samples, args.resume)
         return
     if args.command == "study":
         from .study import quick_plan, run_study

@@ -39,7 +39,7 @@ Open `runs/cpu-demo/report.html` for an animated comparison, trajectory/uncertai
 
 The default experiment uses 21 timestamps, six observed RGB frames, a 0.3-0.7 second observation gap, 24x24 images, and 64 posterior samples. All six input frames contribute to offline smoothing. This is deliberately small enough to inspect and run on CPU; it is not a high-resolution scene reconstruction.
 
-`physgauss check` runs 26 numerical and physical checks with the standard-library test runner. GitHub Actions runs these checks, a small end-to-end demo, a two-case adaptive-noise smoke study, and a nonlinear likelihood audit.
+`physgauss check` runs 37 numerical and physical checks with the standard-library test runner. GitHub Actions runs these checks, a small end-to-end demo, a two-case adaptive-noise smoke study, a nonlinear likelihood audit, and a short nonlinear-sampling integration check.
 
 ## Adaptive noise and independent-realization study
 
@@ -67,7 +67,18 @@ That command targets a fresh study from the current committed checkout. The hist
 
 The [completed audit](docs/AUDIT_RESULTS.md) evaluated all 18 configurations with 256 proposals per method. Adaptive proposals fell below the predeclared relative-ESS threshold in **14 of 18 configurations**. The apparent accuracy gains therefore do not establish reliable nonlinear posterior uncertainty. The [audit report](examples/likelihood-audit/report.html) records the failures and their source provenance; a nonlinear smoother/sampler is the next inference milestone.
 
-## First measured results
+## Nonlinear Metropolis sampling
+
+The `sample` command uses the full nonlinear physics/rendering likelihood for every Metropolis decision. The local Gaussian mixture preconditions pCN, independent, and scale-transport proposals. Its scale weights no longer determine the final posterior by themselves. Proposal adaptation stops after warmup; rank-normalized/folded split Rhat and bulk/tail ESS monitor every scene/noise coordinate, observed log likelihood, and adaptive process scale.
+
+```sh
+physgauss study --quick --output runs/new-local-reference
+physgauss sample --study runs/new-local-reference --source-ref HEAD --output runs/nonlinear-smoke --warmup 20 --draws 32 --evaluation-samples 16
+```
+
+Use a clean committed source ref matching the study. For the historical local `runs/scale-study`, use `--source-ref d225760`. Full default settings use four chains, 1,000 warmup transitions and 2,000 retained transitions per chain. Add `--langevin` for gradient-guided pCNL with the full reverse-proposal correction. Add `--case stochastic__long_gap__3101` to select one exact case; repeat `--case` for more. Failed convergence diagnostics leave predictions explicitly provisional. See [the target, transition derivation, diagnostics and reproduction instructions](docs/NONLINEAR_SAMPLING.md).
+
+## Historical first measured results
 
 Both experiments ran locally and CI passed on Linux. In the stochastic synthetic realization, missing-interval free-node coordinate RMSE was 2.794 mm for uncertain deterministic mechanics and 1.340 mm with the neural SDE. In the deterministic control the results were 1.221 mm and 1.244 mm, respectively. The SDE intervals were substantially wider and over-covered the truth in both cases. This is a useful ablation, not a calibration or generalization claim.
 
@@ -93,6 +104,8 @@ See [docs/METHOD.md](docs/METHOD.md) for equations, likelihood, physical units, 
 | `scale_inference.py` | Integrated scale evidence and zero-noise/positive-noise posterior mixture |
 | `study.py` / `study_report.py` | Matched controls, independent realization/gap sweeps, and aggregate reports |
 | `likelihood_audit.py` / `audit_report.py` | Nonlinear likelihood overlap and reproducibility diagnostics |
+| `mcmc.py` / `chain_diagnostics.py` | Nonlinear Metropolis transitions and multichain Rhat/ESS |
+| `nonlinear_study.py` / `nonlinear_report.py` | Observation-only sampling, isolated predictive evaluation and trace reports |
 | `metrics.py` / `report.py` | Predictive scores, physical diagnostics, and experiment report |
 | `cli.py` | Reproducible execution and checkpoint handling |
 

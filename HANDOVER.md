@@ -6,7 +6,7 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
-Milestones 1 and 2 plus a nonlinear likelihood audit are implemented, executed, and pushed. Twenty-six local tests and the expanded Linux CI pipeline pass. The original two experiments, a matched 18-configuration study, and a 54-method/configuration nonlinear audit have versioned reports. This remains a controlled synthetic proof of concept, not a completed real-video system.
+Milestones 1 and 2 plus a nonlinear likelihood audit are implemented, executed, and pushed. Version 0.3 adds nonlinear Metropolis sampling with pCN and optional gradient-guided pCNL, defensive mixture/transport moves and rank/folded Rhat plus bulk/tail ESS. Thirty-seven local tests pass, including nonlinear quadrature and actual physics-likelihood gradient checks. The original two experiments, a matched 18-configuration study, and a 54-method/configuration nonlinear audit have versioned reports. Short sampler pilots correctly flag insufficient mixing; full-run evidence must be read separately. This remains a controlled synthetic proof of concept, not a completed real-video system.
 
 ## Start here
 
@@ -35,6 +35,8 @@ Latest implementation/evidence commits: `d225760` (adaptive noise and common-lin
 - AUSE, Spearman uncertainty ranking, interval coverage curves, and predeclared scale-prior sensitivity.
 - Full nonlinear observed-image likelihood audits using independent importance proposals and ESS diagnostics.
 - Source-compatible checkpoint auditing and persisted observation tensors/network weights for new studies.
+- Full nonlinear observation-only Metropolis corrections, per-chain warmup adaptation, explicit invalid-proposal rejections, and multichain diagnostics for every latent coordinate.
+- Gaussian-reference pCN and gradient-guided pCNL with the full proposal-density correction, independent refresh and scale transport.
 
 ## What the first experiments show
 
@@ -56,7 +58,7 @@ Critically, the nonlinear likelihood audit flags adaptive-proposal relative ESS 
 
 ## Next milestones
 
-1. Implement an iterative nonlinear smoother or a nonlinear posterior sampler, with convergence/ESS diagnostics. This takes priority after the likelihood audit.
+1. Establish adequate nonlinear sampler exploration on sparse-view cases using the implemented convergence/ESS diagnostics; do not equate a correct Metropolis kernel with converged finite chains.
 2. Distinguish structured external forcing/model discrepancy from stochastic forcing. Repeat coverage and proper-score studies on independent realizations and more geometries.
 3. Add inferred geometry and camera uncertainty after establishing reliable inference on the known scene.
 4. Add contact events, multimodal hypotheses, and real-video ingestion.

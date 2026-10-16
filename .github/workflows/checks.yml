@@ -18,6 +18,7 @@ jobs:
       - run: physgauss demo --quick --output runs/ci-smoke
       - run: physgauss study --quick --output runs/ci-scale-smoke
       - run: physgauss audit --study runs/ci-scale-smoke --source-ref HEAD --output runs/ci-audit --samples 32
+      - run: physgauss sample --study runs/ci-scale-smoke --source-ref HEAD --output runs/ci-nonlinear --warmup 20 --draws 32 --evaluation-samples 16 --langevin
       - uses: actions/upload-artifact@v4
         with:
           name: cpu-smoke-report
@@ -29,3 +30,5 @@ jobs:
             runs/ci-scale-smoke/report.html
             runs/ci-audit/summary.json
             runs/ci-audit/report.html
+            runs/ci-nonlinear/summary.json
+            runs/ci-nonlinear/report.html
