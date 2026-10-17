@@ -12,6 +12,9 @@ transferred diffusion, camera-switching protocol, convergence gates, and limits
 are documented. `.github/workflows/pacnerf-comparison.yml` runs the sixteen cases
 on GitHub Actions and retains full checkpoints plus compact reports. Development
 pilots and failed stationarity checks are excluded from scientific rankings.
+The [production status and first verified result](docs/PACNERF_RESULTS.md) and
+[incomplete offline report](examples/pacnerf-sparse/report.html) are versioned;
+the full comparison is still running and no ranking is available yet.
 
 The latest [posterior audit and 36-case rerun](docs/POSTERIOR_RESULTS.md) fixes slow nonlinear posterior exploration with exact-target split Hamiltonian sampling. **All 36 cases pass complete finite-chain diagnostics**: maximum Rhat 1.00934, minimum bulk/tail ESS 821/556. Start with the [offline report](examples/converged-posterior/report.html), [equations](docs/POSTERIOR_INFERENCE.md) and [frozen protocol](docs/POSTERIOR_CONVERGENCE_PROTOCOL.md). Every model in that cube study marginalizes external forces.
 

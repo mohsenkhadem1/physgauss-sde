@@ -59,9 +59,17 @@ def publish(raw, inputs, output):
         destination = output/'cases'/name; destination.mkdir(parents=True)
         for f in src.parent.glob('*.json'): shutil.copyfile(f, destination/f.name)
         shutil.copyfile(src,destination/'worker_summary.json')
+        replay=raw/f'verification-{index}.json'
+        if replay.exists():shutil.copyfile(replay,destination/'raw_verification.json')
         (destination/'summary.json').write_text(json.dumps(row,indent=2,allow_nan=False)+'\n')
         rows.append(row)
     for f in inputs.glob('*-manifest.json'): shutil.copyfile(f, output/f.name)
+    provenance=output/'provenance';provenance.mkdir()
+    for f in raw.glob('*/artifact_download.json'):
+        shutil.copyfile(f,provenance/(f.parent.name+'.json'))
+    for folder,name in [(inputs,'input-artifact.json'),(raw,'workflow-status.json')]:
+        src=folder/('artifact_download.json' if folder==inputs else 'workflow_status.json')
+        if src.exists():shutil.copyfile(src,provenance/name)
     complete = all(not r['missing'] for r in rows)
     passed = complete and all(r['valid_for_ranking'] for r in rows)
     agreement = []

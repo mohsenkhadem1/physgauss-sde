@@ -44,6 +44,12 @@ The matching source CPU validation is run **39073594746**. Initial input artifac
 Downloaded production inputs live in `runs/pacnerf-production-inputs`.
 Subsequent portability/reporting edits preserve the numerical source. The
 publication will be recorded here when complete.
+Current partial publication: `docs/PACNERF_RESULTS.md` and
+`examples/pacnerf-sparse/report.html`. Case 2 passes finite diagnostics and raw
+replay, but reconstruction error is 81.48 mm and nominal 90% coverage is 13.32%.
+No cross-model ranking yet. The post-hoc contact audit finds material frame-held
+contact error; the production model remains frozen. Continue the collector and
+verify every completed case before regenerating the full report.
 
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,
