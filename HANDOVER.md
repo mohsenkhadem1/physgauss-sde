@@ -6,6 +6,8 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
+Version 0.5 adds exact Gaussian load elimination in a nonlinear trajectory model and a matched alternating/joint/marginalized solver experiment. Read `docs/FORCE_MARGINALIZATION.md` before using it: a declared full-rank velocity-discrepancy process is shared by the three new solvers, so this is not a reparameterization of the old singular low-rank simulator. Nine new tests check normalized Gaussian densities, conditional force moments, total covariance, Schur equivalence, nonlinear derivatives, causal density normalization and reproduction of the old solver with zero added innovation. Run `physgauss marginalize --quick`; the fixed full comparison plan is `configs/marginal_force_study.json`. Exact force elimination does not imply calibrated trajectory uncertainty or global nonlinear convergence.
+
 Version 0.4 is implemented and its 12-fit structured-force experiment is executed. Forty-eight local checks and the expanded Linux CI pass. The new API reconstructs coherent external-force functions, cross-time covariance and nodal samples from compact posterior files. All twelve controlled fits fail the complete convergence screen at four chains with 1,000 retained states each; estimates remain provisional. Original physics/SDE experiments, the 18-case scale study, likelihood audit and version-0.3 sampler investigation remain versioned historical evidence. This is a controlled synthetic proof of concept, not a completed real-video system.
 
 ## Start here

@@ -155,6 +155,12 @@ def main():
     forces.add_argument("--quick", action="store_true")
     forces.add_argument("--output", type=Path, default=Path("runs/force-study"))
     forces.add_argument("--resume", action="store_true")
+    marginal = sub.add_parser("marginalize", help="Compare alternating, joint and analytically marginalized force inference.")
+    marginal.add_argument("--plan", type=Path)
+    marginal.add_argument("--quick", action="store_true")
+    marginal.add_argument("--output", type=Path, default=Path("runs/marginal-force-study"))
+    marginal.add_argument("--historical-summary", type=Path, help="Optional v0.4 summary with exactly matching observations/configs.")
+    marginal.add_argument("--resume", action="store_true")
     args = parser.parse_args()
     if args.command == "check":
         tests = Path(__file__).resolve().parents[2] / "tests"
@@ -181,6 +187,14 @@ def main():
         plan = quick_force_plan() if args.quick else json.loads(
             (args.plan or Path("configs/force_study.json")).read_text(encoding="utf-8"))
         run_force_study(plan, args.output, args.resume)
+        return
+    if args.command == "marginalize":
+        from .marginal_study import quick_marginal_plan, run_marginal_study
+        if args.quick and args.plan:
+            parser.error("Choose --quick or --plan, not both.")
+        plan = quick_marginal_plan() if args.quick else json.loads(
+            (args.plan or Path("configs/marginal_force_study.json")).read_text(encoding="utf-8"))
+        run_marginal_study(plan, args.output, args.resume, args.historical_summary)
         return
     if args.command == "study":
         from .study import quick_plan, run_study
