@@ -1,6 +1,7 @@
 """Verify and publish the complete independent-reference comparison offline."""
 import argparse
 import base64
+import csv
 import hashlib
 import html
 import json
@@ -30,7 +31,7 @@ COLORS = {"marginalized": "#007c91", "joint": "#bd5a14", "alternating": "#8656a5
 
 def canonical_hash(path):
     data = path.read_bytes()
-    if path.suffix in (".json", ".html", ".md", ".py"):
+    if path.suffix in (".json", ".html", ".md", ".py", ".csv"):
         data = data.replace(b"\r\n", b"\n")
     return hashlib.sha256(data).hexdigest()
 
@@ -298,11 +299,12 @@ def report(output, summary):
     primary = [r for r in summary["cases"] if r["variant"] == "corrected" and r["scheme"] == "six_single"]
     stationary = sum(r["fit"]["stationarity_screen_pass"] for r in primary)
     audit_pass = sum(r["local_gaussian_audit"]["screen_pass"] for r in primary)
-    headers = ["Truth", "Method", "Gap mm", "Withheld mm", "Force RMSE N", "Final decrement", "Stationary", "Weight rel. ESS", "Local 90% coverage (withheld)"]
+    headers = ["Truth", "Method", "Gap mm", "Withheld mm", "Force RMSE N", "Final decrement", "Stationary", "Weight rel. ESS", "Local 90% coverage (withheld)", "Fit seconds"]
     rows = [[r["condition"], r["method"], f"{1000*r['scores']['original_gap']['position_rmse_m']:.3f}",
         f"{1000*r['scores']['withheld']['position_rmse_m']:.3f}", f"{r['force_scores']['rmse_N']:.5f}",
         f"{r['fit']['marginal_gauss_newton_decrement']:.4g}", r["fit"]["stationarity_screen_pass"],
-        f"{r['local_gaussian_audit']['relative_weight_ess']:.3f}", f"{r['scores']['withheld']['component_90_coverage']:.1%}"] for r in primary]
+        f"{r['local_gaussian_audit']['relative_weight_ess']:.3f}", f"{r['scores']['withheld']['component_90_coverage']:.1%}",
+        f"{r['fit']['seconds_including_final_covariance']:.1f}"] for r in primary]
     component_rows = [[r["condition"], r["variant"], f"{1000*r['scores']['original_gap']['position_rmse_m']:.3f}",
         f"{r['fit']['marginal_gauss_newton_decrement']:.3g}", r["fit"]["stationarity_screen_pass"]]
         for r in summary["cases"] if r["method"] == "marginalized" and r["scheme"] == "six_single"]
@@ -321,6 +323,7 @@ def report(output, summary):
 <div class="notice">The corrected six-substep integrator has about <strong>0.130 mm coordinate RMSE</strong> against independent RK4-96, versus about 3.3 mm for historical Euler-3. Smooth overlapping depth integration replaces whole-splat depth sorting. This is numerical validation on two known-scene toy sequences, not real-world physical validation.</div>
 <h2>Numerical checks</h2>
 <p>Halving the staggered time step reduces deterministic position error by about four. Its parameter-dependent density determinant is included so force marginalization remains normalized. Production 128-slab rendering differs from 1024 slabs by about 2.15e-5 RGB RMSE, and the 512-slab image reference by about 1.0e-6; observation noise SD is 0.015.</p>
+<p>The 0.130 mm figure is a coordinate average: the maximum node/time error is about 0.626 mm. At twelve substeps the corresponding values are about 0.032 mm and 0.156 mm. The fixed production fit uses six substeps; these checks do not establish full posterior convergence under time refinement or mesh refinement.</p>
 {embedded('numerical_accuracy.png', 'Independent time refinement and depth quadrature; integration error refers to exact truth parameters and analytic true loading, not fitted reconstruction error.')}
 {embedded('depth_continuity.png', 'Post-fit probe at the published historical stalled pulse pose. Continuous image differences decrease with perturbation size; hard depth sorting produces rounding-sensitive jumps. No fitting settings were chosen from this probe.')}
 <h2>Actual images</h2>
@@ -328,6 +331,7 @@ def report(output, summary):
 {embedded('image_comparison.png', 'Sparse observed input, independent reference motion, and legacy/corrected reconstructions. The t=0.5 s input is absent; the +200-degree camera is evaluated only.')}
 <h2>Three solvers under the corrected model</h2>
 <p>All solvers share the same initialization, force prior, discrepancy model, corrected discretization and renderer. The budget is 20 iterations. {stationary}/6 primary corrected fits pass the common marginal stationarity screen; {audit_pass}/6 pass the independent local-Gaussian importance-weight screen. A passed screen is not posterior calibration. Force elimination is exact conditional on trajectory; trajectory inference remains a local approximation.</p>
+<p>Position RMSE averages squared errors over the twelve free-node coordinates and the named times, then takes a square root. Pinned nodes are excluded. Local interval coverage counts correlated components from these two sequences, not independent calibration replicates. Fit times include final covariance construction and are single CPU-run measurements.</p>
 {table(headers, rows)}
 {embedded('solver_convergence.png', 'Different solver step metrics are shown by iteration. The table applies one common final marginal metric to all three methods.')}
 {embedded('force_distribution.png', 'Fixed-profile external force posteriors; local uncertainty combines conditional and between-trajectory covariance. Bands do not establish calibrated nonlinear uncertainty.')}
@@ -366,6 +370,18 @@ def publish(raw, output, source_ref):
             "coordinates": fit["mean"].tolist(), "state_dimension": len(fit["mean"]),
             "conditional_force_coefficient_mean": fit["conditional_force_mean"].tolist(),
             "qualification": "point coordinates only; full raw precision is regenerated by the fixed plan"})
+    with (output/"comparison.csv").open("w", newline="", encoding="utf-8") as stream:
+        writer = csv.writer(stream)
+        writer.writerow(["condition", "variant", "scheme", "method", "images", "gap_rmse_mm", "withheld_rmse_mm",
+                         "gap_local_90_width_mm", "gap_local_90_coverage", "stationary", "marginal_decrement",
+                         "fit_seconds", "novel_200_psnr_db", "relative_weight_ess"])
+        for row in summary["cases"]:
+            score, fit = row["scores"], row["fit"]
+            writer.writerow([row["condition"], row["variant"], row["scheme"], row["method"], row["observed_slots"],
+                1000*score["original_gap"]["position_rmse_m"], "" if score["withheld"] is None else 1000*score["withheld"]["position_rmse_m"],
+                1000*score["original_gap"]["component_90_mean_width_m"], score["original_gap"]["component_90_coverage"],
+                fit["stationarity_screen_pass"], fit["marginal_gauss_newton_decrement"], fit["seconds_including_final_covariance"],
+                score["camera_200_clean_psnr_db"], row.get("local_gaussian_audit", {}).get("relative_weight_ess", "")])
     depth_probe(output)
     force_basis_audit(output, summary)
     figures(raw, output, summary)

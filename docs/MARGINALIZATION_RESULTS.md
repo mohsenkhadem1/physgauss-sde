@@ -5,6 +5,8 @@ historical time step has about 3.3 mm error against independent converged RK4.
 Measurements below remain valid relative to their discretized synthetic truth,
 but do not establish millimetre-level continuous-time physical accuracy.
 
+A subsequent [accurate-pipeline implementation](ACCURATE_PIPELINE.md) replaces the coarse integrator and discontinuous renderer and defines a new independent-reference comparison. The measurements below remain historical.
+
 ## Finding
 
 Analytic elimination is numerically correct and removes the separate force

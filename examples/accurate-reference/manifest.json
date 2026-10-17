@@ -1,0 +1,61 @@
+{
+  "plan": {
+    "conditions": [
+      "no_load",
+      "external_pulse"
+    ],
+    "methods": [
+      "marginalized",
+      "joint",
+      "alternating"
+    ],
+    "variants": [
+      "corrected",
+      "legacy",
+      "integrator_only",
+      "renderer_only"
+    ],
+    "schemes": [
+      "six_single",
+      "twelve_single",
+      "six_dual",
+      "twentyone_single",
+      "twentyone_dual"
+    ],
+    "substeps": 6,
+    "legacy_substeps": 3,
+    "render_bins": 128,
+    "reference_bins": 512,
+    "optimizer": {
+      "iterations": 20,
+      "decrement_tolerance": 0.05,
+      "backtracks": 18
+    },
+    "force_prior": {
+      "knots": 5,
+      "temporal_length_fraction": 0.15,
+      "spatial_length_m": 0.6,
+      "total_force_std_n": 0.05
+    },
+    "trajectory_model": {
+      "velocity_diffusion": 0.02,
+      "velocity_coordinate_scale": 0.1
+    },
+    "evaluation_samples": 128,
+    "audit_samples": 128,
+    "sampling_seed": 106600,
+    "threads": 2,
+    "smoke_only": false
+  },
+  "source_fingerprint_sha256": "fe2687d262d450cd8bf8f7127a3c1fe010c9df14c3e243f36eb80d98f7764702",
+  "reference_hashes_normalized_lf": {
+    "no_load": "8915732fbca3d9c722c4157ea8f79bc3b79319de95125750c3c406ae5fac09bc",
+    "external_pulse": "38c63735807e3e510398faf57e2dc2f3acf0d41acdfa1877fc56ca0e6687e621"
+  },
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.0.0",
+    "platform": "Windows-11-10.0.26200-SP0"
+  }
+}

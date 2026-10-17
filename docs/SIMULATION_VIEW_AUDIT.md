@@ -1,5 +1,7 @@
 # Simulation accuracy and observation coverage audit
 
+The numerical issues identified here are addressed in the subsequent [version-0.6 accurate pipeline](ACCURATE_PIPELINE.md), which preserves these historical measurements and re-runs inference on independent accurate motion.
+
 ## Findings
 
 Force formulas, discrete momentum balances and camera conventions pass the

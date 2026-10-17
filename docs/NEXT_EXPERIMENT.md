@@ -2,6 +2,8 @@
 
 This is the development sequence after the version-0.3 nonlinear sampler investigation. Version 0.4 implements an initial nonlinear-curvature proposal refit and a restricted structured external-force prior; see `FORCE_POSTERIOR.md` for actual capabilities. Broader spatial force inference, viscosity, uncertain geometry/camera and real video below remain proposed. The target remains one moving camera with missing frames and actual irregular timestamps.
 
+Version 0.6 adds density-correct second-order dynamics and continuous depth integration; see [ACCURATE_PIPELINE.md](ACCURATE_PIPELINE.md). Gaussian force elimination, matched solvers and a deterministic independent-reference rerun are implemented. Nonlinear posterior validation, repeated-realization calibration and stochastic/mesh refinement still precede broader model claims.
+
 ## First resolve nonlinear exploration
 
 A Metropolis kernel with the correct invariant distribution can still mix slowly. Refit the proposal reference around a nonlinear stationary point for each scale, with line-searched Gauss-Newton steps. Treat those fitted Gaussians as arbitrary proposals: evaluate their normalized log densities and the complete nonlinear target in the acceptance ratio. Do not reuse the current `L_nonlinear/L_linear` shortcut after changing a reference without re-deriving its normalization. Freeze all fitted proposal parameters before retained sampling, or use a formally valid adaptation scheme.

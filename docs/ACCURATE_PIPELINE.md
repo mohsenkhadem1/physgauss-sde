@@ -32,7 +32,7 @@ Production inference uses 128 slabs and reference images use 512; a 1024-slab co
 
 ## Fixed comparison protocol
 
-`configs/accurate_reference_study.json` specifies two deterministic conditions (no load and analytic external pulse), one geometry and realization. RK4-96 reference positions are loaded from the published simulation audit; RK4-48/96 agreement is about 2.1e-10 m. No converged stochastic reference is claimed.
+`configs/accurate_reference_study.json` specifies two deterministic conditions (no load and analytic external pulse), one geometry and realization. RK4-96 reference positions are loaded from the published simulation audit; this is an independent integration routine using the same FEM force law, not independent validation of that constitutive law. RK4-48/96 agreement is about 2.1e-10 m. No converged stochastic reference is claimed.
 
 The original six observed-image noise residuals are recovered from the original published RGB and hard renders of RK4 poses, then added to the new volume-rendered images. Extra views use fixed seeds. All methods share the same images, prior constants and frame positions at initialization. Initialization is a zero-load corrected rollout at the scene prior mean: no reference positions, true forces, withheld images, or truth-selected warm starts enter fitting.
 
