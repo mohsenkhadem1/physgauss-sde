@@ -91,3 +91,13 @@ transitions then 2,000 retained per chain, four chains, no adaptation. Preserve
 all diagnostics and compare estimates with the primary runs. Full physical and
 image acceptance remains identical. The primary results and their rejected
 proposal counts are retained regardless of replica outcomes.
+
+The independently seeded 2,000-draw neural replica passes every Rhat/ESS check,
+but its largest gap-mean difference is 0.332 mm. A stricter batch-mean comparison
+finds maximum absolute z=3.553, with two of 84 coordinates marginally exceeding
+the approximate normal/Bonferroni 95% threshold 3.434. Cached full nonlinear
+targets reproduce within 5.5e-12 in both runs. Preserve this borderline result;
+make **one fixed extension of both neural kernels to 4,000 retained per chain**,
+with no new adaptation or model changes, regardless of reconstruction outcomes.
+The supplementary long-run results do not replace the frozen 36-case benchmark.
+No further extension is selected from reconstruction error or neural ranking.
