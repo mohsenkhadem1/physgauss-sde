@@ -51,13 +51,31 @@ class ForceTests(unittest.TestCase):
     def test_force_coefficients_have_correct_image_gradients_and_no_truth_flag_leak(self):
         config = Config.quick()
         model = ForceSceneModel(config)
-        z = torch.zeros(1, model.dimension, dtype=torch.float64); z[0, 14] = .2
-        variable = z.clone().requires_grad_()
-        loss = model.predict(variable).square().sum()
-        grad, = torch.autograd.grad(loss, variable)
-        shift = torch.zeros_like(z); shift[0, 14] = 1e-5
+        # The renderer sorts by depth. At symmetric scenes a finite difference
+        # can jump compositing branches; a derivative does not exist there.
+        # Use generic states and explicitly verify the same ordering at +/- h.
+        from physgauss.camera import project
+        generator = torch.Generator().manual_seed(319)
+        frame = torch.tensor([config.frames-1])
+        shift = torch.zeros(1, model.dimension, dtype=torch.float64); shift[0, 14] = 1e-5
+        def order_at(point):
+            trajectory = model.trajectory(point)
+            nodes = trajectory.x[:, frame][:, :, model.mesh.cells]
+            centers = torch.einsum("pk,bftkd->bftpd", model.renderer.bary, nodes).flatten(2, 3)
+            _, depth, _ = project(centers, model.eye[frame], model.rotation[frame], config.image_size)
+            return depth.argsort(-1)
         with torch.no_grad():
-            fd = (model.predict(z+shift).square().sum()-model.predict(z-shift).square().sum())/(2e-5)
+            for _ in range(20):
+                z = .15*torch.randn(1, model.dimension, dtype=torch.float64, generator=generator)
+                if torch.equal(order_at(z+shift), order_at(z-shift)):
+                    break
+            else:
+                self.fail("No smooth depth-order branch found for the force gradient check.")
+        variable = z.clone().requires_grad_()
+        loss = model.predict(variable, frame).square().sum()
+        grad, = torch.autograd.grad(loss, variable)
+        with torch.no_grad():
+            fd = (model.predict(z+shift, frame).square().sum()-model.predict(z-shift, frame).square().sum())/(2e-5)
             other = Config.quick(); other.truth_external_pulse = True; other.truth_stochastic = False
             torch.testing.assert_close(model.predict(z), ForceSceneModel(other).predict(z), rtol=0, atol=0)
         self.assertAlmostEqual(float(grad[0, 14]), float(fd), delta=1e-7+abs(float(fd))*1e-5)
