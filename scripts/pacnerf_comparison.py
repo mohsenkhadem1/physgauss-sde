@@ -8,6 +8,7 @@ import argparse
 from dataclasses import replace
 import hashlib
 import json
+import math
 from pathlib import Path
 import time
 import shutil
@@ -140,7 +141,7 @@ class Target:
             return w.new_full((len(w),), -torch.inf), torch.ones(len(w), dtype=torch.bool)
 
 
-def reference_precision(model, mean):
+def reference_precision(model, mean, metric_floor=None):
     # Exact observed Hessian is used ONLY as a proposal metric. A ridge/negative
     # curvature adjustment cannot alter the exact MH target. Record adjustment.
     began = time.time()
@@ -158,10 +159,39 @@ def reference_precision(model, mean):
         h[start:start+m, start:start+m] += local*.10**2
     h = (h+h.T)/2
     eigen, vectors = torch.linalg.eigh(h)
-    floor = max(.01, float(eigen.max())*1e-7)
+    floor = max(.01 if metric_floor is None else metric_floor, float(eigen.max())*1e-7)
     precision = (vectors*eigen.clamp_min(floor))@vectors.T
     return precision, {'minimum_observed_eigenvalue': float(eigen.min()), 'metric_eigenvalue_floor': floor,
                        'adjusted_eigenvalues': int((eigen < floor).sum()), 'seconds': time.time()-began}
+
+
+def refine_mode(model, mean, rounds=40):
+    history = []
+    for iteration in range(rounds):
+        z = mean.detach().requires_grad_()
+        value = model.objective(z[None]).sum(); g, = torch.autograd.grad(value, z)
+        precision, curvature = reference_precision(model, mean, metric_floor=.1)
+        step = torch.linalg.solve(precision, g.detach())
+        decrement = float((step@g).detach().clamp_min(0).sqrt())
+        history.append({'iteration': iteration, 'objective': float(value.detach()),
+                        'decrement': decrement, 'curvature': curvature})
+        print('Newton', iteration, history[-1]['objective'], decrement, flush=True)
+        if decrement < .02 and curvature['minimum_observed_eigenvalue'] > 0:
+            return mean, precision, {'newton_decrement': decrement, 'history': history, 'stationary': True}
+        # Bound the change in standardized coordinates, then use an exact
+        # objective Armijo line search. No truth or withheld images are used.
+        fraction = min(1., 2./max(float(step.norm()), 1e-12))
+        slope = float(g.detach()@step)
+        for _ in range(24):
+            candidate = mean-fraction*step
+            try:
+                with torch.no_grad(): trial = float(model.objective(candidate[None])[0])
+            except (ValueError, torch.linalg.LinAlgError): trial = math.inf
+            if math.isfinite(trial) and trial <= float(value.detach())-1e-4*fraction*slope:
+                mean = candidate.detach(); break
+            fraction *= .5
+        else: raise ValueError('Newton line search did not improve the observed-data target')
+    raise ValueError('MAP failed the predeclared stationarity threshold; sampling not started')
 
 
 @torch.no_grad()
@@ -203,21 +233,25 @@ def run(inputs, output, index, pilot=False):
     model, bundle = make_model(inputs, index)
     began = time.time()
     settings = {'case_index': index, 'case': name, 'source_fingerprint': source_fingerprint(),
+        'worker_sha256_lf': hashlib.sha256(Path(__file__).read_bytes().replace(b'\r\n',b'\n')).hexdigest(),
         'observed_pairs': model.specs, 'dimension': model.dimension,
         'input_sha256': hashlib.sha256((Path(inputs)/f'{scene}-inputs.pt').read_bytes()).hexdigest(),
         'bootstrap': bundle['static'], 'model': '12-mode linear elastic graph + smooth explicit ground reaction; exact linear propagator; transferred frozen neural noise',
         'noise_units': 'floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated',
         'force_comparison': 'same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables',
         'pilot': pilot}
+    if (out/'settings.json').exists() and json.loads((out/'settings.json').read_text()) != settings:
+        raise ValueError('Source, plan or inputs changed. Choose a fresh output directory.')
     write(out/'settings.json', settings)
     if (out/'reference.pt').exists():
         fit = torch.load(out/'reference.pt', weights_only=True)
+        if not fit.get('stationarity', {}).get('stationary'):
+            raise ValueError('Saved reference predates stationarity checks; choose a fresh output.')
         mean, precision = fit['mean'], fit['precision']
     else:
-        mean, fit_info = optimize(model, initialize(model), 150 if pilot else 600)
-        precision, curvature = reference_precision(model, mean)
-        decrement = float((torch.linalg.solve(precision, torch.autograd.functional.jacobian(lambda z: model.objective(z[None]).sum(), mean))*torch.autograd.functional.jacobian(lambda z: model.objective(z[None]).sum(), mean)).sum().sqrt())
-        fit = {'mean': mean, 'precision': precision, 'fit': fit_info, 'curvature': curvature, 'newton_decrement_metric': decrement}
+        mean, fit_info = optimize(model, initialize(model), 350)
+        mean, precision, stationarity = refine_mode(model, mean)
+        fit = {'mean': mean, 'precision': precision, 'fit': fit_info, 'stationarity': stationarity}
         torch.save(fit, out/'reference.pt')
         write(out/'fit.json', {k:v for k,v in fit.items() if k not in ['mean', 'precision']})
     target = Target(model, mean, precision)
@@ -240,9 +274,19 @@ def run(inputs, output, index, pilot=False):
     # Scoring deliberately follows the saved chain and diagnostics.
     scores, positions = score(model, z, inputs)
     map_scores, _ = score(model, mean[None], inputs)
+    q_all, _ = model.decode(z)
+    q_all = q_all.reshape(4, budget, 14, model.modes)
+    batch_length = max(20, int(budget**.5)); batch_count = budget//batch_length
+    batch_means = q_all[:, :batch_count*batch_length].reshape(4, batch_count, batch_length, 14, model.modes).mean(2).flatten(0, 1)
+    positions['modal_mean_batch_mcse_m'] = (batch_means.std(0)/len(batch_means)**.5).tolist()
+    positions['mcse_batch_length'] = batch_length
+    positions['mcse_batches'] = len(batch_means)
     write(out/'posterior.json', positions)
     write(out/'summary.json', {'case': name, 'settings': settings, 'fit': fit.get('fit'),
         'map_scores': map_scores, 'posterior_scores': scores, 'convergence': {k:v for k,v in diagnostic.items() if k != 'quantities'},
+        'minimum_bulk_ess': min(v['bulk_ess'] or 0 for v in diagnostic['quantities'].values()),
+        'minimum_tail_ess': min(v['tail_ess'] or 0 for v in diagnostic['quantities'].values()),
+        'worst_rhat': max(v['rank_folded_split_rhat'] or 999 for v in diagnostic['quantities'].values()),
         'sampling_history': history, 'step_size': chains['step_size'], 'counts': chains['counts'],
         'seconds': time.time()-began, 'valid_for_ranking': passed and not pilot})
 

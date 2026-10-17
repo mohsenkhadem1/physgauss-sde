@@ -75,6 +75,14 @@ class PACTests(unittest.TestCase):
         a=model.transition(z,1/48);b=model.transition(z,1/24)
         torch.testing.assert_close(a@a,b,atol=1e-12,rtol=1e-12)
 
+    def test_withheld_images_cannot_change_fitting_target(self):
+        model=fixture();z=torch.zeros(1,model.dimension,dtype=torch.float64)
+        before=model.objective(z)
+        for c,f in list(model.data['images']):
+            if f and (f,c) not in model.specs:
+                model.data['images'][c,f]=torch.zeros_like(model.data['images'][c,f])
+        torch.testing.assert_close(model.objective(z),before,atol=0,rtol=0)
+
     def test_ply_parser_rejects_truncated_data(self):
         with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
             p=Path(folder)/'test.ply'

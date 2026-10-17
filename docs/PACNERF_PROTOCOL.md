@@ -89,8 +89,12 @@ physical explanation. Removing forces altogether would be a separate ablation.
 
 ## Inference and evaluation
 
-Observed images and physics alone determine L-BFGS initialization and an observed
-Hessian proposal metric. Any metric eigenvalue flooring is recorded and affects
+Observed images and physics alone determine L-BFGS initialization, damped Newton
+refinement, and an observed Hessian proposal metric. Sampling is forbidden unless
+the Newton decrement is below 0.02 and observed curvature is positive. A stopped
+initial development pilot used only 150 L-BFGS iterations and exposed an
+unconverged reference; it is not evidence and motivated this observed-data-only
+stationarity gate. Any metric eigenvalue flooring is recorded and affects
 proposals only, not the target. Split HMC uses four chains, 500 discarded adaptive
 transitions, algorithmic duration U(1,4), target acceptance 0.9, and 2000 retained
 draws/chain. Extend the unchanged kernel to 4000 and then 8000 if diagnostics fail.
