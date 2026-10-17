@@ -1,6 +1,6 @@
 # PAC-NeRF external-data study: incomplete production run
 
-**Status: one of sixteen production cases completed and independently replayed.**
+**Status: two of sixteen production cases completed and independently replayed.**
 No neural/constant or joint/marginal ranking is available yet. The running
 [GitHub Actions experiment](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39073611351)
 uses source `b2d081a7a55ecf1027921f5d841c043e23713a9d`.
@@ -28,6 +28,16 @@ minimum bulk/tail ESS 1589/964. This does not prove global exploration.
 This is poor external-data transfer and severe interval undercoverage. There is
 no evidence yet that neural noise helps, or that marginalization is faster.
 The two missing counterpart models are required for those comparisons.
+
+The second completed case is **Torus, six views, neural noise, marginalized
+loads**: gap coordinate RMSE 97.54 mm, nominal 90% component coverage 18.10%,
+and mean width 31.19 mm. All 353 finite diagnostics pass (worst Rhat 1.00422,
+minimum bulk/tail ESS 922/590), with 2000 retained draws per chain. Independent
+raw replay also passes. Its fixed-subspace oracle floor is 14.87 mm. The report
+now shows its actual withheld images against the rendered posterior mean pose.
+The 4/6 schedules differ in cameras and gap length, so these two numbers do not
+isolate the effect of adding views. Both completed cases are the same inference
+arm; neither supports a neural/constant or marginal/joint comparison yet.
 
 Independent NumPy replay reproduces posterior means/intervals to below 1e-12 m,
 gap scores and the subspace lower bound, and sampled cached exact-target ratios

@@ -12,7 +12,7 @@ transferred diffusion, camera-switching protocol, convergence gates, and limits
 are documented. `.github/workflows/pacnerf-comparison.yml` runs the sixteen cases
 on GitHub Actions and retains full checkpoints plus compact reports. Development
 pilots and failed stationarity checks are excluded from scientific rankings.
-The [production status and first verified result](docs/PACNERF_RESULTS.md) and
+The [production status and early verified results](docs/PACNERF_RESULTS.md) and
 [incomplete offline report](examples/pacnerf-sparse/report.html) are versioned;
 the full comparison is still running and no ranking is available yet.
 The [equation guide](docs/PACNERF_EQUATIONS.md) describes this reduced transfer

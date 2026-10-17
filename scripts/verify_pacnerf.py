@@ -6,6 +6,7 @@ checks cached HMC log ratios. This verifies numerical provenance and scoring,
 not the physical truth of the reduced model or global posterior exploration.
 """
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import numpy as np
@@ -30,6 +31,11 @@ def verify_case(raw,inputs,index):
     published=json.loads(locate(result,f'**/{name}/posterior.json').read_text())
     diagnostics=json.loads(locate(result,f'**/{name}/diagnostics.json').read_text())
     if summary['settings']['source_fingerprint']!=source_fingerprint():raise ValueError('Numerical source changed')
+    manifest=json.loads((Path(inputs)/f'{scene}-manifest.json').read_text())
+    for suffix,key in [('inputs','inputs_sha256'),('evaluation','evaluation_sha256')]:
+        actual=hashlib.sha256((Path(inputs)/f'{scene}-{suffix}.pt').read_bytes()).hexdigest()
+        if actual!=manifest[key]:raise ValueError('Prepared tensor artifact hash differs')
+    if manifest['inputs_sha256']!=summary['settings']['input_sha256']:raise ValueError('Worker input hash differs')
     reference=torch.load(locate(chain_root,f'**/{name}/reference.pt'),weights_only=True)
     chains=torch.load(locate(chain_root,f'**/{name}/chains.pt'),weights_only=True)
     model,bundle=make_model(inputs,index)
@@ -93,6 +99,22 @@ def verify_case(raw,inputs,index):
     covariance=np.array(f['coefficient_covariance'])
     np.testing.assert_allclose(covariance,np.array(f['mean_conditional_covariance'])+np.array(f['between_trajectory_covariance']),atol=1e-10,rtol=1e-10)
     if np.linalg.eigvalsh(covariance).min() < -1e-9:raise ValueError('Force covariance is not positive semidefinite')
+    # Replay the full force posterior from all retained motion states, not only
+    # the identity between three already-published covariance components.
+    means=[];sum_conditional=torch.zeros(24,24,dtype=torch.float64)
+    for batch in torch.from_numpy(coordinates).split(32):
+        fm,fc,_=model.force_conditionals(batch)
+        means.append(fm);sum_conditional+=fc.sum(0)
+    all_means=torch.cat(means)
+    mean_conditional=(sum_conditional/(c*n)).numpy()
+    between=torch.cov(all_means.T).numpy()
+    np.testing.assert_allclose(all_means.mean(0).numpy(),f['coefficient_mean'],atol=1e-9,rtol=1e-8)
+    np.testing.assert_allclose(mean_conditional,f['mean_conditional_covariance'],atol=1e-9,rtol=1e-8)
+    np.testing.assert_allclose(between,f['between_trajectory_covariance'],atol=1e-9,rtol=1e-8)
+    if force=='joint':
+        actual=coordinates[:,model.base_dimension:]
+        np.testing.assert_allclose(actual.mean(0),f['explicit_sample_coefficient_mean'],atol=1e-9,rtol=1e-8)
+        np.testing.assert_allclose(np.cov(actual.T),f['explicit_sample_coefficient_covariance'],atol=1e-9,rtol=1e-8)
     pose_indices=[2+m+(frame-1)*2*m+mode for frame in range(1,14) for mode in range(m)]
     pose_ess=[diagnostics['quantities'][f'z{i}']['bulk_ess'] for i in pose_indices]
     gradient_batches=int(chains['gradient_evaluations'])
@@ -100,7 +122,8 @@ def verify_case(raw,inputs,index):
         'maximum_position_mean_replay_error_m':maximum_mean_error,
         'maximum_interval_replay_error_m':maximum_interval_error,'maximum_cached_log_ratio_error':cache_error,
         'independent_gap_rmse_m':rmse,'subspace_oracle_gap_rmse_m':floor,'raw_diagnostics_replayed':checked,
-        'force_total_covariance_identity':True,'gradient_batches':gradient_batches,
+        'force_total_covariance_identity':True,'full_force_posterior_replay_pass':True,
+        'prepared_input_and_evaluation_hashes_pass':True,'gradient_batches':gradient_batches,
         'minimum_common_pose_bulk_ess':min(pose_ess),
         'gradient_batches_per_minimum_pose_bulk_ess':gradient_batches/max(min(pose_ess),1e-15),
         'efficiency_qualification':'reported four-chain gradient batches divided by worst common modal-pose ESS; excludes fitting, not a hardware-normalized speed claim',

@@ -31,12 +31,12 @@ def download(run_id, name, output, repository="mohsenkhadem1/physgauss-sde"):
         url = "https://api.github.com/"+path
         return urllib.request.Request(url, headers={"Authorization": "Bearer "+token,
             "Accept": "application/vnd.github+json", "User-Agent": "physgauss-reproducible-study"})
-    with urllib.request.urlopen(request(f"repos/{repository}/actions/runs/{run_id}/artifacts?per_page=100")) as response:
+    opener = urllib.request.build_opener(NoRedirect())
+    with opener.open(request(f"repos/{repository}/actions/runs/{run_id}/artifacts?per_page=100"),timeout=40) as response:
         artifacts = json.load(response)["artifacts"]
     selected = [a for a in artifacts if a["name"] == name and not a["expired"]]
     if len(selected) != 1: raise ValueError("Need exactly one complete, unexpired named artifact.")
     artifact = selected[0]
-    opener = urllib.request.build_opener(NoRedirect())
     try: opener.open(request(f"repos/{repository}/actions/artifacts/{artifact['id']}/zip"))
     except urllib.error.HTTPError as response:
         if response.code != 302: raise RuntimeError("GitHub artifact authorization/download failed.") from None

@@ -50,6 +50,10 @@ replay, but reconstruction error is 81.48 mm and nominal 90% coverage is 13.32%.
 No cross-model ranking yet. The post-hoc contact audit finds material frame-held
 contact error; the production model remains frozen. Continue the collector and
 verify every completed case before regenerating the full report.
+Case 6 has also completed: Torus six-view neural/marginal gap error 97.54 mm,
+90% coverage 18.10%, worst Rhat 1.00422. Both cases now pass full retained-state
+force moment replay as well as coordinate scoring/cache checks. The partial
+report contains case 6's actual withheld images and reconstruction errors.
 
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,

@@ -41,7 +41,7 @@ as the separate post-hoc contact audit shows.
 
 ## Structured diffusion and correlated unknown loads
 
-The modal acceleration covariance at the preceding state is
+The modal velocity-diffusion covariance at the preceding state is
 
 \[
 C_i=H_iH_i^T+0.15^2I.
