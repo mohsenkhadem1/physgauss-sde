@@ -69,6 +69,25 @@ replication checks the development floor/neural cases, retaining its own full
 diagnostics and proposal counts. Finite diagnostics and numerical agreement
 cannot prove absence of unvisited modes or physical-model correctness.
 
+Both initial smaller-step replicas pass every convergence monitor and have zero
+invalid/large-energy proposals. Floor gap RMSE is 2.684 mm versus primary
+2.674 mm. Neural gap RMSE is 2.247 mm versus primary 2.172 mm. A stricter
+batch-MCSE check initially finds two correlated coordinates (node 2's vertical
+position at adjacent gap times) just beyond an approximate simultaneous cutoff:
+maximum |z| **3.553**, threshold **3.434**; largest mean difference **0.332 mm**.
+This borderline result is preserved, not relabelled as a pass.
+
+One fixed extension of **both unchanged neural kernels** to 4,000 retained
+draws per chain resolves that stricter check: **0/84 exceed the same cutoff**,
+maximum |z| **3.157**, largest gap-coordinate mean difference **0.198 mm**.
+Extended primary/smaller-step gap RMSE is **2.179/2.221 mm**. Both pass all
+monitors (worst Rhat **1.00214/1.00151**, minimum bulk ESS **3145/3644**, tail
+ESS **2671/2938**) with zero invalid/large-energy proposals. Cached nonlinear
+targets reproduce within **5.5e-12**, and complete original chain prefixes,
+target values and proposal-error records are preserved bitwise. These are
+supplementary numerical sensitivity checks, not replacements for the frozen
+36-case benchmark. Batch-MCSE normal approximations are not calibration proofs.
+
 The maximum reported gap-component batch-mean MCSE across the 36 runs is
 **0.124 mm**. This is numerical uncertainty in an estimated posterior mean,
 separate from posterior uncertainty in the unknown motion. CPU sampling/final
@@ -116,7 +135,10 @@ every individual realization under model discrepancy.
 Mean total-force RMSE over the same stochastic cases is **0.01938 / 0.01378 /
 0.01373 N** for floor/constant/neural. Force covariance is E[S(z)] + Cov[m(z)],
 computed over every retained state. The spatial force profile is still fixed;
-this is not arbitrary contact-force localization.
+this is not arbitrary contact-force localization. This GP represents the unknown
+applied load, excluding known gravity and support reactions. The constant
+control fixes the internal-noise amplitude while retaining geometry-dependent
+edge covariance; it is already a physically structured SDE.
 
 ## Why better calibration worsened the old MAP
 
@@ -209,6 +231,11 @@ python scripts/audit_calibration_effect.py --output runs/new-calibration-effect
 The workflow `posterior-comparison.yml` runs all 36 cases and aggregates compact
 JSON results. Its public run is
 https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39062694272 .
+Independent smaller-step checks are run **39063241871**; the single fixed-budget
+neural extension is **39065071522**. The latter retains `extended-chains-primary`
+and `extended-chains-small_step`; their initial and extended comparisons are
+versioned alongside the primary data. `scripts/compare_posterior_replicas.py`
+recomputes batch-MCSE differences and checks cached targets from full states.
 Artifacts `posterior-chains-0` … `posterior-chains-35` retain every full latent
 draw, fixed Gaussian factor, energy error and RNG checkpoint for 30 days.
 The repository permanently retains exact original inputs, complete diagnostics,

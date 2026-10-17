@@ -111,6 +111,35 @@ def verify(raw):
     return summary, models, records
 
 
+def verify_replica(folder, models):
+    row = json.loads((folder/'summary.json').read_text())
+    p = json.loads((folder/'posterior.json').read_text())
+    diag = json.loads((folder/'diagnostics.json').read_text())
+    model = models['floor' if row['case'].endswith('__floor') else 'neural']
+    cols = diag['columns']
+    expected = 1549 if model.internal_config.mode == 'floor' else 1566
+    if len(diag['names']) != expected:
+        raise ValueError('Incomplete replica diagnostics.')
+    passed = []
+    for i in range(expected):
+        value = (cols['rank_folded_split_rhat'][i] is not None and cols['rank_folded_split_rhat'][i] < 1.01
+            and cols['bulk_ess'][i] >= 400 and cols['tail_ess'][i] >= 400 and cols['frozen_chains'][i] == 0)
+        if value != cols['diagnostic_pass'][i]:
+            raise ValueError('Replica diagnostic flag differs.')
+        passed.append(value)
+    if all(passed) != row['all_quantities_pass']:
+        raise ValueError('Replica aggregate pass flag differs.')
+    state = model.times.new_tensor(p['normalized_state_mean'])
+    with torch.no_grad():
+        x = model.trajectory(state[None]).x[0]
+        truth = model.times.new_tensor(json.loads((BASE/'datasets'/'pulse_and_stochastic__4101'/'inputs.json').read_text())['positions_m_evaluation_only'])
+        gap = (model.times > .3+1e-8)&(model.times < .7-1e-8)
+        rmse = float((x[:, model.free]-truth[:, model.free])[gap].square().mean().sqrt())
+    torch.testing.assert_close(x, model.times.new_tensor(p['positions_mean_m']), atol=2e-12, rtol=1e-12)
+    if abs(rmse-row['scores']['gap_rmse_m']) > 1e-11:
+        raise ValueError('Replica score differs.')
+
+
 def figures(summary, models, output, old_audit):
     plt.rcParams.update({'font.size': 11, 'axes.spines.top': False, 'axes.spines.right': False,
                          'figure.facecolor': 'white', 'axes.titleweight': 'bold'})
@@ -217,22 +246,24 @@ def figures(summary, models, output, old_audit):
         ax.fill_between(model.times, q05[:, k], q95[:, k], color=COLORS['neural'], alpha=.2)
         ax.plot(model.times, truth_force[:, k], color='#222', label='Reference load')
         ax.plot(model.times, force_mean[:, k], color=COLORS['neural'], label='Posterior mean')
-        ax.set(title='xyz'[k]+' component', xlabel='Time (s)', ylabel='Total force (N)'); ax.grid(alpha=.2)
+        ax.set(title='xyz'[k]+' component', xlabel='Time (s)', ylabel='Applied load (N)'); ax.grid(alpha=.2)
     axes[0].legend(fontsize=9)
-    fig.suptitle('Force remains marginalized during inference; posterior mixes its Gaussian conditionals')
+    fig.suptitle('Unknown applied load is marginalized; posterior mixes its Gaussian conditionals')
     fig.tight_layout(); fig.savefig(output/'force.png', dpi=160); plt.close(fig)
 
 
-def report(summary, ablation, mode, output):
+def report(summary, ablation, mode, output, replica_initial, replica_extended):
     pooled = {r['mode']: r for r in summary['aggregates'] if r['condition'] == 'pooled_stochastic'}
     rows = summary['cases']
+    extended = [json.loads(p.read_text()) for p in (output/'extended-checks').rglob('summary.json')]
+    extended = {r['kind']: r for r in extended}
     table = ''.join(f"<tr><td>{m.title()}</td><td>{pooled[m]['MAP_gap_rmse_m']*1000:.3f}</td><td>{pooled[m]['posterior_gap_rmse_m']*1000:.3f}</td><td>{100*pooled[m]['posterior_component_90_coverage']:.1f}%</td><td>{pooled[m]['posterior_width_m']*1000:.2f}</td></tr>" for m in COLORS)
     images = ''.join('<figure><img src="data:image/png;base64,'+base64.b64encode((output/file).read_bytes()).decode()+'"><figcaption>'+caption+'</figcaption></figure>' for file, caption in [
         ('reconstruction.png', 'All 36 cases are included. Each bar averages three paired seeds.'),
         ('uncertainty.png', 'Coordinates and the two stochastic conditions are correlated. These are descriptive benchmark frequencies.'),
         ('mixing.png', 'The development case was selected before the final comparison. Trace points are decimated for display; all retained draws enter diagnostics.'),
         ('trajectory.png', 'This illustrative case improves strongly. The neural posterior mean worsens error in four of the six stochastic cases, despite the improved average.'),
-        ('force.png', 'Illustrative central bands use 400 paired conditional force draws; full covariance uses every retained state. The force spatial profile is fixed.'),
+        ('force.png', 'The GP represents the unknown applied load, excluding known gravity and support reactions. Illustrative bands use 400 paired conditional draws; full covariance uses every retained state. The spatial profile is fixed.'),
         ('images.png', 'Images show the mean reconstructed scene, not the posterior predictive average of rendered images.')])
     mode_rows = mode['records']
     body = f'''<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Posterior inference audit</title>
@@ -252,13 +283,16 @@ def report(summary, ablation, mode, output):
 <h2>What changed in inference</h2>
 <p>The old sampler made small random moves and mixed poorly in damping. The replacement uses Gaussian-reference split Hamiltonian proposals, with exact mechanics gradients. A local image approximation makes proposals cheaper; the full nonlinear renderer and normalized marginalized-force density decide acceptance. Step size adapts only in discarded warmup, then freezes. Every state coordinate, gap coordinate, conditional force mean, and applicable force variance/normalizer is monitored.</p>
 <p>Some proposals have large energy errors or invalid physical intermediates and are rejected. Counts are preserved per case; independent smaller-step checks are in <code>step-checks/</code>. These are numerical sensitivity checks, not model tuning. Force uncertainty averages both the conditional covariance and variation between inferred trajectories.</p>
+<h2>Independent numerical replication</h2>
+<p>Both independently seeded smaller-step runs pass all Rhat/ESS monitors and have no invalid proposals or large energy errors. The floor case changes gap RMSE by 0.010 mm. The initial neural case changes 2.172 → 2.247 mm; two of 84 coordinates marginally exceed an approximate batch-MCSE/Bonferroni agreement threshold (maximum |z|={replica_initial['max_absolute_z_score']:.3f}, threshold {replica_initial['approximate_84_coordinate_bonferroni_95_threshold']:.3f}). Both cached full targets reproduce within 5.5×10⁻¹².</p>
+<p>Both unchanged neural kernels were then extended once to 4,000 retained states per chain, without further adaptation. Both pass every convergence monitor, with no invalid/large-energy proposals. At that fixed budget, maximum |z|={replica_extended['max_absolute_z_score']:.3f}, with {replica_extended['coordinates_exceeding_threshold']} of 84 coordinates exceeding the same approximate threshold. Gap RMSE is {1000*extended['primary']['scores']['gap_rmse_m']:.3f}/{1000*extended['small_step']['scores']['gap_rmse_m']:.3f} mm. The initial borderline comparison and longer-run results are preserved in <code>replica-comparison-initial.json</code>, <code>replica-comparison-extended.json</code> and <code>extended-checks/</code>. These supplementary estimates do not replace or select outcomes in the frozen 36-case benchmark. Batch-MCSE agreement does not prove calibration.</p>
 {images}
 <h2>Evidence and limitations</h2><p><a href="summary.json">All numerical results</a> · <a href="comparison.csv">Comparison table</a> · <a href="publication.json">Hashes and run provenance</a> · <a href="../../docs/POSTERIOR_INFERENCE.md">Equations and algorithms</a> · <a href="../../docs/POSTERIOR_CONVERGENCE_PROTOCOL.md">Frozen protocol</a></p>
 <p>94 numerical tests pass. The public Actions artifacts retain full latent chains and proposal errors for 30 days; code, fixed seeds, exact observed images, portable joint draws, all-coordinate diagnostics and reproduction commands remain in the repository. Raw posterior intervals are conditional on a known synthetic scene and frozen diffusion model. Repeated-realization posterior calibration, time/mesh sensitivity, unknown cameras/geometry, contact and real-video reconstruction remain open.</p></body></html>'''
     (output/'report.html').write_text(body, encoding='utf-8')
 
 
-def publish(raw, output, ablations, mode_audit, step_checks, old_audit):
+def publish(raw, output, ablations, mode_audit, step_checks, old_audit, extensions, replica_comparisons):
     raw, output = Path(raw), Path(output)
     if output.exists(): raise FileExistsError('Choose a new publication directory.')
     summary, models, checks = verify(raw)
@@ -312,19 +346,34 @@ def publish(raw, output, ablations, mode_audit, step_checks, old_audit):
         replica = json.loads(found[0].read_text())
         if replica['source_fingerprint_sha256'] != source_fingerprint():
             raise ValueError('Step-check target implementation differs.')
+        verify_replica(found[0].parent, models)
         for p in root.rglob('*.json'):
             compact(output/'step-checks'/root.name/p.relative_to(root), json.loads(p.read_text()))
     if len(list((output/'step-checks').rglob('summary.json'))) != 2:
         raise ValueError('Need both independent step-size checks.')
+    for root in map(Path, extensions):
+        record = json.loads((root/'summary.json').read_text())
+        if record['source_fingerprint_sha256'] != source_fingerprint() or record['retained_per_chain'] != 4000 or record['additional_adaptation']:
+            raise ValueError('Incorrect supplementary fixed-kernel extension.')
+        verify_replica(root, models)
+        for p in root.rglob('*.json'):
+            compact(output/'extended-checks'/root.name/p.relative_to(root), json.loads(p.read_text()))
+    replica_initial, replica_extended = [json.loads(Path(p).read_text()) for p in replica_comparisons]
+    for tag, record in [('initial', replica_initial), ('extended', replica_extended)]:
+        if record['source_fingerprint_sha256'] != source_fingerprint() or max(r['cached_target_max_abs_error'] for r in record['replicas']) > 1e-7:
+            raise ValueError('Replica exact-target check failed.')
+        compact(output/f'replica-comparison-{tag}.json', record)
     with (output/'comparison.csv').open('w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow(['case', 'mode', 'MAP_gap_rmse_mm', 'posterior_gap_rmse_mm', 'posterior_component_90_coverage', 'posterior_width_mm', 'Rhat_max', 'bulk_ESS_min', 'tail_ESS_min', 'draws_per_chain'])
         for r in summary['cases']:
             writer.writerow([r['case'], r['mode'], 1000*r['previous_MAP_scores']['original_gap']['position_rmse_m'], 1000*r['scores']['gap_rmse_m'], r['scores']['gap_component_90_coverage'], 1000*r['scores']['gap_mean_width_m'], r['worst_rhat'], r['minimum_bulk_ess'], r['minimum_tail_ess'], r['retained_per_chain']])
     figures(summary, models, output, Path(old_audit))
-    report(summary, means, mode, output)
+    report(summary, means, mode, output, replica_initial, replica_extended)
     compact(output/'verification.json', {'cases': checks, 'all_36_portable_scores_reproduced': True,
-        'all_diagnostic_flags_recomputed': True, 'conditional_force_total_covariance_verified': True})
+        'all_diagnostic_flags_recomputed': True, 'conditional_force_total_covariance_verified': True,
+        'all_9_added_ablation_states_targets_and_scores_reproduced': True,
+        'all_4_supplementary_replica_diagnostics_and_mean_scores_reproduced': True})
     artifact = json.loads((raw/'artifact_download.json').read_text())
     files = {p.relative_to(output).as_posix(): digest(p) for p in sorted(output.rglob('*')) if p.is_file()}
     compact(output/'publication.json', {'model_source_commit': '6a00d90c0ca8a53183c8346fc28def808c8e26ec',
@@ -343,4 +392,6 @@ if __name__ == '__main__':
     p.add_argument('--mode-audit', type=Path, required=True)
     p.add_argument('--step-checks', type=Path, nargs=2, required=True)
     p.add_argument('--old-audit', type=Path, default=Path('runs/calibrated-posterior-optimized'))
-    a = p.parse_args(); publish(a.raw, a.output, a.ablations, a.mode_audit, a.step_checks, a.old_audit)
+    p.add_argument('--extensions', type=Path, nargs=2, required=True)
+    p.add_argument('--replica-comparisons', type=Path, nargs=2, required=True)
+    a = p.parse_args(); publish(a.raw, a.output, a.ablations, a.mode_audit, a.step_checks, a.old_audit, a.extensions, a.replica_comparisons)

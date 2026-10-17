@@ -36,6 +36,13 @@ fingerprint `7d5b5c85b57a45819136acb4657b8b7c5041c0e145de12da0fb6683331984c27`;
 later scripts/docs preserve it. **94 checks** pass. Main raw comparison:
 `runs/converged-posterior-ci`, Actions run **39062694272**. Independent fixed-small-step
 replicas: run **39063241871**. Portable calibration-only control: **39063531997**.
+The initial neural replica has a borderline two-coordinate batch-MCSE difference;
+one fixed extension of both kernels to 4,000 draws per chain (run **39065071522**)
+gives 0/84 beyond the same approximate cutoff (max |z| 3.157 <3.434). Both
+longer runs pass all monitors, with zero invalid/large-energy proposals; their
+cached exact targets agree to 5.5e-12 and old prefixes are preserved bitwise.
+These supplementary results do not replace the original benchmark or establish
+calibration. Keep both `replica-comparison-initial.json` and `-extended.json`.
 `scripts/converged_sparse_comparison.py` reuses published exact data/coordinates,
 rebuilds its fixed Fisher proposal and verifies the old objective. Sampling
 continuations preserve RNG and frozen kernels. `publish_converged_posterior.py`

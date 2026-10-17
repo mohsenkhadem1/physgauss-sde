@@ -27,7 +27,8 @@ number of independent experimental replicates.
 Four independent reference initializations and momenta; pooled warmup adapts
 one step size for 500 transitions, targeting mean acceptance 0.9. It then freezes.
 Each Hamiltonian proposal has a state-independent random duration uniform in
-[1,4], rounded to an integer number of steps. The initial step size is 0.3;
+[1,4] in dimensionless algorithmic time, rounded to an integer number of steps.
+This is independent of physical simulation time. The initial step size is 0.3;
 dual-averaging bounds are [0.015,0.8]. Seed 99001 plus the fixed case index.
 The reference is the regenerated positive Fisher precision at the original MAP;
 its accuracy affects efficiency, never the invariant target.
