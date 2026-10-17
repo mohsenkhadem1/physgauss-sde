@@ -1,0 +1,102 @@
+name: Frozen sparse-view uncertainty study
+on:
+  push:
+    paths:
+      - '.github/workflows/validation-study.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  calibration:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        partition: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.4'
+      - run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install numpy==2.0.0 -e .
+      - run: python -u scripts/parallel_validation.py --split calibration --partition ${{ matrix.partition }} --output runs/partition
+      - uses: actions/upload-artifact@v4
+        with:
+          name: calibration-${{ matrix.partition }}
+          path: |
+            runs/partition/**/*.json
+            runs/partition/**/reference.pt
+          retention-days: 14
+  freeze:
+    needs: calibration
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.4'
+      - run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install numpy==2.0.0 -e .
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: calibration-*
+          merge-multiple: true
+          path: runs/validation
+      - run: python scripts/parallel_validation.py --merge --output runs/validation
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frozen-calibration
+          path: runs/validation
+          retention-days: 14
+  test:
+    needs: freeze
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        partition: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.4'
+      - run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install numpy==2.0.0 -e .
+      - uses: actions/download-artifact@v4
+        with:
+          name: frozen-calibration
+          path: runs/calibration
+      - run: python -u scripts/parallel_validation.py --split test --partition ${{ matrix.partition }} --frozen runs/calibration/frozen_intervals.json --output runs/partition
+      - uses: actions/upload-artifact@v4
+        with:
+          name: test-${{ matrix.partition }}
+          path: |
+            runs/partition/**/*.json
+            runs/partition/**/reference.pt
+          retention-days: 14
+  aggregate:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.4'
+      - run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install numpy==2.0.0 -e .
+      - uses: actions/download-artifact@v4
+        with:
+          name: frozen-calibration
+          path: runs/validation
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: test-*
+          merge-multiple: true
+          path: runs/validation
+      - run: python scripts/parallel_validation.py --merge --final --output runs/validation
+      - uses: actions/upload-artifact@v4
+        with:
+          name: complete-validation
+          path: runs/validation
+          retention-days: 14
