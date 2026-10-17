@@ -55,6 +55,8 @@ physgauss forces --plan configs/force_study.json --output runs/force-study --res
 
 See [the force prior, nonlinear target, diagnostics and controlled protocol](docs/FORCE_POSTERIOR.md). The full plan compares no load, a deterministic external pulse, internal stochastic forcing, and both, using the same images per model. There are no inferred model probabilities. A zero external-force band in the SDE-only model reflects an excluded component, not a conclusion that the force is absent. Inspect chain diagnostics before trusting any interval.
 
+The [completed 12-fit experiment](docs/FORCE_RESULTS.md), [self-contained report](examples/force-study/report.html), and [portable posterior files](examples/force-study/cases/) are versioned. All twelve fits fail the full convergence screen at the tested budget. Force estimates and covariance are therefore provisional, despite passing software/numerical checks. Published files carry their diagnostic status and source/data provenance.
+
 ## Adaptive noise and independent-realization study
 
 Version 0.2 adds an explicit zero-process-noise component and observation-only inference over noise scale. It analytically integrates scene parameters and stochastic increments under a common local image likelihood. Matched no-noise, fixed-SDE, and adaptive-mixture controls use the same inference approximation. Positive scale does not automatically mean physical randomness: the study also tests an unmodelled deterministic force.

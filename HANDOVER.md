@@ -6,11 +6,15 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
-Milestones 1 and 2 plus a nonlinear likelihood audit are implemented, executed, and pushed. Version 0.3 adds nonlinear Metropolis sampling with pCN and optional gradient-guided pCNL, defensive mixture/transport moves and rank/folded Rhat plus bulk/tail ESS. Thirty-seven local tests and the expanded Linux CI pass, including nonlinear quadrature and actual physics-likelihood gradient checks. The original two experiments, matched 18-configuration study, 54-method/configuration likelihood audit, and selected three-case nonlinear experiment have versioned reports. None of the three full sampler cases passes every diagnostic at four chains and 2,000 retained draws each. This remains a controlled synthetic proof of concept, not a completed real-video system.
+Version 0.4 is implemented and its 12-fit structured-force experiment is executed. Forty-eight local checks and the expanded Linux CI pass. The new API reconstructs coherent external-force functions, cross-time covariance and nodal samples from compact posterior files. All twelve controlled fits fail the complete convergence screen at four chains with 1,000 retained states each; estimates remain provisional. Original physics/SDE experiments, the 18-case scale study, likelihood audit and version-0.3 sampler investigation remain versioned historical evidence. This is a controlled synthetic proof of concept, not a completed real-video system.
 
 ## Start here
 
 Version 0.4 adds a 15-coordinate structured external load, force-only/SDE-only/combined controls, nonlinear fitted proposals and explicit force/impulse distributions. The suite contains 48 checks, including normalized target/reference density checks, known Gaussian posterior recovery, physical image gradients, passive truth/impulse logging, rejection of indefinite nonlinear curvature and reconstruction of portable joint force distributions. The controlled study uses the stable Gauss-Newton proposal; full nonlinear likelihoods still determine acceptance. Start with `docs/FORCE_POSTERIOR.md` and `physgauss forces --quick`. These restricted known-profile posteriors do not infer arbitrary force locations, camera or geometry.
+
+Read `docs/FORCE_RESULTS.md` and open `examples/force-study/report.html` for the latest measurements. Portable files under `examples/force-study/cases/` include an `inference` status/provenance block. Use `evaluate_force_posterior` from `forces.py` to query them, and keep joint `posterior.pt` coordinates when generating scene samples rather than independently combining force and material marginals. Raw local results are in `runs/force-study-v2`; a new clone can run the fixed plan into a fresh directory. Independent execution partitions were checked for identical source, environment, configurations and calibrated network tensors; `execution.json` records the merge.
+
+Implementation commits: `480648f` (force model/inference), `1644958` (portable coherent posteriors), `e301b5a` (test-only cross-platform derivative check away from depth-order discontinuities). The full study's source fingerprint matches `1644958` and is unchanged by the test-only commit. CI for `e301b5a` passes, including all original smoke paths and the force pipeline.
 
 1. Read `README.md` for setup and run commands.
 2. Read `docs/METHOD.md` for exact assumptions and the implemented equations.
@@ -65,7 +69,7 @@ The nonlinear sampler's target is now corrected mathematically, but finite-chain
 ## Next milestones
 
 1. Establish adequate nonlinear sampler exploration on sparse-view cases using the implemented convergence/ESS diagnostics; do not equate a correct Metropolis kernel with converged finite chains.
-2. Distinguish structured external forcing/model discrepancy from stochastic forcing. Repeat coverage and proper-score studies on independent realizations and more geometries.
+2. Improve exploration of the implemented structured-force/SDE models; compare gradient-free proposals and inspect renderer depth-order/linearization effects. Only then extend spatial force patterns, model probabilities and repeated-realization coverage studies.
 3. Add inferred geometry and camera uncertainty after establishing reliable inference on the known scene.
 4. Add contact events, multimodal hypotheses, and real-video ingestion.
 5. Compare against PIDG, GP-4DGS, ODE-GS, and uncertainty-aware reconstruction methods under matched observations.
@@ -85,6 +89,7 @@ The nonlinear sampler's target is now corrected mathematically, but finite-chain
 ```sh
 python -m pip install -e .
 physgauss check
+physgauss forces --plan configs/force_study.json --output runs/new-force-study
 physgauss study --plan configs/scale_study.json --output runs/new-scale-study
 physgauss audit --study runs/new-scale-study --source-ref HEAD --output runs/new-audit --samples 256
 physgauss sample --study runs/new-scale-study --source-ref HEAD --case stochastic__long_gap__3101 --output runs/new-nonlinear --langevin

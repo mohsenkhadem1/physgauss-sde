@@ -1,0 +1,67 @@
+{
+  "plan": {
+    "base": {
+      "frames": 21,
+      "duration": 1.0,
+      "image_size": 24,
+      "substeps": 3,
+      "observed_frames": [
+        0,
+        3,
+        6,
+        14,
+        17,
+        20
+      ],
+      "noise_rank": 3,
+      "observation_sigma": 0.015,
+      "adam_steps": 100,
+      "lbfgs_steps": 20,
+      "posterior_samples": 64,
+      "diffusion_seed": 918,
+      "diffusion_steps": 350,
+      "finite_difference_chunk": 12,
+      "threads": 2
+    },
+    "seeds": [
+      4101
+    ],
+    "conditions": [
+      "no_load",
+      "external_pulse",
+      "stochastic",
+      "pulse_and_stochastic"
+    ],
+    "methods": [
+      "force_only",
+      "sde_only",
+      "force_and_sde"
+    ],
+    "force_prior": {
+      "knots": 5,
+      "temporal_length_fraction": 0.15,
+      "spatial_length_m": 0.6,
+      "total_force_std_n": 0.05
+    },
+    "exact_hessian": false,
+    "sampler": {
+      "chains": 4,
+      "warmup": 500,
+      "draws": 1000,
+      "beta": 0.5,
+      "defensive_mass": 0.05,
+      "independent_probability": 0.25,
+      "transport_probability": 0.0,
+      "seed": 81001,
+      "langevin": true
+    },
+    "evaluation_samples": 128
+  },
+  "source_fingerprint_sha256": "a6c60bf7760aa44ba568056231a1ddf56014be856f7017ea6d21740711acdc12",
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.0.0",
+    "platform": "Windows-11-10.0.26200-SP0"
+  }
+}

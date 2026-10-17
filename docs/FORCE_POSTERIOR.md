@@ -78,7 +78,8 @@ import json
 from pathlib import Path
 from physgauss.forces import evaluate_force_posterior
 
-fields = json.loads(Path("runs/force-study/cases/external_pulse__4101__force_only/fields.json").read_text())
+fields = json.loads(Path("examples/force-study/cases/external_pulse__4101__force_only/fields.json").read_text())
+print(fields["inference"]["status"])               # inspect convergence status first
 posterior = evaluate_force_posterior(fields, [0.4, 0.5, 0.6])
 mean = posterior["mean_total_N"]                    # [time, xyz]
 covariance = posterior["joint_total_covariance_N2"] # [time*xyz, time*xyz]
@@ -86,6 +87,8 @@ draws = posterior["nodal_draws_N"]                  # [draw, time, node, xyz]
 ```
 
 Means and covariance reconstruct from every retained coefficient state. Function draws use the saved subset and preserve non-Gaussian dependence; quantiles estimated from that subset may differ from the all-state quantiles saved at solver times. Queries must remain within the declared recording interval. These are conditional external-force distributions, not instantaneous white-noise forces or probabilities that a force exists.
+
+Compact versioned snapshots additionally attach an `inference` block with status and provenance copied from the matching case diagnostics. Raw run diagnostics live in the matching `summary.json`. The query function returns estimates regardless of diagnostic status; it does not certify convergence. For generating full physical scene/video samples, retain the joint coordinates in `posterior.pt`: independently combining a marginal force draw with a fixed material estimate does not reproduce the joint scene posterior.
 
 ## Remaining identifiability limits
 
