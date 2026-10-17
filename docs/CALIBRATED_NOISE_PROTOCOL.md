@@ -100,3 +100,21 @@ prepares disjoint reference partitions using identical source/settings/seeds;
 it never fits models or changes the experiment. Full precision matrices/chains
 are local checkpoints; compact source, inputs, solver states, diagnostics,
 calibration weights and reports are published for handover.
+
+### Execution addendum (before held-out test fitting)
+
+The primary 39-motion validation is also executed by
+`.github/workflows/validation-study.yml`: four calibration partitions, a job
+that verifies all 19 calibration motions and freezes the quantiles, then four
+test partitions and a verified aggregate. This changes execution scheduling,
+not the model, seeds, observations, budgets or scores. The same frozen network
+weights are saved in `examples/calibrated-noise-setup/calibration.json`.
+
+The initial local calibration execution was stopped with 12 completed fits and
+no held-out test fitting; its checkpoints are retained as a pilot and are not
+mixed into primary validation. Local reference preparation was also stopped.
+All primary validation cases use the CI workers' recorded runtimes. Paired
+benchmark fits remain local. CPU library versions, worker provenance and
+workflow/artifact hashes are recorded. Portable point states reconstruct local
+precision matrices without fitting; normalized densities and position/interval
+metrics must agree across runtimes within explicit published tolerances.
