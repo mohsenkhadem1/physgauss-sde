@@ -1,4 +1,5 @@
 import json
+import math
 from pathlib import Path
 import tempfile
 import unittest
@@ -44,8 +45,8 @@ class PACTests(unittest.TestCase):
         r, cov, g, _ = model.terms(z)
         e = BlockLoadElimination(g[0], cov); mean = e.conditional_mean(r.flatten(1))
         actual = e.marginal_nll(r.flatten(1))-e.joint_nll(r.flatten(1), mean)
-        expected = .5*(e.logdet-e.logdet_q)-.5*model.force_dimension*torch.log(torch.tensor(2*torch.pi))
-        torch.testing.assert_close(actual, expected, atol=1e-6,rtol=1e-8)
+        expected = .5*(e.logdet-e.logdet_q)-.5*model.force_dimension*math.log(2*math.pi)
+        torch.testing.assert_close(actual, expected, atol=1e-9,rtol=1e-10)
         joint = fixture(force='joint')
         torch.testing.assert_close(joint.objective(torch.cat((z,mean),-1)),
             model.objective(z)-actual,atol=1e-7,rtol=1e-8)
@@ -74,6 +75,13 @@ class PACTests(unittest.TestCase):
         model=fixture();z=torch.zeros(1,model.dimension,dtype=torch.float64)
         a=model.transition(z,1/48);b=model.transition(z,1/24)
         torch.testing.assert_close(a@a,b,atol=1e-12,rtol=1e-12)
+        for p in [-3.,0.,3.]:
+            z[:,:2]=p
+            a=torch.zeros(1,24,24,dtype=z.dtype)
+            a[:,:12,12:]=torch.eye(12,dtype=z.dtype)
+            a[:,12:,:12]=-torch.diag_embed(model.eigen[None]*torch.exp(.7*z[:,:1]))
+            a[:,12:,12:]=-torch.eye(12,dtype=z.dtype)*torch.exp(.7*z[:,1:2,None])*.8
+            torch.testing.assert_close(model.transition(z,1/24),torch.matrix_exp(a/24),atol=1e-12,rtol=1e-12)
 
     def test_withheld_images_cannot_change_fitting_target(self):
         model=fixture();z=torch.zeros(1,model.dimension,dtype=torch.float64)

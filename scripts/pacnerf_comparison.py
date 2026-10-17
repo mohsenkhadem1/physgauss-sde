@@ -130,6 +130,9 @@ class Target:
             bad = ~torch.isfinite(ratio)|~torch.isfinite(grad).all(-1)
             return ratio.detach(), torch.nan_to_num(grad.detach()), bad
         except (ValueError, torch.linalg.LinAlgError):
+            if len(w) > 1:
+                rows = [self(row[None]) for row in white]
+                return tuple(torch.cat([row[i] for row in rows]) for i in range(3))
             return w.new_full((len(w),), -torch.inf), torch.zeros_like(w), torch.ones(len(w), dtype=torch.bool)
 
     @torch.no_grad()
@@ -138,6 +141,9 @@ class Target:
             ratio = -self.model.objective(self.decode(w))+self.center+.5*w.square().sum(-1)
             return ratio, ~torch.isfinite(ratio)
         except (ValueError, torch.linalg.LinAlgError):
+            if len(w) > 1:
+                rows = [self.full_log_ratio(row[None]) for row in w]
+                return tuple(torch.cat([row[i] for row in rows]) for i in range(2))
             return w.new_full((len(w),), -torch.inf), torch.ones(len(w), dtype=torch.bool)
 
 
@@ -165,7 +171,7 @@ def reference_precision(model, mean, metric_floor=None):
                        'adjusted_eigenvalues': int((eigen < floor).sum()), 'seconds': time.time()-began}
 
 
-def refine_mode(model, mean, rounds=40):
+def refine_mode(model, mean, rounds=100, checkpoint=None):
     history = []
     for iteration in range(rounds):
         z = mean.detach().requires_grad_()
@@ -175,9 +181,27 @@ def refine_mode(model, mean, rounds=40):
         decrement = float((step@g).detach().clamp_min(0).sqrt())
         history.append({'iteration': iteration, 'objective': float(value.detach()),
                         'decrement': decrement, 'curvature': curvature})
+        if checkpoint is not None:
+            write(checkpoint/'newton_progress.json', history)
+            torch.save({'mean':mean,'precision':precision}, checkpoint/'newton_progress.pt')
         print('Newton', iteration, history[-1]['objective'], decrement, flush=True)
         if decrement < .02 and curvature['minimum_observed_eigenvalue'] > 0:
             return mean, precision, {'newton_decrement': decrement, 'history': history, 'stationary': True}
+        if iteration % 5 == 0:
+            # Optimize in a fixed local precision metric before further Newton
+            # steps. Direct pose/velocity coordinates are badly conditioned.
+            transform = torch.linalg.solve_triangular(torch.linalg.cholesky(precision).T,
+                torch.eye(len(mean),dtype=mean.dtype),upper=True)
+            center = mean
+            class Whitened:
+                def objective(self, w): return model.objective(center+w@transform.T)
+            w, white_fit = optimize(Whitened(), torch.zeros_like(mean), 150)
+            candidate = center+w@transform.T
+            with torch.no_grad(): trial = float(model.objective(candidate[None])[0])
+            if math.isfinite(trial) and trial < float(value.detach()):
+                history[-1]['whitened_refinement'] = white_fit
+                mean = candidate.detach()
+                continue
         # Bound the change in standardized coordinates, then use an exact
         # objective Armijo line search. No truth or withheld images are used.
         fraction = min(1., 2./max(float(step.norm()), 1e-12))
@@ -215,14 +239,20 @@ def score(model, draws, inputs):
     # True held-out images: all cameras and times except frame-zero bootstrap
     # and explicitly observed camera/time pairs. Do not synthesize new truth.
     all_specs = [(f, c) for f in range(1, 14) for c in range(11) if (f, c) not in model.specs]
-    errors = []
+    errors, foreground_error, foreground_count = [], [], []
     for start in range(0, len(all_specs), 8):
         specs = all_specs[start:start+8]
         rgb = model.renderer(mean_q[[f for f, c in specs]][None], specs)[0]
         target = torch.stack([model.data['images'][c, f] for f, c in specs])
         errors.append((rgb-target).square().flatten(1).mean(-1))
+        bg = torch.stack([model.data['backgrounds'][c] for f,c in specs])
+        region = (target-bg).abs().amax(-1) > .10
+        foreground_error.append(((rgb-target).square()*region[...,None]).sum())
+        foreground_count.append(region.sum()*3)
     record['heldout_rgb_psnr_db'] = float(-10*torch.log10(torch.cat(errors).mean()))
     record['heldout_images'] = len(all_specs)
+    record['heldout_background_difference_region_psnr_db'] = float(-10*torch.log10(torch.stack(foreground_error).sum()/torch.stack(foreground_count).sum().clamp_min(1)))
+    record['region_metric_definition'] = 'evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask'
     return record, {'modal_pose_mean_m': mean_q.tolist(), 'particle_mean_m': mean.tolist(), 'particle_q05_m': lower.tolist(), 'particle_q95_m': upper.tolist()}
 
 
@@ -250,7 +280,7 @@ def run(inputs, output, index, pilot=False):
         mean, precision = fit['mean'], fit['precision']
     else:
         mean, fit_info = optimize(model, initialize(model), 350)
-        mean, precision, stationarity = refine_mode(model, mean)
+        mean, precision, stationarity = refine_mode(model, mean, checkpoint=out)
         fit = {'mean': mean, 'precision': precision, 'fit': fit_info, 'stationarity': stationarity}
         torch.save(fit, out/'reference.pt')
         write(out/'fit.json', {k:v for k,v in fit.items() if k not in ['mean', 'precision']})

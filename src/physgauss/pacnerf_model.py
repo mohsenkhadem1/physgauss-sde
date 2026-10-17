@@ -147,11 +147,19 @@ class PACModel:
 
     def transition(self, z, duration):
         b, m = len(z), self.modes
-        a = z.new_zeros(b, m, 2, 2)
-        a[:, :, 0, 1] = 1.
-        a[:, :, 1, 0] = -self.eigen[None]*torch.exp(z[:, :1]*.7)
-        a[:, :, 1, 1] = -torch.exp(z[:, 1:2]*.7)*.8
-        exp = torch.matrix_exp(a*duration)
+        omega2 = self.eigen[None]*torch.exp(z[:, :1]*.7)
+        damping = torch.exp(z[:, 1:2]*.7)*.8
+        argument = (damping.square()/4-omega2)*duration**2
+        positive = argument.clamp_min(1e-6).sqrt()
+        negative = (-argument).clamp_min(1e-6).sqrt()
+        small = argument.abs() < 1e-6
+        cosine = torch.where(small, 1+argument/2+argument.square()/24+argument.pow(3)/720,
+            torch.where(argument >= 0, positive.cosh(), negative.cos()))
+        sinch = torch.where(small, 1+argument/6+argument.square()/120+argument.pow(3)/5040,
+            torch.where(argument >= 0, positive.sinh()/positive, negative.sin()/negative))
+        decay = torch.exp(-damping*duration/2)
+        exp = torch.stack((decay*(cosine+damping*duration*sinch/2), decay*duration*sinch,
+            -decay*omega2*duration*sinch, decay*(cosine-damping*duration*sinch/2)), -1).reshape(b,m,2,2)
         # State ordering [all q, all v].
         output = z.new_zeros(b, 2*m, 2*m)
         for row in range(2):
@@ -169,8 +177,8 @@ class PACModel:
         radial = ((velocity[:, :, self.edges[:, 1]]-velocity[:, :, self.edges[:, 0]])*direction).sum(-1)
         features = torch.stack((strain, radial), -1)
         amp = self.network(features)/self.constant if self.noise == 'neural' else torch.ones_like(strain)
-        nodal = torch.einsum('ne,btec,bte->btnce', self.incidence, direction, amp)
-        factor = torch.einsum('ncm,btnce->btme', self.basis, nodal)
+        edge_basis = self.basis[self.edges[:,1]]-self.basis[self.edges[:,0]]
+        factor = torch.einsum('ecm,btec->btme', edge_basis, direction)*amp[:,:,None,:]
         # Same fixed normalization in both arms, defined from rest geometry.
         factor = factor*self.internal_scale/math.sqrt(len(self.edges)/len(self.data['rest']))
         acc_cov = factor@factor.transpose(-1, -2)+self.acc_noise_floor**2*torch.eye(m, dtype=z.dtype)
@@ -197,18 +205,31 @@ class PACModel:
 
     def dynamics(self, z):
         residual, covariance, mapping, _ = self.terms(z)
-        # mapping depends on material/damping but is linear in force at a fixed
-        # trajectory/parameter state. BlockLoadElimination uses shared mapping,
-        # so evaluate chains separately when their mappings differ.
-        values = []
-        for i in range(len(z)):
-            e = BlockLoadElimination(mapping[i], covariance[i:i+1])
-            r = residual[i:i+1].flatten(1)
-            values.append(e.joint_nll(r, z[i:i+1, self.base_dimension:])[0] if self.force == 'joint' else e.marginal_nll(r)[0])
+        # Batched Woodbury elimination; same algebra as BlockLoadElimination,
+        # but G may differ between chains' material/damping parameters.
+        chol_q = torch.linalg.cholesky(covariance)
+        white_g = torch.linalg.solve_triangular(chol_q, mapping, upper=False)
+        white_r = torch.linalg.solve_triangular(chol_q, residual[...,None], upper=False).squeeze(-1)
+        logdet_q = 2*chol_q.diagonal(dim1=-2,dim2=-1).log().sum((-1,-2))
+        n = residual.shape[1]*residual.shape[2]
+        if self.force == 'joint':
+            coefficients = z[:,self.base_dimension:]
+            white = white_r-torch.einsum('btdk,bk->btd',white_g,coefficients)
+            square = white.square().sum((-1,-2))+coefficients.square().sum(-1)
+            values = .5*(square+logdet_q+(n+self.force_dimension)*math.log(2*math.pi))
+        else:
+            precision = torch.eye(self.force_dimension,dtype=z.dtype)+torch.einsum('btdk,btdl->bkl',white_g,white_g)
+            chol_a = torch.linalg.cholesky(precision)
+            rhs = torch.einsum('btdk,btd->bk',white_g,white_r)
+            mean = torch.cholesky_solve(rhs[...,None],chol_a).squeeze(-1)
+            white = white_r-torch.einsum('btdk,bk->btd',white_g,mean)
+            square = white.square().sum((-1,-2))+mean.square().sum(-1)
+            logdet_a = 2*chol_a.diagonal(dim1=-2,dim2=-1).log().sum(-1)
+            values = .5*(square+logdet_q+logdet_a+n*math.log(2*math.pi))
         prior = .5*z[:, :2+self.modes].square().sum(-1)
         # Triangular residual Jacobian = 1 in physical q/v coordinates. The
         # fixed coordinate scaling changes density by a constant only.
-        return torch.stack(values)+prior-self.scale[2+self.modes:].log().sum()
+        return values+prior-self.scale[2+self.modes:].log().sum()
 
     def image_residual(self, z):
         q, _ = self.decode(z)

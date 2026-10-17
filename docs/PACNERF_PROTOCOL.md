@@ -89,8 +89,9 @@ physical explanation. Removing forces altogether would be a separate ablation.
 
 ## Inference and evaluation
 
-Observed images and physics alone determine L-BFGS initialization, damped Newton
-refinement, and an observed Hessian proposal metric. Sampling is forbidden unless
+Observed images and physics alone determine L-BFGS initialization, optimization
+in fixed local precision coordinates, damped Newton refinement, and an observed
+Hessian proposal metric. Sampling is forbidden unless
 the Newton decrement is below 0.02 and observed curvature is positive. A stopped
 initial development pilot used only 150 L-BFGS iterations and exposed an
 unconverged reference; it is not evidence and motivated this observed-data-only
@@ -103,6 +104,14 @@ bulk/tail ESS >=400, and no frozen chains. Failed cases remain published but are
 not eligible for scientific rankings. Development pilots use 100+100 and are
 always excluded from rankings. Full nonlinear rendering enters MH acceptance;
 a twelve-coordinate image Taylor expansion accelerates proposals only.
+
+The local-precision optimization was added after direct standardized-coordinate
+L-BFGS and small damped Newton steps proved poorly conditioned in development.
+It minimizes the same observed-data target. The modal 2x2 matrix exponential is
+evaluated by its analytic under/overdamped formula with a smooth zero-argument
+series, checked against `torch.matrix_exp`. Batched force elimination and direct
+edge-basis contraction implement the same Gaussian algebra without large
+intermediate nodal tensors. None of these optimizations changes the model.
 
 Scores: held-out RGB PSNR; particle-coordinate RMSE at 128 fixed frame-zero
 indices; componentwise central 90% interval coverage and width in the gap;
