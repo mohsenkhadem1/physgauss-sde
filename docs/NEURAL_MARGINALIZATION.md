@@ -2,6 +2,8 @@
 
 This extension compares the current fixed full-rank discrepancy with constant and neural balanced internal noise, under identical sparse images and exactly marginalized external-force priors. The numerical integrator and continuous renderer from v0.6 are retained. Neural benefit is a hypothesis to test, not assumed.
 
+The [completed 36-fit results](NEURAL_MARGINAL_RESULTS.md) and [offline report](../examples/neural-marginal/report.html) are published. Structured internal noise improves stochastic point reconstruction, while neural adaptation does not beat the constant control. Most added-noise local posterior diagnostics fail. The separate [true-state calibration audit](../examples/neural-calibration-audit/summary.json) reveals operating-region miscalibration without changing any primary fit or score.
+
 ## What is combined
 
 All three models retain the declared velocity-diffusion floor sigma0=0.02 (m/s)/sqrt(s), the same eight scene parameters, known mesh/cameras/appearance, and the same 15-coordinate external force prior. The extra internal diffusion consists of equal/opposite central edge impulses, correlated by a rank-three spatial RBF basis of length 0.45 m. Balance holds before the known supports exchange momentum with the object.
@@ -10,7 +12,7 @@ All three models retain the declared velocity-diffusion floor sigma0=0.02 (m/s)/
 - `constant`: add the balanced internal diffusion with a constant edge amplitude.
 - `neural`: add that same diffusion with amplitude depending on edge strain and preceding-velocity radial speed.
 
-The neural MLP is 2 -> 8 tanh -> 1, with sigma=0.001 softplus(output)+0.0001, 33 weights/biases. It is calibrated on 4,096 independently simulated innovation examples, frozen, and never trained on test motion or withheld images. The constant amplitude is the RMS neural amplitude on a separate fixed calibration feature set, not tuned to reconstruction truth. Constant and neural controls share spatial basis, rank, full-rank floor and force prior. The network weights, calibration examples/seeds and measured calibration errors are saved.
+The neural MLP is 2 -> 8 tanh -> 1, with sigma=0.001 softplus(output)+0.0001, 33 weights/biases. It is calibrated on 4,096 independently simulated innovation examples, frozen, and never trained on test motion or withheld images. The constant amplitude is the RMS neural amplitude on a separate fixed calibration feature set, not tuned to reconstruction truth. Constant and neural controls share spatial basis, rank, full-rank floor and force prior. Constant edge amplitude still uses evolving edge directions, so its covariance depends on geometry; only the floor-only model has a state-independent covariance. The network weights, calibration examples/seeds and measured calibration errors are saved.
 
 ## Causal state-dependent covariance
 
@@ -92,3 +94,9 @@ Use the numerical implementation recorded by the publication. Recovery verifies 
 The optional `scripts/prepare_neural_references.py --study runs/neural-marginal` helper may prepare independent stochastic references concurrently with deterministic fits. It calls the identical committed functions and seeds and publishes reference files atomically; it does not change inference or define a new experimental partition.
 
 All 77 checks and all original/new smoke commands passed implementation CI for `08c3281`: https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39037380351 . Neural-weight uncertainty is not propagated; the comparison is conditional on the separately calibrated frozen network.
+
+Reproduce the secondary evaluation-only calibration audit, using the published true frame states and known synthetic amplitude law:
+
+    python scripts/audit_neural_calibration.py --study examples/neural-marginal --output runs/new-calibration-audit
+
+It performs no network training or reconstruction updates. All true-state feature values lie within the original broad training ranges; poor operating-region calibration therefore cannot be dismissed as an out-of-range input check alone.

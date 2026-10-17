@@ -1,0 +1,72 @@
+{
+  "plan": {
+    "conditions": [
+      "no_load",
+      "external_pulse",
+      "stochastic",
+      "pulse_and_stochastic"
+    ],
+    "seeds": [
+      4101,
+      4102,
+      4103
+    ],
+    "modes": [
+      "floor",
+      "constant",
+      "neural"
+    ],
+    "substeps": 6,
+    "observed_frames": [
+      0,
+      3,
+      6,
+      14,
+      17,
+      20
+    ],
+    "render_bins": 128,
+    "reference_render_bins": 512,
+    "reference_substeps": 768,
+    "reference_last_change_tolerance_m": 0.00025,
+    "production_stochastic_rmse_tolerance_m": 0.0005,
+    "optimizer": {
+      "iterations": 20,
+      "decrement_tolerance": 0.05,
+      "backtracks": 18
+    },
+    "force_prior": {
+      "knots": 5,
+      "temporal_length_fraction": 0.15,
+      "spatial_length_m": 0.6,
+      "total_force_std_n": 0.05
+    },
+    "trajectory_model": {
+      "velocity_diffusion": 0.02,
+      "velocity_coordinate_scale": 0.1
+    },
+    "internal_rank": 3,
+    "internal_spatial_length_m": 0.45,
+    "calibration_seed": 918,
+    "calibration_steps": 350,
+    "constant_calibration_seed": 105918,
+    "constant_calibration_examples": 4096,
+    "evaluation_samples": 128,
+    "audit_samples": 128,
+    "sampling_seed": 127100,
+    "threads": 2,
+    "smoke_only": false
+  },
+  "source_fingerprint_sha256": "689baa8640bcd18883d087d1a65f57feb11afd32e446c0250ac926fb71b25695",
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.0.0",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "calibration_sha256_canonical_json": "ba483ec669491f933fbd99be8d4c5f5919fe769a01879006cfaf2bd3cc3f594f",
+  "deterministic_reference_hashes": {
+    "no_load": "8915732fbca3d9c722c4157ea8f79bc3b79319de95125750c3c406ae5fac09bc",
+    "external_pulse": "38c63735807e3e510398faf57e2dc2f3acf0d41acdfa1877fc56ca0e6687e621"
+  }
+}

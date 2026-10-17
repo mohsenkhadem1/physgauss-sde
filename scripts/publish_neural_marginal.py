@@ -158,9 +158,34 @@ def figures(raw, output, summary):
     fig.suptitle("Local Gaussian uncertainty diagnostics; three seeds do not establish calibration")
     fig.tight_layout(); savefig(fig, output, "uncertainty.png")
 
-    fig, ax = plt.subplots(figsize=(9, 4))
-    grouped(ax, summary, "mean_force_rmse_N", 1., "External total-force RMSE [N]", "Does internal noise reduce incorrect external-force attribution?")
-    ax.legend(fontsize=9); fig.tight_layout(); savefig(fig, output, "force_comparison.png")
+    fig, axes = plt.subplots(2, 3, figsize=(13, 7), sharex=True)
+    for i, condition in enumerate(("stochastic", "pulse_and_stochastic")):
+        dataset = json.loads((raw/"datasets"/f"{condition}__4101"/"inputs.json").read_text())
+        times = np.array(dataset["times_s"])
+        truth = np.array(dataset["positions_m_evaluation_only"])
+        for mode in MODES:
+            row = lookup(summary, condition, mode, 4101)
+            point = json.loads((raw/"cases"/row["case"]/"point.json").read_text())
+            # First free node is global mesh vertex 2 in the declared cube.
+            error = 1000*(np.array(point["positions_m"])[:, 2]-truth[:, 2])
+            band = 1000*1.6448536269514722*np.array(point["free_position_sd_m"])[:, 0]
+            for dim, ax in enumerate(axes[i]):
+                ax.plot(times, error[:, dim], color=COLORS[mode], label=LABELS[mode])
+                ax.fill_between(times, error[:, dim]-band[:, dim], error[:, dim]+band[:, dim], color=COLORS[mode], alpha=.10)
+        for dim, ax in enumerate(axes[i]):
+            ax.axhline(0, color="black", ls="--", lw=1)
+            ax.axvspan(.3, .7, color="gray", alpha=.12)
+            for frame in dataset["observed_indices"]: ax.axvline(times[frame], color="gray", ls=":", lw=.5)
+            ax.set(title=TITLES[condition]+" / "+"xyz"[dim], xlabel="Time [s]", ylabel="Position error and local band [mm]")
+    axes[0, 0].legend(fontsize=8)
+    fig.suptitle("One free vertex, predeclared seed 4101: missing motion and local uncertainty\nZero is evaluation truth; dotted times are RGB observations, not measured 3D positions")
+    fig.tight_layout(); savefig(fig, output, "trajectory_uncertainty.png")
+
+    fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+    grouped(axes[0], summary, "mean_force_rmse_N", 1., "External total-force RMSE [N]", "Primary: local posterior-mixture mean")
+    point_force = json.loads((output/"point_force_comparison.json").read_text())
+    grouped(axes[1], {"aggregates": point_force["aggregates"]}, "mean_force_rmse_N", 1., "External total-force RMSE [N]", "Diagnostic: force conditioned on MAP motion")
+    axes[0].legend(fontsize=8); fig.tight_layout(); savefig(fig, output, "force_comparison.png")
 
     fig, axes = plt.subplots(2, 2, figsize=(11, 7), sharex=True)
     for i, condition in enumerate(("no_load", "pulse_and_stochastic")):
@@ -240,19 +265,25 @@ def report(output, summary):
         f"{r['local_gaussian_audit']['relative_weight_ess']:.3f}", r["fit"]["stop_reason"]] for r in summary["cases"]]
     stationary = sum(r["fit"]["stationarity_screen_pass"] for r in summary["cases"])
     importance = sum(r["local_gaussian_audit"]["screen_pass"] for r in summary["cases"])
+    def pooled(conditions, mode):
+        return 1000*np.mean([lookup(summary, c, mode)["mean_gap_position_rmse_m"] for c in conditions])
+    stochastic_means = ", ".join(f"{LABELS[m]} {pooled(('stochastic', 'pulse_and_stochastic'), m):.3f} mm" for m in MODES)
+    deterministic_means = ", ".join(f"{LABELS[m]} {pooled(('no_load', 'external_pulse'), m):.3f} mm" for m in MODES)
     document = f'''<!doctype html><html lang="en"><meta charset="utf-8"><title>Neural SDE with marginalized forces</title>
 <style>body{{font:16px/1.5 system-ui;max-width:1250px;margin:32px auto;padding:0 24px;color:#20313b;background:#f9fafb}}img{{width:100%;height:auto}}figure{{margin:24px 0}}figcaption{{color:#536371;font-size:14px}}table{{width:100%;border-collapse:collapse;font-size:12px;background:white}}td,th{{padding:8px;border-bottom:1px solid #ddd;text-align:left}}th{{background:#e4edf1}}.notice{{background:#e5f2f4;border-left:5px solid #007c91;padding:18px}}h1,h2{{line-height:1.2}}</style>
 <h1>Does neural internal noise help sparse-view force reconstruction?</h1>
 <div class="notice">36 fixed fits: four synthetic conditions, three seeds and three noise models. Every model receives the same six moving-camera images, force prior and initialization. Both constant and neural balanced internal diffusion are compared with the current full-rank floor. All use exact conditional Gaussian force elimination. Read accuracy, uncertainty width, CRPS and inference flags together.</div>
+<p><strong>Mean gap errors on stochastic condition/seed cases:</strong> {stochastic_means}. <strong>On deterministic cases:</strong> {deterministic_means}. These are averages of per-seed coordinate RMSEs, with three underlying seeds and matched noise across conditions; the paired cases are not six independent realizations. Small differences between neural and constant diffusion do not establish a neural-specific benefit.</p>
 <h2>What the experiment tests</h2>
-<p>The current model has independent free-node velocity discrepancy. The constant and neural models add equal/opposite central internal impulses with the same rank-three spatial basis. Neural amplitudes depend on inferred strain and preceding-velocity speed; the constant amplitude matches RMS neural output on separate calibration features. The 33-parameter neural network is frozen after independent synthetic training, not learned from the sparse test video. All retain the same fixed discrepancy floor.</p>
+<p>The current model has independent free-node velocity discrepancy. The constant and neural models add equal/opposite central internal impulses with the same rank-three spatial basis. Neural amplitudes depend on inferred strain and preceding-velocity speed; the constant amplitude matches RMS neural output on separate calibration features. Constant amplitude still follows changing edge directions, so its covariance depends on deformed geometry. The 33-parameter neural network is frozen after independent synthetic training, not learned from the sparse test video. All retain the same fixed discrepancy floor.</p>
 <p>This is a noise-model comparison with force marginalization held fixed. It does not independently measure marginalization versus joint fitting; that was a separate v0.6 comparison. Adding internal diffusion may help stochastic motion but can introduce unnecessary flexibility on deterministic motion. Three seeds are exploratory.</p>
 {embedded('sparse_comparison.png', 'Missing-gap reconstruction under identical six-view inputs. No rows or seeds are selected away; black markers show individual outcomes.')}
 {table(['Truth', 'Model', 'Gap mm', 'CRPS mm', 'Local 90% coverage', 'Width mm', 'Force RMSE N', 'Stationary', 'Weight screen'], aggregate_rows)}
 <h2>Uncertainty and force attribution</h2>
 <p>Local Gaussian intervals use a metric accounting for both residual-mean and covariance derivatives; this is not the exact posterior Hessian or established calibration. Coverage counts correlated free-node components. CRPS rewards accuracy and appropriate width together. {stationary}/36 fits pass stationarity and {importance}/36 pass the independent 128-proposal weight-concentration screen; individual flags follow below. Passing is not proof of adequate posterior exploration.</p>
 {embedded('uncertainty.png', 'Compare width and CRPS alongside coverage. Wider intervals can increase coverage without improving useful uncertainty.')}
-{embedded('force_comparison.png', 'External-force error; the stochastic-only truth has no external push. Noise can otherwise be attributed incorrectly to the smooth external-force model.')}
+{embedded('trajectory_uncertainty.png', 'Per-time point errors and local 90% bands at the first free vertex, seed 4101. The original gap is shaded; the inferred models received RGB only. These bands remain subject to the failed nonlinear proposal checks.')}
+{embedded('force_comparison.png', 'Primary local posterior-mixture force error versus a post-fit point-conditioned diagnostic. The latter fixes motion at its marginal MAP and is not a full posterior estimate. Neither diagnostic is used to tune a fit.')}
 {embedded('force_distributions.png', 'Selected force functions at a predeclared seed, with the complete multi-seed comparison in the table. Bands are local approximations.')}
 <h2>What marginalization contributes</h2>
 <p>For an inferred path z, mechanical residual r(z)=G a+eta has Gaussian force coefficients a and state-dependent disturbance covariance Q(z). Integrating a gives C(z)=Q(z)+G G^T. The exact conditional force covariance is S(z)=[I+G^T Q(z)^(-1)G]^(-1). Both log determinants and derivatives of Q are retained.</p>
@@ -301,11 +332,20 @@ def publish(raw, output, source_ref):
         if "brownian_finest_increments" in reference:
             record["brownian_finest_increments_sha256_float64_bytes"] = digest_tensor(reference["brownian_finest_increments"])
         write_json(output/"datasets"/folder.name/"reference.json", record)
+    point_force_records = []
     for row in summary["cases"]:
         fitted = torch.load(raw/"cases"/row["case"]/"fit.pt", weights_only=True)
         write_json(output/"cases"/row["case"]/"solver_state.json", {"coordinates": fitted["mean"].tolist(),
             "conditional_force_mean_at_MAP": fitted["conditional_force_mean"].tolist(),
             "qualification": "point coordinates only; full precision regenerated by the committed plan"})
+        force_at_map = model.force_prior.total_force(fitted["conditional_force_mean"][None], model.times)[0]
+        pulse = torch.exp(-.5*((model.times-.5)/.08).square()) if CONDITIONS[row["condition"]][0] else torch.zeros_like(model.times)
+        true_force = pulse[:, None]*model.mesh.mass[model.free].sum()*model.times.new_tensor([.45, 0., -.30])
+        force_rmse = float((force_at_map-true_force).square().mean().sqrt())
+        write_json(output/"cases"/row["case"]/"conditional_force_at_map.json", {
+            "times_s": model.times.tolist(), "conditional_total_mean_N": force_at_map.tolist(), "rmse_N": force_rmse,
+            "qualification": "post-fit diagnostic: exact force conditional at marginal MAP motion; excludes motion/material uncertainty; not the full posterior mean or a replacement primary score"})
+        point_force_records.append({"condition": row["condition"], "seed": row["seed"], "mode": row["mode"], "rmse_N": force_rmse})
         if row["mode"] == "neural":
             full = model.step_trajectory(fitted["mean"][None])
             features = edge_features(full.x[:, :-1], full.v[:, :-1], model.mesh)[0]
@@ -320,6 +360,14 @@ def publish(raw, output, source_ref):
                 "constant_calibration_amplitude": calibration["constant_amplitude"],
                 "mean_internal_to_floor_velocity_variance_trace_ratio": float(ratio.mean()),
                 "qualification": "post-fit diagnostic on MAP states, not used to tune network/noise hyperparameters"})
+    point_aggregates = []
+    for condition in CONDITIONS:
+        for mode in MODES:
+            group = [r for r in point_force_records if r["condition"] == condition and r["mode"] == mode]
+            point_aggregates.append({"condition": condition, "mode": mode,
+                "mean_force_rmse_N": sum(r["rmse_N"] for r in group)/len(group)})
+    write_json(output/"point_force_comparison.json", {"cases": point_force_records, "aggregates": point_aggregates,
+        "qualification": "secondary post-fit diagnostic motivated by flagged local trajectory proposals; all conditions/models/seeds retained; primary force scores unchanged"})
     with (output/"comparison.csv").open("w", newline="", encoding="utf-8") as stream:
         writer = csv.writer(stream)
         writer.writerow(["condition", "seed", "mode", "gap_rmse_mm", "gap_crps_mm", "gap_coverage", "gap_width_mm", "force_rmse_N", "stationary", "weight_relative_ess", "fit_seconds"])

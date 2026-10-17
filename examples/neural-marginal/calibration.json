@@ -1,0 +1,81 @@
+{
+  "architecture": "2 -> Linear(8) -> tanh -> Linear(1) -> .001 softplus + .0001",
+  "network_training": {
+    "supervision": "independent synthetic conditional Gaussian innovations",
+    "seed": 918,
+    "train_examples": 4096,
+    "validation_examples": 1024,
+    "steps": 350,
+    "relative_sigma_rmse": 0.14586955342294383
+  },
+  "constant_amplitude": 0.0025673707342272053,
+  "constant_calibration": {
+    "seed": 105918,
+    "examples": 4096,
+    "definition": "RMS neural amplitude on separate calibration features; same spatial correlation and rank",
+    "neural_relative_sigma_rmse_vs_analytic_law": 0.14409635408551047,
+    "constant_relative_sigma_rmse_vs_analytic_law": 0.17506843638274225
+  },
+  "state_dict": {
+    "net.0.weight": [
+      [
+        -1.0315633071024843,
+        -0.09224481864836458
+      ],
+      [
+        -0.9580456000733389,
+        -0.09305517627412033
+      ],
+      [
+        0.17787321245598872,
+        0.014765422036533719
+      ],
+      [
+        -0.5017382144711096,
+        -0.02780705293695128
+      ],
+      [
+        -0.12197704718487429,
+        -0.7643990036570862
+      ],
+      [
+        -0.3459437203131233,
+        -0.014343689652816148
+      ],
+      [
+        0.2815569870437393,
+        0.01832253966441403
+      ],
+      [
+        -0.24978256831805212,
+        -0.04655554941698284
+      ]
+    ],
+    "net.0.bias": [
+      0.05164068806018166,
+      -0.13488914752731013,
+      0.756338918114485,
+      -0.5353248322569064,
+      -0.20039139629491884,
+      -0.9725019211744987,
+      1.0074550890612302,
+      -0.2201911602672851
+    ],
+    "net.2.weight": [
+      [
+        -0.3031821459131567,
+        -0.26770365710366306,
+        0.5910183936645863,
+        -0.7862400220045215,
+        0.16843723058922302,
+        -0.737272084707499,
+        0.49681991788405006,
+        -0.14331922154732318
+      ]
+    ],
+    "net.2.bias": [
+      0.547378374392238
+    ]
+  },
+  "qualification": "independent synthetic simulator supervision; weights frozen; no test motion or withheld images used"
+}
