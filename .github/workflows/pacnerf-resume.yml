@@ -34,6 +34,13 @@ jobs:
           run-id: ${{ inputs.source_run }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: runs/pacnerf-inputs
+      - uses: actions/upload-artifact@v4
+        with:
+          # Preserve identical input bytes so a later continuation can use
+          # this run as its source after the original run's artifacts expire.
+          name: pacnerf-inputs
+          path: runs/pacnerf-inputs
+          retention-days: 30
       - uses: actions/download-artifact@v4
         with:
           name: pacnerf-results-${{ inputs.case }}
