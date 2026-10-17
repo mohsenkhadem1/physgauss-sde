@@ -38,6 +38,12 @@ def worker(plan, calibration_file, output, split, partition, partitions, frozen=
         if freeze["calibration_seeds"] != plan["interval_calibration_seeds"]: raise ValueError("Incomplete calibration.")
     shared = construct(plan, network, calibration, "floor")
     with torch.no_grad(): initial = shared.rollout(shared.times.new_zeros(1, 8), shared.times.new_zeros(1, 15))[0]
+    if not plan["smoke_only"]:
+        frozen_initial = json.loads(Path("examples/calibrated-noise-setup/initial_state.json").read_text())
+        fixed = initial.new_tensor(frozen_initial["coordinates"])
+        torch.testing.assert_close(initial, fixed, rtol=1e-10, atol=1e-12)
+        initial = fixed
+        write_json(output/"initial_state.json", frozen_initial)
     seeds = plan["interval_calibration_seeds" if split == "calibration" else "interval_test_seeds"][partition::partitions]
     for seed in seeds:
         condition = case_condition(seed); label = f"{condition}__{seed}"
@@ -110,7 +116,7 @@ def merge(plan, root, calibration_file, final=False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--plan", type=Path, default=Path("configs/calibrated_noise_study.json"))
+    parser.add_argument("--plan", type=Path, default=Path("configs/calibrated_noise_frozen_basis_study.json"))
     parser.add_argument("--calibration", type=Path, default=Path("examples/calibrated-noise-setup/calibration.json"))
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--split", choices=["calibration", "test"])

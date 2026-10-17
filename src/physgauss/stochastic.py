@@ -7,9 +7,13 @@ diffusion is identifiable from one video. Noise acts as central edge impulses.
 import torch
 from torch import nn
 from .physics import Mesh
+from .frozen_basis import frozen_cube_basis
 
 
 def spatial_basis(mesh: Mesh, rank=3, length_scale=0.45):
+    frozen = frozen_cube_basis(mesh, rank, length_scale)
+    if frozen is not None:
+        return frozen
     centers = mesh.rest[mesh.edges].mean(-2)
     d2 = (centers[:, None] - centers[None]).square().sum(-1)
     kernel = torch.exp(-d2 / (2 * length_scale ** 2))

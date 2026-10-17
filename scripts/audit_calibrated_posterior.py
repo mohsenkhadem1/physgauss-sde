@@ -16,6 +16,7 @@ from physgauss.neural_marginal_inference import fit_neural_marginal
 from physgauss.marginal_inference import TrajectoryFitConfig
 from physgauss.marginal_study import audit_gaussian
 from physgauss.uncertainty_validation import finite_difference_precision
+from sparse_observed_curvature import observed_precision, directional_refinement
 from physgauss.mcmc import SamplerConfig, sample_nonlinear
 from physgauss.chain_diagnostics import diagnose_quantities
 from physgauss.physics import InvalidDeformation
@@ -61,6 +62,21 @@ class ExactCorrection:
                 gradients.append(torch.zeros_like(z)); invalid.append(True)
         return ((torch.stack(ratios), torch.stack(targets), torch.tensor(invalid)), torch.stack(gradients))
 
+    @torch.no_grad()
+    def __call__(self, coordinates, scales):
+        try:
+            values = self.model.objective(coordinates, self.observations)
+        except (InvalidDeformation, ValueError):
+            rows = []
+            for point in coordinates:
+                try: rows.append(self.model.objective(point[None], self.observations)[0])
+                except (InvalidDeformation, ValueError): rows.append(point.new_tensor(torch.inf))
+            values = torch.stack(rows)
+        invalid = ~torch.isfinite(values)
+        white = (coordinates-self.reference.mean)@self.reference.chol
+        ratio = -values+self.center+.5*white.square().sum(-1)
+        return torch.where(invalid, -torch.inf, ratio), -values, invalid
+
 
 def audit(study, case, output, warmup=1000, draws=2000, seed=97001):
     study, output = Path(study), Path(output); output.mkdir(parents=True, exist_ok=True)
@@ -76,10 +92,13 @@ def audit(study, case, output, warmup=1000, draws=2000, seed=97001):
     original = torch.load(study/"cases"/case/"fit.pt", weights_only=True)
     settings = {"case": case, "source_fingerprint_sha256": source_fingerprint(),
                 "warmup": warmup, "draws": draws, "seed": seed, "chains": 4,
-                "epsilons_white": [.01, .005], "refit_decrement": .001,
+                "directional_epsilons_white": [.01, .005], "refit_decrement": .001,
+                "curvature": "exact local AD/force Schur/logdet volume Hessian; independently checked against dense AD and directional differences",
+                "sampler": "gradient-free Gaussian-reference pCN plus independent refresh, Metropolis-corrected full target",
                 "observations_sha256": digest_tensor(observed.rgb),
                 "original_fit_mean_sha256": digest_tensor(original["mean"]),
-                "audit_script_sha256_normalized_lf": hashlib.sha256(Path(__file__).read_bytes().replace(b"\r\n", b"\n")).hexdigest()}
+                "audit_script_sha256_normalized_lf": hashlib.sha256(Path(__file__).read_bytes().replace(b"\r\n", b"\n")).hexdigest(),
+                "curvature_script_sha256_normalized_lf": hashlib.sha256((Path(__file__).parent/"sparse_observed_curvature.py").read_bytes().replace(b"\r\n", b"\n")).hexdigest()}
     if (output/"settings.json").exists() and json.loads((output/"settings.json").read_text()) != settings:
         raise ValueError("Audit source/input/settings changed; choose a new output.")
     write_json(output/"settings.json", settings)
@@ -88,28 +107,26 @@ def audit(study, case, output, warmup=1000, draws=2000, seed=97001):
         mode = fit_neural_marginal(model, observed, original["mean"], TrajectoryFitConfig(iterations=20, decrement_tolerance=.001))
         torch.save(mode, output/"mode.pt")
     if not mode["record"]["stationarity_screen_pass"]: raise RuntimeError("Audit mode is not stationary.")
-    metrics = []
-    for epsilon in (.01, .005):
-        file = output/f"hessian_{epsilon}.pt"
-        if file.exists(): checkpoint = torch.load(file, weights_only=True)
-        else:
-            print("Observed Hessian epsilon", epsilon, flush=True)
-            fit, details, white = finite_difference_precision(model, observed, mode, epsilon=epsilon)
-            checkpoint = {"fit": fit, "audit": details, "white_hessian": white}
-            torch.save(checkpoint, file)
-        metrics.append(checkpoint)
-    refinement = float((metrics[0]["white_hessian"]-metrics[1]["white_hessian"]).norm()/metrics[1]["white_hessian"].norm())
-    if refinement > .001: raise RuntimeError("Finite-difference curvature did not refine.")
-    fitted = metrics[-1]["fit"]
+    file = output/"observed_hessian.pt"
+    if file.exists(): checkpoint = torch.load(file, weights_only=True)
+    else:
+        print("Assembling exact observed curvature from local blocks", flush=True)
+        fit, details, white = observed_precision(model, observed, mode)
+        checks = directional_refinement(model, observed, mode, white)
+        checkpoint = {"fit": fit, "audit": details, "white_hessian": white, "directional_checks": checks}
+        torch.save(checkpoint, file)
+    refinement = max(checkpoint["directional_checks"][-1]["relative_Hv_errors"])
+    fitted = checkpoint["fit"]
     weights = {"fisher": audit_gaussian(model, observed, mode, 512, seed+1),
                "observed_hessian": audit_gaussian(model, observed, fitted, 512, seed+1)}
     write_json(output/"curvature.json", {"settings": settings, "refined_mode": mode["record"],
-        "hessians": [m["audit"] for m in metrics], "relative_refinement": refinement, "importance": weights})
+        "hessians": [checkpoint["audit"]], "relative_refinement": refinement,
+        "directional_checks": checkpoint["directional_checks"], "importance": weights})
     reference = SingleReference(fitted)
     if (output/"chains.pt").exists(): chains = torch.load(output/"chains.pt", weights_only=True)
     else:
         config = SamplerConfig(chains=4, warmup=warmup, draws=draws, seed=seed, beta=.5,
-            independent_probability=.1, transport_probability=0., langevin=True)
+            independent_probability=.1, transport_probability=0., langevin=False)
         chains = sample_nonlinear(reference, ExactCorrection(model, observed, reference), config,
                                    progress=lambda s: print(s, flush=True))
         torch.save(chains, output/"chains.pt")

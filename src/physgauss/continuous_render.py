@@ -63,9 +63,14 @@ class ContinuousGaussianRenderer(GaussianRenderer):
     def integrate(optical, fractions, colors):
         extinction = torch.einsum("btsg,btghw->btshw", fractions, optical)
         source = torch.einsum("btsg,btghw,gc->btshwc", fractions, optical, colors)
-        # The exact zero-density limit emits zero. The tiny denominator only
-        # prevents 0/0 in empty rays; it is far below the quadrature tolerance.
-        color = source/extinction[..., None].clamp_min(1e-30)
         before = torch.cumsum(extinction, 2)-extinction
-        weights = torch.exp(-before)*(-torch.expm1(-extinction))
-        return (weights[..., None]*color).sum(2)+torch.exp(-extinction.sum(2))[..., None]*.035
+        # Evaluate (1-exp(-tau))/tau by its analytic zero-density limit.
+        # Dividing source by clamp(tau) loses emission derivatives at tau=0
+        # and destabilizes observed curvature in numerically empty depth slabs.
+        small = extinction < 1e-3
+        series = 1+extinction*(-.5+extinction*(1/6+extinction*(-1/24+extinction*(1/120-extinction/720))))
+        safe = extinction.clamp_min(1e-3)
+        regular = -torch.expm1(-safe)/safe
+        factor = torch.where(small, series, regular)
+        emitted = torch.exp(-before)[..., None]*factor[..., None]*source
+        return emitted.sum(2)+torch.exp(-extinction.sum(2))[..., None]*.035

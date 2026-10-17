@@ -118,3 +118,50 @@ benchmark fits remain local. CPU library versions, worker provenance and
 workflow/artifact hashes are recorded. Portable point states reconstruct local
 precision matrices without fitting; normalized densities and position/interval
 metrics must agree across runtimes within explicit published tolerances.
+
+### Reproducibility corrections and fresh final test split
+
+Cross-runtime recovery of the first CI run failed before publication: its
+first reconstructed normalized objective differed by about 25. The spatial RBF
+kernel has a triple eigenvalue at the rank-three truncation boundary. Windows
+and Linux selected different two-dimensional slices of that eigenspace; row
+normalization did not remove the difference in the resulting covariance.
+This invalidates treating those worker results as the original fixed physical
+model. The initial 19/20 neural whole-gap coverage is a diagnostic only.
+
+Version 0.8.1 freezes the actual cube projection already published in v0.7,
+before the v0.8 calibration or tests. The literal constants live in
+`src/physgauss/frozen_basis.py` and therefore enter the numerical source hash.
+Simulation, calibration and inference all obtain this same basis on every
+backend. This is explicitly a fixed rank-three covariance approximation; it
+does not recover the full isotropic RBF covariance. A shared prior-rollout
+initializer is also serialized for partitioned execution.
+
+An independent curvature check also exposed a zero-extinction derivative error
+in rendering. Writing emission as `(1-exp(-tau))*source/clamp(tau)` gives the
+wrong emission derivative at exactly zero density. The corrected renderer uses
+`source * phi(tau)`, where `phi(tau)=(1-exp(-tau))/tau` and `phi(0)=1`, with a
+stable Taylor evaluation near zero. Tests compare first and second derivatives
+with the closed-form single-color volume solution, including exactly empty
+slabs. This fixes derivatives while retaining the same analytic forward model.
+
+The final complete rerun uses
+`configs/calibrated_noise_frozen_basis_study.json`. Its 20 new test seeds are
+83001–83020, disjoint from the already examined initial 82001–82020 cases.
+The network weights, force/noise settings, 19 calibration seeds, sparse views,
+budgets and scoring rules are unchanged. Calibration is recomputed with the
+fixed physical projection and frozen before the fresh test jobs. All 36 paired
+benchmark fits are rerun with the corrected derivatives. Initial results and
+the failed cross-runtime check are retained as diagnostics, not merged into
+the final experiment.
+
+For the separate posterior audit, exact observed curvature is assembled from
+local joint mechanics Hessians, the force Schur complement, the complete
+force-volume logdet Hessian and observed image curvature. Independent dense AD
+on a smaller model, full-target Hessian-vector AD, and refined directional
+finite differences validate it. The uncompleted full-size brute-force finite
+difference attempt is not a result. Four gradient-free Metropolis-corrected
+pCN chains, including independent refreshes, replace the initially planned
+pCNL kernel to reduce CPU cost; the target, monitored quantities, warmup and
+retained budgets remain unchanged. This amendment changes the audit proposal,
+never the reconstruction objective or conformal calibration/test procedure.

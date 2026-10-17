@@ -69,7 +69,9 @@ class CalibrationValidationTests(unittest.TestCase):
     def test_exact_target_correction_and_whitened_gradient(self):
         import importlib.util
         from pathlib import Path
+        import sys
         path = Path(__file__).resolve().parents[1]/"scripts/audit_calibrated_posterior.py"
+        sys.path.insert(0, str(path.parent))
         spec = importlib.util.spec_from_file_location("posterior_audit", path)
         module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
         precision = torch.tensor([[2., .2], [.2, 3.]], dtype=torch.float64)
@@ -88,6 +90,64 @@ class CalibrationValidationTests(unittest.TestCase):
         expected = -.5*torch.einsum("bi,ij,bj->b", white, precision-torch.eye(2), white)
         torch.testing.assert_close(values[0], expected)
         torch.testing.assert_close(grad, -white@(precision-torch.eye(2)))
+        direct = module.ExactCorrection(Quadratic(), None, ref2)(white, None)
+        torch.testing.assert_close(direct[0], values[0])
+        torch.testing.assert_close(direct[1], values[1])
+        self.assertTrue(torch.equal(direct[2], values[2]))
+        sys.path.pop(0)
+
+    def test_local_schur_volume_observed_hessian_matches_independent_dense_AD(self):
+        import sys
+        from pathlib import Path
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1]/"scripts"))
+        from sparse_observed_curvature import observed_precision, directional_refinement
+        from test_neural_marginal import NeuralMarginalTests
+        from physgauss.benchmark import Observations
+        m = NeuralMarginalTests().small(); m.network = CalibratedDiffusion()
+        for parameter in m.network.parameters(): parameter.requires_grad_(False)
+        point = NeuralMarginalTests().state(m)[0][0].detach()
+        rgb = m.predict(point[None], m.view_frames)[0].detach()
+        noise = .00001*torch.randn(rgb.shape, dtype=rgb.dtype, generator=torch.Generator().manual_seed(990))
+        obs = Observations(m.view_frames, rgb+noise, .015)
+        fitted = {"mean": point, "precision_cholesky": torch.eye(len(point), dtype=point.dtype)}
+        actual, details, white = observed_precision(m, obs, fitted)
+        dense = torch.autograd.functional.hessian(lambda z: m.objective(z[None], obs).sum(), point, vectorize=False)
+        chol = actual["precision_cholesky"]
+        torch.testing.assert_close(chol@chol.T, dense, rtol=1e-9, atol=1e-8)
+        self.assertLess(details["relative_antisymmetry"], 1e-10)
+        checks = directional_refinement(m, obs, fitted, white)
+        self.assertLess(max(checks[-1]["relative_Hv_errors"]), 1e-4)
+        sys.path.pop(0)
+
+    def test_fixed_cube_projection_does_not_depend_on_tied_eigenspace_solver(self):
+        import json
+        from pathlib import Path
+        from unittest.mock import patch
+        from physgauss.physics import cube_mesh
+        from physgauss.stochastic import spatial_basis
+        mesh = cube_mesh()
+        expected = json.loads((Path(__file__).resolve().parents[1]/"examples/neural-marginal/model_constants.json").read_text())["internal_spatial_basis"]
+        with patch("torch.linalg.eigh", side_effect=RuntimeError("Backend-dependent eigenspace")):
+            actual = spatial_basis(mesh, 3, .45)
+            torch.testing.assert_close(actual, torch.tensor(expected, dtype=actual.dtype), rtol=0, atol=0)
+            with self.assertRaises(RuntimeError): spatial_basis(mesh, 2, .45)
+        torch.testing.assert_close(actual.square().sum(-1), torch.ones(19, dtype=actual.dtype), rtol=1e-14, atol=1e-14)
+
+    def test_volume_emission_has_correct_empty_slab_first_and_second_derivatives(self):
+        from physgauss.continuous_render import ContinuousGaussianRenderer
+        colors = torch.tensor([[.2, .4, .7]], dtype=torch.float64)
+        fractions = torch.ones(1, 1, 1, 1, dtype=torch.float64)
+        for value in (0., 1e-35, 1e-12, 5e-4, .1):
+            optical = torch.full((1, 1, 1, 1, 1), value, dtype=torch.float64, requires_grad=True)
+            image = ContinuousGaussianRenderer.integrate(optical, fractions, colors)
+            first, = torch.autograd.grad(image.sum(), optical, create_graph=True)
+            second, = torch.autograd.grad(first.sum(), optical)
+            depth = optical.detach().sum(2)
+            expected_value = (-torch.expm1(-depth))[..., None]*colors+.035*torch.exp(-depth)[..., None]
+            expected_first = torch.exp(-optical.detach())*(colors.sum()-.105)
+            torch.testing.assert_close(image, expected_value, rtol=1e-12, atol=1e-15)
+            torch.testing.assert_close(first, expected_first, rtol=1e-12, atol=1e-15)
+            torch.testing.assert_close(second, -expected_first, rtol=1e-10, atol=1e-14)
 
 
 if __name__ == "__main__": unittest.main()
