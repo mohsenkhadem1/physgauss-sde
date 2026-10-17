@@ -1,0 +1,161 @@
+{
+  "settings": {
+    "case": "pulse_and_stochastic__4101__neural",
+    "source_fingerprint_sha256": "7a4e3ce81327156803e359031e7365f001c275607b7f8026c997078b33769f96",
+    "warmup": 1000,
+    "draws": 2000,
+    "seed": 97001,
+    "chains": 4,
+    "directional_epsilons_white": [
+      0.01,
+      0.005,
+      0.001,
+      0.0005,
+      0.0001,
+      5e-05
+    ],
+    "refit_decrement": 0.001,
+    "curvature": "exact local AD/force Schur/logdet volume Hessian; independently checked against dense AD and directional differences",
+    "sampler": "gradient-free Gaussian-reference pCN plus independent refresh, Metropolis-corrected full target",
+    "contraction": {
+      "enabled": true,
+      "opt_einsum_version": "3.4.0",
+      "strategy": "greedy",
+      "qualification": "algebraically identical equations; contraction equivalence checked separately"
+    },
+    "observations_sha256": "df98d1515c34d0ab5bf59c38cfca076b57344d49d8bfcc69d8acf504b1e4063e",
+    "original_fit_mean_sha256": "f77c4a53c7982fd17b52cd5ee9b9f0a40e9ded8e68fcaca562d579a38b7caf37",
+    "audit_script_sha256_normalized_lf": "bb490c667e58a22067601dd0cfe6f7910e462affdb1a7c9eb95598fd39ebecfb",
+    "curvature_script_sha256_normalized_lf": "66929b862bc6a9659a20a09e5cfa6bae48bd25bb8cbcf21402bdfca4f07e3c2e"
+  },
+  "refined_mode": {
+    "method": "marginalized",
+    "internal_mode": "neural",
+    "state_dimension": 1448,
+    "marginal_objective": 1610.290950820849,
+    "marginal_gradient_norm": 0.009109266320741737,
+    "marginal_gaussian_metric_decrement": 0.0006223960213913486,
+    "stationarity_screen_pass": true,
+    "stop_reason": "step_decrement",
+    "iterations": 3,
+    "history": [
+      {
+        "iteration": 0,
+        "objective": 1610.291050404229,
+        "step_decrement": 0.012594421716999345,
+        "gradient_norm": 0.24131620677375162,
+        "covariance_information_trace": 237.05249136232143,
+        "accepted_scale": 1.0
+      },
+      {
+        "iteration": 1,
+        "objective": 1610.2909551065077,
+        "step_decrement": 0.002641360692432735,
+        "gradient_norm": 0.03945665528150989,
+        "covariance_information_trace": 237.06250757890325,
+        "accepted_scale": 1.0
+      },
+      {
+        "iteration": 2,
+        "objective": 1610.290950820849,
+        "step_decrement": 0.0006223960213913486,
+        "gradient_norm": 0.009109266320741737,
+        "covariance_information_trace": 237.06465847172538
+      }
+    ],
+    "profile_marginal_identity_abs_error": 9.450218385609332e-13,
+    "seconds_including_final_covariance": 35.80996629999936,
+    "metric": "Gaussian residual mean and covariance information plus prior; exact centered-drag normalizer curvature",
+    "uncertainty": "local Gaussian using this metric, not exact posterior Hessian or calibrated nonlinear uncertainty",
+    "covariance_information_trace": 237.06465847172538
+  },
+  "hessians": [
+    {
+      "method": "exact local AD joint Hessian, force Schur complement and full logdetA Hessian; exact observed image curvature",
+      "relative_antisymmetry": 3.728239502607911e-16,
+      "seconds": 17.011085000001913,
+      "white_eigenvalue_min": 0.6704536293589491,
+      "white_eigenvalue_max": 1.1748387797155169,
+      "qualification": "observed Hessian Gaussian remains local, not an exact nonlinear posterior"
+    }
+  ],
+  "relative_refinement": 3.496967045244485e-05,
+  "directional_checks": [
+    {
+      "epsilon_white": 0.01,
+      "relative_Hv_errors": [
+        4.007659740133494e-06,
+        6.903808678218843e-07,
+        4.1636330129054274e-07,
+        0.00013920350486457264,
+        8.355181983417884e-05,
+        3.903637347719496e-05,
+        3.231923311736247e-05,
+        4.905148792907578e-05,
+        5.27717799504057e-06,
+        3.925123309601837e-05,
+        5.158525866298212e-06
+      ],
+      "full_target_AD_relative_Hv_errors": [
+        2.632973278190862e-13,
+        4.899536899161796e-13,
+        4.2545258060296285e-13,
+        3.410672335164502e-12,
+        5.911663373545047e-12,
+        2.629914949853724e-12,
+        2.1529793915855388e-12,
+        2.755347852363366e-12,
+        1.8996095900738112e-12,
+        2.7760584255205907e-12,
+        2.7615017713842608e-12
+      ]
+    },
+    {
+      "epsilon_white": 0.005,
+      "relative_Hv_errors": [
+        1.0024030092707295e-06,
+        1.726120804917803e-07,
+        1.040983614294889e-07,
+        3.496967045244485e-05,
+        2.0859708343448826e-05,
+        9.777000739806636e-06,
+        8.09192255412225e-06,
+        1.2288052795903854e-05,
+        1.3199697667498402e-06,
+        9.822421983701702e-06,
+        1.2882056711116863e-06
+      ],
+      "full_target_AD_relative_Hv_errors": [
+        2.632973278190862e-13,
+        4.899536899161796e-13,
+        4.2545258060296285e-13,
+        3.410672335164502e-12,
+        5.911663373545047e-12,
+        2.629914949853724e-12,
+        2.1529793915855388e-12,
+        2.755347852363366e-12,
+        1.8996095900738112e-12,
+        2.7760584255205907e-12,
+        2.7615017713842608e-12
+      ]
+    }
+  ],
+  "importance": {
+    "fisher": {
+      "samples": 512,
+      "invalid_samples": 0,
+      "relative_weight_ess": 0.013827147459627681,
+      "maximum_normalized_weight": 0.35857768918305977,
+      "screen_pass": false,
+      "qualification": "independent full nonlinear marginal-target/proposal weight concentration; passing is not calibration or proof of adequate sampling"
+    },
+    "observed_hessian": {
+      "samples": 512,
+      "invalid_samples": 0,
+      "relative_weight_ess": 0.0706182811271931,
+      "maximum_normalized_weight": 0.07665596722705381,
+      "screen_pass": false,
+      "qualification": "independent full nonlinear marginal-target/proposal weight concentration; passing is not calibration or proof of adequate sampling"
+    }
+  }
+}

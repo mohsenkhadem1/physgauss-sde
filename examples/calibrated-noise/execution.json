@@ -1,0 +1,33 @@
+{
+  "implementation_source_commit": "03d6048b344b3591a4b4754518613e2a7c5946cf",
+  "comparison_command": "Matched calibrated-noise comparison GitHub workflow; same fixed original images and serialized prior initializer across all four CPU partitions",
+  "validation_command": "Frozen sparse-view uncertainty study GitHub workflow, four calibration partitions -> frozen quantiles -> four test partitions -> verified aggregate",
+  "reference_helper": "local pilot only: python scripts/prepare_validation_references.py --study runs/calibrated-noise-final/validation",
+  "execution": "complete paired comparison and validation on CPU CI partitions; exact frozen source/weights/settings. Local fitting pilots not mixed into primary cases. Posterior audit solves the identical predeclared benchmark problem locally; input hashes agree and independently fitted original mode agrees within rtol=1e-8 atol=2e-9.",
+  "cross_runtime_verification": "reconstructed normalized targets and Fisher factors from exact stored RGB/solver states without optimization; position/SD/score rtol=1e-9 atol=2e-10; normalized NLL absolute tolerance 1e-7",
+  "validation_workflow": {
+    "repository": "mohsenkhadem1/physgauss-sde",
+    "workflow_run_id": 39044647259,
+    "artifact_name": "complete-validation",
+    "artifact_id": 12104764641,
+    "archive_sha256": "8b075dde3f06c445b1e793d5bfe529dfa7a4a9a64286f5c415671f1047563ea1",
+    "archive_size_bytes": 46926787,
+    "workflow_url": "https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39044647259"
+  },
+  "comparison_workflow": {
+    "repository": "mohsenkhadem1/physgauss-sde",
+    "workflow_run_id": 39045544526,
+    "artifact_name": "complete-comparison",
+    "artifact_id": 12105931518,
+    "archive_sha256": "e93c850aae1d2279abcabcdc7577af198fd839acb4a3dcc29a1f359b5abc2ad2",
+    "archive_size_bytes": 29989895,
+    "workflow_url": "https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39045544526"
+  },
+  "posterior_contraction": {
+    "enabled": true,
+    "opt_einsum_version": "3.4.0",
+    "strategy": "greedy",
+    "qualification": "algebraically identical equations; contraction equivalence checked separately"
+  },
+  "preconditioner_cache": "same-source refined mode and observed Hessian cached from default contraction; objective/gradient equivalence verified before optional greedy sampling; incomplete pilots never used as posterior samples"
+}

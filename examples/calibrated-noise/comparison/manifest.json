@@ -1,0 +1,258 @@
+{
+  "plan": {
+    "conditions": [
+      "no_load",
+      "external_pulse",
+      "stochastic",
+      "pulse_and_stochastic"
+    ],
+    "seeds": [
+      4101,
+      4102,
+      4103
+    ],
+    "modes": [
+      "floor",
+      "constant",
+      "neural"
+    ],
+    "substeps": 6,
+    "observed_frames": [
+      0,
+      3,
+      6,
+      14,
+      17,
+      20
+    ],
+    "render_bins": 128,
+    "reference_render_bins": 512,
+    "reference_substeps": 768,
+    "reference_last_change_tolerance_m": 0.00025,
+    "production_stochastic_rmse_tolerance_m": 0.0005,
+    "optimizer": {
+      "iterations": 40,
+      "decrement_tolerance": 0.05,
+      "backtracks": 18
+    },
+    "force_prior": {
+      "knots": 5,
+      "temporal_length_fraction": 0.15,
+      "spatial_length_m": 0.6,
+      "total_force_std_n": 0.05
+    },
+    "trajectory_model": {
+      "velocity_diffusion": 0.02,
+      "velocity_coordinate_scale": 0.1
+    },
+    "internal_rank": 3,
+    "internal_spatial_length_m": 0.45,
+    "calibration_seed": 918,
+    "calibration_steps": 350,
+    "constant_calibration_seed": 105918,
+    "constant_calibration_examples": 4096,
+    "evaluation_samples": 128,
+    "audit_samples": 128,
+    "sampling_seed": 127100,
+    "threads": 2,
+    "smoke_only": false,
+    "calibration_method": "trajectory_innovations_v2",
+    "operating_calibration": {
+      "training_seeds": [
+        62001,
+        62002,
+        62003,
+        62004,
+        62005,
+        62006,
+        62007,
+        62008,
+        62009,
+        62010,
+        62011,
+        62012
+      ],
+      "validation_seeds": [
+        63001,
+        63002,
+        63003,
+        63004
+      ],
+      "substeps": 48,
+      "innovation_seed": 72001,
+      "validation_innovation_seed": 74001,
+      "network_seed": 73001,
+      "replicates": 128,
+      "steps": 2500,
+      "learning_rate": 0.01
+    },
+    "interval_calibration_seeds": [
+      81001,
+      81002,
+      81003,
+      81004,
+      81005,
+      81006,
+      81007,
+      81008,
+      81009,
+      81010,
+      81011,
+      81012,
+      81013,
+      81014,
+      81015,
+      81016,
+      81017,
+      81018,
+      81019
+    ],
+    "interval_test_seeds": [
+      83001,
+      83002,
+      83003,
+      83004,
+      83005,
+      83006,
+      83007,
+      83008,
+      83009,
+      83010,
+      83011,
+      83012,
+      83013,
+      83014,
+      83015,
+      83016,
+      83017,
+      83018,
+      83019,
+      83020
+    ],
+    "interval_modes": [
+      "constant",
+      "neural"
+    ],
+    "interval_alpha": 0.1,
+    "posterior_audit_samples": 512,
+    "spatial_basis_policy": "frozen original cube rank-three projection; no backend-dependent tied-eigenspace selection"
+  },
+  "source_fingerprint_sha256": "7a4e3ce81327156803e359031e7365f001c275607b7f8026c997078b33769f96",
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.0.0",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+  },
+  "calibration_sha256_canonical_json": "403ae9380ab10f68c7f725a4795b56829cef78b8179e23e0fca6ba748400fcc4",
+  "deterministic_reference_hashes": {
+    "no_load": "8915732fbca3d9c722c4157ea8f79bc3b79319de95125750c3c406ae5fac09bc",
+    "external_pulse": "38c63735807e3e510398faf57e2dc2f3acf0d41acdfa1877fc56ca0e6687e621"
+  },
+  "execution_partition_environments": [
+    {
+      "partition": 0,
+      "partitions": 4,
+      "pairs": [
+        [
+          "no_load",
+          4101
+        ],
+        [
+          "external_pulse",
+          4102
+        ],
+        [
+          "stochastic",
+          4103
+        ]
+      ],
+      "environment": {
+        "python": "3.12.4",
+        "torch": "2.14.1+cpu",
+        "numpy": "2.0.0",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+      },
+      "source_fingerprint_sha256": "7a4e3ce81327156803e359031e7365f001c275607b7f8026c997078b33769f96",
+      "worker_script_sha256_normalized_lf": "975adc25844d78d42a5ec3bd23290767e6317342ec9adbdb9da5e90bc02f73bf"
+    },
+    {
+      "partition": 1,
+      "partitions": 4,
+      "pairs": [
+        [
+          "no_load",
+          4102
+        ],
+        [
+          "external_pulse",
+          4103
+        ],
+        [
+          "pulse_and_stochastic",
+          4101
+        ]
+      ],
+      "environment": {
+        "python": "3.12.4",
+        "torch": "2.14.1+cpu",
+        "numpy": "2.0.0",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+      },
+      "source_fingerprint_sha256": "7a4e3ce81327156803e359031e7365f001c275607b7f8026c997078b33769f96",
+      "worker_script_sha256_normalized_lf": "975adc25844d78d42a5ec3bd23290767e6317342ec9adbdb9da5e90bc02f73bf"
+    },
+    {
+      "partition": 2,
+      "partitions": 4,
+      "pairs": [
+        [
+          "no_load",
+          4103
+        ],
+        [
+          "stochastic",
+          4101
+        ],
+        [
+          "pulse_and_stochastic",
+          4102
+        ]
+      ],
+      "environment": {
+        "python": "3.12.4",
+        "torch": "2.14.1+cpu",
+        "numpy": "2.0.0",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+      },
+      "source_fingerprint_sha256": "7a4e3ce81327156803e359031e7365f001c275607b7f8026c997078b33769f96",
+      "worker_script_sha256_normalized_lf": "975adc25844d78d42a5ec3bd23290767e6317342ec9adbdb9da5e90bc02f73bf"
+    },
+    {
+      "partition": 3,
+      "partitions": 4,
+      "pairs": [
+        [
+          "external_pulse",
+          4101
+        ],
+        [
+          "stochastic",
+          4102
+        ],
+        [
+          "pulse_and_stochastic",
+          4103
+        ]
+      ],
+      "environment": {
+        "python": "3.12.4",
+        "torch": "2.14.1+cpu",
+        "numpy": "2.0.0",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+      },
+      "source_fingerprint_sha256": "7a4e3ce81327156803e359031e7365f001c275607b7f8026c997078b33769f96",
+      "worker_script_sha256_normalized_lf": "975adc25844d78d42a5ec3bd23290767e6317342ec9adbdb9da5e90bc02f73bf"
+    }
+  ]
+}

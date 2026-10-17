@@ -1,0 +1,327 @@
+{
+  "plan": {
+    "conditions": [
+      "no_load",
+      "external_pulse",
+      "stochastic",
+      "pulse_and_stochastic"
+    ],
+    "seeds": [
+      4101,
+      4102,
+      4103
+    ],
+    "modes": [
+      "floor",
+      "constant",
+      "neural"
+    ],
+    "substeps": 6,
+    "observed_frames": [
+      0,
+      3,
+      6,
+      14,
+      17,
+      20
+    ],
+    "render_bins": 128,
+    "reference_render_bins": 512,
+    "reference_substeps": 768,
+    "reference_last_change_tolerance_m": 0.00025,
+    "production_stochastic_rmse_tolerance_m": 0.0005,
+    "optimizer": {
+      "iterations": 40,
+      "decrement_tolerance": 0.05,
+      "backtracks": 18
+    },
+    "force_prior": {
+      "knots": 5,
+      "temporal_length_fraction": 0.15,
+      "spatial_length_m": 0.6,
+      "total_force_std_n": 0.05
+    },
+    "trajectory_model": {
+      "velocity_diffusion": 0.02,
+      "velocity_coordinate_scale": 0.1
+    },
+    "internal_rank": 3,
+    "internal_spatial_length_m": 0.45,
+    "calibration_seed": 918,
+    "calibration_steps": 350,
+    "constant_calibration_seed": 105918,
+    "constant_calibration_examples": 4096,
+    "evaluation_samples": 128,
+    "audit_samples": 128,
+    "sampling_seed": 127100,
+    "threads": 2,
+    "smoke_only": false,
+    "calibration_method": "trajectory_innovations_v2",
+    "operating_calibration": {
+      "training_seeds": [
+        62001,
+        62002,
+        62003,
+        62004,
+        62005,
+        62006,
+        62007,
+        62008,
+        62009,
+        62010,
+        62011,
+        62012
+      ],
+      "validation_seeds": [
+        63001,
+        63002,
+        63003,
+        63004
+      ],
+      "substeps": 48,
+      "innovation_seed": 72001,
+      "validation_innovation_seed": 74001,
+      "network_seed": 73001,
+      "replicates": 128,
+      "steps": 2500,
+      "learning_rate": 0.01
+    },
+    "interval_calibration_seeds": [
+      81001,
+      81002,
+      81003,
+      81004,
+      81005,
+      81006,
+      81007,
+      81008,
+      81009,
+      81010,
+      81011,
+      81012,
+      81013,
+      81014,
+      81015,
+      81016,
+      81017,
+      81018,
+      81019
+    ],
+    "interval_test_seeds": [
+      83001,
+      83002,
+      83003,
+      83004,
+      83005,
+      83006,
+      83007,
+      83008,
+      83009,
+      83010,
+      83011,
+      83012,
+      83013,
+      83014,
+      83015,
+      83016,
+      83017,
+      83018,
+      83019,
+      83020
+    ],
+    "interval_modes": [
+      "constant",
+      "neural"
+    ],
+    "interval_alpha": 0.1,
+    "posterior_audit_samples": 512,
+    "spatial_basis_policy": "frozen original cube rank-three projection; no backend-dependent tied-eigenspace selection"
+  },
+  "source_fingerprint_sha256": "7a4e3ce81327156803e359031e7365f001c275607b7f8026c997078b33769f96",
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.0.0",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+  },
+  "calibration_sha256": "403ae9380ab10f68c7f725a4795b56829cef78b8179e23e0fca6ba748400fcc4",
+  "condition_assignment": "independent Bernoulli(0.5), generator seed trajectory_seed+800000",
+  "target": "entire 7-frame missing-motion gap, all 4 free nodes and xyz; unit of replication is whole independent trajectory",
+  "execution_partition_environments": [
+    {
+      "split": "calibration",
+      "partition": 0,
+      "partitions": 4,
+      "seeds": [
+        81001,
+        81005,
+        81009,
+        81013,
+        81017
+      ],
+      "source_fingerprint_sha256": "7a4e3ce81327156803e359031e7365f001c275607b7f8026c997078b33769f96",
+      "calibration_sha256": "403ae9380ab10f68c7f725a4795b56829cef78b8179e23e0fca6ba748400fcc4",
+      "environment": {
+        "python": "3.12.4",
+        "torch": "2.14.1+cpu",
+        "numpy": "2.0.0",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+      },
+      "frozen_intervals_sha256": null,
+      "worker_script_sha256_normalized_lf": "5edeb2f9944cc6d29bd2746221c20396b62462740cc811939e99d08336649ef5"
+    },
+    {
+      "split": "calibration",
+      "partition": 1,
+      "partitions": 4,
+      "seeds": [
+        81002,
+        81006,
+        81010,
+        81014,
+        81018
+      ],
+      "source_fingerprint_sha256": "7a4e3ce81327156803e359031e7365f001c275607b7f8026c997078b33769f96",
+      "calibration_sha256": "403ae9380ab10f68c7f725a4795b56829cef78b8179e23e0fca6ba748400fcc4",
+      "environment": {
+        "python": "3.12.4",
+        "torch": "2.14.1+cpu",
+        "numpy": "2.0.0",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+      },
+      "frozen_intervals_sha256": null,
+      "worker_script_sha256_normalized_lf": "5edeb2f9944cc6d29bd2746221c20396b62462740cc811939e99d08336649ef5"
+    },
+    {
+      "split": "calibration",
+      "partition": 2,
+      "partitions": 4,
+      "seeds": [
+        81003,
+        81007,
+        81011,
+        81015,
+        81019
+      ],
+      "source_fingerprint_sha256": "7a4e3ce81327156803e359031e7365f001c275607b7f8026c997078b33769f96",
+      "calibration_sha256": "403ae9380ab10f68c7f725a4795b56829cef78b8179e23e0fca6ba748400fcc4",
+      "environment": {
+        "python": "3.12.4",
+        "torch": "2.14.1+cpu",
+        "numpy": "2.0.0",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+      },
+      "frozen_intervals_sha256": null,
+      "worker_script_sha256_normalized_lf": "5edeb2f9944cc6d29bd2746221c20396b62462740cc811939e99d08336649ef5"
+    },
+    {
+      "split": "calibration",
+      "partition": 3,
+      "partitions": 4,
+      "seeds": [
+        81004,
+        81008,
+        81012,
+        81016
+      ],
+      "source_fingerprint_sha256": "7a4e3ce81327156803e359031e7365f001c275607b7f8026c997078b33769f96",
+      "calibration_sha256": "403ae9380ab10f68c7f725a4795b56829cef78b8179e23e0fca6ba748400fcc4",
+      "environment": {
+        "python": "3.12.4",
+        "torch": "2.14.1+cpu",
+        "numpy": "2.0.0",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+      },
+      "frozen_intervals_sha256": null,
+      "worker_script_sha256_normalized_lf": "5edeb2f9944cc6d29bd2746221c20396b62462740cc811939e99d08336649ef5"
+    },
+    {
+      "split": "test",
+      "partition": 0,
+      "partitions": 4,
+      "seeds": [
+        83001,
+        83005,
+        83009,
+        83013,
+        83017
+      ],
+      "source_fingerprint_sha256": "7a4e3ce81327156803e359031e7365f001c275607b7f8026c997078b33769f96",
+      "calibration_sha256": "403ae9380ab10f68c7f725a4795b56829cef78b8179e23e0fca6ba748400fcc4",
+      "environment": {
+        "python": "3.12.4",
+        "torch": "2.14.1+cpu",
+        "numpy": "2.0.0",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+      },
+      "frozen_intervals_sha256": "e283ec96b72c0c105bb452ce5ad079f527463bc206bc1ca3d73cc8e780af8f81",
+      "worker_script_sha256_normalized_lf": "5edeb2f9944cc6d29bd2746221c20396b62462740cc811939e99d08336649ef5"
+    },
+    {
+      "split": "test",
+      "partition": 1,
+      "partitions": 4,
+      "seeds": [
+        83002,
+        83006,
+        83010,
+        83014,
+        83018
+      ],
+      "source_fingerprint_sha256": "7a4e3ce81327156803e359031e7365f001c275607b7f8026c997078b33769f96",
+      "calibration_sha256": "403ae9380ab10f68c7f725a4795b56829cef78b8179e23e0fca6ba748400fcc4",
+      "environment": {
+        "python": "3.12.4",
+        "torch": "2.14.1+cpu",
+        "numpy": "2.0.0",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+      },
+      "frozen_intervals_sha256": "e283ec96b72c0c105bb452ce5ad079f527463bc206bc1ca3d73cc8e780af8f81",
+      "worker_script_sha256_normalized_lf": "5edeb2f9944cc6d29bd2746221c20396b62462740cc811939e99d08336649ef5"
+    },
+    {
+      "split": "test",
+      "partition": 2,
+      "partitions": 4,
+      "seeds": [
+        83003,
+        83007,
+        83011,
+        83015,
+        83019
+      ],
+      "source_fingerprint_sha256": "7a4e3ce81327156803e359031e7365f001c275607b7f8026c997078b33769f96",
+      "calibration_sha256": "403ae9380ab10f68c7f725a4795b56829cef78b8179e23e0fca6ba748400fcc4",
+      "environment": {
+        "python": "3.12.4",
+        "torch": "2.14.1+cpu",
+        "numpy": "2.0.0",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+      },
+      "frozen_intervals_sha256": "e283ec96b72c0c105bb452ce5ad079f527463bc206bc1ca3d73cc8e780af8f81",
+      "worker_script_sha256_normalized_lf": "5edeb2f9944cc6d29bd2746221c20396b62462740cc811939e99d08336649ef5"
+    },
+    {
+      "split": "test",
+      "partition": 3,
+      "partitions": 4,
+      "seeds": [
+        83004,
+        83008,
+        83012,
+        83016,
+        83020
+      ],
+      "source_fingerprint_sha256": "7a4e3ce81327156803e359031e7365f001c275607b7f8026c997078b33769f96",
+      "calibration_sha256": "403ae9380ab10f68c7f725a4795b56829cef78b8179e23e0fca6ba748400fcc4",
+      "environment": {
+        "python": "3.12.4",
+        "torch": "2.14.1+cpu",
+        "numpy": "2.0.0",
+        "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+      },
+      "frozen_intervals_sha256": "e283ec96b72c0c105bb452ce5ad079f527463bc206bc1ca3d73cc8e780af8f81",
+      "worker_script_sha256_normalized_lf": "5edeb2f9944cc6d29bd2746221c20396b62462740cc811939e99d08336649ef5"
+    }
+  ]
+}
