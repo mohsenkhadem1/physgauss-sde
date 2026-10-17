@@ -79,3 +79,15 @@ with the original MAP and its local intervals under exactly the same model.
 No conformal multiplier is applied. These intervals are conditional model
 uncertainty; repeated-realization calibration is a separate question. Retain
 paired parameter/path/force draws and raw full-coordinate chains in run artifacts.
+
+## Chronological follow-up numerical checks
+
+After inspecting the first completed primary floor case's rejected large-energy
+proposals, add independently seeded fixed-smaller-step replicas of the development
+floor and neural cases. These are sensitivity checks, not replacements or
+retuning of the 36 frozen primary runs. Use step sizes 0.2 (floor) and 0.15
+(neural), durations [1,4], seeds 108001 + case index, 500 fixed-kernel burn-in
+transitions then 2,000 retained per chain, four chains, no adaptation. Preserve
+all diagnostics and compare estimates with the primary runs. Full physical and
+image acceptance remains identical. The primary results and their rejected
+proposal counts are retained regardless of replica outcomes.

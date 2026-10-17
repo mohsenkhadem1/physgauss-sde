@@ -61,7 +61,7 @@ def run(study, posterior, output):
             'term_directional_derivatives_toward_posterior_mean': projected,
             'gap_rmse_m': float(error[gap].square().mean().sqrt()),
             'force_profile_marginal_identity_abs_error': float((identity-total.detach()).abs()),
-            'young_pa': float(model.prior.decode(z[None])[0][0]), 'drag_per_s': float(model.prior.decode(z[None])[1][0])}
+            'young_pa': float(model.prior.decode(z.detach()[None])[0][0]), 'drag_per_s': float(model.prior.decode(z.detach()[None])[1][0])}
     write_json(output/'summary.json', {'case': case, 'source_fingerprint_sha256': source_fingerprint(),
         'records': records, 'refit': fitted['record'],
         'normalized_distance_original_to_refit': float((original['mean']-fitted['mean']).norm()),
@@ -70,7 +70,7 @@ def run(study, posterior, output):
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--study', type=Path, default=Path('runs/calibrated-noise-published/comparison'))
+    p.add_argument('--study', type=Path, default=Path('examples/calibrated-noise/comparison'))
     p.add_argument('--posterior', type=Path, required=True)
     p.add_argument('--output', type=Path, required=True)
     a = p.parse_args(); run(a.study, a.posterior, a.output)

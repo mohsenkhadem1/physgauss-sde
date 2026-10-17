@@ -101,8 +101,15 @@ The neural average improves by about **8.1%** on stochastic cases; its apparent
 0.343 mm disadvantage to constant noise becomes a negligible 0.019 mm difference
 in the other direction. This small difference is below the reported per-case
 Monte Carlo error scale and is supported by only three paired underlying seeds.
-**Do not claim a neural-specific advantage.** Neural posterior averaging worsens
-error in four of six stochastic cases; two large improvements drive the average.
+**Do not claim a neural-specific advantage.**
+
+The paired neural-minus-constant differences averaged within each underlying
+seed are -0.018, -0.066 and +0.027 mm; there are only three independent seed
+groups. No ranking test or calibration claim is based on counting correlated
+coordinates as independent replicates.
+
+Neural posterior averaging worsens error in four of six stochastic cases;
+two large improvements drive the average.
 Posterior means optimize expected squared error under the assumed model, not
 every individual realization under model discrepancy.
 
@@ -154,6 +161,12 @@ term is small in this particular example. All terms and directional derivatives
 are saved in `mode-audit.json`. The sampled mean physical damping is 0.503/s
 versus MAP 0.760/s and truth 0.550/s (the exponential of the mean log damping
 is a different quantity and is labelled separately in the audit).
+
+The sampled expectation of half the profiled dynamic quadratic is about **715**,
+versus **5.25** at the MAP. This is a high-dimensional typical-set effect: many
+nonzero innovation paths carry posterior mass even though each has lower density
+than the mode. Their average is a summary, not a typical individual realization.
+Use joint posterior draws for motion generation.
 
 ## Uncertainty results and limits
 

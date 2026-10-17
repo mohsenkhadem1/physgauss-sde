@@ -125,9 +125,9 @@ def figures(summary, models, output, old_audit):
         ax.set(xticks=range(3), xticklabels=['Floor', 'Constant', 'Neural'], title=LABELS[condition], ylabel='Missing-gap error (mm)')
         ax.grid(axis='y', alpha=.2)
     from matplotlib.patches import Patch
-    fig.legend(handles=[Patch(facecolor='white', edgecolor='#444', label='Previous MAP'), Patch(facecolor='#444', label='Posterior mean')], ncol=2, loc='upper center')
-    fig.suptitle('Same six images and same models: change the inference', y=1.02, fontsize=16)
-    fig.tight_layout(rect=(0, 0, 1, .94)); fig.savefig(output/'reconstruction.png', dpi=160, bbox_inches='tight'); plt.close(fig)
+    fig.legend(handles=[Patch(facecolor='white', edgecolor='#444', label='Previous MAP'), Patch(facecolor='#444', label='Posterior mean')], ncol=2, loc='upper center', bbox_to_anchor=(.5, .955), frameon=False)
+    fig.suptitle('Same six images and same models: change the inference', y=.995, fontsize=16)
+    fig.tight_layout(rect=(0, 0, 1, .90)); fig.savefig(output/'reconstruction.png', dpi=160, bbox_inches='tight'); plt.close(fig)
     fig, axes = plt.subplots(1, 2, figsize=(12, 4))
     for i, mode in enumerate(COLORS):
         r = aggregate['pooled_stochastic', mode]
@@ -138,8 +138,9 @@ def figures(summary, models, output, old_audit):
     axes[1].set(ylabel='Average component width (mm)', title='No conformal widening')
     for ax in axes:
         ax.set_xticks(range(3), ['Floor', 'Constant', 'Neural']); ax.grid(axis='y', alpha=.2)
-    fig.suptitle('Six paired stochastic benchmark cases; descriptive coverage, not calibration proof')
-    fig.tight_layout(); fig.savefig(output/'uncertainty.png', dpi=160); plt.close(fig)
+    fig.suptitle('Six paired stochastic benchmark cases; descriptive coverage, not calibration proof', y=.995)
+    fig.legend(handles=[Patch(facecolor='white', edgecolor='#444', label='MAP/local intervals'), Patch(facecolor='#444', label='Posterior intervals')], ncol=2, loc='upper center', bbox_to_anchor=(.5, .945), frameon=False)
+    fig.tight_layout(rect=(0, 0, 1, .86)); fig.savefig(output/'uncertainty.png', dpi=160); plt.close(fig)
     selected = 'pulse_and_stochastic__4101__neural'
     post = json.loads((output/'cases'/selected/'posterior.json').read_text())
     model = models['neural']
@@ -160,7 +161,7 @@ def figures(summary, models, output, old_audit):
         ax.scatter(model.times[model.view_frames], truth[model.view_frames, node, k], c='#222', s=15)
         ax.set_ylabel('xyz'[k]+' position (m)'); ax.grid(alpha=.2)
     axes[0].legend(ncol=4, fontsize=9); axes[-1].set_xlabel('Time (s)')
-    fig.suptitle('Declared development case: node 7, pulse + internal noise, seed 4101\nDots mark observed times; gray marks the missing interval')
+    fig.suptitle('Declared development case: node 7, pulse + internal noise, seed 4101\nDots mark image times (not observed 3D landmarks); gray marks the gap')
     fig.tight_layout(); fig.savefig(output/'trajectory.png', dpi=160); plt.close(fig)
     with torch.no_grad():
         constant = json.loads((output/'cases'/'pulse_and_stochastic__4101__constant'/'posterior.json').read_text())
@@ -168,7 +169,8 @@ def figures(summary, models, output, old_audit):
         old_c = models['constant'].trajectory(model.times.new_tensor(state_old_c['coordinates'])[None]).x[0]
         paths = [truth, old_path, mean, old_c, model.times.new_tensor(constant['positions_mean_m'])]
         eye, rotation = orbit(model.times)
-        images = [model.renderer(x[None, [10]], eye[[10]], rotation[[10]])[0, 0].numpy() for x in paths]
+        images = [model.times.new_tensor(inputs['clean_rgb']['0'])[10].numpy()]+[
+            model.renderer(x[None, [10]], eye[[10]], rotation[[10]])[0, 0].numpy() for x in paths[1:]]
     fig, axes = plt.subplots(2, 5, figsize=(14, 5.5))
     vmax = max(np.abs(im-images[0]).mean(-1).max() for im in images[1:])
     for j, (image, label) in enumerate(zip(images, ['Reference', 'Neural MAP', 'Neural posterior', 'Constant MAP', 'Constant posterior'])):
@@ -182,20 +184,27 @@ def figures(summary, models, output, old_audit):
     fig.suptitle('Unobserved middle frame (0.50 s), original camera; 24×24 model images')
     fig.savefig(output/'images.png', dpi=160, bbox_inches='tight'); plt.close(fig)
     # Historical trace is exported as a small portable numerical record.
-    old_chain = torch.load(old_audit/'chains.pt', weights_only=True)
-    prior = model.prior
-    old_drag = torch.exp(prior.mean[1]+prior.std[1]*old_chain['coordinates'][..., 1])
+    if (old_audit/'chains.pt').exists():
+        old_chain = torch.load(old_audit/'chains.pt', weights_only=True)
+        prior = model.prior
+        old_drag = torch.exp(prior.mean[1]+prior.std[1]*old_chain['coordinates'][..., 1])[:, ::10]
+        old_indices = list(range(0, old_chain['coordinates'].shape[1], 10))
+    else:
+        saved_trace = json.loads(Path('examples/converged-posterior/old_pcn_damping_traces.json').read_text())
+        old_drag = model.times.new_tensor(saved_trace['damping_per_s'])
+        old_indices = saved_trace['indices']
     indices = post['portable_draws']['retained_indices'][:100]
     new_drag = np.array(post['portable_draws']['physical_parameters'])[:, 1].reshape(4, 100)
-    compact(output/'old_pcn_damping_traces.json', {'case': selected, 'indices': list(range(0, old_drag.shape[1], 10)),
-        'damping_per_s': old_drag[:, ::10].tolist(), 'qualification': 'historical failed pCN audit; used only for exploration diagnosis'})
+    compact(output/'old_pcn_damping_traces.json', {'case': selected, 'indices': old_indices,
+        'damping_per_s': old_drag.tolist(), 'qualification': 'historical failed pCN audit; used only for exploration diagnosis'})
     fig, axes = plt.subplots(1, 2, figsize=(12, 4), sharey=True)
     for chain in range(4):
-        axes[0].plot(np.arange(0, old_drag.shape[1], 10), old_drag[chain, ::10], alpha=.8, lw=.9)
+        axes[0].plot(old_indices, old_drag[chain], alpha=.8, lw=.9)
         axes[1].plot(indices, new_drag[chain], alpha=.8, lw=.9)
     axes[0].set_title('Previous pCN: failed diagnostics'); axes[1].set_title('Split HMC: all 1,566 monitors pass')
     for ax in axes:
         ax.axhline(.55, ls='--', color='#444', label='Truth'); ax.set_xlabel('Retained transition'); ax.grid(alpha=.2)
+    axes[0].legend(loc='upper right', fontsize=9)
     axes[0].set_ylabel('Damping (/s)'); fig.tight_layout(); fig.savefig(output/'mixing.png', dpi=160); plt.close(fig)
     with torch.no_grad():
         coefficients = model.times.new_tensor(post['portable_draws']['force_coefficients'])

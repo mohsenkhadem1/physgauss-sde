@@ -23,7 +23,20 @@ def load_case(study, case):
     model = construct(plan, network, calibration, record['mode'])
     inputs = json.loads((study/'datasets'/f"{record['condition']}__{record['seed']}"/'inputs.json').read_text())
     obs = Observations(model.view_frames, model.times.new_tensor(inputs['observed_rgb']), .015)
-    fit = torch.load(study/'cases'/case/'fit.pt', weights_only=True)
+    checkpoint = study/'cases'/case/'fit.pt'
+    if checkpoint.exists():
+        fit = torch.load(checkpoint, weights_only=True)
+    else:
+        state = json.loads((study/'cases'/case/'solver_state.json').read_text())
+        mean = model.times.new_tensor(state['coordinates'])
+        precision, _ = model.fisher_precision(mean, obs)
+        with torch.no_grad():
+            conditional = model.elimination_at(mean[None]).conditional_mean(model.residual(mean[None]))[0]
+            value = float(model.objective(mean[None], obs)[0])
+        if abs(value-record['fit']['marginal_objective']) > 1e-7:
+            raise ValueError('Published normalized target did not reproduce.')
+        fit = {'mean': mean, 'precision_cholesky': torch.linalg.cholesky(precision),
+            'conditional_force_mean': conditional, 'record': record['fit']}
     return model, obs, fit, inputs
 
 

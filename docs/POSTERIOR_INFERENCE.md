@@ -57,6 +57,10 @@ E[\|X-b\|^2\mid I]=\operatorname{tr}\operatorname{Cov}(X\mid I)
 explains why a posterior mean is the appropriate comparison to a best-fit path
 when scoring coordinate RMSE. This is an expectation under the assumed model,
 not a guarantee on a particular synthetic realization or under model mismatch.
+The mean is a statistical summary, not a new deterministic simulation: nonlinear
+mechanics evaluated at the average path need not equal the average mechanics.
+Generate physically conditioned motions from complete joint path/parameter/force
+draws, rather than independently combining their marginal averages.
 
 ## What was wrong with the previous inference evidence
 
