@@ -51,3 +51,14 @@ Raw checkpoints are under the chosen ignored runs directory. Compact inputs, poi
     # After interruption, add --resume with unchanged code, plan and environment.
 
 The quick command only exercises the pipeline; it is not an accuracy or convergence result.
+
+
+## Publishing a verified handover
+
+After the full comparison completes, run:
+
+    python scripts/publish_accurate_study.py --raw runs/accurate-reference --output examples/accurate-reference --source-ref c35b5a1
+
+Use an unused publication directory. The publisher requires all 20 declared fits and verifies committed numerical source, regenerated inputs/noise, shared initialization, saved objectives, solver-state trajectories, Gaussian elimination identities, and force covariance. It writes an offline report with actual images, accuracy/convergence/view plots, and a renderer continuity probe at the published historical stalled pulse pose. That last probe is post-fit diagnosis, not a setting-selection experiment; exact hard-sort jumps depend on rounding and platform. Publication hashes normalize text line endings.
+
+CI for implementation `c35b5a1` passed all 68 checks and all end-to-end smoke commands, including the accurate-reference pipeline: https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39033558713 .
