@@ -206,3 +206,12 @@ description, not PAC calibration or a claim about the full training support.
 The archived operating-state byte hashes did not reproduce in a local replay,
 so that replay is not used as an exact empirical reference. No network weights
 or production settings are changed by this diagnostic.
+
+For an interrupted production worker, `pacnerf-resume.yml` can download its
+saved JSON/reference/chains and continue the **exact original** worker commit,
+inputs, adapted step size and RNG state without new warmup. Settings/environment
+digests must match or it refuses to run. It is manually dispatched only when
+needed. If no chain checkpoint was reached, the saved mode can still avoid
+refitting. A restart's reported elapsed seconds cover only that invocation;
+retain both run records and use accumulated gradient batches for algorithmic
+efficiency comparisons. Resuming does not expand the declared 8000-draw maximum.
