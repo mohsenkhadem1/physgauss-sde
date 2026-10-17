@@ -174,3 +174,26 @@ This read-only helper uses existing Git authentication, polls every 45 seconds,
 and never changes the workflow. Artifact downloads are hash verified. Linux and
 Windows raw-root metadata are mapped to inert pure paths when loading our own
 prepared artifacts; all tensor bytes and source image hashes remain unchanged.
+
+Before publication, independently replay the raw checkpoints and then publish:
+
+```
+python scripts/verify_pacnerf.py --raw runs/pacnerf-production --inputs runs/pacnerf-production-inputs --output runs/pacnerf-production/verification.json
+python scripts/audit_pacnerf_contact.py --inputs runs/pacnerf-production-inputs --output runs/pacnerf-production/contact-integration-diagnostic.json
+python scripts/publish_pacnerf.py --raw runs/pacnerf-production --inputs runs/pacnerf-production-inputs --output examples/pacnerf-sparse
+```
+
+The verifier recomputes position means, interval quantiles, missing-frame scores,
+the subspace lower bound, selected scalar chain diagnostics, and cached exact
+target values from raw states. All sixteen cases must pass before ranking.
+This checks numerical provenance, not physical correctness or global exploration.
+
+After the first production case showed poor transfer, an additional **post-hoc
+contact integration diagnostic** compared the zero-noise, zero-unknown-load,
+nominal-parameter frame-held contact drift with RK4 at 192 and 384 substeps per
+frame for the same reduced ODE. The refined references agree within 3e-13 m,
+but whole-sequence particle-coordinate differences are 16.41 mm (Torus) and
+17.20 mm (Bird); 4-view-gap differences are 8.18 and 3.44 mm. Thus exact linear
+propagation does not make the frame-held contact update accurate. This is not
+original-MPM validation or an error decomposition of posterior reconstruction.
+The production model remains frozen; the finding limits physical conclusions.

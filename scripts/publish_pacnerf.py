@@ -13,6 +13,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from pacnerf_comparison import cases, make_model
+from physgauss.cli import source_fingerprint
 
 
 def publish(raw, inputs, output):
@@ -28,6 +29,7 @@ def publish(raw, inputs, output):
         if src is None:
             rows.append({'case': name, 'missing': True, 'valid_for_ranking': False}); continue
         row = json.loads(src.read_text()); row['missing'] = False
+        if row['settings']['source_fingerprint']!=source_fingerprint():raise ValueError('Numerical source differs from production')
         fit_record=json.loads((src.parent/'fit.json').read_text())
         stationarity=fit_record['stationarity']
         if not stationarity['stationary']:raise ValueError('Sampling reference failed the stationarity gate')
@@ -83,9 +85,24 @@ def publish(raw, inputs, output):
     global_tests=sum(13*12 for _ in agreement)
     global_cutoff=float(torch.special.ndtri(torch.tensor(1-.05/(2*max(1,global_tests)),dtype=torch.float64)))
     agreement_pass=len(agreement)==8 and all(a['max_difference_over_combined_mcse']<=global_cutoff for a in agreement)
-    ready=passed and agreement_pass
+    verification=None
+    if (raw/'verification.json').exists():
+        verification=json.loads((raw/'verification.json').read_text())
+        shutil.copyfile(raw/'verification.json',output/'verification.json')
+    expected_cases={f'{s}__{v}views__{n}__{f}' for s,v,n,f in cases()}
+    raw_replay_pass=(verification is not None and verification['all_pass']
+        and verification['source_fingerprint']==source_fingerprint()
+        and len(verification['cases'])==16
+        and {r['case'] for r in verification['cases']}==expected_cases
+        and all(r['all_pass'] for r in verification['cases']))
+    audit_links=[]
+    for root,name in [(inputs,'transition-audit.json'),(raw,'contact-integration-diagnostic.json')]:
+        if (root/name).exists():
+            shutil.copyfile(root/name,output/name);audit_links.append(name)
+    ready=passed and agreement_pass and raw_replay_pass
     summary = {'complete':complete, 'all_cases_pass_finite_chain_checks':passed,
         'all_cases_eligible_for_ranking':ready, 'cases':rows,
+        'raw_checkpoint_verification_pass':raw_replay_pass,'numerical_audit_files':audit_links,
         'paired_sampler_agreement_screen':{'approximate_global_95_cutoff':global_cutoff,
             'coordinates':global_tests,'complete_pairs':len(agreement),'passes':agreement_pass,
             'qualification':'approximate batch-mean Gaussian CLT with Bonferroni correction across all paired modal means; not proof of global exploration or physical calibration'},
@@ -115,6 +132,19 @@ def publish(raw, inputs, output):
         axis.set_title(scene.title());axis.set_ylabel('Gap particle coordinate RMSE (mm)')
     fig.suptitle('PAC-NeRF sparse-image transfer: gray bars fail convergence or are pilots')
     fig.savefig(output/'comparison.png',dpi=150);plt.close(fig)
+    fig,axes=plt.subplots(2,4,figsize=(11,5.5),layout='constrained')
+    for row,index in enumerate([0,8]):
+        model,_=make_model(inputs,index)
+        truth=torch.load(inputs/f"{model.data['scene']}-evaluation.pt",weights_only=True)['particles']
+        eye,rotation,k=model.data['cameras'][0]
+        for col,frame in enumerate([0,3,6,13]):
+            camera=(rotation@(truth[frame]-eye).T).T
+            uv=camera[:,:2]/camera[:,2:]*k.diagonal()[:2]+k[:2,2]-.5
+            ax=axes[row,col];ax.imshow(model.data['images'][0,frame]);ax.scatter(uv[:,0],uv[:,1],s=3,c='cyan',alpha=.5)
+            ax.set_title(model.data['scene'].title()+f' frame {frame}')
+            ax.set_xlim(-.5,31.5);ax.set_ylim(31.5,-.5);ax.axis('off')
+    fig.suptitle('Reference alignment audit: cyan dots are supplied truth, not model predictions\nCamera 0; reference geometry is used here for evaluation only',fontsize=12)
+    fig.savefig(output/'reference_alignment.png',dpi=150);plt.close(fig)
     # Representative actual withheld image, selected by a fixed case/frame/view.
     index=6;name='torus__6views__neural__marginal'
     record=output/'cases'/name/'posterior.json'
@@ -153,20 +183,32 @@ def publish(raw, inputs, output):
         axes[0].legend();axes[-1].set_xlabel('Time (s)')
         fig.suptitle('Modeled unknown acceleration averaged over handles\nPosterior mean ± one SD; restricted profiles; excludes known gravity; not force ground truth')
         fig.savefig(output/'loads.png',dpi=150);plt.close(fig)
-    header=('Finite diagnostics and paired-sampler agreement pass' if ready else
+    header=('Finite diagnostics, paired-sampler agreement and raw replay pass' if ready else
         'Finite diagnostics pass, but paired samplers disagree — no final ranking' if passed else
         'Development / incomplete inference — no scientific ranking')
+    if passed and agreement_pass and not raw_replay_pass:header='Finite diagnostics and paired agreement pass; raw verification pending'
     def embed(name):
         path=output/name
         return '<img style="max-width:100%" src="data:image/png;base64,'+base64.b64encode(path.read_bytes()).decode()+'">' if path.exists() else ''
-    table=''.join('<tr><td>'+html.escape(r['case'])+'</td><td>'+('missing' if r['missing'] else str(r['valid_for_ranking']))+'</td><td>'+('—' if r['missing'] else f"{r['posterior_scores']['gap_particle_coordinate_rmse_m']*1000:.2f}")+'</td></tr>' for r in rows)
+    table=''
+    for r in rows:
+        cells=[html.escape(r['case']),'missing' if r['missing'] else str(r['valid_for_ranking'])]
+        if r['missing']:cells+=['—']*4
+        else:
+            s=r['posterior_scores']
+            cells+=[f"{s['gap_particle_coordinate_rmse_m']*1000:.2f}",
+                f"{100*s['gap_component_90_coverage']:.1f}%",f"{s['gap_mean_width_m']*1000:.2f}",
+                f"{s['heldout_background_difference_region_psnr_db']:.2f}"]
+        table+='<tr>'+''.join('<td>'+cell+'</td>' for cell in cells)+'</tr>'
     page=f'''<!doctype html><html><meta charset="utf-8"><title>PAC-NeRF sparse comparison</title><body style="font:17px system-ui;max-width:1150px;margin:40px auto;padding:20px;background:#fafafa;color:#182c38">
 <h1>PAC-NeRF elastic objects: sparse dynamic images</h1><h2>{header}</h2>
 <p>{html.escape(summary['qualification'])}.</p><p>Constant and neural noise each use either analytically marginalized Gaussian loads or the identical explicit joint load prior. Their integrated motion posteriors should agree. Marginalization changes inference, not physical assumptions.</p>
 <p>4 or 6 observed dynamic images over 14 timestamps (24 fps), one selected camera per timestamp. The fixed-camera dataset is subsampled across cameras; this is not continuous moving-camera capture. All eleven initial views initialize appearance. Ground truth after frame zero is used only after sampling for evaluation.</p>
 {embed('comparison.png')}{embed('images.png')}{embed('loads.png')}
+<h2>Reference data audit</h2><p>The following overlays show the supplied particle truth projected into official images. They check coordinate/time conventions and are not reconstructions from the model. Future particle geometry is used only for evaluation.</p>{embed('reference_alignment.png')}
 <p>Interval coverage is descriptive over correlated particles, not a calibration guarantee. Model reduction, explicit ground contact, transferred diffusion, and 32px rendering limit physical conclusions. Stiffness scale is not a continuum Young’s modulus estimate. No force-error score is claimed.</p>
-<table cellpadding="8"><tr><th>Case</th><th>Finite chain checks pass</th><th>Gap RMSE (mm)</th></tr>{table}</table>
+<p>The linear propagator passes independent matrix-exponential checks. A post-hoc nominal zero-noise contact check found 16.4/17.2 mm whole-sequence coordinate differences for Torus/Bird against a refined solve of the same reduced ODE. Frame-held contact is therefore a material approximation. This is not an error decomposition of the fitted posterior or validation against the original MPM. The frozen comparison was not retuned after this finding.</p>
+<table cellpadding="8"><tr><th>Case</th><th>Finite chain checks pass</th><th>Gap coordinate RMSE (mm)</th><th>90% interval coverage</th><th>Mean interval width (mm)</th><th>Background-difference region PSNR (dB)</th></tr>{table}</table>
 <p><a href="summary.json">Complete results and diagnostics summary</a> · <a href="comparison.csv">CSV</a> · <a href="https://github.com/mohsenkhadem1/physgauss-sde/blob/main/docs/PACNERF_PROTOCOL.md">Protocol and limitations</a> · <a href="https://github.com/xuan-li/PAC-NeRF">Original data source</a></p></body></html>'''
     (output/'report.html').write_text(page,encoding='utf-8')
     hashes={str(f.relative_to(output)).replace('\\','/'):hashlib.sha256(f.read_bytes().replace(b'\r\n',b'\n') if f.suffix in ['.json','.csv','.html'] else f.read_bytes()).hexdigest() for f in output.rglob('*') if f.is_file()}
