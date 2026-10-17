@@ -6,7 +6,52 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
-Version **0.8.1** is the latest complete experiment. Start with `docs/CALIBRATED_NOISE_RESULTS.md`, `docs/CALIBRATED_NOISE_METHOD.md`, `docs/CALIBRATED_NOISE_PROTOCOL.md`, and `examples/calibrated-noise/report.html`. All **114 fits** pass stationarity and their saved factors/targets reproduce locally: 36 matched benchmark fits plus 38 interval-calibration and 40 fresh-test fits. Neural amplitude error is **0.295% on fresh test states**. Paired stochastic-case gap errors are **4.847 / 3.281 / 3.623 mm** for floor/constant/neural noise; accurate calibration still does not show a neural-specific reconstruction gain.
+**Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
+Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,
+`docs/POSTERIOR_CONVERGENCE_PROTOCOL.md`, and `examples/converged-posterior/report.html`.
+All 36 benchmark cases pass every finite-chain diagnostic (56,172 scalar monitors;
+maximum Rhat 1.00934, minimum bulk/tail ESS 820.9/555.8). Four chains per case,
+500 warmup, 2,000 retained per chain; only `stochastic__4102__floor` extends to
+4,000. The replacement uses exact-target Gaussian-reference split HMC with
+cheap image Taylor proposal forces and full nonlinear image acceptance.
+Physical equations, original RGB, noise weights, force marginalization, priors,
+reference data and all normalizers are unchanged and reverified.
+
+Stochastic-case MAP → posterior mean gap errors are **4.847→5.025 mm floor,
+3.281→3.349 mm constant, 3.623→3.330 mm neural**. The neural–constant difference
+of 0.019 mm is not evidence of superiority. Neural averaging improves two of
+six stochastic cases and worsens four. Raw posterior central-component coverage
+is 66.1/95.8/96.6%; correlated benchmark coordinates do not establish calibration.
+The older 19+20-motion conformal study remains separate and unchanged.
+
+The calibration-only control reruns old constant/old neural/oracle-amplitude
+MAP under the final operator: on three pulse+noise seeds, calibrated/oracle
+neural errors are 3.622/3.606 mm, versus legacy neural 3.160 mm. A refit from
+the sampled mean returns to the original high-error mode. Density-volume
+effects, not residual calibration error or this optimizer tolerance, explain
+the development-case point-estimate failure. Model discrepancy still matters.
+
+Implementation commit `6a00d90c0ca8a53183c8346fc28def808c8e26ec`, numerical
+fingerprint `7d5b5c85b57a45819136acb4657b8b7c5041c0e145de12da0fb6683331984c27`;
+later scripts/docs preserve it. **94 checks** pass. Main raw comparison:
+`runs/converged-posterior-ci`, Actions run **39062694272**. Independent fixed-small-step
+replicas: run **39063241871**. Portable calibration-only control: **39063531997**.
+`scripts/converged_sparse_comparison.py` reuses published exact data/coordinates,
+rebuilds its fixed Fisher proposal and verifies the old objective. Sampling
+continuations preserve RNG and frozen kernels. `publish_converged_posterior.py`
+verifies portable means, scores, every diagnostic flag, force covariance and
+audit states before publication. Full raw latent chains/energy errors are
+30-day Actions artifacts; permanent compact joint draws, summaries, all-coordinate
+diagnostics and exact inputs support reproduction. The interrupted redundant
+local long sampler is not evidence; complete CPU-worker runs are primary.
+
+Next prioritize new-seed posterior calibration/predictive checks, floor/force-basis
+and time/mesh sensitivity, then unknown geometry/cameras and real video. Finite
+diagnostic passes do not prove global exploration or a true physical model.
+
+### Previous calibration milestone
+
+Version **0.8.1** is the preceding calibration experiment. Start with `docs/CALIBRATED_NOISE_RESULTS.md`, `docs/CALIBRATED_NOISE_METHOD.md`, `docs/CALIBRATED_NOISE_PROTOCOL.md`, and `examples/calibrated-noise/report.html`. All **114 fits** pass stationarity and their saved factors/targets reproduce locally: 36 matched benchmark fits plus 38 interval-calibration and 40 fresh-test fits. Neural amplitude error is **0.295% on fresh test states**. Paired stochastic-case gap errors are **4.847 / 3.281 / 3.623 mm** for floor/constant/neural noise; accurate calibration still does not show a neural-specific reconstruction gain.
 
 Whole-gap prediction sets target 90% coverage using 19 independent calibration motions. On 20 fresh test motions, coverage is **19/20 constant** and **20/20 neural**, with mean component widths **21.70 / 26.28 mm**. Treat this as conditional synthetic prediction-set evidence, with wide Wilson intervals; it is not Bayesian posterior validation. The separate four-chain exact-target audit fails **all 1,548 monitored quantities** (worst Rhat 1.302; minimum bulk/tail ESS 10.5/18.3). Force conditionals remain exact at a fixed path, but their full inferred posterior remains provisional. Do not promote its MCMC averages/intervals into validated estimates.
 

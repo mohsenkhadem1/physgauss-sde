@@ -1,5 +1,10 @@
 # Calibrated noise: final sparse-view results (v0.8.1)
 
+**Historical inference status:** the subsequent [posterior audit and rerun](POSTERIOR_RESULTS.md)
+replaces the failed sampler and passes complete finite-chain diagnostics for
+all 36 original benchmark cases. The MAP/calibration/prediction-set results
+below remain unchanged; they describe this earlier experiment.
+
 Noise-amplitude calibration improved substantially, but the neural model still
 does not beat constant internal noise for reconstruction. Whole-gap prediction
 sets passed the held-out coverage check with wider intervals. **The nonlinear

@@ -6,12 +6,15 @@ the maximum-density trajectory and one local Gaussian as the answer.
 
 ## Why better diffusion calibration can worsen a best-fit reconstruction
 
-For normalized scene/path coordinates z, write the dynamics residual as
+For normalized scene/path coordinates z, write the causal dynamics residual as
 
 \[
-r(z)=G a+\eta,\quad a\sim N(0,I),\quad \eta\mid z\sim N(0,Q(z)).
+r(z)=G a+\eta,\quad a\sim N(0,I),\quad
+\eta_j\mid\mathcal F_{j^-}\sim N(0,Q_j(x_j,p_j)).
 \]
 
+For a candidate path the block matrix Q(z) collects these causal factors;
+r(z) is not a globally Gaussian random vector when Q is state dependent.
 The force coefficients have a Gaussian conditional because Q depends on the
 observed candidate trajectory, not on a when that trajectory is held fixed.
 Define C=Q+GGᵀ. The negative log posterior, up to fixed constants, is
