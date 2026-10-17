@@ -92,7 +92,7 @@ def audit(study, case, output, warmup=1000, draws=2000, seed=97001):
     original = torch.load(study/"cases"/case/"fit.pt", weights_only=True)
     settings = {"case": case, "source_fingerprint_sha256": source_fingerprint(),
                 "warmup": warmup, "draws": draws, "seed": seed, "chains": 4,
-                "directional_epsilons_white": [.01, .005], "refit_decrement": .001,
+                "directional_epsilons_white": [.01, .005, .001, .0005, .0001, .00005], "refit_decrement": .001,
                 "curvature": "exact local AD/force Schur/logdet volume Hessian; independently checked against dense AD and directional differences",
                 "sampler": "gradient-free Gaussian-reference pCN plus independent refresh, Metropolis-corrected full target",
                 "observations_sha256": digest_tensor(observed.rgb),
@@ -135,9 +135,19 @@ def audit(study, case, output, warmup=1000, draws=2000, seed=97001):
         path = model.trajectory(coordinates.flatten(0, 1)).x.reshape(4, draws, 21, 8, 3)
         gap = (model.times > .3+1e-8)&(model.times < .7-1e-8)
         gap_path = path[:, :, gap][:, :, :, model.free].flatten(2)
-        # All state coordinates, every missing-position component, full target.
-        monitored = torch.cat((coordinates, gap_path, chains["log_likelihood"][..., None]), -1)
-        names = [f"state_{i}" for i in range(model.state_dimension)]+[f"gap_xyz_{i}" for i in range(84)]+["log_target"]
+        force_means, force_covariances, force_samples = [], [], []
+        generator = torch.Generator().manual_seed(seed+60000)
+        for batch in coordinates.flatten(0, 1).split(16):
+            elimination = model.elimination_at(batch)
+            conditional = elimination.conditional_mean(model.residual(batch))
+            white = torch.randn(conditional.shape, dtype=conditional.dtype, generator=generator)
+            sample = conditional+torch.linalg.solve_triangular(elimination.cholesky.transpose(-1, -2), white[..., None], upper=True)[..., 0]
+            force_means.append(conditional); force_covariances.append(elimination.conditional_covariance); force_samples.append(sample)
+        force_means = torch.cat(force_means); force_covariances = torch.cat(force_covariances); force_samples = torch.cat(force_samples)
+        # Monitor conditional means, so added independent force draws cannot
+        # conceal poor exploration of the latent trajectories.
+        monitored = torch.cat((coordinates, gap_path, chains["log_likelihood"][..., None], force_means.reshape(4, draws, 15)), -1)
+        names = [f"state_{i}" for i in range(model.state_dimension)]+[f"gap_xyz_{i}" for i in range(84)]+["log_target"]+[f"force_conditional_mean_{i}" for i in range(15)]
         diagnostics = diagnose_quantities(monitored, names)
         truth = model.times.new_tensor(inputs["positions_m_evaluation_only"])
         population = path.flatten(0, 1)[:, :, model.free]
@@ -146,9 +156,19 @@ def audit(study, case, output, warmup=1000, draws=2000, seed=97001):
         scores = {"gap_component_90_coverage": float(((truth[:, model.free] >= lower)&(truth[:, model.free] <= upper))[gap].double().mean()),
             "gap_mean_width_m": float((upper-lower)[gap].mean()), "gap_rmse_m": float(error[gap].square().mean().sqrt()),
             "qualification": "finite MCMC sample summary; usable only with adequate exploration; not repeated-case calibration"}
+        force_total = model.force_prior.total_force(force_samples, model.times)
+        lower_force, upper_force = torch.quantile(force_total, force_total.new_tensor([.05, .95]), dim=0)
+        conditional_covariance = force_covariances.mean(0); between = torch.cov(force_means.T)
+        force_summary = {"times_s": model.times.tolist(), "mean_total_N": model.force_prior.total_force(force_means.mean(0)[None], model.times)[0].tolist(),
+            "q05_total_N": lower_force.tolist(), "q95_total_N": upper_force.tolist(),
+            "whitened_coefficient_mean": force_means.mean(0).tolist(),
+            "whitened_coefficient_covariance": (conditional_covariance+between).tolist(),
+            "mean_conditional_coefficient_covariance": conditional_covariance.tolist(), "between_trajectory_coefficient_covariance": between.tolist(),
+            "qualification": "Rao-Blackwell mixture over finite exact-target MCMC trajectories; conditional on model and adequate chain exploration; not force calibration"}
     summary = {"settings": settings, "curvature_relative_refinement": refinement, "importance": weights,
         "diagnostics": diagnostics, "scores": scores, "final_beta_per_chain": chains["final_beta_per_chain"],
         "transition_counts": chains["transition_counts"],
+        "force_posterior": force_summary,
         "gap_draws_per_chain_m": gap_path[:, ::max(1, draws//200)].tolist(),
         "log_target_traces": chains["log_likelihood"][:, ::max(1, draws//200)].tolist(),
         "posterior_status": "finite_diagnostics_pass" if diagnostics["all_monitored_quantities_pass"] else "not_validated",

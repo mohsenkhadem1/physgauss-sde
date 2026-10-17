@@ -166,7 +166,7 @@ def figures(output, comparison, previous, validation, posterior):
     names = ["No push", "Push", "Random", "Push + random"]
     for ax, indices in zip(axes, ((0, 1), (2, 3))):
         x = np.arange(2)
-        for number, (study, mode, label, color) in enumerate(((previous, "floor", "Independent floor", COLORS["floor"]),
+        for number, (study, mode, label, color) in enumerate(((comparison, "floor", "Independent floor", COLORS["floor"]),
                 (previous, "neural", "Previous neural", "#9b5963"), (comparison, "constant", "Calibrated constant", COLORS["constant"]),
                 (comparison, "neural", "Calibrated neural", COLORS["neural"]))):
             values = [1000*next(r for r in study["aggregates"] if r["condition"] == conditions[i] and r["mode"] == mode)["mean_gap_position_rmse_m"] for i in indices]
@@ -272,11 +272,13 @@ def report(output, comparison, previous, validation, posterior, calibration, aud
 {table(['Model','SD multiplier','Raw whole-gap','Conformal whole-gap','95% Wilson interval','Set width mm','Test gap mm'], intervals)}
 {embed('heldout_intervals.png', 'First held-out motion fixed by seed order; prediction bands use only the frozen calibration multipliers.')}
 <h2>4. Nonlinear posterior uncertainty remains a separate question</h2>
-<p>The neural pulse-plus-stochastic seed-4101 mode was refined, then checked with observed Hessians at two finite-difference scales. Relative curvature change is {posterior['curvature_relative_refinement']:.3g}. Importance screens compare the Fisher Gaussian with the observed-Hessian Gaussian using 512 draws each. Four Metropolis-corrected chains target the full nonlinear marginalized-force density, with 1,000 warmup and 2,000 retained steps each. All 1,448 state coordinates, 84 missing-position components and target density are monitored.</p>
+<p>The neural pulse-plus-stochastic seed-4101 mode was refined. Its exact observed Hessian was assembled using local automatic differentiation, the force Schur complement and the complete force-volume determinant curvature. Independent dense AD on a smaller model and full-target Hessian-vector derivatives check the assembly. The maximum refined directional finite-difference error is {posterior['curvature_relative_refinement']:.3g}. Importance screens compare Fisher and observed-Hessian Gaussians using 512 draws each. Four Metropolis-corrected pCN chains target the full nonlinear marginalized-force density, with 1,000 warmup and 2,000 retained steps each. All 1,448 state coordinates, 84 gap components, target density and 15 conditional force means are monitored.</p>
 <p><strong>Posterior status: {html.escape(posterior['posterior_status'])}.</strong> {len(full['failed_quantities'])}/{len(full['quantities'])} quantities fail the complete Rhat/ESS/frozen-chain screen. Even a finite diagnostic pass cannot exclude unvisited modes. Conformal prediction coverage does not validate the Bayesian posterior, material intervals, or force intervals.</p>
 {embed('posterior_audit.png', 'Full nonlinear sampling audit. Failed diagnostics are retained and reported rather than hidden by predictive coverage.')}
 <p>Approximate local force intervals are separately scored on all test motions: {'; '.join(force_lines)}. These are correlated component averages, not independent force-trajectory coverage guarantees. They remain approximate.</p>
 <h2>5. Numerical checks, reproducibility and limits</h2>
+<p>Cross-runtime recovery caught a tied-eigenspace bug in the initial CI study: truncating the cube kernel to three modes selected different noise covariance projections on Windows and Linux. The final study freezes the projection already published with v0.7. The initial 19/20 coverage result is superseded diagnostic evidence. Final test seeds 83001–83020 are fresh. No network retraining or hyperparameter tuning followed the initial test results.</p>
+<p>A separate empty-depth-slab audit found incorrect emission derivatives at zero density. The corrected renderer evaluates the analytic zero-density emission limit, and tests its first and second derivatives against the closed-form single-color solution. Every final comparison and validation fit uses both fixes. Earlier v0.7 versus final results therefore include calibration and numerical changes; neural versus constant within the final run is the controlled noise-model comparison.</p>
 <p>All stochastic evaluation motions use independent coupled 192/384/768-grid references, balance/support checks, and an oracle-amplitude production 6/12-step consistency audit. Deterministic motion retains the converged RK4-96 reference. Exact observed RGB is unchanged for the 36 paired fits. These are numerical consistency checks, not absolute SDE/mesh/experimental error bounds.</p>
 <p>Known eight-node/six-tetrahedron mesh, 30 Gaussians, known appearance/cameras/density/supports, restricted external-force profile, retained independent discrepancy floor, and one sparse schedule. There is no real-video, unknown-geometry/camera or distribution-shift validation. Neither calibrated innovations nor finite-case predictive coverage establishes general physical realism.</p>
 <p>The publication includes exact observed pixels, reference states/audits, every fitted solver coordinate, network weights, frozen quantiles, per-case force distributions/scores, all inference flags, CSV and source/artifact hashes. Large precision matrices and full raw chains can be regenerated from the committed source, inputs and seeds. Read docs/CALIBRATED_NOISE_PROTOCOL.md and docs/CALIBRATED_NOISE_RESULTS.md for equations, assumptions and commands.</p>
@@ -297,6 +299,10 @@ def publish(raw, old, posterior_raw, output, source_ref):
     network, calibration = verify_validation(raw/"validation", validation, plan)
     if comparison["calibration_sha256_canonical_json"] != validation["calibration_sha256"]: raise ValueError("Different frozen networks.")
     if posterior["settings"]["source_fingerprint_sha256"] != source_fingerprint(): raise ValueError("Posterior audit source changed.")
+    for key, filename in (("audit_script_sha256_normalized_lf", "audit_calibrated_posterior.py"),
+                          ("curvature_script_sha256_normalized_lf", "sparse_observed_curvature.py")):
+        if posterior["settings"][key] != canonical_hash(Path(__file__).parent/filename):
+            raise ValueError("Posterior audit implementation hash changed.")
     audited_case = posterior["settings"]["case"]
     audited_fit = torch.load(raw/"comparison/cases"/audited_case/"fit.pt", weights_only=True)
     audited_record = next(r for r in comparison["cases"] if r["case"] == audited_case)
@@ -331,7 +337,7 @@ def publish(raw, old, posterior_raw, output, source_ref):
         "validation_workflow": json.loads((raw/"validation/artifact_download.json").read_text()) if (raw/"validation/artifact_download.json").exists() else None})
     write_json(output/"publication.json", {"implementation_source_commit": commit,
         "numerical_source_fingerprint_sha256": source_fingerprint(), "publisher_sha256_normalized_lf": canonical_hash(Path(__file__)),
-        "verification": "all 114 fits; 36 exact old/new matched inputs and initial states; unchanged floor reproduction; calibration/source/plan splits; normalized objectives, all uncertainty scores and frozen quantiles; physical/reference refinement; force total-covariance identities",
+        "verification": "all 114 final fits; 36 exact old/new matched inputs and initial states; fixed common spatial projection; calibration/source/plan splits and fresh final test seeds; normalized objectives, uncertainty scores and frozen quantiles; physical/reference refinement; force total-covariance identities",
         "files_sha256_text_normalized_lf_binary_raw": {p.relative_to(output).as_posix(): canonical_hash(p) for p in sorted(output.rglob("*")) if p.is_file()}})
     print("Verified calibrated publication:", output, flush=True)
 
