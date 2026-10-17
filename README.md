@@ -2,7 +2,9 @@
 
 Research prototype for physically constrained Gaussian scene reconstruction from **one moving camera with missing frames**.
 
-Current version: **0.5**, with analytically marginalized forces, matched trajectory solvers, structured force posteriors, nonlinear sampling and 57 numerical/physical checks. Reliable real-world uncertainty and real-video reconstruction remain open work.
+Current version: **0.5**, with analytically marginalized forces, matched trajectory solvers, structured force posteriors, nonlinear sampling and 60 numerical/physical checks. Reliable real-world uncertainty and real-video reconstruction remain open work.
+
+The [simulation and view audit](docs/SIMULATION_VIEW_AUDIT.md) found a material accuracy limit: the historical integration step has about **3.3 mm coordinate error** against converged independent RK4, despite consistent force formulas and momentum balances. Historical results are discretized-model experiments, not validated millimetre-level physical reconstruction. [Actual images, camera coverage and ten extra view-count fits](examples/simulation-view-audit/report.html), plus high-accuracy reference inputs, are committed. More observations help, but integration accuracy and renderer depth discontinuities also require attention.
 
 The initial milestone is a small, reproducible CPU experiment. It is not a reproduction of PIDG or a completed real-video reconstruction system. We separate uncertainty over unknown scene parameters from stochastic forcing, and evaluate both against synthetic ground truth.
 
@@ -41,7 +43,7 @@ Open `runs/cpu-demo/report.html` for an animated comparison, trajectory/uncertai
 
 The default experiment uses 21 timestamps, six observed RGB frames, a 0.3-0.7 second observation gap, 24x24 images, and 64 posterior samples. All six input frames contribute to offline smoothing. This is deliberately small enough to inspect and run on CPU; it is not a high-resolution scene reconstruction.
 
-`physgauss check` runs 57 numerical and physical checks with the standard-library test runner. GitHub Actions also runs the original demo/study/audit/sampler checks, a three-model force-posterior smoke experiment and a matched force-marginalization smoke experiment.
+`physgauss check` runs 60 numerical and physical checks with the standard-library test runner, including an absolute time-accuracy reference and multi-camera information identities. GitHub Actions also runs the original demo/study/audit/sampler checks, a three-model force-posterior smoke experiment and a matched force-marginalization smoke experiment.
 
 ## Analytically marginalized forces
 

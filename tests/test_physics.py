@@ -1,4 +1,6 @@
 import math
+import json
+from pathlib import Path
 import unittest
 import torch
 
@@ -93,6 +95,21 @@ class PhysicsTests(unittest.TestCase):
             numeric = (renderer(xp, *cameras).square().sum()
                        - renderer(xm, *cameras).square().sum()) / (2 * h)
         torch.testing.assert_close(analytic, numeric, atol=1e-5, rtol=1e-5)
+
+    def test_absolute_time_accuracy_against_independent_RK4_reference(self):
+        path = Path(__file__).resolve().parents[1]/"examples/simulation-view-audit/high_accuracy_reference/no_load.json"
+        reference = json.loads(path.read_text())
+        self.assertLess(reference["RK4_48_vs_96_coordinate_rmse_m"], 1e-8)
+        times = torch.tensor(reference["times_s"], dtype=torch.float64)
+        tensor = times.new_tensor
+        trajectory = simulate(self.mesh, times, tensor([reference["material"]["young_pa"]]),
+            tensor([reference["drag_per_second"]]), tensor([reference["initial_offset_m"]]),
+            tensor([reference["initial_velocity_m_per_second"]]), substeps=48)
+        # The historical 3-substep setup is a coarse numerical benchmark. This
+        # explicit accuracy test certifies only the audited 48-substep case.
+        target = tensor(reference["positions_m"])
+        error = trajectory.x[0, :, ~self.mesh.pinned]-target[:, ~self.mesh.pinned]
+        self.assertLess(float(error.square().mean().sqrt()), .00025)
 
 
 if __name__ == "__main__":

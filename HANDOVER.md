@@ -6,6 +6,8 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
+The simulation/view audit is complete: start with `docs/SIMULATION_VIEW_AUDIT.md` and `examples/simulation-view-audit/report.html` for actual native images, camera coverage, independent integration and ten matched view-count fits. Mechanics/constraint checks pass, but the historical three-substep integrator differs from converged RK4 by 3.3 mm coordinate RMSE (up to 11.5 mm node error). Preserve older results as discretized-model investigations; they do not establish millimetre-level physical accuracy. New deterministic high-accuracy inputs are published. All 60 local checks pass, including multi-camera AD equivalence and a <0.25 mm accuracy gate for the audited 48-substep case. Only 5/10 extra view fits pass local stationarity; more data improves information without resolving integration error, mismatch or hard depth sorting. Source `38be8cb` and manifest/script hashes identify the audit.
+
 Version 0.5 adds exact Gaussian load elimination in a nonlinear trajectory model and a matched alternating/joint/marginalized solver experiment. Read `docs/FORCE_MARGINALIZATION.md` before using it: a declared full-rank velocity-discrepancy process is shared by the three new solvers, so this is not a reparameterization of the old singular low-rank simulator. Nine new tests check normalized Gaussian densities, conditional force moments, total covariance, Schur equivalence, nonlinear derivatives, causal density normalization and reproduction of the old solver with zero added innovation. Run `physgauss marginalize --quick`; the fixed full comparison plan is `configs/marginal_force_study.json`. Exact force elimination does not imply calibrated trajectory uncertainty or global nonlinear convergence.
 
 The 12-fit comparison is complete: read `docs/MARGINALIZATION_RESULTS.md` and open `examples/marginal-force-study/report.html`. Numerical source is `e8face7`, fingerprint `9ce4a6f377460fbe0f5378ab3da500da3e6de68ebaaa905c3523e32dd6132a25`; all 57 checks and expanded Linux CI pass. `5701c07` corrects units labels only and adds reproducible publication/step-diagnosis scripts; numeric executable ASTs are unchanged. Marginalized/joint/alternating solvers pass local stationarity in 2/4, 1/4 and 0/4 conditions. No consistent accuracy or timing advantage over the joint solver is shown. Weight concentration and stochastic-case coverage remain poor. `examples/marginal-step-diagnosis` documents depth-order changes and objective jumps even under extremely small steps. Stabilize the visibility likelihood before claiming reliable nonlinear inference.
@@ -73,6 +75,8 @@ The nonlinear sampler's target is now corrected mathematically, but finite-chain
 - Do not redistribute the user's paper or credentials.
 
 ## Next milestones
+
+Establish a sufficiently accurate inference integrator against the new independent RK4 reference inputs; avoid shared coarse simulation concealing bias. At 48 substeps the current all-at-once dimension rises to 11,528, requiring sparse methods or a density-correct higher-order formulation. Stabilize visibility before extending physical identification or calibration claims.
 
 0. Resolve visibility/depth-tie numerical discontinuities exposed by the version-0.5 matched experiment; repeat its fixed comparison and validate a nonlinear trajectory posterior. Test full-rank discrepancy sensitivity and incorporate balanced internal noise before expanding spatial force flexibility.
 

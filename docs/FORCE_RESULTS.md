@@ -1,5 +1,10 @@
 # Structured-force posterior: controlled results
 
+Subsequent [simulation/view audit](SIMULATION_VIEW_AUDIT.md): the shared
+historical time step has about 3.3 mm error against independent converged RK4.
+Measurements below remain valid relative to their discretized synthetic truth,
+but do not establish millimetre-level continuous-time physical accuracy.
+
 Implementation commit `1644958`, version 0.4; a subsequent test-only commit fixes a derivative check at a nondifferentiable depth-order boundary. The executed plan is `configs/force_study.json`, with its exact source fingerprint and numerical environment saved in the report/manifest. Independent condition partitions use the unchanged plan; source/environment/configuration and calibrated network tensor equality are verified before merging at completed-model boundaries. `execution.json` records this orchestration. This is a known-geometry, known-camera synthetic investigation using realization seed 4101. Four force conditions and three conditional models produce 12 fits. Conditions share a realization seed and are not independent calibration replicates.
 
 Each fit uses four chains, discards 500 warmup transitions and retains 1,000 transitions per chain. Every retained state enters latent diagnostics and smooth external-force scores/moments/intervals. An equally spaced 128-state subset is used for image/trajectory scoring and combined finite-window force/impulse evaluation. Stochastic forcing has fixed calibrated unit amplitude; no model probabilities are inferred.

@@ -1,5 +1,10 @@
 # Force marginalization: completed comparison
 
+Subsequent [simulation/view audit](SIMULATION_VIEW_AUDIT.md): the shared
+historical time step has about 3.3 mm error against independent converged RK4.
+Measurements below remain valid relative to their discretized synthetic truth,
+but do not establish millimetre-level continuous-time physical accuracy.
+
 ## Finding
 
 Analytic elimination is numerically correct and removes the separate force
