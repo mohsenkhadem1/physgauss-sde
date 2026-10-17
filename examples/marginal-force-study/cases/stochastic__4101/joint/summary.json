@@ -1,0 +1,211 @@
+{
+  "condition": "stochastic",
+  "seed": 4101,
+  "method": "joint",
+  "config": {
+    "seed": 4101,
+    "diffusion_seed": 918,
+    "frames": 21,
+    "duration": 1.0,
+    "image_size": 24,
+    "substeps": 3,
+    "observed_frames": [
+      0,
+      3,
+      6,
+      14,
+      17,
+      20
+    ],
+    "noise_rank": 3,
+    "observation_sigma": 0.015,
+    "truth_stochastic": true,
+    "truth_process_scale": 1.0,
+    "truth_external_pulse": false,
+    "adam_steps": 100,
+    "lbfgs_steps": 20,
+    "posterior_samples": 64,
+    "diffusion_steps": 350,
+    "finite_difference_chunk": 12,
+    "threads": 2
+  },
+  "observations_sha256": "abd8a001918f79039188ffd30924fe6b42d22163f9cee11a2d10d49d6087070b",
+  "source_fingerprint_sha256": "9ce4a6f377460fbe0f5378ab3da500da3e6de68ebaaa905c3523e32dd6132a25",
+  "initialization": {
+    "seconds": 13.20665689999987,
+    "forward_objective": 5277.078954011781,
+    "forward_gradient_norm": 48.96769510034433
+  },
+  "initial_state_sha256": "885ca5271d278ab876382c84b0e51425253ba0413580e1c94b010a03dfcaaea1",
+  "fit": {
+    "method": "joint",
+    "state_dimension": 728,
+    "optimized_dimension": 743,
+    "force_block": "explicit optimized coefficients",
+    "marginal_objective": 3330.3684484061337,
+    "observed_image_nll_without_constant": 5253.644981183401,
+    "marginal_gradient_norm": 4.94756642354738,
+    "marginal_gauss_newton_decrement": 0.1365592968090625,
+    "stationarity_screen_pass": false,
+    "stop_reason": "line_search_failed",
+    "iterations": 8,
+    "history": [
+      {
+        "iteration": 0,
+        "objective": 3319.7254011382825,
+        "step_decrement": 5.248107521769215,
+        "gradient_norm": 139.20766427431096,
+        "accepted_scale": 0.5
+      },
+      {
+        "iteration": 1,
+        "objective": 3310.126170900248,
+        "step_decrement": 3.0893032079732903,
+        "gradient_norm": 113.97296208665465,
+        "accepted_scale": 0.25
+      },
+      {
+        "iteration": 2,
+        "objective": 3309.8106650694767,
+        "step_decrement": 2.360138207577467,
+        "gradient_norm": 89.12571578543559,
+        "accepted_scale": 0.0625
+      },
+      {
+        "iteration": 3,
+        "objective": 3309.5324881762676,
+        "step_decrement": 2.2098532458462645,
+        "gradient_norm": 83.72624013433435,
+        "accepted_scale": 0.5
+      },
+      {
+        "iteration": 4,
+        "objective": 3307.8206826008122,
+        "step_decrement": 1.2018932399610418,
+        "gradient_norm": 51.063432068207256,
+        "accepted_scale": 1.0
+      },
+      {
+        "iteration": 5,
+        "objective": 3307.113294584726,
+        "step_decrement": 0.14094478296303628,
+        "gradient_norm": 5.875765624053062,
+        "accepted_scale": 0.00390625
+      },
+      {
+        "iteration": 6,
+        "objective": 3307.113217177754,
+        "step_decrement": 0.1402892826821122,
+        "gradient_norm": 5.852864853535827,
+        "accepted_scale": 0.0625
+      },
+      {
+        "iteration": 7,
+        "objective": 3305.8484166530966,
+        "step_decrement": 0.15770546571009428,
+        "gradient_norm": 6.225309979923026
+      }
+    ],
+    "schur_precision_relative_max_error": 2.9767087839198717e-16,
+    "profile_marginal_identity_abs_error": 3.481659405224491e-13,
+    "optimization_seconds": 7.1517328000009,
+    "seconds_including_final_covariance": 8.014789000000746,
+    "uncertainty": "local Gauss-Newton Gaussian over trajectory/material; exact conditional Gaussian force, not calibrated nonlinear posterior"
+  },
+  "local_gaussian_audit": {
+    "samples": 128,
+    "invalid_samples": 0,
+    "relative_weight_ess": 0.05855031365792061,
+    "maximum_normalized_weight": 0.2655848605335963,
+    "screen_pass": false,
+    "qualification": "independent full nonlinear marginal-target/proposal weight concentration; passing is not calibration or proof of adequate sampling"
+  },
+  "trajectory_scores": {
+    "observed": {
+      "frames": 6,
+      "position_rmse_m": 0.003251073784078372,
+      "position_crps_m": 0.0018314835488364082,
+      "trajectory_energy_score_m": 0.008017293593806046,
+      "component_90_coverage": 0.6527777777777778,
+      "component_90_mean_width_m": 0.0063379815790726496,
+      "rgb_psnr_db": 58.481111886218486,
+      "novel_view_psnr_db": 52.073559630456046
+    },
+    "withheld": {
+      "frames": 15,
+      "position_rmse_m": 0.0036073397148112304,
+      "position_crps_m": 0.0020639453748075827,
+      "trajectory_energy_score_m": 0.009027062566368168,
+      "component_90_coverage": 0.6833333333333333,
+      "component_90_mean_width_m": 0.007491289928387568,
+      "rgb_psnr_db": 52.52534069919619,
+      "novel_view_psnr_db": 50.077467361411124
+    },
+    "long_gap": {
+      "frames": 7,
+      "position_rmse_m": 0.004031903643880416,
+      "position_crps_m": 0.002397507674129545,
+      "trajectory_energy_score_m": 0.01023543849763565,
+      "component_90_coverage": 0.7142857142857143,
+      "component_90_mean_width_m": 0.009234400799358394,
+      "rgb_psnr_db": 50.30074718102655,
+      "novel_view_psnr_db": 48.59131484080562
+    },
+    "definitions": {
+      "uncertainty": "local Gauss-Newton trajectory Gaussian plus exact conditional forces; not calibrated",
+      "coverage": "central componentwise intervals on free-node positions only; pinned nodes excluded",
+      "energy_score": "Euclidean joint free-node position score per timestamp, averaged over timestamps",
+      "novel_view": "same times, known camera path offset by 100 degrees; evaluation-only images",
+      "rgb": "posterior mean render versus noise-free truth; PSNR data range 1",
+      "long_gap": "strictly between observed frame 6 and 14",
+      "invalid_draw_policy": "no replacement; if invalid draws exist, scores condition on validity and are explicitly flagged"
+    }
+  },
+  "point_withheld_position_rmse_m": 0.0035549759335130825,
+  "force_scores": {
+    "rmse_N": 0.0215467495969153,
+    "crps_N": 0.012344597218184528,
+    "component_90_coverage": 0.7444444444444445,
+    "component_90_mean_width_N": 0.0585641894376108,
+    "mean_note": "Rao-Blackwell coefficient mean; empirical intervals/CRPS from paired conditional force draws"
+  },
+  "physics": {
+    "fixed_total_mass_kg": 0.27462500000000006,
+    "minimum_det_F": 0.9032286567788241,
+    "maximum_internal_net_force_n": 2.42861286636753e-16,
+    "maximum_internal_net_torque_nm": 2.220446049250313e-16,
+    "maximum_support_position_error_m": 0.0,
+    "mechanical_energy_mean_j": [
+      0.1346704682502654,
+      0.13267651747645473,
+      0.1343092001493668,
+      0.13170539147024735,
+      0.13218685749551232,
+      0.12961747604938534,
+      0.12758513929240545,
+      0.1295263227257842,
+      0.1270766558405209,
+      0.1267350281203571,
+      0.1263284107803397,
+      0.12430643656335068,
+      0.1256610415069249,
+      0.12357287870903991,
+      0.1217067440446184,
+      0.12285482117282599,
+      0.12039385670631633,
+      0.12010031378875005,
+      0.11950085853346472,
+      0.11743263733872561,
+      0.11935486562435697
+    ],
+    "energy_note": "Gravity potential included. Drag dissipates and stochastic forcing exchanges energy; total energy need not be constant."
+  },
+  "evaluation_samples_requested": 128,
+  "valid_evaluation_samples": 128,
+  "invalid_evaluation_draw_indices": [],
+  "force_coefficient_uncertainty": {
+    "conditional_trace": 0.1106414392913553,
+    "between_trajectory_trace": 5.343363774150777
+  },
+  "seconds_excluding_shared_initialization": 11.123219299999619
+}

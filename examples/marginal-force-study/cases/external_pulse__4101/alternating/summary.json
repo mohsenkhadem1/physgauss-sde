@@ -1,0 +1,232 @@
+{
+  "condition": "external_pulse",
+  "seed": 4101,
+  "method": "alternating",
+  "config": {
+    "seed": 4101,
+    "diffusion_seed": 918,
+    "frames": 21,
+    "duration": 1.0,
+    "image_size": 24,
+    "substeps": 3,
+    "observed_frames": [
+      0,
+      3,
+      6,
+      14,
+      17,
+      20
+    ],
+    "noise_rank": 3,
+    "observation_sigma": 0.015,
+    "truth_stochastic": false,
+    "truth_process_scale": 1.0,
+    "truth_external_pulse": true,
+    "adam_steps": 100,
+    "lbfgs_steps": 20,
+    "posterior_samples": 64,
+    "diffusion_steps": 350,
+    "finite_difference_chunk": 12,
+    "threads": 2
+  },
+  "observations_sha256": "c75cf996dd65ca3dbbe689392ae0249b5389994c5a49eda31451df1687e0ee5b",
+  "source_fingerprint_sha256": "9ce4a6f377460fbe0f5378ab3da500da3e6de68ebaaa905c3523e32dd6132a25",
+  "initialization": {
+    "seconds": 16.377670599999874,
+    "forward_objective": 5246.892433114776,
+    "forward_gradient_norm": 123.16211094725594
+  },
+  "initial_state_sha256": "68f110f52ac5c70a2a40575c6ed648159fa6db546e5139feb89eb190f44fa2e8",
+  "fit": {
+    "method": "alternating",
+    "state_dimension": 728,
+    "optimized_dimension": 728,
+    "force_block": "analytic Gaussian conditional",
+    "marginal_objective": 3309.565695530851,
+    "observed_image_nll_without_constant": 5238.766440337102,
+    "marginal_gradient_norm": 155.8603381610088,
+    "marginal_gauss_newton_decrement": 2.325956026764793,
+    "stationarity_screen_pass": false,
+    "stop_reason": "line_search_failed",
+    "iterations": 11,
+    "history": [
+      {
+        "iteration": 0,
+        "objective": 3289.5438529128664,
+        "step_decrement": 2.8026364354995916,
+        "gradient_norm": 182.7705265686447,
+        "accepted_scale": 0.5
+      },
+      {
+        "iteration": 1,
+        "objective": 3288.165215803963,
+        "step_decrement": 1.512967626953607,
+        "gradient_norm": 169.26520777971322,
+        "accepted_scale": 0.25
+      },
+      {
+        "iteration": 2,
+        "objective": 3286.0589591139337,
+        "step_decrement": 1.1741269681391926,
+        "gradient_norm": 164.53625247475674,
+        "accepted_scale": 0.5
+      },
+      {
+        "iteration": 3,
+        "objective": 3285.507759591533,
+        "step_decrement": 0.7445742051445974,
+        "gradient_norm": 163.5362831150313,
+        "accepted_scale": 1.0
+      },
+      {
+        "iteration": 4,
+        "objective": 3285.102950318032,
+        "step_decrement": 0.49001848244633667,
+        "gradient_norm": 159.11051878973333,
+        "accepted_scale": 3.0517578125e-05
+      },
+      {
+        "iteration": 5,
+        "objective": 3285.102942990216,
+        "step_decrement": 0.4900174298794207,
+        "gradient_norm": 159.1101266741945,
+        "accepted_scale": 0.0001220703125
+      },
+      {
+        "iteration": 6,
+        "objective": 3285.1029136791835,
+        "step_decrement": 0.49001321964815964,
+        "gradient_norm": 159.10855822070138,
+        "accepted_scale": 0.125
+      },
+      {
+        "iteration": 7,
+        "objective": 3285.0730393878735,
+        "step_decrement": 0.48571878163032933,
+        "gradient_norm": 157.5029682885418,
+        "accepted_scale": 0.00390625
+      },
+      {
+        "iteration": 8,
+        "objective": 3285.0721179469006,
+        "step_decrement": 0.4855872477503604,
+        "gradient_norm": 157.45352358648688,
+        "accepted_scale": 0.0009765625
+      },
+      {
+        "iteration": 9,
+        "objective": 3285.071887686627,
+        "step_decrement": 0.485554385189458,
+        "gradient_norm": 157.44116817138354,
+        "accepted_scale": 0.125
+      },
+      {
+        "iteration": 10,
+        "objective": 3285.0425524916286,
+        "step_decrement": 0.48136433987616767,
+        "gradient_norm": 155.86033816100846
+      }
+    ],
+    "schur_precision_relative_max_error": 4.940526908266954e-16,
+    "profile_marginal_identity_abs_error": 3.481659405224491e-13,
+    "optimization_seconds": 11.68541390000064,
+    "seconds_including_final_covariance": 13.290028199999142,
+    "uncertainty": "local Gauss-Newton Gaussian over trajectory/material; exact conditional Gaussian force, not calibrated nonlinear posterior"
+  },
+  "local_gaussian_audit": {
+    "samples": 128,
+    "invalid_samples": 0,
+    "relative_weight_ess": 0.049891714196769424,
+    "maximum_normalized_weight": 0.24057275346565804,
+    "screen_pass": false,
+    "qualification": "independent full nonlinear marginal-target/proposal weight concentration; passing is not calibration or proof of adequate sampling"
+  },
+  "trajectory_scores": {
+    "observed": {
+      "frames": 6,
+      "position_rmse_m": 0.0011576161329432066,
+      "position_crps_m": 0.0006723518052012926,
+      "trajectory_energy_score_m": 0.002958480629002086,
+      "component_90_coverage": 1.0,
+      "component_90_mean_width_m": 0.006466397481749779,
+      "rgb_psnr_db": 60.336000398456626,
+      "novel_view_psnr_db": 60.327427148694504
+    },
+    "withheld": {
+      "frames": 15,
+      "position_rmse_m": 0.0013431685455914215,
+      "position_crps_m": 0.0008079931108408941,
+      "trajectory_energy_score_m": 0.0034367984992349737,
+      "component_90_coverage": 1.0,
+      "component_90_mean_width_m": 0.00772450471135754,
+      "rgb_psnr_db": 60.66584345299576,
+      "novel_view_psnr_db": 61.61806217198227
+    },
+    "long_gap": {
+      "frames": 7,
+      "position_rmse_m": 0.0015743278303608675,
+      "position_crps_m": 0.0009917994980594047,
+      "trajectory_energy_score_m": 0.0041981081285039756,
+      "component_90_coverage": 1.0,
+      "component_90_mean_width_m": 0.00964945346083156,
+      "rgb_psnr_db": 58.30728446422893,
+      "novel_view_psnr_db": 63.25793992876839
+    },
+    "definitions": {
+      "uncertainty": "local Gauss-Newton trajectory Gaussian plus exact conditional forces; not calibrated",
+      "coverage": "central componentwise intervals on free-node positions only; pinned nodes excluded",
+      "energy_score": "Euclidean joint free-node position score per timestamp, averaged over timestamps",
+      "novel_view": "same times, known camera path offset by 100 degrees; evaluation-only images",
+      "rgb": "posterior mean render versus noise-free truth; PSNR data range 1",
+      "long_gap": "strictly between observed frame 6 and 14",
+      "invalid_draw_policy": "no replacement; if invalid draws exist, scores condition on validity and are explicitly flagged"
+    }
+  },
+  "point_withheld_position_rmse_m": 0.0013609658725747475,
+  "force_scores": {
+    "rmse_N": 0.014925588506492452,
+    "crps_N": 0.008626316005347127,
+    "component_90_coverage": 0.9388888888888889,
+    "component_90_mean_width_N": 0.05964953416612014,
+    "mean_note": "Rao-Blackwell coefficient mean; empirical intervals/CRPS from paired conditional force draws"
+  },
+  "physics": {
+    "fixed_total_mass_kg": 0.27462500000000006,
+    "minimum_det_F": 0.9118898309024117,
+    "maximum_internal_net_force_n": 2.220446049250313e-16,
+    "maximum_internal_net_torque_nm": 1.942890293094024e-16,
+    "maximum_support_position_error_m": 0.0,
+    "mechanical_energy_mean_j": [
+      0.13362382696401828,
+      0.131952711211114,
+      0.13356098694980523,
+      0.13122094064863546,
+      0.13127579618422097,
+      0.12872839822354867,
+      0.12627876517815173,
+      0.12696017371760476,
+      0.12404673241122689,
+      0.12276048481747369,
+      0.12212329428781007,
+      0.12018837851752326,
+      0.12099674949925843,
+      0.11972417945833935,
+      0.11820554700900196,
+      0.11925824099330921,
+      0.11807507665398559,
+      0.1175633324592571,
+      0.11715021245860102,
+      0.11513266863125293,
+      0.11560301554917406
+    ],
+    "energy_note": "Gravity potential included. Drag dissipates and stochastic forcing exchanges energy; total energy need not be constant."
+  },
+  "evaluation_samples_requested": 128,
+  "valid_evaluation_samples": 128,
+  "invalid_evaluation_draw_indices": [],
+  "force_coefficient_uncertainty": {
+    "conditional_trace": 0.1106414392913553,
+    "between_trajectory_trace": 5.478642361023746
+  },
+  "seconds_excluding_shared_initialization": 19.42280689999916
+}

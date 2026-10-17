@@ -1,0 +1,60 @@
+{
+  "numerical_source_fingerprint_sha256": "9ce4a6f377460fbe0f5378ab3da500da3e6de68ebaaa905c3523e32dd6132a25",
+  "verified_source": {
+    "study_source_commit": "e8face70c520855b1a8eaacc4cff2efdc1fee93a",
+    "verified_model_module_sha256": {
+      "src/physgauss/benchmark.py": "20629b316bcafc8a6a946a822c925723d417d5c0e6c915a2596e012a6617777a",
+      "src/physgauss/camera.py": "ba314c052844034f9aaec9211493875f5c616332bb85baf8a740f196a790191b",
+      "src/physgauss/physics.py": "e0f0940ee8b1f80ad83d07d5cdcd04eafc04b9959252b626c98c768e719063d3",
+      "src/physgauss/render.py": "fd5c0bf1eb4b76555b72eb9a4ec4e6602bc9da7813759b089f107270b2c7ad57",
+      "src/physgauss/stochastic.py": "1087b8d168c80f6f1e3cc454746a2297905150f40f5301e13068e010d9052075",
+      "src/physgauss/inference.py": "4fc6a5bbea53d9e1c8696bddfd9832159627934a926369f99477bcaa897b3e8b",
+      "src/physgauss/scale_inference.py": "a494bcdaaa331f6843a6965525f9cae9ffb5472c7eb0de13a1e27c540b760d44"
+    },
+    "verified_additional_numerical_AST_modules": [
+      "forces.py",
+      "marginal_forces.py",
+      "marginal_inference.py",
+      "marginal_study.py"
+    ]
+  },
+  "scope": "post-fit step/depth-order diagnosis; no inference retuning",
+  "cases": [
+    {
+      "condition": "no_load",
+      "seed": 4101,
+      "fit_stop_reason": "step_decrement",
+      "directional_derivative": -0.0002749600808605251,
+      "minimum_Armijo_exponent_in_scan": 1,
+      "near_tied_depth_pairs_at_1e_minus_12_m": 5,
+      "interpretation": "depth-order changes can make a branch derivative fail to predict finite-step objective; scan alone does not prove the only cause of failure"
+    },
+    {
+      "condition": "external_pulse",
+      "seed": 4101,
+      "fit_stop_reason": "line_search_failed",
+      "directional_derivative": -10.675077618423234,
+      "minimum_Armijo_exponent_in_scan": 34,
+      "near_tied_depth_pairs_at_1e_minus_12_m": 5,
+      "interpretation": "depth-order changes can make a branch derivative fail to predict finite-step objective; scan alone does not prove the only cause of failure"
+    },
+    {
+      "condition": "stochastic",
+      "seed": 4101,
+      "fit_stop_reason": "line_search_failed",
+      "directional_derivative": -0.0622404914479881,
+      "minimum_Armijo_exponent_in_scan": null,
+      "near_tied_depth_pairs_at_1e_minus_12_m": 5,
+      "interpretation": "depth-order changes can make a branch derivative fail to predict finite-step objective; scan alone does not prove the only cause of failure"
+    },
+    {
+      "condition": "pulse_and_stochastic",
+      "seed": 4101,
+      "fit_stop_reason": "step_decrement",
+      "directional_derivative": -0.0010700657865460803,
+      "minimum_Armijo_exponent_in_scan": 1,
+      "near_tied_depth_pairs_at_1e_minus_12_m": 5,
+      "interpretation": "depth-order changes can make a branch derivative fail to predict finite-step objective; scan alone does not prove the only cause of failure"
+    }
+  ]
+}

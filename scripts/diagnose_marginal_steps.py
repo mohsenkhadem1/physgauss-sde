@@ -13,6 +13,7 @@ from physgauss.forces import ForceConfig
 from physgauss.marginal_forces import MarginalConfig, TrajectoryForceModel
 from physgauss.physics import InvalidDeformation
 from physgauss.study import write_json
+from publish_marginal_study import verify_marginal_source
 
 
 @torch.no_grad()
@@ -24,11 +25,12 @@ def depths(model, state, observations):
     return depth[0]
 
 
-def diagnose(raw, output):
+def diagnose(raw, output, source_ref):
     raw, output = Path(raw), Path(output)
     if output.exists():
         raise FileExistsError("Choose a new diagnostic directory.")
     summary = json.loads((raw/"summary.json").read_text())
+    provenance = verify_marginal_source(summary, source_ref)
     output.mkdir(parents=True)
     rows, records = [], []
     torch.set_num_threads(Config(**summary["plan"]["base"]).threads)
@@ -78,7 +80,7 @@ def diagnose(raw, output):
     with (output/"step_scan.csv").open("w", newline="", encoding="utf-8") as stream:
         writer = csv.DictWriter(stream, fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)
     write_json(output/"summary.json", {"numerical_source_fingerprint_sha256": summary["source_fingerprint_sha256"],
-        "scope": "post-fit step/depth-order diagnosis; no inference retuning", "cases": records})
+        "verified_source": provenance, "scope": "post-fit step/depth-order diagnosis; no inference retuning", "cases": records})
     print(json.dumps(records, indent=2))
 
 
@@ -86,5 +88,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--raw", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--source-ref", required=True)
     args = parser.parse_args()
-    diagnose(args.raw, args.output)
+    diagnose(args.raw, args.output, args.source_ref)

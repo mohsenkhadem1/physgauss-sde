@@ -8,6 +8,10 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 Version 0.5 adds exact Gaussian load elimination in a nonlinear trajectory model and a matched alternating/joint/marginalized solver experiment. Read `docs/FORCE_MARGINALIZATION.md` before using it: a declared full-rank velocity-discrepancy process is shared by the three new solvers, so this is not a reparameterization of the old singular low-rank simulator. Nine new tests check normalized Gaussian densities, conditional force moments, total covariance, Schur equivalence, nonlinear derivatives, causal density normalization and reproduction of the old solver with zero added innovation. Run `physgauss marginalize --quick`; the fixed full comparison plan is `configs/marginal_force_study.json`. Exact force elimination does not imply calibrated trajectory uncertainty or global nonlinear convergence.
 
+The 12-fit comparison is complete: read `docs/MARGINALIZATION_RESULTS.md` and open `examples/marginal-force-study/report.html`. Numerical source is `e8face7`, fingerprint `9ce4a6f377460fbe0f5378ab3da500da3e6de68ebaaa905c3523e32dd6132a25`; all 57 checks and expanded Linux CI pass. `5701c07` corrects units labels only and adds reproducible publication/step-diagnosis scripts; numeric executable ASTs are unchanged. Marginalized/joint/alternating solvers pass local stationarity in 2/4, 1/4 and 0/4 conditions. No consistent accuracy or timing advantage over the joint solver is shown. Weight concentration and stochastic-case coverage remain poor. `examples/marginal-step-diagnosis` documents depth-order changes and objective jumps even under extremely small steps. Stabilize the visibility likelihood before claiming reliable nonlinear inference.
+
+Raw local checkpoints: `runs/marginal-force-study`, with fit-boundary resume verified. Compact publication includes exact RGB inputs and shared initial states, each fitted solver-step path, conditional/Rao-Blackwell force moments and provenance. Full Gaussian precisions and paired joint draws remain in raw checkpoints or are regenerated with the fixed plan. The publication script verifies source, executable ASTs, input hashes, numerical records and force covariance. Use a new output directory to run with current source; the historical fingerprint intentionally rejects changed-source resume.
+
 Version 0.4 is implemented and its 12-fit structured-force experiment is executed. Forty-eight local checks and the expanded Linux CI pass. The new API reconstructs coherent external-force functions, cross-time covariance and nodal samples from compact posterior files. All twelve controlled fits fail the complete convergence screen at four chains with 1,000 retained states each; estimates remain provisional. Original physics/SDE experiments, the 18-case scale study, likelihood audit and version-0.3 sampler investigation remain versioned historical evidence. This is a controlled synthetic proof of concept, not a completed real-video system.
 
 ## Start here
@@ -69,6 +73,8 @@ The nonlinear sampler's target is now corrected mathematically, but finite-chain
 - Do not redistribute the user's paper or credentials.
 
 ## Next milestones
+
+0. Resolve visibility/depth-tie numerical discontinuities exposed by the version-0.5 matched experiment; repeat its fixed comparison and validate a nonlinear trajectory posterior. Test full-rank discrepancy sensitivity and incorporate balanced internal noise before expanding spatial force flexibility.
 
 1. Establish adequate nonlinear sampler exploration on sparse-view cases using the implemented convergence/ESS diagnostics; do not equate a correct Metropolis kernel with converged finite chains.
 2. Improve exploration of the implemented structured-force/SDE models; compare gradient-free proposals and inspect renderer depth-order/linearization effects. Only then extend spatial force patterns, model probabilities and repeated-realization coverage studies.

@@ -26,16 +26,8 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
-def publish(raw, destination, source_ref):
+def verify_marginal_source(summary, source_ref):
     root = Path(__file__).resolve().parents[1]
-    raw, destination = Path(raw).resolve(), Path(destination).resolve()
-    if destination.exists():
-        raise FileExistsError("Choose a new publication directory; existing evidence is never overwritten.")
-    summary = json.loads((raw/"summary.json").read_text())
-    manifest = json.loads((raw/"manifest.json").read_text())
-    for key, value in manifest.items():
-        if summary[key] != value:
-            raise ValueError("Manifest/summary mismatch: "+key)
     provenance = verify_source_compatibility(summary, source_ref)
     commit = provenance["study_source_commit"]
     # Comments/units documentation may be corrected after numerical execution;
@@ -49,6 +41,19 @@ def publish(raw, destination, source_ref):
         if ast.dump(ast.parse(old)) != ast.dump(ast.parse(current)):
             raise ValueError("Numerical implementation changed: "+module)
     provenance["verified_additional_numerical_AST_modules"] = list(modules)
+    return provenance
+
+
+def publish(raw, destination, source_ref):
+    raw, destination = Path(raw).resolve(), Path(destination).resolve()
+    if destination.exists():
+        raise FileExistsError("Choose a new publication directory; existing evidence is never overwritten.")
+    summary = json.loads((raw/"summary.json").read_text())
+    manifest = json.loads((raw/"manifest.json").read_text())
+    for key, value in manifest.items():
+        if summary[key] != value:
+            raise ValueError("Manifest/summary mismatch: "+key)
+    provenance = verify_marginal_source(summary, source_ref)
     expected = {(c, s, m) for c in summary["plan"]["conditions"] for s in summary["plan"]["seeds"] for m in summary["plan"]["methods"]}
     actual = [(r["condition"], r["seed"], r["method"]) for r in summary["cases"]]
     if len(actual) != len(expected) or set(actual) != expected:

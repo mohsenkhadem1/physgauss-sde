@@ -54,6 +54,8 @@ physgauss marginalize --plan configs/marginal_force_study.json --historical-summ
 
 Read [the derivation, covariance identities and comparison protocol](docs/FORCE_MARGINALIZATION.md). The new model declares full-rank free-node velocity diffusion; it differs from the historical simulator's absent or balanced low-rank neural noise. Force elimination is exact for this model. The trajectory posterior remains a local Gaussian approximation, and material/load identifiability remains unresolved. Historical simulator scores provide context rather than isolating marginalization's effect.
 
+The [completed 12-fit comparison](docs/MARGINALIZATION_RESULTS.md) and [self-contained report](examples/marginal-force-study/report.html) are committed with exact input images, fitted paths and portable force distributions. Marginalized, joint and alternating solvers pass the local stationarity screen in 2/4, 1/4 and 0/4 conditions respectively. Accuracy is similar; no consistent advantage over joint optimization is established. Independent posterior-approximation diagnostics fail in the pulse and stochastic cases. [Depth-order step scans](examples/marginal-step-diagnosis/) expose visibility-related objective discontinuities; uncertainty remains provisional.
+
 ## Structured external-force distributions
 
 Version 0.4 infers a smooth external load, fixed-amplitude internal SDE impulses, or both, through the observed RGB frames. Fifteen Gaussian-prior coefficients describe three loading directions over five temporal inducing points. Nodal loads use a known material-attached spatial profile; this is not arbitrary force-location inference. Outputs include force means, intervals, covariance and finite-window impulses, with explicit N/Ns units and convergence checks.
