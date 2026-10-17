@@ -14,7 +14,7 @@ from .physics import Trajectory, material_response
 
 @dataclass
 class MarginalConfig:
-    # d v = ... dt + velocity_diffusion * dW; units m / sqrt(s).
+    # d v = ... dt + velocity_diffusion * dW; units (m/s) / sqrt(s).
     velocity_diffusion: float = .02
     velocity_coordinate_scale: float = .1
 

@@ -16,7 +16,8 @@ free-node trajectories is singular: there are 12 free-node velocity coordinates
 per step. A generic inverse of its trajectory covariance does not exist.
 
 The new trajectory model therefore adds **full-rank independent free-node
-velocity diffusion**, with fixed amplitude 0.02 m/sqrt(s). This is a declared
+velocity diffusion**, with fixed amplitude 0.02 (m/s)/sqrt(s), equivalently
+0.02 m s^(-3/2). This is a declared
 nodal discrepancy/external impulse model, not balanced internal noise, a
 thermal law, or numerical jitter hidden in a matrix factorization. Each
 innovation has velocity covariance sigma_v^2 dt I. In momentum units its

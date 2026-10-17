@@ -77,7 +77,7 @@ def make_marginal_report(output, summary):
 {n_stationary}/{len(rows)} fits pass the local stationarity screen; {n_audit}/{len(rows)} pass the independent importance-weight concentration screen.
 Neither screen establishes calibrated uncertainty, unique mechanics/force recovery or global convergence. Shaded force bands are provisional local-Gaussian/conditional estimates.</div>
 <h2>What is compared</h2><p>The new model adds fixed full-rank independent free-node velocity diffusion of
-{summary['plan']['trajectory_model']['velocity_diffusion']} m/√s. This makes a proper trajectory density. All three new solvers use exactly this model.
+{summary['plan']['trajectory_model']['velocity_diffusion']} (m/s)/√s. This makes a proper trajectory density. All three new solvers use exactly this model.
 It differs from the historical model's absent or balanced low-rank neural internal noise. Historical rows use identical input images but cannot isolate a marginalization effect.</p>
 <p>Alternating solves the Gaussian force conditional then updates mechanics/trajectory with force fixed. Joint optimizes force and trajectory together.
 Marginalized integrates all 15 force coefficients and retains their conditional covariance. All optimize the same state/velocity coordinate density; fixed covariance makes joint-profile and marginalized trajectory objectives differ by a constant.</p>
