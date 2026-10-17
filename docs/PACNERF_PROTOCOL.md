@@ -211,6 +211,11 @@ description, not PAC calibration or a claim about the full training support.
 The archived operating-state byte hashes did not reproduce in a local replay,
 so that replay is not used as an exact empirical reference. No network weights
 or production settings are changed by this diagnostic.
+An additional `audit_calibration_replay.py` check reproduces all four archived
+cube validation aggregate metrics to at most 2.3e-16 absolute difference, despite
+different feature byte hashes. This is consistent with tiny floating-point
+variation rather than a material calibration replay failure. It does not
+establish PAC calibration or reproduce the original feature bytes exactly.
 
 For an interrupted production worker, `pacnerf-resume.yml` can download its
 saved JSON/reference/chains and continue the **exact original** worker commit,
