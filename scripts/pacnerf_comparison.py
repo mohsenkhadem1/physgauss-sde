@@ -1,0 +1,259 @@
+"""Run a four-arm, sparse dynamic-image PAC-NeRF transfer benchmark.
+
+Without marginalization means explicit joint Gaussian force variables with
+the SAME prior. Their integrated path posterior is mathematically identical.
+Ground truth after frame zero is accessible only in score(), after inference.
+"""
+import argparse
+from dataclasses import replace
+import hashlib
+import json
+from pathlib import Path
+import time
+import shutil
+import torch
+from physgauss.pacnerf_data import load_scene, evaluation_particles
+from physgauss.pacnerf_model import PACModel
+from physgauss.split_hmc import SplitHMCConfig, sample_split_hmc
+from physgauss.chain_diagnostics import diagnose_quantities
+from physgauss.cli import source_fingerprint
+
+
+def write(path, value):
+    path = Path(path); path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, indent=2, allow_nan=False)+'\n', encoding='utf-8')
+
+
+def cases():
+    return [(scene, views, noise, force) for scene in ['torus', 'bird'] for views in [4, 6]
+            for noise in ['constant', 'neural'] for force in ['marginal', 'joint']]
+
+
+def prepare(root, output, size=32):
+    output = Path(output); output.mkdir(parents=True, exist_ok=True)
+    calibration = json.loads(Path('examples/calibrated-noise-setup/calibration.json').read_text())
+    for path in Path(root).glob('*-manifest.json'): shutil.copyfile(path, output/path.name)
+    for scene in ['torus', 'bird']:
+        data = load_scene(root, scene, size)
+        model = PACModel(data, calibration)
+        static = model.renderer.calibrate()
+        torch.save({'data': data, 'colors': model.renderer.colors, 'calibration': calibration,
+                    'static': static, 'mechanics': model.mechanics}, output/f'{scene}-inputs.pt')
+        # Future particles go into a SEPARATE evaluation file, not model input.
+        torch.save({'particles': evaluation_particles(data)}, output/f'{scene}-evaluation.pt')
+        write(output/f'{scene}-manifest.json', {'scene': scene, 'source': 'official UCLA Box PAC-NeRF',
+            'source_geometry_sha256': data['geometry_sha256'], 'particles': data['particle_count'],
+            'static': static, 'gaussian_indices': data['gaussian_indices'].tolist(),
+            'mode_basis': model.basis.tolist(), 'mode_eigenvalues_per_s2': model.eigen.tolist(),
+            'image_size': size, 'times_s': data['times'].tolist(),
+            'inputs_sha256': hashlib.sha256((output/f'{scene}-inputs.pt').read_bytes()).hexdigest(),
+            'evaluation_sha256': hashlib.sha256((output/f'{scene}-evaluation.pt').read_bytes()).hexdigest()})
+        print('prepared', scene, static, flush=True)
+
+
+def make_model(inputs, index):
+    scene, views, noise, force = cases()[index]
+    bundle = torch.load(Path(inputs)/f'{scene}-inputs.pt', weights_only=False)
+    # Internal artifact is produced by this script, never an arbitrary checkpoint.
+    frames = [0, 3, 10, 13] if views == 4 else [0, 2, 4, 9, 11, 13]
+    model = PACModel(bundle['data'], bundle['calibration'], noise, force, frames, schedule=0, mechanics=bundle.get('mechanics'))
+    model.renderer.colors = bundle['colors']
+    return model, bundle
+
+
+def initialize(model):
+    z = torch.zeros(model.dimension, dtype=torch.float64)
+    m = model.modes
+    # Initial v=0, ballistic seed with a soft landing. No future particles or
+    # withheld observations supply an initial guess.
+    for t in range(1, 14):
+        nodes = model.data['rest'].clone()
+        nodes[:, 1] = (nodes[:, 1]-.5*9.8*(t/24)**2).clamp_min(.025)
+        q = torch.einsum('nc,ncm->m', nodes-model.data['rest'], model.basis)
+        z[2+m+(t-1)*2*m:2+m+(t-1)*2*m+m] = q/.10
+    q, _ = model.decode(z[None])
+    velocity = (q[:, 1:]-q[:, :-1])/model.dt
+    state = z[2+m:model.base_dimension].reshape(13, 2*m)
+    state[:, m:] = velocity[0]/.5
+    return z
+
+
+def optimize(model, initial, max_iter=350):
+    z = initial.clone().requires_grad_()
+    optimizer = torch.optim.LBFGS([z], lr=1., max_iter=max_iter, max_eval=max_iter*2,
+        history_size=40, tolerance_grad=1e-6, tolerance_change=1e-10, line_search_fn='strong_wolfe')
+    calls = 0
+    def closure():
+        nonlocal calls
+        optimizer.zero_grad(); loss = model.objective(z[None]).sum()
+        if not torch.isfinite(loss): raise ValueError('Nonfinite optimization target')
+        loss.backward(); calls += 1
+        if calls % 50 == 0: print('fit', calls, float(loss.detach()), flush=True)
+        return loss
+    optimizer.step(closure)
+    value = closure()
+    return z.detach(), {'objective': float(value.detach()), 'gradient_max_abs': float(z.grad.abs().max()),
+                        'evaluations': calls, 'optimizer_iterations': optimizer.state[z]['n_iter']}
+
+
+class Target:
+    def __init__(self, model, mean, precision):
+        self.model, self.mean = model, mean
+        self.chol = torch.linalg.cholesky(precision)
+        self.transform = torch.linalg.solve_triangular(self.chol.T, torch.eye(len(mean), dtype=mean.dtype), upper=True)
+        self.center = model.objective(mean[None])[0].detach()
+        # Local image Taylor proposal; MH always uses the full image target.
+        q, _ = model.decode(mean[None])
+        self.local = q[0, model.frames].detach()
+        values, gradients, hessians = [], [], []
+        for slot, spec in enumerate(model.specs):
+            def image(u):
+                rgb = model.renderer(u[None, None], [spec])[0, 0]
+                return .5*((rgb-model.obs[slot])/.08).square().sum()
+            u = self.local[slot].requires_grad_()
+            value = image(u); gradient, = torch.autograd.grad(value, u)
+            h = torch.autograd.functional.hessian(image, u)
+            values.append(value.detach()); gradients.append(gradient.detach()); hessians.append(h.detach())
+        self.values, self.gradients, self.hessians = [torch.stack(a) for a in [values, gradients, hessians]]
+
+    def decode(self, w): return self.mean+w@self.transform.T
+
+    def __call__(self, white):
+        w = white.detach().requires_grad_(); z = self.decode(w)
+        try:
+            q, _ = self.model.decode(z)
+            delta = q[:, self.model.frames]-self.local
+            image = (self.values+(delta*self.gradients).sum(-1)+.5*torch.einsum('bti,tij,btj->bt', delta, self.hessians, delta)).sum(-1)
+            ratio = -self.model.dynamics(z)-image+self.center+.5*w.square().sum(-1)
+            grad, = torch.autograd.grad(ratio.sum(), w)
+            bad = ~torch.isfinite(ratio)|~torch.isfinite(grad).all(-1)
+            return ratio.detach(), torch.nan_to_num(grad.detach()), bad
+        except (ValueError, torch.linalg.LinAlgError):
+            return w.new_full((len(w),), -torch.inf), torch.zeros_like(w), torch.ones(len(w), dtype=torch.bool)
+
+    @torch.no_grad()
+    def full_log_ratio(self, w):
+        try:
+            ratio = -self.model.objective(self.decode(w))+self.center+.5*w.square().sum(-1)
+            return ratio, ~torch.isfinite(ratio)
+        except (ValueError, torch.linalg.LinAlgError):
+            return w.new_full((len(w),), -torch.inf), torch.ones(len(w), dtype=torch.bool)
+
+
+def reference_precision(model, mean):
+    # Exact observed Hessian is used ONLY as a proposal metric. A ridge/negative
+    # curvature adjustment cannot alter the exact MH target. Record adjustment.
+    began = time.time()
+    h = torch.autograd.functional.hessian(lambda z: model.dynamics(z[None]).sum(), mean, vectorize=True)
+    # Image curvature is local in just twelve pose coordinates, avoiding a
+    # batch of 326 full-renderer second derivatives and excessive CI memory.
+    q, _ = model.decode(mean[None]); m = model.modes
+    for slot, spec in enumerate(model.specs):
+        if spec[0] == 0: continue  # supplied initial pose has no latent coordinate
+        def image(u):
+            rgb = model.renderer(u[None, None], [spec])[0, 0]
+            return .5*((rgb-model.obs[slot])/.08).square().sum()
+        local = torch.autograd.functional.hessian(image, q[0, spec[0]].detach())
+        start = 2+m+(spec[0]-1)*2*m
+        h[start:start+m, start:start+m] += local*.10**2
+    h = (h+h.T)/2
+    eigen, vectors = torch.linalg.eigh(h)
+    floor = max(.01, float(eigen.max())*1e-7)
+    precision = (vectors*eigen.clamp_min(floor))@vectors.T
+    return precision, {'minimum_observed_eigenvalue': float(eigen.min()), 'metric_eigenvalue_floor': floor,
+                       'adjusted_eigenvalues': int((eigen < floor).sum()), 'seconds': time.time()-began}
+
+
+@torch.no_grad()
+def score(model, draws, inputs):
+    truth = torch.load(Path(inputs)/f"{model.data['scene']}-evaluation.pt", weights_only=True)['particles']
+    q, _ = model.decode(draws)
+    # Mean uses every retained draw; interval quantiles use <=2000 evenly
+    # spaced draws to bound memory. This approximation is explicitly recorded.
+    mean_q = q.mean(0)
+    selected = torch.linspace(0, len(q)-1, min(2000, len(q))).round().long()
+    position = model.data['gaussians'][None, None]+torch.einsum('btm,gcm->btgc', q[selected], model.renderer.gaussian_basis)
+    lower, upper = torch.quantile(position, position.new_tensor([.05, .95]), dim=0)
+    mean = model.data['gaussians'][None]+torch.einsum('tm,gcm->tgc', mean_q, model.renderer.gaussian_basis)
+    missing = [f for f in range(1, 14) if f not in model.frames]
+    gap = list(range(4, 10)) if len(model.frames) == 4 else list(range(5, 9))
+    record = {'gap_particle_coordinate_rmse_m': float((mean[gap]-truth[gap]).square().mean().sqrt()),
+        'missing_particle_coordinate_rmse_m': float((mean[missing]-truth[missing]).square().mean().sqrt()),
+        'gap_component_90_coverage': float(((truth[gap] >= lower[gap])&(truth[gap] <= upper[gap])).double().mean()),
+        'gap_mean_width_m': float((upper[gap]-lower[gap]).mean()), 'interval_draws': len(selected),
+        'qualification': '128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim'}
+    # True held-out images: all cameras and times except frame-zero bootstrap
+    # and explicitly observed camera/time pairs. Do not synthesize new truth.
+    all_specs = [(f, c) for f in range(1, 14) for c in range(11) if (f, c) not in model.specs]
+    errors = []
+    for start in range(0, len(all_specs), 8):
+        specs = all_specs[start:start+8]
+        rgb = model.renderer(mean_q[[f for f, c in specs]][None], specs)[0]
+        target = torch.stack([model.data['images'][c, f] for f, c in specs])
+        errors.append((rgb-target).square().flatten(1).mean(-1))
+    record['heldout_rgb_psnr_db'] = float(-10*torch.log10(torch.cat(errors).mean()))
+    record['heldout_images'] = len(all_specs)
+    return record, {'modal_pose_mean_m': mean_q.tolist(), 'particle_mean_m': mean.tolist(), 'particle_q05_m': lower.tolist(), 'particle_q95_m': upper.tolist()}
+
+
+def run(inputs, output, index, pilot=False):
+    scene, views, noise, force = cases()[index]
+    name = f'{scene}__{views}views__{noise}__{force}'
+    out = Path(output)/name; out.mkdir(parents=True, exist_ok=True)
+    model, bundle = make_model(inputs, index)
+    began = time.time()
+    settings = {'case_index': index, 'case': name, 'source_fingerprint': source_fingerprint(),
+        'observed_pairs': model.specs, 'dimension': model.dimension,
+        'input_sha256': hashlib.sha256((Path(inputs)/f'{scene}-inputs.pt').read_bytes()).hexdigest(),
+        'bootstrap': bundle['static'], 'model': '12-mode linear elastic graph + smooth explicit ground reaction; exact linear propagator; transferred frozen neural noise',
+        'noise_units': 'floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated',
+        'force_comparison': 'same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables',
+        'pilot': pilot}
+    write(out/'settings.json', settings)
+    if (out/'reference.pt').exists():
+        fit = torch.load(out/'reference.pt', weights_only=True)
+        mean, precision = fit['mean'], fit['precision']
+    else:
+        mean, fit_info = optimize(model, initialize(model), 150 if pilot else 600)
+        precision, curvature = reference_precision(model, mean)
+        decrement = float((torch.linalg.solve(precision, torch.autograd.functional.jacobian(lambda z: model.objective(z[None]).sum(), mean))*torch.autograd.functional.jacobian(lambda z: model.objective(z[None]).sum(), mean)).sum().sqrt())
+        fit = {'mean': mean, 'precision': precision, 'fit': fit_info, 'curvature': curvature, 'newton_decrement_metric': decrement}
+        torch.save(fit, out/'reference.pt')
+        write(out/'fit.json', {k:v for k,v in fit.items() if k not in ['mean', 'precision']})
+    target = Target(model, mean, precision)
+    cfg = SplitHMCConfig(warmup=100 if pilot else 500, draws=100 if pilot else 2000,
+        min_time=1., max_time=4., target_accept=.9, seed=140001+index)
+    chains = None; history = []
+    for budget in ([100] if pilot else [2000, 4000, 8000]):
+        config = cfg if chains is None else replace(cfg, warmup=0, draws=budget-chains['white'].shape[1], step_size=chains['step_size'])
+        chains = sample_split_hmc(target, model.dimension, config, resume=chains,
+            progress=lambda a: print(name, a, flush=True))
+        torch.save(chains, out/'chains.pt')
+        z = target.decode(chains['white'].flatten(0, 1))
+        log_target = chains['log_ratio']-.5*chains['white'].square().sum(-1)-target.center
+        diagnostic = diagnose_quantities(torch.cat((z.reshape(4, budget, -1), log_target[..., None]), -1),
+            [f'z{i}' for i in range(model.dimension)]+['log_target'])
+        passed = diagnostic['all_monitored_quantities_pass']
+        history.append({'draws_per_chain': budget, 'all_pass': passed})
+        write(out/'diagnostics.json', diagnostic)
+        if passed or pilot: break
+    # Scoring deliberately follows the saved chain and diagnostics.
+    scores, positions = score(model, z, inputs)
+    map_scores, _ = score(model, mean[None], inputs)
+    write(out/'posterior.json', positions)
+    write(out/'summary.json', {'case': name, 'settings': settings, 'fit': fit.get('fit'),
+        'map_scores': map_scores, 'posterior_scores': scores, 'convergence': {k:v for k,v in diagnostic.items() if k != 'quantities'},
+        'sampling_history': history, 'step_size': chains['step_size'], 'counts': chains['counts'],
+        'seconds': time.time()-began, 'valid_for_ranking': passed and not pilot})
+
+
+if __name__ == '__main__':
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--prepare', action='store_true'); p.add_argument('--root', default='data/pacnerf')
+    p.add_argument('--inputs', default='runs/pacnerf-inputs'); p.add_argument('--output', default='runs/pacnerf-comparison')
+    p.add_argument('--case-index', type=int); p.add_argument('--pilot', action='store_true')
+    a = p.parse_args(); torch.set_num_threads(2)
+    import torch.backends.opt_einsum as backend
+    backend.enabled = True; backend.strategy = 'greedy'
+    if a.prepare: prepare(a.root, a.inputs)
+    else: run(a.inputs, a.output, a.case_index, a.pilot)
