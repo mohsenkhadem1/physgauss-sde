@@ -26,6 +26,16 @@ def publish(raw, inputs, output):
         if src is None:
             rows.append({'case': name, 'missing': True, 'valid_for_ranking': False}); continue
         row = json.loads(src.read_text()); row['missing'] = False
+        fit_record=json.loads((src.parent/'fit.json').read_text())
+        stationarity=fit_record['stationarity']
+        if not stationarity['stationary']:raise ValueError('Sampling reference failed the stationarity gate')
+        final_step=stationarity['history'][-1]
+        if stationarity['newton_decrement']>=.02 or final_step['curvature']['minimum_observed_eigenvalue']<=0:
+            raise ValueError('Mode stationarity flag could not be reproduced')
+        row['fit']['phase']='initial direct-coordinate L-BFGS, before precision-coordinate/Newton refinement'
+        row['final_mode']={'objective':final_step['objective'],
+            'regularized_metric_decrement':stationarity['newton_decrement'],
+            'minimum_observed_curvature_eigenvalue':final_step['curvature']['minimum_observed_eigenvalue']}
         diagnostics=json.loads((src.parent/'diagnostics.json').read_text())
         flags=[]
         for v in diagnostics['quantities'].values():
@@ -44,6 +54,8 @@ def publish(raw, inputs, output):
             np.array(force['mean_conditional_covariance'])+np.array(force['between_trajectory_covariance']),atol=1e-10,rtol=1e-10)
         destination = output/'cases'/name; destination.mkdir(parents=True)
         for f in src.parent.glob('*.json'): shutil.copyfile(f, destination/f.name)
+        shutil.copyfile(src,destination/'worker_summary.json')
+        (destination/'summary.json').write_text(json.dumps(row,indent=2,allow_nan=False)+'\n')
         rows.append(row)
     for f in inputs.glob('*-manifest.json'): shutil.copyfile(f, output/f.name)
     complete = all(not r['missing'] for r in rows)
@@ -109,6 +121,28 @@ def publish(raw, inputs, output):
             axes[i,0].set_title(f'Official image: frame {f}, camera {c}')
             axes[i,1].set_title('Rendered posterior mean pose');axes[i,2].set_title('Absolute RGB error (0–0.3)')
         fig.savefig(output/'images.png',dpi=150);plt.close(fig)
+    force_files=[output/'cases'/f'torus__6views__neural__{arm}'/'posterior.json' for arm in ['marginal','joint']]
+    if all(f.exists() for f in force_files):
+        time=np.arange(14)/24;knots=np.linspace(0,13/24,4)
+        temporal=np.exp(-.5*((time[:,None]-knots)/.14)**2)
+        temporal/=np.sqrt((temporal**2).sum(-1,keepdims=True))
+        mapping=np.zeros((14,3,4,3,2))
+        for axis in range(3):mapping[:,axis,:,axis,:]=2*temporal[:,:,None]
+        mapping=mapping.reshape(14,3,24)
+        fig,axes=plt.subplots(3,1,figsize=(9,7),sharex=True,layout='constrained')
+        for file,color,label in zip(force_files,['#197a91','#c37b25'],['Marginalized loads','Explicit joint loads']):
+            force=json.loads(file.read_text())['force']
+            mean=np.einsum('tck,k->tc',mapping,np.array(force['coefficient_mean']))
+            variance=np.einsum('tck,kl,tcl->tc',mapping,np.array(force['coefficient_covariance']),mapping)
+            sd=np.sqrt(np.maximum(variance,0))
+            for axis,ax in enumerate(axes):
+                ax.plot(time,mean[:,axis],color=color,label=label)
+                ax.fill_between(time,mean[:,axis]-sd[:,axis],mean[:,axis]+sd[:,axis],color=color,alpha=.15)
+        for axis,ax in enumerate(axes):
+            ax.set_ylabel(f'{"xyz"[axis]} (m/s²)');ax.axvspan(5/24,8/24,color='#aaaaaa',alpha=.15)
+        axes[0].legend();axes[-1].set_xlabel('Time (s)')
+        fig.suptitle('Modeled unknown acceleration averaged over handles\nPosterior mean ± one SD; restricted profiles; excludes known gravity; not force ground truth')
+        fig.savefig(output/'loads.png',dpi=150);plt.close(fig)
     header='Converged comparison' if passed else 'Development / incomplete inference — no scientific ranking'
     def embed(name):
         path=output/name
@@ -118,7 +152,7 @@ def publish(raw, inputs, output):
 <h1>PAC-NeRF elastic objects: sparse dynamic images</h1><h2>{header}</h2>
 <p>{html.escape(summary['qualification'])}.</p><p>Constant and neural noise each use either analytically marginalized Gaussian loads or the identical explicit joint load prior. Their integrated motion posteriors should agree. Marginalization changes inference, not physical assumptions.</p>
 <p>4 or 6 observed dynamic images over 14 timestamps (24 fps), one selected camera per timestamp. The fixed-camera dataset is subsampled across cameras; this is not continuous moving-camera capture. All eleven initial views initialize appearance. Ground truth after frame zero is used only after sampling for evaluation.</p>
-{embed('comparison.png')}{embed('images.png')}
+{embed('comparison.png')}{embed('images.png')}{embed('loads.png')}
 <p>Interval coverage is descriptive over correlated particles, not a calibration guarantee. Model reduction, explicit ground contact, transferred diffusion, and 32px rendering limit physical conclusions. Stiffness scale is not a continuum Young’s modulus estimate. No force-error score is claimed.</p>
 <table cellpadding="8"><tr><th>Case</th><th>Eligible for ranking</th><th>Gap RMSE (mm)</th></tr>{table}</table>
 <p><a href="summary.json">Complete results and diagnostics summary</a> · <a href="comparison.csv">CSV</a> · <a href="https://github.com/mohsenkhadem1/physgauss-sde/blob/main/docs/PACNERF_PROTOCOL.md">Protocol and limitations</a> · <a href="https://github.com/xuan-li/PAC-NeRF">Original data source</a></p></body></html>'''

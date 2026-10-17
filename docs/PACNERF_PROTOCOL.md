@@ -155,3 +155,14 @@ shared inputs once and runs independent cases on GitHub-hosted CPU workers.
 It does not assume a GPU is present. Raw author data and full chains remain
 downloadable Actions artifacts; the repository stores code, provenance, compact
 results, and reports. Dataset access is through the authors' original links.
+
+For an already-running study, collect completed results and full checkpoints:
+
+```
+python scripts/collect_pacnerf_actions.py --run 39073611351 --output runs/pacnerf-production --chains
+```
+
+This read-only helper uses existing Git authentication, polls every 45 seconds,
+and never changes the workflow. Artifact downloads are hash verified. Linux and
+Windows raw-root metadata are mapped to inert pure paths when loading our own
+prepared artifacts; all tensor bytes and source image hashes remain unchanged.
