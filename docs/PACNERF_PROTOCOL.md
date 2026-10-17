@@ -32,6 +32,11 @@ Sixteen cases: two objects, two observation counts, and four inference/model arm
 * Constant or frozen neural structured internal noise.
 * Analytically marginalized or explicitly sampled joint Gaussian applied loads.
 
+The labels "4 views" and "6 views" count the scheduled frame-zero image.
+Because all eleven initial images already calibrate appearance and initial pose
+is fixed, these regimes supply only **three or five later dynamic images**,
+respectively. The frame-zero image contributes a constant likelihood term.
+
 Frames 0..13 are 1/24 second apart. All image pairs after frame zero except
 observed pairs are held out for scoring. Initial-camera images are explicitly
 excluded from held-out scores. Subsamples from one simulation are not independent
