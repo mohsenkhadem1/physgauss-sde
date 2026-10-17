@@ -2,7 +2,7 @@
 
 Research prototype for physically constrained Gaussian scene reconstruction from **one moving camera with missing frames**.
 
-Current version: **0.3**, with nonlinear posterior sampling and 37 passing checks. The [latest selected-case experiments](docs/NONLINEAR_RESULTS.md) still fail the full convergence screen; reliable calibrated uncertainty and real-video reconstruction remain open work.
+Current version: **0.4**, with structured external-force posteriors, nonlinear sampling and 46 numerical/physical checks. The [historical version-0.3 experiments](docs/NONLINEAR_RESULTS.md) fail the full convergence screen; the new force models are investigated separately. Reliable real-world uncertainty and real-video reconstruction remain open work.
 
 The initial milestone is a small, reproducible CPU experiment. It is not a reproduction of PIDG or a completed real-video reconstruction system. We separate uncertainty over unknown scene parameters from stochastic forcing, and evaluate both against synthetic ground truth.
 
@@ -41,7 +41,19 @@ Open `runs/cpu-demo/report.html` for an animated comparison, trajectory/uncertai
 
 The default experiment uses 21 timestamps, six observed RGB frames, a 0.3-0.7 second observation gap, 24x24 images, and 64 posterior samples. All six input frames contribute to offline smoothing. This is deliberately small enough to inspect and run on CPU; it is not a high-resolution scene reconstruction.
 
-`physgauss check` runs 37 numerical and physical checks with the standard-library test runner. GitHub Actions runs these checks, a small end-to-end demo, a two-case adaptive-noise smoke study, a nonlinear likelihood audit, and a short nonlinear-sampling integration check.
+`physgauss check` runs 46 numerical and physical checks with the standard-library test runner. GitHub Actions also runs the original demo/study/audit/sampler checks and a three-model force-posterior smoke experiment.
+
+## Structured external-force distributions
+
+Version 0.4 infers a smooth external load, fixed-amplitude internal SDE impulses, or both, through the observed RGB frames. Fifteen Gaussian-prior coefficients describe three loading directions over five temporal inducing points. Nodal loads use a known material-attached spatial profile; this is not arbitrary force-location inference. Outputs include force means, intervals, covariance and finite-window impulses, with explicit N/Ns units and convergence checks.
+
+```sh
+physgauss forces --quick --output runs/force-smoke
+physgauss forces --plan configs/force_study.json --output runs/force-study
+physgauss forces --plan configs/force_study.json --output runs/force-study --resume
+```
+
+See [the force prior, nonlinear target, diagnostics and controlled protocol](docs/FORCE_POSTERIOR.md). The full plan compares no load, a deterministic external pulse, internal stochastic forcing, and both, using the same images per model. There are no inferred model probabilities. A zero external-force band in the SDE-only model reflects an excluded component, not a conclusion that the force is absent. Inspect chain diagnostics before trusting any interval.
 
 ## Adaptive noise and independent-realization study
 
@@ -110,6 +122,8 @@ See [docs/METHOD.md](docs/METHOD.md) for equations, likelihood, physical units, 
 | `likelihood_audit.py` / `audit_report.py` | Nonlinear likelihood overlap and reproducibility diagnostics |
 | `mcmc.py` / `chain_diagnostics.py` | Nonlinear Metropolis transitions and multichain Rhat/ESS |
 | `nonlinear_study.py` / `nonlinear_report.py` | Observation-only sampling, isolated predictive evaluation and trace reports |
+| `forces.py` / `force_inference.py` | External-load GP projection and nonlinear fitted-proposal correction |
+| `force_study.py` / `force_report.py` | Conditional force/noise comparisons, force/impulse distributions and reports |
 | `metrics.py` / `report.py` | Predictive scores, physical diagnostics, and experiment report |
 | `cli.py` | Reproducible execution and checkpoint handling |
 

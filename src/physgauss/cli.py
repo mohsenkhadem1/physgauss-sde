@@ -150,6 +150,11 @@ def main():
     nonlinear.add_argument("--seed", type=int, default=67001)
     nonlinear.add_argument("--langevin", action="store_true", help="Use gradient-guided pCNL instead of pCN proposals.")
     nonlinear.add_argument("--resume", action="store_true", help="Resume at completed-case boundaries with unchanged settings.")
+    forces = sub.add_parser("forces", help="Infer structured external force distributions and compare SDE controls.")
+    forces.add_argument("--plan", type=Path)
+    forces.add_argument("--quick", action="store_true")
+    forces.add_argument("--output", type=Path, default=Path("runs/force-study"))
+    forces.add_argument("--resume", action="store_true")
     args = parser.parse_args()
     if args.command == "check":
         tests = Path(__file__).resolve().parents[2] / "tests"
@@ -168,6 +173,14 @@ def main():
                                   seed=args.seed, langevin=args.langevin)
         run_nonlinear(args.study, args.output, args.source_ref, settings, args.case, args.method,
                       args.evaluation_samples, args.resume)
+        return
+    if args.command == "forces":
+        from .force_study import quick_force_plan, run_force_study
+        if args.quick and args.plan:
+            parser.error("Choose --quick or --plan, not both.")
+        plan = quick_force_plan() if args.quick else json.loads(
+            (args.plan or Path("configs/force_study.json")).read_text(encoding="utf-8"))
+        run_force_study(plan, args.output, args.resume)
         return
     if args.command == "study":
         from .study import quick_plan, run_study

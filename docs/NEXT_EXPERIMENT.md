@@ -1,6 +1,6 @@
 # From the controlled benchmark to partial-view reconstruction
 
-This is the development sequence after the nonlinear sampler investigation. These extensions are proposed, not implemented or measured. The target remains one moving camera with missing frames and actual irregular timestamps.
+This is the development sequence after the version-0.3 nonlinear sampler investigation. Version 0.4 implements an initial nonlinear-curvature proposal refit and a restricted structured external-force prior; see `FORCE_POSTERIOR.md` for actual capabilities. Broader spatial force inference, viscosity, uncertain geometry/camera and real video below remain proposed. The target remains one moving camera with missing frames and actual irregular timestamps.
 
 ## First resolve nonlinear exploration
 
