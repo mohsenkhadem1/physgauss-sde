@@ -1,7 +1,7 @@
 import unittest
 import torch
 from physgauss.benchmark import Config, Observations, SceneModel, make_benchmark
-from physgauss.forces import ForcePrior, ForceConfig, ForceSceneModel
+from physgauss.forces import ForcePrior, ForceConfig, ForceSceneModel, evaluate_force_posterior
 from physgauss.force_inference import GaussianTargetCorrection, fitted_reference
 from physgauss.mcmc import MixtureReference, SamplerConfig, sample_nonlinear
 from physgauss.scale_inference import LinearComponent, ScalePosterior
@@ -144,6 +144,33 @@ class ForceTests(unittest.TestCase):
         integrated = (averaged*duration[None, :, None, None]).sum(1)
         expected = (forces*dt[None, :, None, None]+impulses).sum(1)
         torch.testing.assert_close(integrated, expected)
+
+    def test_sorted_force_crps_matches_independent_pairwise_definition(self):
+        from physgauss.force_study import sorted_crps
+        from physgauss.metrics import crps
+        generator = torch.Generator().manual_seed(17)
+        samples = torch.randn(17, 5, 3, dtype=torch.float64, generator=generator)
+        target = torch.randn(5, 3, dtype=torch.float64, generator=generator)
+        torch.testing.assert_close(sorted_crps(samples, target), crps(samples, target), atol=1e-14, rtol=1e-14)
+
+    def test_portable_coefficient_posterior_reconstructs_force_covariance_and_draws(self):
+        from dataclasses import asdict
+        model = ForceSceneModel(Config.quick())
+        prior = model.force_prior
+        generator = torch.Generator().manual_seed(991)
+        coefficients = torch.randn(32, prior.dimension, dtype=torch.float64, generator=generator)
+        fields = {"duration_s": model.config.duration, "inducing_times_s": prior.knots.tolist(),
+            "spatial_nodal_weights": prior.spatial_weights.tolist(), "force_prior": asdict(prior.config),
+            "whitened_force_coefficient_mean": coefficients.mean(0).tolist(),
+            "whitened_force_coefficient_covariance": torch.cov(coefficients.T).tolist(),
+            "whitened_force_coefficient_draws": coefficients.tolist()}
+        times = model.times.new_tensor([.03, .16, .37])
+        posterior = evaluate_force_posterior(fields, times)
+        target = prior.total_force(coefficients, times)
+        torch.testing.assert_close(posterior["total_draws_N"], target, atol=1e-14, rtol=1e-12)
+        torch.testing.assert_close(posterior["mean_total_N"], target.mean(0), atol=1e-14, rtol=1e-12)
+        torch.testing.assert_close(posterior["joint_total_covariance_N2"], torch.cov(target.flatten(1).T), atol=1e-14, rtol=1e-12)
+        torch.testing.assert_close(posterior["nodal_draws_N"], prior.nodal_force(coefficients, times), atol=1e-14, rtol=1e-12)
 
 
 if __name__ == "__main__":

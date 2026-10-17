@@ -11,6 +11,11 @@ from .benchmark import SceneModel
 from .physics import simulate, edge_impulses
 
 
+def matern32(t, s, length):
+    r = math.sqrt(3)*(t[:, None]-s[None]).abs()/length
+    return (1+r)*torch.exp(-r)
+
+
 @dataclass
 class ForceConfig:
     knots: int = 5
@@ -42,9 +47,7 @@ class ForcePrior:
         self.dimension = 3*config.knots
 
     def kernel(self, t, s):
-        distance = (t[:, None]-s[None]).abs()/(self.duration*self.config.temporal_length_fraction)
-        r = math.sqrt(3)*distance
-        return (1+r)*torch.exp(-r)
+        return matern32(t, s, self.duration*self.config.temporal_length_fraction)
 
     def features(self, times):
         if times.ndim != 1 or not bool(torch.isfinite(times).all()) or bool(((times < 0)|(times > self.duration)).any()):
@@ -59,6 +62,41 @@ class ForcePrior:
 
     def nodal_force(self, coordinates, times):
         return self.total_force(coordinates, times)[:, :, None, :]*self.spatial_weights[None, None, :, None]
+
+
+def evaluate_force_posterior(fields, times):
+    """Reconstruct a coherent force distribution from portable fields.json.
+
+    Moments use every retained coefficient state; the saved subset gives
+    non-Gaussian function draws. These are conditional external-load outputs,
+    not white-noise instantaneous forces or force-presence probabilities.
+    """
+    times = torch.as_tensor(times, dtype=torch.float64)
+    duration = fields["duration_s"]
+    if times.ndim != 1 or not bool(torch.isfinite(times).all()) or bool(((times < 0)|(times > duration)).any()):
+        raise ValueError("Query times must stay inside the recorded interval.")
+    weights = times.new_tensor(fields["spatial_nodal_weights"])
+    if fields["whitened_force_coefficient_mean"] is None:
+        mean = times.new_zeros(len(times), 3)
+        covariance = times.new_zeros(3*len(times), 3*len(times))
+        draws = mean[None]
+    else:
+        config = ForceConfig(**fields["force_prior"])
+        knots = times.new_tensor(fields["inducing_times_s"])
+        length = duration*config.temporal_length_fraction
+        kernel = matern32(knots, knots, length)
+        chol = torch.linalg.cholesky(kernel+1e-8*torch.eye(len(knots), dtype=times.dtype))
+        phi = torch.linalg.solve_triangular(chol, matern32(times, knots, length).T, upper=False).T
+        mapping = torch.kron((config.total_force_std_n*phi).contiguous(), torch.eye(3, dtype=times.dtype))
+        coefficient_mean = times.new_tensor(fields["whitened_force_coefficient_mean"])
+        coefficient_covariance = times.new_tensor(fields["whitened_force_coefficient_covariance"])
+        mean = (mapping@coefficient_mean).reshape(-1, 3)
+        covariance = mapping@coefficient_covariance@mapping.T
+        coefficients = times.new_tensor(fields["whitened_force_coefficient_draws"])
+        draws = (coefficients@mapping.T).reshape(len(coefficients), len(times), 3)
+    return {"mean_total_N": mean, "joint_total_covariance_N2": covariance,
+        "total_draws_N": draws, "mean_nodal_N": mean[:, None, :]*weights[None, :, None],
+        "nodal_draws_N": draws[:, :, None, :]*weights[None, None, :, None]}
 
 
 class ForceSceneModel(SceneModel):

@@ -44,7 +44,7 @@ This protocol differs from the historical common-linearization study. Do not com
 
 ## Posterior fields and impulses
 
-The saved fields include posterior total-force mean, componentwise 5-95% intervals and 3x3 marginal covariance at each solver time, plus external impulse mean/covariance. Raw run files retain paired external nodal-force samples, stochastic impulses, finite-window combined forces, and the full cross-time covariance of the total external load. Geometry and spatial profile are fixed, so the external nodal field inherits the same coherent temporal coefficients rather than independent jitter.
+The saved fields include posterior total-force mean, componentwise 5-95% intervals and 3x3 marginal covariance at each solver time, plus external impulse mean/covariance. Those external-force summaries and scores use all retained coefficient states, without rendering. An exact sorted empirical CRPS formula avoids quadratic pairwise memory use. Compact `fields.json` also contains the whitened force-coefficient mean/covariance, spatial weights, inducing times and an evenly spaced subset of coherent coefficient draws. It therefore supports joint force queries without assuming a Gaussian posterior. Raw run files retain paired external nodal-force samples, stochastic impulses, finite-window combined forces, and the full cross-time covariance of the total external load. Geometry and spatial profile are fixed, so the external nodal field inherits the same coherent temporal coefficients rather than independent jitter.
 
 Internal white-noise forcing has no ordinary pointwise force value. Each solver-step impulse is logged using the exact pre-step state and Brownian increment. Over each frame interval, the reported combined nodal average is:
 
@@ -70,6 +70,22 @@ physgauss forces --plan configs/force_study.json --output runs/force-study --res
 ```
 
 The quick command is an integration check with a smaller scene and short chains; it cannot establish convergence. Open `report.html` for posterior load bands and diagnostics. Per-model `fields.json` provides compact distributions with explicit units; `force_samples.npz` contains joint sample/covariance arrays, and `posterior.pt` holds observations, reference and full chains. Large raw files remain ignored by Git. Compact report/evidence snapshots are versioned separately after completed experiments.
+
+Query a completed full-duration force posterior using only its compact JSON:
+
+```python
+import json
+from pathlib import Path
+from physgauss.forces import evaluate_force_posterior
+
+fields = json.loads(Path("runs/force-study/cases/external_pulse__4101__force_only/fields.json").read_text())
+posterior = evaluate_force_posterior(fields, [0.4, 0.5, 0.6])
+mean = posterior["mean_total_N"]                    # [time, xyz]
+covariance = posterior["joint_total_covariance_N2"] # [time*xyz, time*xyz]
+draws = posterior["nodal_draws_N"]                  # [draw, time, node, xyz]
+```
+
+Means and covariance reconstruct from every retained coefficient state. Function draws use the saved subset and preserve non-Gaussian dependence; quantiles estimated from that subset may differ from the all-state quantiles saved at solver times. Queries must remain within the declared recording interval. These are conditional external-force distributions, not instantaneous white-noise forces or probabilities that a force exists.
 
 ## Remaining identifiability limits
 

@@ -2,7 +2,7 @@
 
 Research prototype for physically constrained Gaussian scene reconstruction from **one moving camera with missing frames**.
 
-Current version: **0.4**, with structured external-force posteriors, nonlinear sampling and 46 numerical/physical checks. The [historical version-0.3 experiments](docs/NONLINEAR_RESULTS.md) fail the full convergence screen; the new force models are investigated separately. Reliable real-world uncertainty and real-video reconstruction remain open work.
+Current version: **0.4**, with structured external-force posteriors, nonlinear sampling and 48 numerical/physical checks. The [historical version-0.3 experiments](docs/NONLINEAR_RESULTS.md) fail the full convergence screen; the new force models are investigated separately. Reliable real-world uncertainty and real-video reconstruction remain open work.
 
 The initial milestone is a small, reproducible CPU experiment. It is not a reproduction of PIDG or a completed real-video reconstruction system. We separate uncertainty over unknown scene parameters from stochastic forcing, and evaluate both against synthetic ground truth.
 
@@ -41,7 +41,7 @@ Open `runs/cpu-demo/report.html` for an animated comparison, trajectory/uncertai
 
 The default experiment uses 21 timestamps, six observed RGB frames, a 0.3-0.7 second observation gap, 24x24 images, and 64 posterior samples. All six input frames contribute to offline smoothing. This is deliberately small enough to inspect and run on CPU; it is not a high-resolution scene reconstruction.
 
-`physgauss check` runs 46 numerical and physical checks with the standard-library test runner. GitHub Actions also runs the original demo/study/audit/sampler checks and a three-model force-posterior smoke experiment.
+`physgauss check` runs 48 numerical and physical checks with the standard-library test runner. GitHub Actions also runs the original demo/study/audit/sampler checks and a three-model force-posterior smoke experiment.
 
 ## Structured external-force distributions
 

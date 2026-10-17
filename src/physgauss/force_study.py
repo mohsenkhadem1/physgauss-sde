@@ -90,10 +90,20 @@ def window_average_force(forces, impulses, step_sizes, substeps):
     return grouped/duration[None, :, None, None]
 
 
+def sorted_crps(samples, target):
+    """Exact empirical CRPS without the quadratic all-pairs allocation."""
+    ordered = samples.sort(dim=0).values
+    count = len(samples)
+    weights = samples.new_tensor(range(1, count+1))*2-count-1
+    shape = (count,)+(1,)*(samples.ndim-1)
+    dispersion = (ordered*weights.reshape(shape)).sum(0)/count**2
+    return ((samples-target[None]).abs().mean(0)-dispersion).mean()
+
+
 def field_scores(samples, target, unit):
     lo, hi = torch.quantile(samples, samples.new_tensor([.05, .95]), dim=0)
     return {"rmse_"+unit: float((samples.mean(0)-target).square().mean().sqrt()),
-        "crps_"+unit: float(crps(samples, target)), "component_90_coverage": float(((target >= lo)&(target <= hi)).double().mean()),
+        "crps_"+unit: float(sorted_crps(samples, target)), "component_90_coverage": float(((target >= lo)&(target <= hi)).double().mean()),
         "component_90_mean_width_"+unit: float((hi-lo).mean())}
 
 
@@ -169,22 +179,27 @@ def run_force_study(plan, output, resume=False):
                 prediction = predict_force_samples(model, z)
                 # All force truth is accessed only after the posterior sampling.
                 true_force, true_impulse = truth_force_record(config, benchmark)
-                total = prediction["external_force"].sum(2)
+                if has_force:
+                    flat = chain["coordinates"].flatten(0, 1)
+                    coefficients = flat[:, 8:model.noise_start]
+                    total = model.force_prior.total_force(coefficients, model.step_times)
+                else:
+                    coefficients = None
+                    total = z.new_zeros(settings.chains*settings.draws, model.nsteps, 3)
                 true_total = true_force[0].sum(1)
-                external_impulse = (prediction["external_force"]*model.step_sizes[None, :, None, None]).sum((1, 2))
+                all_nodal_force = total[:, :, None, :]*model.force_prior.spatial_weights[None, None, :, None]
+                external_impulse = (total*model.step_sizes[None, :, None]).sum(1)
                 true_external_impulse = (true_force[0]*model.step_sizes[:, None, None]).sum((0, 1))
                 averaged = window_average_force(prediction["external_force"], prediction["stochastic_impulse"], model.step_sizes, config.substeps)
                 true_averaged = window_average_force(true_force, true_impulse, model.step_sizes, config.substeps)[0]
                 free = ~model.mesh.pinned
                 force_scores = {"external_total": field_scores(total, true_total, "N"),
-                    "external_nodal": field_scores(prediction["external_force"][:, :, free], true_force[0, :, free], "N"),
+                    "external_nodal": field_scores(all_nodal_force[:, :, free], true_force[0, :, free], "N"),
                     "external_impulse": field_scores(external_impulse, true_external_impulse, "Ns"),
                     "combined_window_nodal": field_scores(averaged[:, :, free], true_averaged[:, free], "N")}
                 # Force waveform diagnostics use all retained states, without renders.
                 if has_force:
-                    flat = chain["coordinates"].flatten(0, 1)
-                    all_total = model.force_prior.total_force(flat[:, 8:model.noise_start], model.step_times)
-                    total_chain = all_total.reshape(settings.chains, settings.draws, model.nsteps, 3)
+                    total_chain = total.reshape(settings.chains, settings.draws, model.nsteps, 3)
                     impulse_chain = (total_chain*model.step_sizes[None, None, :, None]).sum(2)
                     diagnostics_force = diagnose_quantities(impulse_chain, ["external_impulse_x", "external_impulse_y", "external_impulse_z"])
                 else:
@@ -192,13 +207,21 @@ def run_force_study(plan, output, resume=False):
                         "reason": "external load is structurally excluded; no force posterior sampled"}
                 lo, hi = torch.quantile(total, total.new_tensor([.05, .95]), dim=0)
                 centered = total-total.mean(0)
-                marginal_covariance = torch.einsum("bti,btj->tij", centered, centered)/(len(z)-1)
+                marginal_covariance = torch.einsum("bti,btj->tij", centered, centered)/(len(total)-1)
                 fields = {"times_s": model.step_times.tolist(), "external_total_mean_N": total.mean(0).tolist(),
+                    "duration_s": config.duration, "inducing_times_s": model.force_prior.knots.tolist(),
                     "external_total_q05_N": lo.tolist(), "external_total_q95_N": hi.tolist(),
                     "external_total_marginal_covariance_N2": marginal_covariance.tolist(),
                     "truth_external_total_N_evaluation_only": true_total.tolist(),
                     "external_impulse_mean_Ns": external_impulse.mean(0).tolist(),
-                    "external_impulse_covariance_Ns2": torch.cov(external_impulse.T).tolist()}
+                    "external_impulse_covariance_Ns2": torch.cov(external_impulse.T).tolist(),
+                    "force_prior": asdict(model.force_prior.config),
+                    "spatial_nodal_weights": model.force_prior.spatial_weights.tolist(),
+                    "force_posterior_states": len(total),
+                    "whitened_force_coefficient_mean": coefficients.mean(0).tolist() if has_force else None,
+                    "whitened_force_coefficient_covariance": torch.cov(coefficients.T).tolist() if has_force else None,
+                    "whitened_force_coefficient_draws": z[:, 8:model.noise_start].tolist() if has_force else None,
+                    "coefficient_draws_note": "equal evenly spaced subset per chain; preserves joint force functions without assuming Gaussian posterior"}
                 phi = model.force_prior.config.total_force_std_n*model.step_features
                 oracle = phi@torch.linalg.lstsq(phi, true_total).solution
                 record = {"label": label, "condition": condition, "seed": seed, "method": method,
@@ -212,6 +235,7 @@ def run_force_study(plan, output, resume=False):
                     "transition_counts": chain["transition_counts"], "final_beta_per_chain": chain["final_beta_per_chain"],
                     "physics": physics_diagnostics(prediction, model.mesh, model.prior.decode(z)[0]),
                     "evaluation_samples": len(z), "seconds": time.perf_counter()-start}
+                record["external_force_posterior_states"] = len(total)
                 record["trajectory_scores"]["definitions"]["uncertainty"] = "nonlinear MCMC, provisional unless convergence checks pass"
                 destination.mkdir(parents=True, exist_ok=True)
                 torch.save({"chain": chain, "reference_mean": reference.components[0].mean,
