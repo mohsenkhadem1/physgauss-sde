@@ -4,10 +4,12 @@ Uses observed RGB only. Evaluation truth is read after sampling to score the
 saved trajectories. This is separate from the frozen conformal procedure.
 """
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import torch
 from physgauss.benchmark import Observations
+from physgauss.accurate_study import digest_tensor
 from physgauss.cli import source_fingerprint
 from physgauss.neural_marginal_study import calibrate, construct
 from physgauss.neural_marginal_inference import fit_neural_marginal
@@ -74,7 +76,12 @@ def audit(study, case, output, warmup=1000, draws=2000, seed=97001):
     original = torch.load(study/"cases"/case/"fit.pt", weights_only=True)
     settings = {"case": case, "source_fingerprint_sha256": source_fingerprint(),
                 "warmup": warmup, "draws": draws, "seed": seed, "chains": 4,
-                "epsilons_white": [.01, .005], "refit_decrement": .001}
+                "epsilons_white": [.01, .005], "refit_decrement": .001,
+                "observations_sha256": digest_tensor(observed.rgb),
+                "original_fit_mean_sha256": digest_tensor(original["mean"]),
+                "audit_script_sha256_normalized_lf": hashlib.sha256(Path(__file__).read_bytes().replace(b"\r\n", b"\n")).hexdigest()}
+    if (output/"settings.json").exists() and json.loads((output/"settings.json").read_text()) != settings:
+        raise ValueError("Audit source/input/settings changed; choose a new output.")
     write_json(output/"settings.json", settings)
     if (output/"mode.pt").exists(): mode = torch.load(output/"mode.pt", weights_only=True)
     else:

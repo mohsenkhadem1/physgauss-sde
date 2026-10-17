@@ -35,9 +35,9 @@ def lookup(summary, condition, mode, seed=None):
 
 
 @torch.no_grad()
-def verify(raw, summary):
+def verify(raw, summary, expected_plan=None):
     plan = summary["plan"]
-    if plan != default_plan() or summary["source_fingerprint_sha256"] != source_fingerprint():
+    if plan != (default_plan() if expected_plan is None else expected_plan) or summary["source_fingerprint_sha256"] != source_fingerprint():
         raise ValueError("Need the declared full plan and unchanged inference source.")
     expected = {f"{c}__{s}__{m}" for c in plan["conditions"] for s in plan["seeds"] for m in plan["modes"]}
     if len(summary["cases"]) != 36 or {r["case"] for r in summary["cases"]} != expected:
@@ -302,13 +302,13 @@ def report(output, summary):
 
 
 @torch.no_grad()
-def publish(raw, output, source_ref):
+def publish(raw, output, source_ref, expected_plan=None, write_report=True):
     torch.set_num_threads(2)
     raw, output = Path(raw).resolve(), Path(output).resolve()
     if output.exists(): raise FileExistsError("Choose an unused publication directory.")
     summary = json.loads((raw/"summary.json").read_text())
     commit = source_commit(source_ref)
-    verify(raw, summary)
+    verify(raw, summary, expected_plan)
     output.mkdir(parents=True)
     for path in raw.rglob("*.json"):
         target = output/path.relative_to(raw); target.parent.mkdir(parents=True, exist_ok=True)
@@ -376,7 +376,8 @@ def publish(raw, output, source_ref):
             writer.writerow([row["condition"], row["seed"], row["mode"], 1000*gap["position_rmse_m"], 1000*gap["component_gaussian_crps_m"],
                 gap["component_90_coverage"], 1000*gap["component_90_mean_width_m"], row["force_scores"]["rmse_N"],
                 row["fit"]["stationarity_screen_pass"], row["local_gaussian_audit"]["relative_weight_ess"], row["fit"]["seconds_including_final_covariance"]])
-    figures(raw, output, summary); report(output, summary)
+    figures(raw, output, summary)
+    if write_report: report(output, summary)
     write_json(output/"publication.json", {"implementation_source_commit": commit,
         "numerical_source_fingerprint_sha256": source_fingerprint(), "publisher_sha256_normalized_lf": canonical_hash(Path(__file__)),
         "verification": "all 36 fits; matching plan/source/calibration; all shared RGB and initial states; source reference and stochastic balance/refinement gates; reproduced objectives/point paths; force covariance identities and portable queries; aggregate identities",
