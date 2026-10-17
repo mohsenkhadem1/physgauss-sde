@@ -1,5 +1,6 @@
 """Verify and publish calibrated sparse-view comparison and uncertainty checks."""
 import argparse
+from dataclasses import asdict
 import base64
 import csv
 import hashlib
@@ -17,6 +18,7 @@ from physgauss.benchmark import Observations
 from physgauss.calibrated_study import default_plan, check_splits, case_condition, evaluation_record
 from physgauss.neural_marginal_study import calibrate, construct
 from physgauss.physics import edge_features
+from physgauss.forces import evaluate_force_posterior
 from physgauss.stochastic import calibration_law, NeuralDiffusion
 from physgauss.uncertainty_validation import apply_conformal
 from physgauss.cli import source_fingerprint
@@ -254,7 +256,7 @@ def report(output, comparison, previous, validation, posterior, calibration, aud
     document = f'''<!doctype html><html lang="en"><meta charset="utf-8"><title>Calibrated neural noise and sparse-view uncertainty</title>
 <style>body{{font:16px/1.5 system-ui;max-width:1200px;margin:30px auto;padding:0 22px;color:#20313b;background:#fafbfc}}img{{width:100%;height:auto}}figure{{margin:25px 0}}figcaption{{font-size:14px;color:#52636d}}table{{width:100%;border-collapse:collapse;font-size:12px;background:white}}td,th{{padding:8px;border-bottom:1px solid #ddd;text-align:left}}th{{background:#e4edf1}}.notice{{background:#e5f2f4;border-left:5px solid #007c91;padding:18px}}h1,h2{{line-height:1.2}}</style>
 <h1>Better neural noise calibration: what improved, and which uncertainty is validated?</h1>
-<div class="notice">114 sparse-view fits: 36 paired reruns plus 78 fits on 39 new independent motions. All models use marginalized external forces and the same six-view moving-camera schedule. Network calibration, prediction-set calibration, held-out evaluation and nonlinear posterior exploration are separate checks.</div>
+<div class="notice">114 sparse-view fits: 36 paired reruns plus 78 fits on 39 new independent motions. All models use marginalized external forces and the same six-view moving-camera schedule. Prediction-set coverage is conditional synthetic evidence. <strong>The Bayesian posterior audit fails; force/material posterior uncertainty remains unvalidated.</strong> Network calibration, prediction coverage and posterior exploration are separate checks.</div>
 <p><strong>Paired stochastic-case gap errors:</strong> independent floor {pooled(comparison,'floor'):.3f} mm; previous neural {pooled(previous,'neural'):.3f} mm; recalibrated constant {pooled(comparison,'constant'):.3f} mm; recalibrated neural {pooled(comparison,'neural'):.3f} mm. Three underlying seeds are shared across conditions. These averages do not prove a neural-specific advantage.</p>
 <h2>1. Calibration now matches the operating regime</h2>
 <p>The same 33-parameter network uses scaled smooth magnitudes of strain and relative speed, encoding the declared sign symmetry. Twelve independent training motions vary mechanics and initial conditions; four other motions validate it. Operating-region and broad feature states receive equal mass. Training minimizes Gaussian innovation NLL from 128 independent synthetic innovations per state; analytic amplitudes are evaluation labels, not regression targets. The constant control is fitted directly to training innovations, avoiding inherited network bias. Weights are frozen before every reconstruction.</p>
@@ -325,8 +327,40 @@ def publish(raw, old, posterior_raw, output, source_ref):
     (output/"posterior").mkdir()
     for name in ("summary.json", "settings.json", "curvature.json", "original_fit.json"):
         shutil.copyfile(posterior_raw/name, output/"posterior"/name)
+    if (posterior_raw/"contraction_equivalence.json").exists():
+        shutil.copyfile(posterior_raw/"contraction_equivalence.json", output/"posterior/contraction_equivalence.json")
     mode = torch.load(posterior_raw/"mode.pt", weights_only=True)
     write_json(output/"posterior/refined_mode.json", {"coordinates": mode["mean"].tolist(), "fit": mode["record"]})
+    model = construct(plan, network, calibration, "neural")
+    force = posterior["force_posterior"]
+    chains = torch.load(posterior_raw/"chains.pt", weights_only=True)["coordinates"]
+    stride = max(1, chains.shape[1]//200)
+    selected_states = chains[:, ::stride].flatten(0, 1)
+    generator = torch.Generator().manual_seed(posterior["settings"]["seed"]+61000)
+    force_draws = []
+    with torch.no_grad():
+        for batch in selected_states.split(16):
+            elimination = model.elimination_at(batch)
+            conditional = elimination.conditional_mean(model.residual(batch))
+            white = torch.randn(conditional.shape, dtype=conditional.dtype, generator=generator)
+            force_draws.append(conditional+torch.linalg.solve_triangular(elimination.cholesky.transpose(-1, -2), white[..., None], upper=True)[..., 0])
+    force_draws = torch.cat(force_draws)
+    portable_force = {"duration_s": 1., "times_s": force["times_s"],
+        "inducing_times_s": model.force_prior.knots.tolist(), "force_prior": asdict(model.force_prior.config),
+        "spatial_nodal_weights": model.force_prior.spatial_weights.tolist(),
+        "whitened_force_coefficient_mean": force["whitened_coefficient_mean"],
+        "whitened_force_coefficient_covariance": force["whitened_coefficient_covariance"],
+        "whitened_force_coefficient_draws": force_draws.tolist(),
+        "paired_chain_draw_indices": [[chain, draw] for chain in range(chains.shape[0]) for draw in range(0, chains.shape[1], stride)],
+        "draw_definition": "new exact Gaussian force-conditional draws on the same uniformly decimated trajectories as published gap draws; seed=posterior_seed+61000; full moments/quantiles use all retained states; chains remain unvalidated",
+        "conditional_coefficient_covariance": force["mean_conditional_coefficient_covariance"],
+        "between_trajectory_coefficient_covariance": force["between_trajectory_coefficient_covariance"],
+        "external_total_mean_N": force["mean_total_N"], "external_total_q05_N": force["q05_total_N"], "external_total_q95_N": force["q95_total_N"],
+        "inference": {"status": posterior["posterior_status"], "all_monitored_quantities_pass": posterior["diagnostics"]["all_monitored_quantities_pass"],
+            "qualification": "finite-chain mixture moments; not validated force uncertainty; Gaussian draws from moments would be a further approximation"}}
+    queried = evaluate_force_posterior(portable_force, model.times)
+    torch.testing.assert_close(queried["mean_total_N"], model.times.new_tensor(force["mean_total_N"]), rtol=1e-12, atol=1e-12)
+    write_json(output/"posterior/force_moments.json", portable_force)
     write_json(output/"previous_comparison.json", {"summary_sha256_normalized_lf": canonical_hash(old/"summary.json"),
         "source_fingerprint_sha256": previous["source_fingerprint_sha256"], "aggregates": previous["aggregates"],
         "qualification": "archived v0.7 results; exact RGB/initial-state matching verified for all 36 cases"})
@@ -339,8 +373,12 @@ def publish(raw, old, posterior_raw, output, source_ref):
         "reference_helper": "local pilot only: python scripts/prepare_validation_references.py --study runs/calibrated-noise-final/validation",
         "execution": "complete paired comparison and validation on CPU CI partitions; exact frozen source/weights/settings. Local fitting pilots not mixed into primary cases. Posterior audit solves the identical predeclared benchmark problem locally; input hashes agree and independently fitted original mode agrees within rtol=1e-8 atol=2e-9.",
         "cross_runtime_verification": "reconstructed normalized targets and Fisher factors from exact stored RGB/solver states without optimization; position/SD/score rtol=1e-9 atol=2e-10; normalized NLL absolute tolerance 1e-7",
-        "validation_workflow": json.loads((raw/"validation/artifact_download.json").read_text()) if (raw/"validation/artifact_download.json").exists() else None})
+        "validation_workflow": json.loads((raw/"validation/artifact_download.json").read_text()) if (raw/"validation/artifact_download.json").exists() else None,
+        "comparison_workflow": json.loads((raw/"comparison/artifact_download.json").read_text()) if (raw/"comparison/artifact_download.json").exists() else None,
+        "posterior_contraction": posterior["settings"].get("contraction"),
+        "preconditioner_cache": "same-source refined mode and observed Hessian cached from default contraction; objective/gradient equivalence verified before optional greedy sampling; incomplete pilots never used as posterior samples"})
     write_json(output/"publication.json", {"implementation_source_commit": commit,
+        "publisher_source_commit": source_commit("HEAD"),
         "numerical_source_fingerprint_sha256": source_fingerprint(), "publisher_sha256_normalized_lf": canonical_hash(Path(__file__)),
         "verification": "all 114 final fits; 36 exact old/new matched inputs and initial states; fixed common spatial projection; calibration/source/plan splits and fresh final test seeds; normalized objectives, uncertainty scores and frozen quantiles; physical/reference refinement; force total-covariance identities",
         "files_sha256_text_normalized_lf_binary_raw": {p.relative_to(output).as_posix(): canonical_hash(p) for p in sorted(output.rglob("*")) if p.is_file()}})

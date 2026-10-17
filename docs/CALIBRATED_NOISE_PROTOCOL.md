@@ -165,3 +165,18 @@ pCN chains, including independent refreshes, replace the initially planned
 pCNL kernel to reduce CPU cost; the target, monitored quantities, warmup and
 retained budgets remain unchanged. This amendment changes the audit proposal,
 never the reconstruction objective or conformal calibration/test procedure.
+
+All final primary comparison and validation fits execute in complete CI
+partitions with the same serialized prior initializer. Local fitting pilots
+are excluded from the primary aggregates. An independently fitted local audit
+of the same fixed benchmark problem uses identical source, weights and observed
+RGB; its original mode must agree with the primary fit within recorded
+cross-runtime tolerances. All 114 covariance factors and normalized targets
+are independently rebuilt locally without optimization.
+
+The optional opt-einsum 3.4.0 greedy contraction path accelerates the audit
+without changing equations. Its target/gradient equivalence was checked before
+sampling. The completed four-chain run uses its full declared budget; an
+incomplete unaccelerated run contributes no posterior summaries. Publication
+retains the settings, arithmetic-equivalence diagnostic, failed convergence
+flags and force draws paired with the saved decimated motion samples.
