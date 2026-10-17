@@ -1,0 +1,48 @@
+{
+  "conditions": [
+    "no_load",
+    "external_pulse"
+  ],
+  "methods": [
+    "marginalized",
+    "joint",
+    "alternating"
+  ],
+  "variants": [
+    "corrected",
+    "legacy",
+    "integrator_only",
+    "renderer_only"
+  ],
+  "schemes": [
+    "six_single",
+    "twelve_single",
+    "six_dual",
+    "twentyone_single",
+    "twentyone_dual"
+  ],
+  "substeps": 6,
+  "legacy_substeps": 3,
+  "render_bins": 128,
+  "reference_bins": 512,
+  "optimizer": {
+    "iterations": 20,
+    "decrement_tolerance": 0.05,
+    "backtracks": 18
+  },
+  "force_prior": {
+    "knots": 5,
+    "temporal_length_fraction": 0.15,
+    "spatial_length_m": 0.6,
+    "total_force_std_n": 0.05
+  },
+  "trajectory_model": {
+    "velocity_diffusion": 0.02,
+    "velocity_coordinate_scale": 0.1
+  },
+  "evaluation_samples": 128,
+  "audit_samples": 128,
+  "sampling_seed": 106600,
+  "threads": 2,
+  "smoke_only": false
+}

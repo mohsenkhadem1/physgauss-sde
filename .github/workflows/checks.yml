@@ -21,6 +21,7 @@ jobs:
       - run: physgauss sample --study runs/ci-scale-smoke --source-ref HEAD --output runs/ci-nonlinear --warmup 20 --draws 32 --evaluation-samples 16 --langevin
       - run: physgauss forces --quick --output runs/ci-forces
       - run: physgauss marginalize --quick --output runs/ci-marginal-forces
+      - run: physgauss accurate --quick --output runs/ci-accurate
       - uses: actions/upload-artifact@v4
         with:
           name: cpu-smoke-report
@@ -38,3 +39,5 @@ jobs:
             runs/ci-forces/report.html
             runs/ci-marginal-forces/summary.json
             runs/ci-marginal-forces/report.html
+            runs/ci-accurate/summary.json
+            runs/ci-accurate/numerical_audit.json
