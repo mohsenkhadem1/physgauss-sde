@@ -12,6 +12,9 @@ import math
 from pathlib import Path
 import time
 import shutil
+import pickle
+import types
+from pathlib import PurePosixPath, PureWindowsPath
 import torch
 from physgauss.pacnerf_data import load_scene, evaluation_particles
 from physgauss.pacnerf_model import PACModel
@@ -29,6 +32,24 @@ def write(path, value):
 def cases():
     return [(scene, views, noise, force) for scene in ['torus', 'bird'] for views in [4, 6]
             for noise in ['constant', 'neural'] for force in ['marginal', 'joint']]
+
+
+def load_prepared(path):
+    """Read our own verified artifact across Linux/Windows path classes.
+
+    Only the inert raw-data root metadata is a pathlib object. It is not used
+    for fitting/scoring after preparation. Preserve all tensor bytes unchanged.
+    This is not a loader for arbitrary third-party pickle checkpoints.
+    """
+    class PortableUnpickler(pickle.Unpickler):
+        def find_class(self, module, name):
+            if module == 'pathlib' and name == 'PosixPath': return PurePosixPath
+            if module == 'pathlib' and name == 'WindowsPath': return PureWindowsPath
+            return super().find_class(module,name)
+    portable = types.ModuleType('pacnerf_portable_pickle')
+    portable.Unpickler = PortableUnpickler
+    portable.load,portable.loads = pickle.load,pickle.loads
+    return torch.load(path,weights_only=False,pickle_module=portable,map_location='cpu')
 
 
 def prepare(root, output, size=32):
@@ -55,7 +76,7 @@ def prepare(root, output, size=32):
 
 def make_model(inputs, index):
     scene, views, noise, force = cases()[index]
-    bundle = torch.load(Path(inputs)/f'{scene}-inputs.pt', weights_only=False)
+    bundle = load_prepared(Path(inputs)/f'{scene}-inputs.pt')
     # Internal artifact is produced by this script, never an arbitrary checkpoint.
     frames = [0, 3, 10, 13] if views == 4 else [0, 2, 4, 9, 11, 13]
     model = PACModel(bundle['data'], bundle['calibration'], noise, force, frames, schedule=0, mechanics=bundle.get('mechanics'))

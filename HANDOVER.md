@@ -35,7 +35,15 @@ production to replace inefficient Taylor proposals). None is scientific evidence
 Raw local data are in `runs/pacnerf-data`; initial prepared artifacts in
 `runs/pacnerf-inputs`. Local numerical development uses
 `runs/pacnerf-refined-development`; do not mix it into final comparison results.
-The final Actions run and publication will be recorded here when complete.
+Production Actions run: **39073611351**, model/worker commit
+`b2d081a7a55ecf1027921f5d841c043e23713a9d`, numerical source fingerprint
+`052a4cb2013105f9880912d3ab71b009dd9d65140a2ff44d2c30cab43d1ae1f4`.
+The matching source CPU validation is run **39073594746**. Initial input artifact
+`pacnerf-inputs` id **12115787202**, ZIP SHA256
+`9b8249b6c64736f5a522cfa326edb31725d2599faf8da2623df6ccdc22ed4954`.
+Downloaded production inputs live in `runs/pacnerf-production-inputs`.
+Subsequent portability/reporting edits preserve the numerical source. The
+publication will be recorded here when complete.
 
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,

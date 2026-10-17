@@ -36,6 +36,9 @@ Frames 0..13 are 1/24 second apart. All image pairs after frame zero except
 observed pairs are held out for scoring. Initial-camera images are explicitly
 excluded from held-out scores. Subsamples from one simulation are not independent
 trajectories; these results have only two independent objects/simulations.
+The 4/6-image settings differ in camera schedule and gap length as well as
+observation count. They are separate sparsity regimes, not a controlled estimate
+of the isolated benefit of adding exactly two images.
 
 ## Declared transfer mechanics and image model
 
