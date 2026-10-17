@@ -83,6 +83,16 @@ def audit(study, case, output, warmup=1000, draws=2000, seed=97001):
     manifest = json.loads((study/"manifest.json").read_text())
     if manifest["source_fingerprint_sha256"] != source_fingerprint(): raise ValueError("Source mismatch.")
     plan = manifest["plan"]; torch.set_num_threads(plan["threads"])
+    contraction = {"enabled": False, "qualification": "default PyTorch contraction order"}
+    try:
+        import opt_einsum
+        import torch.backends.opt_einsum as backend
+    except ImportError:
+        pass
+    else:
+        backend.enabled = True; backend.strategy = "greedy"
+        contraction = {"enabled": True, "opt_einsum_version": opt_einsum.__version__, "strategy": "greedy",
+            "qualification": "algebraically identical equations; contraction equivalence checked separately"}
     network, calibration = calibrate(plan, study/"calibration.json")
     record = json.loads((study/"cases"/case/"summary.json").read_text())
     model = construct(plan, network, calibration, record["mode"])
@@ -95,6 +105,7 @@ def audit(study, case, output, warmup=1000, draws=2000, seed=97001):
                 "directional_epsilons_white": [.01, .005, .001, .0005, .0001, .00005], "refit_decrement": .001,
                 "curvature": "exact local AD/force Schur/logdet volume Hessian; independently checked against dense AD and directional differences",
                 "sampler": "gradient-free Gaussian-reference pCN plus independent refresh, Metropolis-corrected full target",
+                "contraction": contraction,
                 "observations_sha256": digest_tensor(observed.rgb),
                 "original_fit_mean_sha256": digest_tensor(original["mean"]),
                 "audit_script_sha256_normalized_lf": hashlib.sha256(Path(__file__).read_bytes().replace(b"\r\n", b"\n")).hexdigest(),

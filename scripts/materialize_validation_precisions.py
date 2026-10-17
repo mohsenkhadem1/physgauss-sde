@@ -12,12 +12,13 @@ from physgauss.neural_marginal_study import calibrate, construct
 from physgauss.benchmark import Observations
 
 
-def materialize(root):
+def materialize(root, partition=0, partitions=1):
     root = Path(root); manifest = json.loads((root/"manifest.json").read_text())
     if manifest["source_fingerprint_sha256"] != source_fingerprint(): raise ValueError("Source differs.")
     plan = manifest["plan"]; torch.set_num_threads(plan["threads"])
     network, calibration = calibrate(plan, root/"calibration.json")
-    for case in sorted((root/"cases").iterdir()):
+    if not 0 <= partition < partitions: raise ValueError("Invalid recovery partition.")
+    for case in sorted((root/"cases").iterdir())[partition::partitions]:
         if (case/"fit.pt").exists(): continue
         row = json.loads((case/"summary.json").read_text())
         state = json.loads((case/"solver_state.json").read_text())
@@ -32,12 +33,15 @@ def materialize(root):
         decrement = float((gradient@torch.cholesky_solve(gradient.T, chol)).clamp_min(0).sqrt())
         if abs(float(value.detach())-row["fit"]["marginal_objective"]) > 1e-7 or abs(decrement-row["fit"]["marginal_gaussian_metric_decrement"]) > 1e-5:
             raise ValueError("Rebuilt normalized target/precision failed.")
+        temporary = case/"fit.recovery.pt.tmp"
         torch.save({"mean": mean, "precision_cholesky": chol, "conditional_force_mean": model.times.new_tensor(state["conditional_force_mean_at_MAP"]),
             "record": row["fit"], "recovery": {"no_optimization": True, "objective": float(value.detach()), "decrement": decrement,
-                "runtime_environment": {"torch": str(torch.__version__)}, **details}}, case/"fit.pt")
+                "runtime_environment": {"torch": str(torch.__version__)}, **details}}, temporary)
+        temporary.replace(case/"fit.pt")
         print("Rebuilt", case.name, flush=True)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__); parser.add_argument("--study", type=Path, required=True)
-    args = parser.parse_args(); materialize(args.study)
+    parser.add_argument("--partition", type=int, default=0); parser.add_argument("--partitions", type=int, default=1)
+    args = parser.parse_args(); materialize(args.study, args.partition, args.partitions)

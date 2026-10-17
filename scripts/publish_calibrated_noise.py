@@ -306,9 +306,13 @@ def publish(raw, old, posterior_raw, output, source_ref):
     audited_case = posterior["settings"]["case"]
     audited_fit = torch.load(raw/"comparison/cases"/audited_case/"fit.pt", weights_only=True)
     audited_record = next(r for r in comparison["cases"] if r["case"] == audited_case)
-    if (digest_tensor(audited_fit["mean"]) != posterior["settings"]["original_fit_mean_sha256"]
-            or audited_record["observations_sha256"] != posterior["settings"]["observations_sha256"]):
-        raise ValueError("Nonlinear audit did not use the identical comparison fit/input.")
+    if audited_record["observations_sha256"] != posterior["settings"]["observations_sha256"]:
+        raise ValueError("Nonlinear audit observations differ from the primary case.")
+    original_audit = json.loads((posterior_raw/"original_fit.json").read_text())
+    original_mean = audited_fit["mean"].new_tensor(original_audit["coordinates"])
+    if digest_tensor(original_mean) != posterior["settings"]["original_fit_mean_sha256"]:
+        raise ValueError("Original nonlinear-audit initializer changed.")
+    torch.testing.assert_close(audited_fit["mean"], original_mean, rtol=1e-8, atol=2e-9)
     for row in comparison["cases"]:
         original = next(r for r in previous["cases"] if r["case"] == row["case"])
         if row["observations_sha256"] != original["observations_sha256"] or row["initial_state_sha256"] != original["initial_state_sha256"]:
@@ -319,7 +323,8 @@ def publish(raw, old, posterior_raw, output, source_ref):
     publish_comparison(raw/"comparison", output/"comparison", source_ref, expected_plan=plan, write_report=False)
     compact_validation(raw/"validation", output/"validation", validation)
     (output/"posterior").mkdir()
-    for name in ("summary.json", "settings.json", "curvature.json"): shutil.copyfile(posterior_raw/name, output/"posterior"/name)
+    for name in ("summary.json", "settings.json", "curvature.json", "original_fit.json"):
+        shutil.copyfile(posterior_raw/name, output/"posterior"/name)
     mode = torch.load(posterior_raw/"mode.pt", weights_only=True)
     write_json(output/"posterior/refined_mode.json", {"coordinates": mode["mean"].tolist(), "fit": mode["record"]})
     write_json(output/"previous_comparison.json", {"summary_sha256_normalized_lf": canonical_hash(old/"summary.json"),
@@ -329,10 +334,10 @@ def publish(raw, old, posterior_raw, output, source_ref):
     figures(output, comparison, previous, validation, posterior)
     report(output, comparison, previous, validation, posterior, calibration, audit)
     write_json(output/"execution.json", {"implementation_source_commit": commit,
-        "comparison_command": "physgauss calibrated-noise --plan configs/calibrated_noise_study.json --paired-source runs/neural-marginal-final --output runs/calibrated-noise-final --stage comparison",
+        "comparison_command": "Matched calibrated-noise comparison GitHub workflow; same fixed original images and serialized prior initializer across all four CPU partitions",
         "validation_command": "Frozen sparse-view uncertainty study GitHub workflow, four calibration partitions -> frozen quantiles -> four test partitions -> verified aggregate",
         "reference_helper": "local pilot only: python scripts/prepare_validation_references.py --study runs/calibrated-noise-final/validation",
-        "execution": "paired comparison on local CPU; primary validation on CPU CI partitions under recorded environments; exact same source/weights/settings. Local calibration pilot stopped before any test fitting; never mixed into primary cases.",
+        "execution": "complete paired comparison and validation on CPU CI partitions; exact frozen source/weights/settings. Local fitting pilots not mixed into primary cases. Posterior audit solves the identical predeclared benchmark problem locally; input hashes agree and independently fitted original mode agrees within rtol=1e-8 atol=2e-9.",
         "cross_runtime_verification": "reconstructed normalized targets and Fisher factors from exact stored RGB/solver states without optimization; position/SD/score rtol=1e-9 atol=2e-10; normalized NLL absolute tolerance 1e-7",
         "validation_workflow": json.loads((raw/"validation/artifact_download.json").read_text()) if (raw/"validation/artifact_download.json").exists() else None})
     write_json(output/"publication.json", {"implementation_source_commit": commit,
