@@ -167,6 +167,12 @@ def main():
     accurate.add_argument("--output", type=Path, default=Path("runs/accurate-reference"))
     accurate.add_argument("--reference-root", type=Path, default=Path("examples/simulation-view-audit/high_accuracy_reference"))
     accurate.add_argument("--resume", action="store_true")
+    neural_marginal = sub.add_parser("neural-marginalize", help="Combine causal neural internal diffusion and exact Gaussian force elimination.")
+    neural_marginal.add_argument("--plan", type=Path)
+    neural_marginal.add_argument("--quick", action="store_true")
+    neural_marginal.add_argument("--output", type=Path, default=Path("runs/neural-marginal"))
+    neural_marginal.add_argument("--reference-root", type=Path, default=Path("examples/simulation-view-audit/high_accuracy_reference"))
+    neural_marginal.add_argument("--resume", action="store_true")
     args = parser.parse_args()
     if args.command == "check":
         tests = Path(__file__).resolve().parents[2] / "tests"
@@ -208,6 +214,13 @@ def main():
             parser.error("Choose --quick or --plan, not both.")
         plan = default_plan(args.quick) if args.plan is None else json.loads(args.plan.read_text(encoding="utf-8"))
         run_accurate_study(plan, args.output, args.reference_root, args.resume)
+        return
+    if args.command == "neural-marginalize":
+        from .neural_marginal_study import default_plan, run_study
+        if args.quick and args.plan:
+            parser.error("Choose --quick or --plan, not both.")
+        plan = default_plan(args.quick) if args.plan is None else json.loads(args.plan.read_text(encoding="utf-8"))
+        run_study(plan, args.output, args.reference_root, args.resume)
         return
     if args.command == "study":
         from .study import quick_plan, run_study

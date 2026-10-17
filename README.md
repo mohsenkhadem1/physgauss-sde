@@ -2,7 +2,7 @@
 
 Research prototype for physically constrained Gaussian scene reconstruction from **one moving camera with missing frames**.
 
-Current version: **0.6**, adding density-correct second-order staggered dynamics and continuous Gaussian depth-volume rendering, alongside force marginalization, structured force posteriors and nonlinear sampling. Reliable real-world uncertainty and real-video reconstruction remain open work.
+Current version: **0.7**, adding causal neural internal diffusion with exact external-force marginalization. [Method and fixed comparison](docs/NEURAL_MARGINALIZATION.md) describe state-dependent covariance, its gradients, the constant-noise control and independent stochastic references. Run `physgauss neural-marginalize --quick` or the fixed `configs/neural_marginal_study.json` plan. Reliable real-world uncertainty and real-video reconstruction remain open work.
 
 The [accurate pipeline](docs/ACCURATE_PIPELINE.md) implements and tests both numerical fixes. Its [20-fit independent-reference comparison](docs/ACCURATE_RESULTS.md) is complete: deterministic integration error falls from about **3.3 mm to 0.130 mm coordinate RMSE** against RK4-96. With both fixes, six-view gap reconstruction error is **1.01 mm** without loading and **1.14 mm** with a pulse, versus **2.86 mm / 3.65 mm** for the legacy pair on the same new images (the legacy pulse fit stalls). [Open the offline report and actual images](examples/accurate-reference/report.html). All ten corrected marginalized view fits pass stationarity; alternating inference still fails both six-view cases. Local uncertainty remains uncalibrated.
 
@@ -47,7 +47,7 @@ Open `runs/cpu-demo/report.html` for an animated comparison, trajectory/uncertai
 
 The default experiment uses 21 timestamps, six observed RGB frames, a 0.3-0.7 second observation gap, 24x24 images, and 64 posterior samples. All six input frames contribute to offline smoothing. This is deliberately small enough to inspect and run on CPU; it is not a high-resolution scene reconstruction.
 
-`physgauss check` runs 68 numerical and physical checks with the standard-library test runner, including integrator accuracy, the staggered density Jacobian, depth-tie continuity and multi-camera information identities. GitHub Actions also runs the original demo/study/audit/sampler checks, force-posterior and force-marginalization smoke experiments, and the accurate-reference pipeline.
+`physgauss check` runs 77 numerical and physical checks with the standard-library test runner, including state-dependent Gaussian elimination/derivatives, covariance information, causal normalization, internal momentum/torque, stochastic refinement, integrator accuracy, depth-tie continuity and multi-camera identities. GitHub Actions also runs the historical smoke commands and the new neural-marginalization pipeline.
 
 ## Analytically marginalized forces
 
