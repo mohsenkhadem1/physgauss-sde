@@ -22,7 +22,9 @@ def publish(raw, inputs, output):
     rows = []
     for index, (scene, views, noise, force) in enumerate(cases()):
         name = f'{scene}__{views}views__{noise}__{force}'
-        src = next(iter(raw.glob(f'**/{name}/summary.json')), None)
+        preferred=raw/f'results-{index}'
+        src = next(iter(preferred.glob(f'**/{name}/summary.json')), None) if preferred.exists() else None
+        if src is None:src=next(iter(raw.glob(f'**/{name}/summary.json')), None)
         if src is None:
             rows.append({'case': name, 'missing': True, 'valid_for_ranking': False}); continue
         row = json.loads(src.read_text()); row['missing'] = False
@@ -78,7 +80,15 @@ def publish(raw, inputs, output):
                     'approximate_bonferroni_95_cutoff':cutoff,
                     'coordinates_exceeding_approximate_cutoff':int((standardized>cutoff).sum()),
                     'qualification':'approximate batch-mean CLT/Bonferroni diagnostic; not an exact finite-sample test or calibration proof; same posterior in theory; finite convergence required'})
-    summary = {'complete':complete, 'all_cases_eligible_for_ranking':passed, 'cases':rows,
+    global_tests=sum(13*12 for _ in agreement)
+    global_cutoff=float(torch.special.ndtri(torch.tensor(1-.05/(2*max(1,global_tests)),dtype=torch.float64)))
+    agreement_pass=len(agreement)==8 and all(a['max_difference_over_combined_mcse']<=global_cutoff for a in agreement)
+    ready=passed and agreement_pass
+    summary = {'complete':complete, 'all_cases_pass_finite_chain_checks':passed,
+        'all_cases_eligible_for_ranking':ready, 'cases':rows,
+        'paired_sampler_agreement_screen':{'approximate_global_95_cutoff':global_cutoff,
+            'coordinates':global_tests,'complete_pairs':len(agreement),'passes':agreement_pass,
+            'qualification':'approximate batch-mean Gaussian CLT with Bonferroni correction across all paired modal means; not proof of global exploration or physical calibration'},
         'marginal_joint_agreement':agreement,
         'qualification':'two official elastic simulations; oracle initial geometry and 11-camera initial appearance; sparse later images; reduced model and transferred noise; no force ground truth'}
     (output/'summary.json').write_text(json.dumps(summary,indent=2,allow_nan=False)+'\n')
@@ -143,7 +153,9 @@ def publish(raw, inputs, output):
         axes[0].legend();axes[-1].set_xlabel('Time (s)')
         fig.suptitle('Modeled unknown acceleration averaged over handles\nPosterior mean ± one SD; restricted profiles; excludes known gravity; not force ground truth')
         fig.savefig(output/'loads.png',dpi=150);plt.close(fig)
-    header='Converged comparison' if passed else 'Development / incomplete inference — no scientific ranking'
+    header=('Finite diagnostics and paired-sampler agreement pass' if ready else
+        'Finite diagnostics pass, but paired samplers disagree — no final ranking' if passed else
+        'Development / incomplete inference — no scientific ranking')
     def embed(name):
         path=output/name
         return '<img style="max-width:100%" src="data:image/png;base64,'+base64.b64encode(path.read_bytes()).decode()+'">' if path.exists() else ''
@@ -154,12 +166,12 @@ def publish(raw, inputs, output):
 <p>4 or 6 observed dynamic images over 14 timestamps (24 fps), one selected camera per timestamp. The fixed-camera dataset is subsampled across cameras; this is not continuous moving-camera capture. All eleven initial views initialize appearance. Ground truth after frame zero is used only after sampling for evaluation.</p>
 {embed('comparison.png')}{embed('images.png')}{embed('loads.png')}
 <p>Interval coverage is descriptive over correlated particles, not a calibration guarantee. Model reduction, explicit ground contact, transferred diffusion, and 32px rendering limit physical conclusions. Stiffness scale is not a continuum Young’s modulus estimate. No force-error score is claimed.</p>
-<table cellpadding="8"><tr><th>Case</th><th>Eligible for ranking</th><th>Gap RMSE (mm)</th></tr>{table}</table>
+<table cellpadding="8"><tr><th>Case</th><th>Finite chain checks pass</th><th>Gap RMSE (mm)</th></tr>{table}</table>
 <p><a href="summary.json">Complete results and diagnostics summary</a> · <a href="comparison.csv">CSV</a> · <a href="https://github.com/mohsenkhadem1/physgauss-sde/blob/main/docs/PACNERF_PROTOCOL.md">Protocol and limitations</a> · <a href="https://github.com/xuan-li/PAC-NeRF">Original data source</a></p></body></html>'''
     (output/'report.html').write_text(page,encoding='utf-8')
     hashes={str(f.relative_to(output)).replace('\\','/'):hashlib.sha256(f.read_bytes().replace(b'\r\n',b'\n') if f.suffix in ['.json','.csv','.html'] else f.read_bytes()).hexdigest() for f in output.rglob('*') if f.is_file()}
     (output/'publication.json').write_text(json.dumps({'files_sha256_lf':hashes},indent=2)+'\n')
-    print(json.dumps({'complete':complete,'all_cases_eligible_for_ranking':passed,'files':len(hashes)}),flush=True)
+    print(json.dumps({'complete':complete,'all_cases_eligible_for_ranking':ready,'files':len(hashes)}),flush=True)
 
 
 if __name__=='__main__':

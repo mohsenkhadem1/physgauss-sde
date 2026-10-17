@@ -141,6 +141,14 @@ possible particle accuracy in the fixed twelve-mode shape subspace. It never
 enters fitting. A separate background-difference-region image PSNR (threshold
 0.10) reduces background dominance but is not presented as a ground-truth mask.
 
+Before production outcomes were available, the reporting protocol also added
+a paired-sampler agreement screen. The eight equivalent joint/marginal motion
+posteriors are compared over 13x12 modal-pose means each using combined
+batch-mean Monte Carlo standard errors, with an approximate Gaussian 95%
+Bonferroni cutoff across all 1248 coordinates. An overall ranking is withheld
+if this screen or the finite-chain checks fail. It is a numerical inference
+diagnostic, not a physical-calibration test or proof that no other modes exist.
+
 ## Reproduction
 
 ```
