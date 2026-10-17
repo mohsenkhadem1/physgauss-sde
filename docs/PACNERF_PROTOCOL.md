@@ -197,3 +197,12 @@ but whole-sequence particle-coordinate differences are 16.41 mm (Torus) and
 propagation does not make the frame-held contact update accurate. This is not
 original-MPM validation or an error decomposition of posterior reconstruction.
 The production model remains frozen; the finding limits physical conclusions.
+
+`scripts/audit_pacnerf_noise_transfer.py` optionally compares a fixed subset
+of saved posterior states to the documented broad exploratory training component
+(strain U(-.25,.45), radial speed U(-1.5,1.5)). It also reports the frozen neural
+amplitude divided by the constant control on those states. This is a post-hoc
+description, not PAC calibration or a claim about the full training support.
+The archived operating-state byte hashes did not reproduce in a local replay,
+so that replay is not used as an exact empirical reference. No network weights
+or production settings are changed by this diagnostic.

@@ -104,7 +104,8 @@ def publish(raw, inputs, output):
         and {r['case'] for r in verification['cases']}==expected_cases
         and all(r['all_pass'] for r in verification['cases']))
     audit_links=[]
-    for root,name in [(inputs,'transition-audit.json'),(raw,'contact-integration-diagnostic.json')]:
+    for root,name in [(inputs,'transition-audit.json'),(raw,'contact-integration-diagnostic.json'),
+        (raw,'noise-transfer-diagnostic.json')]:
         if (root/name).exists():
             shutil.copyfile(root/name,output/name);audit_links.append(name)
     ready=passed and agreement_pass and raw_replay_pass
