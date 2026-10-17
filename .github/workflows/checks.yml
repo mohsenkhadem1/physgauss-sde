@@ -23,6 +23,7 @@ jobs:
       - run: physgauss marginalize --quick --output runs/ci-marginal-forces
       - run: physgauss accurate --quick --output runs/ci-accurate
       - run: physgauss neural-marginalize --quick --output runs/ci-neural-marginal
+      - run: physgauss calibrated-noise --quick --output runs/ci-calibrated-noise
       - uses: actions/upload-artifact@v4
         with:
           name: cpu-smoke-report
@@ -44,3 +45,5 @@ jobs:
             runs/ci-accurate/numerical_audit.json
             runs/ci-neural-marginal/summary.json
             runs/ci-neural-marginal/calibration.json
+            runs/ci-calibrated-noise/validation/summary.json
+            runs/ci-calibrated-noise/validation/frozen_intervals.json

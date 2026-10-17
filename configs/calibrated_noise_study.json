@@ -1,0 +1,137 @@
+{
+  "conditions": [
+    "no_load",
+    "external_pulse",
+    "stochastic",
+    "pulse_and_stochastic"
+  ],
+  "seeds": [
+    4101,
+    4102,
+    4103
+  ],
+  "modes": [
+    "floor",
+    "constant",
+    "neural"
+  ],
+  "substeps": 6,
+  "observed_frames": [
+    0,
+    3,
+    6,
+    14,
+    17,
+    20
+  ],
+  "render_bins": 128,
+  "reference_render_bins": 512,
+  "reference_substeps": 768,
+  "reference_last_change_tolerance_m": 0.00025,
+  "production_stochastic_rmse_tolerance_m": 0.0005,
+  "optimizer": {
+    "iterations": 40,
+    "decrement_tolerance": 0.05,
+    "backtracks": 18
+  },
+  "force_prior": {
+    "knots": 5,
+    "temporal_length_fraction": 0.15,
+    "spatial_length_m": 0.6,
+    "total_force_std_n": 0.05
+  },
+  "trajectory_model": {
+    "velocity_diffusion": 0.02,
+    "velocity_coordinate_scale": 0.1
+  },
+  "internal_rank": 3,
+  "internal_spatial_length_m": 0.45,
+  "calibration_seed": 918,
+  "calibration_steps": 350,
+  "constant_calibration_seed": 105918,
+  "constant_calibration_examples": 4096,
+  "evaluation_samples": 128,
+  "audit_samples": 128,
+  "sampling_seed": 127100,
+  "threads": 2,
+  "smoke_only": false,
+  "calibration_method": "trajectory_innovations_v2",
+  "operating_calibration": {
+    "training_seeds": [
+      62001,
+      62002,
+      62003,
+      62004,
+      62005,
+      62006,
+      62007,
+      62008,
+      62009,
+      62010,
+      62011,
+      62012
+    ],
+    "validation_seeds": [
+      63001,
+      63002,
+      63003,
+      63004
+    ],
+    "substeps": 48,
+    "innovation_seed": 72001,
+    "validation_innovation_seed": 74001,
+    "network_seed": 73001,
+    "replicates": 128,
+    "steps": 2500,
+    "learning_rate": 0.01
+  },
+  "interval_calibration_seeds": [
+    81001,
+    81002,
+    81003,
+    81004,
+    81005,
+    81006,
+    81007,
+    81008,
+    81009,
+    81010,
+    81011,
+    81012,
+    81013,
+    81014,
+    81015,
+    81016,
+    81017,
+    81018,
+    81019
+  ],
+  "interval_test_seeds": [
+    82001,
+    82002,
+    82003,
+    82004,
+    82005,
+    82006,
+    82007,
+    82008,
+    82009,
+    82010,
+    82011,
+    82012,
+    82013,
+    82014,
+    82015,
+    82016,
+    82017,
+    82018,
+    82019,
+    82020
+  ],
+  "interval_modes": [
+    "constant",
+    "neural"
+  ],
+  "interval_alpha": 0.1,
+  "posterior_audit_samples": 512
+}

@@ -1,0 +1,142 @@
+"""Observed-curvature refinement and exact-target nonlinear sampling audit.
+
+Uses observed RGB only. Evaluation truth is read after sampling to score the
+saved trajectories. This is separate from the frozen conformal procedure.
+"""
+import argparse
+import json
+from pathlib import Path
+import torch
+from physgauss.benchmark import Observations
+from physgauss.cli import source_fingerprint
+from physgauss.neural_marginal_study import calibrate, construct
+from physgauss.neural_marginal_inference import fit_neural_marginal
+from physgauss.marginal_inference import TrajectoryFitConfig
+from physgauss.marginal_study import audit_gaussian
+from physgauss.uncertainty_validation import finite_difference_precision
+from physgauss.mcmc import SamplerConfig, sample_nonlinear
+from physgauss.chain_diagnostics import diagnose_quantities
+from physgauss.physics import InvalidDeformation
+from physgauss.study import write_json
+
+
+class SingleReference:
+    def __init__(self, fitted):
+        self.mean = fitted["mean"]; self.chol = fitted["precision_cholesky"]
+        self.dimension = len(self.mean)
+        self.log_weights = self.mean.new_zeros(1); self.prior_weights = self.mean.new_ones(1)
+        self.scales = self.mean.new_ones(1)
+
+    def decode(self, white, indices):
+        return self.mean+torch.linalg.solve_triangular(self.chol.T, white.T, upper=True).T
+
+    def whiten_gradient(self, gradient, indices):
+        return torch.linalg.solve_triangular(self.chol, gradient.T, upper=False).T
+
+
+class ExactCorrection:
+    def __init__(self, model, observations, reference):
+        self.model = model; self.observations = observations; self.reference = reference
+        with torch.no_grad(): self.center = model.objective(reference.mean[None], observations)[0]
+
+    def value_and_grad(self, coordinates, scales):
+        ratios, targets, invalid, gradients = [], [], [], []
+        # Isolate invalid proposals, retaining correct rejection probability.
+        for point in coordinates:
+            z = point.detach().requires_grad_()
+            try:
+                value = self.model.objective(z[None], self.observations)[0]
+                derivative, = torch.autograd.grad(value, z)
+                if not bool(torch.isfinite(value)) or not bool(torch.isfinite(derivative).all()):
+                    raise ValueError("Nonfinite target.")
+                delta = z.detach()-self.reference.mean
+                white = delta@self.reference.chol
+                ratios.append((-value.detach()+self.center+.5*white.square().sum()))
+                gradients.append(-derivative.detach()+white@self.reference.chol.T)
+                targets.append(-value.detach()); invalid.append(False)
+            except (InvalidDeformation, ValueError):
+                ratios.append(z.new_tensor(-torch.inf)); targets.append(z.new_tensor(-torch.inf))
+                gradients.append(torch.zeros_like(z)); invalid.append(True)
+        return ((torch.stack(ratios), torch.stack(targets), torch.tensor(invalid)), torch.stack(gradients))
+
+
+def audit(study, case, output, warmup=1000, draws=2000, seed=97001):
+    study, output = Path(study), Path(output); output.mkdir(parents=True, exist_ok=True)
+    manifest = json.loads((study/"manifest.json").read_text())
+    if manifest["source_fingerprint_sha256"] != source_fingerprint(): raise ValueError("Source mismatch.")
+    plan = manifest["plan"]; torch.set_num_threads(plan["threads"])
+    network, calibration = calibrate(plan, study/"calibration.json")
+    record = json.loads((study/"cases"/case/"summary.json").read_text())
+    model = construct(plan, network, calibration, record["mode"])
+    dataset = study/"datasets"/f"{record['condition']}__{record['seed']}"/"inputs.json"
+    inputs = json.loads(dataset.read_text())
+    observed = Observations(model.view_frames, model.times.new_tensor(inputs["observed_rgb"]), .015)
+    original = torch.load(study/"cases"/case/"fit.pt", weights_only=True)
+    settings = {"case": case, "source_fingerprint_sha256": source_fingerprint(),
+                "warmup": warmup, "draws": draws, "seed": seed, "chains": 4,
+                "epsilons_white": [.01, .005], "refit_decrement": .001}
+    write_json(output/"settings.json", settings)
+    if (output/"mode.pt").exists(): mode = torch.load(output/"mode.pt", weights_only=True)
+    else:
+        mode = fit_neural_marginal(model, observed, original["mean"], TrajectoryFitConfig(iterations=20, decrement_tolerance=.001))
+        torch.save(mode, output/"mode.pt")
+    if not mode["record"]["stationarity_screen_pass"]: raise RuntimeError("Audit mode is not stationary.")
+    metrics = []
+    for epsilon in (.01, .005):
+        file = output/f"hessian_{epsilon}.pt"
+        if file.exists(): checkpoint = torch.load(file, weights_only=True)
+        else:
+            print("Observed Hessian epsilon", epsilon, flush=True)
+            fit, details, white = finite_difference_precision(model, observed, mode, epsilon=epsilon)
+            checkpoint = {"fit": fit, "audit": details, "white_hessian": white}
+            torch.save(checkpoint, file)
+        metrics.append(checkpoint)
+    refinement = float((metrics[0]["white_hessian"]-metrics[1]["white_hessian"]).norm()/metrics[1]["white_hessian"].norm())
+    if refinement > .001: raise RuntimeError("Finite-difference curvature did not refine.")
+    fitted = metrics[-1]["fit"]
+    weights = {"fisher": audit_gaussian(model, observed, mode, 512, seed+1),
+               "observed_hessian": audit_gaussian(model, observed, fitted, 512, seed+1)}
+    write_json(output/"curvature.json", {"settings": settings, "refined_mode": mode["record"],
+        "hessians": [m["audit"] for m in metrics], "relative_refinement": refinement, "importance": weights})
+    reference = SingleReference(fitted)
+    if (output/"chains.pt").exists(): chains = torch.load(output/"chains.pt", weights_only=True)
+    else:
+        config = SamplerConfig(chains=4, warmup=warmup, draws=draws, seed=seed, beta=.5,
+            independent_probability=.1, transport_probability=0., langevin=True)
+        chains = sample_nonlinear(reference, ExactCorrection(model, observed, reference), config,
+                                   progress=lambda s: print(s, flush=True))
+        torch.save(chains, output/"chains.pt")
+    coordinates = chains["coordinates"]
+    with torch.no_grad():
+        path = model.trajectory(coordinates.flatten(0, 1)).x.reshape(4, draws, 21, 8, 3)
+        gap = (model.times > .3+1e-8)&(model.times < .7-1e-8)
+        gap_path = path[:, :, gap][:, :, :, model.free].flatten(2)
+        # All state coordinates, every missing-position component, full target.
+        monitored = torch.cat((coordinates, gap_path, chains["log_likelihood"][..., None]), -1)
+        names = [f"state_{i}" for i in range(model.state_dimension)]+[f"gap_xyz_{i}" for i in range(84)]+["log_target"]
+        diagnostics = diagnose_quantities(monitored, names)
+        truth = model.times.new_tensor(inputs["positions_m_evaluation_only"])
+        population = path.flatten(0, 1)[:, :, model.free]
+        lower, upper = torch.quantile(population, population.new_tensor([.05, .95]), dim=0)
+        mean = population.mean(0); error = mean-truth[:, model.free]
+        scores = {"gap_component_90_coverage": float(((truth[:, model.free] >= lower)&(truth[:, model.free] <= upper))[gap].double().mean()),
+            "gap_mean_width_m": float((upper-lower)[gap].mean()), "gap_rmse_m": float(error[gap].square().mean().sqrt()),
+            "qualification": "finite MCMC sample summary; usable only with adequate exploration; not repeated-case calibration"}
+    summary = {"settings": settings, "curvature_relative_refinement": refinement, "importance": weights,
+        "diagnostics": diagnostics, "scores": scores, "final_beta_per_chain": chains["final_beta_per_chain"],
+        "transition_counts": chains["transition_counts"],
+        "gap_draws_per_chain_m": gap_path[:, ::max(1, draws//200)].tolist(),
+        "log_target_traces": chains["log_likelihood"][:, ::max(1, draws//200)].tolist(),
+        "posterior_status": "finite_diagnostics_pass" if diagnostics["all_monitored_quantities_pass"] else "not_validated",
+        "qualification": "Metropolis targets exact nonlinear marginalized-force density; observed curvature preconditions only. Neither local proposal ESS nor finite-chain diagnostics establishes global/posterior calibration."}
+    write_json(output/"summary.json", summary)
+    print("Posterior audit:", summary["posterior_status"], flush=True)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--study", type=Path, required=True); parser.add_argument("--case", required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--warmup", type=int, default=1000); parser.add_argument("--draws", type=int, default=2000)
+    parser.add_argument("--seed", type=int, default=97001)
+    args = parser.parse_args(); audit(args.study, args.case, args.output, args.warmup, args.draws, args.seed)

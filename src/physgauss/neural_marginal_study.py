@@ -67,6 +67,9 @@ def validate_plan(plan):
 
 
 def calibrate(plan, path):
+    if plan.get("calibration_method") == "trajectory_innovations_v2":
+        from .calibrated_diffusion import train_calibrated
+        return train_calibrated(plan["operating_calibration"], path)
     path = Path(path)
     if path.exists():
         record = json.loads(path.read_text())

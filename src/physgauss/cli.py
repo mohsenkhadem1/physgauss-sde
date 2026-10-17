@@ -173,6 +173,14 @@ def main():
     neural_marginal.add_argument("--output", type=Path, default=Path("runs/neural-marginal"))
     neural_marginal.add_argument("--reference-root", type=Path, default=Path("examples/simulation-view-audit/high_accuracy_reference"))
     neural_marginal.add_argument("--resume", action="store_true")
+    calibrated = sub.add_parser("calibrated-noise", help="Trajectory-calibrated diffusion and independent interval validation.")
+    calibrated.add_argument("--plan", type=Path)
+    calibrated.add_argument("--quick", action="store_true")
+    calibrated.add_argument("--output", type=Path, default=Path("runs/calibrated-noise"))
+    calibrated.add_argument("--reference-root", type=Path, default=Path("examples/simulation-view-audit/high_accuracy_reference"))
+    calibrated.add_argument("--paired-source", type=Path)
+    calibrated.add_argument("--stage", choices=["all", "comparison", "validation"], default="all")
+    calibrated.add_argument("--resume", action="store_true")
     args = parser.parse_args()
     if args.command == "check":
         tests = Path(__file__).resolve().parents[2] / "tests"
@@ -221,6 +229,12 @@ def main():
             parser.error("Choose --quick or --plan, not both.")
         plan = default_plan(args.quick) if args.plan is None else json.loads(args.plan.read_text(encoding="utf-8"))
         run_study(plan, args.output, args.reference_root, args.resume)
+        return
+    if args.command == "calibrated-noise":
+        from .calibrated_study import default_plan, run_calibrated
+        if args.quick and args.plan: parser.error("Choose --quick or --plan, not both.")
+        plan = default_plan(args.quick) if args.plan is None else json.loads(args.plan.read_text(encoding="utf-8"))
+        run_calibrated(plan, args.output, args.reference_root, args.paired_source, args.resume, args.stage)
         return
     if args.command == "study":
         from .study import quick_plan, run_study
