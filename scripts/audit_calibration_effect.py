@@ -59,6 +59,8 @@ def run(output, seeds=(4101, 4102, 4103)):
                 'observations_sha256': digest_tensor(obs.rgb), 'initial_state_sha256': digest_tensor(initial),
                 'gap_rmse_m': float(error[gap].square().mean().sqrt()), 'fit': fit['record'],
                 'qualification': 'same final mechanics/renderer/kernel, calibration only changed; oracle uses analytic law diagnostically; all MAP estimates'}
+            write_json(folder/'solver_state.json', {'coordinates': fit['mean'].tolist(),
+                'conditional_force_mean_at_MAP': fit['conditional_force_mean'].tolist()})
             write_json(folder/'summary.json', record); rows.append(record)
         for label, mode in [('calibrated_constant', 'constant'), ('calibrated_neural', 'neural')]:
             old = json.loads((base/'cases'/f'pulse_and_stochastic__{seed}__{mode}'/'summary.json').read_text())
