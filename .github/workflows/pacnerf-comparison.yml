@@ -40,7 +40,7 @@ jobs:
   compare:
     needs: prepare
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 360
     strategy:
       fail-fast: false
       matrix:
@@ -54,6 +54,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with: {name: pacnerf-inputs, path: runs/pacnerf-inputs}
       - name: Fit and sample the original image target
+        timeout-minutes: 330
         env:
           PILOT: ${{ inputs.pilot }}
           CASE: ${{ matrix.case }}

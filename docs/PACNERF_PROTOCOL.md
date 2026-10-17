@@ -98,12 +98,17 @@ unconverged reference; it is not evidence and motivated this observed-data-only
 stationarity gate. Any metric eigenvalue flooring is recorded and affects
 proposals only, not the target. Split HMC uses four chains, 500 discarded adaptive
 transitions, algorithmic duration U(1,4), target acceptance 0.9, and 2000 retained
-draws/chain. Extend the unchanged kernel to 4000 and then 8000 if diagnostics fail.
-All state coordinates and log target must have rank/folded split Rhat <1.01,
+draws/chain. Checkpoints at 500 and 1000 retained draws protect progress; they
+cannot terminate a final run. Extend the unchanged kernel to 4000 and then 8000
+if diagnostics fail. All state coordinates, conditional force means, covariance
+normalizers, and log target must have rank/folded split Rhat <1.01,
 bulk/tail ESS >=400, and no frozen chains. Failed cases remain published but are
 not eligible for scientific rankings. Development pilots use 100+100 and are
-always excluded from rankings. Full nonlinear rendering enters MH acceptance;
-a twelve-coordinate image Taylor expansion accelerates proposals only.
+always excluded from rankings. **Full nonlinear image gradients and values**
+enter the PAC-NeRF Hamiltonian proposals and MH correction. A development-only
+transfer of the cube's image Taylor proposal gave an approximately 50% acceptance
+ceiling, causing step adaptation toward its minimum. That inefficient surrogate
+was removed before the final comparison; its stopped runs are not evidence.
 
 The local-precision optimization was added after direct standardized-coordinate
 L-BFGS and small damped Newton steps proved poorly conditioned in development.
@@ -119,6 +124,12 @@ runtime and chain diagnostics. Means use every retained draw. Interval quantiles
 use at most 2000 evenly selected draws, recorded in each score. Coverage is
 descriptive over correlated coordinates, not a repeated-dataset calibration
 guarantee. There is no force-error score without independent force truth.
+Force coefficient uncertainty is recovered using total covariance E[S]+Cov[m]
+in both arms; explicit joint-coefficient sample moments are additionally saved.
+An evaluation-only least-squares projection of future truth reports the best
+possible particle accuracy in the fixed twelve-mode shape subspace. It never
+enters fitting. A separate background-difference-region image PSNR (threshold
+0.10) reduces background dominance but is not presented as a ground-truth mask.
 
 ## Reproduction
 

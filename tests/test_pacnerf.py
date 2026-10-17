@@ -47,6 +47,9 @@ class PACTests(unittest.TestCase):
         actual = e.marginal_nll(r.flatten(1))-e.joint_nll(r.flatten(1), mean)
         expected = .5*(e.logdet-e.logdet_q)-.5*model.force_dimension*math.log(2*math.pi)
         torch.testing.assert_close(actual, expected, atol=1e-9,rtol=1e-10)
+        fm,fc,_=model.force_conditionals(z)
+        torch.testing.assert_close(fm,mean,atol=1e-10,rtol=1e-10)
+        torch.testing.assert_close(fc,e.conditional_covariance,atol=1e-10,rtol=1e-10)
         joint = fixture(force='joint')
         torch.testing.assert_close(joint.objective(torch.cat((z,mean),-1)),
             model.objective(z)-actual,atol=1e-7,rtol=1e-8)
@@ -90,6 +93,14 @@ class PACTests(unittest.TestCase):
             if f and (f,c) not in model.specs:
                 model.data['images'][c,f]=torch.zeros_like(model.data['images'][c,f])
         torch.testing.assert_close(model.objective(z),before,atol=0,rtol=0)
+
+    def test_pixel_subset_renderer_matches_full_pixels(self):
+        model=fixture();q=torch.zeros(1,2,12,dtype=torch.float64)
+        specs=[(2,0),(3,1)];indices=torch.tensor([[1,5,13,41],[3,8,29,50]])
+        full=model.renderer(q,specs).flatten(2,3)
+        selected=model.renderer(q,specs,pixel_indices=indices)
+        expected=torch.gather(full,2,indices[None,...,None].expand(1,-1,-1,3))
+        torch.testing.assert_close(selected,expected,atol=1e-12,rtol=1e-12)
 
     def test_ply_parser_rejects_truncated_data(self):
         with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:

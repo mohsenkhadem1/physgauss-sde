@@ -52,7 +52,7 @@ class PACRenderer:
         self.pixels = torch.stack((xx, yy), -1).double()
         self.boundaries = torch.linspace(1., 5., 23, dtype=torch.float64)
 
-    def components(self, q, specs):
+    def components(self, q, specs, pixel_indices=None):
         centers = self.data['gaussians'][None, None]+torch.einsum('btm,gcm->btgc', q, self.gaussian_basis)
         eyes, rotations, intrinsics = [torch.stack([self.data['cameras'][c][i] for _, c in specs]) for i in range(3)]
         camera = torch.einsum('tij,btgj->btgi', rotations, centers-eyes[None, :, None])
@@ -61,38 +61,42 @@ class PACRenderer:
         # Image coordinates represent pixel centers; upstream rays use i+.5.
         uv = camera[..., :2]/safe[..., None]*intrinsics[None, :, None, [0, 1], [0, 1]]+intrinsics[None, :, None, :2, 2]-.5
         sd = self.radius*intrinsics[None, :, None, 0, 0]/safe
-        delta = self.pixels[None, None, None]-uv[..., None, None, :]
-        alpha = self.opacity*torch.exp(-.5*delta.square().sum(-1)/(sd.square()[..., None, None]+.3))
+        pixels = self.pixels.flatten(0,1)
+        pixels = pixels[None].expand(len(specs),-1,-1) if pixel_indices is None else pixels[pixel_indices]
+        delta = pixels[None,:,None]-uv[...,None,:]
+        alpha = self.opacity*torch.exp(-.5*delta.square().sum(-1)/(sd.square()[...,None]+.3))
         optical = -torch.log1p(-alpha)
         cdf = .5*(1+torch.erf((self.boundaries[None, None, :, None]-depth[:, :, None])/(math.sqrt(2)*self.radius)))
         cdf = torch.cat((torch.zeros_like(cdf[:, :, :1]), cdf, torch.ones_like(cdf[:, :, :1])), 2)
         return optical, cdf[:, :, 1:]-cdf[:, :, :-1]
 
-    def __call__(self, q, specs, colors=None):
-        optical, fractions = self.components(q, specs)
+    def __call__(self, q, specs, colors=None, pixel_indices=None):
+        optical, fractions = self.components(q, specs, pixel_indices)
         colors = self.colors if colors is None else colors
-        extinction = torch.einsum('btsg,btghw->btshw', fractions, optical)
-        source = torch.einsum('btsg,btghw,gc->btshwc', fractions, optical, colors)
+        extinction = torch.einsum('btsg,btgp->btsp', fractions, optical)
+        source = torch.einsum('btsg,btgp,gc->btspc', fractions, optical, colors)
         before = extinction.cumsum(2)-extinction
         small = extinction < 1e-3
         series = 1+extinction*(-.5+extinction*(1/6+extinction*(-1/24+extinction/120)))
         safe = extinction.clamp_min(1e-3)
         phi = torch.where(small, series, -torch.expm1(-safe)/safe)
-        bg = torch.stack([self.data['backgrounds'][c] for _, c in specs])
-        return (torch.exp(-before)[..., None]*phi[..., None]*source).sum(2)+torch.exp(-extinction.sum(2))[..., None]*bg[None]
+        bg = torch.stack([self.data['backgrounds'][c].flatten(0,1) for _, c in specs])
+        if pixel_indices is not None: bg = torch.gather(bg,1,pixel_indices[...,None].expand(-1,-1,3))
+        rgb = (torch.exp(-before)[..., None]*phi[..., None]*source).sum(2)+torch.exp(-extinction.sum(2))[..., None]*bg[None]
+        return rgb.reshape(*rgb.shape[:2],self.data['size'],self.data['size'],3) if pixel_indices is None else rgb
 
     def calibrate(self, steps=250):
         specs = [(0, c) for c in range(11)]
-        target = torch.stack([self.data['images'][c, 0] for _, c in specs])
+        target = torch.stack([self.data['images'][c, 0].flatten(0,1) for _, c in specs])
         q = target.new_zeros(1, 11, self.gaussian_basis.shape[-1])
         with torch.no_grad():
             optical, fractions = self.components(q, specs)
-            extinction = torch.einsum('btsg,btghw->btshw', fractions, optical)
+            extinction = torch.einsum('btsg,btgp->btsp', fractions, optical)
             before = extinction.cumsum(2)-extinction
             phi = torch.where(extinction < 1e-3, 1-extinction/2+extinction.square()/6,
                               -torch.expm1(-extinction)/extinction.clamp_min(1e-3))
-            weights = torch.einsum('btshw,btsg,btghw->bthwg', torch.exp(-before)*phi, fractions, optical)[0]
-            bg = torch.exp(-extinction.sum(2))[0, ..., None]*torch.stack([self.data['backgrounds'][c] for _, c in specs])
+            weights = torch.einsum('btsp,btsg,btgp->btpg', torch.exp(-before)*phi, fractions, optical)[0]
+            bg = torch.exp(-extinction.sum(2))[0, ..., None]*torch.stack([self.data['backgrounds'][c].flatten(0,1) for _, c in specs])
         logits = torch.zeros(128, 3, dtype=torch.float64, requires_grad=True)
         optimizer = torch.optim.Adam([logits], lr=.08)
         for _ in range(steps):
@@ -242,3 +246,17 @@ class PACModel:
         r, cov, g, _ = self.terms(z)
         e = BlockLoadElimination(g[0], cov)
         return e, e.conditional_mean(r.flatten(1))
+
+    def force_conditionals(self, z):
+        residual, covariance, mapping, _ = self.terms(z)
+        chol_q = torch.linalg.cholesky(covariance)
+        g = torch.linalg.solve_triangular(chol_q,mapping,upper=False)
+        r = torch.linalg.solve_triangular(chol_q,residual[...,None],upper=False).squeeze(-1)
+        p = torch.eye(self.force_dimension,dtype=z.dtype)+torch.einsum('btdk,btdl->bkl',g,g)
+        chol_a = torch.linalg.cholesky(p)
+        rhs = torch.einsum('btdk,btd->bk',g,r)
+        mean = torch.cholesky_solve(rhs[...,None],chol_a).squeeze(-1)
+        covariance = torch.cholesky_inverse(chol_a)
+        normalizers = torch.stack((2*chol_q.diagonal(dim1=-2,dim2=-1).log().sum((-1,-2)),
+            2*chol_a.diagonal(dim1=-2,dim2=-1).log().sum(-1)),-1)
+        return mean,covariance,normalizers

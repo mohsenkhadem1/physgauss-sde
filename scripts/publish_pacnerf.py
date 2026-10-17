@@ -26,6 +26,22 @@ def publish(raw, inputs, output):
         if src is None:
             rows.append({'case': name, 'missing': True, 'valid_for_ranking': False}); continue
         row = json.loads(src.read_text()); row['missing'] = False
+        diagnostics=json.loads((src.parent/'diagnostics.json').read_text())
+        flags=[]
+        for v in diagnostics['quantities'].values():
+            valid=(v['rank_folded_split_rhat'] is not None and v['rank_folded_split_rhat']<1.01
+                and v['bulk_ess'] is not None and v['bulk_ess']>=400
+                and v['tail_ess'] is not None and v['tail_ess']>=400 and v['frozen_chains']==0)
+            if valid != v['diagnostic_pass']: raise ValueError('Diagnostic flag not reproduced')
+            flags.append(valid)
+        if all(flags) != diagnostics['all_monitored_quantities_pass']: raise ValueError('Diagnostic aggregate differs')
+        if row['valid_for_ranking'] != (all(flags) and not row['settings']['pilot']): raise ValueError('Ranking flag differs')
+        manifest=json.loads((inputs/f'{scene}-manifest.json').read_text())
+        if row['settings']['input_sha256']!=manifest['inputs_sha256']:raise ValueError('Input artifact hash differs')
+        posterior=json.loads((src.parent/'posterior.json').read_text())
+        force=posterior['force']
+        np.testing.assert_allclose(np.array(force['coefficient_covariance']),
+            np.array(force['mean_conditional_covariance'])+np.array(force['between_trajectory_covariance']),atol=1e-10,rtol=1e-10)
         destination = output/'cases'/name; destination.mkdir(parents=True)
         for f in src.parent.glob('*.json'): shutil.copyfile(f, destination/f.name)
         rows.append(row)
@@ -50,13 +66,15 @@ def publish(raw, inputs, output):
         'marginal_joint_agreement':agreement,
         'qualification':'two official elastic simulations; oracle initial geometry and 11-camera initial appearance; sparse later images; reduced model and transferred noise; no force ground truth'}
     (output/'summary.json').write_text(json.dumps(summary,indent=2,allow_nan=False)+'\n')
-    fields = ['case','valid_for_ranking','gap_rmse_mm','heldout_psnr_db','coverage90','width_mm','worst_rhat','minimum_bulk_ess','minimum_tail_ess','seconds']
+    fields = ['case','valid_for_ranking','gap_rmse_mm','oracle_subspace_gap_rmse_mm','heldout_psnr_db','background_difference_region_psnr_db','coverage90','width_mm','worst_rhat','minimum_bulk_ess','minimum_tail_ess','seconds']
     with (output/'comparison.csv').open('w',newline='') as stream:
         writer=csv.DictWriter(stream,fieldnames=fields);writer.writeheader()
         for row in rows:
             if row['missing']:writer.writerow({'case':row['case'],'valid_for_ranking':False});continue
             s=row['posterior_scores'];writer.writerow({'case':row['case'],'valid_for_ranking':row['valid_for_ranking'],
                 'gap_rmse_mm':s['gap_particle_coordinate_rmse_m']*1000,'heldout_psnr_db':s['heldout_rgb_psnr_db'],
+                'oracle_subspace_gap_rmse_mm':s['evaluation_only_subspace_oracle_gap_rmse_m']*1000,
+                'background_difference_region_psnr_db':s['heldout_background_difference_region_psnr_db'],
                 'coverage90':s['gap_component_90_coverage'],'width_mm':s['gap_mean_width_m']*1000,
                 **{k:row[k] for k in ['worst_rhat','minimum_bulk_ess','minimum_tail_ess','seconds']}})
     fig,axes=plt.subplots(1,2,figsize=(13,4.8),layout='constrained')

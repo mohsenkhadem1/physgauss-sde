@@ -18,6 +18,7 @@ from physgauss.pacnerf_model import PACModel
 from physgauss.split_hmc import SplitHMCConfig, sample_split_hmc
 from physgauss.chain_diagnostics import diagnose_quantities
 from physgauss.cli import source_fingerprint
+from physgauss.likelihood_audit import _environment
 
 
 def write(path, value):
@@ -103,29 +104,13 @@ class Target:
         self.chol = torch.linalg.cholesky(precision)
         self.transform = torch.linalg.solve_triangular(self.chol.T, torch.eye(len(mean), dtype=mean.dtype), upper=True)
         self.center = model.objective(mean[None])[0].detach()
-        # Local image Taylor proposal; MH always uses the full image target.
-        q, _ = model.decode(mean[None])
-        self.local = q[0, model.frames].detach()
-        values, gradients, hessians = [], [], []
-        for slot, spec in enumerate(model.specs):
-            def image(u):
-                rgb = model.renderer(u[None, None], [spec])[0, 0]
-                return .5*((rgb-model.obs[slot])/.08).square().sum()
-            u = self.local[slot].requires_grad_()
-            value = image(u); gradient, = torch.autograd.grad(value, u)
-            h = torch.autograd.functional.hessian(image, u)
-            values.append(value.detach()); gradients.append(gradient.detach()); hessians.append(h.detach())
-        self.values, self.gradients, self.hessians = [torch.stack(a) for a in [values, gradients, hessians]]
 
     def decode(self, w): return self.mean+w@self.transform.T
 
     def __call__(self, white):
         w = white.detach().requires_grad_(); z = self.decode(w)
         try:
-            q, _ = self.model.decode(z)
-            delta = q[:, self.model.frames]-self.local
-            image = (self.values+(delta*self.gradients).sum(-1)+.5*torch.einsum('bti,tij,btj->bt', delta, self.hessians, delta)).sum(-1)
-            ratio = -self.model.dynamics(z)-image+self.center+.5*w.square().sum(-1)
+            ratio = -self.model.objective(z)+self.center+.5*w.square().sum(-1)
             grad, = torch.autograd.grad(ratio.sum(), w)
             bad = ~torch.isfinite(ratio)|~torch.isfinite(grad).all(-1)
             return ratio.detach(), torch.nan_to_num(grad.detach()), bad
@@ -136,13 +121,13 @@ class Target:
             return w.new_full((len(w),), -torch.inf), torch.zeros_like(w), torch.ones(len(w), dtype=torch.bool)
 
     @torch.no_grad()
-    def full_log_ratio(self, w):
+    def log_ratio_no_grad(self, w):
         try:
             ratio = -self.model.objective(self.decode(w))+self.center+.5*w.square().sum(-1)
             return ratio, ~torch.isfinite(ratio)
         except (ValueError, torch.linalg.LinAlgError):
             if len(w) > 1:
-                rows = [self.full_log_ratio(row[None]) for row in w]
+                rows = [self.log_ratio_no_grad(row[None]) for row in w]
                 return tuple(torch.cat([row[i] for row in rows]) for i in range(2))
             return w.new_full((len(w),), -torch.inf), torch.ones(len(w), dtype=torch.bool)
 
@@ -231,10 +216,16 @@ def score(model, draws, inputs):
     mean = model.data['gaussians'][None]+torch.einsum('tm,gcm->tgc', mean_q, model.renderer.gaussian_basis)
     missing = [f for f in range(1, 14) if f not in model.frames]
     gap = list(range(4, 10)) if len(model.frames) == 4 else list(range(5, 9))
+    # Evaluation-only oracle projection: the smallest possible particle error
+    # in this fixed linear shape subspace. Never used to initialize or fit.
+    basis = model.renderer.gaussian_basis.flatten(0,1)
+    oracle_q = torch.linalg.lstsq(basis, (truth-model.data['gaussians'][None]).flatten(1).T).solution.T
+    oracle_x = model.data['gaussians'][None]+torch.einsum('tm,gcm->tgc',oracle_q,model.renderer.gaussian_basis)
     record = {'gap_particle_coordinate_rmse_m': float((mean[gap]-truth[gap]).square().mean().sqrt()),
         'missing_particle_coordinate_rmse_m': float((mean[missing]-truth[missing]).square().mean().sqrt()),
         'gap_component_90_coverage': float(((truth[gap] >= lower[gap])&(truth[gap] <= upper[gap])).double().mean()),
         'gap_mean_width_m': float((upper[gap]-lower[gap]).mean()), 'interval_draws': len(selected),
+        'evaluation_only_subspace_oracle_gap_rmse_m': float((oracle_x[gap]-truth[gap]).square().mean().sqrt()),
         'qualification': '128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim'}
     # True held-out images: all cameras and times except frame-zero bootstrap
     # and explicitly observed camera/time pairs. Do not synthesize new truth.
@@ -263,12 +254,14 @@ def run(inputs, output, index, pilot=False):
     model, bundle = make_model(inputs, index)
     began = time.time()
     settings = {'case_index': index, 'case': name, 'source_fingerprint': source_fingerprint(),
+        'environment': _environment(),
         'worker_sha256_lf': hashlib.sha256(Path(__file__).read_bytes().replace(b'\r\n',b'\n')).hexdigest(),
         'observed_pairs': model.specs, 'dimension': model.dimension,
         'input_sha256': hashlib.sha256((Path(inputs)/f'{scene}-inputs.pt').read_bytes()).hexdigest(),
         'bootstrap': bundle['static'], 'model': '12-mode linear elastic graph + smooth explicit ground reaction; exact linear propagator; transferred frozen neural noise',
         'noise_units': 'floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated',
         'force_comparison': 'same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables',
+        'proposal': 'Gaussian-reference split HMC; full nonlinear image and physics gradients; no image surrogate',
         'pilot': pilot}
     if (out/'settings.json').exists() and json.loads((out/'settings.json').read_text()) != settings:
         raise ValueError('Source, plan or inputs changed. Choose a fresh output directory.')
@@ -287,20 +280,30 @@ def run(inputs, output, index, pilot=False):
     target = Target(model, mean, precision)
     cfg = SplitHMCConfig(warmup=100 if pilot else 500, draws=100 if pilot else 2000,
         min_time=1., max_time=4., target_accept=.9, seed=140001+index)
-    chains = None; history = []
-    for budget in ([100] if pilot else [2000, 4000, 8000]):
+    chains = torch.load(out/'chains.pt',weights_only=True) if (out/'chains.pt').exists() else None
+    history = []
+    for budget in ([100] if pilot else [500, 1000, 2000, 4000, 8000]):
+        if chains is not None and chains['white'].shape[1] > budget: continue
         config = cfg if chains is None else replace(cfg, warmup=0, draws=budget-chains['white'].shape[1], step_size=chains['step_size'])
-        chains = sample_split_hmc(target, model.dimension, config, resume=chains,
-            progress=lambda a: print(name, a, flush=True))
+        if chains is None or config.draws:
+            if chains is None: config = replace(config, draws=budget)
+            chains = sample_split_hmc(target, model.dimension, config, resume=chains,
+                progress=lambda a: print(name, a, flush=True))
         torch.save(chains, out/'chains.pt')
         z = target.decode(chains['white'].flatten(0, 1))
         log_target = chains['log_ratio']-.5*chains['white'].square().sum(-1)-target.center
-        diagnostic = diagnose_quantities(torch.cat((z.reshape(4, budget, -1), log_target[..., None]), -1),
-            [f'z{i}' for i in range(model.dimension)]+['log_target'])
+        with torch.no_grad():
+            conditional = [model.force_conditionals(batch) for batch in z.split(32)]
+            fm,fc,normalizers = [torch.cat([batch[i] for batch in conditional]) for i in range(3)]
+        monitor = torch.cat((z.reshape(4,budget,-1),log_target[...,None],
+            fm.reshape(4,budget,-1),normalizers.reshape(4,budget,2)),-1)
+        diagnostic = diagnose_quantities(monitor,
+            [f'z{i}' for i in range(model.dimension)]+['log_target']+
+            [f'conditional_force_mean{i}' for i in range(model.force_dimension)]+['logdet_Q','logdet_A'])
         passed = diagnostic['all_monitored_quantities_pass']
         history.append({'draws_per_chain': budget, 'all_pass': passed})
         write(out/'diagnostics.json', diagnostic)
-        if passed or pilot: break
+        if (passed and budget >= 2000) or pilot: break
     # Scoring deliberately follows the saved chain and diagnostics.
     scores, positions = score(model, z, inputs)
     map_scores, _ = score(model, mean[None], inputs)
@@ -311,6 +314,15 @@ def run(inputs, output, index, pilot=False):
     positions['modal_mean_batch_mcse_m'] = (batch_means.std(0)/len(batch_means)**.5).tolist()
     positions['mcse_batch_length'] = batch_length
     positions['mcse_batches'] = len(batch_means)
+    conditional_covariance = fc.mean(0); between_covariance = torch.cov(fm.T)
+    positions['force'] = {'coefficient_mean':fm.mean(0).tolist(),
+        'coefficient_covariance':(conditional_covariance+between_covariance).tolist(),
+        'mean_conditional_covariance':conditional_covariance.tolist(),
+        'between_trajectory_covariance':between_covariance.tolist(),
+        'definition':'24 whitened acceleration-load coefficients; total covariance E[S]+Cov[m]; no force ground truth or Newton-unit calibration'}
+    if model.force == 'joint':
+        positions['force']['explicit_sample_coefficient_mean'] = z[:,model.base_dimension:].mean(0).tolist()
+        positions['force']['explicit_sample_coefficient_covariance'] = torch.cov(z[:,model.base_dimension:].T).tolist()
     write(out/'posterior.json', positions)
     write(out/'summary.json', {'case': name, 'settings': settings, 'fit': fit.get('fit'),
         'map_scores': map_scores, 'posterior_scores': scores, 'convergence': {k:v for k,v in diagnostic.items() if k != 'quantities'},

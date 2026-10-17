@@ -2,6 +2,17 @@
 
 Research prototype for physically constrained Gaussian scene reconstruction from **one moving camera with missing frames**.
 
+The new [PAC-NeRF elastic transfer protocol](docs/PACNERF_PROTOCOL.md) compares
+constant versus frozen neural internal noise, each with analytically marginalized
+or explicitly sampled Gaussian loads, on official Torus/Bird images. Four- and
+six-view schedules use one camera per observed time. This first external-data
+test conditions on the supplied initial geometry and all eleven initial camera
+images; it is not single-video geometry recovery. The reduced elastic model,
+transferred diffusion, camera-switching protocol, convergence gates, and limits
+are documented. `.github/workflows/pacnerf-comparison.yml` runs the sixteen cases
+on GitHub Actions and retains full checkpoints plus compact reports. Development
+pilots and failed stationarity checks are excluded from scientific rankings.
+
 The latest [posterior audit and 36-case rerun](docs/POSTERIOR_RESULTS.md) fixes slow nonlinear posterior exploration with exact-target split Hamiltonian sampling. **All 36 cases pass complete finite-chain diagnostics**: maximum Rhat 1.00934, minimum bulk/tail ESS 821/556. Start with the [offline report](examples/converged-posterior/report.html), [equations](docs/POSTERIOR_INFERENCE.md) and [frozen protocol](docs/POSTERIOR_CONVERGENCE_PROTOCOL.md). Every model marginalizes external forces.
 
 With the same images, physics and frozen diffusion weights, stochastic-case gap errors change from **4.847 / 3.281 / 3.623 mm** (floor/constant/neural MAP) to **5.025 / 3.349 / 3.330 mm** (posterior means). The neural disadvantage largely disappears, but its 0.019 mm difference from constant noise does not establish superiority. A controlled oracle-amplitude ablation and tighter optimization show why better calibration alone could worsen a highest-density path. Passing sampler diagnostics does not validate the physical model or repeated-case uncertainty calibration; four of six stochastic neural cases still worsen under posterior averaging.

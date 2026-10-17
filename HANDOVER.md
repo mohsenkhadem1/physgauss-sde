@@ -6,6 +6,37 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
+**Active milestone: official PAC-NeRF elastic transfer comparison.** Read
+`docs/PACNERF_PROTOCOL.md`. `scripts/fetch_pacnerf.py` selectively downloads and
+CRC/SHA-verifies Torus/Bird in the original UCLA Box archives. Prepared inputs
+freeze the modal basis and separate future particles into scoring-only files.
+`scripts/pacnerf_comparison.py` covers 16 cases: two objects, 4/6 selected views,
+constant/neural noise, and marginal/joint Gaussian-load inference. Supplied
+initial geometry and eleven-camera initial appearance bootstrap are explicit
+conditions. This is a twelve-mode elastic graph transfer experiment, not full
+MPM or monocular shape recovery. Joint and marginalized arms have the same
+integrated motion posterior; compare Monte Carlo agreement and efficiency.
+
+Development revealed poor conditioning of direct-coordinate optimization;
+fixed local-precision optimization plus Newton refinement reaches decrement
+8.5e-6 with positive observed curvature in the declared local Torus pilot.
+The cube's image Taylor proposal had a low acceptance ceiling and was removed
+for this benchmark. The PAC sampler uses full nonlinear image gradients and
+exact target values, with 500 warmup, four chains, 2000 minimum retained draws
+per chain, and fixed-kernel extensions to 4000/8000 if diagnostics fail. Partial
+500/1000 checkpoints cannot end a final comparison. Force conditional means and
+normalizers are monitored; E[S]+Cov[m] is retained. No force ground truth or
+transferred-noise calibration is claimed. `publish_pacnerf.py` independently
+checks diagnostic flags, input hashes and force covariance before publication.
+
+Stopped development runs: 39071805396 (cancelled loose-fit pilot), 39072191439
+(four-arm pilot rejected by stationarity gate), 39072691871 (stopped before
+production to replace inefficient Taylor proposals). None is scientific evidence.
+Raw local data are in `runs/pacnerf-data`; initial prepared artifacts in
+`runs/pacnerf-inputs`. Local numerical development uses
+`runs/pacnerf-refined-development`; do not mix it into final comparison results.
+The final Actions run and publication will be recorded here when complete.
+
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,
 `docs/POSTERIOR_CONVERGENCE_PROTOCOL.md`, and `examples/converged-posterior/report.html`.
