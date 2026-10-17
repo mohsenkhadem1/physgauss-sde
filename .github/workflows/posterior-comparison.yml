@@ -1,0 +1,59 @@
+name: Exact-target posterior sparse-view comparison
+on:
+  push:
+    paths:
+      - '.github/workflows/posterior-comparison.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  posterior:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        case: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.4'
+      - run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install numpy==2.0.0 -e '.[performance]'
+      - run: python -u scripts/converged_sparse_comparison.py --case-index ${{ matrix.case }} --output runs/posterior
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: posterior-results-${{ matrix.case }}
+          path: runs/posterior/**/*.json
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: posterior-chains-${{ matrix.case }}
+          path: runs/posterior/**/*.pt
+          retention-days: 30
+  aggregate:
+    needs: posterior
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.4'
+      - run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install numpy==2.0.0 -e '.[performance]'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: posterior-results-*
+          merge-multiple: true
+          path: runs/posterior
+      - run: python scripts/converged_sparse_comparison.py --merge --output runs/posterior
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: complete-posterior-comparison
+          path: runs/posterior
+          retention-days: 30

@@ -151,15 +151,18 @@ class NeuralMarginalModel(AccurateViewModel):
     def elimination_at(self, state):
         return BlockLoadElimination(self.load_mapping, self.noise_covariance(state))
 
-    def objective(self, state, observations, coefficients=None):
+    def dynamics_objective(self, state, coefficients=None):
+        """Normalized path/parameter density, including force-volume terms."""
         residual = self.residual(state)
         elimination = self.elimination_at(state)
         dynamics = (elimination.marginal_nll(residual) if coefficients is None
                     else elimination.joint_nll(residual, coefficients))
-        image = .5*self.image_residual(state, observations).square().sum(-1)
-        return (dynamics+image+.5*state[:, :8].square().sum(-1)
+        return (dynamics+.5*state[:, :8].square().sum(-1)
                 -self.log_dynamic_jacobian(state)
                 -(self.state_dimension-8)*math.log(self.marginal_config.velocity_coordinate_scale))
+
+    def objective(self, state, observations, coefficients=None):
+        return self.dynamics_objective(state, coefficients)+.5*self.image_residual(state, observations).square().sum(-1)
 
     def local_covariance_derivatives(self, mean):
         with torch.no_grad():
