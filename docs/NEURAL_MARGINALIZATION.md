@@ -75,3 +75,20 @@ Optimizer budget is 20 iterations, decrement threshold 0.05 and 18 Armijo halvin
     physgauss neural-marginalize --plan configs/neural_marginal_study.json --output runs/neural-marginal
 
 Use --resume only with unchanged numerical source, plan, environment and calibration. The quick path exercises all models and covariance calculations but is not a convergence/accuracy result. Historical v0.6 reports remain unchanged.
+
+
+## Compact handover and publication
+
+The publisher verifies all 36 cases, matching RGB/initial states, source/calibration, saved objectives and point paths, reference gates, force covariance identities, portable force queries and aggregate records:
+
+    python scripts/publish_neural_marginal.py --raw runs/neural-marginal --output examples/neural-marginal --source-ref 08c3281
+
+Use an unused publication directory. Large precision factors stay in raw ignored checkpoints. A new clone can reconstruct one local proposal from compact published solver coordinates, without re-optimizing:
+
+    python scripts/recover_neural_posterior.py --study examples/neural-marginal --case no_load__4101__neural --output runs/recovered/fit.pt
+
+Use the numerical implementation recorded by the publication. Recovery verifies the original image hash, complete normalized objective and final decrement. The covariance-recovery path was checked against the original neural checkpoint. It is still a local approximation; the complete nonlinear-target importance diagnostic remains relevant.
+
+The optional `scripts/prepare_neural_references.py --study runs/neural-marginal` helper may prepare independent stochastic references concurrently with deterministic fits. It calls the identical committed functions and seeds and publishes reference files atomically; it does not change inference or define a new experimental partition.
+
+All 77 checks and all original/new smoke commands passed implementation CI for `08c3281`: https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39037380351 . Neural-weight uncertainty is not propagated; the comparison is conditional on the separately calibrated frozen network.
