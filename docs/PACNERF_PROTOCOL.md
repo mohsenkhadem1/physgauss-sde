@@ -120,6 +120,13 @@ evaluated by its analytic under/overdamped formula with a smooth zero-argument
 series, checked against `torch.matrix_exp`. Batched force elimination and direct
 edge-basis contraction implement the same Gaussian algebra without large
 intermediate nodal tensors. None of these optimizations changes the model.
+`scripts/audit_pacnerf_transition.py` independently checks the linear propagator
+and four-point noise/load quadrature against full-matrix and Van Loan
+exponentials. Over both initial geometries and five parameter combinations
+covering standardized values -3,0,+3, the maximum covariance relative Frobenius
+error is 2.85e-7 and maximum load-map relative error is 3.63e-10. This verifies
+the linear integration component; it does not validate the reduced material
+law, explicit contact approximation, or agreement with the original MPM solver.
 
 Scores: held-out RGB PSNR; particle-coordinate RMSE at 128 fixed frame-zero
 indices; componentwise central 90% interval coverage and width in the gap;

@@ -58,10 +58,14 @@ def publish(raw, inputs, output):
                 a,b = [json.loads(f.read_text()) for f in files]
                 delta = np.array(a['modal_pose_mean_m'])[1:]-np.array(b['modal_pose_mean_m'])[1:]
                 sd = np.sqrt(np.array(a['modal_mean_batch_mcse_m'])[1:]**2+np.array(b['modal_mean_batch_mcse_m'])[1:]**2)
+                standardized=np.abs(delta)/np.maximum(sd,1e-15)
+                cutoff=float(torch.special.ndtri(torch.tensor(1-.05/(2*delta.size),dtype=torch.float64)))
                 agreement.append({'scene':scene,'views':views,'noise':noise,
                     'max_modal_mean_difference_m':float(np.abs(delta).max()),
-                    'max_difference_over_combined_mcse':float((np.abs(delta)/np.maximum(sd,1e-15)).max()),
-                    'qualification':'descriptive batch-mean CLT diagnostic; same posterior in theory; finite convergence required'})
+                    'max_difference_over_combined_mcse':float(standardized.max()),
+                    'approximate_bonferroni_95_cutoff':cutoff,
+                    'coordinates_exceeding_approximate_cutoff':int((standardized>cutoff).sum()),
+                    'qualification':'approximate batch-mean CLT/Bonferroni diagnostic; not an exact finite-sample test or calibration proof; same posterior in theory; finite convergence required'})
     summary = {'complete':complete, 'all_cases_eligible_for_ranking':passed, 'cases':rows,
         'marginal_joint_agreement':agreement,
         'qualification':'two official elastic simulations; oracle initial geometry and 11-camera initial appearance; sparse later images; reduced model and transferred noise; no force ground truth'}
