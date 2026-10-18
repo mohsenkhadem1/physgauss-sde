@@ -1,0 +1,207 @@
+name: PAC-NeRF hierarchical uncertainty comparison
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  inputs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12.4'}
+      - run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install numpy==2.0.0 -e '.[performance]'
+      - uses: actions/download-artifact@v4
+        with:
+          name: pacnerf-inputs
+          run-id: '39100239747'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: runs/pacnerf-inputs
+      - name: Numerical regression and independent repeated-data validation
+        run: |
+          python -m unittest discover -s tests -p 'test_pacnerf_discrepancy.py' -v
+          python -m unittest discover -s tests -p 'test_pacnerf_elliptical.py' -v
+          python scripts/validate_hierarchical_intervals.py --output runs/validation
+      - uses: actions/upload-artifact@v4
+        with: {name: pacnerf-inputs, path: runs/pacnerf-inputs, retention-days: 30}
+      - uses: actions/upload-artifact@v4
+        with: {name: hierarchical-validation, path: runs/validation, retention-days: 30}
+  pilot:
+    name: development (${{ matrix.case }})
+    needs: inputs
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix: {case: [0,1,2,3,8,9,10,11]}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12.4'}
+      - run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install numpy==2.0.0 -e '.[performance]'
+      - uses: actions/download-artifact@v4
+        with: {name: pacnerf-inputs, path: runs/pacnerf-inputs}
+      - name: Fit and sample observed-data-only pilot
+        timeout-minutes: 45
+        env: {CASE: '${{ matrix.case }}'}
+        run: python -u scripts/compare_pacnerf_discrepancy.py --inputs runs/pacnerf-inputs --output runs/pilot --case-index "$CASE" --pilot
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: discrepancy-pilot-${{ matrix.case }}
+          path: runs/pilot/**/*.json
+          retention-days: 30
+  gate:
+    needs: pilot
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12.4'}
+      - run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install numpy==2.0.0 -e '.[performance]'
+      - uses: actions/download-artifact@v4
+        with: {pattern: discrepancy-pilot-*, path: runs/pilot-downloads}
+      - name: Validate eight development arms without future truth
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from shutil import copytree
+          for p in Path('runs/pilot-downloads').glob('discrepancy-pilot-*'):
+              copytree(p,Path('runs/pilots')/p.name.rsplit('-',1)[1])
+          PY
+          python scripts/check_discrepancy_pilots.py --root runs/pilots --output runs/pilot-proof.json
+      - uses: actions/upload-artifact@v4
+        with: {name: discrepancy-pilot-proof, path: runs/pilot-proof.json, retention-days: 30}
+  compare:
+    name: compare (${{ matrix.case }})
+    needs: gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix: {case: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12.4'}
+      - run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install numpy==2.0.0 -e '.[performance]'
+      - uses: actions/download-artifact@v4
+        with: {name: pacnerf-inputs, path: runs/pacnerf-inputs}
+      - name: Fresh full hierarchical posterior
+        timeout-minutes: 330
+        env: {CASE: '${{ matrix.case }}'}
+        run: python -u scripts/compare_pacnerf_discrepancy.py --inputs runs/pacnerf-inputs --output runs/comparison --case-index "$CASE"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pacnerf-results-${{ matrix.case }}
+          path: runs/comparison/**/*.json
+          retention-days: 30
+      - name: Exclude interrupted temporary writes from recoverable checkpoint artifacts
+        if: always()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          for p in Path('runs/comparison').glob('*/*.tmp.pt'):
+              p.unlink()
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pacnerf-chains-${{ matrix.case }}
+          path: runs/comparison/**/*.pt
+          retention-days: 30
+  recovery:
+    name: recovery (${{ matrix.case }})
+    needs: [gate, compare]
+    if: ${{ always() && !cancelled() && needs.gate.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix: {case: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12.4'}
+      - run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install numpy==2.0.0 -e '.[performance]'
+      - uses: actions/download-artifact@v4
+        with: {name: pacnerf-inputs, path: runs/pacnerf-inputs}
+      - uses: actions/download-artifact@v4
+        with:
+          name: pacnerf-results-${{ matrix.case }}
+          path: runs/comparison
+      - uses: actions/download-artifact@v4
+        with:
+          name: pacnerf-chains-${{ matrix.case }}
+          path: runs/comparison
+      - name: Continue only unfinished cases under the identical frozen source and RNG
+        timeout-minutes: 330
+        env: {CASE: '${{ matrix.case }}'}
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import os,subprocess
+          # A final summary means the predeclared stopping plan finished, even
+          # if its convergence gate failed. Do not silently extend that plan.
+          if not list(Path('runs/comparison').glob('*/summary.json')):
+              subprocess.run(['python','-u','scripts/compare_pacnerf_discrepancy.py','--inputs','runs/pacnerf-inputs','--output','runs/comparison','--case-index',os.environ['CASE']],check=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pacnerf-recovered-results-${{ matrix.case }}
+          path: runs/comparison/**/*.json
+          retention-days: 30
+      - if: always()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          for p in Path('runs/comparison').glob('*/*.tmp.pt'):
+              p.unlink()
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pacnerf-recovered-chains-${{ matrix.case }}
+          path: runs/comparison/**/*.pt
+          retention-days: 30
+  publish:
+    needs: [inputs, gate, compare, recovery]
+    if: ${{ always() && !cancelled() && needs.gate.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12.4'}
+      - run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install numpy==2.0.0 -e '.[performance]'
+      - uses: actions/download-artifact@v4
+        with: {name: pacnerf-inputs, path: runs/pacnerf-inputs}
+      - name: Collect saved states and independently replay all available results
+        env: {GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'}
+        run: |
+          python scripts/collect_discrepancy_recovery.py --run "$GITHUB_RUN_ID" --output runs/collected
+          git fetch origin main
+          baseline=examples/pacnerf-exact
+          if git cat-file -e origin/main:examples/pacnerf-resumed-round1/RESULTS.md 2>/dev/null; then
+            mkdir -p runs/baseline-download
+            git archive origin/main examples/pacnerf-resumed-round1 | tar -x -C runs/baseline-download
+            baseline=runs/baseline-download/examples/pacnerf-resumed-round1
+          fi
+          python scripts/publish_pacnerf_discrepancy.py --raw runs/collected --inputs runs/pacnerf-inputs --output runs/publication --baseline "$baseline" --name "pacnerf-discrepancy-$GITHUB_RUN_ID" --push
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: complete-hierarchical-comparison, path: runs/publication, retention-days: 30}

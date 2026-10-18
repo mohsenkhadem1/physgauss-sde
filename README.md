@@ -2,6 +2,18 @@
 
 Research prototype for physically constrained Gaussian scene reconstruction from **one moving camera with missing frames**.
 
+**Current PAC-NeRF work:** the first exact-integral batch has finished with
+9/16 converged cells; seven time-limited cells have been resumed on free CPU
+workers with their original target and saved RNG. The
+[overconfidence audit](examples/pacnerf-overconfidence-audit/audit.json) finds
+large model error relative to narrow intervals and correlated image residuals.
+A separately versioned [hierarchical uncertainty correction](docs/PACNERF_UNCERTAINTY_CORRECTION.md)
+adds sampled mechanics/renderer-error scales, smooth modal loads and correlated
+image errors. Its [independent 2,000-dataset interval test](examples/hierarchical-interval-validation/validation.json)
+passes; this does not establish calibration on PAC-NeRF. The new workflow gates
+fresh full runs on eight observed-only development pilots, preserves raw
+checkpoints, and publishes new compact reports after independent replay.
+
 The [PAC-NeRF elastic transfer study](docs/PACNERF_EXACT_PROTOCOL.md) compares
 constant versus frozen neural internal noise, each with analytically marginalized
 or explicitly sampled Gaussian loads, on official Torus/Bird images. Four- and
@@ -17,12 +29,12 @@ exact coupled modal integrals. Exact causal innovation coordinates and a fixed
 full-image Gauss-Newton metric assist nonlinear posterior sampling without
 changing the physical model or force priors. The [four-arm observed-only pilot](examples/pacnerf-exact-pilot/report.html)
 completed with verified density/target replays and one preserved rejected
-large-energy proposal. A fresh sixteen-case study is now
-[running on GitHub Actions](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39100239747).
-The workflow will verify the complete checkpoints/scores and commit its compact
-report plus the [corrected results document](docs/PACNERF_EXACT_RESULTS.md).
-No corrected reconstruction results are
-claimed yet. `.github/workflows/pacnerf-exact.yml` launches the comparison;
+large-energy proposal. The first sixteen-case study
+[finished on GitHub Actions](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39100239747)
+and published its [audited results](docs/PACNERF_EXACT_RESULTS.md): nine converged
+cells, seven compute timeouts, and poor uncertainty coverage. The full
+comparison remains incomplete; no overall scientific ranking is claimed.
+`.github/workflows/pacnerf-exact.yml` launches that comparison;
 `pacnerf-exact-resume.yml` preserves saved references, kernels and RNG streams.
 The [equation guide](docs/PACNERF_EQUATIONS.md) describes the model, exact load
 elimination and innovation coordinates. Full checkpoints stay local and in

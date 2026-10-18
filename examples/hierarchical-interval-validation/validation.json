@@ -1,0 +1,85 @@
+{
+  "datasets": 2000,
+  "seed": 55201,
+  "independent_datasets": true,
+  "observed_time_indices": [
+    0,
+    2,
+    7
+  ],
+  "gap_time_indices": [
+    3,
+    4,
+    5,
+    6
+  ],
+  "unknown_log_diffusion_prior": "N(0,1)",
+  "posterior_computation": "121-point deterministic quadrature on [-6,6]; includes Gaussian data determinant; mixture-CDF bisection",
+  "coverage": [
+    {
+      "nominal": 0.5,
+      "coverage_each_gap_time": [
+        0.492,
+        0.502,
+        0.493,
+        0.4935
+      ],
+      "nominal_binomial_mc_standard_error": 0.011180339887498949,
+      "mean_width_m": 0.05097641638487615,
+      "within_four_mc_standard_errors": true
+    },
+    {
+      "nominal": 0.8,
+      "coverage_each_gap_time": [
+        0.8125,
+        0.8015,
+        0.7915,
+        0.7925
+      ],
+      "nominal_binomial_mc_standard_error": 0.008944271909999158,
+      "mean_width_m": 0.10331228139296121,
+      "within_four_mc_standard_errors": true
+    },
+    {
+      "nominal": 0.9,
+      "coverage_each_gap_time": [
+        0.9055,
+        0.9045,
+        0.9,
+        0.896
+      ],
+      "nominal_binomial_mc_standard_error": 0.006708203932499368,
+      "mean_width_m": 0.14085522015171778,
+      "within_four_mc_standard_errors": true
+    },
+    {
+      "nominal": 0.95,
+      "coverage_each_gap_time": [
+        0.9525,
+        0.946,
+        0.9515,
+        0.952
+      ],
+      "nominal_binomial_mc_standard_error": 0.004873397172404485,
+      "mean_width_m": 0.17955286521457703,
+      "within_four_mc_standard_errors": true
+    }
+  ],
+  "hyperparameter_sbc_cdf_histogram_10_bins": [
+    205,
+    220,
+    210,
+    199,
+    211,
+    184,
+    209,
+    164,
+    184,
+    214
+  ],
+  "hyperparameter_sbc_ks": 0.030089336016068335,
+  "dkw_99_percent_bound": 0.036394770800720934,
+  "maximum_total_covariance_identity_error": 8.022543810911123e-15,
+  "all_pass": true,
+  "qualification": "independent linear-Gaussian hierarchical mixture arithmetic check only; does not validate PAC dynamics, nonlinear HMC exploration, transferred neural diffusion or real-world calibration"
+}

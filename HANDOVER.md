@@ -6,7 +6,33 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
-**CURRENT: full exact-innovation study running; three worker results available.** The historical PAC
+**CURRENT (18 October): nine exact-study cells completed/converged; seven CPU
+continuations explicitly launched.** Their original run is 39100239747 and
+their continuation IDs are in `configs/pacnerf_resumptions_round1.json`.
+The original compact report is in `examples/pacnerf-exact`; all 33 original
+input/result/checkpoint ZIPs are in the approved permanent public release.
+Do not describe the original full run as still running.
+
+The evaluation-only overconfidence audit is in
+`examples/pacnerf-overconfidence-audit`. Projection removes only a small part
+of the coverage failure; Torus interval widths are 31–46 mm versus 97–158 mm
+errors, with spatially correlated image residuals. See
+`docs/PACNERF_UNCERTAINTY_CORRECTION.md` for the new exploratory hierarchical
+model and full protocol. The numerical src fingerprint and four frozen old
+inference modules have not changed. New inference lives in separate scripts.
+The independent 2000-dataset linear hierarchical mixture test passes, with
+90% gap coverage 89.6–90.55%; this is not a PAC calibration claim.
+
+`pacnerf-resumed-report.yml` publishes the combined baseline after all seven
+authorized continuations finish and prefix/RNG/target checks pass.
+`pacnerf-discrepancy.yml` tests the new density, runs eight observed-only pilots,
+then sixteen fresh full comparisons with exact blocked elliptical slices in a
+fixed Gaussian reference. A single bounded automatic recovery resumes unfinished
+new cases. The workflow commits a separate snapshot after raw-state replay;
+no source, observations or priors are changed during sampling. Full states stay
+in 30-day Actions artifacts. No paid workers have been provisioned.
+
+The following paragraphs retain the historical development record. The historical PAC
 target is superseded. Auditing all sixteen saved prefixes exposed 90.885%
 relative covariance eigenvalue error and 0.925% load-map error in Bird four-view
 constant/marginal high-stiffness states. Refined 128/256 quadrature and an
@@ -31,8 +57,8 @@ old data, since the local venv is editable against this primary checkout.
 Generic recoverable sampling lives in `src/physgauss/checkpoint_hmc.py`.
 The first exact-integral Bird pilot is run 39098175068 at e77276e. Its
 constant/marginal reference failed stationarity before sampling; neural/marginal
-finished 100 retained draws, which are development only. No corrected full
-posterior result exists yet.
+finished 100 retained draws, which are development only. This pilot predates
+the corrected full batch described above.
 
 A data-informed exact-innovation reference is now implemented in
 `scripts/pacnerf_innovation_metric.py`. The full RGB Gauss-Newton metric is

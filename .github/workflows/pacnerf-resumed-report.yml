@@ -1,0 +1,42 @@
+name: Publish the seven authorized PAC-NeRF continuations
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['Continue frozen exact-integral PAC-NeRF checkpoint']
+    types: [completed]
+    branches: [main]
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: pacnerf-resumption-round1-report
+  cancel-in-progress: false
+jobs:
+  report:
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(fromJSON('[39140855391,39140858662,39140861971,39140865019,39140868080,39140872832,39140876107]'), github.event.workflow_run.id) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main, fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12.4'}
+      - id: state
+        env: {GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'}
+        run: python scripts/publish_pacnerf_resumptions.py --check-only
+      - if: steps.state.outputs.ready == 'true'
+        run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - if: steps.state.outputs.ready == 'true'
+        run: python -m pip install numpy==2.0.0 -e '.[performance]'
+      - if: steps.state.outputs.ready == 'true'
+        env: {GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'}
+        run: |
+          git fetch origin main
+          if git cat-file -e origin/main:examples/pacnerf-resumed-round1/RESULTS.md 2>/dev/null; then
+            echo 'Round-one snapshot already published.'
+          else
+            python -u scripts/publish_pacnerf_resumptions.py --output runs/resumed-report --name pacnerf-resumed-round1 --push
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: resumed-comparison, path: runs/resumed-report, retention-days: 30, if-no-files-found: ignore}
