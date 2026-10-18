@@ -13,6 +13,9 @@ image errors. Its [independent 2,000-dataset interval test](examples/hierarchica
 passes; this does not establish calibration on PAC-NeRF. The new workflow gates
 fresh full runs on eight observed-only development pilots, preserves raw
 checkpoints, and publishes new compact reports after independent replay.
+Follow the [new CPU experiment](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39143185132)
+and its [frozen run record](configs/pacnerf_discrepancy_v1.json). All 142 local
+regression tests passed before dispatch; final PAC results are pending.
 
 The [PAC-NeRF elastic transfer study](docs/PACNERF_EXACT_PROTOCOL.md) compares
 constant versus frozen neural internal noise, each with analytically marginalized

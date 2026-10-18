@@ -32,6 +32,15 @@ new cases. The workflow commits a separate snapshot after raw-state replay;
 no source, observations or priors are changed during sampling. Full states stay
 in 30-day Actions artifacts. No paid workers have been provisioned.
 
+The hierarchical workflow is **39143185132**, dispatched at source **a575e18**:
+https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39143185132 .
+`configs/pacnerf_discrepancy_v1.json` records the frozen controller/source and
+plan. 142 local regression tests passed before dispatch. Its first job repeats
+the focused tests and 2000-dataset interval validation on GitHub before pilots.
+The expected new compact snapshot is
+`examples/pacnerf-discrepancy-39143185132`; this path is a future output, not a
+claim that the comparison has finished or its coverage improved.
+
 The following paragraphs retain the historical development record. The historical PAC
 target is superseded. Auditing all sixteen saved prefixes exposed 90.885%
 relative covariance eigenvalue error and 0.925% load-map error in Bird four-view
