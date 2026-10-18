@@ -20,7 +20,7 @@ COMMIT='b2d081a7a55ecf1027921f5d841c043e23713a9d'
 TAG='pacnerf-transfer-2026-10-18'
 
 
-def archive(raw,inputs,plan_only=False):
+def archive(raw,inputs,plan_only=True):
     raw,inputs=Path(raw),Path(inputs)
     metadata=[inputs/'artifact_download.json']+sorted(raw.glob('*/artifact_download.json'))
     sources=[]
@@ -105,5 +105,7 @@ def archive(raw,inputs,plan_only=False):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--raw',required=True);p.add_argument('--inputs',required=True)
-    p.add_argument('--plan-only',action='store_true',help='Verify local ZIP hashes and write a reviewable plan without authentication or network access')
-    a=p.parse_args();archive(a.raw,a.inputs,a.plan_only)
+    modes=p.add_mutually_exclusive_group()
+    modes.add_argument('--plan-only',action='store_true',help='Default: verify local ZIPs and write a plan without authentication or network access')
+    modes.add_argument('--publish-public-archive',action='store_true',help='Requires explicit human approval: publish prepared inputs and raw chains as public release assets')
+    a=p.parse_args();archive(a.raw,a.inputs,not a.publish_public_archive)
