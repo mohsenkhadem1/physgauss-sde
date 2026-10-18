@@ -93,6 +93,12 @@ At 32000 total retained draws, float64 NumPy linspace selected two different
 indices. Matching the production rule restores quantile replay to 1.5e-12 m.
 No production intervals, model, chains or scores were changed by this correction.
 
+A separate [causal-innovation algebra audit](PACNERF_INNOVATIONS.md) tests an
+equivalent coordinate system as a possible future inference improvement.
+It reproduces the original density, including the Jacobian, on sixteen saved
+states per completed case to at most 1.23e-11. This is not a new sampling result:
+all production chains and reported convergence failures remain unchanged.
+
 ## Physical and data audits
 
 Supplied reference particles project onto the corresponding official images

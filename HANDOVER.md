@@ -87,10 +87,19 @@ workflow; it imports the original b2d081a worker and preserves its settings.
 Four local nonlinear controls reproduce the original sample/RNG stream exactly,
 including interrupted warmup and retained prefixes. Prior retained-only tooling
 passed full CPU validation at `1f12824ead0d96d4a73250a2ae83252fe8dddc96`
-(Actions run 39087528131); full CI for the new warmup extension is pending.
+(Actions run 39087528131); the four-test warmup extension and full CI also
+pass (Actions runs 39089295638 and 39089362779, 106 tests).
 Recovery now saves warmup every 25 transitions and retained blocks <=50, with
 original diagnostic budgets. No recovery run has been dispatched yet; original
 twelve workers remain active.
+
+An equivalent causal-innovation implementation is now algebra-audited but
+**not used in production sampling**. See `docs/PACNERF_INNOVATIONS.md` and
+`scripts/pacnerf_innovations.py`. Three new tests cover all-arm density/inverse
+identities, Jacobian-adjusted gradients and causality. Sixteen saved physical
+states per completed case (0/2/4/6) agree in negative log density to <=1.23e-11.
+No future geometry is read by this audit. It does not establish improved mixing
+or authorize substituting experimental chains into the original comparison.
 
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,

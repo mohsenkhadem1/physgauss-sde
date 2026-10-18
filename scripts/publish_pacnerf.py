@@ -106,7 +106,8 @@ def publish(raw, inputs, output):
     audit_links=[]
     for root,name in [(inputs,'transition-audit.json'),(raw,'contact-integration-diagnostic.json'),
         (raw,'noise-transfer-diagnostic.json'),(raw,'calibration-replay-diagnostic.json'),
-        (raw,'posterior-transition-diagnostic.json'),(raw,'renderer-reference-diagnostic.json')]:
+        (raw,'posterior-transition-diagnostic.json'),(raw,'renderer-reference-diagnostic.json'),
+        (raw,'innovation-coordinate-diagnostic.json')]:
         if (root/name).exists():
             shutil.copyfile(root/name,output/name);audit_links.append(name)
     if (raw/'renderer-reference-audit.png').exists():
