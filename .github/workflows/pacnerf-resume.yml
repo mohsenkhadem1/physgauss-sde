@@ -12,6 +12,10 @@ on:
         type: choice
         options: ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15']
         default: '0'
+      preflight:
+        description: Save only the next sixteen retained transitions, then stop without scoring
+        type: boolean
+        default: false
 permissions:
   contents: read
   actions: read
@@ -34,9 +38,9 @@ jobs:
           python - <<'PY'
           import hashlib, urllib.request
           from pathlib import Path
-          url='https://raw.githubusercontent.com/mohsenkhadem1/physgauss-sde/0f6bc25984d9da75d7881da056f0dc28708d4ae0/scripts/checkpoint_pacnerf.py'
+          url='https://raw.githubusercontent.com/mohsenkhadem1/physgauss-sde/e9c09a0b3bb6e0a1670c08aeefb51224d642bff1/scripts/checkpoint_pacnerf.py'
           with urllib.request.urlopen(url,timeout=60) as response: content=response.read()
-          assert hashlib.sha256(content).hexdigest()=='d79e19801c309cdf1acc9fb36c998237126ffe190737491d350691b32915105b'
+          assert hashlib.sha256(content).hexdigest()=='b7777df86b2a4beb949184cb7a842080aed15d18aee205c7c4b83bdbc6f649e4'
           Path('scripts/checkpoint_pacnerf.py').write_bytes(content)
           PY
       - uses: actions/download-artifact@v4
@@ -65,10 +69,14 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: runs/pacnerf-comparison
       - name: Continue saved chains and RNG without new warmup
-        timeout-minutes: 330
+        timeout-minutes: ${{ inputs.preflight && 15 || 330 }}
         env:
           CASE: ${{ inputs.case }}
-        run: python -u scripts/checkpoint_pacnerf.py --case-index "$CASE" --chunk-size 50
+          PREFLIGHT: ${{ inputs.preflight }}
+        run: |
+          args=()
+          if [ "$PREFLIGHT" = "true" ]; then args+=(--preflight); fi
+          python -u scripts/checkpoint_pacnerf.py --case-index "$CASE" --chunk-size 50 "${args[@]}"
       - name: Discard only an interrupted temporary checkpoint write
         if: always()
         run: |

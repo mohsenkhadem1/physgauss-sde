@@ -252,7 +252,7 @@ refitting. A restart's reported elapsed seconds cover only that invocation;
 retain both run records and use accumulated gradient batches for algorithmic
 efficiency comparisons. Resuming does not expand the declared 8000-draw maximum.
 The recovery workflow also fetches a SHA256-pinned checkpoint-only wrapper from
-commit `0f6bc25984d9da75d7881da056f0dc28708d4ae0`. It imports the original b2d081a
+commit `e9c09a0b3bb6e0a1670c08aeefb51224d642bff1`. It imports the original b2d081a
 worker, retains its settings, and breaks retained draws into <=50-draw chunks
 with atomic file replacement. The first call after fresh warmup saves sixteen
 retained draws. Warmup state is saved every 25 transitions and at its boundary,
@@ -265,6 +265,21 @@ interruption during/end of warmup and resumed retained prefixes. Extra
 deterministic gradient replays at recovery boundaries are counted.
 Each wrapper invocation is recorded separately, without rewriting original
 worker provenance. This guards against timeouts; it does not fix poor mixing.
+
+The first ten recovery attempts stopped before sampling at an original-worker
+resume bug: JSON view tuples became lists, including nested bootstrap views.
+Every checkpoint remained byte-identical. The updated wrapper normalizes only
+these container types before the original settings comparison; numerical
+tensors, source/input hashes and all environment/version fields remain strict.
+Actual continuation environments are recorded separately. Two additional
+regression controls verify bit-identical full targets after normalization and
+the exact next sixteen transitions/RNG state before a controlled early stop.
+All six checkpoint controls pass locally. The optional `preflight` workflow
+input runs this sixteen-draw continuation with a fifteen-minute compute cap,
+then saves its extended prefix without scoring or a final eligibility claim.
+Those draws count toward the original next sampling budget; they are not a
+replacement study. A successful preflight's artifacts can be the next full
+continuation's `source_run`, preserving prefix and RNG without new warmup.
 
 `inspect_pacnerf_attempts.py` records all sixteen attempted cases, including
 incomplete/time-limited workers. It checks input/source hashes, records saved
