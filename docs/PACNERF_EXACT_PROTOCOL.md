@@ -106,8 +106,13 @@ some workers fail or time out; failed checks never become a ranking. Compact
 JSON/CSV/HTML/PNG reports and the results document are committed to main using
 a separate disposable checkout and a normal fast-forward push. Existing reports
 or concurrently edited results documents are not overwritten. Raw checkpoints
-remain in 30-day Actions artifacts and local copies. The optional permanent
-public raw archive is still not authorized and is not part of this workflow.
+remain in 30-day Actions artifacts and local copies. On 18 October the user explicitly approved permanent public inputs/checkpoints
+and chose free CPU workers. A separate archive workflow is restricted to this
+existing run ID. It preserves original ZIPs in an experimental prerelease with
+server-verified hashes and adds the remaining assets when this full workflow
+completes. Historical quadrature assets are kept in a separate, prominently
+superseded prerelease. Publication does not make an unfinished or unconverged
+checkpoint a valid posterior.
 
 Observed-only exact-innovation pilot run 39099258939 completed all four arms.
 References reached GN decrement <=7.31e-5; independent cached-target and

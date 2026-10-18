@@ -209,16 +209,26 @@ are not the frozen production inputs/results. The verifier uses the producer's
 float32 Torch linspace interval IDs, then NumPy quantiles; float64 linspace
 selected two different IDs at 32000 draws. Production scores were unchanged.
 
-**Optional permanent public archive remains blocked:** automatic approval
-review rejected uploading prepared inputs/raw checkpoints as public release
-assets because ordinary repository-push authorization did not specifically
-cover permanent public raw assets. The explicit human approval question is
-pending. No release was created or asset uploaded. Do not retry or publish by
-another route without that approval. `archive_pacnerf_checkpoints.py` defaults
-to safe local planning before authentication/network; publishing needs its
-explicit flag after approval. Raw ZIPs/extracted chains remain locally available
-beyond Actions' 30-day retention. Ordinary code/compact-report pushes continue.
-No paid GPU was provisioned; tests/comparisons run on GitHub CPU runners.
+**Public raw archives explicitly approved, 18 October 2026.** The user replied
+“Yes—publish the public checkpoint archive” and chose “Continue with free CPU
+workers.” The previous automatic-review block is resolved by that explicit
+human approval. No paid GPU should be provisioned for this study.
+
+`scripts/archive_pacnerf_checkpoints.py` now separates `historical` run
+39073611351 (b2d081a) from `exact` run 39100239747 (219665b). Both default to
+local plan-only verification. Explicit publication uploads original verified
+Actions ZIPs, checks server SHA256/size/state, never replaces or deletes assets,
+and rejects mismatched study provenance before authentication. Historical
+assets carry a prominent SUPERSEDED integration-defect label and have their own
+prerelease. Corrected inputs/checkpoints use a different release and source tag.
+
+`.github/workflows/pacnerf-checkpoint-archive.yml` supports a manual initial
+archive and a completion hook restricted to this exact existing run ID. It
+collects available completed artifacts, appends immutable release assets and
+commits only the small public download/integrity manifest under `archives/`.
+The source run's report finalizer stays frozen; do not edit its pending
+`docs/PACNERF_EXACT_RESULTS.md`. Four archive tests pass locally (offline plans,
+wrong provenance, changed ZIPs, and refusing conflicting existing assets).
 
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,

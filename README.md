@@ -26,7 +26,9 @@ claimed yet. `.github/workflows/pacnerf-exact.yml` launches the comparison;
 `pacnerf-exact-resume.yml` preserves saved references, kernels and RNG streams.
 The [equation guide](docs/PACNERF_EQUATIONS.md) describes the model, exact load
 elimination and innovation coordinates. Full checkpoints stay local and in
-Actions artifacts; code and compact reports are versioned here.
+Actions artifacts; the user-approved [permanent checkpoint archives](docs/CHECKPOINT_ARCHIVES.md)
+preserve original ZIPs separately for historical and corrected experiments.
+Code, compact reports and archive integrity manifests are versioned here.
 
 The latest [posterior audit and 36-case rerun](docs/POSTERIOR_RESULTS.md) fixes slow nonlinear posterior exploration with exact-target split Hamiltonian sampling. **All 36 cases pass complete finite-chain diagnostics**: maximum Rhat 1.00934, minimum bulk/tail ESS 821/556. Start with the [offline report](examples/converged-posterior/report.html), [equations](docs/POSTERIOR_INFERENCE.md) and [frozen protocol](docs/POSTERIOR_CONVERGENCE_PROTOCOL.md). Every model in that cube study marginalizes external forces.
 

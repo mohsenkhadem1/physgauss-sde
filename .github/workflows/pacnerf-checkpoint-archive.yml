@@ -1,0 +1,63 @@
+name: Preserve approved exact PAC-NeRF raw checkpoint archive
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['PAC-NeRF exact transition integrals four-arm comparison']
+    types: [completed]
+    branches: [main]
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: archive-pacnerf-exact-39100239747
+  cancel-in-progress: false
+jobs:
+  archive:
+    # The user's approval is scoped to this existing experiment. A new study
+    # does not silently inherit a public raw-data publication trigger.
+    if: ${{ github.repository == 'mohsenkhadem1/physgauss-sde' && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.id == 39100239747) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      SOURCE_RUN: '39100239747'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main, fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12.4'}
+      - name: Download the approved run's prepared inputs
+        run: python scripts/download_study_artifact.py --run "$SOURCE_RUN" --name pacnerf-inputs --output runs/pacnerf-archive-inputs
+      - name: Preserve completed case artifacts with original provenance
+        run: python scripts/collect_pacnerf_actions.py --run "$SOURCE_RUN" --output runs/pacnerf-archive-source --chains --once
+      - name: Publish SHA256-verified original ZIPs without replacing assets
+        run: python -u scripts/archive_pacnerf_checkpoints.py --study exact --raw runs/pacnerf-archive-source --inputs runs/pacnerf-archive-inputs --publish-public-archive
+      - name: Commit the public download and integrity manifest only
+        run: |
+          python - <<'PY'
+          import json,subprocess
+          from pathlib import Path
+          def git(*args):subprocess.run(['git',*args],check=True)
+          manifest=json.loads(Path('runs/pacnerf-archive-source/checkpoint-archive.json').read_text())
+          assert manifest['source_commit']=='219665b0776d9a1b5d092176331e21f724499bca'
+          assert manifest['tag']=='pacnerf-exact-2026-10-18'
+          git('fetch','origin','main')
+          git('merge','--ff-only','origin/main')
+          path=Path('archives')/(manifest['tag']+'.json')
+          path.parent.mkdir(exist_ok=True)
+          path.write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8',newline='\n')
+          git('config','user.name','github-actions[bot]')
+          git('config','user.email','41898282+github-actions[bot]@users.noreply.github.com')
+          git('add','--',str(path))
+          changed=subprocess.run(['git','diff','--cached','--quiet']).returncode
+          if changed==1:
+              git('commit','-m','Record approved exact PAC-NeRF public checkpoint assets')
+              git('push','origin','HEAD:main')
+          elif changed!=0:raise RuntimeError('Could not inspect staged manifest')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pacnerf-public-archive-manifest
+          path: runs/pacnerf-archive-source/checkpoint-archive.json
+          retention-days: 30
