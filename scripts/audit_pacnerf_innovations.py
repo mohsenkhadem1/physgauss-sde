@@ -42,7 +42,7 @@ def audit(raw,inputs):
         if not passed:raise ValueError('Innovation transformation differs from original physical density')
     if not rows:raise ValueError('No saved chains found')
     return {'source_fingerprint':source_fingerprint(),'all_pass':all(r['all_pass'] for r in rows),
-        'cases':rows,'qualification':'algebra/round-trip probes only; production sampler remains unchanged; does not demonstrate better mixing, calibration or physical accuracy'}
+        'cases':rows,'qualification':'algebra/round-trip probes only; no retuning; does not demonstrate global exploration, calibration or physical accuracy'}
 
 
 if __name__=='__main__':

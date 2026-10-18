@@ -1,7 +1,8 @@
 """Post-hoc independent linear integration checks at saved inference states.
 
 Uses sixteen stratified retained states per completed case. Reassembles balanced
-nodal diffusion factors and compares quadrature to full-matrix exponentials.
+nodal diffusion factors and compares the transition integrals to independent
+full-matrix exponentials.
 This neither validates contact integration nor bounds error everywhere in a tail.
 """
 import argparse
@@ -92,7 +93,7 @@ def audit(raw,inputs,output):
         prototype={'maximum_covariance_relative_eigen_error':float(torch.linalg.eigvalsh((corrected_relative+corrected_relative.transpose(-1,-2))/2).abs().max()),
             'maximum_load_relative_error':float(((corrected_g-exact_g).flatten(1).norm(dim=-1)/exact_g.flatten(1).norm(dim=-1)).max()),
             'minimum_covariance_eigenvalue':float(torch.linalg.eigvalsh(corrected_cov).min()),
-            'qualification':'prototype calculation at the same saved states; not a corrected posterior or new scientific ranking'}
+            'qualification':'reassembly via shared modal integrals; independent validation is the separate full-matrix assembly; not a convergence or physical-validity claim'}
         theta=reference['mean'][:2]+white.flatten(0,1)@target.transform[:2].T
         summary_path=raw/f'results-{index}'/name/'summary.json'
         finished=json.loads(summary_path.read_text()) if summary_path.exists() else None

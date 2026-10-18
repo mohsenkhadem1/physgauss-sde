@@ -10,6 +10,7 @@ from pathlib import Path
 import torch
 from pacnerf_comparison import make_model,cases,make_target
 from physgauss.cli import source_fingerprint
+from physgauss.pac_integrals import covariance as integrated_covariance
 
 
 def local_position_variance(model,z):
@@ -19,11 +20,10 @@ def local_position_variance(model,z):
         model.noise='constant';constant=model.terms(z)[1]
         model.noise='neural';neural=model.terms(z)[1]
     finally:model.noise=original
-    m=model.modes;floor=torch.zeros_like(constant)
-    for point,weight in zip([-.8611363115940526,-.3399810435848563,.3399810435848563,.8611363115940526],
-        [.3478548451374538,.6521451548625461,.6521451548625461,.3478548451374538]):
-        f=model.transition(z,model.dt*(point+1)/2)[:,:,m:]
-        floor+=weight*model.dt/2*model.acc_noise_floor**2*(f@f.transpose(-1,-2))[:,None]
+    m=model.modes
+    _,kernel=model.integration_operators(z)
+    spectral=model.acc_noise_floor**2*torch.eye(m,dtype=z.dtype)[None,None].expand(len(z),1,m,m)
+    floor=integrated_covariance(spectral,kernel).expand_as(constant)
     for total in [constant,neural]:
         if float(torch.linalg.eigvalsh(total-floor).min()) < -1e-10:
             raise ValueError('Floor is not a positive-semidefinite covariance component')
@@ -58,7 +58,8 @@ def audit(raw,inputs,output):
             variance_parts.append(local_position_variance(model,batch))
         feature=torch.cat(features);absolute=feature.abs()
         ratio=model.network(feature)/model.constant
-        finite=json.loads((raw/f'results-{index}'/name/'summary.json').read_text())['valid_for_ranking']
+        summary=raw/f'results-{index}'/name/'summary.json'
+        finite=json.loads(summary.read_text())['valid_for_ranking'] if summary.exists() else False
         records.append({'case':name,'finite_chain_checks_pass':finite,'posterior_states':len(z),'feature_pairs':len(feature),
             'feature_magnitude_quantiles':torch.quantile(absolute,absolute.new_tensor([0.,.05,.5,.95,1.]),dim=0).tolist(),
             'fraction_outside_documented_broad_component_magnitude_box':float((absolute>upper).any(-1).double().mean()),

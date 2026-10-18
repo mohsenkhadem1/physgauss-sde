@@ -6,7 +6,7 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
-**CURRENT: exact-innovation pilot, 05:12 UTC.** The historical PAC
+**CURRENT: exact-innovation full study ready, 05:18 UTC.** The historical PAC
 target is superseded. Auditing all sixteen saved prefixes exposed 90.885%
 relative covariance eigenvalue error and 0.925% load-map error in Bird four-view
 constant/marginal high-stiffness states. Refined 128/256 quadrature and an
@@ -52,8 +52,13 @@ actual frozen worker 219665b. Collector session 10645 writes
 `runs/pacnerf-exact-inputs`, with all four PT files byte-identical to original
 production inputs. The initial exact physical-coordinate pilot 39098175068
 finished with three successes and the constant/marginal fit failure; all raw
-artifacts are local in `runs/pacnerf-exact-pilot`. No corrected full comparison
-is launched yet.
+artifacts are local in `runs/pacnerf-exact-pilot`. The exact-innovation pilot completed all four arms. Raw cache/density checks
+pass (<=1.01e-11), acceptance 83-96%; short-chain Rhat/ESS fail full convergence
+as expected. The conservative pilot screen is **false**, because neural/joint
+has one rejected +181.38 energy-error proposal (1/400); three arms pass it.
+This is preserved in `examples/pacnerf-exact-pilot`. It does not promote any
+pilot to production. The planned fresh 500-warmup/2k-8k runs can now test mixing
+without changing the model, priors or data. No full comparison is launched yet.
 
 The publication controller now verifies checkpoints/scores/density identities,
 both geometry and saved-state transition integrals, and pair agreement before
@@ -62,8 +67,8 @@ without falsely claiming numerical validity or ranking. The full Actions
 workflow will run this finalizer after workers finish, upload its report and
 commit compact artifacts using a separate disposable worktree with no force
 push. Raw checkpoints never enter Git. It refuses an existing corrected report
-or concurrently changed results document. Three new publication/credential
-safety tests pass locally. The report controller may advance; worker and
+or concurrently changed results document. Four publication/credential
+safety tests pass locally, including an exact high-stiffness floor-only audit. The report controller may advance; worker and
 numerical model stay pinned.
 
 **Historical approximate-target milestone: six of sixteen final

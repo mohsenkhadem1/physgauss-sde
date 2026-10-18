@@ -21,6 +21,7 @@ from audit_pacnerf_posterior_transition import audit as transition_audit
 from audit_pacnerf_innovations import audit as innovation_audit
 from audit_pacnerf_renderer_reference import audit as renderer_audit
 from audit_pacnerf_chain_traces import audit as trace_audit
+from audit_pacnerf_noise_transfer import audit as noise_audit
 from publish_pacnerf import publish
 
 
@@ -56,7 +57,11 @@ def finalize(raw,inputs,output,push=False):
             # Preserve the batch and expose failed verification, rather than
             # silently dropping an arm or publishing it as a successful result.
             errors.append({'case_index':index,'stage':'raw verification','error':str(exc)})
-            write(raw/f'verification-{index}.json',{'all_pass':False,'error':str(exc)})
+            write(raw/f'verification-{index}.json',{'case':attempts['cases'][index]['case'],'all_pass':False,'error':str(exc)})
+    verification_rows=[json.loads((raw/f'verification-{index}.json').read_text()) for index in available]
+    write(raw/'verification.json',{'source_fingerprint':source_fingerprint(),
+        'all_pass':len(verification_rows)==16 and all(r['all_pass'] for r in verification_rows),
+        'cases':verification_rows,'qualification':'independent scoring/moment/cache replay; separate from convergence and physics validity'})
     saved=any(r['has_saved_retained_chain'] for r in attempts['cases'])
     numerical=False
     if saved:
@@ -67,6 +72,7 @@ def finalize(raw,inputs,output,push=False):
                 and r['maximum_load_relative_frobenius_error']<1e-5
                 and r['minimum_approximate_covariance_eigenvalue']>0 for r in records)
             write(raw/'innovation-coordinate-diagnostic.json',innovation_audit(raw,inputs))
+            noise_audit(raw,inputs,raw/'noise-transfer-diagnostic.json')
         except Exception as exc:
             errors.append({'stage':'posterior numerical/density audit','error':str(exc)})
             numerical=False

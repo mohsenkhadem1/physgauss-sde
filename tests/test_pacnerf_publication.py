@@ -5,15 +5,20 @@ import sys
 from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
+import torch
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 try:
     import download_study_artifact as artifact
     from pacnerf_comparison import stationarity_record
+    from audit_pacnerf_noise_transfer import local_position_variance
 finally:sys.path.pop(0)
 
 
 class PublicationTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):torch.set_num_threads(2)
+
     def test_actions_credential_does_not_call_interactive_git(self):
         with patch.dict(os.environ,{'GITHUB_TOKEN':'inert-test-placeholder'}),patch.object(artifact.subprocess,'run') as run:
             self.assertEqual(artifact.github_token(),'inert-test-placeholder')
@@ -29,6 +34,13 @@ class PublicationTests(unittest.TestCase):
         record={'stationary':True,'gauss_newton_decrement':.01,
             'history':[{'objective':100.,'gradient_max_abs':.03}]}
         with self.assertRaises(ValueError):stationarity_record(record)
+
+    def test_floor_only_noise_audit_remains_exact_at_high_stiffness(self):
+        from test_pacnerf import fixture
+        model=fixture();model.internal_scale=0
+        z=torch.zeros(1,model.dimension,dtype=torch.float64);z[:,0]=9
+        with torch.no_grad():ratios=local_position_variance(model,z)
+        for ratio in ratios:torch.testing.assert_close(ratio,torch.ones_like(ratio),atol=2e-12,rtol=2e-12)
 
 
 if __name__=='__main__':unittest.main()

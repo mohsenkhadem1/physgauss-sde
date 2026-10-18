@@ -108,3 +108,16 @@ a separate disposable checkout and a normal fast-forward push. Existing reports
 or concurrently edited results documents are not overwritten. Raw checkpoints
 remain in 30-day Actions artifacts and local copies. The optional permanent
 public raw archive is still not authorized and is not part of this workflow.
+
+Observed-only exact-innovation pilot run 39099258939 completed all four arms.
+References reached GN decrement <=7.31e-5; independent cached-target and
+physical-density/Jacobian replays agree within 1.01e-11. Retained acceptance
+ranges 83-96%. The deliberately conservative zero-large-energy-error pilot
+screen passes three arms and fails neural/joint: one of its 400 proposals had
+energy error +181.38 and was rejected. That warning remains in the pilot report;
+the screen is not relabeled as a pass. Worst short-chain Rhat is 1.248 and min
+bulk ESS 12.07, so none is a converged production posterior. This supports
+launching the already planned fresh 500-warmup/full-length runs for a proper
+mixing test; no pilot chain, noise/force prior or data-driven retuning is carried
+over. Full qualification still requires the original finite-chain, paired
+posterior, raw replay and numerical gates. See `examples/pacnerf-exact-pilot`.
