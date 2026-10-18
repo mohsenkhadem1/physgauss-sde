@@ -281,6 +281,16 @@ Those draws count toward the original next sampling budget; they are not a
 replacement study. A successful preflight's artifacts can be the next full
 continuation's `source_run`, preserving prefix and RNG without new warmup.
 
+The actual Bird four-view neural/marginal preflight passed in
+[run 39095026025](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39095026025):
+2000 original draws per chain remain bit-identical, sixteen new draws are saved,
+and reference bytes, settings, warmup counts and frozen step size are unchanged.
+Independent replay of random-number consumption exactly reproduces the saved
+new RNG state. All 64 new cached target values reproduce within 5.69e-9.
+`verify_pacnerf_continuation.py` saves this integrity evidence separately from
+posterior-score verification. The compact record is in
+`examples/pacnerf-resume-preflight`; no final posterior is claimed at 2016 draws.
+
 `inspect_pacnerf_attempts.py` records all sixteen attempted cases, including
 incomplete/time-limited workers. It checks input/source hashes, records saved
 mode and chain progress, and replays sixteen cached target values when a chain
