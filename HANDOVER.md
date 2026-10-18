@@ -7,8 +7,8 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 ## Status
 
 **Active milestone: PAC-NeRF elastic transfer comparison; six of sixteen final
-worker results are available, five pass finite checks, and ten workers remain
-active (03:29 UTC, 18 October).** Read `docs/PACNERF_RESULTS.md`,
+worker results are available, five pass finite checks. Ten original workers reached their computation cap
+with independently replayed retained prefixes (03:47 UTC, 18 October).** Read `docs/PACNERF_RESULTS.md`,
 `docs/PACNERF_PROTOCOL.md`, and `examples/pacnerf-sparse/report.html`.
 
 The complete six-view Torus four-arm regime is independently verified:
@@ -49,9 +49,10 @@ Raw data: `runs/pacnerf-data`. Production prepared inputs:
 `runs/pacnerf-production-inputs`, artifact 12115787202, ZIP SHA256
 `9b8249b6c64736f5a522cfa326edb31725d2599faf8da2623df6ccdc22ed4954`.
 Original raw results/checkpoints: `runs/pacnerf-production`.
-The live original collector is session 7095. Computation steps started around
-22:07 UTC; their 330-minute limits occur around 03:37 UTC. Inspect completed
-logs/checkpoints before deciding recovery. Never count incomplete chains as
+The original collector completed; all sixteen result/chain artifact pairs are
+local. Ten workers reached the 330-minute cap around 03:37 UTC (confirmed in
+completed job logs). Their retained prefixes are 1000/2000/4000 draws per chain.
+Every saved prefix passes exact-target replay. Never count incomplete chains as
 valid posteriors. `inspect_pacnerf_attempts.py` records attempt status, mode,
 retained prefix, cached-target replay and computation-step timing separately.
 
@@ -61,14 +62,27 @@ the SHA256-pinned checkpoint wrapper from commit
 frozen adapted kernel/RNG and 2000/4000/8000 gates; checkpoints warmup every 25
 transitions and retained blocks <=50. Four nonlinear controls reproduce the
 original sampler stream exactly, including warmup interruption. No recovery
-run has yet been dispatched. Use a fresh collector directory per recovery run
+run succeeded yet. The first ten continuations (ledger
+`runs/pacnerf-recoveries/dispatches.json`) stopped at the original worker settings
+guard before sampling. All ten preserved original chain bytes exactly. The
+identified bug is JSON list/tuple comparison in observed pairs and nested initial
+appearance metadata. A container-only adapter and sixteen-draw preflight now
+have two regression controls, alongside the four existing stream tests; all six
+pass locally. A new SHA-pinned wrapper/workflow will be tested on one actual
+continuation before relaunching the batch. Source, input, environment and numeric
+version fields remain strict; no physics or source-worker edits are made.
+Use a fresh collector directory per recovery run
 and preserve original artifacts/prefixes. A resumed worker's seconds cover only
 that invocation; accumulate attempt records before discussing total time.
 
 **Separate observed-only innovation feasibility pilot:** Actions 39092510895,
 source `681e7ce969032c99956f071d9a59996d127914a6`, four Torus four-view arms,
 identity prior reference, 100 warmup/100 retained draws, compute cap 25 minutes.
-Live pilot collector session 7656 writes `runs/pacnerf-innovation-pilot/case-i`.
+The pilot collector completed into `runs/pacnerf-innovation-pilot/case-i`.
+All four hit the 25-minute cap during warmup: last recoverable transitions
+25/50/50/50 at the .015 step-size floor; no retained posteriors exist. Completed
+logs confirm each timeout. Warmup cache/density replay passes to 1.19e-11 /
+8.19e-12. Compact negative evidence is `examples/pacnerf-innovation-pilot/summary.json`.
 It reads no evaluation geometry and computes no reconstruction/coverage scores.
 It cannot replace production evidence. See `docs/PACNERF_INNOVATIONS.md`.
 The exact causal Gaussian-force innovation transformation passes three math

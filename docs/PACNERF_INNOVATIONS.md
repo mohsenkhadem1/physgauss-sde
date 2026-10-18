@@ -100,3 +100,19 @@ normalizers, and checks the original/Jacobian-adjusted density and cached target
 Poor results would concern this particular coordinate/metric/initialization
 combination, not rule out other valid uses of innovations. Pilot chains must
 never be substituted into the original production comparison.
+
+The [pilot run 39092510895](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39092510895)
+hit the 25-minute compute limit in **all four arms during warmup**; every timeout
+was confirmed in its completed job log. The last recoverable checkpoints were
+warmup transitions 25/50/50/50, each at the .015 lower adaptation bound. No
+retained posterior or reconstruction/coverage estimate exists. Invalid and
+divergent warmup proposals are preserved in the compact
+`examples/pacnerf-innovation-pilot/summary.json`, rather than hidden.
+
+Cached target replay agrees to 1.19e-11 and the original-density/Jacobian identity
+to 8.19e-12 on those saved warmup states. Thus this pilot supports the algebra
+but fails the bounded feasibility test for a plain prior metric and dispersed
+initialization. It is not evidence that innovation coordinates with a better
+metric cannot help, and it does not change production results. Checkpoint
+counters exclude work since the last save and cannot be used as total compute
+or posterior efficiency measures.

@@ -1,11 +1,15 @@
 """Checkpoint scheduling must preserve the original sampler's exact stream."""
 from dataclasses import replace
 import importlib.util
+import json
 from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
+from types import SimpleNamespace
 import torch
+from test_pacnerf import fixture
 from physgauss.split_hmc import SplitHMCConfig,sample_split_hmc
 
 scripts=Path(__file__).resolve().parents[1]/'scripts'
@@ -30,6 +34,34 @@ class CheckpointTests(unittest.TestCase):
         for field in ['white','log_ratio','energy_errors','rng_state']:
             torch.testing.assert_close(a[field],b[field],atol=0,rtol=0)
         self.assertEqual(a['counts'],b['counts']);self.assertEqual(a['step_size'],b['step_size'])
+
+    def test_json_container_adapter_preserves_full_target_and_tensors(self):
+        model=fixture('neural','joint');bundle={'static':{'appearance_views':[(0,0),(0,1)],'rmse':.04},'colors':model.renderer.colors}
+        saved=json.loads(json.dumps({'observed_pairs':model.specs,'bootstrap':bundle['static']}))
+        self.assertNotEqual({'observed_pairs':model.specs,'bootstrap':bundle['static']},saved)
+        z=torch.zeros(1,model.dimension,dtype=torch.float64);before=model.objective(z)
+        actual,normalized=checkpoint.canonical_model_records(model,bundle)
+        self.assertEqual({'observed_pairs':actual.specs,'bootstrap':normalized['static']},saved)
+        self.assertIs(actual,model);self.assertIs(normalized['colors'],bundle['colors'])
+        torch.testing.assert_close(model.objective(z),before,atol=0,rtol=0)
+
+    def test_preflight_saves_exact_next_sixteen_and_stops_before_scoring(self):
+        config=SplitHMCConfig(warmup=8,draws=32,step_size=.2,min_time=.3,max_time=.8,seed=905)
+        prefix=sample_split_hmc(target,3,config)
+        continuation=replace(config,warmup=0,draws=64,step_size=prefix['step_size'])
+        expected=sample_split_hmc(target,3,replace(continuation,draws=16),resume=prefix)
+        def fake_run(inputs,output,index,pilot):
+            checkpoint.worker.make_model(inputs,index)
+            checkpoint.worker.sample_split_hmc(target,3,continuation,resume=prefix)
+            raise AssertionError('Preflight must stop before scoring or publishing a final budget')
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            with patch.object(checkpoint.worker,'make_model',lambda *args:(SimpleNamespace(specs=[(0,0)]),{'static':{'views':[(0,0)]}})),patch.object(checkpoint.worker,'run',fake_run):
+                checkpoint.run('unused',folder,0,50,preflight=True)
+            path=Path(folder)/'torus__4views__constant__marginal'
+            actual=torch.load(path/'chains.pt',weights_only=True);self.compare(expected,actual)
+            self.assertEqual(actual['white'].shape[1],48)
+            record=json.loads((path/'resume_preflight.json').read_text())
+            self.assertEqual(record['additional_draws'],16);self.assertEqual(record['warmup_added'],0)
 
     def test_fine_checkpoints_preserve_warmup_and_retained_stream(self):
         config=SplitHMCConfig(warmup=24,draws=150,step_size=.2,min_time=.3,max_time=.8,seed=901)
