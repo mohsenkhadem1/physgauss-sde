@@ -6,7 +6,7 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
-**CURRENT: exact-innovation full study ready, 05:18 UTC.** The historical PAC
+**CURRENT: full exact-innovation study launched, 05:20 UTC.** The historical PAC
 target is superseded. Auditing all sixteen saved prefixes exposed 90.885%
 relative covariance eigenvalue error and 0.925% load-map error in Bird four-view
 constant/marginal high-stiffness states. Refined 128/256 quadrature and an
@@ -58,7 +58,25 @@ as expected. The conservative pilot screen is **false**, because neural/joint
 has one rejected +181.38 energy-error proposal (1/400); three arms pass it.
 This is preserved in `examples/pacnerf-exact-pilot`. It does not promote any
 pilot to production. The planned fresh 500-warmup/2k-8k runs can now test mixing
-without changing the model, priors or data. No full comparison is launched yet.
+without changing the model, priors or data. The full sixteen-case comparison is now run **39100239747**,
+https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39100239747 .
+Controller source is a0b048086946a5675a0eda0ecd6b79e445ae8095; every inference
+job checks out frozen worker 219665b0776d9a1b5d092176331e21f724499bca.
+Dispatch record is `runs/pacnerf-exact-production-dispatch.json`; no pilot chains
+are reused. Collector writes `runs/pacnerf-exact-production`. All sixteen cases
+start fresh with 500 warmup and 2k-8k retained draws, four chains per case.
+The final job at the dispatched controller independently verifies the artifacts,
+publishes `complete-pacnerf-comparison`, and normally pushes only
+`examples/pacnerf-exact` plus `docs/PACNERF_EXACT_RESULTS.md` to main.
+Do not edit that pending results document while this dispatched finalizer is
+running: it deliberately refuses to overwrite concurrent changes. README and
+handover can advance independently. If a job times out, its warmup/draw prefix
+is uploaded; exact-resume checks out the same worker and requires the source
+run. If publication fails, the artifacts/report remain inspectable; fix/report
+with a new controlled publisher rather than altering frozen worker chains.
+All sixteen case workers have entered computation on GitHub Actions CPUs.
+Controller CI run 39100207840 passes **125 tests** plus the smoke pipelines.
+No corrected full posterior result exists yet.
 
 The publication controller now verifies checkpoints/scores/density identities,
 both geometry and saved-state transition integrals, and pair agreement before

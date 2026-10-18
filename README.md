@@ -15,9 +15,13 @@ The historical four-point covariance/load integration experiment is
 audit and is not a corrected scientific ranking. The corrected model uses
 exact coupled modal integrals. Exact causal innovation coordinates and a fixed
 full-image Gauss-Newton metric assist nonlinear posterior sampling without
-changing the physical model or force priors. A four-arm observed-only pilot is
-[running on GitHub Actions](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39099258939)
-before a fresh sixteen-case study. No corrected reconstruction results are
+changing the physical model or force priors. The [four-arm observed-only pilot](examples/pacnerf-exact-pilot/report.html)
+completed with verified density/target replays and one preserved rejected
+large-energy proposal. A fresh sixteen-case study is now
+[running on GitHub Actions](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39100239747).
+The workflow will verify the complete checkpoints/scores and commit its compact
+report plus the [corrected results document](docs/PACNERF_EXACT_RESULTS.md).
+No corrected reconstruction results are
 claimed yet. `.github/workflows/pacnerf-exact.yml` launches the comparison;
 `pacnerf-exact-resume.yml` preserves saved references, kernels and RNG streams.
 The [equation guide](docs/PACNERF_EQUATIONS.md) describes the model, exact load
