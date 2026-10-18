@@ -246,3 +246,11 @@ needed. If no chain checkpoint was reached, the saved mode can still avoid
 refitting. A restart's reported elapsed seconds cover only that invocation;
 retain both run records and use accumulated gradient batches for algorithmic
 efficiency comparisons. Resuming does not expand the declared 8000-draw maximum.
+
+The optional `archive_pacnerf_checkpoints.py --plan-only` verifies local original
+artifact ZIPs and writes a reviewable plan without authentication or network
+access. Public release uploading has not occurred: automatic approval review
+requires explicit human authorization for permanent public prepared-input and
+raw-checkpoint assets, beyond the approved ordinary repository pushes. Do not
+run publishing mode until that pending authorization arrives. Existing local
+ZIPs and extracted checkpoints remain available after Actions artifacts expire.

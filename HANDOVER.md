@@ -72,6 +72,15 @@ remain active. The verifier now matches production's float32 interval-draw ID
 selection; NumPy float64 linspace differed in two IDs at 32000 draws. Production
 intervals and chains were not changed. Resuming an already completed 8000-draw
 case with the recovery workflow does not extend the declared maximum or fix it.
+An optional permanent public release archive was prepared but its execution
+was rejected by automatic approval review: repository pushes did not explicitly
+authorize permanent public release assets containing prepared inputs/raw chains.
+The asynchronous user approval question is pending. **No release was created
+and no asset uploaded; do not retry or use another publishing route without
+explicit human approval.** `archive_pacnerf_checkpoints.py --plan-only` safely
+verifies local ZIPs without authentication/network: current plan has nine
+archives totaling 146154595 bytes. Full ZIPs and extracted chains remain locally
+available beyond Actions' 30-day retention. Core comparison/pushes continue.
 
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,
