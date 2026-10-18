@@ -105,7 +105,7 @@ def finalize(raw,inputs,output,push=False):
         '', 'Failed or unfinished cells are excluded from quality rankings. The report preserves their status and any failed-chain scores as diagnostics. Gradient-batches/pose-ESS are a compute proxy, not a hardware-normalized runtime claim. Checkpoint counters exclude unsaved work after interrupted attempts.',
         '', 'Compact reports are committed; raw states and inputs remain in Actions artifacts and local copies. Artifact retention is 30 days.']
     document='\n'.join(lines)+'\n'
-    (output/'RESULTS.md').write_text(document,encoding='utf-8')
+    (output/'RESULTS.md').write_text(document,encoding='utf-8',newline='\n')
     publication=json.loads((output/'publication.json').read_text())
     publication['files_sha256_lf']['RESULTS.md']=hashlib.sha256(document.encode()).hexdigest()
     write(output/'publication.json',publication)
@@ -124,7 +124,7 @@ def finalize(raw,inputs,output,push=False):
         source_document=Path('docs/PACNERF_EXACT_RESULTS.md')
         if result_document.exists() and (not source_document.exists() or result_document.read_bytes()!=source_document.read_bytes()):
             raise ValueError('Results document changed after dispatch; refusing to overwrite it')
-        result_document.write_text(document,encoding='utf-8')
+        result_document.write_text(document,encoding='utf-8',newline='\n')
         git('config','user.name','github-actions[bot]',cwd=destination)
         git('config','user.email','41898282+github-actions[bot]@users.noreply.github.com',cwd=destination)
         git('add','--','examples/pacnerf-exact','docs/PACNERF_EXACT_RESULTS.md',cwd=destination)
