@@ -62,6 +62,16 @@ a hardware speed comparison. Their actual withheld images are shown side by
 side in the report. Explicit-force counterparts and the remaining regimes are
 still running.
 
+A post-hoc covariance diagnostic helps interpret the similar noise results.
+At 256 stratified saved states per six-view Torus arm, the fixed diffusion
+floor contributes a median 94.0–94.1% of the neural model's **one-step particle
+position process variance**. Evaluating both noise models at identical paths,
+the median neural/constant variance ratio is only 1.0075–1.0078, although the
+95th percentile is about 1.30. This describes a local conditional covariance;
+it excludes uncertain loads, later propagation and the posterior distribution.
+It is not an attribution of reconstruction error or a full uncertainty
+decomposition. The floor and neural weights remain unchanged.
+
 The force figure shows each available arm's unknown acceleration averaged over
 handles, with posterior mean plus/minus one standard deviation. The gray region
 is the unobserved gap. Inferred loads may compensate for reduced mechanics or

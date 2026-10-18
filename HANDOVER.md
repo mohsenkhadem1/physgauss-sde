@@ -100,6 +100,13 @@ identities, Jacobian-adjusted gradients and causality. Sixteen saved physical
 states per completed case (0/2/4/6) agree in negative log density to <=1.23e-11.
 No future geometry is read by this audit. It does not establish improved mixing
 or authorize substituting experimental chains into the original comparison.
+Full CPU CI including the new three tests passes at `40e578eaad9b6c6b82720e1aad604d6e566be664`
+(run 39091917289; 109 tests). The post-hoc noise diagnostic now reports a local
+one-step position-covariance decomposition: on six-view Torus samples the floor
+is median 94.0–94.1% of the neural process position variance; the median ratio
+of neural to constant covariance at identical paths is 1.0075–1.0078. This
+excludes unknown loads, longer propagation and posterior uncertainty. It does
+not attribute reconstruction error or retune the frozen experiment.
 
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,

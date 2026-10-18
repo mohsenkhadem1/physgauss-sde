@@ -80,3 +80,22 @@ coordinates needs separately recorded inference settings, physical-state and
 force diagnostics, cached-target replay, and comparisons against the unchanged
 production attempts. No production data, weights, thresholds or physics have
 been retuned for this audit.
+
+## Bounded observed-data-only feasibility pilot
+
+`pacnerf-innovation-pilot.yml` separately tests all four Torus four-view arms
+using the same frozen prepared inputs and physical source. It uses a standard
+Gaussian prior reference, prior-dispersed initial chains, 100 warmup transitions
+and 100 retained draws per chain, with a 25-minute compute limit per arm. The
+original split-HMC kernel, target acceptance .9 and randomized integration
+times from 1 to 4 are retained. The seed is 250001 plus case index. Warmup and
+retained states are checkpointed by the existing tested wrapper.
+
+No future geometry is read and no reconstruction or coverage score is computed.
+This deliberately short pilot tests whether the coordinate change with a plain
+prior metric is feasible; it cannot establish convergence or model superiority.
+It also monitors original physical coordinates, force conditional means and
+normalizers, and checks the original/Jacobian-adjusted density and cached target.
+Poor results would concern this particular coordinate/metric/initialization
+combination, not rule out other valid uses of innovations. Pilot chains must
+never be substituted into the original production comparison.

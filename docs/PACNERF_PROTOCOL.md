@@ -217,6 +217,11 @@ description, not PAC calibration or a claim about the full training support.
 The archived operating-state byte hashes did not reproduce in a local replay,
 so that replay is not used as an exact empirical reference. No network weights
 or production settings are changed by this diagnostic.
+The same audit can also compare constant/neural one-step position covariances
+at identical saved paths. It projects each covariance into Gaussian centers
+and reports the floor fraction and variance ratio. These local quantities
+exclude unknown-load uncertainty and future propagation; they cannot decompose
+posterior reconstruction errors. Records identify unconverged cases explicitly.
 An additional `audit_calibration_replay.py` check reproduces all four archived
 cube validation aggregate metrics to at most 2.3e-16 absolute difference, despite
 different feature byte hashes. This is consistent with tiny floating-point
