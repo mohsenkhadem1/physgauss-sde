@@ -107,6 +107,17 @@ is median 94.0–94.1% of the neural process position variance; the median ratio
 of neural to constant covariance at identical paths is 1.0075–1.0078. This
 excludes unknown loads, longer propagation and posterior uncertainty. It does
 not attribute reconstruction error or retune the frozen experiment.
+The short observed-only innovation pilot is running separately in Actions
+39092510895 (source `681e7ce969032c99956f071d9a59996d127914a6`): four Torus
+four-view arms, identity prior reference, 100 warmup/100 retained draws, 25-minute
+compute cap. It reads no evaluation geometry and produces no reconstruction
+or coverage scores. Local collectors are primary session 7095 and pilot session
+7656; pilot artifacts go to `runs/pacnerf-innovation-pilot/case-i`. This pilot
+cannot replace production results. Full CPU CI at 681e7ce also passed, run
+39092504961 (109 tests). The new `inspect_pacnerf_attempts.py` records every
+launched attempt, saved chain budget, numerical cache replay and final eligibility
+separately; it does not score or approve unfinished chains. The public report
+now has an attempt/checkpoint table as well as scientific result gates.
 
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,

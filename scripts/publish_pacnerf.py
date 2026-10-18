@@ -20,6 +20,13 @@ def publish(raw, inputs, output):
     raw, inputs, output = map(Path, (raw, inputs, output))
     if output.exists(): raise ValueError('Choose an unused publication directory')
     output.mkdir(parents=True)
+    attempts={}
+    if (raw/'attempts.json').exists():
+        attempt_audit=json.loads((raw/'attempts.json').read_text())
+        if attempt_audit['source_fingerprint']!=source_fingerprint():raise ValueError('Attempt audit source differs')
+        attempts={r['case']:r for r in attempt_audit['cases']}
+        if len(attempts)!=16:raise ValueError('Attempt audit does not cover the plan')
+        shutil.copyfile(raw/'attempts.json',output/'attempts.json')
     rows = []
     for index, (scene, views, noise, force) in enumerate(cases()):
         name = f'{scene}__{views}views__{noise}__{force}'
@@ -27,8 +34,14 @@ def publish(raw, inputs, output):
         src = next(iter(preferred.glob(f'**/{name}/summary.json')), None) if preferred.exists() else None
         if src is None:src=next(iter(raw.glob(f'**/{name}/summary.json')), None)
         if src is None:
-            rows.append({'case': name, 'missing': True, 'valid_for_ranking': False}); continue
+            attempt=attempts.get(name,{})
+            rows.append({'case': name, 'missing': True, 'valid_for_ranking': False,
+                'attempted':attempt.get('attempted',False),'attempt_status':attempt.get('status','not_available'),
+                'saved_retained_draws_per_chain':attempt.get('retained_draws_per_chain')}); continue
         row = json.loads(src.read_text()); row['missing'] = False
+        row['attempted']=True
+        row['attempt_status']='finite_checks_pass' if row['valid_for_ranking'] else 'finite_checks_failed'
+        row['saved_retained_draws_per_chain']=attempts.get(name,{}).get('retained_draws_per_chain',row['sampling_history'][-1]['draws_per_chain'])
         if row['settings']['source_fingerprint']!=source_fingerprint():raise ValueError('Numerical source differs from production')
         fit_record=json.loads((src.parent/'fit.json').read_text())
         stationarity=fit_record['stationarity']
@@ -103,7 +116,7 @@ def publish(raw, inputs, output):
         and len(verification['cases'])==16
         and {r['case'] for r in verification['cases']}==expected_cases
         and all(r['all_pass'] for r in verification['cases']))
-    audit_links=[]
+    audit_links=['attempts.json'] if attempts else []
     for root,name in [(inputs,'transition-audit.json'),(raw,'contact-integration-diagnostic.json'),
         (raw,'noise-transfer-diagnostic.json'),(raw,'calibration-replay-diagnostic.json'),
         (raw,'posterior-transition-diagnostic.json'),(raw,'renderer-reference-diagnostic.json'),
@@ -123,6 +136,7 @@ def publish(raw, inputs, output):
     summary = {'complete':complete, 'all_cases_pass_finite_chain_checks':passed,
         'all_cases_eligible_for_ranking':ready, 'cases':rows,
         'available_cases':sum(not r['missing'] for r in rows),
+        'attempted_cases':sum(r['attempted'] for r in rows),
         'finite_chain_pass_cases':sum(r['valid_for_ranking'] for r in rows),
         'raw_checkpoint_verification_pass':raw_replay_pass,'numerical_audit_files':audit_links,
         'paired_sampler_agreement_screen':{'approximate_global_95_cutoff':global_cutoff,
@@ -131,12 +145,13 @@ def publish(raw, inputs, output):
         'marginal_joint_agreement':agreement,
         'qualification':'two official elastic simulations; oracle initial geometry and 11-camera initial appearance; sparse later images; reduced model and transferred noise; no force ground truth'}
     (output/'summary.json').write_text(json.dumps(summary,indent=2,allow_nan=False)+'\n')
-    fields = ['case','valid_for_ranking','gap_rmse_mm','oracle_subspace_gap_rmse_mm','heldout_psnr_db','background_difference_region_psnr_db','coverage90','width_mm','worst_rhat','minimum_bulk_ess','minimum_tail_ess','seconds']
+    fields = ['case','attempt_status','saved_retained_draws_per_chain','valid_for_ranking','gap_rmse_mm','oracle_subspace_gap_rmse_mm','heldout_psnr_db','background_difference_region_psnr_db','coverage90','width_mm','worst_rhat','minimum_bulk_ess','minimum_tail_ess','seconds']
     with (output/'comparison.csv').open('w',newline='') as stream:
         writer=csv.DictWriter(stream,fieldnames=fields);writer.writeheader()
         for row in rows:
-            if row['missing']:writer.writerow({'case':row['case'],'valid_for_ranking':False});continue
-            s=row['posterior_scores'];writer.writerow({'case':row['case'],'valid_for_ranking':row['valid_for_ranking'],
+            common={key:row[key] for key in ['case','attempt_status','saved_retained_draws_per_chain','valid_for_ranking']}
+            if row['missing']:writer.writerow(common);continue
+            s=row['posterior_scores'];writer.writerow({**common,
                 'gap_rmse_mm':s['gap_particle_coordinate_rmse_m']*1000,'heldout_psnr_db':s['heldout_rgb_psnr_db'],
                 'oracle_subspace_gap_rmse_mm':s['evaluation_only_subspace_oracle_gap_rmse_m']*1000,
                 'background_difference_region_psnr_db':s['heldout_background_difference_region_psnr_db'],
@@ -229,7 +244,8 @@ def publish(raw, inputs, output):
         return '<img style="max-width:100%" src="data:image/png;base64,'+base64.b64encode(path.read_bytes()).decode()+'">' if path.exists() else ''
     table=''
     for r in rows:
-        cells=[html.escape(r['case']),'missing' if r['missing'] else str(r['valid_for_ranking'])]
+        cells=[html.escape(r['case']),html.escape(r['attempt_status'].replace('_',' ')),
+            str(r['saved_retained_draws_per_chain']) if r['saved_retained_draws_per_chain'] is not None else '—']
         if r['missing']:cells+=['—']*4
         else:
             s=r['posterior_scores']
@@ -239,7 +255,7 @@ def publish(raw, inputs, output):
         table+='<tr>'+''.join('<td>'+cell+'</td>' for cell in cells)+'</tr>'
     page=f'''<!doctype html><html><meta charset="utf-8"><title>PAC-NeRF sparse comparison</title><body style="font:17px system-ui;max-width:1150px;margin:40px auto;padding:20px;background:#fafafa;color:#182c38">
 <h1>PAC-NeRF elastic objects: sparse dynamic images</h1><h2>{header}</h2>
-<p>{summary['available_cases']} of 16 case results available; {summary['finite_chain_pass_cases']} pass finite-chain checks. A numerical replay pass does not turn an unconverged posterior into a valid estimate.</p>
+<p>{summary['attempted_cases']} of 16 cases launched; {summary['available_cases']} final worker results available; {summary['finite_chain_pass_cases']} pass finite-chain checks. A numerical replay pass does not turn an unconverged posterior into a valid estimate. Saved draws in unfinished attempts are checkpoint prefixes, not eligible posterior results.</p>
 <p>{html.escape(summary['qualification'])}.</p><p>Constant and neural noise each use either analytically marginalized Gaussian loads or the identical explicit joint load prior. Their integrated motion posteriors should agree. Marginalization changes inference, not physical assumptions.</p>
 <p>The 4/6-view schedule labels include frame zero: they supply 3/5 later dynamic images over 14 timestamps (24 fps), one selected camera per observed time. The fixed-camera dataset is subsampled across cameras; this is not continuous moving-camera capture. All eleven initial views initialize appearance and initial geometry is supplied. Ground truth after frame zero is used only after sampling for evaluation.</p>
 {embed('comparison.png')}{embed('images.png')}{embed('loads.png')}
@@ -247,9 +263,9 @@ def publish(raw, inputs, output):
 <p>The next audit renders supplied true particle centers and their least-squares projection into the fixed shape subspace. Colors and all rendering settings remain fixed from initialization. It exposes image-model error even when geometry is supplied. These are evaluation-only diagnostic references, not sparse reconstructions or bounds on achievable RGB scores.</p>{embed('renderer-reference-audit.png')}
 <p>Interval coverage is descriptive over correlated particles, not a calibration guarantee. Model reduction, explicit ground contact, transferred diffusion, and 32px rendering limit physical conclusions. Stiffness scale is not a continuum Young’s modulus estimate. No force-error score is claimed.</p>
 <p>The linear propagator passes independent matrix-exponential checks. A post-hoc nominal zero-noise contact check found 16.4/17.2 mm whole-sequence coordinate differences for Torus/Bird against a refined solve of the same reduced ODE. Frame-held contact is therefore a material approximation. This is not an error decomposition of the fitted posterior or validation against the original MPM. The frozen comparison was not retuned after this finding.</p>
-<table cellpadding="8"><tr><th>Case</th><th>Finite chain checks pass</th><th>Gap coordinate RMSE (mm)</th><th>90% interval coverage</th><th>Mean interval width (mm)</th><th>Background-difference region PSNR (dB)</th></tr>{table}</table>
+<table cellpadding="8"><tr><th>Case</th><th>Inference status</th><th>Saved draws per chain</th><th>Gap coordinate RMSE (mm)</th><th>90% interval coverage</th><th>Mean interval width (mm)</th><th>Background-difference region PSNR (dB)</th></tr>{table}</table>
 {('<h2>Failed convergence audits</h2><p>These runs are excluded from scientific ranking. Checking material parameters alone can miss slow transitions in motion and force variables.</p>'+''.join(embed(name) for name in trace_images)) if trace_images else ''}
-<p><a href="summary.json">Complete results and diagnostics summary</a> · <a href="comparison.csv">CSV</a> · <a href="https://github.com/mohsenkhadem1/physgauss-sde/blob/main/docs/PACNERF_PROTOCOL.md">Protocol and limitations</a> · <a href="https://github.com/xuan-li/PAC-NeRF">Original data source</a></p></body></html>'''
+<p><a href="summary.json">Results and diagnostics summary</a> · <a href="comparison.csv">CSV</a> · {('<a href="attempts.json">Attempt and checkpoint audit</a> · ' if attempts else '')}<a href="https://github.com/mohsenkhadem1/physgauss-sde/blob/main/docs/PACNERF_PROTOCOL.md">Protocol and limitations</a> · <a href="https://github.com/xuan-li/PAC-NeRF">Original data source</a></p></body></html>'''
     (output/'report.html').write_text(page,encoding='utf-8')
     hashes={str(f.relative_to(output)).replace('\\','/'):hashlib.sha256(f.read_bytes().replace(b'\r\n',b'\n') if f.suffix in ['.json','.csv','.html'] else f.read_bytes()).hexdigest() for f in output.rglob('*') if f.is_file()}
     (output/'publication.json').write_text(json.dumps({'files_sha256_lf':hashes},indent=2)+'\n')

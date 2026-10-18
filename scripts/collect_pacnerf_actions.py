@@ -41,7 +41,12 @@ def collect(run_id, output, chains=False, once=False):
         jobs=api(f'actions/runs/{run_id}/jobs?per_page=100')['jobs']
         state={'run_id':run_id,'source_commit':run['head_sha'],'status':run['status'],
             'conclusion':run['conclusion'],'checked_utc':datetime.now(timezone.utc).isoformat(),
-            'jobs':[{'name':j['name'],'id':j['id'],'status':j['status'],'conclusion':j['conclusion']} for j in jobs]}
+            'jobs':[{'name':j['name'],'id':j['id'],'status':j['status'],'conclusion':j['conclusion'],
+                'started_at':j['started_at'],'completed_at':j['completed_at'],
+                'compute_steps':[{key:s.get(key) for key in ['name','status','conclusion','started_at','completed_at']}
+                    for s in j.get('steps',[]) if s['name'] in [
+                        'Fit and sample the original image target','Continue saved chains and RNG without new warmup']]}
+                for j in jobs]}
         (output/'workflow_status.json').write_text(json.dumps(state,indent=2)+'\n')
         signature=[(j['name'],j['status'],j['conclusion']) for j in jobs]
         if signature!=previous:

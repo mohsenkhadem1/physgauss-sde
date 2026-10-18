@@ -266,6 +266,17 @@ deterministic gradient replays at recovery boundaries are counted.
 Each wrapper invocation is recorded separately, without rewriting original
 worker provenance. This guards against timeouts; it does not fix poor mixing.
 
+`inspect_pacnerf_attempts.py` records all sixteen attempted cases, including
+incomplete/time-limited workers. It checks input/source hashes, records saved
+mode and chain progress, and replays sixteen cached target values when a chain
+exists. It never reads evaluation geometry or scores unfinished posteriors.
+These numerical checks do not waive the minimum 2000 draws, finite diagnostics,
+paired-sampler agreement or independent final-score replay. The report distinguishes
+launched attempts, final worker summaries and eligible posteriors. Collector
+metadata retain computation-step start/end times; those elapsed times cover
+fitting/sampling in that attempt, exclude installation, and do not include any
+separate recovery attempt.
+
 The optional `archive_pacnerf_checkpoints.py --plan-only` verifies local original
 artifact ZIPs and writes a reviewable plan without authentication or network
 access. Public release uploading has not occurred: automatic approval review
