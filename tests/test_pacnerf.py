@@ -78,6 +78,26 @@ class PACTests(unittest.TestCase):
         model=fixture();z=torch.zeros(1,model.dimension,dtype=torch.float64)
         a=model.transition(z,1/48);b=model.transition(z,1/24)
         torch.testing.assert_close(a@a,b,atol=1e-12,rtol=1e-12)
+
+    def test_high_stiffness_transition_integrals_match_full_matrix_reference(self):
+        model=fixture('constant','marginal');z=torch.zeros(1,model.dimension,dtype=torch.float64);z[:,0]=9.
+        _,actual,mapping,_=model.terms(z);m=model.modes
+        delta=model.data['rest'][model.edges[:,1]]-model.data['rest'][model.edges[:,0]]
+        direction=delta/(delta.square().sum(-1,keepdim=True)+1e-12).sqrt()
+        nodal=torch.einsum('ne,ec->nce',model.incidence,direction)
+        factor=torch.einsum('ncm,nce->me',model.basis,nodal)*model.internal_scale/math.sqrt(len(model.edges)/len(model.data['rest']))
+        spectral=factor@factor.T+model.acc_noise_floor**2*torch.eye(m,dtype=z.dtype)
+        a=z.new_zeros(2*m,2*m);a[:m,m:]=torch.eye(m,dtype=z.dtype)
+        a[m:,:m]=-torch.diag(model.eigen*torch.exp(.7*z[0,0]));a[m:,m:]=-.8*torch.eye(m,dtype=z.dtype)
+        block=z.new_zeros(4*m,4*m);block[:2*m,:2*m]=a;block[2*m:,2*m:]=-a.T;block[m:2*m,3*m:]=spectral
+        exp=torch.matrix_exp(block*model.dt);expected=exp[:2*m,2*m:]@torch.matrix_exp(a.T*model.dt)
+        expected=(expected+expected.T)/2;root=torch.linalg.cholesky(expected)
+        relative=torch.linalg.solve_triangular(root,actual[0,0]-expected,upper=False)
+        relative=torch.linalg.solve_triangular(root,relative.T,upper=False).T
+        self.assertLess(float(torch.linalg.eigvalsh((relative+relative.T)/2).abs().max()),2e-8)
+        affine=z.new_zeros(3*m,3*m);affine[:2*m,:2*m]=a;affine[m:2*m,2*m:]=torch.eye(m,dtype=z.dtype)
+        drive=torch.matrix_exp(affine*model.dt)[:2*m,2*m:]
+        torch.testing.assert_close(mapping,drive[None,None]@model.acceleration_mapping[None],atol=2e-11,rtol=2e-8)
         for p in [-3.,0.,3.]:
             z[:,:2]=p
             a=torch.zeros(1,24,24,dtype=z.dtype)

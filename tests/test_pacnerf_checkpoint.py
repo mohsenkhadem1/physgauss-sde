@@ -35,6 +35,14 @@ class CheckpointTests(unittest.TestCase):
             torch.testing.assert_close(a[field],b[field],atol=0,rtol=0)
         self.assertEqual(a['counts'],b['counts']);self.assertEqual(a['step_size'],b['step_size'])
 
+    def test_blocked_observed_hessian_matches_independent_autograd(self):
+        z=torch.linspace(-.3,.2,5,dtype=torch.float64)
+        matrix=torch.arange(25,dtype=z.dtype).reshape(5,5)/30
+        f=lambda x:.1*x.pow(4).sum()+.3*torch.sin(x@matrix).sum()+.5*x.square().sum()
+        expected=torch.autograd.functional.hessian(f,z,vectorize=False)
+        actual=checkpoint.worker.observed_hessian(f,z,block_size=2)
+        torch.testing.assert_close(actual,expected,atol=2e-12,rtol=2e-12)
+
     def test_json_container_adapter_preserves_full_target_and_tensors(self):
         model=fixture('neural','joint');bundle={'static':{'appearance_views':[(0,0),(0,1)],'rmse':.04},'colors':model.renderer.colors}
         saved=json.loads(json.dumps({'observed_pairs':model.specs,'bootstrap':bundle['static']}))

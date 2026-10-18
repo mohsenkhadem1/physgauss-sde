@@ -14,6 +14,7 @@ import time
 import shutil
 import pickle
 import types
+import subprocess
 from pathlib import PurePosixPath, PureWindowsPath
 import torch
 from physgauss.pacnerf_data import load_scene, evaluation_particles
@@ -76,7 +77,11 @@ def prepare(root, output, size=32):
 
 def make_model(inputs, index):
     scene, views, noise, force = cases()[index]
-    bundle = load_prepared(Path(inputs)/f'{scene}-inputs.pt')
+    path=Path(inputs)/f'{scene}-inputs.pt'
+    manifest=json.loads((Path(inputs)/f'{scene}-manifest.json').read_text())
+    if hashlib.sha256(path.read_bytes()).hexdigest()!=manifest['inputs_sha256']:
+        raise ValueError('Prepared input hash differs from its frozen manifest')
+    bundle = load_prepared(path)
     # Internal artifact is produced by this script, never an arbitrary checkpoint.
     frames = [0, 3, 10, 13] if views == 4 else [0, 2, 4, 9, 11, 13]
     model = PACModel(bundle['data'], bundle['calibration'], noise, force, frames, schedule=0, mechanics=bundle.get('mechanics'))
@@ -153,11 +158,22 @@ class Target:
             return w.new_full((len(w),), -torch.inf), torch.ones(len(w), dtype=torch.bool)
 
 
+def observed_hessian(function,mean,block_size=16):
+    """Exact second derivatives with bounded vectorized reverse-mode batches."""
+    z=mean.detach().requires_grad_();g,=torch.autograd.grad(function(z),z,create_graph=True)
+    eye=torch.eye(len(z),dtype=z.dtype,device=z.device);result=torch.empty_like(eye)
+    for start in range(0,len(z),block_size):
+        stop=min(start+block_size,len(z))
+        rows,=torch.autograd.grad(g,z,grad_outputs=eye[start:stop],is_grads_batched=True,retain_graph=stop<len(z))
+        result[start:stop]=rows.detach()
+    return result
+
+
 def reference_precision(model, mean, metric_floor=None):
     # Exact observed Hessian is used ONLY as a proposal metric. A ridge/negative
     # curvature adjustment cannot alter the exact MH target. Record adjustment.
     began = time.time()
-    h = torch.autograd.functional.hessian(lambda z: model.dynamics(z[None]).sum(), mean, vectorize=True)
+    h = observed_hessian(lambda z: model.dynamics(z[None]).sum(),mean)
     # Image curvature is local in just twelve pose coordinates, avoiding a
     # batch of 326 full-renderer second derivatives and excessive CI memory.
     q, _ = model.decode(mean[None]); m = model.modes
@@ -168,7 +184,8 @@ def reference_precision(model, mean, metric_floor=None):
             return .5*((rgb-model.obs[slot])/.08).square().sum()
         local = torch.autograd.functional.hessian(image, q[0, spec[0]].detach())
         start = 2+m+(spec[0]-1)*2*m
-        h[start:start+m, start:start+m] += local*.10**2
+        scale=model.scale[start:start+m]
+        h[start:start+m, start:start+m] += local*scale[:,None]*scale[None,:]
     h = (h+h.T)/2
     eigen, vectors = torch.linalg.eigh(h)
     floor = max(.01 if metric_floor is None else metric_floor, float(eigen.max())*1e-7)
@@ -275,15 +292,18 @@ def run(inputs, output, index, pilot=False):
     model, bundle = make_model(inputs, index)
     began = time.time()
     settings = {'case_index': index, 'case': name, 'source_fingerprint': source_fingerprint(),
+        'worker_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=Path(__file__).resolve().parent,text=True).strip(),
         'environment': _environment(),
         'worker_sha256_lf': hashlib.sha256(Path(__file__).read_bytes().replace(b'\r\n',b'\n')).hexdigest(),
         'observed_pairs': model.specs, 'dimension': model.dimension,
         'input_sha256': hashlib.sha256((Path(inputs)/f'{scene}-inputs.pt').read_bytes()).hexdigest(),
-        'bootstrap': bundle['static'], 'model': '12-mode linear elastic graph + smooth explicit ground reaction; exact linear propagator; transferred frozen neural noise',
+        'bootstrap': bundle['static'], 'model': '12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise',
+        'transition_integrals':'balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature',
         'noise_units': 'floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated',
         'force_comparison': 'same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables',
         'proposal': 'Gaussian-reference split HMC; full nonlinear image and physics gradients; no image surrogate',
         'pilot': pilot}
+    settings=json.loads(json.dumps(settings,allow_nan=False))
     if (out/'settings.json').exists() and json.loads((out/'settings.json').read_text()) != settings:
         raise ValueError('Source, plan or inputs changed. Choose a fresh output directory.')
     write(out/'settings.json', settings)
@@ -325,6 +345,13 @@ def run(inputs, output, index, pilot=False):
         history.append({'draws_per_chain': budget, 'all_pass': passed})
         write(out/'diagnostics.json', diagnostic)
         if (passed and budget >= 2000) or pilot: break
+    if pilot:
+        write(out/'pilot_summary.json',{'case':name,'settings':settings,'development_only':True,
+            'valid_for_ranking':False,'retained_draws_per_chain':budget,'step_size':chains['step_size'],
+            'counts':chains['counts'],'gradient_batches':chains['gradient_evaluations'],
+            'sampling_history':history,'seconds':time.time()-began,
+            'qualification':'observed-data-only development pilot; no future geometry, reconstruction or coverage score; not final convergence evidence'})
+        return
     # Scoring deliberately follows the saved chain and diagnostics.
     scores, positions = score(model, z, inputs)
     map_scores, _ = score(model, mean[None], inputs)

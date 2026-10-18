@@ -9,6 +9,7 @@ This changes coordinates, not the physical model, force prior or image data.
 """
 import math
 import torch
+from physgauss.pac_integrals import covariance as integrated_covariance
 
 
 class InnovationModel:
@@ -18,15 +19,11 @@ class InnovationModel:
     def operators(self,z):
         model=self.model;m=model.modes
         transition=model.transition(z,model.dt)
-        drive=z.new_zeros(len(z),2*m,m);quadrature=[]
-        for point,weight in zip([-.8611363115940526,-.3399810435848563,.3399810435848563,.8611363115940526],
-            [.3478548451374538,.6521451548625461,.6521451548625461,.3478548451374538]):
-            f=model.transition(z,model.dt*(point+1)/2)[:,:,m:]
-            w=weight*model.dt/2;drive=drive+w*f;quadrature.append((w,f))
+        drive,kernel=model.integration_operators(z)
         mapping=drive[:,None]@model.acceleration_mapping[None]
-        return transition,drive,quadrature,mapping
+        return transition,drive,kernel,mapping
 
-    def step(self,q,v,drive,quadrature):
+    def step(self,q,v,drive,kernel):
         model=self.model;m=model.modes
         x=model.data['rest'][None]+torch.einsum('bm,ncm->bnc',q,model.basis)
         velocity=torch.einsum('bm,ncm->bnc',v,model.basis)
@@ -40,7 +37,7 @@ class InnovationModel:
         factor=torch.einsum('ecm,bec->bme',edge_basis,direction)*amp[:,None,:]
         factor=factor*model.internal_scale/math.sqrt(len(model.edges)/len(model.data['rest']))
         spectral=factor@factor.transpose(-1,-2)+model.acc_noise_floor**2*torch.eye(m,dtype=q.dtype)
-        covariance=sum(w*(f@spectral@f.transpose(-1,-2)) for w,f in quadrature)
+        covariance=integrated_covariance(spectral[:,None],kernel)[:,0]
         nodal=x.new_zeros(x.shape);nodal[...,1]=-9.8+6*torch.nn.functional.softplus(-x[...,1]/.01)
         acceleration=torch.einsum('bnc,ncm->bm',nodal,model.basis)
         return (drive@acceleration[...,None]).squeeze(-1),covariance
@@ -52,7 +49,7 @@ class InnovationModel:
         path coordinate. Parameters/initial velocity/explicit loads are shared.
         """
         model=self.model;m=model.modes;b=len(z);k=model.force_dimension
-        transition,drive,quadrature,mapping=self.operators(z)
+        transition,drive,kernel,mapping=self.operators(z)
         if inverse:
             q_path,v_path=model.decode(z)
             supplied=torch.cat((q_path[:,1:],v_path[:,1:]),-1)
@@ -62,7 +59,7 @@ class InnovationModel:
         converted=[];log_jac=z.new_zeros(b)
         coefficients=z[:,model.base_dimension:] if model.force=='joint' else None
         for time in range(13):
-            external,covariance=self.step(current[:,:m],current[:,m:],drive,quadrature)
+            external,covariance=self.step(current[:,:m],current[:,m:],drive,kernel)
             base=(transition@current[...,None]).squeeze(-1)+external
             g=mapping[:,time]
             if coefficients is None:

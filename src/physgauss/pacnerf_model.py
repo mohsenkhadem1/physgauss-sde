@@ -13,6 +13,7 @@ import math
 import torch
 from .calibrated_diffusion import CalibratedDiffusion
 from .neural_marginal import BlockLoadElimination
+from .pac_integrals import integrals as modal_integrals,covariance as integrated_covariance
 
 
 def graph_modes(rest, count=12):
@@ -171,6 +172,9 @@ class PACModel:
                 output[:, row*m:(row+1)*m, col*m:(col+1)*m] = torch.diag_embed(exp[:, :, row, col])
         return output
 
+    def integration_operators(self,z):
+        return modal_integrals(self.eigen[None]*torch.exp(.7*z[:,:1]),.8*torch.exp(.7*z[:,1]),self.dt)
+
     def terms(self, z):
         q, v = self.decode(z); m = self.modes
         x = self.data['rest'][None, None]+torch.einsum('btm,ncm->btnc', q[:, :-1], self.basis)
@@ -187,16 +191,10 @@ class PACModel:
         factor = factor*self.internal_scale/math.sqrt(len(self.edges)/len(self.data['rest']))
         acc_cov = factor@factor.transpose(-1, -2)+self.acc_noise_floor**2*torch.eye(m, dtype=z.dtype)
         transition = self.transition(z, self.dt)
-        # Four-point Gauss-Legendre integration of the exact linear propagator.
-        abscissa = [-.8611363115940526, -.3399810435848563, .3399810435848563, .8611363115940526]
-        quadrature = [.3478548451374538, .6521451548625461, .6521451548625461, .3478548451374538]
-        drive = z.new_zeros(len(z), 2*m, m)
-        covariance = z.new_zeros(len(z), 13, 2*m, 2*m)
-        for point, weight in zip(abscissa, quadrature):
-            f = self.transition(z, self.dt*(point+1)/2)[:, :, m:]
-            weight = weight*self.dt/2
-            drive = drive+weight*f
-            covariance = covariance+weight*(f[:, None]@acc_cov@f[:, None].transpose(-1, -2))
+        # Exact modal integrals retain all cross-mode acceleration covariance.
+        # A fixed quadrature is inaccurate in high-stiffness posterior tails.
+        drive,kernel=self.integration_operators(z)
+        covariance=integrated_covariance(acc_cov,kernel)
         # Known gravity; smooth explicit floor reaction, held over a frame.
         nodal_acc = x.new_zeros(x.shape); nodal_acc[..., 1] = -9.8
         nodal_acc[..., 1] += 600.*.01*torch.nn.functional.softplus(-x[..., 1]/.01)

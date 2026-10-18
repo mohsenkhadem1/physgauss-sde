@@ -15,15 +15,27 @@ continuations in `runs/pacnerf-recoveries-v2` were stopped; their checkpoint
 artifacts have been collected. The completed historical cells below must not
 be presented as corrected-model results or an overall scientific ranking.
 
-`scripts/exact_pac_integrals.py` is a prototype, not yet activated in PACModel.
-It uses balanced 5x5 mode-pair exponentials for full covariance and 3x3
-constant-input integrals. Four analytic/independent-matrix/derivative controls
-pass. Across 256 actual saved-state probes, errors are <=2.57e-12 covariance and
-6.65e-13 load. The original physical source fingerprint is still 052a4c...;
-preserve its source/data before activating corrected integrals and launching
-fresh posterior runs. No priors, weights, observations or physical parameters
-were tuned after these findings. See the top of `docs/PACNERF_RESULTS.md` and
-`runs/pacnerf-production/numerical-target-audit.json`.
+The exact integrals are now active in `src/physgauss/pac_integrals.py` and
+PACModel. The corrected numerical fingerprint is
+`eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655`.
+It uses balanced 5x5 mode-pair exponentials for full covariance and 3x3 input
+integrals. All 24 PAC-specific tests pass locally, including high stiffness,
+high damping, gradients/Hessians, marginal/joint and innovation identities,
+and checkpoint/RNG controls. A new 32-condition initial-geometry audit covers
+both scenes/noise types through stiffness 9 and passes independent matrix
+references. The old 256 saved-state prototype check gave errors <=2.57e-12
+covariance and 6.65e-13 load. Old source is preserved in the detached worktree
+`../physgauss-legacy-audit` at 2f07671; set PYTHONPATH to its src when replaying
+old data, since the local venv is editable against this primary checkout.
+
+Generic recoverable sampling now lives in `src/physgauss/checkpoint_hmc.py`.
+The wrapper's source guard is updated to the corrected fingerprint. The worker
+canonicalizes settings, uses bounded exact Hessian batches and actual stored
+image coordinate scales, records its actual checkout commit, and forbids
+future-geometry scoring in development pilots. `pacnerf-exact.yml` will first
+run a four-arm Bird pilot, then a fresh sixteen-case comparison after validation.
+No corrected posterior result exists yet. See `docs/PACNERF_EXACT_PROTOCOL.md`.
+No priors, weights, observations or physical parameters were retuned.
 
 **Historical approximate-target milestone: six of sixteen final
 worker results are available, five pass finite checks. Ten original workers reached their computation cap

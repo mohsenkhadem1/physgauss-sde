@@ -30,6 +30,16 @@ class ExactIntegralTests(unittest.TestCase):
             torch.testing.assert_close(drive[0,i,i],(1-torch.cos(value*h))/value**2,atol=2e-14,rtol=2e-10)
             torch.testing.assert_close(drive[0,3+i,i],torch.sin(value*h)/value,atol=2e-14,rtol=2e-10)
 
+    def test_high_damping_free_mode_closed_form(self):
+        h=1/24;gamma=torch.tensor([.8,100.,10000.],dtype=torch.float64)
+        drive,k=exact.integrals(torch.zeros(3,1,dtype=gamma.dtype),gamma,h)
+        for i,g in enumerate(gamma):
+            one=-torch.expm1(-g*h);two=-torch.expm1(-2*g*h)
+            expected=torch.stack((torch.stack(((h-2*one/g+two/(2*g))/g**2,(one-two/2)/g**2)),
+                torch.stack(((one-two/2)/g**2,two/(2*g)))))
+            torch.testing.assert_close(k[i,0,0],expected,atol=2e-14,rtol=2e-9)
+            torch.testing.assert_close(drive[i,:,0],torch.stack(((h-one/g)/g,one/g)),atol=2e-14,rtol=2e-9)
+
     def test_full_coupled_covariance_matches_independent_van_loan(self):
         h=1/24;omega=torch.tensor([[0.,35.,1000.],[0.,75.,2500.]],dtype=torch.float64)
         damping=torch.tensor([.8,6.],dtype=omega.dtype);b,m=omega.shape
