@@ -51,5 +51,32 @@ class CheckpointTests(unittest.TestCase):
             self.compare(expected,actual)
             torch.testing.assert_close(actual['white'][:,:64],prefix['white'],atol=0,rtol=0)
 
+    def test_interrupted_warmup_preserves_adaptation_and_rng(self):
+        config=SplitHMCConfig(warmup=64,draws=16,step_size=.2,min_time=.3,max_time=.8,seed=903)
+        expected=sample_split_hmc(target,3,config)
+        class StopProbe(Exception):pass
+        def interrupt(t):
+            if t==25:raise StopProbe()
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            state=Path(folder)/'warmup.pt'
+            with self.assertRaises(StopProbe):checkpoint.sample_with_warmup_checkpoints(target,3,config,state,checkpoint_hook=interrupt)
+            self.assertEqual(torch.load(state,weights_only=True)['next_iteration'],25)
+            actual=checkpoint.sample_with_warmup_checkpoints(target,3,config,state)
+            self.compare(expected,actual)
+            self.assertEqual(actual['gradient_evaluations'],expected['gradient_evaluations']+1)
+
+    def test_checkpoint_at_warmup_boundary_and_config_guard(self):
+        config=SplitHMCConfig(warmup=32,draws=16,step_size=.2,min_time=.3,max_time=.8,seed=904)
+        expected=sample_split_hmc(target,3,config)
+        class StopProbe(Exception):pass
+        def interrupt(t):
+            if t==config.warmup:raise StopProbe()
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            state=Path(folder)/'warmup.pt'
+            with self.assertRaises(StopProbe):checkpoint.sample_with_warmup_checkpoints(target,3,config,state,checkpoint_hook=interrupt)
+            with self.assertRaises(ValueError):checkpoint.sample_with_warmup_checkpoints(target,3,replace(config,seed=999),state)
+            actual=checkpoint.sample_with_warmup_checkpoints(target,3,config,state)
+            self.compare(expected,actual)
+
 
 if __name__=='__main__':unittest.main()
