@@ -241,8 +241,22 @@ source commit. Its manifest is `archives/pacnerf-historical-quadrature-2026-10-1
 Release: https://github.com/mohsenkhadem1/physgauss-sde/releases/tag/pacnerf-historical-quadrature-2026-10-18 .
 The corrected release is initialized at
 https://github.com/mohsenkhadem1/physgauss-sde/releases/tag/pacnerf-exact-2026-10-18 ;
-its input asset and manifest are being published by the retry job, and remaining
-case ZIPs will be added by the completion hook for source run 39100239747.
+its prepared-input ZIP is now published and verified using the existing owner
+credential while the retry job waits for a free runner. The manifest is
+`archives/pacnerf-exact-2026-10-18.json`. The completion hook is configured to
+append remaining case ZIPs for source run 39100239747; CI append capability is
+still awaiting its queued job, while owner uploads have succeeded.
+
+Creating the two source tags unexpectedly triggered fourteen older push
+workflows (path filters did not prevent these tag runs). Their metadata are in
+`runs/archive-tag-triggered-workflows.json`. Eleven were queued/running when
+audited; three had already completed. These are duplicate archival-tag runs,
+not new scientific results. The cancellation tool call was rejected by automatic
+approval review because cancelling active runs can discard compute/checkpoints
+and needs explicit human authorization. **No cancellation was performed.** An
+async approval question is pending for only those duplicate tag-triggered runs;
+the main experiment 39100239747 is excluded. Do not retry cancellation until
+the user approves. Unaffected publication continued. No paid GPU was started.
 
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,

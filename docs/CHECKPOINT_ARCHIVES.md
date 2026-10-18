@@ -4,7 +4,7 @@ Permanent public publication of prepared inputs and full checkpoint ZIPs was
 explicitly approved by the user on 18 October 2026. Compute remains on free
 GitHub CPU workers.
 
-- [Corrected exact-integral study](https://github.com/mohsenkhadem1/physgauss-sde/releases/tag/pacnerf-exact-2026-10-18): worker `219665b`, run `39100239747`. Inputs are published first; available completed-case results and checkpoint prefixes are added incrementally. A completion hook restricted to this run archives the remaining available artifacts.
+- [Corrected exact-integral study](https://github.com/mohsenkhadem1/physgauss-sde/releases/tag/pacnerf-exact-2026-10-18): worker `219665b`, run `39100239747`. The prepared-input ZIP is published; available completed-case results and checkpoint prefixes are added incrementally. A completion hook restricted to this run archives the remaining available artifacts.
 - [SUPERSEDED quadrature experiment](https://github.com/mohsenkhadem1/physgauss-sde/releases/tag/pacnerf-historical-quadrature-2026-10-18): original worker `b2d081a`, run `39073611351`. A confirmed numerical integration defect makes these historical assets unsuitable as corrected-model results. All 33 original ZIPs (500,448,430 bytes) are published and independently matched against the server's hashes, sizes and source commit. They are preserved for reproduction and audit only.
 
 These are experimental prereleases, not stable software releases or claims of
@@ -15,7 +15,7 @@ Never combine a historical reference/chain with the corrected target.
 
 Every uploaded ZIP must match the downloaded Actions archive's SHA256 and byte
 count. Existing release assets must match GitHub's SHA256 and are never replaced
-or deleted. The [historical integrity manifest](../archives/pacnerf-historical-quadrature-2026-10-18.json) and updated manifests under `archives/` record permanent download links,
+or deleted. The [corrected integrity manifest](../archives/pacnerf-exact-2026-10-18.json), [historical integrity manifest](../archives/pacnerf-historical-quadrature-2026-10-18.json) and updated manifests under `archives/` record permanent download links,
 source commits, run IDs and digests. Original source attribution:
 [PAC-NeRF](https://github.com/xuan-li/PAC-NeRF).
 
