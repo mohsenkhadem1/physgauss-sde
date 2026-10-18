@@ -501,8 +501,8 @@
       "missing": true,
       "valid_for_ranking": false,
       "attempted": true,
-      "attempt_status": "running",
-      "saved_retained_draws_per_chain": null
+      "attempt_status": "incomplete_inference",
+      "saved_retained_draws_per_chain": 4000
     },
     {
       "case": "torus__4views__neural__marginal",
@@ -711,8 +711,8 @@
       "missing": true,
       "valid_for_ranking": false,
       "attempted": true,
-      "attempt_status": "running",
-      "saved_retained_draws_per_chain": null
+      "attempt_status": "incomplete_inference",
+      "saved_retained_draws_per_chain": 4000
     },
     {
       "case": "torus__6views__constant__marginal",
@@ -1571,66 +1571,93 @@
       "missing": true,
       "valid_for_ranking": false,
       "attempted": true,
-      "attempt_status": "running",
-      "saved_retained_draws_per_chain": null
+      "attempt_status": "incomplete_inference",
+      "saved_retained_draws_per_chain": 1000
     },
     {
       "case": "bird__4views__constant__joint",
       "missing": true,
       "valid_for_ranking": false,
       "attempted": true,
-      "attempt_status": "running",
-      "saved_retained_draws_per_chain": null
+      "attempt_status": "incomplete_inference",
+      "saved_retained_draws_per_chain": 2000
     },
     {
       "case": "bird__4views__neural__marginal",
       "missing": true,
       "valid_for_ranking": false,
       "attempted": true,
-      "attempt_status": "running",
-      "saved_retained_draws_per_chain": null
+      "attempt_status": "incomplete_inference",
+      "saved_retained_draws_per_chain": 2000
     },
     {
       "case": "bird__4views__neural__joint",
       "missing": true,
       "valid_for_ranking": false,
       "attempted": true,
-      "attempt_status": "running",
-      "saved_retained_draws_per_chain": null
+      "attempt_status": "incomplete_inference",
+      "saved_retained_draws_per_chain": 2000
     },
     {
       "case": "bird__6views__constant__marginal",
       "missing": true,
       "valid_for_ranking": false,
       "attempted": true,
-      "attempt_status": "running",
-      "saved_retained_draws_per_chain": null
+      "attempt_status": "incomplete_inference",
+      "saved_retained_draws_per_chain": 4000
     },
     {
       "case": "bird__6views__constant__joint",
       "missing": true,
       "valid_for_ranking": false,
       "attempted": true,
-      "attempt_status": "running",
-      "saved_retained_draws_per_chain": null
+      "attempt_status": "incomplete_inference",
+      "saved_retained_draws_per_chain": 2000
     },
     {
       "case": "bird__6views__neural__marginal",
       "missing": true,
       "valid_for_ranking": false,
       "attempted": true,
-      "attempt_status": "running",
-      "saved_retained_draws_per_chain": null
+      "attempt_status": "incomplete_inference",
+      "saved_retained_draws_per_chain": 4000
     },
     {
       "case": "bird__6views__neural__joint",
       "missing": true,
       "valid_for_ranking": false,
       "attempted": true,
-      "attempt_status": "running",
-      "saved_retained_draws_per_chain": null
+      "attempt_status": "incomplete_inference",
+      "saved_retained_draws_per_chain": 2000
     }
   ],
+  "model_integrals_numerically_valid": false,
+  "numerical_target_audit": {
+    "source_fingerprint": "052a4cb2013105f9880912d3ab71b009dd9d65140a2ff44d2c30cab43d1ae1f4",
+    "historical_target_superseded": true,
+    "model_integrals_numerically_valid": false,
+    "corrected_posteriors_available": false,
+    "reason": "Four-point covariance and constant-load quadrature is inaccurate at high stiffness reached by the Bird four-view constant marginalized chain; corrected exact-integral rerun required.",
+    "failed_case": "bird__4views__constant__marginal",
+    "maximum_covariance_relative_eigen_error": 0.9088504666274465,
+    "maximum_load_relative_error": 0.009249455681452556,
+    "refined_reference_check": {
+      "orders": [
+        128,
+        256
+      ],
+      "maximum_covariance_relative_eigen_convergence_error": 2.4698788068746772e-14,
+      "maximum_van_loan_vs_refined_covariance_relative_eigen_error": 2.5646548582859534e-12,
+      "maximum_van_loan_vs_refined_load_relative_error": 6.642723693724227e-13
+    },
+    "prototype": {
+      "module_sha256_lf": "7c17b8cd450f8efbddf8cbb8d38c623ef5353c9007d03a63d99a40f0eb17ede2",
+      "saved_state_probes": 256,
+      "maximum_covariance_relative_eigen_error": 2.5621713239299956e-12,
+      "maximum_load_relative_error": 6.649593795793956e-13
+    },
+    "qualification": "Historical approximate-target inference is preserved; finite convergence of individual cells does not validate inaccurate global transition integrals; prototype probes are not corrected posterior results."
+  },
   "available_cases": 6,
   "attempted_cases": 16,
   "finite_chain_pass_cases": 5,

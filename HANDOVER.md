@@ -6,7 +6,26 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
-**Active milestone: PAC-NeRF elastic transfer comparison; six of sixteen final
+**CURRENT: numerical integration correction, 04:17 UTC.** The historical PAC
+target is superseded. Auditing all sixteen saved prefixes exposed 90.885%
+relative covariance eigenvalue error and 0.925% load-map error in Bird four-view
+constant/marginal high-stiffness states. Refined 128/256 quadrature and an
+independent matrix reference agree closely and confirm the defect. All ten
+continuations in `runs/pacnerf-recoveries-v2` were stopped; their checkpoint
+artifacts have been collected. The completed historical cells below must not
+be presented as corrected-model results or an overall scientific ranking.
+
+`scripts/exact_pac_integrals.py` is a prototype, not yet activated in PACModel.
+It uses balanced 5x5 mode-pair exponentials for full covariance and 3x3
+constant-input integrals. Four analytic/independent-matrix/derivative controls
+pass. Across 256 actual saved-state probes, errors are <=2.57e-12 covariance and
+6.65e-13 load. The original physical source fingerprint is still 052a4c...;
+preserve its source/data before activating corrected integrals and launching
+fresh posterior runs. No priors, weights, observations or physical parameters
+were tuned after these findings. See the top of `docs/PACNERF_RESULTS.md` and
+`runs/pacnerf-production/numerical-target-audit.json`.
+
+**Historical approximate-target milestone: six of sixteen final
 worker results are available, five pass finite checks. Ten original workers reached their computation cap
 with independently replayed retained prefixes (03:47 UTC, 18 October).** Read `docs/PACNERF_RESULTS.md`,
 `docs/PACNERF_PROTOCOL.md`, and `examples/pacnerf-sparse/report.html`.
@@ -74,8 +93,10 @@ warmup, unchanged reference/settings, exact RNG-consumption replay, and all 64
 new cached targets reproduced within 5.69e-9. Evidence and provenance are in
 `examples/pacnerf-resume-preflight`. The new six-control code passes full CPU CI
 at e9c09a0/e59af8d (111 tests; runs 39094868532/39094962834).
-Full continuations will now be relaunched, with case 10 sourcing the verified
-2016-draw preflight artifact and other cases sourcing the original run.
+Those continuations were relaunched in `runs/pacnerf-recoveries-v2`, then
+cancelled after the confirmed integration defect. Do not resume this historical
+quadrature target again; activate the exact-integral correction and freeze fresh
+posterior runs. Case 10 had sourced the verified 2016-draw preflight prefix.
 Source, input, environment and numeric
 version fields remain strict; no physics or source-worker edits are made.
 Use a fresh collector directory per recovery run

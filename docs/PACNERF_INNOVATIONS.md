@@ -1,5 +1,11 @@
 # Causal innovations: algebra audit, not a new benchmark result
 
+This record concerns the historical four-point-integral target and its bounded
+pilot. That target is now superseded by a confirmed high-stiffness quadrature
+failure. The Gaussian conditioning/Jacobian derivation remains applicable, but
+an exact-integral implementation needs fresh density/gradient checks and
+posterior runs; the historical pilot cannot be reused as corrected evidence.
+
 The production comparison still samples standardized positions and velocities
 with the original frozen worker. `scripts/pacnerf_innovations.py` implements an
 equivalent coordinate system for investigating difficult inference. It has

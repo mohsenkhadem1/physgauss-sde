@@ -1,15 +1,46 @@
-# PAC-NeRF external-data study: incomplete production run
+# PAC-NeRF external-data study: superseded quadrature experiment
+
+**Numerical target defect confirmed; corrected rerun pending.** The completed
+cells below describe the historical approximate-integrator target. They are not
+results for the corrected model, and no overall scientific ranking is claimed.
 
 **Status: six of sixteen production cases completed and independently replayed;
 five pass finite-chain diagnostics, one fails.**
-The entire six-view Torus four-arm regime is available. Ten cases remain
-running; an overall ranking is not available. The running
+The entire six-view Torus four-arm regime is available under that historical
+target. Ten original jobs reached the time cap; their continuations were stopped
+after the integration failure was confirmed. The original
 [GitHub Actions experiment](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39073611351)
 uses source `b2d081a7a55ecf1027921f5d841c043e23713a9d`.
 The matching CPU validation run 39073594746 passed all 102 numerical tests
 and the historical smoke pipelines. Later reporting/audit edits do not change
 the numerical model. See the [protocol](PACNERF_PROTOCOL.md) and
 [incomplete report](../examples/pacnerf-sparse/report.html).
+
+## Integration failure and exact-integral correction
+
+Sixteen probes per saved case exposed a failure missed by the low-stiffness
+Torus checks. The Bird four-view constant/marginal prefix has standardized
+stiffness near 9.15. There the four-point covariance quadrature has maximum
+relative covariance eigenvalue error **0.90885**, and relative constant-load-map
+error **0.009249**. These are numerical integration errors at the checked states,
+not reconstruction errors or a causal explanation of all inference failures.
+
+Independent 128- and 256-point quadrature agree to 2.47e-14 in normalized
+covariance; the full-matrix reference agrees with them to 2.56e-12. This confirms
+the failure is in the four-point approximation, rather than the reference.
+The full historical target is therefore superseded, including cells whose
+finite-chain checks passed. Old raw inputs, chains, summaries and failed or
+cancelled attempts remain preserved; they must not be mixed with corrected chains.
+
+The exact prototype balances each damped mode, integrates coupled covariance
+blocks with stable 5x5 augmented Kronecker-sum exponentials, and integrates
+constant loads with 3x3 augmented exponentials. Four independent analytic,
+full-matrix, gradient and Hessian controls pass. At all **256 saved-state probes**,
+maximum relative covariance/load errors are 2.57e-12 / 6.65e-13. These are
+prototype validation results, not a corrected sparse-view comparison. The
+mechanics, priors, observations, noise weights and transferred neural network
+have not been retuned. New posterior runs are required after integration is
+corrected and the numerical target is frozen again.
 
 ## First completed case: Torus, four images, neural noise, marginalized loads
 

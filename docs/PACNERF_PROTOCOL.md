@@ -1,5 +1,11 @@
 # PAC-NeRF elastic transfer: frozen initial protocol
 
+**Historical protocol: its four-point transition-integral target is superseded.**
+The high-stiffness Bird audit confirms a numerical integration defect. Preserve
+these settings/results for provenance; corrected posterior runs must use exact
+linear-system covariance/load integrals and a newly frozen numerical source.
+See `PACNERF_RESULTS.md` and `examples/pacnerf-sparse/numerical-target-audit.json`.
+
 The experiment uses the official `data.zip` and `simulation_data.zip` from
 https://github.com/xuan-li/PAC-NeRF (Torus and Bird). The downloader verifies ZIP
 CRCs and records SHA256 for every selected member. It accesses only these two
