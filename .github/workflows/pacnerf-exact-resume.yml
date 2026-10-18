@@ -1,0 +1,77 @@
+name: Continue frozen exact-integral PAC-NeRF checkpoint
+on:
+  workflow_dispatch:
+    inputs:
+      source_run:
+        description: Corrected full-study or continuation run holding inputs/results/chains
+        type: string
+        required: true
+      case:
+        description: Case whose corrected frozen kernel and RNG will continue
+        type: choice
+        options: ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15']
+        default: '0'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  continue:
+    name: compare (${{ inputs.case }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: 219665b0776d9a1b5d092176331e21f724499bca}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12.4'}
+      - run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install numpy==2.0.0 -e '.[performance]'
+      - uses: actions/download-artifact@v4
+        with:
+          name: pacnerf-inputs
+          run-id: ${{ inputs.source_run }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: runs/pacnerf-inputs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pacnerf-inputs
+          path: runs/pacnerf-inputs
+          retention-days: 30
+      - uses: actions/download-artifact@v4
+        with:
+          name: pacnerf-results-${{ inputs.case }}
+          run-id: ${{ inputs.source_run }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: runs/pacnerf-exact
+      - uses: actions/download-artifact@v4
+        with:
+          name: pacnerf-chains-${{ inputs.case }}
+          run-id: ${{ inputs.source_run }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: runs/pacnerf-exact
+      - name: Continue the exact target and saved RNG without new warmup
+        timeout-minutes: 330
+        env:
+          CASE: ${{ inputs.case }}
+        run: python -u scripts/checkpoint_pacnerf.py --inputs runs/pacnerf-inputs --output runs/pacnerf-exact --case-index "$CASE" --chunk-size 50
+      - name: Discard interrupted temporary checkpoint files only
+        if: always()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          for name in ['chains.tmp.pt','warmup_state.tmp']:
+              for path in Path('runs/pacnerf-exact').glob('*/'+name):
+                  path.unlink(missing_ok=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pacnerf-results-${{ inputs.case }}
+          path: runs/pacnerf-exact/**/*.json
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pacnerf-chains-${{ inputs.case }}
+          path: runs/pacnerf-exact/**/*.pt
+          retention-days: 30

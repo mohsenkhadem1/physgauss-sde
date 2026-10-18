@@ -92,3 +92,8 @@ raw replay, paired marginal/joint Monte Carlo screens and force total covariance
 E[S]+Cov[m] remain required. Incomplete/unconverged cells are identified and
 excluded from quality rankings. Two deterministic objects do not establish
 statistical calibration or force accuracy; no force ground truth is supplied.
+
+The frozen exact-innovation worker commit is
+`219665b0776d9a1b5d092176331e21f724499bca`. Both the launch and continuation workflows
+check out this commit explicitly. Controller/documentation commits may advance
+without changing saved worker settings, numerical source or proposal kernels.
