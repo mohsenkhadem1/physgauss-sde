@@ -113,6 +113,24 @@ score to discourage merely widening intervals. It is a development-scene
 criterion, not an independent calibration test. The larger workflow does not
 automatically start from the single-case workflow; inspect the report first.
 
+The first full single-case check is
+[Actions 39155024009](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39155024009),
+frozen source `33ec931`. It runs only case8 on a standard free CPU worker.
+152 local tests passed (150 existing regression tests plus two readiness-gate
+tests). The numerical src and four original inference files remain identical
+to the frozen original worker.
+
+An additional [nonlinear sampling validation](../examples/nonlinear-force-sampler-validation/validation.json)
+compares both force arms against independent 401/801-point tensor-product
+quadrature. A cubic observation, unknown log-noise scale and Gaussian load
+produce a non-Gaussian posterior. Four chains with12000 retained draws per
+arm pass the strict convergence diagnostics; the largest marginal CDF error
+is below0.008 and the largest 5/50/95% quantile error below0.009. Means, second
+moments and conditional load moments agree within Monte Carlo precision.
+This checks the sampler/normalizers beyond a Gaussian example. It still does
+not prove exploration of the high-dimensional Bird posterior or calibration
+under PAC renderer/mechanics mismatch.
+
 The first candidate, Actions **39143185132** at **a575e18**, used prior-innovation
 coordinates and a fixed Gauss-Newton reference. Its eight observed-only
 100-burnin/100-draw pilots passed mathematical density checks but mixed poorly:

@@ -19,6 +19,15 @@ across independent objects. Run the larger workflow separately after inspection.
 The 64-draw development trial was not converged and is being extended with its
 unchanged reference/target for diagnosis; it is not a scientific result.
 
+Single Bird run **39155024009**, frozen source **33ec931**, was dispatched on
+free standard CPU. Its URL/source are in `configs/pacnerf_bird_check.json`.
+The full workflow now requires a passing Bird artifact from identical inference
+files. Do not dispatch it before inspecting the single-case result.
+The independent nonlinear quadrature/sampler test passed for both force arms:
+`examples/nonlinear-force-sampler-validation/validation.json`. It tests a small
+cubic observation/unknown-noise posterior, not PAC calibration. All152 local
+regression/readiness tests pass.
+
 **CURRENT (18 October): original batch had nine converged cells; all seven CPU
 continuations were explicitly launched.** Five have finished: case0 passes
 at 8000 draws (Rhat1.00295, bulk/tailESS1187/660), cases9/11/13/15 still fail
