@@ -6,7 +6,7 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
-**CURRENT: full exact-innovation study launched, 05:20 UTC.** The historical PAC
+**CURRENT: full exact-innovation study running; three worker results available.** The historical PAC
 target is superseded. Auditing all sixteen saved prefixes exposed 90.885%
 relative covariance eigenvalue error and 0.925% load-map error in Bird four-view
 constant/marginal high-stiffness states. Refined 128/256 quadrature and an
@@ -76,7 +76,7 @@ run. If publication fails, the artifacts/report remain inspectable; fix/report
 with a new controlled publisher rather than altering frozen worker chains.
 All sixteen case workers have entered computation on GitHub Actions CPUs.
 Controller CI run 39100207840 passes **125 tests** plus the smoke pipelines.
-No corrected full posterior result exists yet.
+Three corrected worker results are available; thirteen worker jobs are still running. The complete comparison and aggregate verification remain pending.
 
 The publication controller now verifies checkpoints/scores/density identities,
 both geometry and saved-state transition integrals, and pair agreement before
@@ -244,19 +244,22 @@ https://github.com/mohsenkhadem1/physgauss-sde/releases/tag/pacnerf-exact-2026-1
 its prepared-input ZIP is now published and verified using the existing owner
 credential while the retry job waits for a free runner. The manifest is
 `archives/pacnerf-exact-2026-10-18.json`. The completion hook is configured to
-append remaining case ZIPs for source run 39100239747; CI append capability is
-still awaiting its queued job, while owner uploads have succeeded.
+append remaining case ZIPs for source run 39100239747; Archive job 39103728525 has completed successfully. Owner uploads and the
+existing-release workflow have succeeded; remaining case assets will be added
+by the completion hook.
 
 Creating the two source tags unexpectedly triggered fourteen older push
 workflows (path filters did not prevent these tag runs). Their metadata are in
-`runs/archive-tag-triggered-workflows.json`. Eleven were queued/running when
-audited; three had already completed. These are duplicate archival-tag runs,
-not new scientific results. The cancellation tool call was rejected by automatic
-approval review because cancelling active runs can discard compute/checkpoints
-and needs explicit human authorization. **No cancellation was performed.** An
-async approval question is pending for only those duplicate tag-triggered runs;
-the main experiment 39100239747 is excluded. Do not retry cancellation until
-the user approves. Unaffected publication continued. No paid GPU was started.
+`runs/archive-tag-triggered-workflows.json`. The initial cancellation attempt
+was rejected by automatic approval review. The user subsequently explicitly
+replied: “Cancel only the duplicate tag-triggered runs.” After that approval,
+all fourteen exact run IDs were rechecked against their tag, source SHA, push
+event and original creation timestamp. **All fourteen had already completed**;
+no cancellation request was needed or sent. The main experiment 39100239747
+remained in progress and was untouched. The audit record is
+`runs/archive-tag-cancellations-approved.json`. No cleanup approval remains
+pending. No paid GPU was started. These duplicate tag-triggered runs are not
+new scientific results for the corrected PAC-NeRF comparison.
 
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,
