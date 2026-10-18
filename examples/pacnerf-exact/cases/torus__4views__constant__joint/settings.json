@@ -1,0 +1,96 @@
+{
+  "case_index": 1,
+  "case": "torus__4views__constant__joint",
+  "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+  "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.0.0",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+  },
+  "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+  "observed_pairs": [
+    [
+      0,
+      0
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      10,
+      4
+    ],
+    [
+      13,
+      6
+    ]
+  ],
+  "dimension": 350,
+  "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+  "bootstrap": {
+    "static_rgb_rmse": 0.04170295647345142,
+    "steps": 250,
+    "geometry": "official frame-zero particles only",
+    "appearance_views": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        0,
+        5
+      ],
+      [
+        0,
+        6
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        0,
+        9
+      ],
+      [
+        0,
+        10
+      ]
+    ],
+    "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+  },
+  "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+  "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+  "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+  "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+  "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+  "coordinates": "innovation",
+  "inference_files_sha256_lf": {
+    "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+    "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+  },
+  "pilot": false
+}

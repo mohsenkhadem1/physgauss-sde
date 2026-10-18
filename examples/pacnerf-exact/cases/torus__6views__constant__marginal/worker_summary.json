@@ -1,0 +1,217 @@
+{
+  "case": "torus__6views__constant__marginal",
+  "settings": {
+    "case_index": 4,
+    "case": "torus__6views__constant__marginal",
+    "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+    "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+    "environment": {
+      "python": "3.12.4",
+      "torch": "2.14.1+cpu",
+      "numpy": "2.0.0",
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+    },
+    "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+    "observed_pairs": [
+      [
+        0,
+        0
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        4,
+        4
+      ],
+      [
+        9,
+        6
+      ],
+      [
+        11,
+        8
+      ],
+      [
+        13,
+        10
+      ]
+    ],
+    "dimension": 326,
+    "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+    "bootstrap": {
+      "static_rgb_rmse": 0.04170295647345142,
+      "steps": 250,
+      "geometry": "official frame-zero particles only",
+      "appearance_views": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          0,
+          10
+        ]
+      ],
+      "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+    },
+    "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+    "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+    "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+    "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+    "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+    "coordinates": "innovation",
+    "inference_files_sha256_lf": {
+      "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+      "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+    },
+    "pilot": false
+  },
+  "fit": {
+    "objective": 2667.031660786456,
+    "gradient_max_abs": 0.0002609834456215321,
+    "evaluations": 228,
+    "optimizer_iterations": 210
+  },
+  "map_scores": {
+    "gap_particle_coordinate_rmse_m": 0.09764532656926717,
+    "missing_particle_coordinate_rmse_m": 0.10366226227260267,
+    "gap_component_90_coverage": 0.0,
+    "gap_mean_width_m": 0.0,
+    "interval_draws": 1,
+    "evaluation_only_subspace_oracle_gap_rmse_m": 0.014873454694087353,
+    "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+    "heldout_rgb_psnr_db": 25.14617874401693,
+    "heldout_images": 143,
+    "heldout_background_difference_region_psnr_db": 15.721006037444026,
+    "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+  },
+  "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+  "posterior_scores": {
+    "gap_particle_coordinate_rmse_m": 0.09747524826682812,
+    "missing_particle_coordinate_rmse_m": 0.1039502271670606,
+    "gap_component_90_coverage": 0.17447916666666666,
+    "gap_mean_width_m": 0.03081289537521389,
+    "interval_draws": 2000,
+    "evaluation_only_subspace_oracle_gap_rmse_m": 0.014873454694087353,
+    "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+    "heldout_rgb_psnr_db": 25.1441746647482,
+    "heldout_images": 143,
+    "heldout_background_difference_region_psnr_db": 15.718992497669102,
+    "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+  },
+  "convergence": {
+    "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+    "all_monitored_quantities_pass": true,
+    "failed_quantities": [],
+    "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+  },
+  "minimum_bulk_ess": 2649.594743038707,
+  "minimum_tail_ess": 1038.4470659383474,
+  "worst_rhat": 1.0021714094804595,
+  "sampling_history": [
+    {
+      "draws_per_chain": 500,
+      "all_pass": false
+    },
+    {
+      "draws_per_chain": 1000,
+      "all_pass": false
+    },
+    {
+      "draws_per_chain": 2000,
+      "all_pass": false
+    },
+    {
+      "draws_per_chain": 4000,
+      "all_pass": false
+    },
+    {
+      "draws_per_chain": 8000,
+      "all_pass": true
+    }
+  ],
+  "step_size": 0.24455189160819008,
+  "counts": {
+    "warmup": {
+      "accepted": [
+        453,
+        446,
+        453,
+        448
+      ],
+      "invalid": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "divergent": [
+        1,
+        6,
+        8,
+        7
+      ]
+    },
+    "retained": {
+      "accepted": [
+        6863,
+        6946,
+        6991,
+        6968
+      ],
+      "invalid": [
+        5,
+        2,
+        1,
+        2
+      ],
+      "divergent": [
+        237,
+        111,
+        118,
+        141
+      ]
+    }
+  },
+  "gradient_batches": 87568,
+  "seconds": 18007.02952837944,
+  "valid_for_ranking": true
+}
