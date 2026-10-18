@@ -31,7 +31,7 @@ STUDIES={
         'document':'PACNERF_RESULTS.md'}}
 
 
-def archive(raw,inputs,plan_only=True,study='exact'):
+def archive(raw,inputs,plan_only=True,study='exact',initialize_only=False,existing_only=False):
     profile=STUDIES[study];commit=profile['commit'];tag=profile['tag']
     raw,inputs=Path(raw),Path(inputs)
     metadata=[inputs/'artifact_download.json']+sorted(raw.glob('*/artifact_download.json'))
@@ -72,6 +72,7 @@ def archive(raw,inputs,plan_only=True,study='exact'):
     try:release=request(base+'/tags/'+tag)
     except urllib.error.HTTPError as error:
         if error.code!=404:raise
+        if existing_only:raise ValueError('Initialize the approved source-pinned prerelease with owner credentials before CI uploads') from None
         body=("**"+profile['status']+"**\n\n"
             "This is not a stable software release. The tag pins this archive's numerical worker; "
             "the main branch contains portable replay tools and the latest reports. "
@@ -87,6 +88,9 @@ def archive(raw,inputs,plan_only=True,study='exact'):
             'body':body,'draft':False,'prerelease':True,'make_latest':'false'}).encode())
     if release['target_commitish']!=commit or not release['prerelease'] or release['draft']:
         raise ValueError('Existing release does not match this experimental archive')
+    if initialize_only:
+        print(json.dumps({'release_url':release['html_url'],'initialized_only':True,'assets_uploaded':0}),flush=True)
+        return
     assets=request(release['assets_url']+'?per_page=100')
     known={a['name']:a for a in assets};preserved=[]
     upload=release['upload_url'].split('{',1)[0]
@@ -113,7 +117,11 @@ def archive(raw,inputs,plan_only=True,study='exact'):
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--raw',required=True);p.add_argument('--inputs',required=True)
     p.add_argument('--study',choices=sorted(STUDIES),default='exact')
+    p.add_argument('--initialize-release-only',action='store_true',help='Owner bootstrap of the approved source-pinned prerelease; upload no assets')
+    p.add_argument('--require-existing-release',action='store_true',help='CI must not create source tags/releases')
     modes=p.add_mutually_exclusive_group()
     modes.add_argument('--plan-only',action='store_true',help='Default: verify local ZIPs and write a plan without authentication or network access')
     modes.add_argument('--publish-public-archive',action='store_true',help='Requires explicit human approval: publish prepared inputs and raw chains as public release assets')
-    a=p.parse_args();archive(a.raw,a.inputs,not a.publish_public_archive,a.study)
+    a=p.parse_args()
+    if a.initialize_release_only and not a.publish_public_archive:p.error('Release initialization also requires --publish-public-archive')
+    archive(a.raw,a.inputs,not a.publish_public_archive,a.study,a.initialize_release_only,a.require_existing_release)

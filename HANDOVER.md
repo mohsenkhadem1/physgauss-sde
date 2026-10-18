@@ -227,8 +227,13 @@ archive and a completion hook restricted to this exact existing run ID. It
 collects available completed artifacts, appends immutable release assets and
 commits only the small public download/integrity manifest under `archives/`.
 The source run's report finalizer stays frozen; do not edit its pending
-`docs/PACNERF_EXACT_RESULTS.md`. Four archive tests pass locally (offline plans,
-wrong provenance, changed ZIPs, and refusing conflicting existing assets).
+`docs/PACNERF_EXACT_RESULTS.md`. Six archive tests pass locally (offline plans, wrong provenance, changed ZIPs,
+refusing conflicting assets, initialization without upload, and CI refusing
+missing releases). Initial archive job 39103518452 failed with GitHub HTTP 403
+when trying to create the source-pinned prerelease. The existing owner
+credential has now initialized `pacnerf-exact-2026-10-18` without uploading
+assets. CI uses `--require-existing-release`, so it only appends verified assets
+and cannot create source tags. The comparison is unaffected.
 
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,

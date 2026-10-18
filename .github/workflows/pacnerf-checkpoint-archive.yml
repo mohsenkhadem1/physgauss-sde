@@ -31,7 +31,7 @@ jobs:
       - name: Preserve completed case artifacts with original provenance
         run: python scripts/collect_pacnerf_actions.py --run "$SOURCE_RUN" --output runs/pacnerf-archive-source --chains --once
       - name: Publish SHA256-verified original ZIPs without replacing assets
-        run: python -u scripts/archive_pacnerf_checkpoints.py --study exact --raw runs/pacnerf-archive-source --inputs runs/pacnerf-archive-inputs --publish-public-archive
+        run: python -u scripts/archive_pacnerf_checkpoints.py --study exact --raw runs/pacnerf-archive-source --inputs runs/pacnerf-archive-inputs --publish-public-archive --require-existing-release
       - name: Commit the public download and integrity manifest only
         run: |
           python - <<'PY'

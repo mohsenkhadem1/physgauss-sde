@@ -25,3 +25,9 @@ collector. Then run `scripts/archive_pacnerf_checkpoints.py --study exact`
 (or `historical`) with the matching `--raw` and `--inputs` directories. The
 default is a local plan with no authentication/network. The explicit
 `--publish-public-archive` flag performs the already-approved publication.
+
+The source-pinned prerelease is initialized once with the repository owner's
+existing credential (`--publish-public-archive --initialize-release-only`).
+The completion job uses `--require-existing-release`: its runner token only
+appends assets and never creates source tags. This avoids the HTTP 403 observed
+when the runner attempted release creation for the older pinned worker commit.

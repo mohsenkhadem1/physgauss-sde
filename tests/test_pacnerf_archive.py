@@ -62,5 +62,29 @@ class ArchiveTests(unittest.TestCase):
                 with self.assertRaises(ValueError):archives.archive(raw,inputs,False)
             self.assertEqual(methods,['GET','GET'])
 
+    def test_initialization_only_uploads_no_assets(self):
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            raw,inputs,_,_=self.prepared(folder);methods=[]
+            class Opener:
+                def open(self,request,timeout):
+                    methods.append(request.get_method())
+                    return io.BytesIO(json.dumps({'target_commitish':archives.STUDIES['exact']['commit'],
+                        'prerelease':True,'draft':False,'html_url':'https://github.com/test'}).encode())
+            with patch.object(archives,'github_token',return_value='inert-test-placeholder'),patch.object(archives.urllib.request,'build_opener',return_value=Opener()):
+                archives.archive(raw,inputs,False,initialize_only=True)
+            self.assertEqual(methods,['GET'])
+            self.assertFalse((raw/'checkpoint-archive.json').exists())
+
+    def test_ci_missing_release_cannot_create_source_tag(self):
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as folder:
+            raw,inputs,_,_=self.prepared(folder);methods=[]
+            class Opener:
+                def open(self,request,timeout):
+                    methods.append(request.get_method())
+                    raise archives.urllib.error.HTTPError(request.full_url,404,'missing',None,io.BytesIO(b'{}'))
+            with patch.object(archives,'github_token',return_value='inert-test-placeholder'),patch.object(archives.urllib.request,'build_opener',return_value=Opener()):
+                with self.assertRaises(ValueError):archives.archive(raw,inputs,False,existing_only=True)
+            self.assertEqual(methods,['GET'])
+
 
 if __name__=='__main__':unittest.main()
