@@ -930,11 +930,217 @@
     },
     {
       "case": "torus__6views__constant__joint",
-      "missing": true,
-      "valid_for_ranking": false,
+      "settings": {
+        "case_index": 5,
+        "case": "torus__6views__constant__joint",
+        "source_fingerprint": "052a4cb2013105f9880912d3ab71b009dd9d65140a2ff44d2c30cab43d1ae1f4",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "ee2a157a8aa75e6852a5ee128b74270e9e2895f33d5f4d0120771d8c459f5b9b",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            9,
+            6
+          ],
+          [
+            11,
+            8
+          ],
+          [
+            13,
+            10
+          ]
+        ],
+        "dimension": 350,
+        "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.04170295647345142,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth explicit ground reaction; exact linear propagator; transferred frozen neural noise",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "Gaussian-reference split HMC; full nonlinear image and physics gradients; no image surrogate",
+        "pilot": false
+      },
+      "fit": {
+        "objective": 3718.7941825075854,
+        "gradient_max_abs": 176.5086190482613,
+        "evaluations": 362,
+        "optimizer_iterations": 350,
+        "phase": "initial direct-coordinate L-BFGS, before precision-coordinate/Newton refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.09694086810372676,
+        "missing_particle_coordinate_rmse_m": 0.10320509674267972,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.014873454694087353,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 25.067379300840006,
+        "heldout_images": 138,
+        "heldout_background_difference_region_psnr_db": 15.64393687002038,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.09741462448840543,
+        "missing_particle_coordinate_rmse_m": 0.1038917268498148,
+        "gap_component_90_coverage": 0.17643229166666666,
+        "gap_mean_width_m": 0.030552384146031272,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.014873454694087353,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 25.053934613124568,
+        "heldout_images": 138,
+        "heldout_background_difference_region_psnr_db": 15.63535524668567,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": true,
+        "failed_quantities": [],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 734.6115811669478,
+      "minimum_tail_ess": 686.2473616699377,
+      "worst_rhat": 1.0085670875094919,
+      "sampling_history": [
+        {
+          "draws_per_chain": 500,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 1000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 2000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 4000,
+          "all_pass": true
+        }
+      ],
+      "step_size": 0.14506641270723866,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            418,
+            455,
+            453,
+            456
+          ],
+          "invalid": [
+            6,
+            2,
+            5,
+            0
+          ],
+          "divergent": [
+            16,
+            4,
+            6,
+            1
+          ]
+        },
+        "retained": {
+          "accepted": [
+            3591,
+            3602,
+            3602,
+            3713
+          ],
+          "invalid": [
+            51,
+            33,
+            23,
+            15
+          ],
+          "divergent": [
+            81,
+            52,
+            47,
+            27
+          ]
+        }
+      },
+      "seconds": 18950.804129123688,
+      "valid_for_ranking": true,
+      "missing": false,
       "attempted": true,
-      "attempt_status": "running",
-      "saved_retained_draws_per_chain": null
+      "attempt_status": "finite_checks_pass",
+      "saved_retained_draws_per_chain": 4000,
+      "final_mode": {
+        "objective": 1389.2391398559926,
+        "regularized_metric_decrement": 0.0030551021718181084,
+        "minimum_observed_curvature_eigenvalue": 0.1119394984884665
+      }
     },
     {
       "case": "torus__6views__neural__marginal",
@@ -1148,11 +1354,217 @@
     },
     {
       "case": "torus__6views__neural__joint",
-      "missing": true,
-      "valid_for_ranking": false,
+      "settings": {
+        "case_index": 7,
+        "case": "torus__6views__neural__joint",
+        "source_fingerprint": "052a4cb2013105f9880912d3ab71b009dd9d65140a2ff44d2c30cab43d1ae1f4",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "ee2a157a8aa75e6852a5ee128b74270e9e2895f33d5f4d0120771d8c459f5b9b",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            9,
+            6
+          ],
+          [
+            11,
+            8
+          ],
+          [
+            13,
+            10
+          ]
+        ],
+        "dimension": 350,
+        "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.04170295647345142,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth explicit ground reaction; exact linear propagator; transferred frozen neural noise",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "Gaussian-reference split HMC; full nonlinear image and physics gradients; no image surrogate",
+        "pilot": false
+      },
+      "fit": {
+        "objective": 3693.5759303190575,
+        "gradient_max_abs": 170.7878970745244,
+        "evaluations": 362,
+        "optimizer_iterations": 350,
+        "phase": "initial direct-coordinate L-BFGS, before precision-coordinate/Newton refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.09654737633448222,
+        "missing_particle_coordinate_rmse_m": 0.10289402200406372,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.014873454694087353,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 25.075363213527822,
+        "heldout_images": 138,
+        "heldout_background_difference_region_psnr_db": 15.64926606334308,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.09748015069373162,
+        "missing_particle_coordinate_rmse_m": 0.10397384350277036,
+        "gap_component_90_coverage": 0.17903645833333334,
+        "gap_mean_width_m": 0.030980747331126556,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.014873454694087353,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 25.051768743259743,
+        "heldout_images": 138,
+        "heldout_background_difference_region_psnr_db": 15.633589240178843,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": true,
+        "failed_quantities": [],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 705.0842428201024,
+      "minimum_tail_ess": 592.4047393431164,
+      "worst_rhat": 1.002473662279923,
+      "sampling_history": [
+        {
+          "draws_per_chain": 500,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 1000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 2000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 4000,
+          "all_pass": true
+        }
+      ],
+      "step_size": 0.14797912524299078,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            450,
+            442,
+            438,
+            452
+          ],
+          "invalid": [
+            2,
+            0,
+            6,
+            3
+          ],
+          "divergent": [
+            2,
+            6,
+            12,
+            4
+          ]
+        },
+        "retained": {
+          "accepted": [
+            3634,
+            3492,
+            3641,
+            3572
+          ],
+          "invalid": [
+            10,
+            96,
+            19,
+            43
+          ],
+          "divergent": [
+            24,
+            130,
+            38,
+            66
+          ]
+        }
+      },
+      "seconds": 18859.21326136589,
+      "valid_for_ranking": true,
+      "missing": false,
       "attempted": true,
-      "attempt_status": "running",
-      "saved_retained_draws_per_chain": null
+      "attempt_status": "finite_checks_pass",
+      "saved_retained_draws_per_chain": 4000,
+      "final_mode": {
+        "objective": 1393.7661785436358,
+        "regularized_metric_decrement": 0.01178643975168094,
+        "minimum_observed_curvature_eigenvalue": 0.11393345297785099
+      }
     },
     {
       "case": "bird__4views__constant__marginal",
@@ -1219,9 +1631,9 @@
       "saved_retained_draws_per_chain": null
     }
   ],
-  "available_cases": 4,
+  "available_cases": 6,
   "attempted_cases": 16,
-  "finite_chain_pass_cases": 3,
+  "finite_chain_pass_cases": 5,
   "raw_checkpoint_verification_pass": false,
   "numerical_audit_files": [
     "attempts.json",
@@ -1235,12 +1647,33 @@
     "chain-trace-audit-0.json"
   ],
   "paired_sampler_agreement_screen": {
-    "approximate_global_95_cutoff": 1.959963984540054,
-    "coordinates": 0,
-    "complete_pairs": 0,
+    "approximate_global_95_cutoff": 3.77461275680136,
+    "coordinates": 312,
+    "complete_pairs": 2,
     "passes": false,
     "qualification": "approximate batch-mean Gaussian CLT with Bonferroni correction across all paired modal means; not proof of global exploration or physical calibration"
   },
-  "marginal_joint_agreement": [],
+  "marginal_joint_agreement": [
+    {
+      "scene": "torus",
+      "views": 6,
+      "noise": "constant",
+      "max_modal_mean_difference_m": 0.0010517963072267378,
+      "max_difference_over_combined_mcse": 2.3733789439792967,
+      "approximate_bonferroni_95_cutoff": 3.598130480599481,
+      "coordinates_exceeding_approximate_cutoff": 0,
+      "qualification": "approximate batch-mean CLT/Bonferroni diagnostic; not an exact finite-sample test or calibration proof; same posterior in theory; finite convergence required"
+    },
+    {
+      "scene": "torus",
+      "views": 6,
+      "noise": "neural",
+      "max_modal_mean_difference_m": 0.00299448586176565,
+      "max_difference_over_combined_mcse": 3.6396849759491934,
+      "approximate_bonferroni_95_cutoff": 3.598130480599481,
+      "coordinates_exceeding_approximate_cutoff": 2,
+      "qualification": "approximate batch-mean CLT/Bonferroni diagnostic; not an exact finite-sample test or calibration proof; same posterior in theory; finite convergence required"
+    }
+  ],
   "qualification": "two official elastic simulations; oracle initial geometry and 11-camera initial appearance; sparse later images; reduced model and transferred noise; no force ground truth"
 }

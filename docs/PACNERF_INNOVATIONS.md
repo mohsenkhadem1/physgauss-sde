@@ -69,7 +69,8 @@ autodifferentiated density gradients including the Jacobian, and strict causal
 dependence. Sixteen saved production states per completed case additionally
 pass the round-trip and density identities: across cases 0, 2, 4 and 6,
 maximum standardized path error is 1.45e-12 and maximum negative-log-density
-discrepancy is 1.23e-11. The audit reads no future geometry. Its record is
+discrepancy is 1.23e-11. Joint cases 5 and 7 also pass the same sixteen-state
+production audit (maximum density discrepancy 5.01e-12). The audit reads no future geometry. Its record is
 `examples/pacnerf-sparse/innovation-coordinate-diagnostic.json`.
 
 These checks establish algebraic equivalence at the tested points, **not**

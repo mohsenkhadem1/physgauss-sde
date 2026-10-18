@@ -6,118 +6,113 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
-**Active milestone: official PAC-NeRF elastic transfer comparison.** Read
-`docs/PACNERF_PROTOCOL.md`. `scripts/fetch_pacnerf.py` selectively downloads and
-CRC/SHA-verifies Torus/Bird in the original UCLA Box archives. Prepared inputs
-freeze the modal basis and separate future particles into scoring-only files.
-`scripts/pacnerf_comparison.py` covers 16 cases: two objects, 4/6 selected views,
-constant/neural noise, and marginal/joint Gaussian-load inference. Supplied
-initial geometry and eleven-camera initial appearance bootstrap are explicit
-conditions. This is a twelve-mode elastic graph transfer experiment, not full
-MPM or monocular shape recovery. Joint and marginalized arms have the same
-integrated motion posterior; compare Monte Carlo agreement and efficiency.
+**Active milestone: PAC-NeRF elastic transfer comparison; six of sixteen final
+worker results are available, five pass finite checks, and ten workers remain
+active (03:29 UTC, 18 October).** Read `docs/PACNERF_RESULTS.md`,
+`docs/PACNERF_PROTOCOL.md`, and `examples/pacnerf-sparse/report.html`.
 
-Development revealed poor conditioning of direct-coordinate optimization;
-fixed local-precision optimization plus Newton refinement reaches decrement
-8.5e-6 with positive observed curvature in the declared local Torus pilot.
-The cube's image Taylor proposal had a low acceptance ceiling and was removed
-for this benchmark. The PAC sampler uses full nonlinear image gradients and
-exact target values, with 500 warmup, four chains, 2000 minimum retained draws
-per chain, and fixed-kernel extensions to 4000/8000 if diagnostics fail. Partial
-500/1000 checkpoints cannot end a final comparison. Force conditional means and
-normalizers are monitored; E[S]+Cov[m] is retained. No force ground truth or
-transferred-noise calibration is claimed. `publish_pacnerf.py` independently
-checks diagnostic flags, input hashes and force covariance before publication.
+The complete six-view Torus four-arm regime is independently verified:
 
-Stopped development runs: 39071805396 (cancelled loose-fit pilot), 39072191439
-(four-arm pilot rejected by stationarity gate), 39072691871 (stopped before
-production to replace inefficient Taylor proposals). None is scientific evidence.
-Raw local data are in `runs/pacnerf-data`; initial prepared artifacts in
-`runs/pacnerf-inputs`. Local numerical development uses
-`runs/pacnerf-refined-development`; do not mix it into final comparison results.
-Production Actions run: **39073611351**, model/worker commit
-`b2d081a7a55ecf1027921f5d841c043e23713a9d`, numerical source fingerprint
+| Variant | Gap coordinate RMSE | Nominal 90% coverage | Draws/chain | Gradient batches / worst common pose ESS |
+|---|---:|---:|---:|---:|
+| Constant, marginalized | 97.46 mm | 17.84% | 4000 | 22.38 |
+| Constant, explicit joint | 97.41 mm | 17.64% | 4000 | 51.03 |
+| Neural, marginalized | 97.54 mm | 18.10% | 2000 | 19.67 |
+| Neural, explicit joint | 97.48 mm | 17.90% | 4000 | 46.40 |
+
+All four pass finite diagnostics and raw target/score/full force-moment replay.
+Marginalization uses about 2.28/2.36 times less gradient work per worst common
+pose ESS in this one regime; this is not a general hardware speed ranking.
+Neural noise has no demonstrated physical accuracy or calibration advantage.
+The neural marginal/joint pair has two modal mean coordinates just beyond the
+approximate within-pair MCSE screen (max 3.64 vs cutoff 3.60); record this
+borderline result. The complete planned eight-pair screen is still unavailable.
+Four-arm force curves nearly overlap but are restricted acceleration profiles,
+not validated measured forces. Their uncertainty is not force calibration.
+
+Case 2 (four-view Torus neural/marginal) also passes: 81.48 mm error, 13.32%
+coverage, 2000 draws/chain. Case 0 (constant/marginal) FAILS at 8000 draws/chain:
+Rhat 1.3783, minimum bulk/tail ESS 8.73/76.54. It passed at interim 1000 then
+failed at 2000/4000/8000; motion traces show late regime switches despite mixed
+material parameters. Do not extend it beyond the declared maximum or rank it.
+All six final cases replay numerically; numerical replay is not convergence.
+
+**Frozen production provenance:** Actions run 39073611351, worker/model commit
+`b2d081a7a55ecf1027921f5d841c043e23713a9d`, numerical fingerprint
 `052a4cb2013105f9880912d3ab71b009dd9d65140a2ff44d2c30cab43d1ae1f4`.
-The matching source CPU validation is run **39073594746**. Initial input artifact
-`pacnerf-inputs` id **12115787202**, ZIP SHA256
-`9b8249b6c64736f5a522cfa326edb31725d2599faf8da2623df6ccdc22ed4954`.
-Downloaded production inputs live in `runs/pacnerf-production-inputs`.
-Subsequent portability/reporting edits preserve the numerical source. The
-publication will be recorded here when complete.
-Current partial publication: `docs/PACNERF_RESULTS.md` and
-`examples/pacnerf-sparse/report.html`. Case 2 passes finite diagnostics and raw
-replay, but reconstruction error is 81.48 mm and nominal 90% coverage is 13.32%.
-No cross-model ranking yet. The post-hoc contact audit finds material frame-held
-contact error; the production model remains frozen. Continue the collector and
-verify every completed case before regenerating the full report.
-Case 6 has also completed: Torus six-view neural/marginal gap error 97.54 mm,
-90% coverage 18.10%, worst Rhat 1.00422. Both cases now pass full retained-state
-force moment replay as well as coordinate scoring/cache checks. The partial
-report contains case 6's actual withheld images and reconstruction errors.
-Case 4 (six-view Torus constant/marginal) is also verified: 4000 retained draws
-per chain, worst Rhat 1.00335, gap error 97.46 mm, nominal 90% coverage 17.84%.
-This gives one matched noise pair: neural 97.54 mm / 18.10% versus constant
-97.46 mm / 17.84%, practically similar here and both badly undercovered.
-Thirteen cases remain active. No joint/marginal comparison is available yet.
-Posterior-state integration probes give covariance relative eigenvalue error
-<=1.39e-7 for all three cases. Archived cube validation aggregate metrics also
-reproduce to <=2.3e-16 despite byte-level feature differences.
-Case 0 has now finished but FAILS finite convergence at 8000 draws per chain:
-worst Rhat 1.3783, minimum bulk/tail ESS 8.73/76.54. It passed at interim 1000
-then failed at 2000/4000/8000; motion/velocity traces show late regime switches
-while stiffness/damping appear mixed. Its numerical replay passes, including
-full force moments, but its posterior estimates are excluded from rankings.
-`audit_pacnerf_chain_traces.py` and the report preserve this failure. Twelve jobs
-remain active. The verifier now matches production's float32 interval-draw ID
-selection; NumPy float64 linspace differed in two IDs at 32000 draws. Production
-intervals and chains were not changed. Resuming an already completed 8000-draw
-case with the recovery workflow does not extend the declared maximum or fix it.
-An optional permanent public release archive was prepared but its execution
-was rejected by automatic approval review: repository pushes did not explicitly
-authorize permanent public release assets containing prepared inputs/raw chains.
-The asynchronous user approval question is pending. **No release was created
-and no asset uploaded; do not retry or use another publishing route without
-explicit human approval.** `archive_pacnerf_checkpoints.py --plan-only` safely
-verifies local ZIPs without authentication/network: current plan has nine
-archives totaling 146154595 bytes. Full ZIPs and extracted chains remain locally
-available beyond Actions' 30-day retention. Core comparison/pushes continue.
-The finer-checkpoint wrapper and recovery workflow are now pushed. Wrapper
-commit `0f6bc25984d9da75d7881da056f0dc28708d4ae0` is SHA256-pinned in the
-workflow; it imports the original b2d081a worker and preserves its settings.
-Four local nonlinear controls reproduce the original sample/RNG stream exactly,
-including interrupted warmup and retained prefixes. Prior retained-only tooling
-passed full CPU validation at `1f12824ead0d96d4a73250a2ae83252fe8dddc96`
-(Actions run 39087528131); the four-test warmup extension and full CI also
-pass (Actions runs 39089295638 and 39089362779, 106 tests).
-Recovery now saves warmup every 25 transitions and retained blocks <=50, with
-original diagnostic budgets. No recovery run has been dispatched yet; original
-twelve workers remain active.
+Matching original CPU validation run 39073594746 passed 102 tests and the
+historical smoke pipelines. Later reporting/checkpoint/innovation tooling
+preserves physical source; full CI at 40e578e and 681e7ce passed 109 tests
+(runs 39091917289 and 39092504961).
 
-An equivalent causal-innovation implementation is now algebra-audited but
-**not used in production sampling**. See `docs/PACNERF_INNOVATIONS.md` and
-`scripts/pacnerf_innovations.py`. Three new tests cover all-arm density/inverse
-identities, Jacobian-adjusted gradients and causality. Sixteen saved physical
-states per completed case (0/2/4/6) agree in negative log density to <=1.23e-11.
-No future geometry is read by this audit. It does not establish improved mixing
-or authorize substituting experimental chains into the original comparison.
-Full CPU CI including the new three tests passes at `40e578eaad9b6c6b82720e1aad604d6e566be664`
-(run 39091917289; 109 tests). The post-hoc noise diagnostic now reports a local
-one-step position-covariance decomposition: on six-view Torus samples the floor
-is median 94.0â€“94.1% of the neural process position variance; the median ratio
-of neural to constant covariance at identical paths is 1.0075â€“1.0078. This
-excludes unknown loads, longer propagation and posterior uncertainty. It does
-not attribute reconstruction error or retune the frozen experiment.
-The short observed-only innovation pilot is running separately in Actions
-39092510895 (source `681e7ce969032c99956f071d9a59996d127914a6`): four Torus
-four-view arms, identity prior reference, 100 warmup/100 retained draws, 25-minute
-compute cap. It reads no evaluation geometry and produces no reconstruction
-or coverage scores. Local collectors are primary session 7095 and pilot session
-7656; pilot artifacts go to `runs/pacnerf-innovation-pilot/case-i`. This pilot
-cannot replace production results. Full CPU CI at 681e7ce also passed, run
-39092504961 (109 tests). The new `inspect_pacnerf_attempts.py` records every
-launched attempt, saved chain budget, numerical cache replay and final eligibility
-separately; it does not score or approve unfinished chains. The public report
-now has an attempt/checkpoint table as well as scientific result gates.
+Raw data: `runs/pacnerf-data`. Production prepared inputs:
+`runs/pacnerf-production-inputs`, artifact 12115787202, ZIP SHA256
+`9b8249b6c64736f5a522cfa326edb31725d2599faf8da2623df6ccdc22ed4954`.
+Original raw results/checkpoints: `runs/pacnerf-production`.
+The live original collector is session 7095. Computation steps started around
+22:07 UTC; their 330-minute limits occur around 03:37 UTC. Inspect completed
+logs/checkpoints before deciding recovery. Never count incomplete chains as
+valid posteriors. `inspect_pacnerf_attempts.py` records attempt status, mode,
+retained prefix, cached-target replay and computation-step timing separately.
+
+For necessary continuation, `pacnerf-resume.yml` checks out b2d081a and fetches
+the SHA256-pinned checkpoint wrapper from commit
+`0f6bc25984d9da75d7881da056f0dc28708d4ae0`. It preserves the original target,
+frozen adapted kernel/RNG and 2000/4000/8000 gates; checkpoints warmup every 25
+transitions and retained blocks <=50. Four nonlinear controls reproduce the
+original sampler stream exactly, including warmup interruption. No recovery
+run has yet been dispatched. Use a fresh collector directory per recovery run
+and preserve original artifacts/prefixes. A resumed worker's seconds cover only
+that invocation; accumulate attempt records before discussing total time.
+
+**Separate observed-only innovation feasibility pilot:** Actions 39092510895,
+source `681e7ce969032c99956f071d9a59996d127914a6`, four Torus four-view arms,
+identity prior reference, 100 warmup/100 retained draws, compute cap 25 minutes.
+Live pilot collector session 7656 writes `runs/pacnerf-innovation-pilot/case-i`.
+It reads no evaluation geometry and computes no reconstruction/coverage scores.
+It cannot replace production evidence. See `docs/PACNERF_INNOVATIONS.md`.
+The exact causal Gaussian-force innovation transformation passes three math
+unit tests plus sixteen density/round-trip probes per completed case; maximum
+density discrepancy <=1.23e-11 across all six cases. This establishes algebraic
+equivalence, not better mixing. Do not change the frozen physics or weights.
+
+**Scope and physical limits:** two official synthetic elastic simulations
+(Torus/Bird), 14 timestamps, sparse schedules labeled 4/6 include frame zero
+and supply 3/5 later dynamic images. Supplied initial geometry and eleven-camera
+initial appearance bootstrap are explicit conditions. This is a twelve-mode
+linear elastic graph with smooth frame-held contact, not original MPM or
+unknown-geometry monocular reconstruction. Fixed cameras are subsampled; this
+is not continuous moving-camera capture. Joint/marginal arms use the same
+Gaussian load prior and have identical integrated motion posteriors in theory.
+Future geometry is used only after sampling for scoring/reference audits.
+
+Independent transition checks at sixteen probes per six final cases give
+relative covariance eigenvalue error <=1.39e-7. However the nominal zero-noise
+contact audit finds 16.41/17.20 mm whole-sequence differences against a refined
+solve of the same reduced ODE. Even true supplied geometry leaves rendering
+error, including missing table-depth occlusion/shadows. Both are material
+limits. The frozen neural diffusion is transferred from independent cube
+calibration; PAC calibration is not claimed. On sampled six-view marginalized
+Torus paths the fixed floor contributes median 94.0–94.1% of one-step neural
+position process variance; median neural/constant variance ratio is only
+1.0075–1.0078. This local diagnostic excludes loads and full posterior variance.
+
+Stopped development runs 39071805396, 39072191439 and 39072691871 are not
+scientific evidence. Old `runs/pacnerf-inputs` and `runs/pacnerf-refined-development`
+are not the frozen production inputs/results. The verifier uses the producer's
+float32 Torch linspace interval IDs, then NumPy quantiles; float64 linspace
+selected two different IDs at 32000 draws. Production scores were unchanged.
+
+**Optional permanent public archive remains blocked:** automatic approval
+review rejected uploading prepared inputs/raw checkpoints as public release
+assets because ordinary repository-push authorization did not specifically
+cover permanent public raw assets. The explicit human approval question is
+pending. No release was created or asset uploaded. Do not retry or publish by
+another route without that approval. `archive_pacnerf_checkpoints.py` defaults
+to safe local planning before authentication/network; publishing needs its
+explicit flag after approval. Raw ZIPs/extracted chains remain locally available
+beyond Actions' 30-day retention. Ordinary code/compact-report pushes continue.
+No paid GPU was provisioned; tests/comparisons run on GitHub CPU runners.
 
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,

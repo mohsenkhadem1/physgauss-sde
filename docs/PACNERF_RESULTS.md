@@ -1,9 +1,9 @@
 # PAC-NeRF external-data study: incomplete production run
 
-**Status: four of sixteen production cases completed and independently replayed;
-three pass finite-chain diagnostics, one fails.**
-One neural/constant pair is available; no overall or joint/marginal ranking is
-available yet. The running
+**Status: six of sixteen production cases completed and independently replayed;
+five pass finite-chain diagnostics, one fails.**
+The entire six-view Torus four-arm regime is available. Ten cases remain
+running; an overall ranking is not available. The running
 [GitHub Actions experiment](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39073611351)
 uses source `b2d081a7a55ecf1027921f5d841c043e23713a9d`.
 The matching CPU validation run 39073594746 passed all 102 numerical tests
@@ -62,8 +62,40 @@ a hardware speed comparison. Their actual withheld images are shown side by
 side in the report. Explicit-force counterparts and the remaining regimes are
 still running.
 
+## First complete four-arm regime: six-view Torus
+
+| Variant | Gap coordinate RMSE | Nominal 90% coverage | Draws per chain | Gradient batches / worst common pose ESS |
+|---|---:|---:|---:|---:|
+| Constant, marginalized loads | 97.46 mm | 17.84% | 4000 | 22.38 |
+| Constant, explicit joint loads | 97.41 mm | 17.64% | 4000 | 51.03 |
+| Neural, marginalized loads | 97.54 mm | 18.10% | 2000 | 19.67 |
+| Neural, explicit joint loads | 97.48 mm | 17.90% | 4000 | 46.40 |
+
+All four pass finite diagnostics and independent raw-score, cached-target and
+full force-moment replay. The joint cases' worst Rhat is 1.00857 (constant) and
+1.00247 (neural), with minimum bulk/tail ESS 735/686 and 705/592. Their saved
+retained invalid/divergent proposal counts remain available; proposals are
+Metropolis-corrected and invalid trajectories reject. Finite checks do not prove
+global exploration or remove all numerical/exploration concerns.
+
+All four aggregate reconstruction errors differ by under 0.13 mm, while all
+severely undercover. Marginalization has not improved physical accuracy here,
+as expected for equivalent integrated posteriors. It uses about **2.28 times
+(constant) and 2.36 times (neural) less gradient work per worst common modal-pose
+ESS** in this regime. This is one observed computational comparison, includes
+warmup gradient batches but excludes mode fitting, and is not a universal
+hardware speed claim. The explicit runs each use about 77k gradient batches;
+the marginalized runs use 40.9k and 24.3k.
+
+The constant pair's largest modal-mean discrepancy is 2.37 combined batch-MCSE
+units. The neural pair reaches 3.64, with two coordinates just beyond the
+approximate within-pair 95% Bonferroni cutoff of 3.60. This borderline check
+deserves recording rather than declaring exact finite-sample agreement. The
+predeclared full eight-pair screen and all other result gates remain incomplete;
+similar aggregate errors alone do not validate the full posterior or forces.
+
 A post-hoc covariance diagnostic helps interpret the similar noise results.
-At 256 stratified saved states per six-view Torus arm, the fixed diffusion
+At 256 stratified saved states per six-view Torus marginalized arm, the fixed diffusion
 floor contributes a median 94.0–94.1% of the neural model's **one-step particle
 position process variance**. Evaluating both noise models at identical paths,
 the median neural/constant variance ratio is only 1.0075–1.0078, although the

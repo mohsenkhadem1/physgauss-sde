@@ -1,0 +1,204 @@
+{
+  "case": "torus__6views__neural__joint",
+  "settings": {
+    "case_index": 7,
+    "case": "torus__6views__neural__joint",
+    "source_fingerprint": "052a4cb2013105f9880912d3ab71b009dd9d65140a2ff44d2c30cab43d1ae1f4",
+    "environment": {
+      "python": "3.12.4",
+      "torch": "2.14.1+cpu",
+      "numpy": "2.0.0",
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+    },
+    "worker_sha256_lf": "ee2a157a8aa75e6852a5ee128b74270e9e2895f33d5f4d0120771d8c459f5b9b",
+    "observed_pairs": [
+      [
+        0,
+        0
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        4,
+        4
+      ],
+      [
+        9,
+        6
+      ],
+      [
+        11,
+        8
+      ],
+      [
+        13,
+        10
+      ]
+    ],
+    "dimension": 350,
+    "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+    "bootstrap": {
+      "static_rgb_rmse": 0.04170295647345142,
+      "steps": 250,
+      "geometry": "official frame-zero particles only",
+      "appearance_views": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          0,
+          10
+        ]
+      ],
+      "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+    },
+    "model": "12-mode linear elastic graph + smooth explicit ground reaction; exact linear propagator; transferred frozen neural noise",
+    "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+    "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+    "proposal": "Gaussian-reference split HMC; full nonlinear image and physics gradients; no image surrogate",
+    "pilot": false
+  },
+  "fit": {
+    "objective": 3693.5759303190575,
+    "gradient_max_abs": 170.7878970745244,
+    "evaluations": 362,
+    "optimizer_iterations": 350
+  },
+  "map_scores": {
+    "gap_particle_coordinate_rmse_m": 0.09654737633448222,
+    "missing_particle_coordinate_rmse_m": 0.10289402200406372,
+    "gap_component_90_coverage": 0.0,
+    "gap_mean_width_m": 0.0,
+    "interval_draws": 1,
+    "evaluation_only_subspace_oracle_gap_rmse_m": 0.014873454694087353,
+    "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+    "heldout_rgb_psnr_db": 25.075363213527822,
+    "heldout_images": 138,
+    "heldout_background_difference_region_psnr_db": 15.64926606334308,
+    "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+  },
+  "posterior_scores": {
+    "gap_particle_coordinate_rmse_m": 0.09748015069373162,
+    "missing_particle_coordinate_rmse_m": 0.10397384350277036,
+    "gap_component_90_coverage": 0.17903645833333334,
+    "gap_mean_width_m": 0.030980747331126556,
+    "interval_draws": 2000,
+    "evaluation_only_subspace_oracle_gap_rmse_m": 0.014873454694087353,
+    "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+    "heldout_rgb_psnr_db": 25.051768743259743,
+    "heldout_images": 138,
+    "heldout_background_difference_region_psnr_db": 15.633589240178843,
+    "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+  },
+  "convergence": {
+    "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+    "all_monitored_quantities_pass": true,
+    "failed_quantities": [],
+    "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+  },
+  "minimum_bulk_ess": 705.0842428201024,
+  "minimum_tail_ess": 592.4047393431164,
+  "worst_rhat": 1.002473662279923,
+  "sampling_history": [
+    {
+      "draws_per_chain": 500,
+      "all_pass": false
+    },
+    {
+      "draws_per_chain": 1000,
+      "all_pass": false
+    },
+    {
+      "draws_per_chain": 2000,
+      "all_pass": false
+    },
+    {
+      "draws_per_chain": 4000,
+      "all_pass": true
+    }
+  ],
+  "step_size": 0.14797912524299078,
+  "counts": {
+    "warmup": {
+      "accepted": [
+        450,
+        442,
+        438,
+        452
+      ],
+      "invalid": [
+        2,
+        0,
+        6,
+        3
+      ],
+      "divergent": [
+        2,
+        6,
+        12,
+        4
+      ]
+    },
+    "retained": {
+      "accepted": [
+        3634,
+        3492,
+        3641,
+        3572
+      ],
+      "invalid": [
+        10,
+        96,
+        19,
+        43
+      ],
+      "divergent": [
+        24,
+        130,
+        38,
+        66
+      ]
+    }
+  },
+  "seconds": 18859.21326136589,
+  "valid_for_ranking": true
+}

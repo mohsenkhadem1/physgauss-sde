@@ -31,8 +31,11 @@ def publish(raw, inputs, output):
     for index, (scene, views, noise, force) in enumerate(cases()):
         name = f'{scene}__{views}views__{noise}__{force}'
         preferred=raw/f'results-{index}'
-        src = next(iter(preferred.glob(f'**/{name}/summary.json')), None) if preferred.exists() else None
-        if src is None:src=next(iter(raw.glob(f'**/{name}/summary.json')), None)
+        if preferred.exists():
+            # Collector writes its marker only after the complete ZIP is
+            # verified/extracted. Do not publish a partly extracted artifact.
+            src=next(iter(preferred.glob(f'**/{name}/summary.json')), None) if (preferred/'artifact_download.json').exists() else None
+        else:src=next(iter(raw.glob(f'**/{name}/summary.json')), None)
         if src is None:
             attempt=attempts.get(name,{})
             rows.append({'case': name, 'missing': True, 'valid_for_ranking': False,
@@ -41,7 +44,7 @@ def publish(raw, inputs, output):
         row = json.loads(src.read_text()); row['missing'] = False
         row['attempted']=True
         row['attempt_status']='finite_checks_pass' if row['valid_for_ranking'] else 'finite_checks_failed'
-        row['saved_retained_draws_per_chain']=attempts.get(name,{}).get('retained_draws_per_chain',row['sampling_history'][-1]['draws_per_chain'])
+        row['saved_retained_draws_per_chain']=attempts.get(name,{}).get('retained_draws_per_chain') or row['sampling_history'][-1]['draws_per_chain']
         if row['settings']['source_fingerprint']!=source_fingerprint():raise ValueError('Numerical source differs from production')
         fit_record=json.loads((src.parent/'fit.json').read_text())
         stationarity=fit_record['stationarity']
