@@ -233,7 +233,16 @@ missing releases). Initial archive job 39103518452 failed with GitHub HTTP 403
 when trying to create the source-pinned prerelease. The existing owner
 credential has now initialized `pacnerf-exact-2026-10-18` without uploading
 assets. CI uses `--require-existing-release`, so it only appends verified assets
-and cannot create source tags. The comparison is unaffected.
+and cannot create source tags. The comparison is unaffected. Retry archive job **39103728525** uses the
+fixed workflow; initial job 39103518452 is historical failure evidence.
+The historical upload completed all **33 original ZIPs (500,448,430 bytes)**.
+A public API read verified every remote asset ID/name/SHA256/size/state and the
+source commit. Its manifest is `archives/pacnerf-historical-quadrature-2026-10-18.json`.
+Release: https://github.com/mohsenkhadem1/physgauss-sde/releases/tag/pacnerf-historical-quadrature-2026-10-18 .
+The corrected release is initialized at
+https://github.com/mohsenkhadem1/physgauss-sde/releases/tag/pacnerf-exact-2026-10-18 ;
+its input asset and manifest are being published by the retry job, and remaining
+case ZIPs will be added by the completion hook for source run 39100239747.
 
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,
