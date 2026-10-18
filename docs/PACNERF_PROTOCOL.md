@@ -193,6 +193,11 @@ The verifier recomputes position means, interval quantiles, missing-frame scores
 the subspace lower bound, selected scalar chain diagnostics, and cached exact
 target values from raw states. All sixteen cases must pass before ranking.
 This checks numerical provenance, not physical correctness or global exploration.
+Numerical replay and finite-chain convergence are distinct flags: a correctly
+replayed unconverged chain is still ineligible for ranking. Interval replay uses
+the producer's float32 Torch linspace draw IDs, then independently recomputes
+quantiles in NumPy. At 32000 total draws, using float64 NumPy linspace for the
+IDs instead would select two different samples; the production scores are unchanged.
 
 After the first production case showed poor transfer, an additional **post-hoc
 contact integration diagnostic** compared the zero-noise, zero-unknown-load,

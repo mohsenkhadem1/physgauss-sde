@@ -62,6 +62,16 @@ Thirteen cases remain active. No joint/marginal comparison is available yet.
 Posterior-state integration probes give covariance relative eigenvalue error
 <=1.39e-7 for all three cases. Archived cube validation aggregate metrics also
 reproduce to <=2.3e-16 despite byte-level feature differences.
+Case 0 has now finished but FAILS finite convergence at 8000 draws per chain:
+worst Rhat 1.3783, minimum bulk/tail ESS 8.73/76.54. It passed at interim 1000
+then failed at 2000/4000/8000; motion/velocity traces show late regime switches
+while stiffness/damping appear mixed. Its numerical replay passes, including
+full force moments, but its posterior estimates are excluded from rankings.
+`audit_pacnerf_chain_traces.py` and the report preserve this failure. Twelve jobs
+remain active. The verifier now matches production's float32 interval-draw ID
+selection; NumPy float64 linspace differed in two IDs at 32000 draws. Production
+intervals and chains were not changed. Resuming an already completed 8000-draw
+case with the recovery workflow does not extend the declared maximum or fix it.
 
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,

@@ -1,6 +1,7 @@
 # PAC-NeRF external-data study: incomplete production run
 
-**Status: three of sixteen production cases completed and independently replayed.**
+**Status: four of sixteen production cases completed and independently replayed;
+three pass finite-chain diagnostics, one fails.**
 One neural/constant pair is available; no overall or joint/marginal ranking is
 available yet. The running
 [GitHub Actions experiment](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39073611351)
@@ -28,7 +29,7 @@ minimum bulk/tail ESS 1589/964. This does not prove global exploration.
 
 This is poor external-data transfer and severe interval undercoverage. There is
 no evidence yet that neural noise helps, or that marginalization is faster.
-The two missing counterpart models are required for those comparisons.
+Valid counterpart posteriors are required for those comparisons.
 
 The second completed case is **Torus, six views, neural noise, marginalized
 loads**: gap coordinate RMSE 97.54 mm, nominal 90% component coverage 18.10%,
@@ -60,6 +61,7 @@ neural amplitude. This is one object and schedule, not a general ranking or
 a hardware speed comparison. Their actual withheld images are shown side by
 side in the report. Explicit-force counterparts and the remaining regimes are
 still running.
+
 The force figure shows each available arm's unknown acceleration averaged over
 handles, with posterior mean plus/minus one standard deviation. The gray region
 is the unobserved gap. Inferred loads may compensate for reduced mechanics or
@@ -71,6 +73,25 @@ gap scores and the subspace lower bound, and sampled cached exact-target ratios
 to 2.4e-10. Force total covariance is checked against E[S]+Cov[m], and all
 retained-state conditional force moments are replayed. These checks
 support scoring and numerical provenance, not model truth or force calibration.
+
+## Late inference failure: Torus, four views, constant noise, marginalized loads
+
+This case reaches the declared 8000 retained draws per chain but fails badly:
+worst Rhat 1.3783, minimum bulk/tail ESS 8.73/76.54. An interim 1000-draw check
+passed; 2000, 4000 and 8000 fail. Material-parameter traces look mixed while
+motion/velocity traces reveal late switches between distinct solutions, and
+the chains have not agreed by the end. The trace audit uses no future geometry.
+
+Its numerical scores and full force moments replay correctly, but **they are
+not valid converged posterior estimates** and are excluded from model rankings.
+The four-view neural/constant comparison is therefore unresolved. Passing a
+short finite diagnostic elsewhere does not prove all remote solutions were seen.
+
+The replay audit also caught a verifier-only draw-selection assumption: production
+uses default float32 Torch linspace before selecting at most 2000 interval draws.
+At 32000 total retained draws, float64 NumPy linspace selected two different
+indices. Matching the production rule restores quantile replay to 1.5e-12 m.
+No production intervals, model, chains or scores were changed by this correction.
 
 ## Physical and data audits
 

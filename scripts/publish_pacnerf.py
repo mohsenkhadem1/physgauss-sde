@@ -111,9 +111,18 @@ def publish(raw, inputs, output):
             shutil.copyfile(root/name,output/name);audit_links.append(name)
     if (raw/'renderer-reference-audit.png').exists():
         shutil.copyfile(raw/'renderer-reference-audit.png',output/'renderer-reference-audit.png')
+    trace_images=[]
+    for record in raw.glob('chain-trace-audit-*.json'):
+        shutil.copyfile(record,output/record.name);audit_links.append(record.name)
+        png=record.with_suffix('.png')
+        if png.exists():
+            shutil.copyfile(png,output/png.name)
+            if not json.loads(record.read_text())['finite_chain_checks_pass']:trace_images.append(png.name)
     ready=passed and agreement_pass and raw_replay_pass
     summary = {'complete':complete, 'all_cases_pass_finite_chain_checks':passed,
         'all_cases_eligible_for_ranking':ready, 'cases':rows,
+        'available_cases':sum(not r['missing'] for r in rows),
+        'finite_chain_pass_cases':sum(r['valid_for_ranking'] for r in rows),
         'raw_checkpoint_verification_pass':raw_replay_pass,'numerical_audit_files':audit_links,
         'paired_sampler_agreement_screen':{'approximate_global_95_cutoff':global_cutoff,
             'coordinates':global_tests,'complete_pairs':len(agreement),'passes':agreement_pass,
@@ -229,6 +238,7 @@ def publish(raw, inputs, output):
         table+='<tr>'+''.join('<td>'+cell+'</td>' for cell in cells)+'</tr>'
     page=f'''<!doctype html><html><meta charset="utf-8"><title>PAC-NeRF sparse comparison</title><body style="font:17px system-ui;max-width:1150px;margin:40px auto;padding:20px;background:#fafafa;color:#182c38">
 <h1>PAC-NeRF elastic objects: sparse dynamic images</h1><h2>{header}</h2>
+<p>{summary['available_cases']} of 16 case results available; {summary['finite_chain_pass_cases']} pass finite-chain checks. A numerical replay pass does not turn an unconverged posterior into a valid estimate.</p>
 <p>{html.escape(summary['qualification'])}.</p><p>Constant and neural noise each use either analytically marginalized Gaussian loads or the identical explicit joint load prior. Their integrated motion posteriors should agree. Marginalization changes inference, not physical assumptions.</p>
 <p>The 4/6-view schedule labels include frame zero: they supply 3/5 later dynamic images over 14 timestamps (24 fps), one selected camera per observed time. The fixed-camera dataset is subsampled across cameras; this is not continuous moving-camera capture. All eleven initial views initialize appearance and initial geometry is supplied. Ground truth after frame zero is used only after sampling for evaluation.</p>
 {embed('comparison.png')}{embed('images.png')}{embed('loads.png')}
@@ -237,6 +247,7 @@ def publish(raw, inputs, output):
 <p>Interval coverage is descriptive over correlated particles, not a calibration guarantee. Model reduction, explicit ground contact, transferred diffusion, and 32px rendering limit physical conclusions. Stiffness scale is not a continuum Young’s modulus estimate. No force-error score is claimed.</p>
 <p>The linear propagator passes independent matrix-exponential checks. A post-hoc nominal zero-noise contact check found 16.4/17.2 mm whole-sequence coordinate differences for Torus/Bird against a refined solve of the same reduced ODE. Frame-held contact is therefore a material approximation. This is not an error decomposition of the fitted posterior or validation against the original MPM. The frozen comparison was not retuned after this finding.</p>
 <table cellpadding="8"><tr><th>Case</th><th>Finite chain checks pass</th><th>Gap coordinate RMSE (mm)</th><th>90% interval coverage</th><th>Mean interval width (mm)</th><th>Background-difference region PSNR (dB)</th></tr>{table}</table>
+{('<h2>Failed convergence audits</h2><p>These runs are excluded from scientific ranking. Checking material parameters alone can miss slow transitions in motion and force variables.</p>'+''.join(embed(name) for name in trace_images)) if trace_images else ''}
 <p><a href="summary.json">Complete results and diagnostics summary</a> · <a href="comparison.csv">CSV</a> · <a href="https://github.com/mohsenkhadem1/physgauss-sde/blob/main/docs/PACNERF_PROTOCOL.md">Protocol and limitations</a> · <a href="https://github.com/xuan-li/PAC-NeRF">Original data source</a></p></body></html>'''
     (output/'report.html').write_text(page,encoding='utf-8')
     hashes={str(f.relative_to(output)).replace('\\','/'):hashlib.sha256(f.read_bytes().replace(b'\r\n',b'\n') if f.suffix in ['.json','.csv','.html'] else f.read_bytes()).hexdigest() for f in output.rglob('*') if f.is_file()}

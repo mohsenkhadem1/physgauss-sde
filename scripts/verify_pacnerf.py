@@ -54,7 +54,10 @@ def verify_case(raw,inputs,index):
     initial=bundle['data']['gaussians'].numpy()
     qmean=q.mean(0)
     mean=initial[None]+np.einsum('tm,gcm->tgc',qmean,phi)
-    selected=np.rint(np.linspace(0,c*n-1,min(2000,c*n))).astype(int)
+    # Production score() uses torch's default float32 linspace before rounding.
+    # At 32000 draws its selected IDs can differ from float64 NumPy linspace.
+    # Reuse only that recorded selection rule; NumPy still recomputes all moments.
+    selected=torch.linspace(0,c*n-1,min(2000,c*n)).round().long().numpy()
     position=initial[None,None]+np.einsum('btm,gcm->btgc',q[selected],phi)
     lower,upper=np.quantile(position,[.05,.95],axis=0)
     maximum_mean_error=float(np.max(np.abs(mean-np.array(published['particle_mean_m']))))
@@ -119,6 +122,8 @@ def verify_case(raw,inputs,index):
     pose_ess=[diagnostics['quantities'][f'z{i}']['bulk_ess'] for i in pose_indices]
     gradient_batches=int(chains['gradient_evaluations'])
     return {'case':name,'draws_per_chain':n,'actual_position_coordinate_scale':float(actual_scale[0,0]),
+        'finite_chain_checks_pass':diagnostics['all_monitored_quantities_pass'],
+        'interval_selection_rule':'producer CPU torch.linspace default float32, rounded to integer IDs; NumPy recomputes quantiles at those IDs',
         'maximum_position_mean_replay_error_m':maximum_mean_error,
         'maximum_interval_replay_error_m':maximum_interval_error,'maximum_cached_log_ratio_error':cache_error,
         'independent_gap_rmse_m':rmse,'subspace_oracle_gap_rmse_m':floor,'raw_diagnostics_replayed':checked,
@@ -141,4 +146,4 @@ if __name__=='__main__':
         row=verify_case(a.raw,a.inputs,i);rows.append(row);print(json.dumps(row),flush=True)
     output=Path(a.output);output.parent.mkdir(parents=True,exist_ok=True)
     output.write_text(json.dumps({'all_pass':all(r['all_pass'] for r in rows),'source_fingerprint':source_fingerprint(),
-        'cases':rows,'qualification':'raw numerical/scoring replay; does not prove physical correctness, global exploration or calibration'},indent=2)+'\n')
+        'cases':rows,'qualification':'raw numerical/scoring replay; does not assert finite-chain convergence or prove physical correctness, global exploration or calibration'},indent=2)+'\n')
