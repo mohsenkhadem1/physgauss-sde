@@ -247,14 +247,17 @@ refitting. A restart's reported elapsed seconds cover only that invocation;
 retain both run records and use accumulated gradient batches for algorithmic
 efficiency comparisons. Resuming does not expand the declared 8000-draw maximum.
 The recovery workflow also fetches a SHA256-pinned checkpoint-only wrapper from
-commit `a4eb654c0959e5e5b5f154079cf8b51defec3986`. It imports the original b2d081a
-worker, retains its settings, and breaks retained draws into <=100-draw chunks
+commit `0f6bc25984d9da75d7881da056f0dc28708d4ae0`. It imports the original b2d081a
+worker, retains its settings, and breaks retained draws into <=50-draw chunks
 with atomic file replacement. The first call after fresh warmup saves sixteen
-retained draws. Warmup itself is not checkpointed. No additional warmup is
-performed after a saved chain exists; diagnostics and stopping remain at the
-original budgets. Two nonlinear control tests reproduce the unsplit sampler's
-samples, acceptance counts, step size and RNG state exactly, including a resumed
-prefix. Extra deterministic gradient replays at chunk boundaries are counted.
+retained draws. Warmup state is saved every 25 transitions and at its boundary,
+including dual-averaging accumulators, iteration and RNG. A resumed warmup
+finishes the same 500 transitions rather than starting another 500. No additional
+warmup is performed after a saved chain exists; diagnostics and stopping remain
+at the original budgets. Four nonlinear control tests reproduce the original
+sampler's samples, acceptance counts, step size and RNG state exactly, including
+interruption during/end of warmup and resumed retained prefixes. Extra
+deterministic gradient replays at recovery boundaries are counted.
 Each wrapper invocation is recorded separately, without rewriting original
 worker provenance. This guards against timeouts; it does not fix poor mixing.
 

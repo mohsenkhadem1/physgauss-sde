@@ -82,13 +82,15 @@ verifies local ZIPs without authentication/network: current plan has nine
 archives totaling 146154595 bytes. Full ZIPs and extracted chains remain locally
 available beyond Actions' 30-day retention. Core comparison/pushes continue.
 The finer-checkpoint wrapper and recovery workflow are now pushed. Wrapper
-commit `a4eb654c0959e5e5b5f154079cf8b51defec3986` is SHA256-pinned in the
+commit `0f6bc25984d9da75d7881da056f0dc28708d4ae0` is SHA256-pinned in the
 workflow; it imports the original b2d081a worker and preserves its settings.
-Two nonlinear tests reproduce unsplit and resumed sample/RNG streams exactly.
-Full CPU validation succeeds at `1f12824ead0d96d4a73250a2ae83252fe8dddc96`
-(Actions run 39087528131). Use these finer retained checkpoints for unfinished
-cases if needed. Fresh warmup itself is not checkpointed. No recovery run has
-been dispatched yet; original twelve workers remain active.
+Four local nonlinear controls reproduce the original sample/RNG stream exactly,
+including interrupted warmup and retained prefixes. Prior retained-only tooling
+passed full CPU validation at `1f12824ead0d96d4a73250a2ae83252fe8dddc96`
+(Actions run 39087528131); full CI for the new warmup extension is pending.
+Recovery now saves warmup every 25 transitions and retained blocks <=50, with
+original diagnostic budgets. No recovery run has been dispatched yet; original
+twelve workers remain active.
 
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,

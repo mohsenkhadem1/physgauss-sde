@@ -34,9 +34,9 @@ jobs:
           python - <<'PY'
           import hashlib, urllib.request
           from pathlib import Path
-          url='https://raw.githubusercontent.com/mohsenkhadem1/physgauss-sde/a4eb654c0959e5e5b5f154079cf8b51defec3986/scripts/checkpoint_pacnerf.py'
+          url='https://raw.githubusercontent.com/mohsenkhadem1/physgauss-sde/0f6bc25984d9da75d7881da056f0dc28708d4ae0/scripts/checkpoint_pacnerf.py'
           with urllib.request.urlopen(url,timeout=60) as response: content=response.read()
-          assert hashlib.sha256(content).hexdigest()=='5bd6bb64e8e391523d8bb7236cce6e39b3b8d0ddf283e8d4e820bd876054c467'
+          assert hashlib.sha256(content).hexdigest()=='d79e19801c309cdf1acc9fb36c998237126ffe190737491d350691b32915105b'
           Path('scripts/checkpoint_pacnerf.py').write_bytes(content)
           PY
       - uses: actions/download-artifact@v4
@@ -68,7 +68,7 @@ jobs:
         timeout-minutes: 330
         env:
           CASE: ${{ inputs.case }}
-        run: python -u scripts/checkpoint_pacnerf.py --case-index "$CASE" --chunk-size 100
+        run: python -u scripts/checkpoint_pacnerf.py --case-index "$CASE" --chunk-size 50
       - name: Discard only an interrupted temporary checkpoint write
         if: always()
         run: |
