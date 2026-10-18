@@ -163,13 +163,24 @@ def publish(raw, inputs, output):
         p=json.loads(record.read_text());q=torch.tensor(p['modal_pose_mean_m'],dtype=torch.float64)
         specs=[(6,0),(6,7)]
         with torch.no_grad():rgb=model.renderer(q[[6,6]][None],specs)[0].clamp(0,1)
-        fig,axes=plt.subplots(2,3,figsize=(9,6),layout='constrained')
+        constant_file=output/'cases'/'torus__6views__constant__marginal'/'posterior.json'
+        constant_rgb=None
+        if constant_file.exists():
+            const_q=torch.tensor(json.loads(constant_file.read_text())['modal_pose_mean_m'],dtype=torch.float64)
+            with torch.no_grad():constant_rgb=model.renderer(const_q[[6,6]][None],specs)[0].clamp(0,1)
+        columns=4 if constant_rgb is not None else 3
+        fig,axes=plt.subplots(2,columns,figsize=(3*columns,6),layout='constrained')
         for i,(f,c) in enumerate(specs):
             target=model.data['images'][c,f]
-            axes[i,0].imshow(target);axes[i,1].imshow(rgb[i]);axes[i,2].imshow((target-rgb[i]).abs().mean(-1),vmin=0,vmax=.3,cmap='magma')
+            axes[i,0].imshow(target)
+            if constant_rgb is not None:
+                axes[i,1].imshow(constant_rgb[i]);axes[i,1].set_title('Constant noise: mean pose')
+            neural_column=columns-2;error_column=columns-1
+            axes[i,neural_column].imshow(rgb[i]);axes[i,error_column].imshow((target-rgb[i]).abs().mean(-1),vmin=0,vmax=.3,cmap='magma')
             for ax in axes[i]:ax.axis('off')
             axes[i,0].set_title(f'Official image: frame {f}, camera {c}')
-            axes[i,1].set_title('Rendered posterior mean pose');axes[i,2].set_title('Absolute RGB error (0–0.3)')
+            axes[i,neural_column].set_title('Neural noise: mean pose');axes[i,error_column].set_title('Neural absolute error (0–0.3)')
+        fig.suptitle('Torus six-view schedule; marginalized loads; both image pairs withheld')
         fig.savefig(output/'images.png',dpi=150);plt.close(fig)
     force_files=[output/'cases'/f'torus__6views__neural__{arm}'/'posterior.json' for arm in ['marginal','joint']]
     if all(f.exists() for f in force_files):

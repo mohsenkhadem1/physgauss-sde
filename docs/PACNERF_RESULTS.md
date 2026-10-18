@@ -1,7 +1,8 @@
 # PAC-NeRF external-data study: incomplete production run
 
-**Status: two of sixteen production cases completed and independently replayed.**
-No neural/constant or joint/marginal ranking is available yet. The running
+**Status: three of sixteen production cases completed and independently replayed.**
+One neural/constant pair is available; no overall or joint/marginal ranking is
+available yet. The running
 [GitHub Actions experiment](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39073611351)
 uses source `b2d081a7a55ecf1027921f5d841c043e23713a9d`.
 The matching CPU validation run 39073594746 passed all 102 numerical tests
@@ -36,12 +37,34 @@ minimum bulk/tail ESS 922/590), with 2000 retained draws per chain. Independent
 raw replay also passes. Its fixed-subspace oracle floor is 14.87 mm. The report
 now shows its actual withheld images against the rendered posterior mean pose.
 The 4/6 schedules differ in cameras and gap length, so these two numbers do not
-isolate the effect of adding views. Both completed cases are the same inference
-arm; neither supports a neural/constant or marginal/joint comparison yet.
+isolate the effect of adding views. Both of these cases use neural noise with
+marginalized loads.
 
-Independent NumPy replay reproduces posterior means/intervals to below 1e-12 m,
+## First matched noise comparison: Torus, six-view schedule, marginalized loads
+
+| Quantity | Constant noise | Neural noise |
+|---|---:|---:|
+| Gap coordinate RMSE | 97.46 mm | 97.54 mm |
+| Nominal 90% component coverage | 17.84% | 18.10% |
+| Mean 90% width | 31.15 mm | 31.19 mm |
+| Background-difference-region PSNR | 15.6343 dB | 15.6344 dB |
+| Retained draws per chain | 4000 | 2000 |
+| Worst monitored Rhat | 1.00335 | 1.00422 |
+| Minimum bulk / tail ESS | 1332 / 969 | 922 / 590 |
+
+Both pass finite sampling diagnostics and independent raw-state/force replay.
+Constant noise required its declared extension to 4000 draws per chain. Their
+reconstructions and interval widths are practically similar in this one regime,
+with no demonstrated accuracy or calibration benefit from the transferred
+neural amplitude. This is one object and schedule, not a general ranking or
+a hardware speed comparison. Their actual withheld images are shown side by
+side in the report. Explicit-force counterparts and the remaining regimes are
+still running.
+
+Independent NumPy replay reproduces posterior means/intervals to below 4e-12 m,
 gap scores and the subspace lower bound, and sampled cached exact-target ratios
-to 1.9e-10. Force total covariance is checked against E[S]+Cov[m]. These checks
+to 2.4e-10. Force total covariance is checked against E[S]+Cov[m], and all
+retained-state conditional force moments are replayed. These checks
 support scoring and numerical provenance, not model truth or force calibration.
 
 ## Physical and data audits

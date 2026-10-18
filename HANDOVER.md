@@ -54,6 +54,14 @@ Case 6 has also completed: Torus six-view neural/marginal gap error 97.54 mm,
 90% coverage 18.10%, worst Rhat 1.00422. Both cases now pass full retained-state
 force moment replay as well as coordinate scoring/cache checks. The partial
 report contains case 6's actual withheld images and reconstruction errors.
+Case 4 (six-view Torus constant/marginal) is also verified: 4000 retained draws
+per chain, worst Rhat 1.00335, gap error 97.46 mm, nominal 90% coverage 17.84%.
+This gives one matched noise pair: neural 97.54 mm / 18.10% versus constant
+97.46 mm / 17.84%, practically similar here and both badly undercovered.
+Thirteen cases remain active. No joint/marginal comparison is available yet.
+Posterior-state integration probes give covariance relative eigenvalue error
+<=1.39e-7 for all three cases. Archived cube validation aggregate metrics also
+reproduce to <=2.3e-16 despite byte-level feature differences.
 
 **Latest completed milestone: nonlinear posterior inference audit and 36-case rerun.**
 Read `docs/POSTERIOR_RESULTS.md`, `docs/POSTERIOR_INFERENCE.md`,
