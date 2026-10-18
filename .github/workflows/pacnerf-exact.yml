@@ -88,3 +88,33 @@ jobs:
           name: pacnerf-chains-${{ matrix.case }}
           path: runs/pacnerf-exact/**/*.pt
           retention-days: 30
+  publish:
+    name: Verify and publish compact comparison
+    needs: [inputs, compare]
+    if: ${{ always() && !cancelled() && !inputs.pilot }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12.4'}
+      - run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install numpy==2.0.0 -e '.[performance]'
+      - uses: actions/download-artifact@v4
+        with: {name: pacnerf-inputs, path: runs/pacnerf-inputs}
+      - name: Collect completed workers and their exact checkpoint provenance
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -u scripts/collect_pacnerf_actions.py --run "$GITHUB_RUN_ID" --output runs/pacnerf-exact-production --chains --once
+      - name: Replay targets and scores then publish compact report to main
+        run: python -u scripts/finalize_pacnerf_exact.py --raw runs/pacnerf-exact-production --inputs runs/pacnerf-inputs --output runs/pacnerf-exact-publication --push-compact-report
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: complete-pacnerf-comparison
+          path: runs/pacnerf-exact-publication
+          retention-days: 30

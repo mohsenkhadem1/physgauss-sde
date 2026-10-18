@@ -13,7 +13,7 @@ import re
 import subprocess
 import time
 import urllib.request
-from download_study_artifact import download,NoRedirect
+from download_study_artifact import download,NoRedirect,github_token
 
 REPOSITORY='mohsenkhadem1/physgauss-sde'
 
@@ -23,12 +23,7 @@ def collect(run_id, output, chains=False, once=False):
     if (output/'workflow_status.json').exists():
         previous_run=json.loads((output/'workflow_status.json').read_text())['run_id']
         if previous_run!=run_id:raise ValueError('Output belongs to another run; choose a fresh folder')
-    credential=subprocess.run(['git','credential','fill'],input='protocol=https\nhost=github.com\n\n',
-        text=True,capture_output=True,check=True,
-        env=dict(os.environ,GIT_TERMINAL_PROMPT='0',GCM_INTERACTIVE='Never'))
-    fields=dict(x.split('=',1) for x in credential.stdout.splitlines() if '=' in x)
-    token=fields.get('password')
-    if not token:raise ValueError('Existing GitHub authentication unavailable')
+    token=github_token()
     def api(path):
         request=urllib.request.Request('https://api.github.com/repos/'+REPOSITORY+'/'+path,
             headers={'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json',

@@ -97,3 +97,14 @@ The frozen exact-innovation worker commit is
 `219665b0776d9a1b5d092176331e21f724499bca`. Both the launch and continuation workflows
 check out this commit explicitly. Controller/documentation commits may advance
 without changing saved worker settings, numerical source or proposal kernels.
+
+The full workflow's final stage downloads the completed worker artifacts,
+independently replays stored targets and position/force moments, checks
+stratified saved-state matrix integrals and coordinate identities, and screens
+marginal/joint agreement. It publishes a clearly labeled incomplete report if
+some workers fail or time out; failed checks never become a ranking. Compact
+JSON/CSV/HTML/PNG reports and the results document are committed to main using
+a separate disposable checkout and a normal fast-forward push. Existing reports
+or concurrently edited results documents are not overwritten. Raw checkpoints
+remain in 30-day Actions artifacts and local copies. The optional permanent
+public raw archive is still not authorized and is not part of this workflow.

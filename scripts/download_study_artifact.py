@@ -19,7 +19,9 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl): return None
 
 
-def download(run_id, name, output, repository="mohsenkhadem1/physgauss-sde"):
+def github_token():
+    token=os.environ.get('GITHUB_TOKEN')
+    if token:return token
     environment = dict(os.environ, GIT_TERMINAL_PROMPT="0", GCM_INTERACTIVE="Never")
     credential = subprocess.run(["git", "credential", "fill"], input="protocol=https\nhost=github.com\n\n",
         text=True, capture_output=True, env=environment, check=False)
@@ -27,6 +29,11 @@ def download(run_id, name, output, repository="mohsenkhadem1/physgauss-sde"):
     fields = dict(line.split("=", 1) for line in credential.stdout.splitlines() if "=" in line)
     token = fields.get("password")
     if not token: raise RuntimeError("Existing GitHub credential has no API token.")
+    return token
+
+
+def download(run_id, name, output, repository="mohsenkhadem1/physgauss-sde"):
+    token=github_token()
     def request(path):
         url = "https://api.github.com/"+path
         return urllib.request.Request(url, headers={"Authorization": "Bearer "+token,

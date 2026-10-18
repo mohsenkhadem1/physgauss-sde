@@ -1,9 +1,11 @@
 # Equations for the frozen PAC-NeRF transfer model
 
-This describes `src/physgauss/pacnerf_model.py` at production source
-`b2d081a7a55ecf1027921f5d841c043e23713a9d`. It is a reduced graph model,
-not the authors' MPM or the earlier cube's tetrahedral mechanics.
-The [protocol](PACNERF_PROTOCOL.md) defines observations and diagnostics.
+This describes the corrected numerical model in
+`src/physgauss/pacnerf_model.py` and exact-innovation worker `219665b`.
+It is a reduced graph model, not the authors' MPM or the earlier cube's
+mechanics. The [corrected protocol](PACNERF_EXACT_PROTOCOL.md) defines the
+observations, source pins and diagnostics. The historical four-point
+quadrature results are superseded.
 
 ## Motion and rendering
 
@@ -84,8 +86,13 @@ D_\theta=\int_0^h F_\theta(s)J\,ds,\quad
 Q_i=\int_0^h F_\theta(s)JC_iJ^TF_\theta(s)^Tds.
 $$
 
-The implementation uses exact analytic F and four-point quadrature for these
-integrals. Let P_i map a to modal applied acceleration at time i. Then
+The implementation uses exact analytic F and balanced augmented matrix
+exponentials for these integrals: a 3x3 affine block for each modal input and
+a stable 5x5 Kronecker-sum block for every mode pair's covariance integral.
+All off-diagonal entries of C_i are retained. Fixed four-point quadrature was
+inaccurate at high stiffness and is superseded. These exact linear integrals
+do not remove the frame-held contact approximation. Let P_i map a to modal
+applied acceleration at time i. Then
 
 $$
 r_i=u_{i+1}-F_\theta(h)u_i-D_\theta b(q_i),\qquad
@@ -135,9 +142,61 @@ priors. All eleven initial images fit appearance; sparse later images fit motion
 Future geometry enters only scoring after sampling.
 
 Despite Gaussian load elimination, the motion posterior is **not Gaussian**:
-rendering, contact, and state-dependent diffusion are nonlinear. Four chains
-therefore use Gaussian-reference split HMC with full nonlinear image/physics
-gradients and exact Metropolis correction. A mode and observed Hessian provide
-proposal coordinates only. The protocol's stationarity and finite-chain gates,
-paired joint/marginal mean screen, and independent raw replay precede ranking.
-None establishes physical correctness or repeated-dataset uncertainty calibration.
+rendering, contact and state-dependent diffusion are nonlinear.
+
+The sampler uses an exact triangular change of coordinates. For explicit
+loads, independent standard innovations give
+
+$$
+u_{i+1}=F_\theta u_i+D_\theta b(q_i)+G_i a+\operatorname{chol}(Q_i)\xi_i.
+$$
+
+For marginalized loads, maintain the conditional Gaussian distribution
+$a\mid u_{0:i},\theta\sim N(m_i,S_i)$. Then
+
+$$
+\begin{aligned}
+\bar u_{i+1}&=F_\theta u_i+D_\theta b(q_i)+G_i m_i,\\
+V_i&=Q_i+G_iS_iG_i^T,\\
+u_{i+1}&=\bar u_{i+1}+\operatorname{chol}(V_i)\xi_i,\\
+S_{i+1}^{-1}&=S_i^{-1}+G_i^TQ_i^{-1}G_i,\\
+S_{i+1}^{-1}m_{i+1}&=S_i^{-1}m_i+G_i^TQ_i^{-1}r_i.
+\end{aligned}
+$$
+
+Start with $m_0=0,S_0=I$. Covariance and contact use the preceding state,
+so each transform is causal and its Jacobian is triangular. The log absolute
+Jacobian is the sum of Cholesky log diagonals, minus fixed state-coordinate
+log scales. It cancels the transition Gaussian normalizers exactly. With
+$\eta=(\theta,v_0/0.5,\xi[,a])$, the transformed negative log density is
+
+$$
+U(\eta)=\tfrac12\|\eta\|^2+
+\tfrac12\|[R(u(\eta))-y]/0.08\|^2+\text{constant}.
+$$
+
+The mapping $u(\eta)$ remains fully nonlinear. Unit tests and saved-state
+replays compare this expression to physical density minus its log Jacobian.
+The physical path posterior and force priors are unchanged.
+
+Fit a reference center c on observed images only. Its positive-definite
+Gauss-Newton precision is $P=I+J_{\rm RGB}^TJ_{\rm RGB}$, assembled using
+sensitivities of observed poses and **all observed pixels**. It is fixed before
+sampling. If $BB^T=P^{-1}$ and $\eta=c+Bw$, split HMC evaluates the exact
+log-density correction
+
+$$
+\log\frac{\pi_w(w)}{\phi(w)}=-U(c+Bw)+U(c)+\tfrac12\|w\|^2.
+$$
+
+The Gaussian part admits exact rotations; nonlinear kicks and Metropolis
+correction retain the full target. Neither Gauss-Newton nor the Gaussian
+reference substitutes a linearized image likelihood. A coordinate-dependent
+reference mode is not a physical-path MAP and is not a posterior mean.
+
+Four chains monitor both physical and innovation variables, force conditional
+means, log target and covariance normalizers. The protocol's finite-chain gates,
+paired joint/marginal mean screen and independent raw replay precede ranking.
+Using observations after a missing interval is smoothing, not future-video
+forecasting. None of these checks establishes physical correctness or
+repeated-dataset uncertainty calibration.

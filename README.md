@@ -2,21 +2,27 @@
 
 Research prototype for physically constrained Gaussian scene reconstruction from **one moving camera with missing frames**.
 
-The new [PAC-NeRF elastic transfer protocol](docs/PACNERF_PROTOCOL.md) compares
+The [PAC-NeRF elastic transfer study](docs/PACNERF_EXACT_PROTOCOL.md) compares
 constant versus frozen neural internal noise, each with analytically marginalized
 or explicitly sampled Gaussian loads, on official Torus/Bird images. Four- and
-six-view schedules use one camera per observed time. This first external-data
-test conditions on the supplied initial geometry and all eleven initial camera
-images; it is not single-video geometry recovery. The reduced elastic model,
-transferred diffusion, camera-switching protocol, convergence gates, and limits
-are documented. `.github/workflows/pacnerf-comparison.yml` runs the sixteen cases
-on GitHub Actions and retains full checkpoints plus compact reports. Development
-pilots and failed stationarity checks are excluded from scientific rankings.
-The [production status and early verified results](docs/PACNERF_RESULTS.md) and
-[incomplete offline report](examples/pacnerf-sparse/report.html) are versioned;
-the full comparison is still running and no ranking is available yet.
-The [equation guide](docs/PACNERF_EQUATIONS.md) describes this reduced transfer
-model and its exact Gaussian load elimination.
+six-view schedules mean three/five later dynamic images plus frame zero. Initial
+geometry and all eleven initial appearance views are supplied. The reduced
+graph mechanics and fixed-camera switching are declared approximations.
+
+The historical four-point covariance/load integration experiment is
+**superseded by a confirmed high-stiffness numerical defect**. Its
+[historical report](examples/pacnerf-sparse/report.html) remains available for
+audit and is not a corrected scientific ranking. The corrected model uses
+exact coupled modal integrals. Exact causal innovation coordinates and a fixed
+full-image Gauss-Newton metric assist nonlinear posterior sampling without
+changing the physical model or force priors. A four-arm observed-only pilot is
+[running on GitHub Actions](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39099258939)
+before a fresh sixteen-case study. No corrected reconstruction results are
+claimed yet. `.github/workflows/pacnerf-exact.yml` launches the comparison;
+`pacnerf-exact-resume.yml` preserves saved references, kernels and RNG streams.
+The [equation guide](docs/PACNERF_EQUATIONS.md) describes the model, exact load
+elimination and innovation coordinates. Full checkpoints stay local and in
+Actions artifacts; code and compact reports are versioned here.
 
 The latest [posterior audit and 36-case rerun](docs/POSTERIOR_RESULTS.md) fixes slow nonlinear posterior exploration with exact-target split Hamiltonian sampling. **All 36 cases pass complete finite-chain diagnostics**: maximum Rhat 1.00934, minimum bulk/tail ESS 821/556. Start with the [offline report](examples/converged-posterior/report.html), [equations](docs/POSTERIOR_INFERENCE.md) and [frozen protocol](docs/POSTERIOR_CONVERGENCE_PROTOCOL.md). Every model in that cube study marginalizes external forces.
 

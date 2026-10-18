@@ -6,7 +6,7 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
-**CURRENT: numerical integration correction, 04:17 UTC.** The historical PAC
+**CURRENT: exact-innovation pilot, 05:12 UTC.** The historical PAC
 target is superseded. Auditing all sixteen saved prefixes exposed 90.885%
 relative covariance eigenvalue error and 0.925% load-map error in Bird four-view
 constant/marginal high-stiffness states. Refined 128/256 quadrature and an
@@ -45,7 +45,26 @@ states. Fresh pilot/full directories are mandatory. The old exact physical
 coordinate pilot cannot resume into this worker. See
 `docs/PACNERF_EXACT_PROTOCOL.md`. No priors, weights, observations or mechanical
 parameters were retuned. The 118-test CI at e77276e passed before these new
-inference changes; a new CI and four-arm observed-only pilot follow.
+inference changes; the new CI run 39099244484 passes all 121 tests and smoke pipelines.
+The four-arm exact-innovation pilot is run 39099258939, controller 9573274,
+actual frozen worker 219665b. Collector session 10645 writes
+`runs/pacnerf-exact-innovation-pilot`; the corrected inputs are in
+`runs/pacnerf-exact-inputs`, with all four PT files byte-identical to original
+production inputs. The initial exact physical-coordinate pilot 39098175068
+finished with three successes and the constant/marginal fit failure; all raw
+artifacts are local in `runs/pacnerf-exact-pilot`. No corrected full comparison
+is launched yet.
+
+The publication controller now verifies checkpoints/scores/density identities,
+both geometry and saved-state transition integrals, and pair agreement before
+ranking. `finalize_pacnerf_exact.py` passed a local empty-batch end-to-end smoke
+without falsely claiming numerical validity or ranking. The full Actions
+workflow will run this finalizer after workers finish, upload its report and
+commit compact artifacts using a separate disposable worktree with no force
+push. Raw checkpoints never enter Git. It refuses an existing corrected report
+or concurrently changed results document. Three new publication/credential
+safety tests pass locally. The report controller may advance; worker and
+numerical model stay pinned.
 
 **Historical approximate-target milestone: six of sixteen final
 worker results are available, five pass finite checks. Ten original workers reached their computation cap
