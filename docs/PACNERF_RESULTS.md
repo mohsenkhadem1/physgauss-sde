@@ -78,6 +78,21 @@ Supplied reference particles project onto the corresponding official images
 at frames 0,3,6,13 for both objects. This visual audit supports the coordinate
 and time conventions; it is not a fitted reconstruction.
 
+An evaluation-only render audit holds the original colors, Gaussian radius,
+opacity, 32px resolution and depth integration fixed, but supplies either the
+true future particle centers or their least-squares modal projection. Over the
+six-view schedule's 138 held-out image pairs:
+
+| Region PSNR | True centers supplied | Projected geometry supplied |
+|---|---:|---:|
+| Torus | 18.15 dB | 17.75 dB |
+| Bird | 19.35 dB | 19.47 dB |
+
+Visible rendering error remains even with true geometry. These are post-hoc
+diagnostic references, not sparse reconstructions or upper bounds on RGB PSNR;
+inaccurate geometry can compensate for image-model errors. Production inference
+is unchanged. Background compositing also lacks table-depth occlusion.
+
 The linear propagator/noise quadrature passes independent full-matrix checks
 (worst relative covariance error 2.85e-7). However a post-hoc nominal, zero-noise,
 zero-load check finds 16.41/17.20 mm whole-sequence coordinate differences for

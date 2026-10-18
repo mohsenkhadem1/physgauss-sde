@@ -106,9 +106,11 @@ def publish(raw, inputs, output):
     audit_links=[]
     for root,name in [(inputs,'transition-audit.json'),(raw,'contact-integration-diagnostic.json'),
         (raw,'noise-transfer-diagnostic.json'),(raw,'calibration-replay-diagnostic.json'),
-        (raw,'posterior-transition-diagnostic.json')]:
+        (raw,'posterior-transition-diagnostic.json'),(raw,'renderer-reference-diagnostic.json')]:
         if (root/name).exists():
             shutil.copyfile(root/name,output/name);audit_links.append(name)
+    if (raw/'renderer-reference-audit.png').exists():
+        shutil.copyfile(raw/'renderer-reference-audit.png',output/'renderer-reference-audit.png')
     ready=passed and agreement_pass and raw_replay_pass
     summary = {'complete':complete, 'all_cases_pass_finite_chain_checks':passed,
         'all_cases_eligible_for_ranking':ready, 'cases':rows,
@@ -231,6 +233,7 @@ def publish(raw, inputs, output):
 <p>The 4/6-view schedule labels include frame zero: they supply 3/5 later dynamic images over 14 timestamps (24 fps), one selected camera per observed time. The fixed-camera dataset is subsampled across cameras; this is not continuous moving-camera capture. All eleven initial views initialize appearance and initial geometry is supplied. Ground truth after frame zero is used only after sampling for evaluation.</p>
 {embed('comparison.png')}{embed('images.png')}{embed('loads.png')}
 <h2>Reference data audit</h2><p>The following overlays show the supplied particle truth projected into official images. They check coordinate/time conventions and are not reconstructions from the model. Future particle geometry is used only for evaluation.</p>{embed('reference_alignment.png')}
+<p>The next audit renders supplied true particle centers and their least-squares projection into the fixed shape subspace. Colors and all rendering settings remain fixed from initialization. It exposes image-model error even when geometry is supplied. These are evaluation-only diagnostic references, not sparse reconstructions or bounds on achievable RGB scores.</p>{embed('renderer-reference-audit.png')}
 <p>Interval coverage is descriptive over correlated particles, not a calibration guarantee. Model reduction, explicit ground contact, transferred diffusion, and 32px rendering limit physical conclusions. Stiffness scale is not a continuum Young’s modulus estimate. No force-error score is claimed.</p>
 <p>The linear propagator passes independent matrix-exponential checks. A post-hoc nominal zero-noise contact check found 16.4/17.2 mm whole-sequence coordinate differences for Torus/Bird against a refined solve of the same reduced ODE. Frame-held contact is therefore a material approximation. This is not an error decomposition of the fitted posterior or validation against the original MPM. The frozen comparison was not retuned after this finding.</p>
 <table cellpadding="8"><tr><th>Case</th><th>Finite chain checks pass</th><th>Gap coordinate RMSE (mm)</th><th>90% interval coverage</th><th>Mean interval width (mm)</th><th>Background-difference region PSNR (dB)</th></tr>{table}</table>

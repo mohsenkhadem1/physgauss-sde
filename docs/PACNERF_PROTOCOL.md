@@ -56,6 +56,7 @@ of handle displacement. Appearance colors use only the eleven initial images.
 Isotropic Gaussian footprints use continuous depth extinction/emission, radius
 0.045 m, opacity 0.7, and 24 depth slabs. Known empty-background images are
 composited with the object. Initial static-render errors are reported.
+This compositing does not model occlusion by the table's depth surface.
 
 The state includes log stiffness scale, log damping scale, initial modal velocity,
 and each later frame's modal pose and velocity. Stiffness/damping have standardized
@@ -223,6 +224,14 @@ completed neural/marginal Torus cases, maximum relative covariance eigenvalue
 error is 1.39e-7 and maximum relative load-map error is 6.12e-12. This supports
 linear integration accuracy at those probes, not all posterior tails or contact
 integration accuracy; the contact audit remains a separate material limitation.
+`audit_pacnerf_renderer_reference.py` also renders the supplied true particle
+centers and their evaluation-only least-squares modal projection, using the
+unchanged initial colors and Gaussian settings. It evaluates the same 138
+held-out pairs as the six-view schedule, and never refits appearance. These
+diagnostic references expose image-model mismatch; they are neither sparse
+reconstructions nor upper bounds on RGB PSNR, since geometrically incorrect
+poses can sometimes compensate for rendering errors. No future geometry is
+introduced into production fitting by this audit.
 
 For an interrupted production worker, `pacnerf-resume.yml` can download its
 saved JSON/reference/chains and continue the **exact original** worker commit,
