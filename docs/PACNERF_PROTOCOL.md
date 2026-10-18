@@ -216,6 +216,13 @@ cube validation aggregate metrics to at most 2.3e-16 absolute difference, despit
 different feature byte hashes. This is consistent with tiny floating-point
 variation rather than a material calibration replay failure. It does not
 establish PAC calibration or reproduce the original feature bytes exactly.
+`audit_pacnerf_posterior_transition.py` additionally checks sixteen stratified
+retained states per completed case, independently reassembling nodal diffusion
+factors and full-matrix transition/covariance/load integrals. For the first two
+completed neural/marginal Torus cases, maximum relative covariance eigenvalue
+error is 1.39e-7 and maximum relative load-map error is 6.12e-12. This supports
+linear integration accuracy at those probes, not all posterior tails or contact
+integration accuracy; the contact audit remains a separate material limitation.
 
 For an interrupted production worker, `pacnerf-resume.yml` can download its
 saved JSON/reference/chains and continue the **exact original** worker commit,
