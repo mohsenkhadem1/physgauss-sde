@@ -7,7 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 import torch
-from pacnerf_comparison import cases,make_model,Target,write
+from pacnerf_comparison import cases,make_model,Target,make_target,write
 from inspect_pacnerf_attempts import find
 from physgauss.cli import source_fingerprint
 
@@ -52,7 +52,7 @@ def verify(before,after,inputs,index,expected_additional=None):
     boundary_replays=new['gradient_evaluations']-old['gradient_evaluations']-split_steps
     if not 1<=boundary_replays<=max(1,added//16):raise ValueError('Unexpected gradient counter increment')
     model,_=make_model(inputs,index);reference=torch.load(references[0],weights_only=True)
-    target=Target(model,reference['mean'],reference['precision'])
+    target=make_target(model,reference)
     ids=torch.arange(n,n+added) if added<=16 else torch.linspace(n,n+added-1,4).round().long()
     probes=new['white'][:,ids].reshape(-1,d);stored=new['log_ratio'][:,ids].flatten();replayed=[]
     for batch in probes.split(16):

@@ -8,7 +8,7 @@ import hashlib
 import json
 from pathlib import Path
 import torch
-from pacnerf_comparison import cases,make_model,Target,write
+from pacnerf_comparison import cases,make_model,Target,make_target,write
 from pacnerf_innovations import InnovationModel
 from physgauss.cli import source_fingerprint
 
@@ -22,7 +22,7 @@ def audit(raw,inputs):
         if not (folder/'chains.pt').exists():continue
         reference=torch.load(folder/'reference.pt',weights_only=True)
         chains=torch.load(folder/'chains.pt',weights_only=True)
-        model,_=make_model(inputs,index);target=Target(model,reference['mean'],reference['precision'])
+        model,_=make_model(inputs,index);target=make_target(model,reference)
         selected=torch.linspace(0,chains['white'].shape[1]-1,4).round().long()
         physical=target.decode(chains['white'][:,selected].flatten(0,1))
         innovation=InnovationModel(model)

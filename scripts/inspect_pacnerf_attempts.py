@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 import re
 import torch
-from pacnerf_comparison import cases,make_model,Target,write
+from pacnerf_comparison import cases,make_model,Target,make_target,write,stationarity_record
 from physgauss.cli import source_fingerprint
 
 
@@ -54,10 +54,7 @@ def inspect(raw,inputs):
             row['settings_input_source_checks_pass']=True
         if fit_path:
             stationarity=json.loads(fit_path.read_text())['stationarity']
-            last=stationarity['history'][-1]
-            row['mode_stationarity']={'newton_decrement':stationarity['newton_decrement'],
-                'minimum_observed_curvature_eigenvalue':last['curvature']['minimum_observed_eigenvalue'],
-                'stationary':stationarity['stationary']}
+            row['mode_stationarity']=dict(stationarity_record(stationarity),stationary=True)
         if chain_path:
             if reference_path is None or settings_path is None:raise ValueError('Chain lacks reference/settings')
             chains=torch.load(chain_path,weights_only=True)
@@ -65,7 +62,7 @@ def inspect(raw,inputs):
             white=chains['white'];c,n,d=white.shape
             model,_=make_model(inputs,index)
             if c!=4 or d!=model.dimension or n<16:raise ValueError('Unexpected chain layout')
-            target=Target(model,reference['mean'],reference['precision'])
+            target=make_target(model,reference)
             selected=torch.linspace(0,n-1,min(4,n)).round().long()
             replay,bad=target.log_ratio_no_grad(white[:,selected].reshape(-1,d))
             cache_error=float((replay-chains['log_ratio'][:,selected].flatten()).abs().max())

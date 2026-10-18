@@ -7,7 +7,7 @@ import torch
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from pacnerf_comparison import cases,make_model,Target
+from pacnerf_comparison import cases,make_model,Target,make_target
 
 
 @torch.no_grad()
@@ -24,8 +24,8 @@ def audit(raw,inputs,index):
     velocity=[i+m for i in pose]
     worst=lambda indices:max(indices,key=lambda i:diagnostic['quantities'][f'z{i}']['rank_folded_split_rhat'] or 0)
     selected=[0,1,worst(pose),worst(velocity)]
-    target=Target(model,reference['mean'],reference['precision'])
-    traces=reference['mean'][selected]+chains['white']@target.transform[selected].T
+    target=make_target(model,reference)
+    traces=target.decode(chains['white'].flatten(0,1))[:,selected].reshape(*chains['white'].shape[:2],len(selected))
     traces[:,:,2:]*=model.scale[selected[2:]]
     n=traces.shape[1];stride=max(1,n//2000)
     fig,axes=plt.subplots(2,2,figsize=(12,7),sharex=True,layout='constrained')

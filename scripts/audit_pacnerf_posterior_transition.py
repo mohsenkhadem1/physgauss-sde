@@ -10,7 +10,7 @@ import math
 from pathlib import Path
 import numpy as np
 import torch
-from pacnerf_comparison import make_model,cases,Target
+from pacnerf_comparison import make_model,cases,make_target
 from physgauss.cli import source_fingerprint
 from exact_pac_integrals import integrals as prototype_integrals,covariance as prototype_covariance
 
@@ -27,7 +27,7 @@ def audit(raw,inputs,output):
         reference=torch.load(paths[0].parent/'reference.pt',weights_only=True)
         chains=torch.load(paths[0],weights_only=True);white=chains['white']
         selected=torch.linspace(0,white.shape[1]-1,4).round().long()
-        model,_=make_model(inputs,index);target=Target(model,reference['mean'],reference['precision'])
+        model,_=make_model(inputs,index);target=make_target(model,reference)
         z=target.decode(white[:,selected].flatten(0,1));m=model.modes;d=2*m
         q,v=model.decode(z)
         x=model.data['rest'][None,None]+torch.einsum('btm,ncm->btnc',q[:,:-1],model.basis)

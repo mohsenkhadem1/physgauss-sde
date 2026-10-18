@@ -11,7 +11,7 @@ import json
 from pathlib import Path
 import numpy as np
 import torch
-from pacnerf_comparison import cases,make_model,Target
+from pacnerf_comparison import cases,make_model,Target,make_target
 from physgauss.cli import source_fingerprint
 from physgauss.chain_diagnostics import scalar_diagnostics
 
@@ -45,6 +45,10 @@ def verify_case(raw,inputs,index):
     transform=np.linalg.solve(chol.T,np.eye(d))
     white=chains['white'].numpy()
     coordinates=reference['mean'].numpy()+white.reshape(-1,d)@transform.T
+    if reference.get('coordinates','physical')=='innovation':
+        from pacnerf_innovations import InnovationModel
+        innovation=InnovationModel(model)
+        coordinates=torch.cat([innovation.to_physical(batch) for batch in torch.from_numpy(coordinates).split(32)]).numpy()
     m=model.modes
     # Explicitly decode the state layout rather than calling model.decode().
     q=np.zeros((c*n,14,m))
@@ -80,7 +84,7 @@ def verify_case(raw,inputs,index):
     floor=float(np.sqrt(np.mean((oracle[gap]-truth[gap])**2)))
     if abs(floor-scores['evaluation_only_subspace_oracle_gap_rmse_m'])>1e-9 or rmse+1e-9<floor:
         raise ValueError('Subspace lower bound or reported position score is inconsistent')
-    target=Target(model,reference['mean'],reference['precision'])
+    target=make_target(model,reference)
     indices=torch.linspace(0,n-1,4).round().long()
     probe=chains['white'][:,indices].reshape(-1,d)
     replay,bad=target.log_ratio_no_grad(probe)

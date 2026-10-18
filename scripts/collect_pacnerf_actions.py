@@ -45,7 +45,8 @@ def collect(run_id, output, chains=False, once=False):
                 'started_at':j['started_at'],'completed_at':j['completed_at'],
                 'compute_steps':[{key:s.get(key) for key in ['name','status','conclusion','started_at','completed_at']}
                     for s in j.get('steps',[]) if s['name'] in [
-                        'Fit and sample the original image target','Continue saved chains and RNG without new warmup']]}
+                        'Fit and sample the original image target','Continue saved chains and RNG without new warmup',
+                        'Fit and sample the exact-integral image target','Continue the exact target and saved RNG without new warmup']]}
                 for j in jobs]}
         (output/'workflow_status.json').write_text(json.dumps(state,indent=2)+'\n')
         signature=[(j['name'],j['status'],j['conclusion']) for j in jobs]

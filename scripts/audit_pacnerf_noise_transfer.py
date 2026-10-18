@@ -8,7 +8,7 @@ import argparse
 import json
 from pathlib import Path
 import torch
-from pacnerf_comparison import make_model,cases,Target
+from pacnerf_comparison import make_model,cases,make_target
 from physgauss.cli import source_fingerprint
 
 
@@ -51,7 +51,7 @@ def audit(raw,inputs,output):
         reference=torch.load(matches[0].parent/'reference.pt',weights_only=True)
         chains=torch.load(matches[0],weights_only=True);white=chains['white']
         indices=torch.linspace(0,white.shape[1]-1,min(64,white.shape[1])).round().long()
-        target=Target(model,reference['mean'],reference['precision'])
+        target=make_target(model,reference)
         z=target.decode(white[:,indices].flatten(0,1));features=[];variance_parts=[]
         for batch in z.split(16):
             features.append(model.terms(batch)[3].reshape(-1,2))

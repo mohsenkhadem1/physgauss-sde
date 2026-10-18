@@ -131,10 +131,12 @@ class Target:
         self.transform = torch.linalg.solve_triangular(self.chol.T, torch.eye(len(mean), dtype=mean.dtype), upper=True)
         self.center = model.objective(mean[None])[0].detach()
 
-    def decode(self, w): return self.mean+w@self.transform.T
+    def coordinates(self, w): return self.mean+w@self.transform.T
+
+    def decode(self, w): return self.coordinates(w)
 
     def __call__(self, white):
-        w = white.detach().requires_grad_(); z = self.decode(w)
+        w = white.detach().requires_grad_(); z = self.coordinates(w)
         try:
             ratio = -self.model.objective(z)+self.center+.5*w.square().sum(-1)
             grad, = torch.autograd.grad(ratio.sum(), w)
@@ -149,13 +151,42 @@ class Target:
     @torch.no_grad()
     def log_ratio_no_grad(self, w):
         try:
-            ratio = -self.model.objective(self.decode(w))+self.center+.5*w.square().sum(-1)
+            ratio = -self.model.objective(self.coordinates(w))+self.center+.5*w.square().sum(-1)
             return ratio, ~torch.isfinite(ratio)
         except (ValueError, torch.linalg.LinAlgError):
             if len(w) > 1:
                 rows = [self.log_ratio_no_grad(row[None]) for row in w]
                 return tuple(torch.cat([row[i] for row in rows]) for i in range(2))
             return w.new_full((len(w),), -torch.inf), torch.ones(len(w), dtype=torch.bool)
+
+
+class InnovationTarget(Target):
+    @torch.no_grad()
+    def decode(self,w):
+        return torch.cat([self.model.to_physical(self.coordinates(batch)) for batch in w.split(32)])
+
+
+def make_target(model,reference):
+    if reference.get('coordinates','physical')=='innovation':
+        from pacnerf_innovations import InnovationModel
+        return InnovationTarget(InnovationModel(model),reference['mean'],reference['precision'])
+    if reference.get('coordinates','physical')!='physical':raise ValueError('Unknown reference coordinates')
+    return Target(model,reference['mean'],reference['precision'])
+
+
+def stationarity_record(stationarity):
+    last=stationarity['history'][-1]
+    if not stationarity['stationary']:raise ValueError('Reference is not stationary')
+    if 'gauss_newton_decrement' in stationarity:
+        decrement=stationarity['gauss_newton_decrement']
+        if decrement>=.02 or last['gradient_max_abs']>=.02:raise ValueError('Innovation stationarity flag differs')
+        return {'objective':last['objective'],'gauss_newton_decrement':decrement,
+            'gradient_max_abs':last['gradient_max_abs'],'coordinates':'innovation',
+            'qualification':'stationary reference in innovation density; not a physical-density MAP or proof of global optimum'}
+    decrement=stationarity['newton_decrement'];minimum=last['curvature']['minimum_observed_eigenvalue']
+    if decrement>=.02 or minimum<=0:raise ValueError('Physical mode stationarity flag differs')
+    return {'objective':last['objective'],'regularized_metric_decrement':decrement,
+        'minimum_observed_curvature_eigenvalue':minimum,'coordinates':'physical'}
 
 
 def observed_hessian(function,mean,block_size=16):
@@ -301,7 +332,10 @@ def run(inputs, output, index, pilot=False):
         'transition_integrals':'balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature',
         'noise_units': 'floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated',
         'force_comparison': 'same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables',
-        'proposal': 'Gaussian-reference split HMC; full nonlinear image and physics gradients; no image surrogate',
+        'proposal': 'exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target',
+        'coordinates':'innovation',
+        'inference_files_sha256_lf':{f:hashlib.sha256((Path(__file__).parent/f).read_bytes().replace(b'\r\n',b'\n')).hexdigest()
+            for f in ['pacnerf_innovations.py','pacnerf_innovation_metric.py']},
         'pilot': pilot}
     settings=json.loads(json.dumps(settings,allow_nan=False))
     if (out/'settings.json').exists() and json.loads((out/'settings.json').read_text()) != settings:
@@ -313,12 +347,13 @@ def run(inputs, output, index, pilot=False):
             raise ValueError('Saved reference predates stationarity checks; choose a fresh output.')
         mean, precision = fit['mean'], fit['precision']
     else:
-        mean, fit_info = optimize(model, initialize(model), 350)
-        mean, precision, stationarity = refine_mode(model, mean, checkpoint=out)
-        fit = {'mean': mean, 'precision': precision, 'fit': fit_info, 'stationarity': stationarity}
+        from pacnerf_innovations import InnovationModel
+        from pacnerf_innovation_metric import fit_reference
+        mean,precision,stationarity,fit_info=fit_reference(InnovationModel(model),checkpoint=out)
+        fit = {'mean': mean, 'precision': precision, 'fit': fit_info, 'stationarity': stationarity,'coordinates':'innovation'}
         torch.save(fit, out/'reference.pt')
         write(out/'fit.json', {k:v for k,v in fit.items() if k not in ['mean', 'precision']})
-    target = Target(model, mean, precision)
+    target = make_target(model,fit)
     cfg = SplitHMCConfig(warmup=100 if pilot else 500, draws=100 if pilot else 2000,
         min_time=1., max_time=4., target_accept=.9, seed=140001+index)
     chains = torch.load(out/'chains.pt',weights_only=True) if (out/'chains.pt').exists() else None
@@ -337,14 +372,29 @@ def run(inputs, output, index, pilot=False):
             conditional = [model.force_conditionals(batch) for batch in z.split(32)]
             fm,fc,normalizers = [torch.cat([batch[i] for batch in conditional]) for i in range(3)]
         monitor = torch.cat((z.reshape(4,budget,-1),log_target[...,None],
-            fm.reshape(4,budget,-1),normalizers.reshape(4,budget,2)),-1)
+            fm.reshape(4,budget,-1),normalizers.reshape(4,budget,2),target.coordinates(chains['white'].flatten(0,1)).reshape(4,budget,-1)),-1)
         diagnostic = diagnose_quantities(monitor,
             [f'z{i}' for i in range(model.dimension)]+['log_target']+
-            [f'conditional_force_mean{i}' for i in range(model.force_dimension)]+['logdet_Q','logdet_A'])
+            [f'conditional_force_mean{i}' for i in range(model.force_dimension)]+['logdet_Q','logdet_A']+
+            [f'innovation_z{i}' for i in range(model.dimension)])
         passed = diagnostic['all_monitored_quantities_pass']
         history.append({'draws_per_chain': budget, 'all_pass': passed})
         write(out/'diagnostics.json', diagnostic)
         if (passed and budget >= 2000) or pilot: break
+    with torch.no_grad():
+        white=chains['white'].flatten(0,1)
+        selected=torch.linspace(0,len(white)-1,16).round().long()
+        probe=white[selected];native=target.coordinates(probe)
+        physical,jacobian=target.model.transform(native)
+        density_error=float((model.objective(physical)-jacobian-target.model.objective(native)).abs().max())
+        replay,bad=target.log_ratio_no_grad(probe)
+        cache_error=float((replay-chains['log_ratio'].flatten()[selected]).abs().max())
+        if bool(bad.any()) or density_error>1e-5 or cache_error>1e-6:
+            raise ValueError('Innovation density or saved HMC target failed independent replay')
+        write(out/'coordinate_replay.json',{'source_fingerprint':source_fingerprint(),
+            'probes':len(probe),'maximum_density_identity_error':density_error,
+            'maximum_cached_log_ratio_error':cache_error,'all_pass':True,
+            'qualification':'physical path density minus triangular log Jacobian equals innovation density; not a convergence or physics-validity guarantee'})
     if pilot:
         write(out/'pilot_summary.json',{'case':name,'settings':settings,'development_only':True,
             'valid_for_ranking':False,'retained_draws_per_chain':budget,'step_size':chains['step_size'],
@@ -354,7 +404,7 @@ def run(inputs, output, index, pilot=False):
         return
     # Scoring deliberately follows the saved chain and diagnostics.
     scores, positions = score(model, z, inputs)
-    map_scores, _ = score(model, mean[None], inputs)
+    map_scores, _ = score(model, target.decode(torch.zeros(1,model.dimension,dtype=mean.dtype)), inputs)
     q_all, _ = model.decode(z)
     q_all = q_all.reshape(4, budget, 14, model.modes)
     batch_length = max(20, int(budget**.5)); batch_count = budget//batch_length
@@ -373,11 +423,13 @@ def run(inputs, output, index, pilot=False):
         positions['force']['explicit_sample_coefficient_covariance'] = torch.cov(z[:,model.base_dimension:].T).tolist()
     write(out/'posterior.json', positions)
     write(out/'summary.json', {'case': name, 'settings': settings, 'fit': fit.get('fit'),
-        'map_scores': map_scores, 'posterior_scores': scores, 'convergence': {k:v for k,v in diagnostic.items() if k != 'quantities'},
+        'map_scores': map_scores, 'map_score_definition':'image scores at stationary innovation-density reference, not a physical-density MAP',
+        'posterior_scores': scores, 'convergence': {k:v for k,v in diagnostic.items() if k != 'quantities'},
         'minimum_bulk_ess': min(v['bulk_ess'] or 0 for v in diagnostic['quantities'].values()),
         'minimum_tail_ess': min(v['tail_ess'] or 0 for v in diagnostic['quantities'].values()),
         'worst_rhat': max(v['rank_folded_split_rhat'] or 999 for v in diagnostic['quantities'].values()),
         'sampling_history': history, 'step_size': chains['step_size'], 'counts': chains['counts'],
+        'gradient_batches':chains['gradient_evaluations'],
         'seconds': time.time()-began, 'valid_for_ranking': passed and not pilot})
 
 

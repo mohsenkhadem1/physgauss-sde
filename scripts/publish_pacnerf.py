@@ -12,7 +12,7 @@ import torch
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from pacnerf_comparison import cases, make_model
+from pacnerf_comparison import cases, make_model,stationarity_record
 from physgauss.cli import source_fingerprint
 
 
@@ -25,6 +25,18 @@ def publish(raw, inputs, output):
         target_audit=json.loads((raw/'numerical-target-audit.json').read_text())
         if target_audit['source_fingerprint']!=source_fingerprint():raise ValueError('Target audit source differs')
         shutil.copyfile(raw/'numerical-target-audit.json',output/'numerical-target-audit.json')
+    elif (inputs/'transition-audit.json').exists():
+        proof=json.loads((inputs/'transition-audit.json').read_text())
+        if proof['source_fingerprint']!=source_fingerprint():raise ValueError('Prepared transition validation source differs')
+        target_audit={'source_fingerprint':source_fingerprint(),
+            'historical_target_superseded':False,
+            'model_integrals_numerically_valid':bool(proof['all_pass']),
+            'reason':'Independent initial-geometry transition checks supplied; this validates tested linear-system integrals, not contact, rendering, posterior exploration or uncertainty calibration.',
+            'validation_file':'transition-audit.json'}
+    else:
+        target_audit={'source_fingerprint':source_fingerprint(),'historical_target_superseded':False,
+            'model_integrals_numerically_valid':False,'reason':'Independent transition validation has not been supplied.'}
+    (output/'numerical-target-audit.json').write_text(json.dumps(target_audit,indent=2)+'\n',encoding='utf-8')
     attempts={}
     if (raw/'attempts.json').exists():
         attempt_audit=json.loads((raw/'attempts.json').read_text())
@@ -53,14 +65,9 @@ def publish(raw, inputs, output):
         if row['settings']['source_fingerprint']!=source_fingerprint():raise ValueError('Numerical source differs from production')
         fit_record=json.loads((src.parent/'fit.json').read_text())
         stationarity=fit_record['stationarity']
-        if not stationarity['stationary']:raise ValueError('Sampling reference failed the stationarity gate')
-        final_step=stationarity['history'][-1]
-        if stationarity['newton_decrement']>=.02 or final_step['curvature']['minimum_observed_eigenvalue']<=0:
-            raise ValueError('Mode stationarity flag could not be reproduced')
-        row['fit']['phase']='initial direct-coordinate L-BFGS, before precision-coordinate/Newton refinement'
-        row['final_mode']={'objective':final_step['objective'],
-            'regularized_metric_decrement':stationarity['newton_decrement'],
-            'minimum_observed_curvature_eigenvalue':final_step['curvature']['minimum_observed_eigenvalue']}
+        row['fit']['phase']=('initial innovation L-BFGS before GN refinement' if 'gauss_newton_decrement' in stationarity
+            else 'initial direct-coordinate L-BFGS before Newton refinement')
+        row['final_mode']=stationarity_record(stationarity)
         diagnostics=json.loads((src.parent/'diagnostics.json').read_text())
         flags=[]
         for v in diagnostics['quantities'].values():
@@ -140,7 +147,7 @@ def publish(raw, inputs, output):
         if png.exists():
             shutil.copyfile(png,output/png.name)
             if not json.loads(record.read_text())['finite_chain_checks_pass']:trace_images.append(png.name)
-    numerical_validity=target_audit is None or target_audit['model_integrals_numerically_valid']
+    numerical_validity=target_audit['model_integrals_numerically_valid']
     ready=passed and agreement_pass and raw_replay_pass and numerical_validity
     summary = {'complete':complete, 'all_cases_pass_finite_chain_checks':passed,
         'all_cases_eligible_for_ranking':ready, 'cases':rows,
@@ -250,7 +257,9 @@ def publish(raw, inputs, output):
         'Finite diagnostics pass, but paired samplers disagree — no final ranking' if passed else
         'Development / incomplete inference — no scientific ranking')
     if passed and agreement_pass and not raw_replay_pass:header='Finite diagnostics and paired agreement pass; raw verification pending'
-    if not numerical_validity:header='Historical approximate-integrator experiment: numerical defect confirmed; corrected rerun pending'
+    if not numerical_validity:
+        header=('Historical approximate-integrator experiment: numerical defect confirmed; corrected rerun pending'
+            if target_audit.get('historical_target_superseded') else 'Transition validation pending or failed; no final ranking')
     def embed(name):
         path=output/name
         return '<img style="max-width:100%" src="data:image/png;base64,'+base64.b64encode(path.read_bytes()).decode()+'">' if path.exists() else ''
@@ -267,7 +276,7 @@ def publish(raw, inputs, output):
         table+='<tr>'+''.join('<td>'+cell+'</td>' for cell in cells)+'</tr>'
     page=f'''<!doctype html><html><meta charset="utf-8"><title>PAC-NeRF sparse comparison</title><body style="font:17px system-ui;max-width:1150px;margin:40px auto;padding:20px;background:#fafafa;color:#182c38">
 <h1>PAC-NeRF elastic objects: sparse dynamic images</h1><h2>{header}</h2>
-{('<p><strong>'+html.escape(target_audit['reason'])+'</strong> <a href="numerical-target-audit.json">Numerical target audit</a>. The records below preserve the historical experiment; they are not corrected posterior results.</p>' if not numerical_validity else '')}
+{('<p><strong>'+html.escape(target_audit['reason'])+'</strong> <a href="numerical-target-audit.json">Numerical target audit</a>. '+('These records preserve a superseded experiment, not corrected posteriors.' if target_audit.get('historical_target_superseded') else 'These records are not eligible for a scientific ranking.')+'</p>' if not numerical_validity else '')}
 <p>{summary['attempted_cases']} of 16 cases launched; {summary['available_cases']} final worker results available; {summary['finite_chain_pass_cases']} pass finite-chain checks. A numerical replay pass does not turn an unconverged posterior into a valid estimate. Saved draws in unfinished attempts are checkpoint prefixes, not eligible posterior results.</p>
 <p>{html.escape(summary['qualification'])}.</p><p>Constant and neural noise each use either analytically marginalized Gaussian loads or the identical explicit joint load prior. Their integrated motion posteriors should agree. Marginalization changes inference, not physical assumptions.</p>
 <p>The 4/6-view schedule labels include frame zero: they supply 3/5 later dynamic images over 14 timestamps (24 fps), one selected camera per observed time. The fixed-camera dataset is subsampled across cameras; this is not continuous moving-camera capture. All eleven initial views initialize appearance and initial geometry is supplied. Ground truth after frame zero is used only after sampling for evaluation.</p>

@@ -28,14 +28,24 @@ covariance and 6.65e-13 load. Old source is preserved in the detached worktree
 `../physgauss-legacy-audit` at 2f07671; set PYTHONPATH to its src when replaying
 old data, since the local venv is editable against this primary checkout.
 
-Generic recoverable sampling now lives in `src/physgauss/checkpoint_hmc.py`.
-The wrapper's source guard is updated to the corrected fingerprint. The worker
-canonicalizes settings, uses bounded exact Hessian batches and actual stored
-image coordinate scales, records its actual checkout commit, and forbids
-future-geometry scoring in development pilots. `pacnerf-exact.yml` will first
-run a four-arm Bird pilot, then a fresh sixteen-case comparison after validation.
-No corrected posterior result exists yet. See `docs/PACNERF_EXACT_PROTOCOL.md`.
-No priors, weights, observations or physical parameters were retuned.
+Generic recoverable sampling lives in `src/physgauss/checkpoint_hmc.py`.
+The first exact-integral Bird pilot is run 39098175068 at e77276e. Its
+constant/marginal reference failed stationarity before sampling; neural/marginal
+finished 100 retained draws, which are development only. No corrected full
+posterior result exists yet.
+
+A data-informed exact-innovation reference is now implemented in
+`scripts/pacnerf_innovation_metric.py`. The full RGB Gauss-Newton metric is
+assembled via exact pose sensitivities; nonlinear targets remain exact.
+The observed-only difficult Bird case fitted successfully locally, decrement
+6.30e-5, without future geometry. 27 PAC-specific tests pass, including density,
+Jacobian, gradient, metric finite differences and checkpoint continuity. The
+new worker records coordinate/module hashes and diagnoses physical plus native
+states. Fresh pilot/full directories are mandatory. The old exact physical
+coordinate pilot cannot resume into this worker. See
+`docs/PACNERF_EXACT_PROTOCOL.md`. No priors, weights, observations or mechanical
+parameters were retuned. The 118-test CI at e77276e passed before these new
+inference changes; a new CI and four-arm observed-only pilot follow.
 
 **Historical approximate-target milestone: six of sixteen final
 worker results are available, five pass finite checks. Ten original workers reached their computation cap

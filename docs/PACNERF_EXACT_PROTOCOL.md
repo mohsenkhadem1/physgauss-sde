@@ -29,18 +29,44 @@ these test trajectories. Supplied initial geometry and eleven-camera initial
 appearance bootstrap remain explicit conditions; 4/6 labels mean 3/5 later
 dynamic images over fourteen timestamps, not unknown-shape monocular recovery.
 
-Inference retains the historical physical path coordinates, exact nonlinear
-image/physics gradients, stationary observed-Hessian Gaussian reference and
-Metropolis-corrected split HMC. The observed Hessian is evaluated in bounded
-reverse-mode batches to control memory, and image-coordinate scales use their
-actual stored values. This changes neither the objective nor the intended
-Hessian. Mode stationarity requires decrement <.02 and positive observed
-curvature. All substantive settings and serialized container types are checked
-before resuming.
+The first exact-integral pilot (Actions run 39098175068, e77276e) retained
+physical path coordinates and the old observed-Hessian reference. Bird
+four-view constant/marginal did not reach the stationarity threshold within
+100 Newton rounds and correctly stopped before sampling. Neural/marginal
+finished its short pilot; neither is final convergence evidence. A local
+observed-only diagonal-equilibration diagnostic still progressed slowly.
+
+The corrected inference therefore uses the tested exact **causal innovation
+coordinates**, with a fitted **full observed RGB Gauss-Newton reference**.
+For joint loads, innovations map through each transition Cholesky conditional
+on the explicit coefficients. For marginalized loads, conjugate sequential
+Gaussian conditioning integrates the same global coefficients. The triangular
+Jacobian cancels the transition covariance normalizers. The resulting density
+is the standard normal innovation/material/load prior times the same exact
+nonlinear image likelihood. This changes coordinates and sampling efficiency,
+not the physical path posterior or force prior. It addresses the poor scaling
+of a centered high-stiffness path-density mode; it is not a new noise fit.
+
+The metric is I + J_RGB^T J_RGB, using **every observed pixel** and exact
+sensitivities through the small pose vectors. It is fixed before HMC.
+Optimization and all Metropolis tests use the full nonlinear innovation map
+and RGB likelihood. No linearized likelihood is substituted. Reference
+stationarity requires GN decrement < .02 and maximum absolute gradient < .02;
+this is not a global optimum claim or a physical-coordinate MAP. The first
+observed-only Bird constant/marginal check reached decrement 6.30e-5 at log
+stiffness coordinate 1.245, without reading held-out geometry. This is solver
+development evidence, not reconstruction or calibration evidence. The earlier
+failed prior-reference innovation pilot did not use this image-informed metric.
+
+All saved settings include coordinate type and inference-module hashes.
+Physical and innovation references/chains cannot be mixed. Diagnostics monitor
+both physical paths and innovation coordinates, conditional force means,
+log targets and normalizers. After inference, stratified saved states must
+replay both the exact cached target and the physical-density/Jacobian identity.
 
 The full plan has sixteen cases: Torus/Bird, four/six selected images, both
 noise types and both force treatments. Four chains discard 500 warmup
-transitions and retain at least 2000 draws each. Original fixed-kernel gates
+transitions and retain at least 2000 draws each. The fixed-kernel gates
 at 2000/4000/8000 are retained: all state coordinates, conditional force means,
 log target and covariance normalizers require Rhat <1.01 and bulk/tail ESS >=400,
 with no frozen chains. Passing shorter checkpoints cannot stop a full run.
