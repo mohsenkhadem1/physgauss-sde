@@ -58,6 +58,8 @@ def publish(raw,inputs,output,baseline,name,push=False):
         old=baseline/'cases'/case/'summary.json'
         row={'case':case,'case_index':index,'missing':not bool(paths),'valid_for_ranking':False,
             'baseline':json.loads(old.read_text()) if old.exists() else None}
+        old_proof=baseline/'cases'/case/'raw_verification.json'
+        row['baseline_prediction_scores']=(json.loads(old_proof.read_text()).get('prediction_scores') if old_proof.exists() else None)
         if paths:
             if len(paths)!=1:raise ValueError('Ambiguous final worker summary')
             summary=json.loads(paths[0].read_text())
@@ -89,8 +91,8 @@ def publish(raw,inputs,output,baseline,name,push=False):
                 pair=[next(r for r in rows if r['case']==f'{scene}__{views}views__{noise}__{f}') for f in ['marginal','joint']]
                 if not all(r['valid_for_ranking'] for r in pair):continue
                 post=[json.loads((output/'cases'/r['case']/'posterior.json').read_text()) for r in pair]
-                means=[np.r_[np.asarray(p['modal_pose_mean_m'])[1:].ravel(),p['hyperparameter_mean']] for p in post]
-                mcse=[np.r_[np.asarray(p['modal_mean_batch_mcse_m'])[1:].ravel(),p['hyperparameter_mean_batch_mcse']] for p in post]
+                means=[np.r_[np.asarray(p['modal_pose_mean_m'])[1:].ravel(),p['material_parameter_mean'],p['hyperparameter_mean'],p['force']['coefficient_mean']] for p in post]
+                mcse=[np.r_[np.asarray(p['modal_mean_batch_mcse_m'])[1:].ravel(),p['material_parameter_mean_batch_mcse'],p['hyperparameter_mean_batch_mcse'],p['force']['coefficient_mean_batch_mcse']] for p in post]
                 standardized=np.abs(means[0]-means[1])/np.maximum(np.sqrt(mcse[0]**2+mcse[1]**2),1e-15)
                 agreement.append({'scene':scene,'views':views,'noise':noise,
                     'coordinates_tested':len(standardized),'maximum_difference_over_combined_batch_mcse':float(standardized.max())})
@@ -119,24 +121,28 @@ def publish(raw,inputs,output,baseline,name,push=False):
     table=[]
     for r in rows:
         s=r.get('posterior_scores',{});old=(r.get('baseline') or {}).get('posterior_scores',{})
+        old_probability=r.get('baseline_prediction_scores') or {}
         table.append({'case':r['case'],'eligible':r['valid_for_ranking'],'status':'incomplete' if r['missing'] else 'passed' if r['valid_for_ranking'] else 'failed validation',
+            'baseline_eligible':bool((r.get('baseline') or {}).get('valid_for_ranking',False)),
             'baseline_rmse_mm':None if not old else 1000*old['gap_particle_coordinate_rmse_m'],
             'new_rmse_mm':None if not s else 1000*s['gap_particle_coordinate_rmse_m'],
             'baseline_coverage':old.get('gap_component_90_coverage'),'new_coverage':s.get('gap_component_90_coverage'),
             'new_width_mm':None if not s else 1000*s['gap_mean_width_m'],
+            'baseline_crps_mm':None if 'mean_crps_m' not in old_probability else 1000*old_probability['mean_crps_m'],
             'new_crps_mm':None if r['missing'] else 1000*r['uncertainty_scores']['mean_crps_m']})
     with (output/'comparison.csv').open('w',encoding='utf-8',newline='') as stream:
         writer=csv.DictWriter(stream,fieldnames=list(table[0]));writer.writeheader();writer.writerows(table)
     lines=['# Hierarchical uncertainty correction: PAC-NeRF comparison','',
         f'{finite}/16 cells pass finite-chain diagnostics and independent raw replay. Overall paired comparison: {summary["all_cases_eligible_for_overall_comparison"]}.',
         '', 'Missing/failed cells are preserved; their scores, when present, are diagnostic only.',
-        '', '| Case | Status | Old / new RMSE (mm) | Old / new 90% coverage | New width (mm) | New CRPS (mm) |',
+        '', '| Case | New / baseline valid | Old / new RMSE (mm) | Old / new 90% coverage | New width (mm) | Old / new CRPS (mm) |',
         '|---|---|---:|---:|---:|---:|']
     def number(x,digits=2):return '—' if x is None else f'{x:.{digits}f}'
     for r in table:
-        lines.append(f"| {r['case']} | {r['status']} | {number(r['baseline_rmse_mm'])} / {number(r['new_rmse_mm'])} | {number(None if r['baseline_coverage'] is None else 100*r['baseline_coverage'])}% / {number(None if r['new_coverage'] is None else 100*r['new_coverage'])}% | {number(r['new_width_mm'])} | {number(r['new_crps_mm'])} |")
+        lines.append(f"| {r['case']} | {r['status']} / {r['baseline_eligible']} | {number(r['baseline_rmse_mm'])} / {number(r['new_rmse_mm'])} | {number(None if r['baseline_coverage'] is None else 100*r['baseline_coverage'])}% / {number(None if r['new_coverage'] is None else 100*r['new_coverage'])}% | {number(r['new_width_mm'])} | {number(r['baseline_crps_mm'])} / {number(r['new_crps_mm'])} |")
     lines+=['', 'The new model infers additional acceleration diffusion, smooth modal load discrepancy and renderer-error scales, with correlated image residuals. Both force arms have the same expanded Gaussian load prior; force marginalization changes inference, not the ideal path posterior.',
         '', 'Prior scales use gravity, frame duration and supplied rest geometry. Spatial correlation uses supplied initial appearance residuals. Sparse observations alone infer scale posteriors. No future trajectory or held-out-image error selected these settings.',
+        '', 'Sampling uses a parameter-dependent Gaussian state guide conditioned on linearized sparse images, with the complete nonlinear physical density and Jacobian correction. Joint loads remain explicit in the joint target. All full runs start fresh after stricter observed-only mixing pilots. The initial poor-mixing candidate is excluded.',
         '', 'Accuracy, coverage, interval width, interval score and CRPS must be read together. Wider intervals alone are not a demonstrated improvement. Two deterministic trajectories cannot establish repeated-case calibration. The twelve-mode space, fixed appearance, frame-held contact and known initial geometry remain limitations.',
         '', 'Changes were developed after inspecting baseline errors, so this is an exploratory comparison. The combined correction does not isolate causality among added dynamics error, smooth loads and correlated rendering. Missing baseline cells retain their original status.',
         '', 'Raw checkpoints are retained as Actions artifacts for 30 days. Code and compact reports are committed.']
@@ -148,7 +154,9 @@ def publish(raw,inputs,output,baseline,name,push=False):
     fig,axes=plt.subplots(1,3,figsize=(16,6));y=np.arange(len(available));labels=[r['case'].replace('__',' / ') for r in available]
     for axis,key,oldkey,label in [(axes[0],'new_rmse_mm','baseline_rmse_mm','Gap RMSE (mm)'),(axes[1],'new_coverage','baseline_coverage','90% component coverage'),(axes[2],'new_width_mm',None,'New interval width (mm)')]:
         axis.barh(y,[r[key] for r in available],color=['#26734d' if r['eligible'] else '#aaa' for r in available])
-        if oldkey:axis.scatter([np.nan if r[oldkey] is None else r[oldkey] for r in available],y,color='black',s=15,label='Baseline')
+        if oldkey:
+            axis.scatter([np.nan if not r['baseline_eligible'] or r[oldkey] is None else r[oldkey] for r in available],y,color='black',s=15,label='Valid baseline')
+            axis.scatter([np.nan if r['baseline_eligible'] or r[oldkey] is None else r[oldkey] for r in available],y,color='gray',marker='x',s=15,label='Invalid baseline diagnostic')
         axis.set_xlabel(label);axis.set_yticks(y);axis.set_yticklabels(labels if axis==axes[0] else [],fontsize=7)
     axes[1].axvline(.9,color='red',linestyle='--');axes[1].set_xlim(0,1);axes[0].legend(fontsize=8)
     fig.tight_layout();fig.savefig(output/'comparison.png',dpi=150);plt.close(fig)

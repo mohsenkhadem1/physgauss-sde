@@ -13,9 +13,20 @@ image errors. Its [independent 2,000-dataset interval test](examples/hierarchica
 passes; this does not establish calibration on PAC-NeRF. The new workflow gates
 fresh full runs on eight observed-only development pilots, preserves raw
 checkpoints, and publishes new compact reports after independent replay.
-Follow the [new CPU experiment](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39143185132)
-and its [frozen run record](configs/pacnerf_discrepancy_v1.json). All 142 local
-regression tests passed before dispatch; final PAC results are pending.
+The [first candidate](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39143185132)
+was stopped after its short pilots showed poor mixing despite valid density
+checks. The [failure evidence](examples/pacnerf-discrepancy-inference-audit/stopped-pilot-proof.json)
+is preserved. A parameter-dependent Gaussian state bridge and stricter pilot
+mixing gates replace that sampler setup. Final PAC comparison results remain
+pending; no calibration improvement is claimed yet.
+
+**Next gate: one complete Bird posterior.** The
+[single-case workflow](.github/workflows/pacnerf-bird-check.yml) runs only Bird
+four-frame/constant/marginalized. It requires the original strict convergence
+thresholds and independently replays raw uncertainty scores. The larger
+comparison is dispatched separately after inspection. Predeclared development
+guardrails require at least 80% coverage for its 90% intervals and CRPS no worse
+than the baseline; these are not independent calibration evidence.
 
 The [PAC-NeRF elastic transfer study](docs/PACNERF_EXACT_PROTOCOL.md) compares
 constant versus frozen neural internal noise, each with analytically marginalized

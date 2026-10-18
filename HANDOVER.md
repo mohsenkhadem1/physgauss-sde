@@ -6,8 +6,24 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
-**CURRENT (18 October): nine exact-study cells completed/converged; seven CPU
-continuations explicitly launched.** Their original run is 39100239747 and
+**Latest instruction: converge and validate one Bird case first.** Use only
+this machine and free standard CPU workers. `pacnerf-bird-check.yml` runs a
+complete case8 posterior (500 warmup, up to8000 retained per chain), independent
+target/numerical/score replay and a single-case report. It does not launch the
+larger comparison. `publish_pacnerf_bird_check.py` records readiness only when
+strict convergence/replay pass, 90% intervals cover at least80% of this
+development scene's withheld coordinates, and CRPS is no worse than the old
+converged Bird case. These exploratory guardrails do not establish calibration
+across independent objects. Run the larger workflow separately after inspection.
+150 local regression tests passed before adding this single-case controller.
+The 64-draw development trial was not converged and is being extended with its
+unchanged reference/target for diagnosis; it is not a scientific result.
+
+**CURRENT (18 October): original batch had nine converged cells; all seven CPU
+continuations were explicitly launched.** Five have finished: case0 passes
+at 8000 draws (Rhat1.00295, bulk/tailESS1187/660), cases9/11/13/15 still fail
+convergence at 8000. Cases12/14 are still running at this recorded check.
+Their original run is 39100239747 and
 their continuation IDs are in `configs/pacnerf_resumptions_round1.json`.
 The original compact report is in `examples/pacnerf-exact`; all 33 original
 input/result/checkpoint ZIPs are in the approved permanent public release.
@@ -32,14 +48,29 @@ new cases. The workflow commits a separate snapshot after raw-state replay;
 no source, observations or priors are changed during sampling. Full states stay
 in 30-day Actions artifacts. No paid workers have been provisioned.
 
-The hierarchical workflow is **39143185132**, dispatched at source **a575e18**:
+The first hierarchical workflow was **39143185132**, source **a575e18**:
 https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39143185132 .
 `configs/pacnerf_discrepancy_v1.json` records the frozen controller/source and
-plan. 142 local regression tests passed before dispatch. Its first job repeats
-the focused tests and 2000-dataset interval validation on GitHub before pilots.
-The expected new compact snapshot is
-`examples/pacnerf-discrepancy-39143185132`; this path is a future output, not a
-claim that the comparison has finished or its coverage improved.
+plan. 142 local tests passed before dispatch, and the eight short pilots passed
+mathematical density checks, but their Rhat3.38–3.85/minbulkESS4.3 showed poor
+mixing. The feasibility gate was too weak and allowed full runs to start.
+That candidate was explicitly canceled; baseline continuations were untouched.
+`examples/pacnerf-discrepancy-inference-audit` preserves its pilot proof,
+cancellation, actual-data gradient and reference-curvature diagnostics.
+
+The repair retains the same physical uncertainty model and uses a parameter-
+dependent Gaussian state bridge. `pacnerf_conditioned_transport.py` conditions
+linearized contact/noise/RGB mechanics on the sparse images at each material/
+noise scale; the full nonlinear physical density and guide Jacobian correct
+every proposal. `fit_pacnerf_conditioned_reference.py` builds two observed-only
+guide linearizations. State blocks24 plus five scalar parameter blocks reuse
+exact parameter/pose caches. Separable float64 Gaussian rendering is checked
+against the original dense evaluator. The new pilot gate requires all-quantity
+Rhat<1.1 and bulk/tailESS>=100 in 500/1000 retained draws, before any fresh
+sixteen-case full experiment can start. A single hard Bird preflight runs
+before the other seven pilot arms. New full runs must start fresh; canceled
+candidate states are not reused as scientific samples. Final calibration and
+reconstruction improvements remain unproven until that run finishes.
 
 The following paragraphs retain the historical development record. The historical PAC
 target is superseded. Auditing all sixteen saved prefixes exposed 90.885%

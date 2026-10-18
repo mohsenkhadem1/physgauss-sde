@@ -33,6 +33,12 @@ def audit(report, inputs, output):
         qmean=torch.tensor(posterior['modal_pose_mean_m'],dtype=torch.float64)
         rgb=model.renderer(qmean[model.frames][None],model.specs)[0]
         residual=(rgb-model.obs).numpy()
+        oracle_rgb=model.renderer(torch.tensor(q[model.frames],dtype=torch.float64)[None],model.specs)[0]
+        oracle_residual=(oracle_rgb-model.obs).numpy()
+        # This post-hoc oracle renderer comparison must never select the new
+        # priors, initialize inference, or be described as a sparse-view fit.
+        oracle_image_nll=.5*np.sum((oracle_residual/.08)**2)
+        inferred_image_nll=.5*np.sum((residual/.08)**2)
         def correlation(a,b):
             a,b=a.flatten(),b.flatten();a=a-a.mean();b=b-b.mean()
             return float(a@b/np.sqrt((a@a)*(b@b)))
@@ -46,6 +52,8 @@ def audit(report, inputs, output):
             'representation_only_rmse_m':float(np.sqrt(np.mean((projected[gap]-truth[gap])**2))),
             'mean_90_width_m':float((hi[gap]-lo[gap]).mean()),
             'observed_rgb_rmse':float(np.sqrt(np.mean(residual**2))),
+            'evaluation_only_projected_truth_observed_rgb_rmse':float(np.sqrt(np.mean(oracle_residual**2))),
+            'evaluation_only_oracle_minus_inferred_image_nll':float(oracle_image_nll-inferred_image_nll),
             'observed_residual_adjacent_x_correlation':correlation(residual[:,:,1:],residual[:,:,:-1]),
             'observed_residual_adjacent_y_correlation':correlation(residual[:,1:],residual[:,:-1]),
             'original_rgb_sigma':.08,

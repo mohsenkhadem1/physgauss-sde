@@ -1,0 +1,822 @@
+{
+  "all_observed_only_feasibility_checks_pass": true,
+  "pilots": [
+    {
+      "case": "torus__4views__constant__marginal",
+      "settings": {
+        "case_index": 0,
+        "case": "torus__4views__constant__marginal",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "pilot": true,
+        "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+        "inference_files_sha256_lf": {
+          "pacnerf_discrepancy.py": "7f894de53f6ea4a50213507ed09bc4023302b76a535201bbe143b5869ac516d9",
+          "compare_pacnerf_discrepancy.py": "bdd4728d30b93ce0ecd59e1c1b671eb96815eb0ebdb3fdfc95055bdad07ccdd1",
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b",
+          "pacnerf_comparison.py": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+          "pacnerf_elliptical.py": "80b5a27e4001481a7deb19b69228c5888664f2fc55c7156b1dc2af867cfc3f1e"
+        },
+        "model": {
+          "version": "hierarchical-discrepancy-v1",
+          "latent_dimension": 329,
+          "force_dimension": 72,
+          "original_force_dimension": 24,
+          "hyper_prior": "three independent standard normals; no plug-in scale fitting",
+          "diffusion_modal_center": 6.334186184727443,
+          "diffusion_coordinate_rms_center": 2.000416623272929,
+          "smooth_acceleration_modal_center": 10.34368272557919,
+          "smooth_acceleration_coordinate_rms_center": 3.266666666666667,
+          "rgb_sigma": ".08 * sqrt(1 + exp(h_rgb))",
+          "rgb_spatial_correlation": [
+            0.42036210897835874,
+            0.6420559504442085
+          ],
+          "correlation_fit_data": "eleven supplied frame-zero images and supplied frozen appearance only",
+          "smooth_discrepancy": "four normalized temporal RBFs of width .14s in each of twelve modal accelerations",
+          "remaining_limits": "twelve-mode approximation, supplied geometry/appearance, frame-held contact; excludes uncertainty outside the modal subspace; not guaranteed calibrated"
+        },
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            13,
+            6
+          ]
+        ],
+        "sampler": "elliptical",
+        "sampling": "four chains; burnin 100/500 pilot/full; retained 100 pilot or 2000/4000/8000 full; exact fixed-reference target; same rank-Rhat/ESS thresholds",
+        "new_target": "Fresh starts; no legacy samples pooled or resumed under this model",
+        "source_of_prior_scales": "gravity, frame duration, supplied initial geometry; no evaluation-based tuning"
+      },
+      "draws_per_chain": 100,
+      "sampling_history": [
+        {
+          "draws_per_chain": 100,
+          "all_pass": false
+        }
+      ],
+      "valid_for_ranking": false,
+      "pilot": true,
+      "worst_rhat": 3.7525489466134925,
+      "minimum_bulk_ess": 4.371347814441314,
+      "minimum_tail_ess": 11.003521126760559,
+      "retained_acceptance": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "retained_invalid": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "retained_divergent": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "step_size": null,
+      "gradient_batches": 0,
+      "target_evaluations": 3904,
+      "sampler": "elliptical",
+      "acceptance_qualification": "Elliptical slice always closes its bracket; movement rates are not Metropolis acceptance probabilities. Inspect ESS/Rhat and bracket effort.",
+      "replay": {
+        "maximum_physical_density_identity_error": 3.637978807091713e-12,
+        "maximum_cached_target_error": 0.0,
+        "probes": 16,
+        "all_pass": true
+      },
+      "elapsed_this_invocation_s": 362.4105272293091,
+      "future_geometry_used": false
+    },
+    {
+      "case": "torus__4views__constant__joint",
+      "settings": {
+        "case_index": 1,
+        "case": "torus__4views__constant__joint",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "pilot": true,
+        "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+        "inference_files_sha256_lf": {
+          "pacnerf_discrepancy.py": "7f894de53f6ea4a50213507ed09bc4023302b76a535201bbe143b5869ac516d9",
+          "compare_pacnerf_discrepancy.py": "bdd4728d30b93ce0ecd59e1c1b671eb96815eb0ebdb3fdfc95055bdad07ccdd1",
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b",
+          "pacnerf_comparison.py": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+          "pacnerf_elliptical.py": "80b5a27e4001481a7deb19b69228c5888664f2fc55c7156b1dc2af867cfc3f1e"
+        },
+        "model": {
+          "version": "hierarchical-discrepancy-v1",
+          "latent_dimension": 401,
+          "force_dimension": 72,
+          "original_force_dimension": 24,
+          "hyper_prior": "three independent standard normals; no plug-in scale fitting",
+          "diffusion_modal_center": 6.334186184727443,
+          "diffusion_coordinate_rms_center": 2.000416623272929,
+          "smooth_acceleration_modal_center": 10.34368272557919,
+          "smooth_acceleration_coordinate_rms_center": 3.266666666666667,
+          "rgb_sigma": ".08 * sqrt(1 + exp(h_rgb))",
+          "rgb_spatial_correlation": [
+            0.42036210897835874,
+            0.6420559504442085
+          ],
+          "correlation_fit_data": "eleven supplied frame-zero images and supplied frozen appearance only",
+          "smooth_discrepancy": "four normalized temporal RBFs of width .14s in each of twelve modal accelerations",
+          "remaining_limits": "twelve-mode approximation, supplied geometry/appearance, frame-held contact; excludes uncertainty outside the modal subspace; not guaranteed calibrated"
+        },
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            13,
+            6
+          ]
+        ],
+        "sampler": "elliptical",
+        "sampling": "four chains; burnin 100/500 pilot/full; retained 100 pilot or 2000/4000/8000 full; exact fixed-reference target; same rank-Rhat/ESS thresholds",
+        "new_target": "Fresh starts; no legacy samples pooled or resumed under this model",
+        "source_of_prior_scales": "gravity, frame duration, supplied initial geometry; no evaluation-based tuning"
+      },
+      "draws_per_chain": 100,
+      "sampling_history": [
+        {
+          "draws_per_chain": 100,
+          "all_pass": false
+        }
+      ],
+      "valid_for_ranking": false,
+      "pilot": true,
+      "worst_rhat": 3.377442864478785,
+      "minimum_bulk_ess": 4.466454359932087,
+      "minimum_tail_ess": 10.857763300760043,
+      "retained_acceptance": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "retained_invalid": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "retained_divergent": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "step_size": null,
+      "gradient_batches": 0,
+      "target_evaluations": 4834,
+      "sampler": "elliptical",
+      "acceptance_qualification": "Elliptical slice always closes its bracket; movement rates are not Metropolis acceptance probabilities. Inspect ESS/Rhat and bracket effort.",
+      "replay": {
+        "maximum_physical_density_identity_error": 3.637978807091713e-12,
+        "maximum_cached_target_error": 0.0,
+        "probes": 16,
+        "all_pass": true
+      },
+      "elapsed_this_invocation_s": 429.89226269721985,
+      "future_geometry_used": false
+    },
+    {
+      "case": "torus__4views__neural__marginal",
+      "settings": {
+        "case_index": 2,
+        "case": "torus__4views__neural__marginal",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "pilot": true,
+        "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+        "inference_files_sha256_lf": {
+          "pacnerf_discrepancy.py": "7f894de53f6ea4a50213507ed09bc4023302b76a535201bbe143b5869ac516d9",
+          "compare_pacnerf_discrepancy.py": "bdd4728d30b93ce0ecd59e1c1b671eb96815eb0ebdb3fdfc95055bdad07ccdd1",
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b",
+          "pacnerf_comparison.py": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+          "pacnerf_elliptical.py": "80b5a27e4001481a7deb19b69228c5888664f2fc55c7156b1dc2af867cfc3f1e"
+        },
+        "model": {
+          "version": "hierarchical-discrepancy-v1",
+          "latent_dimension": 329,
+          "force_dimension": 72,
+          "original_force_dimension": 24,
+          "hyper_prior": "three independent standard normals; no plug-in scale fitting",
+          "diffusion_modal_center": 6.334186184727443,
+          "diffusion_coordinate_rms_center": 2.000416623272929,
+          "smooth_acceleration_modal_center": 10.34368272557919,
+          "smooth_acceleration_coordinate_rms_center": 3.266666666666667,
+          "rgb_sigma": ".08 * sqrt(1 + exp(h_rgb))",
+          "rgb_spatial_correlation": [
+            0.42036210897835874,
+            0.6420559504442085
+          ],
+          "correlation_fit_data": "eleven supplied frame-zero images and supplied frozen appearance only",
+          "smooth_discrepancy": "four normalized temporal RBFs of width .14s in each of twelve modal accelerations",
+          "remaining_limits": "twelve-mode approximation, supplied geometry/appearance, frame-held contact; excludes uncertainty outside the modal subspace; not guaranteed calibrated"
+        },
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            13,
+            6
+          ]
+        ],
+        "sampler": "elliptical",
+        "sampling": "four chains; burnin 100/500 pilot/full; retained 100 pilot or 2000/4000/8000 full; exact fixed-reference target; same rank-Rhat/ESS thresholds",
+        "new_target": "Fresh starts; no legacy samples pooled or resumed under this model",
+        "source_of_prior_scales": "gravity, frame duration, supplied initial geometry; no evaluation-based tuning"
+      },
+      "draws_per_chain": 100,
+      "sampling_history": [
+        {
+          "draws_per_chain": 100,
+          "all_pass": false
+        }
+      ],
+      "valid_for_ranking": false,
+      "pilot": true,
+      "worst_rhat": 3.539677902492481,
+      "minimum_bulk_ess": 4.401943544601163,
+      "minimum_tail_ess": 10.893246187363834,
+      "retained_acceptance": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "retained_invalid": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "retained_divergent": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "step_size": null,
+      "gradient_batches": 0,
+      "target_evaluations": 3985,
+      "sampler": "elliptical",
+      "acceptance_qualification": "Elliptical slice always closes its bracket; movement rates are not Metropolis acceptance probabilities. Inspect ESS/Rhat and bracket effort.",
+      "replay": {
+        "maximum_physical_density_identity_error": 3.637978807091713e-12,
+        "maximum_cached_target_error": 0.0,
+        "probes": 16,
+        "all_pass": true
+      },
+      "elapsed_this_invocation_s": 376.2592911720276,
+      "future_geometry_used": false
+    },
+    {
+      "case": "torus__4views__neural__joint",
+      "settings": {
+        "case_index": 3,
+        "case": "torus__4views__neural__joint",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "pilot": true,
+        "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+        "inference_files_sha256_lf": {
+          "pacnerf_discrepancy.py": "7f894de53f6ea4a50213507ed09bc4023302b76a535201bbe143b5869ac516d9",
+          "compare_pacnerf_discrepancy.py": "bdd4728d30b93ce0ecd59e1c1b671eb96815eb0ebdb3fdfc95055bdad07ccdd1",
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b",
+          "pacnerf_comparison.py": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+          "pacnerf_elliptical.py": "80b5a27e4001481a7deb19b69228c5888664f2fc55c7156b1dc2af867cfc3f1e"
+        },
+        "model": {
+          "version": "hierarchical-discrepancy-v1",
+          "latent_dimension": 401,
+          "force_dimension": 72,
+          "original_force_dimension": 24,
+          "hyper_prior": "three independent standard normals; no plug-in scale fitting",
+          "diffusion_modal_center": 6.334186184727443,
+          "diffusion_coordinate_rms_center": 2.000416623272929,
+          "smooth_acceleration_modal_center": 10.34368272557919,
+          "smooth_acceleration_coordinate_rms_center": 3.266666666666667,
+          "rgb_sigma": ".08 * sqrt(1 + exp(h_rgb))",
+          "rgb_spatial_correlation": [
+            0.42036210897835874,
+            0.6420559504442085
+          ],
+          "correlation_fit_data": "eleven supplied frame-zero images and supplied frozen appearance only",
+          "smooth_discrepancy": "four normalized temporal RBFs of width .14s in each of twelve modal accelerations",
+          "remaining_limits": "twelve-mode approximation, supplied geometry/appearance, frame-held contact; excludes uncertainty outside the modal subspace; not guaranteed calibrated"
+        },
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            13,
+            6
+          ]
+        ],
+        "sampler": "elliptical",
+        "sampling": "four chains; burnin 100/500 pilot/full; retained 100 pilot or 2000/4000/8000 full; exact fixed-reference target; same rank-Rhat/ESS thresholds",
+        "new_target": "Fresh starts; no legacy samples pooled or resumed under this model",
+        "source_of_prior_scales": "gravity, frame duration, supplied initial geometry; no evaluation-based tuning"
+      },
+      "draws_per_chain": 100,
+      "sampling_history": [
+        {
+          "draws_per_chain": 100,
+          "all_pass": false
+        }
+      ],
+      "valid_for_ranking": false,
+      "pilot": true,
+      "worst_rhat": 3.694335803078712,
+      "minimum_bulk_ess": 4.3699974555266525,
+      "minimum_tail_ess": 10.901558922925979,
+      "retained_acceptance": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "retained_invalid": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "retained_divergent": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "step_size": null,
+      "gradient_batches": 0,
+      "target_evaluations": 4818,
+      "sampler": "elliptical",
+      "acceptance_qualification": "Elliptical slice always closes its bracket; movement rates are not Metropolis acceptance probabilities. Inspect ESS/Rhat and bracket effort.",
+      "replay": {
+        "maximum_physical_density_identity_error": 3.637978807091713e-12,
+        "maximum_cached_target_error": 0.0,
+        "probes": 16,
+        "all_pass": true
+      },
+      "elapsed_this_invocation_s": 465.13839840888977,
+      "future_geometry_used": false
+    },
+    {
+      "case": "bird__4views__constant__marginal",
+      "settings": {
+        "case_index": 8,
+        "case": "bird__4views__constant__marginal",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "pilot": true,
+        "input_sha256": "ade31925ac8f1ded27c0a99e7644e70accea895cdf7f4c684803fcab13c0d2f4",
+        "inference_files_sha256_lf": {
+          "pacnerf_discrepancy.py": "7f894de53f6ea4a50213507ed09bc4023302b76a535201bbe143b5869ac516d9",
+          "compare_pacnerf_discrepancy.py": "bdd4728d30b93ce0ecd59e1c1b671eb96815eb0ebdb3fdfc95055bdad07ccdd1",
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b",
+          "pacnerf_comparison.py": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+          "pacnerf_elliptical.py": "80b5a27e4001481a7deb19b69228c5888664f2fc55c7156b1dc2af867cfc3f1e"
+        },
+        "model": {
+          "version": "hierarchical-discrepancy-v1",
+          "latent_dimension": 329,
+          "force_dimension": 72,
+          "original_force_dimension": 24,
+          "hyper_prior": "three independent standard normals; no plug-in scale fitting",
+          "diffusion_modal_center": 7.066147856368235,
+          "diffusion_coordinate_rms_center": 2.000416623272929,
+          "smooth_acceleration_modal_center": 11.538971130108889,
+          "smooth_acceleration_coordinate_rms_center": 3.266666666666667,
+          "rgb_sigma": ".08 * sqrt(1 + exp(h_rgb))",
+          "rgb_spatial_correlation": [
+            0.6442199856086448,
+            0.5645499276943375
+          ],
+          "correlation_fit_data": "eleven supplied frame-zero images and supplied frozen appearance only",
+          "smooth_discrepancy": "four normalized temporal RBFs of width .14s in each of twelve modal accelerations",
+          "remaining_limits": "twelve-mode approximation, supplied geometry/appearance, frame-held contact; excludes uncertainty outside the modal subspace; not guaranteed calibrated"
+        },
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            13,
+            6
+          ]
+        ],
+        "sampler": "elliptical",
+        "sampling": "four chains; burnin 100/500 pilot/full; retained 100 pilot or 2000/4000/8000 full; exact fixed-reference target; same rank-Rhat/ESS thresholds",
+        "new_target": "Fresh starts; no legacy samples pooled or resumed under this model",
+        "source_of_prior_scales": "gravity, frame duration, supplied initial geometry; no evaluation-based tuning"
+      },
+      "draws_per_chain": 100,
+      "sampling_history": [
+        {
+          "draws_per_chain": 100,
+          "all_pass": false
+        }
+      ],
+      "valid_for_ranking": false,
+      "pilot": true,
+      "worst_rhat": 3.5738436819722796,
+      "minimum_bulk_ess": 4.390961598185087,
+      "minimum_tail_ess": 10.905125408942201,
+      "retained_acceptance": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "retained_invalid": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "retained_divergent": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "step_size": null,
+      "gradient_batches": 0,
+      "target_evaluations": 4302,
+      "sampler": "elliptical",
+      "acceptance_qualification": "Elliptical slice always closes its bracket; movement rates are not Metropolis acceptance probabilities. Inspect ESS/Rhat and bracket effort.",
+      "replay": {
+        "maximum_physical_density_identity_error": 3.637978807091713e-12,
+        "maximum_cached_target_error": 0.0,
+        "probes": 16,
+        "all_pass": true
+      },
+      "elapsed_this_invocation_s": 416.0447256565094,
+      "future_geometry_used": false
+    },
+    {
+      "case": "bird__4views__constant__joint",
+      "settings": {
+        "case_index": 9,
+        "case": "bird__4views__constant__joint",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "pilot": true,
+        "input_sha256": "ade31925ac8f1ded27c0a99e7644e70accea895cdf7f4c684803fcab13c0d2f4",
+        "inference_files_sha256_lf": {
+          "pacnerf_discrepancy.py": "7f894de53f6ea4a50213507ed09bc4023302b76a535201bbe143b5869ac516d9",
+          "compare_pacnerf_discrepancy.py": "bdd4728d30b93ce0ecd59e1c1b671eb96815eb0ebdb3fdfc95055bdad07ccdd1",
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b",
+          "pacnerf_comparison.py": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+          "pacnerf_elliptical.py": "80b5a27e4001481a7deb19b69228c5888664f2fc55c7156b1dc2af867cfc3f1e"
+        },
+        "model": {
+          "version": "hierarchical-discrepancy-v1",
+          "latent_dimension": 401,
+          "force_dimension": 72,
+          "original_force_dimension": 24,
+          "hyper_prior": "three independent standard normals; no plug-in scale fitting",
+          "diffusion_modal_center": 7.066147856368235,
+          "diffusion_coordinate_rms_center": 2.000416623272929,
+          "smooth_acceleration_modal_center": 11.538971130108889,
+          "smooth_acceleration_coordinate_rms_center": 3.266666666666667,
+          "rgb_sigma": ".08 * sqrt(1 + exp(h_rgb))",
+          "rgb_spatial_correlation": [
+            0.6442199856086448,
+            0.5645499276943375
+          ],
+          "correlation_fit_data": "eleven supplied frame-zero images and supplied frozen appearance only",
+          "smooth_discrepancy": "four normalized temporal RBFs of width .14s in each of twelve modal accelerations",
+          "remaining_limits": "twelve-mode approximation, supplied geometry/appearance, frame-held contact; excludes uncertainty outside the modal subspace; not guaranteed calibrated"
+        },
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            13,
+            6
+          ]
+        ],
+        "sampler": "elliptical",
+        "sampling": "four chains; burnin 100/500 pilot/full; retained 100 pilot or 2000/4000/8000 full; exact fixed-reference target; same rank-Rhat/ESS thresholds",
+        "new_target": "Fresh starts; no legacy samples pooled or resumed under this model",
+        "source_of_prior_scales": "gravity, frame duration, supplied initial geometry; no evaluation-based tuning"
+      },
+      "draws_per_chain": 100,
+      "sampling_history": [
+        {
+          "draws_per_chain": 100,
+          "all_pass": false
+        }
+      ],
+      "valid_for_ranking": false,
+      "pilot": true,
+      "worst_rhat": 3.7166348513536076,
+      "minimum_bulk_ess": 4.366832015671096,
+      "minimum_tail_ess": 10.932546190007645,
+      "retained_acceptance": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "retained_invalid": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "retained_divergent": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "step_size": null,
+      "gradient_batches": 0,
+      "target_evaluations": 4781,
+      "sampler": "elliptical",
+      "acceptance_qualification": "Elliptical slice always closes its bracket; movement rates are not Metropolis acceptance probabilities. Inspect ESS/Rhat and bracket effort.",
+      "replay": {
+        "maximum_physical_density_identity_error": 3.637978807091713e-12,
+        "maximum_cached_target_error": 0.0,
+        "probes": 16,
+        "all_pass": true
+      },
+      "elapsed_this_invocation_s": 300.73713636398315,
+      "future_geometry_used": false
+    },
+    {
+      "case": "bird__4views__neural__marginal",
+      "settings": {
+        "case_index": 10,
+        "case": "bird__4views__neural__marginal",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "pilot": true,
+        "input_sha256": "ade31925ac8f1ded27c0a99e7644e70accea895cdf7f4c684803fcab13c0d2f4",
+        "inference_files_sha256_lf": {
+          "pacnerf_discrepancy.py": "7f894de53f6ea4a50213507ed09bc4023302b76a535201bbe143b5869ac516d9",
+          "compare_pacnerf_discrepancy.py": "bdd4728d30b93ce0ecd59e1c1b671eb96815eb0ebdb3fdfc95055bdad07ccdd1",
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b",
+          "pacnerf_comparison.py": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+          "pacnerf_elliptical.py": "80b5a27e4001481a7deb19b69228c5888664f2fc55c7156b1dc2af867cfc3f1e"
+        },
+        "model": {
+          "version": "hierarchical-discrepancy-v1",
+          "latent_dimension": 329,
+          "force_dimension": 72,
+          "original_force_dimension": 24,
+          "hyper_prior": "three independent standard normals; no plug-in scale fitting",
+          "diffusion_modal_center": 7.066147856368235,
+          "diffusion_coordinate_rms_center": 2.000416623272929,
+          "smooth_acceleration_modal_center": 11.538971130108889,
+          "smooth_acceleration_coordinate_rms_center": 3.266666666666667,
+          "rgb_sigma": ".08 * sqrt(1 + exp(h_rgb))",
+          "rgb_spatial_correlation": [
+            0.6442199856086448,
+            0.5645499276943375
+          ],
+          "correlation_fit_data": "eleven supplied frame-zero images and supplied frozen appearance only",
+          "smooth_discrepancy": "four normalized temporal RBFs of width .14s in each of twelve modal accelerations",
+          "remaining_limits": "twelve-mode approximation, supplied geometry/appearance, frame-held contact; excludes uncertainty outside the modal subspace; not guaranteed calibrated"
+        },
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            13,
+            6
+          ]
+        ],
+        "sampler": "elliptical",
+        "sampling": "four chains; burnin 100/500 pilot/full; retained 100 pilot or 2000/4000/8000 full; exact fixed-reference target; same rank-Rhat/ESS thresholds",
+        "new_target": "Fresh starts; no legacy samples pooled or resumed under this model",
+        "source_of_prior_scales": "gravity, frame duration, supplied initial geometry; no evaluation-based tuning"
+      },
+      "draws_per_chain": 100,
+      "sampling_history": [
+        {
+          "draws_per_chain": 100,
+          "all_pass": false
+        }
+      ],
+      "valid_for_ranking": false,
+      "pilot": true,
+      "worst_rhat": 3.848884307457855,
+      "minimum_bulk_ess": 4.338708669063755,
+      "minimum_tail_ess": 10.934937124111535,
+      "retained_acceptance": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "retained_invalid": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "retained_divergent": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "step_size": null,
+      "gradient_batches": 0,
+      "target_evaluations": 4350,
+      "sampler": "elliptical",
+      "acceptance_qualification": "Elliptical slice always closes its bracket; movement rates are not Metropolis acceptance probabilities. Inspect ESS/Rhat and bracket effort.",
+      "replay": {
+        "maximum_physical_density_identity_error": 3.637978807091713e-12,
+        "maximum_cached_target_error": 0.0,
+        "probes": 16,
+        "all_pass": true
+      },
+      "elapsed_this_invocation_s": 422.59006237983704,
+      "future_geometry_used": false
+    },
+    {
+      "case": "bird__4views__neural__joint",
+      "settings": {
+        "case_index": 11,
+        "case": "bird__4views__neural__joint",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "pilot": true,
+        "input_sha256": "ade31925ac8f1ded27c0a99e7644e70accea895cdf7f4c684803fcab13c0d2f4",
+        "inference_files_sha256_lf": {
+          "pacnerf_discrepancy.py": "7f894de53f6ea4a50213507ed09bc4023302b76a535201bbe143b5869ac516d9",
+          "compare_pacnerf_discrepancy.py": "bdd4728d30b93ce0ecd59e1c1b671eb96815eb0ebdb3fdfc95055bdad07ccdd1",
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b",
+          "pacnerf_comparison.py": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+          "pacnerf_elliptical.py": "80b5a27e4001481a7deb19b69228c5888664f2fc55c7156b1dc2af867cfc3f1e"
+        },
+        "model": {
+          "version": "hierarchical-discrepancy-v1",
+          "latent_dimension": 401,
+          "force_dimension": 72,
+          "original_force_dimension": 24,
+          "hyper_prior": "three independent standard normals; no plug-in scale fitting",
+          "diffusion_modal_center": 7.066147856368235,
+          "diffusion_coordinate_rms_center": 2.000416623272929,
+          "smooth_acceleration_modal_center": 11.538971130108889,
+          "smooth_acceleration_coordinate_rms_center": 3.266666666666667,
+          "rgb_sigma": ".08 * sqrt(1 + exp(h_rgb))",
+          "rgb_spatial_correlation": [
+            0.6442199856086448,
+            0.5645499276943375
+          ],
+          "correlation_fit_data": "eleven supplied frame-zero images and supplied frozen appearance only",
+          "smooth_discrepancy": "four normalized temporal RBFs of width .14s in each of twelve modal accelerations",
+          "remaining_limits": "twelve-mode approximation, supplied geometry/appearance, frame-held contact; excludes uncertainty outside the modal subspace; not guaranteed calibrated"
+        },
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            13,
+            6
+          ]
+        ],
+        "sampler": "elliptical",
+        "sampling": "four chains; burnin 100/500 pilot/full; retained 100 pilot or 2000/4000/8000 full; exact fixed-reference target; same rank-Rhat/ESS thresholds",
+        "new_target": "Fresh starts; no legacy samples pooled or resumed under this model",
+        "source_of_prior_scales": "gravity, frame duration, supplied initial geometry; no evaluation-based tuning"
+      },
+      "draws_per_chain": 100,
+      "sampling_history": [
+        {
+          "draws_per_chain": 100,
+          "all_pass": false
+        }
+      ],
+      "valid_for_ranking": false,
+      "pilot": true,
+      "worst_rhat": 3.7283317317389058,
+      "minimum_bulk_ess": 4.377512989267911,
+      "minimum_tail_ess": 10.924186148131964,
+      "retained_acceptance": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "retained_invalid": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "retained_divergent": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "step_size": null,
+      "gradient_batches": 0,
+      "target_evaluations": 4800,
+      "sampler": "elliptical",
+      "acceptance_qualification": "Elliptical slice always closes its bracket; movement rates are not Metropolis acceptance probabilities. Inspect ESS/Rhat and bracket effort.",
+      "replay": {
+        "maximum_physical_density_identity_error": 3.637978807091713e-12,
+        "maximum_cached_target_error": 0.0,
+        "probes": 16,
+        "all_pass": true
+      },
+      "elapsed_this_invocation_s": 454.52010321617126,
+      "future_geometry_used": false
+    }
+  ],
+  "qualification": "100-draw development runs test numerical feasibility and exact target replay; no convergence, reconstruction or calibration claim; full runs start afresh"
+}

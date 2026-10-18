@@ -15,8 +15,9 @@ from pacnerf_comparison import write
 def sweep(evaluate,position,ratio,rng,blocks,max_bracket=1000):
     q=position.clone();current=ratio.clone();evaluations=0
     attempts=torch.zeros(len(q),dtype=torch.long);invalid_proposals=torch.zeros_like(attempts)
-    for start,stop in blocks:
-        original=q[:,start:stop].clone()
+    for block in blocks:
+        index=block['indices'] if isinstance(block,dict) else slice(*block)
+        original=q[:,index].clone()
         auxiliary=torch.randn(original.shape,dtype=q.dtype,generator=rng)
         threshold=current+torch.log(torch.rand(len(q),dtype=q.dtype,generator=rng))
         angle=2*math.pi*torch.rand(len(q),dtype=q.dtype,generator=rng)
@@ -25,7 +26,7 @@ def sweep(evaluate,position,ratio,rng,blocks,max_bracket=1000):
         for _ in range(max_bracket):
             candidate=q.clone()
             proposed=original*torch.cos(angle)[:,None]+auxiliary*torch.sin(angle)[:,None]
-            candidate[pending,start:stop]=proposed[pending]
+            candidate[:,index]=torch.where(pending[:,None],proposed,q[:,index])
             value,bad=evaluate(candidate);evaluations+=1
             attempts+=pending.long();invalid_proposals+=(pending&bad).long()
             accepted=pending&(~bad)&(value>=threshold)
@@ -44,12 +45,15 @@ def atomic_save(path,value):
 
 
 @torch.no_grad()
-def sample(evaluate,dimension,checkpoint,total_draws,warmup=500,seed=240001,chunk=50,progress=None):
+def sample(evaluate,dimension,checkpoint,total_draws,warmup=500,seed=240001,chunk=50,progress=None,blocks=None):
     if total_draws<16 or warmup<0:raise ValueError('Invalid sampling budget')
     checkpoint=Path(checkpoint);checkpoint.mkdir(parents=True,exist_ok=True)
-    blocks=[(0,dimension-3),(dimension-3,dimension)]
+    blocks=[(0,dimension-3),(dimension-3,dimension)] if blocks is None else blocks
+    flattened=[i for block in blocks for i in (block['indices'] if isinstance(block,dict) else range(*block))]
+    if sorted(flattened)!=list(range(dimension)):
+        raise ValueError('Fixed slice blocks must cover each coordinate exactly once')
     protocol={'sampler':'blocked-elliptical-reference-v1','dimension':dimension,'chains':4,'warmup':warmup,'seed':seed,'blocks':blocks}
-    protocol={**protocol,'blocks':[list(b) for b in blocks]}
+    protocol={**protocol,'blocks':[{'indices':list(b['indices'])} if isinstance(b,dict) else list(b) for b in blocks]}
     state_path=checkpoint/'chains.pt';warm_path=checkpoint/'elliptical_warmup.pt'
     previous=torch.load(state_path,weights_only=True) if state_path.exists() else torch.load(warm_path,weights_only=True) if warm_path.exists() else None
     rng=torch.Generator().manual_seed(seed)

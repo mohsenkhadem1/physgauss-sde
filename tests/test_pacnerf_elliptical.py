@@ -43,3 +43,12 @@ class EllipticalTests(unittest.TestCase):
             self.assertTrue(torch.equal(resumed['rng_state'],direct['rng_state']))
             self.assertEqual(resumed['counts'],direct['counts'])
             self.assertEqual(resumed['target_evaluations'],direct['target_evaluations']+1)
+
+    def test_noncontiguous_parameter_block_has_correct_gaussian_moments(self):
+        mean,precision,evaluate=self.target()
+        with tempfile.TemporaryDirectory(dir=self.temporary_root) as folder:
+            chains=sample(evaluate,4,folder,2500,warmup=100,seed=88,chunk=1000,
+                blocks=[(1,2),{'indices':[0,2,3]}])
+        draws=chains['white'].flatten(0,1)
+        torch.testing.assert_close(draws.mean(0),mean,atol=.05,rtol=0)
+        torch.testing.assert_close(torch.cov(draws.T),torch.linalg.inv(precision),atol=.06,rtol=0)

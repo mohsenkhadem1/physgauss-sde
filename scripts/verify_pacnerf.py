@@ -14,6 +14,7 @@ import torch
 from pacnerf_comparison import cases,make_model,Target,make_target
 from physgauss.cli import source_fingerprint
 from physgauss.chain_diagnostics import scalar_diagnostics
+from pacnerf_prediction_metrics import prediction_scores
 
 
 def locate(root, pattern):
@@ -125,6 +126,7 @@ def verify_case(raw,inputs,index):
     pose_indices=[2+m+(frame-1)*2*m+mode for frame in range(1,14) for mode in range(m)]
     pose_ess=[diagnostics['quantities'][f'z{i}']['bulk_ess'] for i in pose_indices]
     gradient_batches=int(chains['gradient_evaluations'])
+    prediction=prediction_scores(position[:,gap],truth[gap])
     return {'case':name,'draws_per_chain':n,'actual_position_coordinate_scale':float(actual_scale[0,0]),
         'finite_chain_checks_pass':diagnostics['all_monitored_quantities_pass'],
         'interval_selection_rule':'producer CPU torch.linspace default float32, rounded to integer IDs; NumPy recomputes quantiles at those IDs',
@@ -136,7 +138,7 @@ def verify_case(raw,inputs,index):
         'minimum_common_pose_bulk_ess':min(pose_ess),
         'gradient_batches_per_minimum_pose_bulk_ess':gradient_batches/max(min(pose_ess),1e-15),
         'efficiency_qualification':'reported four-chain gradient batches divided by worst common modal-pose ESS; excludes fitting, not a hardware-normalized speed claim',
-        'all_pass':True}
+        'prediction_scores':prediction,'all_pass':True}
 
 
 if __name__=='__main__':
