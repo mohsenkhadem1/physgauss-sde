@@ -1,0 +1,5285 @@
+{
+  "complete": true,
+  "all_cases_pass_finite_chain_checks": false,
+  "all_cases_eligible_for_ranking": false,
+  "cases": [
+    {
+      "case": "torus__4views__constant__marginal",
+      "settings": {
+        "case_index": 0,
+        "case": "torus__4views__constant__marginal",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            13,
+            6
+          ]
+        ],
+        "dimension": 326,
+        "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.04170295647345142,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+        "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+        "coordinates": "innovation",
+        "inference_files_sha256_lf": {
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+        },
+        "pilot": false
+      },
+      "fit": {
+        "objective": 2503.4037862786895,
+        "gradient_max_abs": 5.2249016406324955e-05,
+        "evaluations": 232,
+        "optimizer_iterations": 209,
+        "phase": "initial innovation L-BFGS before GN refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.1612685055468647,
+        "missing_particle_coordinate_rmse_m": 0.18641190327864132,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.018360275377945566,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 24.24072883032227,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 15.15505456773795,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.1581012739100631,
+        "missing_particle_coordinate_rmse_m": 0.1852594450792576,
+        "gap_component_90_coverage": 0.12413194444444445,
+        "gap_mean_width_m": 0.04478547802457165,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.018360275377945566,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 24.34979063385753,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 15.289092656072121,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": true,
+        "failed_quantities": [],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 1187.008164475611,
+      "minimum_tail_ess": 660.13408085005,
+      "worst_rhat": 1.0029536478493721,
+      "sampling_history": [
+        {
+          "draws_per_chain": 8000,
+          "all_pass": true
+        }
+      ],
+      "step_size": 0.1978753248066588,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            469,
+            475,
+            436,
+            405
+          ],
+          "invalid": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "divergent": [
+            4,
+            1,
+            6,
+            13
+          ]
+        },
+        "retained": {
+          "accepted": [
+            7343,
+            7118,
+            7335,
+            7344
+          ],
+          "invalid": [
+            2,
+            8,
+            1,
+            0
+          ],
+          "divergent": [
+            100,
+            242,
+            79,
+            80
+          ]
+        }
+      },
+      "gradient_batches": 108379,
+      "seconds": 2046.0429146289825,
+      "valid_for_ranking": true,
+      "missing": false,
+      "attempted": true,
+      "attempt_status": "finite_checks_pass",
+      "saved_retained_draws_per_chain": 8000,
+      "final_mode": {
+        "objective": 2503.4037862786895,
+        "gauss_newton_decrement": 3.116223386307238e-05,
+        "gradient_max_abs": 5.2249016406324955e-05,
+        "coordinates": "innovation",
+        "qualification": "stationary reference in innovation density; not a physical-density MAP or proof of global optimum"
+      }
+    },
+    {
+      "case": "torus__4views__constant__joint",
+      "settings": {
+        "case_index": 1,
+        "case": "torus__4views__constant__joint",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            13,
+            6
+          ]
+        ],
+        "dimension": 350,
+        "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.04170295647345142,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+        "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+        "coordinates": "innovation",
+        "inference_files_sha256_lf": {
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+        },
+        "pilot": false
+      },
+      "fit": {
+        "objective": 2525.4583110762214,
+        "gradient_max_abs": 0.00010257422485371315,
+        "evaluations": 241,
+        "optimizer_iterations": 220,
+        "phase": "initial innovation L-BFGS before GN refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.16126847133041855,
+        "missing_particle_coordinate_rmse_m": 0.1864118977403959,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.018360275377945566,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 24.240729049318404,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 15.155054942802638,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.1581923386541264,
+        "missing_particle_coordinate_rmse_m": 0.18515669389595424,
+        "gap_component_90_coverage": 0.12196180555555555,
+        "gap_mean_width_m": 0.044455004447292466,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.018360275377945566,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 24.355832028166677,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 15.292891507570028,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": true,
+        "failed_quantities": [],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 552.5530927386444,
+      "minimum_tail_ess": 801.1994093459747,
+      "worst_rhat": 1.0074431450118975,
+      "sampling_history": [
+        {
+          "draws_per_chain": 500,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 1000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 2000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 4000,
+          "all_pass": true
+        }
+      ],
+      "step_size": 0.24424923127877726,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            457,
+            466,
+            435,
+            439
+          ],
+          "invalid": [
+            1,
+            0,
+            2,
+            0
+          ],
+          "divergent": [
+            4,
+            1,
+            8,
+            8
+          ]
+        },
+        "retained": {
+          "accepted": [
+            3339,
+            3374,
+            3440,
+            3402
+          ],
+          "invalid": [
+            2,
+            2,
+            0,
+            1
+          ],
+          "divergent": [
+            92,
+            79,
+            55,
+            58
+          ]
+        }
+      },
+      "gradient_batches": 47049,
+      "seconds": 9331.299184322357,
+      "valid_for_ranking": true,
+      "missing": false,
+      "attempted": true,
+      "attempt_status": "finite_checks_pass",
+      "saved_retained_draws_per_chain": 4000,
+      "final_mode": {
+        "objective": 2525.4583110762214,
+        "gauss_newton_decrement": 4.6352280803700394e-05,
+        "gradient_max_abs": 0.00010257422485371315,
+        "coordinates": "innovation",
+        "qualification": "stationary reference in innovation density; not a physical-density MAP or proof of global optimum"
+      }
+    },
+    {
+      "case": "torus__4views__neural__marginal",
+      "settings": {
+        "case_index": 2,
+        "case": "torus__4views__neural__marginal",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            13,
+            6
+          ]
+        ],
+        "dimension": 326,
+        "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.04170295647345142,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+        "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+        "coordinates": "innovation",
+        "inference_files_sha256_lf": {
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+        },
+        "pilot": false
+      },
+      "fit": {
+        "objective": 2503.328048279053,
+        "gradient_max_abs": 7.858636127267005e-05,
+        "evaluations": 231,
+        "optimizer_iterations": 215,
+        "phase": "initial innovation L-BFGS before GN refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.16127374209121734,
+        "missing_particle_coordinate_rmse_m": 0.18640712125930847,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.018360275377945566,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 24.241177072238873,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 15.155422586856373,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.15835103060332775,
+        "missing_particle_coordinate_rmse_m": 0.18504045574630001,
+        "gap_component_90_coverage": 0.12456597222222222,
+        "gap_mean_width_m": 0.04489808031157781,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.018360275377945566,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 24.357260751304658,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 15.291812787437788,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": true,
+        "failed_quantities": [],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 599.9342135312378,
+      "minimum_tail_ess": 685.8881786896778,
+      "worst_rhat": 1.0050472977715708,
+      "sampling_history": [
+        {
+          "draws_per_chain": 500,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 1000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 2000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 4000,
+          "all_pass": true
+        }
+      ],
+      "step_size": 0.20548246581156998,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            447,
+            455,
+            427,
+            444
+          ],
+          "invalid": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "divergent": [
+            4,
+            2,
+            9,
+            5
+          ]
+        },
+        "retained": {
+          "accepted": [
+            3610,
+            3522,
+            3479,
+            3481
+          ],
+          "invalid": [
+            0,
+            1,
+            1,
+            4
+          ],
+          "divergent": [
+            45,
+            87,
+            111,
+            104
+          ]
+        }
+      },
+      "gradient_batches": 54764,
+      "seconds": 9763.943573713303,
+      "valid_for_ranking": true,
+      "missing": false,
+      "attempted": true,
+      "attempt_status": "finite_checks_pass",
+      "saved_retained_draws_per_chain": 4000,
+      "final_mode": {
+        "objective": 2503.328048279053,
+        "gauss_newton_decrement": 4.289160034623586e-05,
+        "gradient_max_abs": 7.858636127267005e-05,
+        "coordinates": "innovation",
+        "qualification": "stationary reference in innovation density; not a physical-density MAP or proof of global optimum"
+      }
+    },
+    {
+      "case": "torus__4views__neural__joint",
+      "settings": {
+        "case_index": 3,
+        "case": "torus__4views__neural__joint",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            13,
+            6
+          ]
+        ],
+        "dimension": 350,
+        "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.04170295647345142,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+        "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+        "coordinates": "innovation",
+        "inference_files_sha256_lf": {
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+        },
+        "pilot": false
+      },
+      "fit": {
+        "objective": 2525.6398434006533,
+        "gradient_max_abs": 0.00010490357159598229,
+        "evaluations": 235,
+        "optimizer_iterations": 217,
+        "phase": "initial innovation L-BFGS before GN refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.16080481012184714,
+        "missing_particle_coordinate_rmse_m": 0.18271246328764307,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.018360275377945566,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 24.459838757776,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 15.363983240159891,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.158224632296038,
+        "missing_particle_coordinate_rmse_m": 0.18503464503733824,
+        "gap_component_90_coverage": 0.12586805555555555,
+        "gap_mean_width_m": 0.04556214173422957,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.018360275377945566,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 24.361570462666798,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 15.297401709982417,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": true,
+        "failed_quantities": [],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 708.032812774635,
+      "minimum_tail_ess": 902.063732344204,
+      "worst_rhat": 1.0081222139195989,
+      "sampling_history": [
+        {
+          "draws_per_chain": 500,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 1000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 2000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 4000,
+          "all_pass": true
+        }
+      ],
+      "step_size": 0.2305524659707393,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            452,
+            439,
+            449,
+            442
+          ],
+          "invalid": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "divergent": [
+            1,
+            4,
+            2,
+            6
+          ]
+        },
+        "retained": {
+          "accepted": [
+            3581,
+            3603,
+            3609,
+            3493
+          ],
+          "invalid": [
+            2,
+            0,
+            0,
+            4
+          ],
+          "divergent": [
+            38,
+            24,
+            19,
+            70
+          ]
+        }
+      },
+      "gradient_batches": 49048,
+      "seconds": 5944.916392803192,
+      "valid_for_ranking": true,
+      "missing": false,
+      "attempted": true,
+      "attempt_status": "finite_checks_pass",
+      "saved_retained_draws_per_chain": 4000,
+      "final_mode": {
+        "objective": 2525.6398434006533,
+        "gauss_newton_decrement": 3.7298186749833094e-05,
+        "gradient_max_abs": 0.00010490357159598229,
+        "coordinates": "innovation",
+        "qualification": "stationary reference in innovation density; not a physical-density MAP or proof of global optimum"
+      }
+    },
+    {
+      "case": "torus__6views__constant__marginal",
+      "settings": {
+        "case_index": 4,
+        "case": "torus__6views__constant__marginal",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            9,
+            6
+          ],
+          [
+            11,
+            8
+          ],
+          [
+            13,
+            10
+          ]
+        ],
+        "dimension": 326,
+        "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.04170295647345142,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+        "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+        "coordinates": "innovation",
+        "inference_files_sha256_lf": {
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+        },
+        "pilot": false
+      },
+      "fit": {
+        "objective": 2667.031660786456,
+        "gradient_max_abs": 0.0002609834456215321,
+        "evaluations": 228,
+        "optimizer_iterations": 210,
+        "phase": "initial innovation L-BFGS before GN refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.09764532656926717,
+        "missing_particle_coordinate_rmse_m": 0.10366226227260267,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.014873454694087353,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 25.14617874401693,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 15.721006037444026,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.09747524826682812,
+        "missing_particle_coordinate_rmse_m": 0.1039502271670606,
+        "gap_component_90_coverage": 0.17447916666666666,
+        "gap_mean_width_m": 0.03081289537521389,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.014873454694087353,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 25.1441746647482,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 15.718992497669102,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": true,
+        "failed_quantities": [],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 2649.594743038707,
+      "minimum_tail_ess": 1038.4470659383474,
+      "worst_rhat": 1.0021714094804595,
+      "sampling_history": [
+        {
+          "draws_per_chain": 500,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 1000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 2000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 4000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 8000,
+          "all_pass": true
+        }
+      ],
+      "step_size": 0.24455189160819008,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            453,
+            446,
+            453,
+            448
+          ],
+          "invalid": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "divergent": [
+            1,
+            6,
+            8,
+            7
+          ]
+        },
+        "retained": {
+          "accepted": [
+            6863,
+            6946,
+            6991,
+            6968
+          ],
+          "invalid": [
+            5,
+            2,
+            1,
+            2
+          ],
+          "divergent": [
+            237,
+            111,
+            118,
+            141
+          ]
+        }
+      },
+      "gradient_batches": 87568,
+      "seconds": 18007.02952837944,
+      "valid_for_ranking": true,
+      "missing": false,
+      "attempted": true,
+      "attempt_status": "finite_checks_pass",
+      "saved_retained_draws_per_chain": 8000,
+      "final_mode": {
+        "objective": 2667.031660786456,
+        "gauss_newton_decrement": 3.287655254643447e-05,
+        "gradient_max_abs": 0.0002609834456215321,
+        "coordinates": "innovation",
+        "qualification": "stationary reference in innovation density; not a physical-density MAP or proof of global optimum"
+      }
+    },
+    {
+      "case": "torus__6views__constant__joint",
+      "settings": {
+        "case_index": 5,
+        "case": "torus__6views__constant__joint",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            9,
+            6
+          ],
+          [
+            11,
+            8
+          ],
+          [
+            13,
+            10
+          ]
+        ],
+        "dimension": 350,
+        "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.04170295647345142,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+        "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+        "coordinates": "innovation",
+        "inference_files_sha256_lf": {
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+        },
+        "pilot": false
+      },
+      "fit": {
+        "objective": 2689.0861855877006,
+        "gradient_max_abs": 0.000138020735991784,
+        "evaluations": 227,
+        "optimizer_iterations": 212,
+        "phase": "initial innovation L-BFGS before GN refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.09764536304934986,
+        "missing_particle_coordinate_rmse_m": 0.10366226700518537,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.014873454694087353,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 25.14617908105049,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 15.721006096652745,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.09744390910928444,
+        "missing_particle_coordinate_rmse_m": 0.10396310039821793,
+        "gap_component_90_coverage": 0.18033854166666666,
+        "gap_mean_width_m": 0.03085812293249823,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.014873454694087353,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 25.143565207039842,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 15.71811817287328,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": true,
+        "failed_quantities": [],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 1359.1769675069063,
+      "minimum_tail_ess": 410.40057795327135,
+      "worst_rhat": 1.0043741220598363,
+      "sampling_history": [
+        {
+          "draws_per_chain": 500,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 1000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 2000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 4000,
+          "all_pass": true
+        }
+      ],
+      "step_size": 0.22700291115062868,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            451,
+            457,
+            448,
+            442
+          ],
+          "invalid": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "divergent": [
+            5,
+            2,
+            1,
+            8
+          ]
+        },
+        "retained": {
+          "accepted": [
+            3552,
+            3589,
+            3556,
+            3622
+          ],
+          "invalid": [
+            0,
+            0,
+            1,
+            0
+          ],
+          "divergent": [
+            46,
+            43,
+            40,
+            18
+          ]
+        }
+      },
+      "gradient_batches": 49609,
+      "seconds": 13240.33267736435,
+      "valid_for_ranking": true,
+      "missing": false,
+      "attempted": true,
+      "attempt_status": "finite_checks_pass",
+      "saved_retained_draws_per_chain": 4000,
+      "final_mode": {
+        "objective": 2689.0861855877006,
+        "gauss_newton_decrement": 9.85826044871028e-05,
+        "gradient_max_abs": 0.000138020735991784,
+        "coordinates": "innovation",
+        "qualification": "stationary reference in innovation density; not a physical-density MAP or proof of global optimum"
+      }
+    },
+    {
+      "case": "torus__6views__neural__marginal",
+      "settings": {
+        "case_index": 6,
+        "case": "torus__6views__neural__marginal",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            9,
+            6
+          ],
+          [
+            11,
+            8
+          ],
+          [
+            13,
+            10
+          ]
+        ],
+        "dimension": 326,
+        "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.04170295647345142,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+        "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+        "coordinates": "innovation",
+        "inference_files_sha256_lf": {
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+        },
+        "pilot": false
+      },
+      "fit": {
+        "objective": 2667.017439650058,
+        "gradient_max_abs": 7.914372675044135e-05,
+        "evaluations": 219,
+        "optimizer_iterations": 202,
+        "phase": "initial innovation L-BFGS before GN refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.09765123921361096,
+        "missing_particle_coordinate_rmse_m": 0.1036635795062398,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.014873454694087353,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 25.146125439855926,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 15.720975687641799,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.09750739007223301,
+        "missing_particle_coordinate_rmse_m": 0.10390355317428392,
+        "gap_component_90_coverage": 0.17838541666666666,
+        "gap_mean_width_m": 0.031061427589062957,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.014873454694087353,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 25.145858978070596,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 15.720889552712482,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": true,
+        "failed_quantities": [],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 1253.1042210171556,
+      "minimum_tail_ess": 466.47189358023365,
+      "worst_rhat": 1.0069206631618621,
+      "sampling_history": [
+        {
+          "draws_per_chain": 500,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 1000,
+          "all_pass": true
+        },
+        {
+          "draws_per_chain": 2000,
+          "all_pass": true
+        }
+      ],
+      "step_size": 0.22741022083978304,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            452,
+            456,
+            439,
+            438
+          ],
+          "invalid": [
+            0,
+            0,
+            1,
+            0
+          ],
+          "divergent": [
+            3,
+            5,
+            6,
+            1
+          ]
+        },
+        "retained": {
+          "accepted": [
+            1745,
+            1794,
+            1801,
+            1800
+          ],
+          "invalid": [
+            0,
+            0,
+            1,
+            0
+          ],
+          "divergent": [
+            31,
+            22,
+            12,
+            18
+          ]
+        }
+      },
+      "gradient_batches": 27544,
+      "seconds": 5725.339719772339,
+      "valid_for_ranking": true,
+      "missing": false,
+      "attempted": true,
+      "attempt_status": "finite_checks_pass",
+      "saved_retained_draws_per_chain": 2000,
+      "final_mode": {
+        "objective": 2667.017439650058,
+        "gauss_newton_decrement": 0.00013122723103735492,
+        "gradient_max_abs": 7.914372675044135e-05,
+        "coordinates": "innovation",
+        "qualification": "stationary reference in innovation density; not a physical-density MAP or proof of global optimum"
+      }
+    },
+    {
+      "case": "torus__6views__neural__joint",
+      "settings": {
+        "case_index": 7,
+        "case": "torus__6views__neural__joint",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            9,
+            6
+          ],
+          [
+            11,
+            8
+          ],
+          [
+            13,
+            10
+          ]
+        ],
+        "dimension": 350,
+        "input_sha256": "146b6b4736254b0cdcf07479fc7456fe7b3ab0b49076ac61296ddb4ce8394aa4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.04170295647345142,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+        "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+        "coordinates": "innovation",
+        "inference_files_sha256_lf": {
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+        },
+        "pilot": false
+      },
+      "fit": {
+        "objective": 2689.0719644397614,
+        "gradient_max_abs": 9.926667407633705e-05,
+        "evaluations": 248,
+        "optimizer_iterations": 227,
+        "phase": "initial innovation L-BFGS before GN refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.0976513702209635,
+        "missing_particle_coordinate_rmse_m": 0.10366361723051601,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.014873454694087353,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 25.14612531528161,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 15.720974873632032,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.09739625216504726,
+        "missing_particle_coordinate_rmse_m": 0.10389223885528512,
+        "gap_component_90_coverage": 0.17643229166666666,
+        "gap_mean_width_m": 0.030713882659845853,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.014873454694087353,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 25.145311430913925,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 15.720009632276792,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": true,
+        "failed_quantities": [],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 949.8243928588502,
+      "minimum_tail_ess": 445.3009422327511,
+      "worst_rhat": 1.006888964805297,
+      "sampling_history": [
+        {
+          "draws_per_chain": 500,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 1000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 2000,
+          "all_pass": true
+        }
+      ],
+      "step_size": 0.23249365444326256,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            446,
+            451,
+            448,
+            455
+          ],
+          "invalid": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "divergent": [
+            3,
+            3,
+            7,
+            3
+          ]
+        },
+        "retained": {
+          "accepted": [
+            1734,
+            1789,
+            1789,
+            1754
+          ],
+          "invalid": [
+            1,
+            1,
+            0,
+            1
+          ],
+          "divergent": [
+            46,
+            25,
+            11,
+            36
+          ]
+        }
+      },
+      "gradient_batches": 27448,
+      "seconds": 7470.084568023682,
+      "valid_for_ranking": true,
+      "missing": false,
+      "attempted": true,
+      "attempt_status": "finite_checks_pass",
+      "saved_retained_draws_per_chain": 2000,
+      "final_mode": {
+        "objective": 2689.0719644397614,
+        "gauss_newton_decrement": 7.131408828274422e-05,
+        "gradient_max_abs": 9.926667407633705e-05,
+        "coordinates": "innovation",
+        "qualification": "stationary reference in innovation density; not a physical-density MAP or proof of global optimum"
+      }
+    },
+    {
+      "case": "bird__4views__constant__marginal",
+      "settings": {
+        "case_index": 8,
+        "case": "bird__4views__constant__marginal",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            13,
+            6
+          ]
+        ],
+        "dimension": 326,
+        "input_sha256": "ade31925ac8f1ded27c0a99e7644e70accea895cdf7f4c684803fcab13c0d2f4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.0366192811956944,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+        "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+        "coordinates": "innovation",
+        "inference_files_sha256_lf": {
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+        },
+        "pilot": false
+      },
+      "fit": {
+        "objective": 1022.0495345861827,
+        "gradient_max_abs": 4.096702310495831e-05,
+        "evaluations": 174,
+        "optimizer_iterations": 159,
+        "phase": "initial innovation L-BFGS before GN refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.11934526266827641,
+        "missing_particle_coordinate_rmse_m": 0.1285023249051078,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.011907398914195273,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 27.143234770115345,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 16.508020252708935,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.11210762826730063,
+        "missing_particle_coordinate_rmse_m": 0.13132096469844481,
+        "gap_component_90_coverage": 0.5034722222222222,
+        "gap_mean_width_m": 0.05166700290613661,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.011907398914195273,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 27.146361166640233,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 16.413124078127957,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": true,
+        "failed_quantities": [],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 1655.651390351598,
+      "minimum_tail_ess": 898.2985060381372,
+      "worst_rhat": 1.0023198684219388,
+      "sampling_history": [
+        {
+          "draws_per_chain": 500,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 1000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 2000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 4000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 8000,
+          "all_pass": true
+        }
+      ],
+      "step_size": 0.1905521874042191,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            430,
+            442,
+            457,
+            445
+          ],
+          "invalid": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "divergent": [
+            2,
+            1,
+            2,
+            2
+          ]
+        },
+        "retained": {
+          "accepted": [
+            7127,
+            7223,
+            7237,
+            7225
+          ],
+          "invalid": [
+            3,
+            0,
+            0,
+            0
+          ],
+          "divergent": [
+            64,
+            8,
+            11,
+            10
+          ]
+        }
+      },
+      "gradient_batches": 111207,
+      "seconds": 16723.36120390892,
+      "valid_for_ranking": true,
+      "missing": false,
+      "attempted": true,
+      "attempt_status": "finite_checks_pass",
+      "saved_retained_draws_per_chain": 8000,
+      "final_mode": {
+        "objective": 1022.0495345861827,
+        "gauss_newton_decrement": 4.00421927327541e-05,
+        "gradient_max_abs": 4.096702310495831e-05,
+        "coordinates": "innovation",
+        "qualification": "stationary reference in innovation density; not a physical-density MAP or proof of global optimum"
+      }
+    },
+    {
+      "case": "bird__4views__constant__joint",
+      "settings": {
+        "case_index": 9,
+        "case": "bird__4views__constant__joint",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            13,
+            6
+          ]
+        ],
+        "dimension": 350,
+        "input_sha256": "ade31925ac8f1ded27c0a99e7644e70accea895cdf7f4c684803fcab13c0d2f4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.0366192811956944,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+        "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+        "coordinates": "innovation",
+        "inference_files_sha256_lf": {
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+        },
+        "pilot": false
+      },
+      "fit": {
+        "objective": 1044.104059384037,
+        "gradient_max_abs": 4.93793243472318e-05,
+        "evaluations": 179,
+        "optimizer_iterations": 160,
+        "phase": "initial innovation L-BFGS before GN refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.11934529756834424,
+        "missing_particle_coordinate_rmse_m": 0.1285023677893725,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.011907398914195273,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 27.143235519636967,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 16.50801979464421,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.11216146377413111,
+        "missing_particle_coordinate_rmse_m": 0.1312950747315197,
+        "gap_component_90_coverage": 0.5091145833333334,
+        "gap_mean_width_m": 0.05223186835373404,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.011907398914195273,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 27.1458149060851,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 16.413544546881354,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": false,
+        "failed_quantities": [
+          "z0",
+          "z8",
+          "z9",
+          "z12",
+          "z13",
+          "z20",
+          "z21",
+          "z24",
+          "z25",
+          "z32",
+          "z33",
+          "z36",
+          "z37",
+          "z44",
+          "z45",
+          "z48",
+          "z49",
+          "z56",
+          "z57",
+          "z60",
+          "z61",
+          "z68",
+          "z69",
+          "z72",
+          "z73",
+          "z80",
+          "z81",
+          "z92",
+          "z93",
+          "z96",
+          "z97",
+          "z104",
+          "z109",
+          "z116",
+          "z117",
+          "z120",
+          "z121",
+          "z128",
+          "z130",
+          "z133",
+          "z140",
+          "z141",
+          "z144",
+          "z152",
+          "z154",
+          "z156",
+          "z157",
+          "z164",
+          "z165",
+          "z177",
+          "z178",
+          "z180",
+          "z181",
+          "z188",
+          "z189",
+          "z193",
+          "z200",
+          "z201",
+          "z204",
+          "z212",
+          "z217",
+          "z224",
+          "z225",
+          "z237",
+          "z238",
+          "z241",
+          "z248",
+          "z249",
+          "z253",
+          "z260",
+          "z261",
+          "z263",
+          "z272",
+          "z275",
+          "z277",
+          "z284",
+          "z285",
+          "z287",
+          "z289",
+          "z297",
+          "z299",
+          "z301",
+          "z308",
+          "z309",
+          "z311",
+          "z313",
+          "z321",
+          "z323",
+          "logdet_Q",
+          "logdet_A",
+          "innovation_z0",
+          "innovation_z8",
+          "innovation_z9",
+          "innovation_z12",
+          "innovation_z13"
+        ],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 187.54849950652476,
+      "minimum_tail_ess": 53.92552347715799,
+      "worst_rhat": 1.0250367570032946,
+      "sampling_history": [
+        {
+          "draws_per_chain": 8000,
+          "all_pass": false
+        }
+      ],
+      "step_size": 0.1929969605370578,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            442,
+            444,
+            438,
+            455
+          ],
+          "invalid": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "divergent": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "retained": {
+          "accepted": [
+            7011,
+            7006,
+            7026,
+            7038
+          ],
+          "invalid": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "divergent": [
+            71,
+            45,
+            19,
+            35
+          ]
+        }
+      },
+      "gradient_batches": 109745,
+      "seconds": 522.7227473258972,
+      "valid_for_ranking": false,
+      "missing": false,
+      "attempted": true,
+      "attempt_status": "finite_checks_failed",
+      "saved_retained_draws_per_chain": 8000,
+      "final_mode": {
+        "objective": 1044.104059384037,
+        "gauss_newton_decrement": 6.042929984866164e-05,
+        "gradient_max_abs": 4.93793243472318e-05,
+        "coordinates": "innovation",
+        "qualification": "stationary reference in innovation density; not a physical-density MAP or proof of global optimum"
+      }
+    },
+    {
+      "case": "bird__4views__neural__marginal",
+      "settings": {
+        "case_index": 10,
+        "case": "bird__4views__neural__marginal",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            13,
+            6
+          ]
+        ],
+        "dimension": 326,
+        "input_sha256": "ade31925ac8f1ded27c0a99e7644e70accea895cdf7f4c684803fcab13c0d2f4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.0366192811956944,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+        "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+        "coordinates": "innovation",
+        "inference_files_sha256_lf": {
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+        },
+        "pilot": false
+      },
+      "fit": {
+        "objective": 1022.0339235219789,
+        "gradient_max_abs": 6.701250065543896e-05,
+        "evaluations": 180,
+        "optimizer_iterations": 161,
+        "phase": "initial innovation L-BFGS before GN refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.11934424564966883,
+        "missing_particle_coordinate_rmse_m": 0.12850379365154135,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.011907398914195273,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 27.143221062104846,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 16.508011135924473,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.11206802869069432,
+        "missing_particle_coordinate_rmse_m": 0.13131279671951282,
+        "gap_component_90_coverage": 0.4930555555555556,
+        "gap_mean_width_m": 0.05138460567556833,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.011907398914195273,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 27.14711714065976,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 16.413672804752146,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": true,
+        "failed_quantities": [],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 1002.7508514074798,
+      "minimum_tail_ess": 804.9950487362472,
+      "worst_rhat": 1.005979939317699,
+      "sampling_history": [
+        {
+          "draws_per_chain": 500,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 1000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 2000,
+          "all_pass": false
+        },
+        {
+          "draws_per_chain": 4000,
+          "all_pass": true
+        }
+      ],
+      "step_size": 0.19509912072964175,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            437,
+            444,
+            451,
+            449
+          ],
+          "invalid": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "divergent": [
+            0,
+            1,
+            0,
+            2
+          ]
+        },
+        "retained": {
+          "accepted": [
+            3586,
+            3561,
+            3542,
+            3534
+          ],
+          "invalid": [
+            0,
+            0,
+            1,
+            0
+          ],
+          "divergent": [
+            1,
+            2,
+            7,
+            12
+          ]
+        }
+      },
+      "gradient_batches": 58010,
+      "seconds": 12385.464631080627,
+      "valid_for_ranking": true,
+      "missing": false,
+      "attempted": true,
+      "attempt_status": "finite_checks_pass",
+      "saved_retained_draws_per_chain": 4000,
+      "final_mode": {
+        "objective": 1022.0339235219789,
+        "gauss_newton_decrement": 5.605596360526629e-05,
+        "gradient_max_abs": 6.701250065543896e-05,
+        "coordinates": "innovation",
+        "qualification": "stationary reference in innovation density; not a physical-density MAP or proof of global optimum"
+      }
+    },
+    {
+      "case": "bird__4views__neural__joint",
+      "settings": {
+        "case_index": 11,
+        "case": "bird__4views__neural__joint",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            13,
+            6
+          ]
+        ],
+        "dimension": 350,
+        "input_sha256": "ade31925ac8f1ded27c0a99e7644e70accea895cdf7f4c684803fcab13c0d2f4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.0366192811956944,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+        "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+        "coordinates": "innovation",
+        "inference_files_sha256_lf": {
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+        },
+        "pilot": false
+      },
+      "fit": {
+        "objective": 1044.088448320583,
+        "gradient_max_abs": 6.971977646619276e-05,
+        "evaluations": 164,
+        "optimizer_iterations": 149,
+        "phase": "initial innovation L-BFGS before GN refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.11934428232633562,
+        "missing_particle_coordinate_rmse_m": 0.12850380611484202,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.011907398914195273,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 27.1432197439681,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 16.508011758698213,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.11193497684545706,
+        "missing_particle_coordinate_rmse_m": 0.13140542303328542,
+        "gap_component_90_coverage": 0.5047743055555556,
+        "gap_mean_width_m": 0.053130975284016065,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.011907398914195273,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 27.14107324112417,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 16.408810170405964,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": false,
+        "failed_quantities": [
+          "z0",
+          "z1",
+          "z2",
+          "z8",
+          "z9",
+          "z10",
+          "z12",
+          "z13",
+          "z14",
+          "z18",
+          "z20",
+          "z21",
+          "z22",
+          "z24",
+          "z25",
+          "z26",
+          "z30",
+          "z32",
+          "z33",
+          "z34",
+          "z36",
+          "z37",
+          "z38",
+          "z42",
+          "z44",
+          "z45",
+          "z46",
+          "z48",
+          "z49",
+          "z50",
+          "z54",
+          "z56",
+          "z57",
+          "z58",
+          "z60",
+          "z61",
+          "z62",
+          "z66",
+          "z68",
+          "z69",
+          "z70",
+          "z72",
+          "z73",
+          "z74",
+          "z78",
+          "z80",
+          "z81",
+          "z83",
+          "z84",
+          "z85",
+          "z86",
+          "z90",
+          "z92",
+          "z93",
+          "z94",
+          "z96",
+          "z97",
+          "z104",
+          "z105",
+          "z106",
+          "z109",
+          "z110",
+          "z114",
+          "z116",
+          "z117",
+          "z119",
+          "z120",
+          "z121",
+          "z128",
+          "z129",
+          "z130",
+          "z132",
+          "z133",
+          "z134",
+          "z138",
+          "z140",
+          "z141",
+          "z143",
+          "z144",
+          "z152",
+          "z153",
+          "z154",
+          "z156",
+          "z157",
+          "z158",
+          "z162",
+          "z164",
+          "z165",
+          "z169",
+          "z170",
+          "z176",
+          "z177",
+          "z178",
+          "z180",
+          "z181",
+          "z188",
+          "z189",
+          "z190",
+          "z193",
+          "z194",
+          "z200",
+          "z201",
+          "z202",
+          "z203",
+          "z204",
+          "z205",
+          "z212",
+          "z214",
+          "z216",
+          "z217",
+          "z220",
+          "z223",
+          "z224",
+          "z225",
+          "z226",
+          "z229",
+          "z231",
+          "z232",
+          "z235",
+          "z236",
+          "z237",
+          "z238",
+          "z241",
+          "z247",
+          "z248",
+          "z249",
+          "z251",
+          "z252",
+          "z253",
+          "z256",
+          "z259",
+          "z260",
+          "z261",
+          "z262",
+          "z263",
+          "z264",
+          "z272",
+          "z273",
+          "z274",
+          "z275",
+          "z276",
+          "z277",
+          "z283",
+          "z284",
+          "z285",
+          "z287",
+          "z288",
+          "z289",
+          "z290",
+          "z292",
+          "z293",
+          "z294",
+          "z296",
+          "z297",
+          "z298",
+          "z299",
+          "z301",
+          "z303",
+          "z307",
+          "z308",
+          "z309",
+          "z311",
+          "z312",
+          "z313",
+          "z314",
+          "z316",
+          "z318",
+          "z321",
+          "z323",
+          "z325",
+          "z328",
+          "z335",
+          "z340",
+          "z346",
+          "conditional_force_mean2",
+          "conditional_force_mean9",
+          "conditional_force_mean14",
+          "conditional_force_mean20",
+          "logdet_Q",
+          "logdet_A",
+          "innovation_z0",
+          "innovation_z1",
+          "innovation_z2",
+          "innovation_z8",
+          "innovation_z9",
+          "innovation_z10",
+          "innovation_z12",
+          "innovation_z13",
+          "innovation_z328",
+          "innovation_z335",
+          "innovation_z340",
+          "innovation_z346"
+        ],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 20.909562689919905,
+      "minimum_tail_ess": 10.570473246033117,
+      "worst_rhat": 1.1227495992475498,
+      "sampling_history": [
+        {
+          "draws_per_chain": 8000,
+          "all_pass": false
+        }
+      ],
+      "step_size": 0.19290626976705164,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            446,
+            454,
+            437,
+            453
+          ],
+          "invalid": [
+            1,
+            1,
+            0,
+            1
+          ],
+          "divergent": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "retained": {
+          "accepted": [
+            7225,
+            7153,
+            6727,
+            7258
+          ],
+          "invalid": [
+            0,
+            0,
+            3,
+            1
+          ],
+          "divergent": [
+            4,
+            20,
+            170,
+            16
+          ]
+        }
+      },
+      "gradient_batches": 110601,
+      "seconds": 2653.2539546489716,
+      "valid_for_ranking": false,
+      "missing": false,
+      "attempted": true,
+      "attempt_status": "finite_checks_failed",
+      "saved_retained_draws_per_chain": 8000,
+      "final_mode": {
+        "objective": 1044.088448320583,
+        "gauss_newton_decrement": 7.646770799216426e-05,
+        "gradient_max_abs": 6.971977646619276e-05,
+        "coordinates": "innovation",
+        "qualification": "stationary reference in innovation density; not a physical-density MAP or proof of global optimum"
+      }
+    },
+    {
+      "case": "bird__6views__constant__marginal",
+      "settings": {
+        "case_index": 12,
+        "case": "bird__6views__constant__marginal",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            9,
+            6
+          ],
+          [
+            11,
+            8
+          ],
+          [
+            13,
+            10
+          ]
+        ],
+        "dimension": 326,
+        "input_sha256": "ade31925ac8f1ded27c0a99e7644e70accea895cdf7f4c684803fcab13c0d2f4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.0366192811956944,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+        "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+        "coordinates": "innovation",
+        "inference_files_sha256_lf": {
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+        },
+        "pilot": false
+      },
+      "fit": {
+        "objective": 1525.5938853500702,
+        "gradient_max_abs": 0.0002316321793751075,
+        "evaluations": 262,
+        "optimizer_iterations": 243,
+        "phase": "initial innovation L-BFGS before GN refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.10864205338194571,
+        "missing_particle_coordinate_rmse_m": 0.17293964996892583,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.010645567147917393,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 27.00675173741208,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 16.01493500920272,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.08847897228268269,
+        "missing_particle_coordinate_rmse_m": 0.12556600966825632,
+        "gap_component_90_coverage": 0.05859375,
+        "gap_mean_width_m": 0.03668794491453192,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.010645567147917393,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 27.130000083327907,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 16.88015583457043,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": false,
+        "failed_quantities": [
+          "z0",
+          "z8",
+          "z9",
+          "z10",
+          "z11",
+          "z12",
+          "z13",
+          "z20",
+          "z21",
+          "z22",
+          "z24",
+          "z25",
+          "z32",
+          "z33",
+          "z34",
+          "z36",
+          "z37",
+          "z44",
+          "z45",
+          "z46",
+          "z47",
+          "z48",
+          "z49",
+          "z56",
+          "z57",
+          "z58",
+          "z59",
+          "z60",
+          "z61",
+          "z68",
+          "z69",
+          "z70",
+          "z71",
+          "z72",
+          "z73",
+          "z74",
+          "z76",
+          "z78",
+          "z79",
+          "z80",
+          "z81",
+          "z82",
+          "z83",
+          "z84",
+          "z85",
+          "z92",
+          "z93",
+          "z94",
+          "z95",
+          "z96",
+          "z97",
+          "z98",
+          "z100",
+          "z102",
+          "z103",
+          "z104",
+          "z105",
+          "z106",
+          "z108",
+          "z110",
+          "z112",
+          "z114",
+          "z116",
+          "z117",
+          "z118",
+          "z119",
+          "z120",
+          "z121",
+          "z122",
+          "z123",
+          "z124",
+          "z126",
+          "z127",
+          "z128",
+          "z129",
+          "z130",
+          "z131",
+          "z133",
+          "z134",
+          "z135",
+          "z136",
+          "z138",
+          "z139",
+          "z140",
+          "z141",
+          "z142",
+          "z144",
+          "z145",
+          "z146",
+          "z147",
+          "z148",
+          "z149",
+          "z150",
+          "z152",
+          "z153",
+          "z154",
+          "z155",
+          "z156",
+          "z157",
+          "z158",
+          "z159",
+          "z160",
+          "z162",
+          "z163",
+          "z164",
+          "z165",
+          "z166",
+          "z167",
+          "z168",
+          "z169",
+          "z170",
+          "z171",
+          "z172",
+          "z173",
+          "z174",
+          "z177",
+          "z178",
+          "z179",
+          "z180",
+          "z181",
+          "z182",
+          "z183",
+          "z184",
+          "z186",
+          "z187",
+          "z188",
+          "z190",
+          "z191",
+          "z192",
+          "z193",
+          "z195",
+          "z196",
+          "z197",
+          "z198",
+          "z201",
+          "z202",
+          "z203",
+          "z204",
+          "z205",
+          "z206",
+          "z207",
+          "z208",
+          "z209",
+          "z210",
+          "z211",
+          "z212",
+          "z213",
+          "z216",
+          "z219",
+          "z220",
+          "z221",
+          "z223",
+          "z224",
+          "z225",
+          "z226",
+          "z227",
+          "z228",
+          "z229",
+          "z230",
+          "z231",
+          "z232",
+          "z233",
+          "z234",
+          "z235",
+          "z236",
+          "z237",
+          "z238",
+          "z239",
+          "z240",
+          "z241",
+          "z242",
+          "z243",
+          "z245",
+          "z247",
+          "z248",
+          "z249",
+          "z250",
+          "z252",
+          "z253",
+          "z254",
+          "z255",
+          "z256",
+          "z257",
+          "z258",
+          "z260",
+          "z261",
+          "z262",
+          "z263",
+          "z264",
+          "z265",
+          "z266",
+          "z267",
+          "z268",
+          "z269",
+          "z270",
+          "z271",
+          "z272",
+          "z273",
+          "z274",
+          "z276",
+          "z277",
+          "z278",
+          "z279",
+          "z280",
+          "z281",
+          "z282",
+          "z283",
+          "z284",
+          "z285",
+          "z286",
+          "z288",
+          "z289",
+          "z290",
+          "z291",
+          "z292",
+          "z293",
+          "z294",
+          "z295",
+          "z296",
+          "z297",
+          "z298",
+          "z299",
+          "z300",
+          "z301",
+          "z302",
+          "z303",
+          "z305",
+          "z307",
+          "z308",
+          "z309",
+          "z310",
+          "z311",
+          "z312",
+          "z313",
+          "z314",
+          "z315",
+          "z316",
+          "z317",
+          "z318",
+          "z319",
+          "z320",
+          "z322",
+          "z323",
+          "z324",
+          "log_target",
+          "conditional_force_mean2",
+          "conditional_force_mean8",
+          "conditional_force_mean9",
+          "conditional_force_mean13",
+          "conditional_force_mean14",
+          "conditional_force_mean15",
+          "conditional_force_mean16",
+          "conditional_force_mean20",
+          "conditional_force_mean21",
+          "logdet_Q",
+          "logdet_A",
+          "innovation_z0",
+          "innovation_z8",
+          "innovation_z9",
+          "innovation_z10",
+          "innovation_z11",
+          "innovation_z12",
+          "innovation_z13",
+          "innovation_z20",
+          "innovation_z92",
+          "innovation_z116",
+          "innovation_z140",
+          "innovation_z164"
+        ],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 24.0931677522202,
+      "minimum_tail_ess": 21.20892516591045,
+      "worst_rhat": 1.1070102949677816,
+      "sampling_history": [
+        {
+          "draws_per_chain": 8000,
+          "all_pass": false
+        }
+      ],
+      "step_size": 0.16510038725998855,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            439,
+            430,
+            456,
+            462
+          ],
+          "invalid": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "divergent": [
+            1,
+            4,
+            2,
+            3
+          ]
+        },
+        "retained": {
+          "accepted": [
+            6126,
+            6002,
+            6052,
+            6000
+          ],
+          "invalid": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "divergent": [
+            24,
+            25,
+            32,
+            33
+          ]
+        }
+      },
+      "gradient_batches": 127284,
+      "seconds": 15604.852186441422,
+      "valid_for_ranking": false,
+      "missing": false,
+      "attempted": true,
+      "attempt_status": "finite_checks_failed",
+      "saved_retained_draws_per_chain": 8000,
+      "final_mode": {
+        "objective": 1525.5938853500702,
+        "gauss_newton_decrement": 4.095586474897404e-05,
+        "gradient_max_abs": 0.0002316321793751075,
+        "coordinates": "innovation",
+        "qualification": "stationary reference in innovation density; not a physical-density MAP or proof of global optimum"
+      }
+    },
+    {
+      "case": "bird__6views__constant__joint",
+      "settings": {
+        "case_index": 13,
+        "case": "bird__6views__constant__joint",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            9,
+            6
+          ],
+          [
+            11,
+            8
+          ],
+          [
+            13,
+            10
+          ]
+        ],
+        "dimension": 350,
+        "input_sha256": "ade31925ac8f1ded27c0a99e7644e70accea895cdf7f4c684803fcab13c0d2f4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.0366192811956944,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+        "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+        "coordinates": "innovation",
+        "inference_files_sha256_lf": {
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+        },
+        "pilot": false
+      },
+      "fit": {
+        "objective": 1547.6484101473566,
+        "gradient_max_abs": 6.804521395142871e-05,
+        "evaluations": 258,
+        "optimizer_iterations": 240,
+        "phase": "initial innovation L-BFGS before GN refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.10864200638615946,
+        "missing_particle_coordinate_rmse_m": 0.17293961303116626,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.010645567147917393,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 27.006751517867382,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 16.01493525785751,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.08752363182733328,
+        "missing_particle_coordinate_rmse_m": 0.12706013919271492,
+        "gap_component_90_coverage": 0.08203125,
+        "gap_mean_width_m": 0.052031475791625946,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.010645567147917393,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 27.127222914741466,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 16.814762215517373,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": false,
+        "failed_quantities": [
+          "z0",
+          "z2",
+          "z4",
+          "z5",
+          "z6",
+          "z8",
+          "z9",
+          "z10",
+          "z11",
+          "z12",
+          "z13",
+          "z14",
+          "z16",
+          "z17",
+          "z18",
+          "z19",
+          "z20",
+          "z21",
+          "z22",
+          "z23",
+          "z24",
+          "z25",
+          "z26",
+          "z28",
+          "z29",
+          "z30",
+          "z31",
+          "z32",
+          "z33",
+          "z34",
+          "z36",
+          "z37",
+          "z38",
+          "z40",
+          "z41",
+          "z42",
+          "z43",
+          "z44",
+          "z45",
+          "z46",
+          "z47",
+          "z48",
+          "z49",
+          "z50",
+          "z51",
+          "z52",
+          "z53",
+          "z54",
+          "z55",
+          "z56",
+          "z57",
+          "z58",
+          "z59",
+          "z60",
+          "z61",
+          "z62",
+          "z63",
+          "z64",
+          "z65",
+          "z66",
+          "z67",
+          "z68",
+          "z69",
+          "z70",
+          "z71",
+          "z72",
+          "z73",
+          "z74",
+          "z75",
+          "z76",
+          "z77",
+          "z78",
+          "z79",
+          "z80",
+          "z81",
+          "z82",
+          "z83",
+          "z84",
+          "z85",
+          "z86",
+          "z87",
+          "z88",
+          "z89",
+          "z90",
+          "z91",
+          "z92",
+          "z93",
+          "z94",
+          "z95",
+          "z96",
+          "z97",
+          "z98",
+          "z99",
+          "z100",
+          "z102",
+          "z103",
+          "z104",
+          "z105",
+          "z106",
+          "z107",
+          "z108",
+          "z109",
+          "z110",
+          "z111",
+          "z112",
+          "z113",
+          "z114",
+          "z115",
+          "z116",
+          "z117",
+          "z118",
+          "z119",
+          "z120",
+          "z121",
+          "z122",
+          "z123",
+          "z124",
+          "z125",
+          "z126",
+          "z127",
+          "z128",
+          "z129",
+          "z130",
+          "z131",
+          "z132",
+          "z133",
+          "z134",
+          "z135",
+          "z136",
+          "z138",
+          "z139",
+          "z140",
+          "z141",
+          "z142",
+          "z143",
+          "z144",
+          "z145",
+          "z146",
+          "z147",
+          "z148",
+          "z149",
+          "z150",
+          "z151",
+          "z152",
+          "z153",
+          "z154",
+          "z155",
+          "z156",
+          "z157",
+          "z158",
+          "z159",
+          "z160",
+          "z162",
+          "z163",
+          "z164",
+          "z165",
+          "z166",
+          "z167",
+          "z168",
+          "z169",
+          "z170",
+          "z171",
+          "z172",
+          "z173",
+          "z174",
+          "z175",
+          "z177",
+          "z178",
+          "z179",
+          "z180",
+          "z181",
+          "z182",
+          "z183",
+          "z184",
+          "z185",
+          "z186",
+          "z187",
+          "z188",
+          "z189",
+          "z190",
+          "z191",
+          "z192",
+          "z193",
+          "z194",
+          "z195",
+          "z196",
+          "z197",
+          "z198",
+          "z200",
+          "z201",
+          "z202",
+          "z203",
+          "z204",
+          "z205",
+          "z206",
+          "z207",
+          "z208",
+          "z209",
+          "z210",
+          "z211",
+          "z212",
+          "z213",
+          "z214",
+          "z215",
+          "z216",
+          "z217",
+          "z218",
+          "z219",
+          "z220",
+          "z221",
+          "z222",
+          "z223",
+          "z224",
+          "z225",
+          "z226",
+          "z227",
+          "z228",
+          "z229",
+          "z230",
+          "z231",
+          "z232",
+          "z233",
+          "z234",
+          "z235",
+          "z236",
+          "z237",
+          "z238",
+          "z239",
+          "z240",
+          "z241",
+          "z242",
+          "z243",
+          "z244",
+          "z245",
+          "z246",
+          "z247",
+          "z248",
+          "z249",
+          "z250",
+          "z251",
+          "z252",
+          "z253",
+          "z254",
+          "z255",
+          "z256",
+          "z257",
+          "z258",
+          "z259",
+          "z260",
+          "z261",
+          "z262",
+          "z263",
+          "z264",
+          "z265",
+          "z266",
+          "z267",
+          "z268",
+          "z269",
+          "z270",
+          "z271",
+          "z272",
+          "z273",
+          "z274",
+          "z275",
+          "z276",
+          "z277",
+          "z278",
+          "z279",
+          "z280",
+          "z281",
+          "z282",
+          "z283",
+          "z284",
+          "z285",
+          "z286",
+          "z287",
+          "z288",
+          "z289",
+          "z290",
+          "z291",
+          "z292",
+          "z293",
+          "z294",
+          "z295",
+          "z296",
+          "z297",
+          "z298",
+          "z299",
+          "z300",
+          "z301",
+          "z302",
+          "z303",
+          "z305",
+          "z306",
+          "z307",
+          "z308",
+          "z309",
+          "z310",
+          "z311",
+          "z312",
+          "z313",
+          "z314",
+          "z315",
+          "z316",
+          "z317",
+          "z318",
+          "z319",
+          "z320",
+          "z321",
+          "z322",
+          "z323",
+          "z324",
+          "z325",
+          "z326",
+          "z327",
+          "z328",
+          "z329",
+          "z331",
+          "z334",
+          "z335",
+          "z337",
+          "z339",
+          "z340",
+          "z341",
+          "z342",
+          "z343",
+          "z346",
+          "z347",
+          "log_target",
+          "conditional_force_mean0",
+          "conditional_force_mean1",
+          "conditional_force_mean2",
+          "conditional_force_mean3",
+          "conditional_force_mean5",
+          "conditional_force_mean8",
+          "conditional_force_mean9",
+          "conditional_force_mean11",
+          "conditional_force_mean13",
+          "conditional_force_mean14",
+          "conditional_force_mean15",
+          "conditional_force_mean16",
+          "conditional_force_mean17",
+          "conditional_force_mean20",
+          "conditional_force_mean21",
+          "conditional_force_mean22",
+          "logdet_Q",
+          "logdet_A",
+          "innovation_z0",
+          "innovation_z2",
+          "innovation_z4",
+          "innovation_z5",
+          "innovation_z6",
+          "innovation_z8",
+          "innovation_z9",
+          "innovation_z10",
+          "innovation_z11",
+          "innovation_z12",
+          "innovation_z13",
+          "innovation_z189",
+          "innovation_z326",
+          "innovation_z327",
+          "innovation_z328",
+          "innovation_z329",
+          "innovation_z331",
+          "innovation_z334",
+          "innovation_z335",
+          "innovation_z337",
+          "innovation_z339",
+          "innovation_z340",
+          "innovation_z341",
+          "innovation_z342",
+          "innovation_z343",
+          "innovation_z346",
+          "innovation_z347"
+        ],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 11.911499274260876,
+      "minimum_tail_ess": 24.09337670185188,
+      "worst_rhat": 1.2375127047650187,
+      "sampling_history": [
+        {
+          "draws_per_chain": 8000,
+          "all_pass": false
+        }
+      ],
+      "step_size": 0.18753268951654833,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            457,
+            419,
+            455,
+            462
+          ],
+          "invalid": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "divergent": [
+            1,
+            6,
+            3,
+            6
+          ]
+        },
+        "retained": {
+          "accepted": [
+            5470,
+            5435,
+            5859,
+            5366
+          ],
+          "invalid": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "divergent": [
+            39,
+            48,
+            44,
+            33
+          ]
+        }
+      },
+      "gradient_batches": 112708,
+      "seconds": 1486.2068409919739,
+      "valid_for_ranking": false,
+      "missing": false,
+      "attempted": true,
+      "attempt_status": "finite_checks_failed",
+      "saved_retained_draws_per_chain": 8000,
+      "final_mode": {
+        "objective": 1547.6484101473566,
+        "gauss_newton_decrement": 4.8431946039875755e-05,
+        "gradient_max_abs": 6.804521395142871e-05,
+        "coordinates": "innovation",
+        "qualification": "stationary reference in innovation density; not a physical-density MAP or proof of global optimum"
+      }
+    },
+    {
+      "case": "bird__6views__neural__marginal",
+      "settings": {
+        "case_index": 14,
+        "case": "bird__6views__neural__marginal",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            9,
+            6
+          ],
+          [
+            11,
+            8
+          ],
+          [
+            13,
+            10
+          ]
+        ],
+        "dimension": 326,
+        "input_sha256": "ade31925ac8f1ded27c0a99e7644e70accea895cdf7f4c684803fcab13c0d2f4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.0366192811956944,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+        "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+        "coordinates": "innovation",
+        "inference_files_sha256_lf": {
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+        },
+        "pilot": false
+      },
+      "fit": {
+        "objective": 1525.5586669676782,
+        "gradient_max_abs": 0.00015082817003642113,
+        "evaluations": 236,
+        "optimizer_iterations": 219,
+        "phase": "initial innovation L-BFGS before GN refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.10863716860714422,
+        "missing_particle_coordinate_rmse_m": 0.17293816866603334,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.010645567147917393,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 27.006794800098906,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 16.015034271108963,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.08709207029510035,
+        "missing_particle_coordinate_rmse_m": 0.1289630585215073,
+        "gap_component_90_coverage": 0.15169270833333334,
+        "gap_mean_width_m": 0.07855477614304991,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.010645567147917393,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 27.11692514653206,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 16.74412228811644,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": false,
+        "failed_quantities": [
+          "z0",
+          "z1",
+          "z2",
+          "z3",
+          "z4",
+          "z5",
+          "z6",
+          "z7",
+          "z8",
+          "z9",
+          "z10",
+          "z11",
+          "z12",
+          "z13",
+          "z14",
+          "z16",
+          "z17",
+          "z18",
+          "z19",
+          "z20",
+          "z21",
+          "z22",
+          "z24",
+          "z25",
+          "z26",
+          "z28",
+          "z29",
+          "z30",
+          "z31",
+          "z32",
+          "z33",
+          "z34",
+          "z36",
+          "z37",
+          "z38",
+          "z40",
+          "z41",
+          "z42",
+          "z43",
+          "z44",
+          "z45",
+          "z46",
+          "z48",
+          "z49",
+          "z50",
+          "z51",
+          "z52",
+          "z53",
+          "z54",
+          "z55",
+          "z56",
+          "z57",
+          "z58",
+          "z59",
+          "z60",
+          "z61",
+          "z62",
+          "z64",
+          "z65",
+          "z66",
+          "z67",
+          "z68",
+          "z69",
+          "z70",
+          "z71",
+          "z72",
+          "z73",
+          "z74",
+          "z75",
+          "z76",
+          "z77",
+          "z78",
+          "z79",
+          "z80",
+          "z81",
+          "z82",
+          "z83",
+          "z84",
+          "z85",
+          "z86",
+          "z88",
+          "z89",
+          "z90",
+          "z91",
+          "z92",
+          "z93",
+          "z94",
+          "z95",
+          "z96",
+          "z97",
+          "z98",
+          "z99",
+          "z100",
+          "z102",
+          "z103",
+          "z104",
+          "z105",
+          "z106",
+          "z107",
+          "z108",
+          "z109",
+          "z110",
+          "z111",
+          "z112",
+          "z113",
+          "z114",
+          "z115",
+          "z116",
+          "z117",
+          "z118",
+          "z119",
+          "z120",
+          "z121",
+          "z122",
+          "z123",
+          "z124",
+          "z125",
+          "z126",
+          "z127",
+          "z128",
+          "z129",
+          "z130",
+          "z131",
+          "z132",
+          "z133",
+          "z134",
+          "z135",
+          "z136",
+          "z137",
+          "z138",
+          "z139",
+          "z140",
+          "z141",
+          "z142",
+          "z144",
+          "z145",
+          "z146",
+          "z147",
+          "z148",
+          "z149",
+          "z150",
+          "z151",
+          "z152",
+          "z153",
+          "z154",
+          "z155",
+          "z156",
+          "z157",
+          "z158",
+          "z159",
+          "z160",
+          "z161",
+          "z162",
+          "z163",
+          "z164",
+          "z165",
+          "z166",
+          "z167",
+          "z168",
+          "z169",
+          "z170",
+          "z171",
+          "z172",
+          "z173",
+          "z174",
+          "z175",
+          "z177",
+          "z178",
+          "z179",
+          "z180",
+          "z181",
+          "z182",
+          "z183",
+          "z184",
+          "z185",
+          "z186",
+          "z187",
+          "z188",
+          "z190",
+          "z191",
+          "z192",
+          "z193",
+          "z194",
+          "z195",
+          "z196",
+          "z197",
+          "z198",
+          "z200",
+          "z201",
+          "z202",
+          "z203",
+          "z204",
+          "z205",
+          "z206",
+          "z207",
+          "z208",
+          "z209",
+          "z210",
+          "z211",
+          "z212",
+          "z213",
+          "z214",
+          "z215",
+          "z216",
+          "z217",
+          "z218",
+          "z219",
+          "z220",
+          "z221",
+          "z222",
+          "z223",
+          "z224",
+          "z225",
+          "z226",
+          "z227",
+          "z228",
+          "z229",
+          "z230",
+          "z231",
+          "z232",
+          "z233",
+          "z234",
+          "z235",
+          "z236",
+          "z237",
+          "z238",
+          "z239",
+          "z240",
+          "z241",
+          "z242",
+          "z243",
+          "z244",
+          "z245",
+          "z246",
+          "z247",
+          "z248",
+          "z249",
+          "z250",
+          "z251",
+          "z252",
+          "z253",
+          "z254",
+          "z255",
+          "z256",
+          "z257",
+          "z258",
+          "z259",
+          "z260",
+          "z261",
+          "z262",
+          "z263",
+          "z264",
+          "z265",
+          "z266",
+          "z267",
+          "z268",
+          "z269",
+          "z270",
+          "z271",
+          "z272",
+          "z273",
+          "z274",
+          "z276",
+          "z277",
+          "z278",
+          "z279",
+          "z280",
+          "z281",
+          "z282",
+          "z283",
+          "z284",
+          "z285",
+          "z286",
+          "z287",
+          "z288",
+          "z289",
+          "z290",
+          "z291",
+          "z292",
+          "z293",
+          "z294",
+          "z295",
+          "z296",
+          "z297",
+          "z298",
+          "z299",
+          "z300",
+          "z301",
+          "z302",
+          "z303",
+          "z304",
+          "z305",
+          "z306",
+          "z307",
+          "z308",
+          "z309",
+          "z310",
+          "z311",
+          "z312",
+          "z313",
+          "z314",
+          "z315",
+          "z316",
+          "z317",
+          "z318",
+          "z319",
+          "z320",
+          "z321",
+          "z322",
+          "z323",
+          "z324",
+          "z325",
+          "log_target",
+          "conditional_force_mean0",
+          "conditional_force_mean1",
+          "conditional_force_mean2",
+          "conditional_force_mean5",
+          "conditional_force_mean8",
+          "conditional_force_mean9",
+          "conditional_force_mean11",
+          "conditional_force_mean12",
+          "conditional_force_mean13",
+          "conditional_force_mean14",
+          "conditional_force_mean15",
+          "conditional_force_mean16",
+          "conditional_force_mean17",
+          "conditional_force_mean20",
+          "conditional_force_mean21",
+          "logdet_Q",
+          "logdet_A",
+          "innovation_z0",
+          "innovation_z1",
+          "innovation_z2",
+          "innovation_z3",
+          "innovation_z4",
+          "innovation_z5",
+          "innovation_z6",
+          "innovation_z7",
+          "innovation_z8",
+          "innovation_z9",
+          "innovation_z10",
+          "innovation_z11",
+          "innovation_z12",
+          "innovation_z13",
+          "innovation_z14",
+          "innovation_z16",
+          "innovation_z19",
+          "innovation_z20",
+          "innovation_z22",
+          "innovation_z38",
+          "innovation_z39",
+          "innovation_z44",
+          "innovation_z46",
+          "innovation_z68",
+          "innovation_z70",
+          "innovation_z87",
+          "innovation_z88",
+          "innovation_z92",
+          "innovation_z94",
+          "innovation_z110",
+          "innovation_z111",
+          "innovation_z112",
+          "innovation_z116",
+          "innovation_z118",
+          "innovation_z135",
+          "innovation_z136",
+          "innovation_z140",
+          "innovation_z141",
+          "innovation_z142",
+          "innovation_z159",
+          "innovation_z160",
+          "innovation_z164",
+          "innovation_z165",
+          "innovation_z166",
+          "innovation_z184",
+          "innovation_z188",
+          "innovation_z189",
+          "innovation_z212"
+        ],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 11.856116191077795,
+      "minimum_tail_ess": 26.527729188674986,
+      "worst_rhat": 1.2458156871288408,
+      "sampling_history": [
+        {
+          "draws_per_chain": 8000,
+          "all_pass": false
+        }
+      ],
+      "step_size": 0.1860005673981737,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            468,
+            394,
+            452,
+            464
+          ],
+          "invalid": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "divergent": [
+            1,
+            4,
+            4,
+            1
+          ]
+        },
+        "retained": {
+          "accepted": [
+            5493,
+            5342,
+            6000,
+            5811
+          ],
+          "invalid": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "divergent": [
+            64,
+            45,
+            61,
+            41
+          ]
+        }
+      },
+      "gradient_batches": 113991,
+      "seconds": 12947.440490484238,
+      "valid_for_ranking": false,
+      "missing": false,
+      "attempted": true,
+      "attempt_status": "finite_checks_failed",
+      "saved_retained_draws_per_chain": 8000,
+      "final_mode": {
+        "objective": 1525.5586669676782,
+        "gauss_newton_decrement": 5.443758601241448e-05,
+        "gradient_max_abs": 0.00015082817003642113,
+        "coordinates": "innovation",
+        "qualification": "stationary reference in innovation density; not a physical-density MAP or proof of global optimum"
+      }
+    },
+    {
+      "case": "bird__6views__neural__joint",
+      "settings": {
+        "case_index": 15,
+        "case": "bird__6views__neural__joint",
+        "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+        "worker_commit": "219665b0776d9a1b5d092176331e21f724499bca",
+        "environment": {
+          "python": "3.12.4",
+          "torch": "2.14.1+cpu",
+          "numpy": "2.0.0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39"
+        },
+        "worker_sha256_lf": "2eefeb9bbef6e16a7b9cfdb136ce8953d910259022cec78c3f5afcdeb81eee83",
+        "observed_pairs": [
+          [
+            0,
+            0
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            9,
+            6
+          ],
+          [
+            11,
+            8
+          ],
+          [
+            13,
+            10
+          ]
+        ],
+        "dimension": 350,
+        "input_sha256": "ade31925ac8f1ded27c0a99e7644e70accea895cdf7f4c684803fcab13c0d2f4",
+        "bootstrap": {
+          "static_rgb_rmse": 0.0366192811956944,
+          "steps": 250,
+          "geometry": "official frame-zero particles only",
+          "appearance_views": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ]
+          ],
+          "qualification": "oracle initial geometry and multiview appearance bootstrap; no later images used"
+        },
+        "model": "12-mode linear elastic graph + smooth frame-held ground reaction; exact linear propagator/covariance/constant-load integrals; transferred frozen neural noise",
+        "transition_integrals": "balanced 5x5 modal-pair and 3x3 affine matrix exponentials; no fixed covariance/load quadrature",
+        "noise_units": "floor .15 and balanced edge scale .20 in acceleration diffusion; transfer assumptions, not PAC-calibrated",
+        "force_comparison": "same Gaussian unknown-load prior; analytic marginalization versus explicit joint variables",
+        "proposal": "exact causal innovation coordinates; fixed full observed RGB Gauss-Newton Gaussian reference; split HMC with exact MH target",
+        "coordinates": "innovation",
+        "inference_files_sha256_lf": {
+          "pacnerf_innovations.py": "ec559795b5b331539804319b81f0750f5073d38107822be72325b823aed8f52c",
+          "pacnerf_innovation_metric.py": "1e679e89fef23972847527d4836eef954709645e7afdb287ae78ea938bee268b"
+        },
+        "pilot": false
+      },
+      "fit": {
+        "objective": 1547.6131917632797,
+        "gradient_max_abs": 7.648632696111157e-05,
+        "evaluations": 266,
+        "optimizer_iterations": 242,
+        "phase": "initial innovation L-BFGS before GN refinement"
+      },
+      "map_scores": {
+        "gap_particle_coordinate_rmse_m": 0.1086371457412432,
+        "missing_particle_coordinate_rmse_m": 0.172938153354916,
+        "gap_component_90_coverage": 0.0,
+        "gap_mean_width_m": 0.0,
+        "interval_draws": 1,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.010645567147917393,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 27.006794546258412,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 16.015033869229114,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "map_score_definition": "image scores at stationary innovation-density reference, not a physical-density MAP",
+      "posterior_scores": {
+        "gap_particle_coordinate_rmse_m": 0.0868106138466951,
+        "missing_particle_coordinate_rmse_m": 0.1312166423973178,
+        "gap_component_90_coverage": 0.15494791666666666,
+        "gap_mean_width_m": 0.08120368844942803,
+        "interval_draws": 2000,
+        "evaluation_only_subspace_oracle_gap_rmse_m": 0.010645567147917393,
+        "qualification": "128 fixed frame-zero-selected particle correspondences; conditional on supplied initial geometry; deterministic dataset, no force ground-truth claim",
+        "heldout_rgb_psnr_db": 27.10806913837979,
+        "heldout_images": 143,
+        "heldout_background_difference_region_psnr_db": 16.665000830552067,
+        "region_metric_definition": "evaluation-only abs(target-empty_background).max(channel) > .10; includes shadows; not a true object mask"
+      },
+      "convergence": {
+        "criteria": "rank/folded split Rhat <1.01, bulk and tail ESS >=400, no frozen chains",
+        "all_monitored_quantities_pass": false,
+        "failed_quantities": [
+          "z0",
+          "z1",
+          "z2",
+          "z3",
+          "z4",
+          "z5",
+          "z6",
+          "z7",
+          "z8",
+          "z9",
+          "z10",
+          "z12",
+          "z13",
+          "z14",
+          "z15",
+          "z16",
+          "z17",
+          "z18",
+          "z19",
+          "z20",
+          "z21",
+          "z22",
+          "z24",
+          "z25",
+          "z26",
+          "z28",
+          "z29",
+          "z30",
+          "z31",
+          "z32",
+          "z33",
+          "z34",
+          "z36",
+          "z37",
+          "z38",
+          "z39",
+          "z40",
+          "z41",
+          "z42",
+          "z43",
+          "z44",
+          "z45",
+          "z46",
+          "z48",
+          "z49",
+          "z50",
+          "z52",
+          "z53",
+          "z54",
+          "z55",
+          "z56",
+          "z57",
+          "z58",
+          "z59",
+          "z60",
+          "z61",
+          "z62",
+          "z63",
+          "z64",
+          "z65",
+          "z66",
+          "z67",
+          "z68",
+          "z69",
+          "z70",
+          "z71",
+          "z72",
+          "z73",
+          "z74",
+          "z76",
+          "z77",
+          "z78",
+          "z79",
+          "z80",
+          "z81",
+          "z82",
+          "z83",
+          "z84",
+          "z85",
+          "z86",
+          "z87",
+          "z88",
+          "z89",
+          "z90",
+          "z91",
+          "z92",
+          "z93",
+          "z94",
+          "z95",
+          "z96",
+          "z97",
+          "z98",
+          "z99",
+          "z100",
+          "z102",
+          "z103",
+          "z104",
+          "z105",
+          "z106",
+          "z107",
+          "z108",
+          "z109",
+          "z110",
+          "z111",
+          "z112",
+          "z113",
+          "z114",
+          "z115",
+          "z116",
+          "z117",
+          "z118",
+          "z119",
+          "z120",
+          "z121",
+          "z122",
+          "z123",
+          "z124",
+          "z125",
+          "z126",
+          "z127",
+          "z128",
+          "z129",
+          "z130",
+          "z131",
+          "z132",
+          "z133",
+          "z134",
+          "z135",
+          "z136",
+          "z137",
+          "z138",
+          "z139",
+          "z140",
+          "z141",
+          "z142",
+          "z144",
+          "z145",
+          "z146",
+          "z147",
+          "z148",
+          "z149",
+          "z150",
+          "z151",
+          "z152",
+          "z153",
+          "z154",
+          "z155",
+          "z156",
+          "z157",
+          "z158",
+          "z159",
+          "z160",
+          "z161",
+          "z162",
+          "z163",
+          "z164",
+          "z165",
+          "z166",
+          "z167",
+          "z168",
+          "z169",
+          "z170",
+          "z171",
+          "z172",
+          "z173",
+          "z174",
+          "z175",
+          "z176",
+          "z177",
+          "z178",
+          "z179",
+          "z180",
+          "z181",
+          "z182",
+          "z183",
+          "z184",
+          "z185",
+          "z186",
+          "z187",
+          "z188",
+          "z189",
+          "z190",
+          "z191",
+          "z192",
+          "z193",
+          "z194",
+          "z195",
+          "z196",
+          "z197",
+          "z198",
+          "z199",
+          "z200",
+          "z201",
+          "z202",
+          "z203",
+          "z204",
+          "z205",
+          "z206",
+          "z207",
+          "z208",
+          "z209",
+          "z210",
+          "z211",
+          "z212",
+          "z213",
+          "z214",
+          "z215",
+          "z216",
+          "z217",
+          "z218",
+          "z219",
+          "z220",
+          "z221",
+          "z222",
+          "z223",
+          "z224",
+          "z225",
+          "z226",
+          "z227",
+          "z228",
+          "z229",
+          "z230",
+          "z231",
+          "z232",
+          "z233",
+          "z234",
+          "z235",
+          "z236",
+          "z237",
+          "z238",
+          "z239",
+          "z240",
+          "z241",
+          "z242",
+          "z243",
+          "z244",
+          "z245",
+          "z246",
+          "z247",
+          "z248",
+          "z249",
+          "z250",
+          "z251",
+          "z252",
+          "z253",
+          "z254",
+          "z255",
+          "z256",
+          "z257",
+          "z258",
+          "z259",
+          "z260",
+          "z261",
+          "z262",
+          "z263",
+          "z264",
+          "z265",
+          "z266",
+          "z267",
+          "z268",
+          "z269",
+          "z270",
+          "z271",
+          "z272",
+          "z273",
+          "z274",
+          "z276",
+          "z277",
+          "z278",
+          "z279",
+          "z280",
+          "z281",
+          "z282",
+          "z283",
+          "z284",
+          "z285",
+          "z286",
+          "z287",
+          "z288",
+          "z289",
+          "z290",
+          "z291",
+          "z292",
+          "z293",
+          "z294",
+          "z295",
+          "z296",
+          "z297",
+          "z298",
+          "z299",
+          "z300",
+          "z301",
+          "z302",
+          "z303",
+          "z304",
+          "z305",
+          "z306",
+          "z307",
+          "z308",
+          "z309",
+          "z310",
+          "z311",
+          "z312",
+          "z313",
+          "z314",
+          "z315",
+          "z316",
+          "z317",
+          "z318",
+          "z319",
+          "z320",
+          "z321",
+          "z322",
+          "z323",
+          "z324",
+          "z325",
+          "z326",
+          "z327",
+          "z328",
+          "z331",
+          "z334",
+          "z335",
+          "z337",
+          "z338",
+          "z339",
+          "z340",
+          "z341",
+          "z342",
+          "z343",
+          "z344",
+          "z345",
+          "z346",
+          "z347",
+          "z349",
+          "log_target",
+          "conditional_force_mean0",
+          "conditional_force_mean1",
+          "conditional_force_mean2",
+          "conditional_force_mean5",
+          "conditional_force_mean8",
+          "conditional_force_mean9",
+          "conditional_force_mean11",
+          "conditional_force_mean12",
+          "conditional_force_mean13",
+          "conditional_force_mean14",
+          "conditional_force_mean15",
+          "conditional_force_mean16",
+          "conditional_force_mean17",
+          "conditional_force_mean18",
+          "conditional_force_mean19",
+          "conditional_force_mean20",
+          "conditional_force_mean21",
+          "conditional_force_mean23",
+          "logdet_Q",
+          "logdet_A",
+          "innovation_z0",
+          "innovation_z1",
+          "innovation_z2",
+          "innovation_z3",
+          "innovation_z4",
+          "innovation_z5",
+          "innovation_z6",
+          "innovation_z7",
+          "innovation_z8",
+          "innovation_z9",
+          "innovation_z10",
+          "innovation_z12",
+          "innovation_z13",
+          "innovation_z326",
+          "innovation_z327",
+          "innovation_z328",
+          "innovation_z331",
+          "innovation_z334",
+          "innovation_z335",
+          "innovation_z337",
+          "innovation_z338",
+          "innovation_z339",
+          "innovation_z340",
+          "innovation_z341",
+          "innovation_z342",
+          "innovation_z343",
+          "innovation_z344",
+          "innovation_z345",
+          "innovation_z346",
+          "innovation_z347",
+          "innovation_z349"
+        ],
+        "limitation": "Passing finite-chain diagnostics cannot exclude unvisited modes or establish model calibration."
+      },
+      "minimum_bulk_ess": 11.000999534868603,
+      "minimum_tail_ess": 20.449620812881165,
+      "worst_rhat": 1.269656684733409,
+      "sampling_history": [
+        {
+          "draws_per_chain": 8000,
+          "all_pass": false
+        }
+      ],
+      "step_size": 0.19173376591567243,
+      "counts": {
+        "warmup": {
+          "accepted": [
+            458,
+            409,
+            453,
+            468
+          ],
+          "invalid": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "divergent": [
+            4,
+            4,
+            2,
+            3
+          ]
+        },
+        "retained": {
+          "accepted": [
+            5523,
+            5104,
+            6250,
+            5429
+          ],
+          "invalid": [
+            0,
+            0,
+            3,
+            1
+          ],
+          "divergent": [
+            92,
+            69,
+            129,
+            95
+          ]
+        }
+      },
+      "gradient_batches": 110659,
+      "seconds": 3018.890934228897,
+      "valid_for_ranking": false,
+      "missing": false,
+      "attempted": true,
+      "attempt_status": "finite_checks_failed",
+      "saved_retained_draws_per_chain": 8000,
+      "final_mode": {
+        "objective": 1547.6131917632797,
+        "gauss_newton_decrement": 2.5979564247223397e-05,
+        "gradient_max_abs": 7.648632696111157e-05,
+        "coordinates": "innovation",
+        "qualification": "stationary reference in innovation density; not a physical-density MAP or proof of global optimum"
+      }
+    }
+  ],
+  "model_integrals_numerically_valid": true,
+  "numerical_target_audit": {
+    "source_fingerprint": "eb703c41c125e971edae446bcad13d8f80a0ca5a34efb9f6a7b156762bf9f655",
+    "historical_target_superseded": false,
+    "model_integrals_numerically_valid": true,
+    "reason": "Initial-geometry and stratified saved-state independent matrix checks passed. These checks do not validate contact, material/renderer fidelity, unsampled tails or uncertainty calibration.",
+    "saved_state_tolerance": 1e-05,
+    "errors": []
+  },
+  "available_cases": 16,
+  "attempted_cases": 16,
+  "finite_chain_pass_cases": 10,
+  "raw_checkpoint_verification_pass": true,
+  "numerical_audit_files": [
+    "attempts.json",
+    "transition-audit.json",
+    "noise-transfer-diagnostic.json",
+    "posterior-transition-diagnostic.json",
+    "renderer-reference-diagnostic.json",
+    "innovation-coordinate-diagnostic.json",
+    "chain-trace-audit-11.json",
+    "chain-trace-audit-0.json",
+    "chain-trace-audit-13.json",
+    "chain-trace-audit-12.json",
+    "chain-trace-audit-1.json",
+    "chain-trace-audit-15.json",
+    "chain-trace-audit-10.json",
+    "chain-trace-audit-9.json",
+    "chain-trace-audit-8.json",
+    "chain-trace-audit-2.json",
+    "chain-trace-audit-6.json",
+    "chain-trace-audit-7.json",
+    "chain-trace-audit-3.json",
+    "chain-trace-audit-5.json",
+    "chain-trace-audit-4.json",
+    "chain-trace-audit-14.json"
+  ],
+  "paired_sampler_agreement_screen": {
+    "approximate_global_95_cutoff": 4.107109672320018,
+    "coordinates": 1248,
+    "complete_pairs": 8,
+    "passes": false,
+    "qualification": "approximate batch-mean Gaussian CLT with Bonferroni correction across all paired modal means; not proof of global exploration or physical calibration"
+  },
+  "marginal_joint_agreement": [
+    {
+      "scene": "torus",
+      "views": 4,
+      "noise": "constant",
+      "max_modal_mean_difference_m": 0.006974478615035973,
+      "max_difference_over_combined_mcse": 3.102323039248018,
+      "approximate_bonferroni_95_cutoff": 3.598130480599481,
+      "coordinates_exceeding_approximate_cutoff": 0,
+      "qualification": "approximate batch-mean CLT/Bonferroni diagnostic; not an exact finite-sample test or calibration proof; same posterior in theory; finite convergence required"
+    },
+    {
+      "scene": "torus",
+      "views": 4,
+      "noise": "neural",
+      "max_modal_mean_difference_m": 0.009548511493578715,
+      "max_difference_over_combined_mcse": 2.1762190021089016,
+      "approximate_bonferroni_95_cutoff": 3.598130480599481,
+      "coordinates_exceeding_approximate_cutoff": 0,
+      "qualification": "approximate batch-mean CLT/Bonferroni diagnostic; not an exact finite-sample test or calibration proof; same posterior in theory; finite convergence required"
+    },
+    {
+      "scene": "torus",
+      "views": 6,
+      "noise": "constant",
+      "max_modal_mean_difference_m": 0.0020090755983573905,
+      "max_difference_over_combined_mcse": 3.254954545414776,
+      "approximate_bonferroni_95_cutoff": 3.598130480599481,
+      "coordinates_exceeding_approximate_cutoff": 0,
+      "qualification": "approximate batch-mean CLT/Bonferroni diagnostic; not an exact finite-sample test or calibration proof; same posterior in theory; finite convergence required"
+    },
+    {
+      "scene": "torus",
+      "views": 6,
+      "noise": "neural",
+      "max_modal_mean_difference_m": 0.0034291444831162643,
+      "max_difference_over_combined_mcse": 2.7572588291908904,
+      "approximate_bonferroni_95_cutoff": 3.598130480599481,
+      "coordinates_exceeding_approximate_cutoff": 0,
+      "qualification": "approximate batch-mean CLT/Bonferroni diagnostic; not an exact finite-sample test or calibration proof; same posterior in theory; finite convergence required"
+    },
+    {
+      "scene": "bird",
+      "views": 4,
+      "noise": "constant",
+      "max_modal_mean_difference_m": 0.00930265572254907,
+      "max_difference_over_combined_mcse": 3.533005266202812,
+      "approximate_bonferroni_95_cutoff": 3.598130480599481,
+      "coordinates_exceeding_approximate_cutoff": 0,
+      "qualification": "approximate batch-mean CLT/Bonferroni diagnostic; not an exact finite-sample test or calibration proof; same posterior in theory; finite convergence required"
+    },
+    {
+      "scene": "bird",
+      "views": 4,
+      "noise": "neural",
+      "max_modal_mean_difference_m": 0.024723199480927827,
+      "max_difference_over_combined_mcse": 5.6867511723031425,
+      "approximate_bonferroni_95_cutoff": 3.598130480599481,
+      "coordinates_exceeding_approximate_cutoff": 60,
+      "qualification": "approximate batch-mean CLT/Bonferroni diagnostic; not an exact finite-sample test or calibration proof; same posterior in theory; finite convergence required"
+    },
+    {
+      "scene": "bird",
+      "views": 6,
+      "noise": "constant",
+      "max_modal_mean_difference_m": 0.04453136281507186,
+      "max_difference_over_combined_mcse": 4.988495977698327,
+      "approximate_bonferroni_95_cutoff": 3.598130480599481,
+      "coordinates_exceeding_approximate_cutoff": 56,
+      "qualification": "approximate batch-mean CLT/Bonferroni diagnostic; not an exact finite-sample test or calibration proof; same posterior in theory; finite convergence required"
+    },
+    {
+      "scene": "bird",
+      "views": 6,
+      "noise": "neural",
+      "max_modal_mean_difference_m": 0.0575644746735402,
+      "max_difference_over_combined_mcse": 3.062144263346201,
+      "approximate_bonferroni_95_cutoff": 3.598130480599481,
+      "coordinates_exceeding_approximate_cutoff": 0,
+      "qualification": "approximate batch-mean CLT/Bonferroni diagnostic; not an exact finite-sample test or calibration proof; same posterior in theory; finite convergence required"
+    }
+  ],
+  "qualification": "two official elastic simulations; oracle initial geometry and 11-camera initial appearance; sparse later images; reduced model and transferred noise; no force ground truth"
+}
