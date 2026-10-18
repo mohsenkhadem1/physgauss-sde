@@ -182,8 +182,10 @@ def publish(raw, inputs, output):
             axes[i,neural_column].set_title('Neural noise: mean pose');axes[i,error_column].set_title('Neural absolute error (0–0.3)')
         fig.suptitle('Torus six-view schedule; marginalized loads; both image pairs withheld')
         fig.savefig(output/'images.png',dpi=150);plt.close(fig)
-    force_files=[output/'cases'/f'torus__6views__neural__{arm}'/'posterior.json' for arm in ['marginal','joint']]
-    if all(f.exists() for f in force_files):
+    force_files=[(noise,arm,output/'cases'/f'torus__6views__{noise}__{arm}'/'posterior.json')
+        for noise in ['constant','neural'] for arm in ['marginal','joint']]
+    force_files=[r for r in force_files if r[2].exists()]
+    if force_files:
         time=np.arange(14)/24;knots=np.linspace(0,13/24,4)
         temporal=np.exp(-.5*((time[:,None]-knots)/.14)**2)
         temporal/=np.sqrt((temporal**2).sum(-1,keepdims=True))
@@ -191,18 +193,20 @@ def publish(raw, inputs, output):
         for axis in range(3):mapping[:,axis,:,axis,:]=2*temporal[:,:,None]
         mapping=mapping.reshape(14,3,24)
         fig,axes=plt.subplots(3,1,figsize=(9,7),sharex=True,layout='constrained')
-        for file,color,label in zip(force_files,['#197a91','#c37b25'],['Marginalized loads','Explicit joint loads']):
+        for noise,arm,file in force_files:
+            color='#197a91' if noise=='constant' else '#c37b25'
+            label=noise.title()+' noise, '+('marginalized' if arm=='marginal' else 'explicit joint')+' loads'
             force=json.loads(file.read_text())['force']
             mean=np.einsum('tck,k->tc',mapping,np.array(force['coefficient_mean']))
             variance=np.einsum('tck,kl,tcl->tc',mapping,np.array(force['coefficient_covariance']),mapping)
             sd=np.sqrt(np.maximum(variance,0))
             for axis,ax in enumerate(axes):
-                ax.plot(time,mean[:,axis],color=color,label=label)
-                ax.fill_between(time,mean[:,axis]-sd[:,axis],mean[:,axis]+sd[:,axis],color=color,alpha=.15)
+                ax.plot(time,mean[:,axis],color=color,linestyle='-' if arm=='marginal' else '--',label=label)
+                ax.fill_between(time,mean[:,axis]-sd[:,axis],mean[:,axis]+sd[:,axis],color=color,alpha=.09)
         for axis,ax in enumerate(axes):
             ax.set_ylabel(f'{"xyz"[axis]} (m/s²)');ax.axvspan(5/24,8/24,color='#aaaaaa',alpha=.15)
-        axes[0].legend();axes[-1].set_xlabel('Time (s)')
-        fig.suptitle('Modeled unknown acceleration averaged over handles\nPosterior mean ± one SD; restricted profiles; excludes known gravity; not force ground truth')
+        axes[0].legend(fontsize=8,ncol=2);axes[-1].set_xlabel('Time (s)')
+        fig.suptitle('Torus six-view schedule: mean modeled unknown acceleration\nPosterior mean ± one SD; restricted profiles; excludes known gravity; not force ground truth')
         fig.savefig(output/'loads.png',dpi=150);plt.close(fig)
     header=('Finite diagnostics, paired-sampler agreement and raw replay pass' if ready else
         'Finite diagnostics pass, but paired samplers disagree — no final ranking' if passed else

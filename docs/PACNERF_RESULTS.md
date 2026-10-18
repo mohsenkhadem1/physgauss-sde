@@ -60,6 +60,11 @@ neural amplitude. This is one object and schedule, not a general ranking or
 a hardware speed comparison. Their actual withheld images are shown side by
 side in the report. Explicit-force counterparts and the remaining regimes are
 still running.
+The force figure shows each available arm's unknown acceleration averaged over
+handles, with posterior mean plus/minus one standard deviation. The gray region
+is the unobserved gap. Inferred loads may compensate for reduced mechanics or
+image-model mismatch; neither their magnitude nor their uncertainty is physically
+validated by this dataset. They are not measured contact forces or Newton values.
 
 Independent NumPy replay reproduces posterior means/intervals to below 4e-12 m,
 gap scores and the subspace lower bound, and sampled cached exact-target ratios
