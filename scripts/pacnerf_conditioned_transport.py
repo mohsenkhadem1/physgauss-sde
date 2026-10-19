@@ -243,9 +243,11 @@ class ConditionedTransport:
 
 def make_target(model,reference):
     guide=ConditionedTransport(model,reference['anchor'],reference['guide'])
-    target=DiscrepancyTarget(guide,reference['mean'],reference['precision'])
+    mean=reference.get('sampling_mean',reference['mean'])
+    precision=reference.get('sampling_precision',reference['precision'])
+    target=DiscrepancyTarget(guide,mean,precision)
     if reference.get('parameter_blocked_reference'):
         from pacnerf_hybrid import conditional_reference_transform,ConditionalStateEvaluator
-        target.transform=conditional_reference_transform(reference['precision'],model.core_dimension)
+        target.transform=conditional_reference_transform(precision,model.core_dimension)
         target.state_target=lambda fixed:ConditionalStateEvaluator(target,fixed,model.core_dimension)
     return target

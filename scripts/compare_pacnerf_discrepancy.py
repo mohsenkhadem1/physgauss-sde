@@ -105,11 +105,12 @@ def run(inputs,output,index,pilot=False,chunk=50,sampler='hybrid'):
         'inference_files_sha256_lf':{f:file_hash(Path(__file__).parent/f) for f in [
             'pacnerf_discrepancy.py','compare_pacnerf_discrepancy.py','pacnerf_innovations.py',
             'pacnerf_innovation_metric.py','pacnerf_comparison.py','pacnerf_elliptical.py',
-            'pacnerf_conditioned_transport.py','fit_pacnerf_conditioned_reference.py','pacnerf_floor.py','pacnerf_hybrid.py']},
+            'pacnerf_conditioned_transport.py','fit_pacnerf_conditioned_reference.py','pacnerf_floor.py','pacnerf_hybrid.py','pacnerf_warmup_reference.py']},
         'model':model.specification(),'observed_pairs':model.specs,
         'sampler':sampler,
         'initial_reference_scale':1.,
         'hybrid_kernel':{'state_time':[.6,1.8],'state_target_accept':.9,'parameter_update':'five scalar exact Gaussian-reference elliptical slices'},
+        'reference_learning':{'warmup':150,'draws_per_chain':150,'shrinkage':.5,'seed_offset':1000000,'all_states_discarded':True},
         'coordinates':'parameter-conditioned-gaussian-bridge-v1',
         'sampling':'four chains; burnin 500 pilot/full; retained pilot 500 then 1000 if pilot mixing gate fails, full 2000/4000/8000; exact nonlinear physical target and guide Jacobian; final rank-Rhat/ESS thresholds unchanged',
         'new_target':'Fresh starts; no legacy samples pooled or resumed under this model',
@@ -127,9 +128,20 @@ def run(inputs,output,index,pilot=False,chunk=50,sampler='hybrid'):
     if (out/'reference.pt').exists():
         reference=torch.load(out/'reference.pt',weights_only=True)
     else:
-        reference=fit_reference(model,checkpoint=out)
-        torch.save(reference,out/'reference.pt')
-        write(out/'fit.json',{k:v for k,v in reference.items() if k not in ['mean','precision','anchor','guide']})
+        from pacnerf_elliptical import atomic_save
+        anchor_path=out/'anchor_reference.pt'
+        if anchor_path.exists():reference=torch.load(anchor_path,weights_only=True)
+        else:
+            reference=fit_reference(model,checkpoint=out);atomic_save(anchor_path,reference)
+        if sampler=='hybrid':
+            from pacnerf_hybrid import sample as learn_sample
+            from pacnerf_warmup_reference import adapt_reference
+            initial_target=make_target(model,reference)
+            learning=learn_sample(initial_target,model.dimension,model.core_dimension,out/'reference-learning',150,
+                warmup=150,seed=1240001+index,chunk=50,progress=lambda row:print(name,'reference learning',row,flush=True))
+            reference=adapt_reference(reference,initial_target,learning,model.core_dimension)
+        atomic_save(out/'reference.pt',reference)
+        write(out/'fit.json',{k:v for k,v in reference.items() if k not in ['mean','precision','anchor','guide','sampling_mean','sampling_precision','initial_white']})
     if not reference['stationarity']['stationary']:raise ValueError('Unfinished reference fit')
     target=make_target(model,reference)
     config=SplitHMCConfig(warmup=500,draws=500 if pilot else 2000,
@@ -142,6 +154,7 @@ def run(inputs,output,index,pilot=False,chunk=50,sampler='hybrid'):
         if count and sampler=='hybrid':
             from pacnerf_hybrid import sample
             chains=sample(target,model.dimension,model.core_dimension,out,budget,warmup=500,seed=240001+index,chunk=chunk,
+                initial=reference.get('initial_white'),
                 progress=lambda row:print(name,row,flush=True))
         elif count and sampler=='elliptical':
             from pacnerf_elliptical import sample

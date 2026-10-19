@@ -90,6 +90,15 @@ def verify_case(raw,inputs,index):
     stationarity=reference['stationarity'];last=stationarity['history'][-1]
     if not stationarity['stationary'] or stationarity['regularized_metric_decrement']>=.02 or last['gradient_max_abs']>=.02:raise ValueError('Reference is not stationary')
     model,_=make_inference_model(inputs,index);target=make_target(model,reference)
+    reference_proof=None
+    if 'sampling_mean' in reference:
+        from verify_pacnerf_sampling_reference import verify_reference
+        reference_proof=verify_reference(reference,
+            torch.load(checkpoint.parent/'anchor_reference.pt',weights_only=True),
+            torch.load(checkpoint.parent/'reference-learning'/'chains.pt',weights_only=True),model.core_dimension,settings)
+        initial_hash=hashlib.sha256(reference['initial_white'].contiguous().numpy().tobytes()).hexdigest()
+        if chains['protocol']['initial_state_sha256']!=initial_hash:
+            raise ValueError('Final sampler did not start from the frozen learned reference states')
     white=chains['white'];native=target.coordinates(white.flatten(0,1))
     physical=target.decode(white.flatten(0,1))
     probes=torch.linspace(0,c*n-1,16).round().long()
@@ -194,4 +203,5 @@ def verify_case(raw,inputs,index):
         'full_force_moments_and_amplitude_scaling_replayed':True,
         'maximum_dense_renderer_rgb_error':rgb_error,'maximum_dense_renderer_image_nll_error':image_nll_error,
         'maximum_floor_feasibility_nll_replay_error':floor_error,
+        'independent_sampling_reference_replay':reference_proof,
         'qualification':'raw target, moment, score and scalar diagnostic replay; not proof of global exploration or physical calibration'}

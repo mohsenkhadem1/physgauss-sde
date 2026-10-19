@@ -57,6 +57,19 @@ class HybridTests(unittest.TestCase):
         torch.testing.assert_close(transform.T@precision@transform,torch.eye(9,dtype=a.dtype),atol=1e-12,rtol=1e-12)
         self.assertTrue(bool((transform[[0,1,6,7,8],2:6]==0).all()))
 
+    def test_supplied_initial_states_resume_exactly_and_cannot_change(self):
+        target,_,_=self.target()
+        initial=torch.linspace(-1,1,28,dtype=torch.float64).reshape(4,7)
+        with tempfile.TemporaryDirectory(dir=self.root) as folder:
+            root=Path(folder)
+            direct=sample(target,7,4,root/'direct',64,warmup=12,seed=121,initial=initial)
+            sample(target,7,4,root/'split',32,warmup=12,seed=121,initial=initial)
+            resumed=sample(target,7,4,root/'split',64,warmup=12,seed=121,initial=initial)
+            with self.assertRaisesRegex(ValueError,'protocol changed'):
+                sample(target,7,4,root/'split',80,warmup=12,seed=121,initial=initial+.1)
+        for key in ['white','log_ratio','energy_errors','rng_state']:
+            torch.testing.assert_close(direct[key],resumed[key],atol=0,rtol=0)
+
     def test_frozen_parameter_partial_gradient_matches_full_floor_target(self):
         model=floor_model();guide=ConditionedTransport(model,torch.zeros(model.dimension,dtype=torch.float64))
         reference={'mean':torch.zeros(model.dimension,dtype=torch.float64),'precision':torch.eye(model.dimension,dtype=torch.float64),

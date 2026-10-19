@@ -31,7 +31,7 @@ Both earlier and expanded results are preserved. The nonlinear quadrature
 sampler validation also passes with unit-scale reference starts. These are
 small-model checks, not high-dimensional PAC convergence or real-data calibration.
 The64-draw floor trial had no point below-2cm but failed convergence. A local
-conditional-sampler pilot is ongoing. Do not launch the matrix until a complete
+sampling-reference adaptation pilot is ongoing. Do not launch the matrix until a complete
 Bird result passes strict diagnostics, raw replay, coverage/CRPS and physics
 guardrails. No paid workers have been started.
 
@@ -44,15 +44,30 @@ far from the fitted proposal reference; an observed-only warmup reference
 adaptation is the next inference experiment.169 regression tests pass. All
 physics/model priors and final convergence thresholds remain fixed during it.
 
+The next worker discards150 warmup+150 draws/chain to learn only a sampling
+centre/covariance, regularized halfway to its initial white reference. Last
+learning states map exactly into the new coordinates; final500-step warmup
+and retained draws use a separate seed. Mode stationarity refers to the
+unchanged fitted reference. Saved anchor, learning chains and final reference
+allow independent NumPy replay. The single-Bird workflow includes one bounded
+330-minute exact recovery worker; the full matrix is still not launched.
+After publishing the independently replayed Bird report, the workflow dispatches
+the larger free CPU comparison only if every readiness check passes. Downstream
+source-hash checks reject any inference change since that Bird run.
+All172 local regression tests passed in254.1s, including nondefault initial-state
+resumption and independent NumPy reconstruction/tamper rejection of the learned
+reference. No new Bird convergence or real-scene uncertainty claim follows from
+these regression checks.
+
 **Latest instruction: converge and validate one Bird case first.** Use only
 this machine and free standard CPU workers. `pacnerf-bird-check.yml` runs a
 complete case8 posterior (500 warmup, up to8000 retained per chain), independent
-target/numerical/score replay and a single-case report. It does not launch the
-larger comparison. `publish_pacnerf_bird_check.py` records readiness only when
+target/numerical/score replay and a single-case report. It gates the larger
+comparison. `publish_pacnerf_bird_check.py` records readiness only when
 strict convergence/replay pass, 90% intervals cover at least80% of this
 development scene's withheld coordinates, and CRPS is no worse than the old
 converged Bird case. These exploratory guardrails do not establish calibration
-across independent objects. Run the larger workflow separately after inspection.
+across independent objects. Only a passing report triggers the larger workflow.
 150 local regression tests passed before adding this single-case controller.
 The 64-draw development trial was not converged and is being extended with its
 unchanged reference/target for diagnosis; it is not a scientific result.

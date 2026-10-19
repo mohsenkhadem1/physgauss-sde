@@ -52,6 +52,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_pacnerf_floor.py' -v
           python -m unittest discover -s tests -p 'test_conditioned_reference_curvature.py' -v
           python -m unittest discover -s tests -p 'test_pacnerf_hybrid.py' -v
+          python -m unittest discover -s tests -p 'test_pacnerf_warmup_reference.py' -v
           python -m unittest discover -s tests -p 'test_pacnerf_prediction_scores.py' -v
           python scripts/validate_hierarchical_intervals.py --output runs/validation
           python scripts/validate_floor_intervals.py --datasets 10000 --output runs/validation/floor
@@ -175,7 +176,7 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          for p in Path('runs/comparison').glob('*/*.tmp.pt'):
+          for p in Path('runs/comparison').rglob('*.tmp.pt'):
               p.unlink()
           PY
       - uses: actions/upload-artifact@v4

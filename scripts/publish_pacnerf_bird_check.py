@@ -51,7 +51,7 @@ def publish(raw,inputs,baseline,output,name,push=False):
         lines.append(f"| {100*a['nominal']:.0f}% | {100*a['coverage']:.1f}% | {100*b['coverage']:.1f}% | {1000*a['mean_width_m']:.1f} | {1000*b['mean_width_m']:.1f} |")
     lines+=['',f"Mean CRPS (lower is better): new {1000*new['mean_crps_m']:.2f} mm; baseline {1000*previous['mean_crps_m']:.2f} mm.",'',decision['qualification'],'',
         'The image/physics target, parameter-dependent transport Jacobian, dense renderer, exact integration, raw quantiles, proper scores and scalar chain diagnostics were independently replayed. Repeated linear-model coverage validation is a separate mathematical check; this one deterministic Bird scene cannot establish general calibration.','',
-        'The larger comparison is dispatched separately after this result is inspected. No other experimental cases start merely because this job completed.','']
+        'The workflow starts the larger free CPU comparison only if every independent readiness check passes. The downstream workflow verifies that inference source hashes match this Bird result before starting experiments.','']
     document='\n'.join(lines);(output/'RESULTS.md').write_text(document,encoding='utf-8',newline='\n')
     if push:snapshot_push(output,name,document)
     print(json.dumps(decision),flush=True)

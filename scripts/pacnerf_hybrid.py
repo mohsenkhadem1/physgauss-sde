@@ -6,6 +6,7 @@ neural covariance, contact, full images and feasibility remain exact. Every HMC
 acceptance uses the full no-gradient posterior, not a surrogate target.
 """
 import math
+import hashlib
 from pathlib import Path
 import torch
 from pacnerf_elliptical import sweep,atomic_save
@@ -73,7 +74,7 @@ class GenericStateEvaluator:
 
 @torch.no_grad()
 def sample(target,dimension,core,checkpoint,total_draws,warmup=500,seed=240001,chunk=50,
-        min_time=.6,max_time=1.8,target_accept=.9,progress=None,checkpoint_hook=None):
+        min_time=.6,max_time=1.8,target_accept=.9,progress=None,checkpoint_hook=None,initial=None):
     if total_draws<16 or not 2<core<=dimension or warmup<0:raise ValueError('Invalid hybrid dimensions or sampling budget')
     checkpoint=Path(checkpoint);checkpoint.mkdir(parents=True,exist_ok=True)
     path=checkpoint/'chains.pt';warm_path=checkpoint/'hybrid_warmup.pt'
@@ -81,12 +82,15 @@ def sample(target,dimension,core,checkpoint,total_draws,warmup=500,seed=240001,c
     protocol={'sampler':'conditional-state-hmc-parameter-ess-v1','dimension':dimension,'core':core,
         'chains':4,'warmup':warmup,'seed':seed,'initial_reference_scale':1.,'min_time':min_time,
         'max_time':max_time,'target_accept':target_accept,'parameter_blocks':[list(b) for b in blocks]}
+    if initial is not None and initial.shape!=(4,dimension):raise ValueError('Hybrid initial states have wrong shape')
+    protocol['initial_state_sha256']=None if initial is None else hashlib.sha256(initial.detach().cpu().contiguous().numpy().tobytes()).hexdigest()
     previous=torch.load(path,weights_only=True) if path.exists() else torch.load(warm_path,weights_only=True) if warm_path.exists() else None
     rng=torch.Generator().manual_seed(seed)
     white=torch.empty(4,total_draws,dimension,dtype=torch.float64);ratios=torch.empty(4,total_draws,dtype=torch.float64)
     errors=torch.empty_like(ratios)
     if previous is None:
-        q=torch.randn(4,dimension,dtype=torch.float64,generator=rng);warm=0;retained=0;epsilon=.3
+        q=torch.randn(4,dimension,dtype=torch.float64,generator=rng) if initial is None else initial.detach().clone()
+        warm=0;retained=0;epsilon=.3
         log_epsilon=math.log(epsilon);mu=math.log(10*epsilon);averaged=log_epsilon;hbar=0.
         counts={p:{k:[0]*4 for k in ['accepted','invalid','divergent']} for p in ['warmup','retained']}
         evaluations=0;gradients=0;slice_attempts=[0]*4;slice_invalid=[0]*4

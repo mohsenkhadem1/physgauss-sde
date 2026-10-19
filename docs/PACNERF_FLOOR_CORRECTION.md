@@ -72,7 +72,18 @@ nonlinear contact, every observed pixel, the floor event and the guide Jacobian
 remain in the full target. Tests compare the partial gradient to the full
 gradient and reproduce independent correlated-Gaussian moments.
 
-Four independent reference-normal initial states replace0.1-scale starts.
+Four independent reference-normal states start a separate reference-learning
+phase:150 warmup and150 discarded draws per chain, with seed1240001+case.
+The empirical mean and covariance in the old white coordinates define a new
+fixed affine sampling reference; covariance is shrunk halfway towards identity.
+The fitted-mode mean, Hessian, physical guide, priors and posterior stay unchanged.
+The four last learning states are mapped exactly into the new coordinates.
+Final sampling uses another500 warmup iterations and seed240001+case. None of
+the learning states enters the posterior scores or convergence diagnostics.
+Stationarity describes the fitted mode, not the learned sampling centre.
+Independent NumPy replay reconstructs the reference and initial-state mapping
+from the saved anchor reference and discarded draws.
+
 Warmup and retained prefixes preserve the full RNG, adaptation and slice state.
 Uninterrupted, warmup-resumed and retained-resumed Gaussian trials are bitwise
 identical. Final gates remain Rhat<1.01 and bulk/tail ESS>=400 for every
@@ -99,6 +110,11 @@ The short floor-corrected Bird development trial eliminated deep penetration
 (no sampled point below-2cm; minimum across the trial about-4.7mm) but did not
 converge. It motivated conditional HMC. No corrected Bird reconstruction or
 calibration improvement is claimed until the complete single-case check passes.
+The completed256-draw conditional-HMC development run also failed (worst
+Rhat1.639, minimum bulk/tail ESS6.57/10.78), despite excluding penetration below
+-2cm. Its parameter means differed substantially from the mode reference.
+This motivated the proposal-only reference-learning experiment; it is not
+evidence that the new reference converges or that uncertainty is calibrated.
 The larger comparison remains gated on that independently replayed result,
 descriptive90% coverage>=80%, CRPS no worse than baseline, and negligible
 deep floor penetration. All force/uncertainty comparisons remain exploratory.
