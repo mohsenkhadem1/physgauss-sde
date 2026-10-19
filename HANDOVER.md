@@ -60,6 +60,10 @@ allow independent NumPy replay. The single-Bird workflow includes one bounded
 After publishing the independently replayed Bird report, the workflow dispatches
 the larger free CPU comparison only if every readiness check passes. Downstream
 source-hash checks reject any inference change since that Bird run.
+The downstream matrix reuses the validated Bird result as case8 (no new
+replicate claim) and runs seven additional observed-only mixing pilots before
+the other15 full cells. Pilot workers have the same330-minute CPU bound as
+full workers, with the usual final diagnostics unchanged.
 All172 local regression tests passed in254.1s, including nondefault initial-state
 resumption and independent NumPy reconstruction/tamper rejection of the learned
 reference. No new Bird convergence or real-scene uncertainty claim follows from
