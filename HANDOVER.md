@@ -13,6 +13,12 @@ only physical audit found30–70cm floor penetration in development trajectories
 See `docs/PACNERF_FLOOR_CORRECTION.md` and `examples/pacnerf-floor-audit`.
 No baseline continuation was canceled or changed.
 
+The new single-Bird free CPU run is39214740152, frozen numerical sourcea14766e:
+https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39214740152 .
+It starts from the corrected floor target and a fresh discarded reference-learning
+phase. Its convergence and uncertainty outcome are pending. The old canceled
+run39155024009 is historical and must not be treated as this attempt.
+
 The current separate target is `floor-conditioned-hierarchical-v2`: opaque
 y=0 floor/camera visibility, plus an explicit2mm softened feasibility event
 on later mechanical/rendering points. The normalized SDE/load priors are
