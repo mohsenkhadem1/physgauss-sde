@@ -1,5 +1,11 @@
 # PAC-NeRF uncertainty audit and hierarchical correction
 
+**Superseded development target:** this page records the first hierarchical
+candidate. The [known-floor correction](PACNERF_FLOOR_CORRECTION.md) describes
+the current separately versioned target and conditional sampler. The first
+single-Bird run39155024009 was canceled after a physical-feasibility audit.
+No improved PAC reconstruction or uncertainty result is claimed yet.
+
 This is an exploratory correction developed after inspecting poor uncertainty
 coverage on the two deterministic PAC-NeRF elastic objects. It is not an
 independent validation dataset or a demonstrated calibration improvement until

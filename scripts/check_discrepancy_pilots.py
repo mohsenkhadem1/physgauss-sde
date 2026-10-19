@@ -15,7 +15,7 @@ def check(root,output,indices=None):
             raise ValueError('Pilot identity or no-leakage assertion failed')
         if record['draws_per_chain'] not in [500,1000] or not record['replay']['all_pass']:
             raise ValueError('Incomplete pilot or failed target replay')
-        if record['sampler']!='elliptical' or record['valid_for_ranking']:
+        if record['sampler'] not in ['elliptical','hmc','hybrid'] or record['valid_for_ranking']:
             raise ValueError('Unexpected pilot protocol')
         if any(record['retained_invalid']):raise ValueError('Invalid retained pilot states')
         diagnostic=json.loads((paths[0].parent/'diagnostics.json').read_text())

@@ -6,6 +6,44 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
+**LATEST: floor-corrected single Bird case, still under development.** All seven
+original continuations finished:10 baseline cells converge, six Bird cells do
+not. Single-Bird run39155024009/source33ec931 was canceled after an observed-
+only physical audit found30–70cm floor penetration in development trajectories.
+See `docs/PACNERF_FLOOR_CORRECTION.md` and `examples/pacnerf-floor-audit`.
+No baseline continuation was canceled or changed.
+
+The current separate target is `floor-conditioned-hierarchical-v2`: opaque
+y=0 floor/camera visibility, plus an explicit2mm softened feasibility event
+on later mechanical/rendering points. The normalized SDE/load priors are
+specified before that event; force marginalization stays exact. The mode guide
+includes boundary curvature and a full observed-Hessian fixed reference.
+The default sampler now alternates exact conditional state HMC (time.6–1.8,
+target acceptance.9) with five parameter elliptical slices. Exact parameter-
+constant operators are cached only for the state derivative. Correlated Gaussian
+moments, full-vs-partial physical gradients, and bit-identical warmup/retained
+resumption tests pass. New numerical modules live in scripts; the frozen src
+and four old inference files remain unchanged.
+
+Independent floor-conditioned validation expanded the same seeded experiment
+from2000 to10000 datasets:50/80/90/95% intervals cover50.39/79.84/89.78/94.62%.
+Both earlier and expanded results are preserved. The nonlinear quadrature
+sampler validation also passes with unit-scale reference starts. These are
+small-model checks, not high-dimensional PAC convergence or real-data calibration.
+The64-draw floor trial had no point below-2cm but failed convergence. A local
+conditional-sampler pilot is ongoing. Do not launch the matrix until a complete
+Bird result passes strict diagnostics, raw replay, coverage/CRPS and physics
+guardrails. No paid workers have been started.
+
+The following entries record earlier stages and must not override this update.
+
+The local conditional pilot has now completed256 draws per chain after100
+warmup: Rhat1.639, minimum bulk/tail ESS6.57/10.78, no point below-2cm.
+It is NOT converged or a reconstruction result. The sampled damping range is
+far from the fitted proposal reference; an observed-only warmup reference
+adaptation is the next inference experiment.169 regression tests pass. All
+physics/model priors and final convergence thresholds remain fixed during it.
+
 **Latest instruction: converge and validate one Bird case first.** Use only
 this machine and free standard CPU workers. `pacnerf-bird-check.yml` runs a
 complete case8 posterior (500 warmup, up to8000 retained per chain), independent

@@ -19,11 +19,13 @@ def readiness(summary,proof,baseline):
     coverage=next(x['coverage'] for x in new['coverage_curve'] if x['nominal']==.9)
     checks={'posterior_converged':bool(summary['valid_for_ranking']),
         'raw_replay_pass':bool(proof['all_pass'] and baseline['all_pass']),
+        'floor_conditioning_enabled':summary.get('settings',{}).get('model',{}).get('version')=='floor-conditioned-hierarchical-v2',
+        'deep_floor_penetration_negligible':summary.get('posterior_ground_diagnostic',{}).get('all_constrained_points_fraction_below_height',{}).get('-0.02',1.)<=.001,
         'development_scene_90_coverage_at_least_80_percent':coverage>=.8,
         'development_scene_crps_no_worse_than_baseline':new['mean_crps_m']<=old['mean_crps_m']}
     return {'ready_for_larger_comparison':all(checks.values()),'checks':checks,
         'coverage90':coverage,'new_crps_m':new['mean_crps_m'],'baseline_crps_m':old['mean_crps_m'],
-        'qualification':'Predeclared development-scene guardrails, not independent calibration validation. The uncertainty must cover errors without making a worse proper prediction score. Failed criteria are preserved and cannot be relabeled as success.'}
+        'qualification':'Predeclared development-scene guardrails, not independent calibration validation. The uncertainty must cover errors without a worse proper score, and avoid deep floor penetration. Failed criteria are preserved and cannot be relabeled as success.'}
 
 
 def publish(raw,inputs,baseline,output,name,push=False):

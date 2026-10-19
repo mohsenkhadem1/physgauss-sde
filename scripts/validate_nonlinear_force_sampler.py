@@ -97,6 +97,8 @@ def validate(output,draws=12000):
             'all_pass':diagnostic['all_monitored_quantities_pass'] and moment_pass and max(cdf_errors.values())<.025 and max(quantile_errors.values())<.05}
         records.append(record);print(json.dumps({k:v for k,v in record.items() if k!='diagnostics'}),flush=True)
     result={'independent_reference':'401/801 point tensor-product quadrature; nonlinear observation x+x^3/3; unknown log-noise and Gaussian load',
+        'sampler_sha256_lf':hashlib.sha256((Path(__file__).parent/'pacnerf_elliptical.py').read_bytes().replace(b'\r\n',b'\n')).hexdigest(),
+        'initial_reference_scale':1.,
         'seeds':{'marginal':660031,'joint':660032},'torch_version':torch.__version__,'numpy_version':np.__version__,
         'script_sha256_lf':hashlib.sha256(Path(__file__).read_bytes().replace(b'\r\n',b'\n')).hexdigest(),
         'maximum_grid_moment_difference':grid_error,'posterior_boundary_mass':fine['posterior_boundary_mass'],

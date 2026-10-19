@@ -59,6 +59,17 @@ class CachedPhysicalModel(DiscrepancyModel):
         self.__dict__.update(source.__dict__);self._integral_cache=None;self._transition_cache=None
         self.renderer=PrecisionTailRenderer(source.renderer)
         self._image_cache={}
+        self._conditional_context=None
+
+    def _check_conditional_parameters(self,z,hyper=False):
+        context=self._conditional_context
+        if not torch.equal(z[:,:2].detach(),context['theta']):raise ValueError('Conditional state update changed material parameters')
+        if hyper and not torch.equal(z[:,-3:].detach(),context['hyper']):raise ValueError('Conditional state update changed noise parameters')
+        return context
+
+    def scales(self,z):
+        if self._conditional_context is not None:return self._check_conditional_parameters(z,True)['scales']
+        return super().scales(z)
 
     def specification(self):
         result=super().specification()
@@ -68,6 +79,7 @@ class CachedPhysicalModel(DiscrepancyModel):
         return result
 
     def integration_operators(self,z):
+        if self._conditional_context is not None:return self._check_conditional_parameters(z)['integrals']
         if torch.is_grad_enabled():return super().integration_operators(z)
         key=z[:,:2]
         if self._integral_cache is None or not torch.equal(key,self._integral_cache[0]):
@@ -75,6 +87,9 @@ class CachedPhysicalModel(DiscrepancyModel):
         return self._integral_cache[1]
 
     def transition(self,z,duration):
+        if self._conditional_context is not None:
+            if duration!=self.dt:raise ValueError('Conditional transition duration changed')
+            return self._check_conditional_parameters(z)['transition']
         if torch.is_grad_enabled():return super().transition(z,duration)
         key=z[:,:2]
         if self._transition_cache is None or duration!=self._transition_cache[1] or not torch.equal(key,self._transition_cache[0]):
@@ -142,12 +157,22 @@ class ConditionedTransport:
             start=m+(frame-1)*2*m
             image_precision[start:start+m,start:start+m]+=.1**2*(jac.T@jac)
             image_rhs[start:start+m]+=.1*(jac.T@target)
+        constraint_precision=torch.zeros_like(image_precision);constraint_rhs=torch.zeros_like(image_rhs)
+        if hasattr(model,'floor_quadratic'):
+            gradient,curvature=model.floor_quadratic(q[1:])
+            for t in range(13):
+                start=m+t*2*m
+                constraint_precision[start:start+m,start:start+m]+=.1**2*curvature[t]
+                constraint_rhs[start:start+m]+=.1*(curvature[t]@q[t+1]-gradient[t])
         return {'original_spectral_at_anchor':spectral,'external_at_anchor':external,'contact_derivative_at_anchor':contact,
             'following':following,'previous':previous,'image_precision':image_precision,'image_rhs':image_rhs,
+            'constraint_precision':constraint_precision.detach(),'constraint_rhs':constraint_rhs.detach(),
             'anchor_modal_poses':q,'anchor_modal_velocities':v}
 
     def gaussian(self,z):
         model=self.model;m=model.modes;b=len(z);s=model.core_dimension-2
+        if getattr(model,'_conditional_context',None) is not None:
+            return model._check_conditional_parameters(z,True)['gaussian']
         key=torch.cat((z[:,:2],z[:,-3:]),-1)
         if not torch.is_grad_enabled() and self._cache is not None and torch.equal(key,self._cache[0]):
             return self._cache[1]
@@ -186,6 +211,9 @@ class ConditionedTransport:
         ir=torch.nn.functional.pad(self.guide['image_rhs'],(0,pad))
         precision=precision+ip[None]/sigma[:,None,None].square()
         rhs=rhs+ir[None]/sigma[:,None].square()
+        if 'constraint_precision' in self.guide:
+            precision=precision+torch.nn.functional.pad(self.guide['constraint_precision'],(0,pad,0,pad))[None]
+            rhs=rhs+torch.nn.functional.pad(self.guide['constraint_rhs'],(0,pad))[None]
         precision=(precision+precision.transpose(-1,-2))/2
         # Proposal-only numerical ridge; the exact Jacobian corrects it too.
         ridge=1e-6+precision.diagonal(dim1=-2,dim2=-1).abs().amax(-1)*1e-10
@@ -215,4 +243,9 @@ class ConditionedTransport:
 
 def make_target(model,reference):
     guide=ConditionedTransport(model,reference['anchor'],reference['guide'])
-    return DiscrepancyTarget(guide,reference['mean'],reference['precision'])
+    target=DiscrepancyTarget(guide,reference['mean'],reference['precision'])
+    if reference.get('parameter_blocked_reference'):
+        from pacnerf_hybrid import conditional_reference_transform,ConditionalStateEvaluator
+        target.transform=conditional_reference_transform(reference['precision'],model.core_dimension)
+        target.state_target=lambda fixed:ConditionalStateEvaluator(target,fixed,model.core_dimension)
+    return target

@@ -1,0 +1,47 @@
+{
+  "datasets": 10000,
+  "seed": 58211,
+  "proposed_prior_datasets": 18432,
+  "generative_model": "Integrated Gaussian acceleration plus Gaussian global force; h~N(0,1) BEFORE jointly conditioning (h,path) on F=1.",
+  "floor_event": "P(F=1|path)=product sigmoid((.1+displacement)/.02) at all3 times",
+  "observations": "Exact positions at t=.25 and1; missing t=.5; observed-position event factors cancel only after conditioning on their values.",
+  "posterior": "Independent121-point scale and801-point conditional-standard-normal quadrature, including missing-position feasibility mass in scale weights; mixture CDF inversion.",
+  "coverage": [
+    {
+      "nominal": 0.5,
+      "coverage": 0.5039,
+      "nominal_binomial_mc_standard_error": 0.005,
+      "within_four_mc_standard_errors": true,
+      "mean_width_m": 0.03728544573851706
+    },
+    {
+      "nominal": 0.8,
+      "coverage": 0.7984,
+      "nominal_binomial_mc_standard_error": 0.003999999999999999,
+      "within_four_mc_standard_errors": true,
+      "mean_width_m": 0.08295179288808516
+    },
+    {
+      "nominal": 0.9,
+      "coverage": 0.8978,
+      "nominal_binomial_mc_standard_error": 0.0029999999999999996,
+      "within_four_mc_standard_errors": true,
+      "mean_width_m": 0.12069496909495851
+    },
+    {
+      "nominal": 0.95,
+      "coverage": 0.9462,
+      "nominal_binomial_mc_standard_error": 0.0021794494717703376,
+      "within_four_mc_standard_errors": true,
+      "mean_width_m": 0.162515825912353
+    }
+  ],
+  "position_pit_ks": 0.006529159623387737,
+  "hyperparameter_sbc_ks": 0.006363166775989693,
+  "dkw_99_percent_bound": 0.016276236307187292,
+  "801_vs_1601_maximum_quantile_difference_first64_m": 2.1971674240228722e-05,
+  "conditional_prior_log_scale_mean": -0.06100869254089987,
+  "all_pass": true,
+  "script_sha256_lf": "23ba7707f04f1a3a9cb5eecb81ea177eb6c831981bf2cb778a4aa0c497691a62",
+  "qualification": "Same-model small linear feasibility/force/scale uncertainty check; not nonlinear PAC posterior convergence or independent real-data calibration."
+}

@@ -30,8 +30,8 @@ def file_hash(path):return hashlib.sha256(Path(path).read_bytes().replace(b'\r\n
 
 
 def make_inference_model(inputs,index):
-    model,bundle=make_physical_model(inputs,index)
-    return CachedPhysicalModel(model),bundle
+    from pacnerf_floor import make_floor_model
+    return make_floor_model(inputs,index)
 
 
 def pilot_mixing_pass(diagnostics):
@@ -95,7 +95,7 @@ def uncertainty_scores(model,z,inputs):
         'qualification':'descriptive coverage over two deterministic simulations; correlated coordinates do not count as independent calibration datasets; conditional on supplied geometry, fixed appearance and modal space'}
 
 
-def run(inputs,output,index,pilot=False,chunk=50,sampler='elliptical'):
+def run(inputs,output,index,pilot=False,chunk=50,sampler='hybrid'):
     began=time.time();scene,views,noise,force=cases()[index]
     name=f'{scene}__{views}views__{noise}__{force}';out=Path(output)/name
     out.mkdir(parents=True,exist_ok=True)
@@ -105,9 +105,11 @@ def run(inputs,output,index,pilot=False,chunk=50,sampler='elliptical'):
         'inference_files_sha256_lf':{f:file_hash(Path(__file__).parent/f) for f in [
             'pacnerf_discrepancy.py','compare_pacnerf_discrepancy.py','pacnerf_innovations.py',
             'pacnerf_innovation_metric.py','pacnerf_comparison.py','pacnerf_elliptical.py',
-            'pacnerf_conditioned_transport.py','fit_pacnerf_conditioned_reference.py']},
+            'pacnerf_conditioned_transport.py','fit_pacnerf_conditioned_reference.py','pacnerf_floor.py','pacnerf_hybrid.py']},
         'model':model.specification(),'observed_pairs':model.specs,
         'sampler':sampler,
+        'initial_reference_scale':1.,
+        'hybrid_kernel':{'state_time':[.6,1.8],'state_target_accept':.9,'parameter_update':'five scalar exact Gaussian-reference elliptical slices'},
         'coordinates':'parameter-conditioned-gaussian-bridge-v1',
         'sampling':'four chains; burnin 500 pilot/full; retained pilot 500 then 1000 if pilot mixing gate fails, full 2000/4000/8000; exact nonlinear physical target and guide Jacobian; final rank-Rhat/ESS thresholds unchanged',
         'new_target':'Fresh starts; no legacy samples pooled or resumed under this model',
@@ -137,7 +139,11 @@ def run(inputs,output,index,pilot=False,chunk=50,sampler='elliptical'):
     for budget in ([500,1000] if pilot else [500,1000,2000,4000,8000]):
         if chains is not None and chains['white'].shape[1]>budget:continue
         count=budget-(0 if chains is None else chains['white'].shape[1])
-        if count and sampler=='elliptical':
+        if count and sampler=='hybrid':
+            from pacnerf_hybrid import sample
+            chains=sample(target,model.dimension,model.core_dimension,out,budget,warmup=500,seed=240001+index,chunk=chunk,
+                progress=lambda row:print(name,row,flush=True))
+        elif count and sampler=='elliptical':
             from pacnerf_elliptical import sample
             chains=sample(target.log_ratio_no_grad,model.dimension,out,budget,
                 warmup=500,seed=240001+index,chunk=chunk,
@@ -175,6 +181,8 @@ def run(inputs,output,index,pilot=False,chunk=50,sampler='elliptical'):
         'step_size':chains.get('step_size'),'gradient_batches':chains.get('gradient_evaluations',0),
         'target_evaluations':chains.get('target_evaluations'),
         'sampler':sampler,
+        'parameter_slice_attempts':chains.get('parameter_slice_attempts'),
+        'parameter_slice_invalid_proposals':chains.get('parameter_slice_invalid_proposals'),
         'acceptance_qualification':'Elliptical slice always closes its bracket; movement rates are not Metropolis acceptance probabilities. Inspect ESS/Rhat and bracket effort.' if sampler=='elliptical' else 'Metropolis acceptance',
         'replay':verification,'elapsed_this_invocation_s':time.time()-began}
     if pilot:
@@ -244,6 +252,11 @@ def run(inputs,output,index,pilot=False,chunk=50,sampler='elliptical'):
             'draws':len(selected),'gap_handle_minimum_height_quantiles_m':torch.quantile(heights[:,gap].amin((1,2)),heights.new_tensor([.01,.05,.5,.95,.99])).tolist(),
             'point_time_fraction_below_height':{str(bound):float((heights[:,gap]<bound).double().mean()) for bound in [0.,-.02,-.05,-.1]},
             'qualification':'32 mechanical handles and declared soft floor y=0; descriptive physics check, not a hard-contact guarantee or ground-truth mesh test. Wider uncertainty permitting deep penetration is not automatically a physical improvement.'}
+        if hasattr(model,'floor_heights'):
+            constrained=model.floor_heights(z[selected])
+            summary['posterior_ground_diagnostic']['all_constrained_points_fraction_below_height']={str(bound):float((constrained<bound).double().mean()) for bound in [0.,-.002,-.02,-.05,-.1]}
+            summary['posterior_ground_diagnostic']['all_constrained_points_minimum_height_quantiles_m']=torch.quantile(constrained.amin((1,2)),constrained.new_tensor([.01,.05,.5,.95,.99])).tolist()
+            summary['posterior_ground_diagnostic']['qualification']='Later handle/rendering-center points, conditioned on the declared 2mm softened non-penetration event; not an exact hard-contact MPM simulator.'
     write(out/'posterior.json',posterior);write(out/'summary.json',summary)
     return summary
 
@@ -251,7 +264,7 @@ def run(inputs,output,index,pilot=False,chunk=50,sampler='elliptical'):
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--inputs',required=True);p.add_argument('--output',required=True)
     p.add_argument('--case-index',type=int,required=True);p.add_argument('--pilot',action='store_true');p.add_argument('--chunk-size',type=int,default=50)
-    p.add_argument('--sampler',choices=['elliptical','hmc'],default='elliptical')
+    p.add_argument('--sampler',choices=['hybrid','elliptical','hmc'],default='hybrid')
     a=p.parse_args();torch.set_num_threads(2)
     import torch.backends.opt_einsum as backend
     backend.enabled=True;backend.strategy='greedy'

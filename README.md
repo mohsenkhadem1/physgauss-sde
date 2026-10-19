@@ -2,6 +2,17 @@
 
 Research prototype for physically constrained Gaussian scene reconstruction from **one moving camera with missing frames**.
 
+**Latest development:** all seven original CPU continuations have finished;
+10/16 baseline cells pass convergence and six Bird cells remain ineligible.
+The first single-Bird correction was stopped after unconverged trial paths
+penetrated the known floor by tens of centimeters. The
+[floor correction and inference protocol](docs/PACNERF_FLOOR_CORRECTION.md)
+adds opaque-plane visibility and explicit non-penetration conditioning while
+preserving exact Gaussian force integration. A conditional state-HMC/parameter-
+slice sampler is being tested on Bird alone. The independent10,000-simulation
+floor-conditioned check gives89.78% coverage for90% intervals; this is not
+PAC calibration or a completed Bird result. The larger comparison stays gated.
+
 **Current PAC-NeRF work:** the first exact-integral batch has finished with
 9/16 converged cells; seven time-limited cells have been resumed on free CPU
 workers with their original target and saved RNG. The

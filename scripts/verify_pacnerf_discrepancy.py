@@ -102,6 +102,9 @@ def verify_case(raw,inputs,index):
     # of the separable evaluator and its per-pose cache.
     q_probe,_=model.decode(decoded)
     dense_renderer=PACRenderer(model.data,model.basis);dense_renderer.colors=model.renderer.colors
+    if hasattr(model,'floor_penalty'):
+        from pacnerf_floor import FloorRenderer
+        dense_renderer=FloorRenderer(dense_renderer)
     dense_rgb=dense_renderer(q_probe[:,model.frames],model.specs)
     fast_rgb=model.renderer(q_probe[:,model.frames],model.specs)
     rgb_error=float((dense_rgb-fast_rgb).abs().max())
@@ -109,6 +112,13 @@ def verify_case(raw,inputs,index):
     fast_error=model.image_residual(decoded)
     image_nll_error=float((.5*dense_error.square().flatten(1).sum(-1)-.5*fast_error.square().sum(-1)).abs().max())
     if rgb_error>5e-13 or image_nll_error>1e-8:raise ValueError('Dense/separable rendering precision check failed')
+    floor_error=None
+    if hasattr(model,'floor_penalty'):
+        probes_q,_=model.decode(decoded)
+        height=model.floor_rest.numpy()[None,None]+np.einsum('btm,nm->btn',probes_q[:,1:].numpy(),model.floor_basis.numpy())
+        independent=np.logaddexp(0.,-height/model.floor_tolerance).sum((1,2))
+        floor_error=float(np.max(np.abs(independent-model.floor_penalty(decoded).numpy())))
+        if floor_error>1e-7:raise ValueError('Independent physical-feasibility likelihood differs')
     coordinates=physical.numpy();m=model.modes
     q=np.zeros((c*n,14,m));scale=model.scale[2+m:model.base_dimension].numpy().reshape(13,2*m)[:,:m]
     q[:,1:]=coordinates[:,2+m:model.base_dimension].reshape(c*n,13,2*m)[:,:,:m]*scale[None]
@@ -183,4 +193,5 @@ def verify_case(raw,inputs,index):
         'independent_prediction_scores':probability_scores,
         'full_force_moments_and_amplitude_scaling_replayed':True,
         'maximum_dense_renderer_rgb_error':rgb_error,'maximum_dense_renderer_image_nll_error':image_nll_error,
+        'maximum_floor_feasibility_nll_replay_error':floor_error,
         'qualification':'raw target, moment, score and scalar diagnostic replay; not proof of global exploration or physical calibration'}

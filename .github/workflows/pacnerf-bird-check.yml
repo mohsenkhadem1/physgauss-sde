@@ -24,9 +24,14 @@ jobs:
         run: |
           python -m unittest discover -s tests -p 'test_pacnerf_discrepancy.py' -v
           python -m unittest discover -s tests -p 'test_pacnerf_conditioned_transport.py' -v
+          python -m unittest discover -s tests -p 'test_pacnerf_floor.py' -v
+          python -m unittest discover -s tests -p 'test_pacnerf_bird_readiness.py' -v
+          python -m unittest discover -s tests -p 'test_conditioned_reference_curvature.py' -v
+          python -m unittest discover -s tests -p 'test_pacnerf_hybrid.py' -v
           python -m unittest discover -s tests -p 'test_pacnerf_elliptical.py' -v
           python -m unittest discover -s tests -p 'test_pacnerf_prediction_scores.py' -v
           python scripts/validate_hierarchical_intervals.py --output runs/validation
+          python scripts/validate_floor_intervals.py --datasets 10000 --output runs/validation/floor
       - name: One complete Bird posterior with strict convergence checks
         timeout-minutes: 330
         run: python -u scripts/compare_pacnerf_discrepancy.py --inputs runs/pacnerf-inputs --output runs/bird --case-index 8
