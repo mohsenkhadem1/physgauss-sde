@@ -19,6 +19,19 @@ It starts from the corrected floor target and a fresh discarded reference-learni
 phase. Its convergence and uncertainty outcome are pending. The old canceled
 run39155024009 is historical and must not be treated as this attempt.
 
+The local learned-reference trial finished256 draws/chain after100 warmup:
+worstRhat1.632, minimum bulk/tail ESS6.55/10.65. It did not resolve convergence
+(preceding conditional trial:1.639,6.57/10.78). Both avoid penetration below-2cm.
+See `examples/pacnerf-floor-audit/learned-reference-development.json`.
+A full joint-HMC local diagnostic is now running with the same learned
+reference,100 warmup,256 retained planned, seed590009,time1–4,acceptance0.9.
+Its explicit experiment runner is `experiments/bird_joint_hmc.py`; it has no
+future-geometry scoring or production eligibility. The active local exploratory
+wrapper is `runs/bench_learned_joint_hmc.py`, output
+`runs/floor-learned-joint-hmc-development`, log with the same name plus`.log`.
+Do not change or cancel the formal run merely because a short development
+trial is unconverged; its500-step warmup and final stopping plan differ.
+
 The current separate target is `floor-conditioned-hierarchical-v2`: opaque
 y=0 floor/camera visibility, plus an explicit2mm softened feasibility event
 on later mechanical/rendering points. The normalized SDE/load priors are

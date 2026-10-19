@@ -115,6 +115,12 @@ Rhat1.639, minimum bulk/tail ESS6.57/10.78), despite excluding penetration below
 -2cm. Its parameter means differed substantially from the mode reference.
 This motivated the proposal-only reference-learning experiment; it is not
 evidence that the new reference converges or that uncertainty is calibrated.
+That local reference-learning trial has now finished256 retained draws/chain
+after100 warmup. Rhat1.632 and minimum bulk/tail ESS6.55/10.65 remain failures;
+the reference change did not solve exploration. Its evidence is preserved in
+`examples/pacnerf-floor-audit/learned-reference-development.json`. A local
+full joint-HMC trial is testing coupled material/noise/state moves on the same
+posterior. It cannot replace production checks or establish predictive calibration.
 The larger comparison remains gated on that independently replayed result,
 descriptive90% coverage>=80%, CRPS no worse than baseline, and negligible
 deep floor penetration. All force/uncertainty comparisons remain exploratory.
