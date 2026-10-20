@@ -1,0 +1,67 @@
+name: Independently validate converged reflected Bird uncertainty
+on:
+  workflow_dispatch:
+    inputs:
+      parent_run:
+        description: Run containing four completed bird-reflected-chain artifacts
+        required: true
+        default: '39399618548'
+      draws:
+        description: Exact retained draws per chain in the artifacts
+        type: choice
+        options: ['2000', '4000', '8000']
+        default: '2000'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    defaults:
+      run: {working-directory: worker}
+    steps:
+      - uses: actions/checkout@v4
+        with: {path: control}
+      - uses: actions/checkout@v4
+        with: {path: worker, ref: ad3ec582aaa5e5ff1f4fdddf76318bd9d0bde031}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12.4'}
+      - run: python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install numpy==2.0.0 -e '.[performance]'
+      - run: python -m unittest discover -s ../control/tests -p 'test_reflected_*.py' -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: pacnerf-inputs
+          run-id: '39100239747'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: worker/runs/inputs
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: bird-reflected-chain-*
+          run-id: ${{ inputs.parent_run }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: worker/runs/shards
+      - run: |
+          for i in 0 1 2 3; do mv "runs/shards/bird-reflected-chain-$i" "runs/shards/chain-$i"; done
+      - uses: actions/download-artifact@v4
+        with:
+          name: pacnerf-results-8
+          run-id: '39100239747'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: worker/runs/baseline/results-8
+      - uses: actions/download-artifact@v4
+        with:
+          name: pacnerf-chains-8
+          run-id: '39100239747'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: worker/runs/baseline/chains-8
+      - name: Recompute raw convergence before opening evaluation; replay scores independently
+        run: >-
+          python -u ../control/experiments/validate_reflected_bird.py --worker .
+          --source-ref ad3ec582aaa5e5ff1f4fdddf76318bd9d0bde031
+          --inputs runs/inputs --shards runs/shards --baseline runs/baseline
+          --output runs/validation --draws ${{ inputs.draws }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: bird-reflected-validation, path: worker/runs/validation, retention-days: 30, if-no-files-found: ignore}

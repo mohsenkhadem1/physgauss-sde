@@ -77,6 +77,26 @@ states, log density,72 conditional force means and both covariance normalizers.
 Only four-chain diagnostics count. A passing convergence gate still requires
 independent uncertainty replay; it does not start the wider comparison.
 
+The active run is [39399618548](https://github.com/mohsenkhadem1/physgauss-sde/actions/runs/39399618548),
+immutable worker`ad3ec582aaa5e5ff1f4fdddf76318bd9d0bde031`. Preparation passed
+the full188-test suite on GitHub and the four chains started. The local full
+regression ran187 tests in282.911s; the additional interwoven recovery test
+passed separately, bringing distinct tested checks to188.
+
+`pacnerf-bird-reflected-continue.yml` can resume all four original shards or
+extend to4000/8000, using that exact worker commit and the same reference blob,
+initial states, warmup and saved RNG. It rejects source/reference/kernel drift
+and proves the old retained prefix unchanged. It has not been dispatched.
+
+`pacnerf-bird-reflected-validate.yml` reruns the complete raw convergence gate
+before opening evaluation particles. It compares the full-image shader against
+the dense shader, independently checks the transition integrals and floor
+likelihood, decodes states in NumPy and checks all interval/proper scores against
+the Torch path. It independently replays the original baseline and applies the
+existing80%-coverage/CRPS/floor development guardrails. A unit test verifies that
+a failed fresh convergence gate cannot open any tensor labels. This workflow
+has not been dispatched; no uncertainty result is claimed.
+
 ## Validation and current status
 
 The event-driven flow passes energy conservation, reversal through multiple

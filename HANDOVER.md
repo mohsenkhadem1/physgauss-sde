@@ -18,7 +18,12 @@ stopped during warmup; its50-step checkpoint is preserved, no draws pooled.
 `.github/workflows/pacnerf-bird-reflected.yml` runs four independently seeded
 standard free CPU workers,500 warmup/2000 retained draws, with archived256-draw
 previews and a strict four-chain force/normalizer/state convergence gate.
-The run record is `configs/pacnerf_bird_reflected.json` once dispatched.
+The run record is `configs/pacnerf_bird_reflected.json`: active39399618548,
+frozen workerad3ec582aaa5e5ff1f4fdddf76318bd9d0bde031. Preparation passed all188
+tests on GitHub, rebuilt the shared reference and started all four CPU workers.
+Exact continuation and independently gated uncertainty workflows are prepared
+but not dispatched: `pacnerf-bird-reflected-continue.yml` and
+`pacnerf-bird-reflected-validate.yml`. Use the recorded parent run and draw count.
 See `docs/PACNERF_REFLECTED_SAMPLING.md`. No larger comparison is dispatched
 until Bird converges AND independently validated uncertainty meets readiness.
 For exact continuation, use the original workflow source SHA and immutable
