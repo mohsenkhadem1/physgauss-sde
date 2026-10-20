@@ -105,7 +105,7 @@ def run(inputs,output,index,pilot=False,chunk=50,sampler='hybrid'):
         'inference_files_sha256_lf':{f:file_hash(Path(__file__).parent/f) for f in [
             'pacnerf_discrepancy.py','compare_pacnerf_discrepancy.py','pacnerf_innovations.py',
             'pacnerf_innovation_metric.py','pacnerf_comparison.py','pacnerf_elliptical.py',
-            'pacnerf_conditioned_transport.py','fit_pacnerf_conditioned_reference.py','pacnerf_floor.py','pacnerf_hybrid.py','pacnerf_warmup_reference.py']},
+            'pacnerf_conditioned_transport.py','fit_pacnerf_conditioned_reference.py','pacnerf_floor.py','pacnerf_hybrid.py','pacnerf_warmup_reference.py','pacnerf_recovery.py']},
         'model':model.specification(),'observed_pairs':model.specs,
         'sampler':sampler,
         'initial_reference_scale':1.,
@@ -117,8 +117,12 @@ def run(inputs,output,index,pilot=False,chunk=50,sampler='hybrid'):
         'source_of_prior_scales':'gravity, frame duration, supplied initial geometry; no evaluation-based tuning'}
     settings=json.loads(json.dumps(settings))
     settings_path=out/'settings.json'
-    if settings_path.exists() and json.loads(settings_path.read_text())!=settings:
-        raise ValueError('Target or protocol changed; use a fresh output folder')
+    if settings_path.exists():
+        from pacnerf_recovery import restore_settings
+        settings,restoration=restore_settings(model,json.loads(settings_path.read_text()),settings)
+        history_path=out/'recovery_constants.json'
+        history=json.loads(history_path.read_text()) if history_path.exists() else []
+        history.append(restoration);write(history_path,history)
     write(settings_path,settings)
     invocations=json.loads((out/'invocations.json').read_text()) if (out/'invocations.json').exists() else []
     invocations.append({'run_id':os.environ.get('GITHUB_RUN_ID'),

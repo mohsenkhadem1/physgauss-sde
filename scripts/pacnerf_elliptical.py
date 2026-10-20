@@ -6,6 +6,7 @@ Each block update uses the exact nonlinear posterior/reference ratio. A bracket
 cap raises an error; it never silently accepts or retains a failed proposal.
 """
 import math
+import hashlib
 from pathlib import Path
 import torch
 from pacnerf_comparison import write
@@ -45,7 +46,7 @@ def atomic_save(path,value):
 
 
 @torch.no_grad()
-def sample(evaluate,dimension,checkpoint,total_draws,warmup=500,seed=240001,chunk=50,progress=None,blocks=None,initial_scale=1.):
+def sample(evaluate,dimension,checkpoint,total_draws,warmup=500,seed=240001,chunk=50,progress=None,blocks=None,initial_scale=1.,initial=None):
     if total_draws<16 or warmup<0:raise ValueError('Invalid sampling budget')
     if not math.isfinite(initial_scale) or initial_scale<=0:raise ValueError('Invalid initial reference scale')
     checkpoint=Path(checkpoint);checkpoint.mkdir(parents=True,exist_ok=True)
@@ -54,6 +55,9 @@ def sample(evaluate,dimension,checkpoint,total_draws,warmup=500,seed=240001,chun
     if sorted(flattened)!=list(range(dimension)):
         raise ValueError('Fixed slice blocks must cover each coordinate exactly once')
     protocol={'sampler':'blocked-elliptical-reference-v1','dimension':dimension,'chains':4,'warmup':warmup,'seed':seed,'blocks':blocks,'initial_scale':initial_scale}
+    if initial is not None and (initial.shape!=(4,dimension) or not bool(torch.isfinite(initial).all())):
+        raise ValueError('Invalid supplied elliptical initial states')
+    protocol['initial_state_sha256']=None if initial is None else hashlib.sha256(initial.detach().cpu().contiguous().numpy().tobytes()).hexdigest()
     protocol={**protocol,'blocks':[{'indices':list(b['indices'])} if isinstance(b,dict) else list(b) for b in blocks]}
     state_path=checkpoint/'chains.pt';warm_path=checkpoint/'elliptical_warmup.pt'
     previous=torch.load(state_path,weights_only=True) if state_path.exists() else torch.load(warm_path,weights_only=True) if warm_path.exists() else None
@@ -62,7 +66,7 @@ def sample(evaluate,dimension,checkpoint,total_draws,warmup=500,seed=240001,chun
     ratios=torch.empty(4,total_draws,dtype=torch.float64)
     counts={p:{k:[0]*4 for k in ['accepted','invalid','divergent']} for p in ['warmup','retained']}
     if previous is None:
-        q=initial_scale*torch.randn(4,dimension,dtype=torch.float64,generator=rng)
+        q=initial_scale*torch.randn(4,dimension,dtype=torch.float64,generator=rng) if initial is None else initial.detach().clone()
         current,bad=evaluate(q);evaluations=1;warm=0;retained=0
         proposals=[0]*4;invalid=[0]*4
     else:

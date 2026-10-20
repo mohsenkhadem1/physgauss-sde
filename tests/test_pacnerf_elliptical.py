@@ -52,3 +52,16 @@ class EllipticalTests(unittest.TestCase):
         draws=chains['white'].flatten(0,1)
         torch.testing.assert_close(draws.mean(0),mean,atol=.05,rtol=0)
         torch.testing.assert_close(torch.cov(draws.T),torch.linalg.inv(precision),atol=.06,rtol=0)
+
+    def test_supplied_initial_state_preserves_exact_continuation_and_is_frozen(self):
+        _,_,evaluate=self.target()
+        initial=torch.linspace(-2,2,16,dtype=torch.float64).reshape(4,4)
+        with tempfile.TemporaryDirectory(dir=self.temporary_root) as folder:
+            root=Path(folder)
+            direct=sample(evaluate,4,root/'direct',80,warmup=20,seed=92,initial=initial)
+            sample(evaluate,4,root/'split',40,warmup=20,seed=92,initial=initial)
+            resumed=sample(evaluate,4,root/'split',80,warmup=20,seed=92,initial=initial)
+            for key in ['white','log_ratio','rng_state','position','position_log_ratio']:
+                torch.testing.assert_close(resumed[key],direct[key],atol=0,rtol=0)
+            with self.assertRaisesRegex(ValueError,'protocol changed'):
+                sample(evaluate,4,root/'split',100,warmup=20,seed=92,initial=initial+.01)

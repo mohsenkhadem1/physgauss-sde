@@ -89,7 +89,10 @@ def verify_case(raw,inputs,index):
     if reference['coordinates']!='parameter-conditioned-gaussian-bridge-v1':raise ValueError('Wrong target coordinates')
     stationarity=reference['stationarity'];last=stationarity['history'][-1]
     if not stationarity['stationary'] or stationarity['regularized_metric_decrement']>=.02 or last['gradient_max_abs']>=.02:raise ValueError('Reference is not stationary')
-    model,_=make_inference_model(inputs,index);target=make_target(model,reference)
+    model,_=make_inference_model(inputs,index)
+    from pacnerf_recovery import restore_correlations
+    correlation_replay=restore_correlations(model,settings['model'])
+    target=make_target(model,reference)
     reference_proof=None
     if 'sampling_mean' in reference:
         from verify_pacnerf_sampling_reference import verify_reference
@@ -204,4 +207,5 @@ def verify_case(raw,inputs,index):
         'maximum_dense_renderer_rgb_error':rgb_error,'maximum_dense_renderer_image_nll_error':image_nll_error,
         'maximum_floor_feasibility_nll_replay_error':floor_error,
         'independent_sampling_reference_replay':reference_proof,
+        'frozen_observation_constants_replayed':correlation_replay,
         'qualification':'raw target, moment, score and scalar diagnostic replay; not proof of global exploration or physical calibration'}
