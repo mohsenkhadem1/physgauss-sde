@@ -33,7 +33,8 @@ checkpoint. The mixing audit finds severe covariance conditioning and slow
 mechanics/diffusion movement. A [reflected and interwoven sampler](docs/PACNERF_REFLECTED_SAMPLING.md)
 preserves the existing physical posterior. All four free CPU chains completed
 8000 draws, but worstRhat1.034 and minimum bulk/tailESS135/33 still fail the gate.
-The bounded run stopped; no Bird sampling is active. Its wider comparison and
+That bounded GitHub CPU run stopped. The separate local CPU/GPU audit is
+described above. The historical wider comparison and
 uncertainty validation remain gated. The beam experiment is a separate,
 controlled research direction and does not establish convergence on Bird.
 

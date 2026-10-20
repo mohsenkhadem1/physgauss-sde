@@ -8,7 +8,8 @@ fixtures, boundary tractions and contacts from a static Gaussian reference and
 partial observations. Begin with known geometry/material and hidden-boundary
 experiments. DINO/segmentation, material uncertainty and sequential interactive
 updating are later stages. The [decision record](docs/BOUNDARY_LEARNING_DIRECTION.md)
-distinguishes agreed direction from the proposed benchmark implementation.
+records the agreed direction; the subsequently implemented beam reference is
+documented in [the two-Gaussian formulation](docs/GAUSSIAN_BOUNDARY_FORMULATION.md).
 The existing code does not yet infer general boundary patch/type hypotheses.
 
 Keep the authorized bounded Bird audit running under its frozen target and
@@ -82,8 +83,9 @@ arms were added after the initial combined mismatch failure. Six numerical
 tests pass, including independent cantilever and dense-conditioning references.
 The study uses a40-element inference mesh and80-element reference, audited
 against160 elements. A read-only free-CPU Actions workflow reproduces it.
-The previous Bird run remains stopped and unconverged; no wider PAC comparison
-is active. Do not treat this controlled beam result as a Bird fix.
+The older GitHub CPU Bird run remains stopped and unconverged. The separate
+local CPU/GPU audit described above is preserved under its own protocol; this
+beam work does not modify it. Do not treat the beam result as a Bird fix.
 
 **2026-10-20 final8000-draw result:** all four free-CPU chains completed.
 Worst Rhat improved to1.0339864, minimum bulkESS134.503 and tailESS33.233.
@@ -91,7 +93,8 @@ The gate still FAILS (Rhat<1.01; both ESS>=400 for all monitored scalars).
 Invalid/divergent retained state steps remain zero; density replay passes
 with maximum cached-target error3.64e-12. Run39415918136 finished13:38:53UTC.
 The bounded follow-up correctly stopped at the declared8000-draw cap, without
-uncertainty evaluation or the wider comparison. No Bird sampling job is active.
+uncertainty evaluation or the wider comparison. That GitHub CPU run is inactive;
+the separate local CPU/GPU audit is described at the top of this file.
 The complete JSON convergence report and stop decision, retrieved from the
 completed diagnose job log, are in `examples/pacnerf-bird-reflected-8000`;
 its full checkpoint artifact12268611805 remains on GitHub. Further inference

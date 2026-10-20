@@ -1,8 +1,13 @@
 # Research direction: learning boundary conditions
 
 Decision record from the user's supplied discussion, reviewed 20 October 2026.
-This records the research direction; the benchmark below is a proposed
-implementation plan, not an implemented or completed experiment.
+This records the original research direction and staged implementation plan.
+A first controlled beam reference has since been implemented: see
+[the two-Gaussian formulation](GAUSSIAN_BOUNDARY_FORMULATION.md) and
+[the benchmark report](../examples/beam-boundary/report.html). It infers a finite
+family of compliant supports and load patches with known material and supplied
+2D tracks. General boundary-type inference, learned perception, flow matching,
+and interaction-based updating remain proposed extensions.
 
 ## Primary question
 
