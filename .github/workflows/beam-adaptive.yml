@@ -1,0 +1,45 @@
+name: Adaptive force-prior beam comparison
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'experiments/beam_adaptive.py'
+      - 'experiments/run_beam_adaptive.py'
+      - 'experiments/verify_beam_adaptive.py'
+      - 'configs/beam_adaptive.json'
+      - 'tests/test_beam_adaptive.py'
+      - '.github/workflows/beam-adaptive.yml'
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.0.0 matplotlib==3.9.2
+      - run: python -m unittest discover -s tests -p 'test_beam*.py' -v
+      - run: python -u experiments/run_beam_adaptive.py --config configs/beam_adaptive.json --output runs/beam-adaptive --workers 2
+      - run: python -u experiments/verify_beam_adaptive.py --output runs/beam-adaptive
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: beam-adaptive-comparison
+          path: runs/beam-adaptive
+          retention-days: 30
+      - name: Check final hierarchical-prior calibration
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('runs/beam-adaptive/results.json').read_text())
+          checks=r['populations']['hierarchical_fresh']['scalar_calibration_checks']
+          assert all(checks['adaptive/'+p][-1]['pass'] for p in ['active','random','fixed'])
+          print('Final marginal hierarchical-prior calibration checked; conditional/off-grid outcomes remain explicit.')
+          PY

@@ -1,0 +1,25 @@
+{
+  "version": "beam-adaptive-timescale-v1",
+  "seed": 20261029,
+  "lengths_s": [0.35, 0.6, 0.8, 1.2, 2.0, 3.0],
+  "length_prior_weights": [1, 1, 1, 1, 1, 1],
+  "budget": 6,
+  "inference_elements": 40,
+  "truth_elements": 80,
+  "pixel_noise_std": 0.25,
+  "utility_hidden_x_m": [0.05, 0.2, 0.85, 1.0],
+  "fixed_action_indices": [1, 3, 5, 7, 9, 12],
+  "quadrature_tolerance": 0.00002,
+  "quadrature_audit_cases": 4,
+  "quadrature_audit_tolerance": 0.0000001,
+  "bootstrap_resamples": 2000,
+  "populations": [
+    {"name": "slow_replay", "source": "examples/beam-active/matched-dataset.json.gz", "true_length_s": 2.0},
+    {"name": "fast_replay", "source": "examples/beam-active/shorter_force-dataset.json.gz", "true_length_s": 0.8},
+    {"name": "hierarchical_fresh", "cases": 400, "true_length_s": "draw_from_hyperprior"},
+    {"name": "offgrid_fresh", "cases": 200, "true_length_s": 0.5}
+  ],
+  "protocol": "Fixed-2s prior versus adaptive joint boundary/timescale mixture under active/random/fixed actions. Shared initial data, potential action observations, random orders and budgets. Unknown forces remain integrated. Oracle-timescale fixed-actions diagnostic is explicitly given the true timescale, never supplied to either compared estimator or active policy.",
+  "validation": "Fresh hierarchical-prior population tests marginal calibration; replayed fixed-timescale populations and a fresh off-grid timescale test conditional robustness. Report all stages, PIT, interval score, coverage with Wilson intervals, paired case-bootstrap RMSE differences, action innovations and timescale posterior probabilities. Gates are descriptive, not familywise or simultaneous trajectory claims.",
+  "scope": "Timescale is globally constant within each eight-time episode and learned per case. Force amplitude, Gaussian kernel family, cameras, material and measurement noise remain specified. This does not learn arbitrarily changing smoothness, jumps, contact or model discrepancy. The policy is observation-conditioned one-step expected predictive-variance reduction, not RL or a neural network."
+}
