@@ -25,7 +25,12 @@ The slice-augmented reflective sampler passes six new mathematical tests;
 its actual Bird preflight passes. The first empirical-covariance reflective
 trial was stopped in warmup because conditional directions still force small
 steps. No convergence result is claimed. A floor-free conditional Gaussian
-GUIDE (unchanged physical target) is the next proposal experiment.
+GUIDE (unchanged physical target) is running in `runs/bird-reflected-free-guide`,
+log with`.log`, seed950009,128 warmup/256 draws planned. Its reference is
+`runs/bird-floor-free-reference/reference.pt`. This learns only five parameter
+moments; state covariance is the analytic conditional Gaussian bridge.
+The guide roundtrip/density test passes for neural joint and marginal models
+(183 tests total across the full182-test suite plus this new test).
 See `docs/PACNERF_REFLECTED_SAMPLING.md`. All parent draws remain discarded
 proposal-learning data; no future geometry has been scored.
 The larger comparison has not started and must remain gated on Bird readiness.
