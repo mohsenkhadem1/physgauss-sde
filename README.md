@@ -2,12 +2,25 @@
 
 Research prototype for physically constrained Gaussian scene reconstruction from **one moving camera with missing frames**.
 
+**Current focus: learning hidden boundary conditions.** The new
+[Gaussian boundary beam benchmark](examples/beam-boundary/report.html) uses
+material kernels plus Gaussian support/load patches, exact force marginalization,
+and a finite posterior over boundary configurations. It compares inferred,
+known, MAP plug-in and incorrectly fixed boundaries from sparse 2D tracks.
+[Formulation and reproduction](docs/GAUSSIAN_BOUNDARY_FORMULATION.md) explain the
+two Gaussian families and the proposed conditional flow-matching extension.
+Material properties and correspondences are supplied in this first experiment;
+no visual encoder or flow-matching network has been trained. Matched-model
+coverage and separate model-mismatch stress tests are reported explicitly.
+
 **Bird recovery audit:** exact checkpoint recovery now passes on the real3350-draw
 checkpoint. The mixing audit finds severe covariance conditioning and slow
 mechanics/diffusion movement. A [reflected and interwoven sampler](docs/PACNERF_REFLECTED_SAMPLING.md)
-preserves the existing physical posterior and is being tested on Bird alone,
-using four independent free CPU workers. Bird convergence and uncertainty
-validation remain pending; the wider comparison remains gated.
+preserves the existing physical posterior. All four free CPU chains completed
+8000 draws, but worstRhat1.034 and minimum bulk/tailESS135/33 still fail the gate.
+The bounded run stopped; no Bird sampling is active. Its wider comparison and
+uncertainty validation remain gated. The beam experiment is a separate,
+controlled research direction and does not establish convergence on Bird.
 
 **Latest development:** all seven original CPU continuations have finished;
 10/16 baseline cells pass convergence and six Bird cells remain ineligible.

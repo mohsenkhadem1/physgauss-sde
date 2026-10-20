@@ -1,0 +1,28 @@
+{
+  "version": "gaussian-boundary-beam-v1",
+  "seed": 20261021,
+  "cases": 1000,
+  "stress_cases": 400,
+  "inference_elements": 40,
+  "truth_elements": 80,
+  "pixel_noise_std": 0.25,
+  "reference_camera_scale_pixels_per_metre": 400,
+  "length_m": 1.0,
+  "material_rigidity_N_m2": 0.8,
+  "support_centers_m": [0.075, 0.15, 0.225],
+  "support_widths_m": [0.035, 0.06],
+  "support_total_stiffness_N_per_m": [2000, 10000],
+  "load_centers_m": [0.85, 1.0],
+  "load_width_m": 0.035,
+  "force_prior_std_N": 0.06,
+  "force_prior_length_s": 2.0,
+  "primary_hidden_query": {"x_m": 1.0, "time_s": 5.0},
+  "coverage_levels": [0.5, 0.8, 0.9, 0.95],
+  "calibration_gate": "At 90% intervals, coverage within three binomial standard errors of 0.9 and PIT KS <=1.63/sqrt(N), for learned and known-boundary models, both designs; prior-predictive scalar checks only",
+  "designs": {
+    "sparse": {"times_s": [1,4,8], "visible_x_m": [0.4,0.55,0.7]},
+    "richer": {"times_s": [1,2,4,6,8], "visible_x_m": [0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75]}
+  },
+  "scope": "Quasistatic one-plane bending; known reference geometry, cameras and correspondences; Gaussian-rendered illustrations, inference from noisy 2D center tracks. Material fixed, no trained encoder or flow-matching model.",
+  "stress_protocol": "Three 400-case arms: off-grid boundaries only; shorter true force correlation length 0.8s only; both. Same force scale and material; no refitting. Separate arms added after initial combined stress failure."
+}

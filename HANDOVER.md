@@ -6,6 +6,28 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
+**Current research focus: Gaussian boundary learning.** The user redirected the
+work to a simple beam with hidden supports and loads, then proposed two Gaussian
+families and conditional flow matching. `docs/GAUSSIAN_BOUNDARY_FORMULATION.md`
+defines material fields, boundary laws, and the proposed conditional generative
+model (generation time is distinct from physical time). The implemented first
+benchmark fixes material properties and known 2D correspondences; it does not
+train DINO, segmentation, or flow matching. It exactly enumerates24 boundary
+configurations and analytically integrates smooth Gaussian force histories.
+`examples/beam-boundary/report.html` contains1000 matched-prior cases and three
+400-case mismatch stress arms, plus full compressed synthetic datasets.
+Sparse/richer hidden-motion RMSE is2.727/0.627mm;90% missing-tip coverage is
+89.5/89.8%. Exact boundary MAP identification is only19.3/32.9%. Known-boundary
+oracle RMSE is2.682/0.536mm. The matched-prior scalar calibration gate passes;
+shorter true load correlation causes severe undercoverage (49.5/15.75%), so
+uncertainty is NOT validated under temporal-model mismatch. Separate stress
+arms were added after the initial combined mismatch failure. Six numerical
+tests pass, including independent cantilever and dense-conditioning references.
+The study uses a40-element inference mesh and80-element reference, audited
+against160 elements. A read-only free-CPU Actions workflow reproduces it.
+The previous Bird run remains stopped and unconverged; no wider PAC comparison
+is active. Do not treat this controlled beam result as a Bird fix.
+
 **2026-10-20 final8000-draw result:** all four free-CPU chains completed.
 Worst Rhat improved to1.0339864, minimum bulkESS134.503 and tailESS33.233.
 The gate still FAILS (Rhat<1.01; both ESS>=400 for all monitored scalars).

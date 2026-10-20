@@ -1,0 +1,2479 @@
+{
+  "protocol": {
+    "version": "gaussian-boundary-beam-v1",
+    "seed": 20261021,
+    "cases": 1000,
+    "stress_cases": 400,
+    "inference_elements": 40,
+    "truth_elements": 80,
+    "pixel_noise_std": 0.25,
+    "reference_camera_scale_pixels_per_metre": 400,
+    "length_m": 1.0,
+    "material_rigidity_N_m2": 0.8,
+    "support_centers_m": [
+      0.075,
+      0.15,
+      0.225
+    ],
+    "support_widths_m": [
+      0.035,
+      0.06
+    ],
+    "support_total_stiffness_N_per_m": [
+      2000,
+      10000
+    ],
+    "load_centers_m": [
+      0.85,
+      1.0
+    ],
+    "load_width_m": 0.035,
+    "force_prior_std_N": 0.06,
+    "force_prior_length_s": 2.0,
+    "primary_hidden_query": {
+      "x_m": 1.0,
+      "time_s": 5.0
+    },
+    "coverage_levels": [
+      0.5,
+      0.8,
+      0.9,
+      0.95
+    ],
+    "calibration_gate": "At 90% intervals, coverage within three binomial standard errors of 0.9 and PIT KS <=1.63/sqrt(N), for learned and known-boundary models, both designs; prior-predictive scalar checks only",
+    "designs": {
+      "sparse": {
+        "times_s": [
+          1,
+          4,
+          8
+        ],
+        "visible_x_m": [
+          0.4,
+          0.55,
+          0.7
+        ]
+      },
+      "richer": {
+        "times_s": [
+          1,
+          2,
+          4,
+          6,
+          8
+        ],
+        "visible_x_m": [
+          0.35,
+          0.4,
+          0.45,
+          0.5,
+          0.55,
+          0.6,
+          0.65,
+          0.7,
+          0.75
+        ]
+      }
+    },
+    "scope": "Quasistatic one-plane bending; known reference geometry, cameras and correspondences; Gaussian-rendered illustrations, inference from noisy 2D center tracks. Material fixed, no trained encoder or flow-matching model.",
+    "stress_protocol": "Three 400-case arms: off-grid boundaries only; shorter true force correlation length 0.8s only; both. Same force scale and material; no refitting. Separate arms added after initial combined stress failure."
+  },
+  "matched_model": {
+    "cases": 1000,
+    "stress": false,
+    "max_absolute_slope_approx_rad": 0.14884586540756248,
+    "max_absolute_displacement_m": 0.1121775242561954,
+    "designs": {
+      "sparse": {
+        "observed_frames": 3,
+        "tracked_centers_per_frame": 3,
+        "methods": {
+          "learned_boundaries": {
+            "hidden_motion_rmse_mm": 2.726545032595608,
+            "rmse_mean_mc_se_mm": 0.0649695738660964,
+            "missing_time_hidden_rmse_mm": 3.3794551399916206,
+            "force_rmse_N": 0.0187811794427778,
+            "hidden_tip_at_5s": {
+              "pit_ks": 0.014763367866494015,
+              "pit_ks_99pct_reference": 0.051545125860744584,
+              "0.5": {
+                "coverage": 0.493,
+                "wilson_95pct": [
+                  0.46209940740448396,
+                  0.5239541672143138
+                ],
+                "mean_width": 0.009194034925233085
+              },
+              "0.8": {
+                "coverage": 0.806,
+                "wilson_95pct": [
+                  0.7803394533741679,
+                  0.8293185704326724
+                ],
+                "mean_width": 0.017911209487435315
+              },
+              "0.9": {
+                "coverage": 0.895,
+                "wilson_95pct": [
+                  0.8744646434108284,
+                  0.9125122173855832
+                ],
+                "mean_width": 0.023512545437141888
+              },
+              "0.95": {
+                "coverage": 0.946,
+                "wilson_95pct": [
+                  0.9302078451539475,
+                  0.9583786862769372
+                ],
+                "mean_width": 0.028699424616964925
+              }
+            },
+            "force_at_5s": {
+              "pit_ks": 0.02509406613538634,
+              "pit_ks_99pct_reference": 0.051545125860744584,
+              "0.5": {
+                "coverage": 0.506,
+                "wilson_95pct": [
+                  0.47504885836338107,
+                  0.5369052205347923
+                ],
+                "mean_width": 0.03445668563251659
+              },
+              "0.8": {
+                "coverage": 0.818,
+                "wilson_95pct": [
+                  0.7928834388314774,
+                  0.8406827427717094
+                ],
+                "mean_width": 0.06549962466590721
+              },
+              "0.9": {
+                "coverage": 0.91,
+                "wilson_95pct": [
+                  0.8906582073569279,
+                  0.926203850684917
+                ],
+                "mean_width": 0.08410207962819599
+              },
+              "0.95": {
+                "coverage": 0.956,
+                "wilson_95pct": [
+                  0.9414482108495923,
+                  0.9670617854115815
+                ],
+                "mean_width": 0.10025708781222803
+              }
+            }
+          },
+          "known_boundaries": {
+            "hidden_motion_rmse_mm": 2.682259227355284,
+            "rmse_mean_mc_se_mm": 0.06567126754880068,
+            "missing_time_hidden_rmse_mm": 3.345222827673692,
+            "force_rmse_N": 0.01565944153901138,
+            "hidden_tip_at_5s": {
+              "pit_ks": 0.020134475783732397,
+              "pit_ks_99pct_reference": 0.051545125860744584,
+              "0.5": {
+                "coverage": 0.499,
+                "wilson_95pct": [
+                  0.468073488750724,
+                  0.529934164766247
+                ],
+                "mean_width": 0.009517480900293336
+              },
+              "0.8": {
+                "coverage": 0.81,
+                "wilson_95pct": [
+                  0.7845166798033586,
+                  0.8331107299355974
+                ],
+                "mean_width": 0.018083510600814784
+              },
+              "0.9": {
+                "coverage": 0.911,
+                "wilson_95pct": [
+                  0.8917426484378812,
+                  0.9271117560869926
+                ],
+                "mean_width": 0.023209934582012273
+              },
+              "0.95": {
+                "coverage": 0.957,
+                "wilson_95pct": [
+                  0.942580996155916,
+                  0.9679213465882865
+                ],
+                "mean_width": 0.027656342861696402
+              }
+            },
+            "force_at_5s": {
+              "pit_ks": 0.020134395546264505,
+              "pit_ks_99pct_reference": 0.051545125860744584,
+              "0.5": {
+                "coverage": 0.499,
+                "wilson_95pct": [
+                  0.468073488750724,
+                  0.529934164766247
+                ],
+                "mean_width": 0.03058716538711028
+              },
+              "0.8": {
+                "coverage": 0.81,
+                "wilson_95pct": [
+                  0.7845166798033586,
+                  0.8331107299355974
+                ],
+                "mean_width": 0.058116568377839996
+              },
+              "0.9": {
+                "coverage": 0.911,
+                "wilson_95pct": [
+                  0.8917426484378812,
+                  0.9271117560869926
+                ],
+                "mean_width": 0.07459180797117643
+              },
+              "0.95": {
+                "coverage": 0.957,
+                "wilson_95pct": [
+                  0.942580996155916,
+                  0.9679213465882865
+                ],
+                "mean_width": 0.08888162130036556
+              }
+            }
+          },
+          "map_boundary_plugin": {
+            "hidden_motion_rmse_mm": 2.7509540361483045,
+            "rmse_mean_mc_se_mm": 0.06515175956334827,
+            "missing_time_hidden_rmse_mm": 3.4008125911147156,
+            "force_rmse_N": 0.020050444806026767,
+            "hidden_tip_at_5s": {
+              "pit_ks": 0.030002539216589658,
+              "pit_ks_99pct_reference": 0.051545125860744584,
+              "0.5": {
+                "coverage": 0.467,
+                "wilson_95pct": [
+                  0.4362630649735458,
+                  0.4979895010865009
+                ],
+                "mean_width": 0.008892838859696158
+              },
+              "0.8": {
+                "coverage": 0.753,
+                "wilson_95pct": [
+                  0.7253357631562045,
+                  0.7787278970501046
+                ],
+                "mean_width": 0.01689667123846782
+              },
+              "0.9": {
+                "coverage": 0.865,
+                "wilson_95pct": [
+                  0.8424178447972049,
+                  0.8847886215083399
+                ],
+                "mean_width": 0.02168664275181924
+              },
+              "0.95": {
+                "coverage": 0.917,
+                "wilson_95pct": [
+                  0.8982635048659464,
+                  0.9325449785571007
+                ],
+                "mean_width": 0.02584122869214207
+              }
+            },
+            "force_at_5s": {
+              "pit_ks": 0.04469555852122453,
+              "pit_ks_99pct_reference": 0.051545125860744584,
+              "0.5": {
+                "coverage": 0.435,
+                "wilson_95pct": [
+                  0.4045798065188989,
+                  0.4659176720842233
+                ],
+                "mean_width": 0.03086121601522631
+              },
+              "0.8": {
+                "coverage": 0.74,
+                "wilson_95pct": [
+                  0.7119317744345645,
+                  0.766231381492369
+                ],
+                "mean_width": 0.05863727312005213
+              },
+              "0.9": {
+                "coverage": 0.855,
+                "wilson_95pct": [
+                  0.8318179377037748,
+                  0.875465063771481
+                ],
+                "mean_width": 0.07526012527250522
+              },
+              "0.95": {
+                "coverage": 0.919,
+                "wilson_95pct": [
+                  0.9004427979303052,
+                  0.9343503784587998
+                ],
+                "mean_width": 0.08967797048267982
+              }
+            }
+          },
+          "wrong_fixed_boundary": {
+            "hidden_motion_rmse_mm": 3.1135596067635816,
+            "rmse_mean_mc_se_mm": 0.06324135571525455,
+            "missing_time_hidden_rmse_mm": 3.721081218799338,
+            "force_rmse_N": 0.031221979207983336,
+            "hidden_tip_at_5s": {
+              "pit_ks": 0.1196405400637548,
+              "pit_ks_99pct_reference": 0.051545125860744584,
+              "0.5": {
+                "coverage": 0.722,
+                "wilson_95pct": [
+                  0.6934229755065661,
+                  0.7488779437258474
+                ],
+                "mean_width": 0.016477938556005635
+              },
+              "0.8": {
+                "coverage": 0.937,
+                "wilson_95pct": [
+                  0.920205076295354,
+                  0.9504503367882711
+                ],
+                "mean_width": 0.0313085972726164
+              },
+              "0.9": {
+                "coverage": 0.973,
+                "wilson_95pct": [
+                  0.9610012692469598,
+                  0.9813786172257051
+                ],
+                "mean_width": 0.04018414955994513
+              },
+              "0.95": {
+                "coverage": 0.988,
+                "wilson_95pct": [
+                  0.9791427315245017,
+                  0.9931223521935965
+                ],
+                "mean_width": 0.04788236752277727
+              }
+            },
+            "force_at_5s": {
+              "pit_ks": 0.13336443576668566,
+              "pit_ks_99pct_reference": 0.051545125860744584,
+              "0.5": {
+                "coverage": 0.302,
+                "wilson_95pct": [
+                  0.2743457378772452,
+                  0.33116965848303465
+                ],
+                "mean_width": 0.02992604901677879
+              },
+              "0.8": {
+                "coverage": 0.552,
+                "wilson_95pct": [
+                  0.5210376917018592,
+                  0.5825643254156431
+                ],
+                "mean_width": 0.056860426651210084
+              },
+              "0.9": {
+                "coverage": 0.67,
+                "wilson_95pct": [
+                  0.6402544426353417,
+                  0.6984444594795697
+                ],
+                "mean_width": 0.07297956751939695
+              },
+              "0.95": {
+                "coverage": 0.76,
+                "wilson_95pct": [
+                  0.7325666107750539,
+                  0.7854434748124575
+                ],
+                "mean_width": 0.08696051831093857
+              }
+            }
+          }
+        },
+        "boundary_identification": {
+          "support_center_mae_mm": 42.3536646385634,
+          "load_center_mae_mm": 71.44344113312266,
+          "mean_boundary_entropy_nats": 2.3737257923831345,
+          "mean_90pct_credible_set_size": 10.532,
+          "hypotheses": 24,
+          "joint_boundary_map_accuracy": 0.193,
+          "joint_boundary_credible_set_coverage": 0.926,
+          "joint_boundary_credible_set_mean_mass": 0.9215517976412964
+        }
+      },
+      "richer": {
+        "observed_frames": 5,
+        "tracked_centers_per_frame": 9,
+        "methods": {
+          "learned_boundaries": {
+            "hidden_motion_rmse_mm": 0.6267907138622811,
+            "rmse_mean_mc_se_mm": 0.009816272274868806,
+            "missing_time_hidden_rmse_mm": 0.8327989263985001,
+            "force_rmse_N": 0.007701468030624643,
+            "hidden_tip_at_5s": {
+              "pit_ks": 0.026359917744727623,
+              "pit_ks_99pct_reference": 0.051545125860744584,
+              "0.5": {
+                "coverage": 0.52,
+                "wilson_95pct": [
+                  0.4890177246575191,
+                  0.5508292050030589
+                ],
+                "mean_width": 0.0020473394593128525
+              },
+              "0.8": {
+                "coverage": 0.812,
+                "wilson_95pct": [
+                  0.7866068125887822,
+                  0.8350052901162315
+                ],
+                "mean_width": 0.003917666714347645
+              },
+              "0.9": {
+                "coverage": 0.898,
+                "wilson_95pct": [
+                  0.8776930354303454,
+                  0.9152608648151528
+                ],
+                "mean_width": 0.0050600981861251915
+              },
+              "0.95": {
+                "coverage": 0.942,
+                "wilson_95pct": [
+                  0.9257504237337675,
+                  0.9548667217650018
+                ],
+                "mean_width": 0.006070043293091556
+              }
+            },
+            "force_at_5s": {
+              "pit_ks": 0.04727305974703497,
+              "pit_ks_99pct_reference": 0.051545125860744584,
+              "0.5": {
+                "coverage": 0.564,
+                "wilson_95pct": [
+                  0.5330781384432806,
+                  0.5944320364705682
+                ],
+                "mean_width": 0.013308175034626465
+              },
+              "0.8": {
+                "coverage": 0.824,
+                "wilson_95pct": [
+                  0.7991696851594058,
+                  0.8463505753419543
+                ],
+                "mean_width": 0.025116748040574993
+              },
+              "0.9": {
+                "coverage": 0.919,
+                "wilson_95pct": [
+                  0.9004427979303052,
+                  0.9343503784587998
+                ],
+                "mean_width": 0.031865468941725164
+              },
+              "0.95": {
+                "coverage": 0.951,
+                "wilson_95pct": [
+                  0.9358092984933898,
+                  0.9627389653526394
+                ],
+                "mean_width": 0.037501775908978886
+              }
+            }
+          },
+          "known_boundaries": {
+            "hidden_motion_rmse_mm": 0.53593704986636,
+            "rmse_mean_mc_se_mm": 0.009475764499172047,
+            "missing_time_hidden_rmse_mm": 0.7494460780523869,
+            "force_rmse_N": 0.003449902423293241,
+            "hidden_tip_at_5s": {
+              "pit_ks": 0.029550959448781333,
+              "pit_ks_99pct_reference": 0.051545125860744584,
+              "0.5": {
+                "coverage": 0.498,
+                "wilson_95pct": [
+                  0.46707750038234924,
+                  0.5289378066515931
+                ],
+                "mean_width": 0.0019774517029622417
+              },
+              "0.8": {
+                "coverage": 0.817,
+                "wilson_95pct": [
+                  0.7918366762890631,
+                  0.839737158831095
+                ],
+                "mean_width": 0.0037572199206635463
+              },
+              "0.9": {
+                "coverage": 0.904,
+                "wilson_95pct": [
+                  0.8841648792420682,
+                  0.9207430999016033
+                ],
+                "mean_width": 0.004822339560820955
+              },
+              "0.95": {
+                "coverage": 0.949,
+                "wilson_95pct": [
+                  0.9335645136552383,
+                  0.9609990572247332
+                ],
+                "mean_width": 0.005746172003127805
+              }
+            },
+            "force_at_5s": {
+              "pit_ks": 0.02955485562410526,
+              "pit_ks_99pct_reference": 0.051545125860744584,
+              "0.5": {
+                "coverage": 0.498,
+                "wilson_95pct": [
+                  0.46707750038234924,
+                  0.5289378066515931
+                ],
+                "mean_width": 0.00664907035079097
+              },
+              "0.8": {
+                "coverage": 0.817,
+                "wilson_95pct": [
+                  0.7918366762890631,
+                  0.839737158831095
+                ],
+                "mean_width": 0.01263344107897143
+              },
+              "0.9": {
+                "coverage": 0.904,
+                "wilson_95pct": [
+                  0.8841648792420682,
+                  0.9207430999016033
+                ],
+                "mean_width": 0.016214846080573633
+              },
+              "0.95": {
+                "coverage": 0.949,
+                "wilson_95pct": [
+                  0.9335645136552383,
+                  0.9609990572247332
+                ],
+                "mean_width": 0.019321180810286415
+              }
+            }
+          },
+          "map_boundary_plugin": {
+            "hidden_motion_rmse_mm": 0.6481905379986624,
+            "rmse_mean_mc_se_mm": 0.011066738266248249,
+            "missing_time_hidden_rmse_mm": 0.8526729758899587,
+            "force_rmse_N": 0.008740670599085874,
+            "hidden_tip_at_5s": {
+              "pit_ks": 0.03929184944036668,
+              "pit_ks_99pct_reference": 0.051545125860744584,
+              "0.5": {
+                "coverage": 0.457,
+                "wilson_95pct": [
+                  0.4263483045447644,
+                  0.48798079668499333
+                ],
+                "mean_width": 0.0019199166092954867
+              },
+              "0.8": {
+                "coverage": 0.763,
+                "wilson_95pct": [
+                  0.7356684892970144,
+                  0.7883186357395835
+                ],
+                "mean_width": 0.0036479014479351628
+              },
+              "0.9": {
+                "coverage": 0.862,
+                "wilson_95pct": [
+                  0.8392340001264323,
+                  0.8819954267300257
+                ],
+                "mean_width": 0.004682030820076944
+              },
+              "0.95": {
+                "coverage": 0.914,
+                "wilson_95pct": [
+                  0.8949999687497208,
+                  0.9298314752242396
+                ],
+                "mean_width": 0.005578983826582209
+              }
+            },
+            "force_at_5s": {
+              "pit_ks": 0.12785835218801955,
+              "pit_ks_99pct_reference": 0.051545125860744584,
+              "0.5": {
+                "coverage": 0.343,
+                "wilson_95pct": [
+                  0.3142286235426158,
+                  0.3729729786218485
+                ],
+                "mean_width": 0.00678492032751911
+              },
+              "0.8": {
+                "coverage": 0.562,
+                "wilson_95pct": [
+                  0.5310701383860444,
+                  0.5924553435617469
+                ],
+                "mean_width": 0.012891560272487024
+              },
+              "0.9": {
+                "coverage": 0.664,
+                "wilson_95pct": [
+                  0.6341464130394475,
+                  0.6925984101772905
+                ],
+                "mean_width": 0.016546138478831126
+              },
+              "0.95": {
+                "coverage": 0.71,
+                "wilson_95pct": [
+                  0.681114796429996,
+                  0.7372779650060708
+                ],
+                "mean_width": 0.019715940051046345
+              }
+            }
+          },
+          "wrong_fixed_boundary": {
+            "hidden_motion_rmse_mm": 1.4557914014806583,
+            "rmse_mean_mc_se_mm": 0.023154361104341853,
+            "missing_time_hidden_rmse_mm": 1.6568614938620208,
+            "force_rmse_N": 0.027074030714272713,
+            "hidden_tip_at_5s": {
+              "pit_ks": 0.10056139079713172,
+              "pit_ks_99pct_reference": 0.051545125860744584,
+              "0.5": {
+                "coverage": 0.368,
+                "wilson_95pct": [
+                  0.33866778404766534,
+                  0.3983424801925212
+                ],
+                "mean_width": 0.0030819297601193726
+              },
+              "0.8": {
+                "coverage": 0.629,
+                "wilson_95pct": [
+                  0.5986190226548378,
+                  0.6583936736558891
+                ],
+                "mean_width": 0.00585576268257786
+              },
+              "0.9": {
+                "coverage": 0.734,
+                "wilson_95pct": [
+                  0.7057558002431918,
+                  0.7604532767855683
+                ],
+                "mean_width": 0.0075157900360506924
+              },
+              "0.95": {
+                "coverage": 0.808,
+                "wilson_95pct": [
+                  0.7824275640840395,
+                  0.8312151526888587
+                ],
+                "mean_width": 0.00895561619870444
+              }
+            },
+            "force_at_5s": {
+              "pit_ks": 0.36065323125045295,
+              "pit_ks_99pct_reference": 0.051545125860744584,
+              "0.5": {
+                "coverage": 0.087,
+                "wilson_95pct": [
+                  0.071074421452375,
+                  0.10608648105669352
+                ],
+                "mean_width": 0.005597179571590708
+              },
+              "0.8": {
+                "coverage": 0.185,
+                "wilson_95pct": [
+                  0.16215480378454947,
+                  0.2102560540613503
+                ],
+                "mean_width": 0.010634815785593537
+              },
+              "0.9": {
+                "coverage": 0.223,
+                "wilson_95pct": [
+                  0.19828813022889644,
+                  0.24983189397210112
+                ],
+                "mean_width": 0.013649638287836429
+              },
+              "0.95": {
+                "coverage": 0.253,
+                "wilson_95pct": [
+                  0.22703579958556788,
+                  0.28085461910629633
+                ],
+                "mean_width": 0.016264547196057383
+              }
+            }
+          }
+        },
+        "boundary_identification": {
+          "support_center_mae_mm": 33.4960333018055,
+          "load_center_mae_mm": 66.46839646883386,
+          "mean_boundary_entropy_nats": 1.8158434164093769,
+          "mean_90pct_credible_set_size": 6.484,
+          "hypotheses": 24,
+          "joint_boundary_map_accuracy": 0.329,
+          "joint_boundary_credible_set_coverage": 0.922,
+          "joint_boundary_credible_set_mean_mass": 0.9355248897641743
+        }
+      }
+    }
+  },
+  "stress_tests": {
+    "off_grid": {
+      "cases": 400,
+      "stress": "off_grid",
+      "max_absolute_slope_approx_rad": 0.09763895963114812,
+      "max_absolute_displacement_m": 0.06910426135171398,
+      "designs": {
+        "sparse": {
+          "observed_frames": 3,
+          "tracked_centers_per_frame": 3,
+          "methods": {
+            "learned_boundaries": {
+              "hidden_motion_rmse_mm": 2.2097394771001486,
+              "rmse_mean_mc_se_mm": 0.06685356456148253,
+              "missing_time_hidden_rmse_mm": 2.732295208220411,
+              "force_rmse_N": 0.017403254031733886,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.03774016520177143,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.5325,
+                  "wilson_95pct": [
+                    0.48352749876023604,
+                    0.5808542021080347
+                  ],
+                  "mean_width": 0.00834315796292579
+                },
+                "0.8": {
+                  "coverage": 0.8325,
+                  "wilson_95pct": [
+                    0.7927798983351753,
+                    0.8658944259325176
+                  ],
+                  "mean_width": 0.01629295688817964
+                },
+                "0.9": {
+                  "coverage": 0.92,
+                  "wilson_95pct": [
+                    0.8892454231693245,
+                    0.9427642495898665
+                  ],
+                  "mean_width": 0.021438458090182175
+                },
+                "0.95": {
+                  "coverage": 0.9525,
+                  "wilson_95pct": [
+                    0.9270084505901734,
+                    0.9693829230372881
+                  ],
+                  "mean_width": 0.026238788106185584
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.04475520986081463,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.525,
+                  "wilson_95pct": [
+                    0.4760571112644918,
+                    0.5734672740187934
+                  ],
+                  "mean_width": 0.03507984835038417
+                },
+                "0.8": {
+                  "coverage": 0.8375,
+                  "wilson_95pct": [
+                    0.7981666097704109,
+                    0.870412591553939
+                  ],
+                  "mean_width": 0.06666750343650317
+                },
+                "0.9": {
+                  "coverage": 0.9375,
+                  "wilson_95pct": [
+                    0.9093658838696931,
+                    0.9573108585877975
+                  ],
+                  "mean_width": 0.08558138364057331
+                },
+                "0.95": {
+                  "coverage": 0.9725,
+                  "wilson_95pct": [
+                    0.9514345181143852,
+                    0.9845763637397046
+                  ],
+                  "mean_width": 0.10199454500486117
+                }
+              }
+            },
+            "map_boundary_plugin": {
+              "hidden_motion_rmse_mm": 2.252687149052089,
+              "rmse_mean_mc_se_mm": 0.06642364016081144,
+              "missing_time_hidden_rmse_mm": 2.7670516307382296,
+              "force_rmse_N": 0.01984645156149012,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.03612150014708615,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.4925,
+                  "wilson_95pct": [
+                    0.44381128061271025,
+                    0.5413314038023042
+                  ],
+                  "mean_width": 0.007985796988804753
+                },
+                "0.8": {
+                  "coverage": 0.7725,
+                  "wilson_95pct": [
+                    0.7289390669951599,
+                    0.8108767325926485
+                  ],
+                  "mean_width": 0.015173263389323406
+                },
+                "0.9": {
+                  "coverage": 0.8675,
+                  "wilson_95pct": [
+                    0.8307536803033191,
+                    0.897254783360973
+                  ],
+                  "mean_width": 0.019474672724552184
+                },
+                "0.95": {
+                  "coverage": 0.905,
+                  "wilson_95pct": [
+                    0.8722916530824945,
+                    0.9300033885067254
+                  ],
+                  "mean_width": 0.023205503836575082
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.059380426484533344,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.4425,
+                  "wilson_95pct": [
+                    0.39460190844340914,
+                    0.491492005405035
+                  ],
+                  "mean_width": 0.030908437721237223
+                },
+                "0.8": {
+                  "coverage": 0.735,
+                  "wilson_95pct": [
+                    0.6896629392432349,
+                    0.7758662824196457
+                  ],
+                  "mean_width": 0.05872699583451649
+                },
+                "0.9": {
+                  "coverage": 0.8525,
+                  "wilson_95pct": [
+                    0.8143999058527144,
+                    0.8838939266416067
+                  ],
+                  "mean_width": 0.07537528312980445
+                },
+                "0.95": {
+                  "coverage": 0.9,
+                  "wilson_95pct": [
+                    0.8666894236725972,
+                    0.9257007408599657
+                  ],
+                  "mean_width": 0.08981518953314431
+                }
+              }
+            },
+            "wrong_fixed_boundary": {
+              "hidden_motion_rmse_mm": 2.5875054558805783,
+              "rmse_mean_mc_se_mm": 0.0665210726139061,
+              "missing_time_hidden_rmse_mm": 3.041266186511824,
+              "force_rmse_N": 0.031119853380876458,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.1679546497131378,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.8125,
+                  "wilson_95pct": [
+                    0.7713439706023679,
+                    0.8477108454386968
+                  ],
+                  "mean_width": 0.016477938556005642
+                },
+                "0.8": {
+                  "coverage": 0.9825,
+                  "wilson_95pct": [
+                    0.964322927074442,
+                    0.991497708892962
+                  ],
+                  "mean_width": 0.0313085972726164
+                },
+                "0.9": {
+                  "coverage": 0.99,
+                  "wilson_95pct": [
+                    0.9745734353473804,
+                    0.996104516205009
+                  ],
+                  "mean_width": 0.04018414955994513
+                },
+                "0.95": {
+                  "coverage": 0.9975,
+                  "wilson_95pct": [
+                    0.9859767149241766,
+                    0.9995585522131983
+                  ],
+                  "mean_width": 0.04788236752277726
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.15400116020335097,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.32,
+                  "wilson_95pct": [
+                    0.2761841236239046,
+                    0.36724030233644217
+                  ],
+                  "mean_width": 0.02992604901677879
+                },
+                "0.8": {
+                  "coverage": 0.5625,
+                  "wilson_95pct": [
+                    0.5135188136473868,
+                    0.6102921495608261
+                  ],
+                  "mean_width": 0.05686042665121009
+                },
+                "0.9": {
+                  "coverage": 0.675,
+                  "wilson_95pct": [
+                    0.6276239644145414,
+                    0.7190467325684549
+                  ],
+                  "mean_width": 0.07297956751939695
+                },
+                "0.95": {
+                  "coverage": 0.745,
+                  "wilson_95pct": [
+                    0.7000956766555838,
+                    0.785243299120611
+                  ],
+                  "mean_width": 0.08696051831093858
+                }
+              }
+            }
+          },
+          "boundary_identification": {
+            "support_center_mae_mm": 31.10508966728292,
+            "load_center_mae_mm": 37.82402964886427,
+            "mean_boundary_entropy_nats": 2.5572275220871568,
+            "mean_90pct_credible_set_size": 11.7875,
+            "hypotheses": 24
+          }
+        },
+        "richer": {
+          "observed_frames": 5,
+          "tracked_centers_per_frame": 9,
+          "methods": {
+            "learned_boundaries": {
+              "hidden_motion_rmse_mm": 0.5733181118094396,
+              "rmse_mean_mc_se_mm": 0.014149214449697595,
+              "missing_time_hidden_rmse_mm": 0.7471308200354956,
+              "force_rmse_N": 0.007196332033901031,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.0484663763159896,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.5425,
+                  "wilson_95pct": [
+                    0.4935050345733776,
+                    0.5906864204082072
+                  ],
+                  "mean_width": 0.001905645086872373
+                },
+                "0.8": {
+                  "coverage": 0.8375,
+                  "wilson_95pct": [
+                    0.7981666097704109,
+                    0.870412591553939
+                  ],
+                  "mean_width": 0.003652297739338238
+                },
+                "0.9": {
+                  "coverage": 0.92,
+                  "wilson_95pct": [
+                    0.8892454231693245,
+                    0.9427642495898665
+                  ],
+                  "mean_width": 0.004723947134101133
+                },
+                "0.95": {
+                  "coverage": 0.95,
+                  "wilson_95pct": [
+                    0.9240363649362803,
+                    0.9674025701628527
+                  ],
+                  "mean_width": 0.00567490584778405
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.06635127092728864,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.535,
+                  "wilson_95pct": [
+                    0.486020056782804,
+                    0.5833140826137954
+                  ],
+                  "mean_width": 0.01384573725723333
+                },
+                "0.8": {
+                  "coverage": 0.865,
+                  "wilson_95pct": [
+                    0.8280190157519688,
+                    0.8950370093839947
+                  ],
+                  "mean_width": 0.026258619613398926
+                },
+                "0.9": {
+                  "coverage": 0.9375,
+                  "wilson_95pct": [
+                    0.9093658838696931,
+                    0.9573108585877975
+                  ],
+                  "mean_width": 0.03356398522148948
+                },
+                "0.95": {
+                  "coverage": 0.9675,
+                  "wilson_95pct": [
+                    0.9451958471762332,
+                    0.9809101576211996
+                  ],
+                  "mean_width": 0.03959211585125375
+                }
+              }
+            },
+            "map_boundary_plugin": {
+              "hidden_motion_rmse_mm": 0.6252379035090437,
+              "rmse_mean_mc_se_mm": 0.01629315630763906,
+              "missing_time_hidden_rmse_mm": 0.7946463516064237,
+              "force_rmse_N": 0.009032303987417356,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.04142869180221642,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.4925,
+                  "wilson_95pct": [
+                    0.44381128061271025,
+                    0.5413314038023042
+                  ],
+                  "mean_width": 0.0017470122668653944
+                },
+                "0.8": {
+                  "coverage": 0.77,
+                  "wilson_95pct": [
+                    0.7263071915784445,
+                    0.8085561694810355
+                  ],
+                  "mean_width": 0.003319377803704355
+                },
+                "0.9": {
+                  "coverage": 0.8725,
+                  "wilson_95pct": [
+                    0.836234529877535,
+                    0.9016788108434143
+                  ],
+                  "mean_width": 0.004260375287610933
+                },
+                "0.95": {
+                  "coverage": 0.925,
+                  "wilson_95pct": [
+                    0.8949522937386957,
+                    0.9469622560771523
+                  ],
+                  "mean_width": 0.00507655027020119
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.18540999456574536,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.2675,
+                  "wilson_95pct": [
+                    0.22648238411831478,
+                    0.31294083274713314
+                  ],
+                  "mean_width": 0.006797219984470615
+                },
+                "0.8": {
+                  "coverage": 0.5225,
+                  "wilson_95pct": [
+                    0.4735694074890401,
+                    0.5710025392659165
+                  ],
+                  "mean_width": 0.012914930004372912
+                },
+                "0.9": {
+                  "coverage": 0.6225,
+                  "wilson_95pct": [
+                    0.5740411128887363,
+                    0.6686283749993612
+                  ],
+                  "mean_width": 0.016576133204979387
+                },
+                "0.95": {
+                  "coverage": 0.69,
+                  "wilson_95pct": [
+                    0.643049046352087,
+                    0.7333362818008802
+                  ],
+                  "mean_width": 0.019751680971705467
+                }
+              }
+            },
+            "wrong_fixed_boundary": {
+              "hidden_motion_rmse_mm": 1.4220002149328255,
+              "rmse_mean_mc_se_mm": 0.0343370973163948,
+              "missing_time_hidden_rmse_mm": 1.5833045568700181,
+              "force_rmse_N": 0.02847862736286533,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.11360416686318342,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.3525,
+                  "wilson_95pct": [
+                    0.30728664659675226,
+                    0.4005194802318652
+                  ],
+                  "mean_width": 0.003081929760119373
+                },
+                "0.8": {
+                  "coverage": 0.6225,
+                  "wilson_95pct": [
+                    0.5740411128887363,
+                    0.6686283749993612
+                  ],
+                  "mean_width": 0.005855762682577861
+                },
+                "0.9": {
+                  "coverage": 0.7525,
+                  "wilson_95pct": [
+                    0.7079392288053334,
+                    0.7922570625558467
+                  ],
+                  "mean_width": 0.007515790036050693
+                },
+                "0.95": {
+                  "coverage": 0.8225,
+                  "wilson_95pct": [
+                    0.782040489241534,
+                    0.8568240809128447
+                  ],
+                  "mean_width": 0.00895561619870444
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.37934920620549395,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.06,
+                  "wilson_95pct": [
+                    0.040647970113724695,
+                    0.0877228489004562
+                  ],
+                  "mean_width": 0.005597179571590707
+                },
+                "0.8": {
+                  "coverage": 0.1425,
+                  "wilson_95pct": [
+                    0.1116383145426319,
+                    0.18016297590639008
+                  ],
+                  "mean_width": 0.010634815785593537
+                },
+                "0.9": {
+                  "coverage": 0.1825,
+                  "wilson_95pct": [
+                    0.14772734739355886,
+                    0.22331295950871943
+                  ],
+                  "mean_width": 0.013649638287836427
+                },
+                "0.95": {
+                  "coverage": 0.215,
+                  "wilson_95pct": [
+                    0.17755148423753886,
+                    0.25787052353301015
+                  ],
+                  "mean_width": 0.01626454719605738
+                }
+              }
+            }
+          },
+          "boundary_identification": {
+            "support_center_mae_mm": 25.29676216600762,
+            "load_center_mae_mm": 36.68490970008727,
+            "mean_boundary_entropy_nats": 2.0609544364549377,
+            "mean_90pct_credible_set_size": 7.6775,
+            "hypotheses": 24
+          }
+        }
+      }
+    },
+    "shorter_force": {
+      "cases": 400,
+      "stress": "shorter_force",
+      "max_absolute_slope_approx_rad": 0.1836022923360121,
+      "max_absolute_displacement_m": 0.13837166753420388,
+      "designs": {
+        "sparse": {
+          "observed_frames": 3,
+          "tracked_centers_per_frame": 3,
+          "methods": {
+            "learned_boundaries": {
+              "hidden_motion_rmse_mm": 7.822982890123144,
+              "rmse_mean_mc_se_mm": 0.2443046149204579,
+              "missing_time_hidden_rmse_mm": 9.87023353096934,
+              "force_rmse_N": 0.0471008317881039,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.24091842978426803,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.1975,
+                  "wilson_95pct": [
+                    0.1614426641926397,
+                    0.23931227387960974
+                  ],
+                  "mean_width": 0.009790754300846864
+                },
+                "0.8": {
+                  "coverage": 0.365,
+                  "wilson_95pct": [
+                    0.3193122416823519,
+                    0.4132560777879081
+                  ],
+                  "mean_width": 0.01901381875438297
+                },
+                "0.9": {
+                  "coverage": 0.495,
+                  "wilson_95pct": [
+                    0.44628448078239025,
+                    0.5438106421609528
+                  ],
+                  "mean_width": 0.02488663293508645
+                },
+                "0.95": {
+                  "coverage": 0.595,
+                  "wilson_95pct": [
+                    0.5462106166004184,
+                    0.6419820474760654
+                  ],
+                  "mean_width": 0.030279272122338545
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.2295401086745219,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.185,
+                  "wilson_95pct": [
+                    0.15000697382952777,
+                    0.22598577160107902
+                  ],
+                  "mean_width": 0.0340846937105786
+                },
+                "0.8": {
+                  "coverage": 0.37,
+                  "wilson_95pct": [
+                    0.3241319808189903,
+                    0.4183412157079268
+                  ],
+                  "mean_width": 0.06479645829511765
+                },
+                "0.9": {
+                  "coverage": 0.4925,
+                  "wilson_95pct": [
+                    0.44381128061271025,
+                    0.5413314038023042
+                  ],
+                  "mean_width": 0.08320017712882546
+                },
+                "0.95": {
+                  "coverage": 0.6025,
+                  "wilson_95pct": [
+                    0.5537852193447489,
+                    0.6492647603167204
+                  ],
+                  "mean_width": 0.09917327917581589
+                }
+              }
+            },
+            "known_boundaries": {
+              "hidden_motion_rmse_mm": 7.864539719833651,
+              "rmse_mean_mc_se_mm": 0.24409051231947693,
+              "missing_time_hidden_rmse_mm": 9.932738901369358,
+              "force_rmse_N": 0.04898556131852217,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.2634858902901285,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.1675,
+                  "wilson_95pct": [
+                    0.1341055740674824,
+                    0.2072201016648248
+                  ],
+                  "mean_width": 0.0090461310491754
+                },
+                "0.8": {
+                  "coverage": 0.31,
+                  "wilson_95pct": [
+                    0.2666637181991197,
+                    0.35695095364791296
+                  ],
+                  "mean_width": 0.017187931180306468
+                },
+                "0.9": {
+                  "coverage": 0.4225,
+                  "wilson_95pct": [
+                    0.3750554237475196,
+                    0.47141898187429637
+                  ],
+                  "mean_width": 0.022060470840051794
+                },
+                "0.95": {
+                  "coverage": 0.51,
+                  "wilson_95pct": [
+                    0.46114904250821503,
+                    0.558660711605099
+                  ],
+                  "mean_width": 0.026286672333655156
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.2634843775590816,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.1675,
+                  "wilson_95pct": [
+                    0.1341055740674824,
+                    0.2072201016648248
+                  ],
+                  "mean_width": 0.030731296132488994
+                },
+                "0.8": {
+                  "coverage": 0.31,
+                  "wilson_95pct": [
+                    0.2666637181991197,
+                    0.35695095364791296
+                  ],
+                  "mean_width": 0.05839042129010366
+                },
+                "0.9": {
+                  "coverage": 0.4225,
+                  "wilson_95pct": [
+                    0.3750554237475196,
+                    0.47141898187429637
+                  ],
+                  "mean_width": 0.07494329437882379
+                },
+                "0.95": {
+                  "coverage": 0.51,
+                  "wilson_95pct": [
+                    0.46114904250821503,
+                    0.558660711605099
+                  ],
+                  "mean_width": 0.08930044318746623
+                }
+              }
+            },
+            "map_boundary_plugin": {
+              "hidden_motion_rmse_mm": 7.853576474348503,
+              "rmse_mean_mc_se_mm": 0.24339638795484814,
+              "missing_time_hidden_rmse_mm": 9.905137725226043,
+              "force_rmse_N": 0.04743987993702091,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.24700884120318722,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.1975,
+                  "wilson_95pct": [
+                    0.1614426641926397,
+                    0.23931227387960974
+                  ],
+                  "mean_width": 0.009926015789110282
+                },
+                "0.8": {
+                  "coverage": 0.3375,
+                  "wilson_95pct": [
+                    0.2929016377213044,
+                    0.38518985793734206
+                  ],
+                  "mean_width": 0.018859739633488363
+                },
+                "0.9": {
+                  "coverage": 0.445,
+                  "wilson_95pct": [
+                    0.3970507860416546,
+                    0.49399556633511804
+                  ],
+                  "mean_width": 0.02420621375958528
+                },
+                "0.95": {
+                  "coverage": 0.54,
+                  "wilson_95pct": [
+                    0.49100882332475854,
+                    0.5882301931284978
+                  ],
+                  "mean_width": 0.028843482723016036
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.26996432576267837,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.175,
+                  "wilson_95pct": [
+                    0.1409042015930453,
+                    0.2152787897242474
+                  ],
+                  "mean_width": 0.030667668171683395
+                },
+                "0.8": {
+                  "coverage": 0.3075,
+                  "wilson_95pct": [
+                    0.2642873977313039,
+                    0.3543748355874003
+                  ],
+                  "mean_width": 0.058269526179749336
+                },
+                "0.9": {
+                  "coverage": 0.42,
+                  "wilson_95pct": [
+                    0.3726177182254857,
+                    0.4689042488680017
+                  ],
+                  "mean_width": 0.07478812718454664
+                },
+                "0.95": {
+                  "coverage": 0.545,
+                  "wilson_95pct": [
+                    0.496002466449648,
+                    0.5931414270602654
+                  ],
+                  "mean_width": 0.0891155500715183
+                }
+              }
+            },
+            "wrong_fixed_boundary": {
+              "hidden_motion_rmse_mm": 7.496577768935842,
+              "rmse_mean_mc_se_mm": 0.23800875636191407,
+              "missing_time_hidden_rmse_mm": 9.368494415390014,
+              "force_rmse_N": 0.04719528748387773,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.08191696968136386,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.4,
+                  "wilson_95pct": [
+                    0.3531615288938136,
+                    0.4487409299730458
+                  ],
+                  "mean_width": 0.01647793855600564
+                },
+                "0.8": {
+                  "coverage": 0.6575,
+                  "wilson_95pct": [
+                    0.6096946457889129,
+                    0.7023089814957836
+                  ],
+                  "mean_width": 0.0313085972726164
+                },
+                "0.9": {
+                  "coverage": 0.7575,
+                  "wilson_95pct": [
+                    0.7131775779269679,
+                    0.7969235904908692
+                  ],
+                  "mean_width": 0.04018414955994513
+                },
+                "0.95": {
+                  "coverage": 0.8075,
+                  "wilson_95pct": [
+                    0.7660109641776837,
+                    0.8431389748067241
+                  ],
+                  "mean_width": 0.04788236752277726
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.21270517581447046,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.1975,
+                  "wilson_95pct": [
+                    0.1614426641926397,
+                    0.23931227387960974
+                  ],
+                  "mean_width": 0.02992604901677879
+                },
+                "0.8": {
+                  "coverage": 0.41,
+                  "wilson_95pct": [
+                    0.362879477619472,
+                    0.4588327353607013
+                  ],
+                  "mean_width": 0.05686042665121009
+                },
+                "0.9": {
+                  "coverage": 0.505,
+                  "wilson_95pct": [
+                    0.45618935783904724,
+                    0.5537155192176098
+                  ],
+                  "mean_width": 0.07297956751939695
+                },
+                "0.95": {
+                  "coverage": 0.57,
+                  "wilson_95pct": [
+                    0.5210443194375308,
+                    0.6176239593556675
+                  ],
+                  "mean_width": 0.08696051831093858
+                }
+              }
+            }
+          },
+          "boundary_identification": {
+            "support_center_mae_mm": 40.863467401247895,
+            "load_center_mae_mm": 71.09051923492487,
+            "mean_boundary_entropy_nats": 2.24700053939177,
+            "mean_90pct_credible_set_size": 9.855,
+            "hypotheses": 24,
+            "joint_boundary_map_accuracy": 0.1825,
+            "joint_boundary_credible_set_coverage": 0.83,
+            "joint_boundary_credible_set_mean_mass": 0.92256907690992
+          }
+        },
+        "richer": {
+          "observed_frames": 5,
+          "tracked_centers_per_frame": 9,
+          "methods": {
+            "learned_boundaries": {
+              "hidden_motion_rmse_mm": 4.943047548418679,
+              "rmse_mean_mc_se_mm": 0.16234201457423839,
+              "missing_time_hidden_rmse_mm": 7.997407157062139,
+              "force_rmse_N": 0.032594284102840376,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.4014470321418355,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.05,
+                  "wilson_95pct": [
+                    0.03259742983714726,
+                    0.07596363506371961
+                  ],
+                  "mean_width": 0.0024677209533173878
+                },
+                "0.8": {
+                  "coverage": 0.12,
+                  "wilson_95pct": [
+                    0.09171539075382554,
+                    0.15551395294023979
+                  ],
+                  "mean_width": 0.004709866679066957
+                },
+                "0.9": {
+                  "coverage": 0.1575,
+                  "wilson_95pct": [
+                    0.1250811291822658,
+                    0.19643479243672732
+                  ],
+                  "mean_width": 0.006069351316431755
+                },
+                "0.95": {
+                  "coverage": 0.1825,
+                  "wilson_95pct": [
+                    0.14772734739355886,
+                    0.22331295950871943
+                  ],
+                  "mean_width": 0.007262377960683404
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.40145946681833333,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.0725,
+                  "wilson_95pct": [
+                    0.05095051840227673,
+                    0.10218249325354675
+                  ],
+                  "mean_width": 0.00850121312450758
+                },
+                "0.8": {
+                  "coverage": 0.125,
+                  "wilson_95pct": [
+                    0.09611512323676381,
+                    0.1610190975139586
+                  ],
+                  "mean_width": 0.01619255201791198
+                },
+                "0.9": {
+                  "coverage": 0.165,
+                  "wilson_95pct": [
+                    0.13184503236772813,
+                    0.2045282048362506
+                  ],
+                  "mean_width": 0.020886449848951764
+                },
+                "0.95": {
+                  "coverage": 0.1925,
+                  "wilson_95pct": [
+                    0.156861025193276,
+                    0.2339890358223164
+                  ],
+                  "mean_width": 0.02493351328057482
+                }
+              }
+            },
+            "known_boundaries": {
+              "hidden_motion_rmse_mm": 4.912486407965786,
+              "rmse_mean_mc_se_mm": 0.16299918770453128,
+              "missing_time_hidden_rmse_mm": 7.973638028749555,
+              "force_rmse_N": 0.0307202485319217,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.4307286942687403,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.0375,
+                  "wilson_95pct": [
+                    0.022855029814710867,
+                    0.060943842444513396
+                  ],
+                  "mean_width": 0.0019094657491466403
+                },
+                "0.8": {
+                  "coverage": 0.1,
+                  "wilson_95pct": [
+                    0.07429925914003437,
+                    0.13331057632740284
+                  ],
+                  "mean_width": 0.003628044487646072
+                },
+                "0.9": {
+                  "coverage": 0.125,
+                  "wilson_95pct": [
+                    0.09611512323676381,
+                    0.1610190975139586
+                  ],
+                  "mean_width": 0.0046565446874624805
+                },
+                "0.95": {
+                  "coverage": 0.1425,
+                  "wilson_95pct": [
+                    0.1116383145426319,
+                    0.18016297590639008
+                  ],
+                  "mean_width": 0.00554861522647635
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.43072893432766146,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.0375,
+                  "wilson_95pct": [
+                    0.022855029814710867,
+                    0.060943842444513396
+                  ],
+                  "mean_width": 0.00683973372688488
+                },
+                "0.8": {
+                  "coverage": 0.1,
+                  "wilson_95pct": [
+                    0.07429925914003437,
+                    0.13331057632740284
+                  ],
+                  "mean_width": 0.012995707441142446
+                },
+                "0.9": {
+                  "coverage": 0.125,
+                  "wilson_95pct": [
+                    0.09611512323676381,
+                    0.1610190975139586
+                  ],
+                  "mean_width": 0.016679809922653832
+                },
+                "0.95": {
+                  "coverage": 0.1425,
+                  "wilson_95pct": [
+                    0.1116383145426319,
+                    0.18016297590639008
+                  ],
+                  "mean_width": 0.019875219400504053
+                }
+              }
+            },
+            "map_boundary_plugin": {
+              "hidden_motion_rmse_mm": 4.9593503486343025,
+              "rmse_mean_mc_se_mm": 0.16211869826098171,
+              "missing_time_hidden_rmse_mm": 8.01636294409112,
+              "force_rmse_N": 0.0331202480232798,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.4141084593517087,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.055,
+                  "wilson_95pct": [
+                    0.03659849414955068,
+                    0.08186744780797323
+                  ],
+                  "mean_width": 0.002476643454066821
+                },
+                "0.8": {
+                  "coverage": 0.12,
+                  "wilson_95pct": [
+                    0.09171539075382554,
+                    0.15551395294023979
+                  ],
+                  "mean_width": 0.004705699819652441
+                },
+                "0.9": {
+                  "coverage": 0.1525,
+                  "wilson_95pct": [
+                    0.12058718801590881,
+                    0.19102385654642726
+                  ],
+                  "mean_width": 0.006039700331848124
+                },
+                "0.95": {
+                  "coverage": 0.1625,
+                  "wilson_95pct": [
+                    0.12958740844606098,
+                    0.20183339022958918
+                  ],
+                  "mean_width": 0.007196746831373939
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.425211488790187,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.05,
+                  "wilson_95pct": [
+                    0.03259742983714726,
+                    0.07596363506371961
+                  ],
+                  "mean_width": 0.006123504785575915
+                },
+                "0.8": {
+                  "coverage": 0.0875,
+                  "wilson_95pct": [
+                    0.06358691021150324,
+                    0.11926073261429136
+                  ],
+                  "mean_width": 0.011634850110462445
+                },
+                "0.9": {
+                  "coverage": 0.115,
+                  "wilson_95pct": [
+                    0.0873329226216324,
+                    0.1499915440157759
+                  ],
+                  "mean_width": 0.014933168448121148
+                },
+                "0.95": {
+                  "coverage": 0.1425,
+                  "wilson_95pct": [
+                    0.1116383145426319,
+                    0.18016297590639008
+                  ],
+                  "mean_width": 0.01779396771470344
+                }
+              }
+            },
+            "wrong_fixed_boundary": {
+              "hidden_motion_rmse_mm": 4.938641539156266,
+              "rmse_mean_mc_se_mm": 0.15550040777798652,
+              "missing_time_hidden_rmse_mm": 7.696874080735654,
+              "force_rmse_N": 0.039449806757717816,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.35032721957991,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.1025,
+                  "wilson_95pct": [
+                    0.07645885298219338,
+                    0.1361034210135723
+                  ],
+                  "mean_width": 0.0030819297601193734
+                },
+                "0.8": {
+                  "coverage": 0.1775,
+                  "wilson_95pct": [
+                    0.14317591908715524,
+                    0.217959510758466
+                  ],
+                  "mean_width": 0.005855762682577861
+                },
+                "0.9": {
+                  "coverage": 0.2225,
+                  "wilson_95pct": [
+                    0.18448827447183322,
+                    0.2657910488837013
+                  ],
+                  "mean_width": 0.0075157900360506924
+                },
+                "0.95": {
+                  "coverage": 0.2725,
+                  "wilson_95pct": [
+                    0.23118490254462754,
+                    0.3181431913774774
+                  ],
+                  "mean_width": 0.00895561619870444
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.44119825002576474,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.0475,
+                  "wilson_95pct": [
+                    0.030617076962711882,
+                    0.07299154940982647
+                  ],
+                  "mean_width": 0.005597179571590708
+                },
+                "0.8": {
+                  "coverage": 0.0725,
+                  "wilson_95pct": [
+                    0.05095051840227673,
+                    0.10218249325354675
+                  ],
+                  "mean_width": 0.010634815785593534
+                },
+                "0.9": {
+                  "coverage": 0.095,
+                  "wilson_95pct": [
+                    0.06999661149327467,
+                    0.12770834691750552
+                  ],
+                  "mean_width": 0.01364963828783643
+                },
+                "0.95": {
+                  "coverage": 0.1225,
+                  "wilson_95pct": [
+                    0.09391315520467675,
+                    0.1582686270177171
+                  ],
+                  "mean_width": 0.01626454719605738
+                }
+              }
+            }
+          },
+          "boundary_identification": {
+            "support_center_mae_mm": 36.35848749875071,
+            "load_center_mae_mm": 71.89418967366923,
+            "mean_boundary_entropy_nats": 1.0966141779275742,
+            "mean_90pct_credible_set_size": 3.9775,
+            "hypotheses": 24,
+            "joint_boundary_map_accuracy": 0.155,
+            "joint_boundary_credible_set_coverage": 0.3875,
+            "joint_boundary_credible_set_mean_mass": 0.9469582148166734
+          }
+        }
+      }
+    },
+    "combined": {
+      "cases": 400,
+      "stress": "combined",
+      "max_absolute_slope_approx_rad": 0.10980566221210392,
+      "max_absolute_displacement_m": 0.07395004160855752,
+      "designs": {
+        "sparse": {
+          "observed_frames": 3,
+          "tracked_centers_per_frame": 3,
+          "methods": {
+            "learned_boundaries": {
+              "hidden_motion_rmse_mm": 7.488911719007331,
+              "rmse_mean_mc_se_mm": 0.18673149729707267,
+              "missing_time_hidden_rmse_mm": 9.448817181331153,
+              "force_rmse_N": 0.04744640500913975,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.23034673171893427,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.2225,
+                  "wilson_95pct": [
+                    0.18448827447183322,
+                    0.2657910488837013
+                  ],
+                  "mean_width": 0.009393676703112091
+                },
+                "0.8": {
+                  "coverage": 0.375,
+                  "wilson_95pct": [
+                    0.328957079463163,
+                    0.4234209941204111
+                  ],
+                  "mean_width": 0.01828226926201637
+                },
+                "0.9": {
+                  "coverage": 0.4675,
+                  "wilson_95pct": [
+                    0.4191457978919653,
+                    0.516472501239764
+                  ],
+                  "mean_width": 0.023976601223664833
+                },
+                "0.95": {
+                  "coverage": 0.57,
+                  "wilson_95pct": [
+                    0.5210443194375308,
+                    0.6176239593556675
+                  ],
+                  "mean_width": 0.029234769653007357
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.22740633581918362,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.2325,
+                  "wilson_95pct": [
+                    0.19376640712110382,
+                    0.2763226703477448
+                  ],
+                  "mean_width": 0.034149994541063086
+                },
+                "0.8": {
+                  "coverage": 0.39,
+                  "wilson_95pct": [
+                    0.34346411119977976,
+                    0.43862859355376554
+                  ],
+                  "mean_width": 0.06489442203639342
+                },
+                "0.9": {
+                  "coverage": 0.465,
+                  "wilson_95pct": [
+                    0.41668591738620475,
+                    0.5139799432171961
+                  ],
+                  "mean_width": 0.08329759810059435
+                },
+                "0.95": {
+                  "coverage": 0.5675,
+                  "wilson_95pct": [
+                    0.5185345773355028,
+                    0.6151812629293671
+                  ],
+                  "mean_width": 0.09926361842905347
+                }
+              }
+            },
+            "map_boundary_plugin": {
+              "hidden_motion_rmse_mm": 7.530652514232656,
+              "rmse_mean_mc_se_mm": 0.18668149885859872,
+              "missing_time_hidden_rmse_mm": 9.494794295168733,
+              "force_rmse_N": 0.047728780707420836,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.24108912865095733,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.22,
+                  "wilson_95pct": [
+                    0.1821738927340146,
+                    0.2631529920931915
+                  ],
+                  "mean_width": 0.009567831385210477
+                },
+                "0.8": {
+                  "coverage": 0.3675,
+                  "wilson_95pct": [
+                    0.3217214385202667,
+                    0.4157993194783218
+                  ],
+                  "mean_width": 0.018179178092800743
+                },
+                "0.9": {
+                  "coverage": 0.445,
+                  "wilson_95pct": [
+                    0.3970507860416546,
+                    0.49399556633511804
+                  ],
+                  "mean_width": 0.023332722478656587
+                },
+                "0.95": {
+                  "coverage": 0.5175,
+                  "wilson_95pct": [
+                    0.46859763274320027,
+                    0.5660694369550994
+                  ],
+                  "mean_width": 0.027802653664807993
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.23981037831127971,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.2125,
+                  "wilson_95pct": [
+                    0.17524350992363666,
+                    0.2552260593185839
+                  ],
+                  "mean_width": 0.03054642871291098
+                },
+                "0.8": {
+                  "coverage": 0.36,
+                  "wilson_95pct": [
+                    0.3144979076102711,
+                    0.40816553480333195
+                  ],
+                  "mean_width": 0.05803916742611314
+                },
+                "0.9": {
+                  "coverage": 0.4525,
+                  "wilson_95pct": [
+                    0.404404788515386,
+                    0.5014988794463721
+                  ],
+                  "mean_width": 0.0744924649251373
+                },
+                "0.95": {
+                  "coverage": 0.52,
+                  "wilson_95pct": [
+                    0.47108291490392346,
+                    0.5685365933227047
+                  ],
+                  "mean_width": 0.08876324675982238
+                }
+              }
+            },
+            "wrong_fixed_boundary": {
+              "hidden_motion_rmse_mm": 7.118015602997432,
+              "rmse_mean_mc_se_mm": 0.17532066580449532,
+              "missing_time_hidden_rmse_mm": 8.892291662924876,
+              "force_rmse_N": 0.04639384214482887,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.09252579431945315,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.3975,
+                  "wilson_95pct": [
+                    0.3507352396832797,
+                    0.4462147806552511
+                  ],
+                  "mean_width": 0.01647793855600564
+                },
+                "0.8": {
+                  "coverage": 0.6625,
+                  "wilson_95pct": [
+                    0.6148101420626579,
+                    0.7070983622786957
+                  ],
+                  "mean_width": 0.0313085972726164
+                },
+                "0.9": {
+                  "coverage": 0.7875,
+                  "wilson_95pct": [
+                    0.7447739406814162,
+                    0.8247564900763633
+                  ],
+                  "mean_width": 0.040184149559945134
+                },
+                "0.95": {
+                  "coverage": 0.865,
+                  "wilson_95pct": [
+                    0.8280190157519688,
+                    0.8950370093839947
+                  ],
+                  "mean_width": 0.04788236752277725
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.19242534554518925,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.26,
+                  "wilson_95pct": [
+                    0.21944164704726868,
+                    0.30512425423319367
+                  ],
+                  "mean_width": 0.02992604901677879
+                },
+                "0.8": {
+                  "coverage": 0.455,
+                  "wilson_95pct": [
+                    0.4068585729397347,
+                    0.503997533550352
+                  ],
+                  "mean_width": 0.05686042665121009
+                },
+                "0.9": {
+                  "coverage": 0.54,
+                  "wilson_95pct": [
+                    0.49100882332475854,
+                    0.5882301931284978
+                  ],
+                  "mean_width": 0.07297956751939695
+                },
+                "0.95": {
+                  "coverage": 0.6075,
+                  "wilson_95pct": [
+                    0.5588413833413011,
+                    0.6541134733768252
+                  ],
+                  "mean_width": 0.08696051831093858
+                }
+              }
+            }
+          },
+          "boundary_identification": {
+            "support_center_mae_mm": 32.851786943595464,
+            "load_center_mae_mm": 37.10957060295725,
+            "mean_boundary_entropy_nats": 2.411602044809566,
+            "mean_90pct_credible_set_size": 10.805,
+            "hypotheses": 24
+          }
+        },
+        "richer": {
+          "observed_frames": 5,
+          "tracked_centers_per_frame": 9,
+          "methods": {
+            "learned_boundaries": {
+              "hidden_motion_rmse_mm": 4.511507513912555,
+              "rmse_mean_mc_se_mm": 0.12094389926343815,
+              "missing_time_hidden_rmse_mm": 7.280553221069532,
+              "force_rmse_N": 0.031536360320884166,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.4023901987173557,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.0525,
+                  "wilson_95pct": [
+                    0.034591528357920405,
+                    0.07892197507127496
+                  ],
+                  "mean_width": 0.0024734582136029977
+                },
+                "0.8": {
+                  "coverage": 0.1225,
+                  "wilson_95pct": [
+                    0.09391315520467675,
+                    0.1582686270177171
+                  ],
+                  "mean_width": 0.004718539444625036
+                },
+                "0.9": {
+                  "coverage": 0.1525,
+                  "wilson_95pct": [
+                    0.12058718801590881,
+                    0.19102385654642726
+                  ],
+                  "mean_width": 0.006078138755316161
+                },
+                "0.95": {
+                  "coverage": 0.1875,
+                  "wilson_95pct": [
+                    0.15228915456130324,
+                    0.2286560293976321
+                  ],
+                  "mean_width": 0.00727059714954857
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.38535303511396657,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.075,
+                  "wilson_95pct": [
+                    0.05303774392284765,
+                    0.10504770626130436
+                  ],
+                  "mean_width": 0.008534094221282295
+                },
+                "0.8": {
+                  "coverage": 0.1475,
+                  "wilson_95pct": [
+                    0.1161060733583933,
+                    0.18560009414728573
+                  ],
+                  "mean_width": 0.016454436130221066
+                },
+                "0.9": {
+                  "coverage": 0.19,
+                  "wilson_95pct": [
+                    0.15457385084236502,
+                    0.2313237716448988
+                  ],
+                  "mean_width": 0.021220294833829402
+                },
+                "0.95": {
+                  "coverage": 0.22,
+                  "wilson_95pct": [
+                    0.1821738927340146,
+                    0.2631529920931915
+                  ],
+                  "mean_width": 0.02529444614777958
+                }
+              }
+            },
+            "map_boundary_plugin": {
+              "hidden_motion_rmse_mm": 4.528926444500907,
+              "rmse_mean_mc_se_mm": 0.12083751468354591,
+              "missing_time_hidden_rmse_mm": 7.299639040869332,
+              "force_rmse_N": 0.03195677334296821,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.40242961569001523,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.0525,
+                  "wilson_95pct": [
+                    0.034591528357920405,
+                    0.07892197507127496
+                  ],
+                  "mean_width": 0.0024646728486712437
+                },
+                "0.8": {
+                  "coverage": 0.12,
+                  "wilson_95pct": [
+                    0.09171539075382554,
+                    0.15551395294023979
+                  ],
+                  "mean_width": 0.004682955295987315
+                },
+                "0.9": {
+                  "coverage": 0.1525,
+                  "wilson_95pct": [
+                    0.12058718801590881,
+                    0.19102385654642726
+                  ],
+                  "mean_width": 0.006010508051763812
+                },
+                "0.95": {
+                  "coverage": 0.1825,
+                  "wilson_95pct": [
+                    0.14772734739355886,
+                    0.22331295950871943
+                  ],
+                  "mean_width": 0.007161962084175554
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.41193977159232087,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.07,
+                  "wilson_95pct": [
+                    0.04887162669974449,
+                    0.09930894642775051
+                  ],
+                  "mean_width": 0.0060201291122110616
+                },
+                "0.8": {
+                  "coverage": 0.11,
+                  "wilson_95pct": [
+                    0.08296867911910685,
+                    0.1444509104616444
+                  ],
+                  "mean_width": 0.011438433106347201
+                },
+                "0.9": {
+                  "coverage": 0.1425,
+                  "wilson_95pct": [
+                    0.1116383145426319,
+                    0.18016297590639008
+                  ],
+                  "mean_width": 0.014681069952594272
+                },
+                "0.95": {
+                  "coverage": 0.155,
+                  "wilson_95pct": [
+                    0.12283258671753924,
+                    0.19373089637312538
+                  ],
+                  "mean_width": 0.017493573829379327
+                }
+              }
+            },
+            "wrong_fixed_boundary": {
+              "hidden_motion_rmse_mm": 4.487692626476613,
+              "rmse_mean_mc_se_mm": 0.11381135377545218,
+              "missing_time_hidden_rmse_mm": 6.945218418783613,
+              "force_rmse_N": 0.03824581491322644,
+              "hidden_tip_at_5s": {
+                "pit_ks": 0.37294440632494114,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.0975,
+                  "wilson_95pct": [
+                    0.07214511778538757,
+                    0.1305122791537211
+                  ],
+                  "mean_width": 0.003081929760119373
+                },
+                "0.8": {
+                  "coverage": 0.1725,
+                  "wilson_95pct": [
+                    0.13863520728428091,
+                    0.2125953455046833
+                  ],
+                  "mean_width": 0.005855762682577861
+                },
+                "0.9": {
+                  "coverage": 0.22,
+                  "wilson_95pct": [
+                    0.1821738927340146,
+                    0.2631529920931915
+                  ],
+                  "mean_width": 0.007515790036050693
+                },
+                "0.95": {
+                  "coverage": 0.2625,
+                  "wilson_95pct": [
+                    0.22178679994488373,
+                    0.30773153986390706
+                  ],
+                  "mean_width": 0.00895561619870444
+                }
+              },
+              "force_at_5s": {
+                "pit_ks": 0.4155650119458139,
+                "pit_ks_99pct_reference": 0.08149999999999999,
+                "0.5": {
+                  "coverage": 0.075,
+                  "wilson_95pct": [
+                    0.05303774392284765,
+                    0.10504770626130436
+                  ],
+                  "mean_width": 0.005597179571590708
+                },
+                "0.8": {
+                  "coverage": 0.0975,
+                  "wilson_95pct": [
+                    0.07214511778538757,
+                    0.1305122791537211
+                  ],
+                  "mean_width": 0.010634815785593537
+                },
+                "0.9": {
+                  "coverage": 0.1375,
+                  "wilson_95pct": [
+                    0.10718448673484568,
+                    0.1747119266575193
+                  ],
+                  "mean_width": 0.013649638287836427
+                },
+                "0.95": {
+                  "coverage": 0.165,
+                  "wilson_95pct": [
+                    0.13184503236772813,
+                    0.2045282048362506
+                  ],
+                  "mean_width": 0.01626454719605738
+                }
+              }
+            }
+          },
+          "boundary_identification": {
+            "support_center_mae_mm": 35.239918730861405,
+            "load_center_mae_mm": 57.075638568700505,
+            "mean_boundary_entropy_nats": 1.047628668732399,
+            "mean_90pct_credible_set_size": 3.88,
+            "hypotheses": 24
+          }
+        }
+      }
+    }
+  },
+  "simulation_audit": {
+    "checks": [
+      {
+        "boundary": {
+          "support_center": 0.075,
+          "support_width": 0.035,
+          "support_stiffness": 2000.0,
+          "load_center": 0.85,
+          "load_width": 0.035
+        },
+        "relative_refinement_40_80": 3.200410769834203e-06,
+        "relative_refinement_80_160": 2.0504772363701682e-07,
+        "unit_load_integral_error": 0.0,
+        "force_balance_error": 1.3548023147649053e-09,
+        "moment_balance_error": 1.9096212564197995e-09,
+        "relative_solve_residual": 1.0074105093173085e-08,
+        "energy_work_error": 8.657785599552881e-10
+      },
+      {
+        "boundary": {
+          "support_center": 0.15,
+          "support_width": 0.06,
+          "support_stiffness": 2000.0,
+          "load_center": 0.85,
+          "load_width": 0.035
+        },
+        "relative_refinement_40_80": 1.0182334539883072e-06,
+        "relative_refinement_80_160": 5.638511474257712e-08,
+        "unit_load_integral_error": 0.0,
+        "force_balance_error": 3.0922119308128006e-10,
+        "moment_balance_error": 3.8506838853287634e-10,
+        "relative_solve_residual": 2.726261766180492e-09,
+        "energy_work_error": 1.1066125793490755e-10
+      },
+      {
+        "boundary": {
+          "support_center": 0.225,
+          "support_width": 0.06,
+          "support_stiffness": 10000.0,
+          "load_center": 1.0,
+          "load_width": 0.035
+        },
+        "relative_refinement_40_80": 1.4995615678951713e-06,
+        "relative_refinement_80_160": 8.992491041059538e-08,
+        "unit_load_integral_error": 8.881784197001252e-16,
+        "force_balance_error": 1.893031564836889e-10,
+        "moment_balance_error": 2.1618748273759952e-10,
+        "relative_solve_residual": 1.354717629579666e-09,
+        "energy_work_error": 1.2785356107158918e-11
+      }
+    ],
+    "pass": true
+  },
+  "prior_predictive_scalar_calibration_gate_pass": true,
+  "uncertainty_validated_under_model_mismatch": false,
+  "elapsed_seconds": 64.125762199983,
+  "limitations": [
+    "Known material, reference geometry, camera poses, masks and point correspondences.",
+    "One-plane quasistatic Euler-Bernoulli bending; no inertia, contact switching, friction or 3D occlusion inference.",
+    "Support is a Gaussian distributed elastic foundation; no hard-clamp discovery.",
+    "Exact inference on a finite boundary dictionary; continuous/off-grid robustness checked separately.",
+    "Pointwise prior-predictive coverage is not simultaneous trajectory coverage or universal real-data calibration.",
+    "No encoder or conditional flow-matching model has been trained; this is its proposed reference benchmark."
+  ]
+}

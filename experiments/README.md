@@ -1,4 +1,16 @@
-# Bird sampler development
+# Research experiments
+
+## Gaussian boundary beam
+
+`beam_boundary.py` implements Gaussian material fields, distributed Gaussian
+support/load patches, cubic-Hermite beam mechanics, and exact finite-mixture
+boundary inference with Gaussian force marginalization. `run_beam_boundary.py`
+runs the sparse/richer comparison, repeated-case calibration, and mismatch
+stress tests. See `docs/GAUSSIAN_BOUNDARY_FORMULATION.md` and the committed
+`examples/beam-boundary/report.html`. This experiment does not train a visual
+encoder or conditional flow-matching model. Those are proposed next stages.
+
+## Bird sampler development
 
 The production run is recorded in `configs/pacnerf_bird_check.json`. Its
 convergence and uncertainty gates take precedence over development diagnostics.
