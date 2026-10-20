@@ -191,3 +191,29 @@ The128-warmup/128-draw development pilot uses seed1370009, four chains with
 shared warmup adaptation, and GPU2 alongside CPU mechanics. It is explicitly
 ineligible as a final production result. No old, pilot or new-target samples
 are pooled, and its outcome does not alter the existing full-run kernel.
+
+
+## 1,000-draw prefix and longer-trajectory probes
+
+The1,000-draw prefix has101 failed monitors, worst Rhat1.02267 and minimum
+bulk/tail ESS142.27/39.63. Stiffness, damping and physical frame10/mode6 now
+pass their strict scalar screens. Early motion, other late deformation/rigid
+directions and the mechanics-discrepancy bulk ESS remain insufficient. These
+are partial-chain diagnostics, not the full convergence result.
+
+![Observed-only diagnostic progress](../examples/bird-local-sampler-audit/full-run-diagnostics.png)
+
+`probe_bird_trajectories.py` tests duration2/8/20 at the same four saved
+states, paired floor auxiliaries and momenta, using two seeds and step size.06.
+There are no invalid/divergent proposals. Acceptance counts are7/8,7/8,6/8.
+Longer trajectories do not consistently improve local movement in the slow
+late coordinates, and cost substantially more. This small movement probe
+cannot estimate stationary ESS; it does not justify changing the frozen kernel.
+All proposals are discarded and no future labels are used. Raw measurements
+are in `long-trajectory-probe/probes.json`.
+
+The separate conditional transport's128-draw pilot remains unconverged:
+maximum Rhat1.17625, minimum bulk/tail ESS19.22/17.55,657 scalar failures,
+zero retained invalid/divergent state steps. It is being extended unchanged
+to256 draws; its128 checkpoint, diagnostics and saved RNG are preserved.
+The full dense-reference run continues independently and remains authoritative.
