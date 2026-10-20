@@ -161,3 +161,33 @@ warmup steps and entered retained sampling. Use
 The coordinator preserves exact RNG/kernel prefixes through declared budgets.
 There is no full convergence result yet. `archive_local_bird.py` losslessly
 packages the stopped full run and refuses to archive a changing live run.
+
+
+## Observed-only full-run previews and a separate development transport
+
+A300-draw prefix fails335 monitors, with maximum Rhat1.18053 and minimum
+bulk/tail ESS15.67/11.64. The500-draw prefix improves to202 failures,
+Rhat1.07227 and ESS40.65/29.97. These prefixes are observed-only diagnostics;
+neither replaces the full declared budgets or opens predictive labels.
+Raw prefix tensors are preserved with the full run. Individual diagnostics
+and labels are under `production-preview-300/` and `production-preview-500/`.
+Remaining slow directions include late rigid mode0 and the mechanics-
+discrepancy scale; fast RGB and smooth-load scales cannot certify motion mixing.
+
+While the immutable full run continues, a separate observed-only experiment
+fits a quadratic parameter-dependent native-state mean and a smooth bounded
+positive residual scale using the same discarded32,000 old draws. Its dense
+residual root and all new state-map log determinants are explicit; physical
+priors, contact/floor conditioning, observed images and Gaussian force
+integration are unchanged. `bird_conditional_bridge.py` and
+`trial_conditional_bird.py` implement this development proposal. Starting
+physical paths are preserved to4.27e-14. Three additional tests check both
+force arms' inverse/density Jacobians, transformed floor walls, centered
+interweaving and parameter derivatives against finite differences. The
+independent determinant test uses contiguous LAPACK input after an initial
+noncontiguous batched-LU platform failure; no physical model was altered.
+
+The128-warmup/128-draw development pilot uses seed1370009, four chains with
+shared warmup adaptation, and GPU2 alongside CPU mechanics. It is explicitly
+ineligible as a final production result. No old, pilot or new-target samples
+are pooled, and its outcome does not alter the existing full-run kernel.
