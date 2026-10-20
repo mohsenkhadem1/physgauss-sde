@@ -1,0 +1,425 @@
+{
+  "cases": [
+    {
+      "case": "v3",
+      "summary": {
+        "engine": "Isaac Sim 6.2.0.0 / PhysX GPU FEM",
+        "seed": 31001,
+        "seconds": 3.0,
+        "physics_hz": 240,
+        "observation_fps": 20,
+        "force_scale": 0.25,
+        "cells": [
+          12,
+          6,
+          4
+        ],
+        "nodes": 455,
+        "tetrahedra": 1728,
+        "fixture_nodes": [
+          107
+        ],
+        "load_nodes": [
+          137,
+          19,
+          242
+        ],
+        "youngs_modulus_Pa": 20000.0,
+        "poissons_ratio": 0.35,
+        "density_kg_m3": 500.0,
+        "block_mass_kg": 1.152,
+        "handle_mass_kg_each": 0.001,
+        "gravity_m_s2": 0.0,
+        "maximum_pin_error_m": 1.9387762193392036e-07,
+        "minimum_tet_volume_ratio": 0.9147053106062223,
+        "deformable_sleep_threshold_m_s": 0.0,
+        "settling_damping_s_inverse": 0.0,
+        "linear_damping_s_inverse": 0.5,
+        "physics_clock": "one explicit physics step per force command; actual clock asserted every step",
+        "maximum_displacement_m": 0.23114521064238425,
+        "maximum_elastic_coordinate_rms_m": 0.0007170094860562815,
+        "completed": true,
+        "loading": "Newton-valued world forces on dynamic 1g surface-node handles; no prescribed load displacement",
+        "transmitted_force_estimate": "command minus handle_mass * finite-difference handle acceleration; discrete estimate, not a contact sensor",
+        "qualification": "Development simulator only; no boundary inference, calibration or continuum convergence claim",
+        "python": "/home/bayespc2/vscode/deformable worldmodel/.venv/bin/python",
+        "gpu": 0,
+        "source_sha256": {
+          "isaac_boundary_block.py": "76192c581d8479b745a7d17467c9d2d848377f8cf73b364c07c210a47915b1f8",
+          "boundary_block.py": "266e88e9de5ebec9b543236e2d2995dde611c7b2a99e525bfc82532c45009c82"
+        }
+      },
+      "validation": {
+        "checks": {
+          "completed": true,
+          "finite": true,
+          "positive_rest_tets": true,
+          "source_copies_match_hashes": true,
+          "gaussian_material_attachment": true,
+          "no_inverted_saved_tets": true,
+          "fixture_held": true,
+          "handles_attached": true,
+          "force_replay": true,
+          "correct_step_count": true,
+          "actual_physics_clock_matches": true,
+          "uniform_frame_clock": true,
+          "fixture_on_surface": true,
+          "loads_distinct_from_fixture": true,
+          "rgb_count_if_present": true,
+          "motion_check": true
+        },
+        "all_pass": true,
+        "saved_frames": 61,
+        "rgb_frames": 61,
+        "maximum_pin_error_m": 9.584783185215154e-08,
+        "maximum_handle_attachment_error_m": 1.2486115110732499e-06,
+        "minimum_saved_tet_volume_ratio": 0.9174956971946805,
+        "force_replay_error_N": 0.0,
+        "maximum_displacement_m": 0.23114521064238425,
+        "maximum_elastic_coordinate_rms_m": 0.0007170094860562821,
+        "unloaded_control": false,
+        "qualification": "Simulator integrity checks; no inverse-boundary recovery or calibrated uncertainty claim"
+      }
+    },
+    {
+      "case": "v3-half-dt",
+      "summary": {
+        "engine": "Isaac Sim 6.2.0.0 / PhysX GPU FEM",
+        "seed": 31001,
+        "seconds": 3.0,
+        "physics_hz": 480,
+        "observation_fps": 20,
+        "force_scale": 0.25,
+        "cells": [
+          12,
+          6,
+          4
+        ],
+        "nodes": 455,
+        "tetrahedra": 1728,
+        "fixture_nodes": [
+          107
+        ],
+        "load_nodes": [
+          137,
+          19,
+          242
+        ],
+        "youngs_modulus_Pa": 20000.0,
+        "poissons_ratio": 0.35,
+        "density_kg_m3": 500.0,
+        "block_mass_kg": 1.152,
+        "handle_mass_kg_each": 0.001,
+        "gravity_m_s2": 0.0,
+        "maximum_pin_error_m": 7.571960216887126e-08,
+        "minimum_tet_volume_ratio": 0.9286414979214906,
+        "deformable_sleep_threshold_m_s": 0.0,
+        "settling_damping_s_inverse": 0.0,
+        "linear_damping_s_inverse": 0.5,
+        "physics_clock": "one explicit physics step per force command; actual clock asserted every step",
+        "maximum_displacement_m": 0.1829422461517022,
+        "maximum_elastic_coordinate_rms_m": 0.0006743539236268552,
+        "completed": true,
+        "loading": "Newton-valued world forces on dynamic 1g surface-node handles; no prescribed load displacement",
+        "transmitted_force_estimate": "command minus handle_mass * finite-difference handle acceleration; discrete estimate, not a contact sensor",
+        "qualification": "Development simulator only; no boundary inference, calibration or continuum convergence claim",
+        "python": "/home/bayespc2/vscode/deformable worldmodel/.venv/bin/python",
+        "gpu": 1,
+        "source_sha256": {
+          "isaac_boundary_block.py": "76192c581d8479b745a7d17467c9d2d848377f8cf73b364c07c210a47915b1f8",
+          "boundary_block.py": "266e88e9de5ebec9b543236e2d2995dde611c7b2a99e525bfc82532c45009c82"
+        }
+      },
+      "validation": {
+        "checks": {
+          "completed": true,
+          "finite": true,
+          "positive_rest_tets": true,
+          "source_copies_match_hashes": true,
+          "gaussian_material_attachment": true,
+          "no_inverted_saved_tets": true,
+          "fixture_held": true,
+          "handles_attached": true,
+          "force_replay": true,
+          "correct_step_count": true,
+          "actual_physics_clock_matches": true,
+          "uniform_frame_clock": true,
+          "fixture_on_surface": true,
+          "loads_distinct_from_fixture": true,
+          "rgb_count_if_present": true,
+          "motion_check": true
+        },
+        "all_pass": true,
+        "saved_frames": 61,
+        "rgb_frames": 0,
+        "maximum_pin_error_m": 6.042544886091833e-08,
+        "maximum_handle_attachment_error_m": 9.44528210311546e-07,
+        "minimum_saved_tet_volume_ratio": 0.9298287295678175,
+        "force_replay_error_N": 0.0,
+        "maximum_displacement_m": 0.1829422461517022,
+        "maximum_elastic_coordinate_rms_m": 0.0006743539236268545,
+        "unloaded_control": false,
+        "qualification": "Simulator integrity checks; no inverse-boundary recovery or calibrated uncertainty claim"
+      }
+    },
+    {
+      "case": "v3-unloaded",
+      "summary": {
+        "engine": "Isaac Sim 6.2.0.0 / PhysX GPU FEM",
+        "seed": 31001,
+        "seconds": 3.0,
+        "physics_hz": 240,
+        "observation_fps": 20,
+        "force_scale": 0.0,
+        "cells": [
+          12,
+          6,
+          4
+        ],
+        "nodes": 455,
+        "tetrahedra": 1728,
+        "fixture_nodes": [
+          107
+        ],
+        "load_nodes": [
+          137,
+          19,
+          242
+        ],
+        "youngs_modulus_Pa": 20000.0,
+        "poissons_ratio": 0.35,
+        "density_kg_m3": 500.0,
+        "block_mass_kg": 1.152,
+        "handle_mass_kg_each": 0.001,
+        "gravity_m_s2": 0.0,
+        "maximum_pin_error_m": 1.8966081798500465e-09,
+        "minimum_tet_volume_ratio": 0.9999987469200289,
+        "deformable_sleep_threshold_m_s": 0.0,
+        "settling_damping_s_inverse": 0.0,
+        "linear_damping_s_inverse": 0.5,
+        "physics_clock": "one explicit physics step per force command; actual clock asserted every step",
+        "maximum_displacement_m": 1.1140050685775927e-08,
+        "maximum_elastic_coordinate_rms_m": 4.180226104767544e-09,
+        "completed": true,
+        "loading": "Newton-valued world forces on dynamic 1g surface-node handles; no prescribed load displacement",
+        "transmitted_force_estimate": "command minus handle_mass * finite-difference handle acceleration; discrete estimate, not a contact sensor",
+        "qualification": "Development simulator only; no boundary inference, calibration or continuum convergence claim",
+        "python": "/home/bayespc2/vscode/deformable worldmodel/.venv/bin/python",
+        "gpu": 2,
+        "source_sha256": {
+          "isaac_boundary_block.py": "76192c581d8479b745a7d17467c9d2d848377f8cf73b364c07c210a47915b1f8",
+          "boundary_block.py": "266e88e9de5ebec9b543236e2d2995dde611c7b2a99e525bfc82532c45009c82"
+        }
+      },
+      "validation": {
+        "checks": {
+          "completed": true,
+          "finite": true,
+          "positive_rest_tets": true,
+          "source_copies_match_hashes": true,
+          "gaussian_material_attachment": true,
+          "no_inverted_saved_tets": true,
+          "fixture_held": true,
+          "handles_attached": true,
+          "force_replay": true,
+          "correct_step_count": true,
+          "actual_physics_clock_matches": true,
+          "uniform_frame_clock": true,
+          "fixture_on_surface": true,
+          "loads_distinct_from_fixture": true,
+          "rgb_count_if_present": true,
+          "motion_check": true
+        },
+        "all_pass": true,
+        "saved_frames": 61,
+        "rgb_frames": 0,
+        "maximum_pin_error_m": 1.8966081798500465e-09,
+        "maximum_handle_attachment_error_m": 8.382183835919932e-14,
+        "minimum_saved_tet_volume_ratio": 0.9999987469200289,
+        "force_replay_error_N": 0.0,
+        "maximum_displacement_m": 1.1140050685775927e-08,
+        "maximum_elastic_coordinate_rms_m": 4.180226104767542e-09,
+        "unloaded_control": true,
+        "qualification": "Simulator integrity checks; no inverse-boundary recovery or calibrated uncertainty claim"
+      }
+    },
+    {
+      "case": "v3-seed31002",
+      "summary": {
+        "engine": "Isaac Sim 6.2.0.0 / PhysX GPU FEM",
+        "seed": 31002,
+        "seconds": 3.0,
+        "physics_hz": 240,
+        "observation_fps": 20,
+        "force_scale": 0.25,
+        "cells": [
+          12,
+          6,
+          4
+        ],
+        "nodes": 455,
+        "tetrahedra": 1728,
+        "fixture_nodes": [
+          278
+        ],
+        "load_nodes": [
+          124,
+          115,
+          125
+        ],
+        "youngs_modulus_Pa": 20000.0,
+        "poissons_ratio": 0.35,
+        "density_kg_m3": 500.0,
+        "block_mass_kg": 1.152,
+        "handle_mass_kg_each": 0.001,
+        "gravity_m_s2": 0.0,
+        "maximum_pin_error_m": 1.0100129728792034e-07,
+        "minimum_tet_volume_ratio": 0.9228329531652005,
+        "deformable_sleep_threshold_m_s": 0.0,
+        "settling_damping_s_inverse": 0.0,
+        "linear_damping_s_inverse": 0.5,
+        "physics_clock": "one explicit physics step per force command; actual clock asserted every step",
+        "maximum_displacement_m": 0.28469119131368903,
+        "maximum_elastic_coordinate_rms_m": 0.0006390398755192932,
+        "completed": true,
+        "loading": "Newton-valued world forces on dynamic 1g surface-node handles; no prescribed load displacement",
+        "transmitted_force_estimate": "command minus handle_mass * finite-difference handle acceleration; discrete estimate, not a contact sensor",
+        "qualification": "Development simulator only; no boundary inference, calibration or continuum convergence claim",
+        "python": "/home/bayespc2/vscode/deformable worldmodel/.venv/bin/python",
+        "gpu": 0,
+        "source_sha256": {
+          "isaac_boundary_block.py": "76192c581d8479b745a7d17467c9d2d848377f8cf73b364c07c210a47915b1f8",
+          "boundary_block.py": "266e88e9de5ebec9b543236e2d2995dde611c7b2a99e525bfc82532c45009c82"
+        }
+      },
+      "validation": {
+        "checks": {
+          "completed": true,
+          "finite": true,
+          "positive_rest_tets": true,
+          "source_copies_match_hashes": true,
+          "gaussian_material_attachment": true,
+          "no_inverted_saved_tets": true,
+          "fixture_held": true,
+          "handles_attached": true,
+          "force_replay": true,
+          "correct_step_count": true,
+          "actual_physics_clock_matches": true,
+          "uniform_frame_clock": true,
+          "fixture_on_surface": true,
+          "loads_distinct_from_fixture": true,
+          "rgb_count_if_present": true,
+          "motion_check": true
+        },
+        "all_pass": true,
+        "saved_frames": 61,
+        "rgb_frames": 0,
+        "maximum_pin_error_m": 1.0016517990572362e-07,
+        "maximum_handle_attachment_error_m": 6.737840294590569e-07,
+        "minimum_saved_tet_volume_ratio": 0.9234507274413798,
+        "force_replay_error_N": 0.0,
+        "maximum_displacement_m": 0.28469119131368903,
+        "maximum_elastic_coordinate_rms_m": 0.0006390398755192943,
+        "unloaded_control": false,
+        "qualification": "Simulator integrity checks; no inverse-boundary recovery or calibrated uncertainty claim"
+      }
+    },
+    {
+      "case": "v3-patch",
+      "summary": {
+        "engine": "Isaac Sim 6.2.0.0 / PhysX GPU FEM",
+        "seed": 31001,
+        "seconds": 3.0,
+        "physics_hz": 240,
+        "observation_fps": 20,
+        "force_scale": 0.25,
+        "cells": [
+          12,
+          6,
+          4
+        ],
+        "nodes": 455,
+        "tetrahedra": 1728,
+        "fixture_nodes": [
+          107,
+          72,
+          106,
+          142
+        ],
+        "load_nodes": [
+          160,
+          24,
+          259
+        ],
+        "youngs_modulus_Pa": 20000.0,
+        "poissons_ratio": 0.35,
+        "density_kg_m3": 500.0,
+        "block_mass_kg": 1.152,
+        "handle_mass_kg_each": 0.001,
+        "gravity_m_s2": 0.0,
+        "maximum_pin_error_m": 4.6194140465703687e-07,
+        "minimum_tet_volume_ratio": 0.8479025268570703,
+        "deformable_sleep_threshold_m_s": 0.0,
+        "settling_damping_s_inverse": 0.0,
+        "linear_damping_s_inverse": 0.5,
+        "physics_clock": "one explicit physics step per force command; actual clock asserted every step",
+        "maximum_displacement_m": 0.060903380897316055,
+        "maximum_elastic_coordinate_rms_m": 0.0007440631237193045,
+        "completed": true,
+        "loading": "Newton-valued world forces on dynamic 1g surface-node handles; no prescribed load displacement",
+        "transmitted_force_estimate": "command minus handle_mass * finite-difference handle acceleration; discrete estimate, not a contact sensor",
+        "qualification": "Development simulator only; no boundary inference, calibration or continuum convergence claim",
+        "python": "/home/bayespc2/vscode/deformable worldmodel/.venv/bin/python",
+        "gpu": 2,
+        "source_sha256": {
+          "isaac_boundary_block.py": "76192c581d8479b745a7d17467c9d2d848377f8cf73b364c07c210a47915b1f8",
+          "boundary_block.py": "266e88e9de5ebec9b543236e2d2995dde611c7b2a99e525bfc82532c45009c82"
+        }
+      },
+      "validation": {
+        "checks": {
+          "completed": true,
+          "finite": true,
+          "positive_rest_tets": true,
+          "source_copies_match_hashes": true,
+          "gaussian_material_attachment": true,
+          "no_inverted_saved_tets": true,
+          "fixture_held": true,
+          "handles_attached": true,
+          "force_replay": true,
+          "correct_step_count": true,
+          "actual_physics_clock_matches": true,
+          "uniform_frame_clock": true,
+          "fixture_on_surface": true,
+          "loads_distinct_from_fixture": true,
+          "rgb_count_if_present": true,
+          "motion_check": true
+        },
+        "all_pass": true,
+        "saved_frames": 61,
+        "rgb_frames": 0,
+        "maximum_pin_error_m": 4.3213945520573857e-07,
+        "maximum_handle_attachment_error_m": 1.0773884469017503e-06,
+        "minimum_saved_tet_volume_ratio": 0.8481707709506745,
+        "force_replay_error_N": 0.0,
+        "maximum_displacement_m": 0.060903380897316055,
+        "maximum_elastic_coordinate_rms_m": 0.0007440631237193025,
+        "unloaded_control": false,
+        "qualification": "Simulator integrity checks; no inverse-boundary recovery or calibrated uncertainty claim"
+      }
+    }
+  ],
+  "time_step_check": {
+    "coordinate_rms_difference_m": 0.01508215069770813,
+    "maximum_node_difference_m": 0.1341305673122406,
+    "numerical_convergence_established": false,
+    "interpretation": "Substantial rotational trajectory sensitivity remains despite passing integrity checks. Fixed-discretization development only; refine solver/attachments before quantitative force calibration."
+  },
+  "numerical_tests": {
+    "count": 3,
+    "passed": true
+  },
+  "physics_source_sha256": "76192c581d8479b745a7d17467c9d2d848377f8cf73b364c07c210a47915b1f8",
+  "bird_status": "stopped_by_user",
+  "boundary_inference_implemented": false
+}

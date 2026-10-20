@@ -5,8 +5,9 @@
 The frozen local CPU/GPU run fails92/733 monitors: maximum Rhat1.2264256,
 minimum bulk/tail ESS12.9310/10.5135. Retained invalid/divergent state steps
 remain zero; CPU density replay passes to3.64e-12. Late-motion exploration
-deteriorated relative to the2,000-draw gate. The run continues unchanged to
-its declared8,000-draw cap; no convergence or prediction-readiness claim is
+deteriorated relative to the2,000-draw gate. The user stopped this run to start
+the Isaac Sim block experiment. Partial checkpoints retain4,100–4,150 draws;
+no convergence or prediction-readiness claim is
 justified. Full diagnostics are in `production-4000/` beside the local audit.
 
 The new [research direction](BOUNDARY_LEARNING_DIRECTION.md) prioritizes

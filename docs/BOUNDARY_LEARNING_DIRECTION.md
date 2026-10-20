@@ -107,9 +107,11 @@ supports and floor treatment do **not** implement general unknown boundary
 patch/type inference. Bird's reduced modal model and fixed floor are an
 inference test, not the proposed boundary-identification benchmark.
 
-The already authorized local CPU/GPU Bird run continues unchanged through its
-declared 2,000/4,000/8,000-draw gates. Preserve its evidence and frozen source;
-do not reinterpret it as boundary-learning evidence. The wider historical
+The user subsequently requested stopping Bird and starting an Isaac Sim
+flexible block with random fixtures and forces. Bird was stopped after the
+failed4,000-draw gate; its final partial checkpoints retain4,100–4,150 draws.
+Preserve its evidence and frozen source; do not reinterpret it as boundary-
+learning evidence. Do not restart Bird without a new instruction. The wider historical
 comparison still requires convergence and independent uncertainty readiness.
 Boundary-model changes require separate targets, protocols and experiments.
 

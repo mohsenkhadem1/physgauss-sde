@@ -8,12 +8,20 @@ See the [decision record and proposed benchmark](docs/BOUNDARY_LEARNING_DIRECTIO
 The current Bird experiments test inference infrastructure and do not yet
 implement general boundary-condition learning.
 
-**Local CPU/GPU Bird run (20 October):** the complete4,000-draw stage
+**Bird stopped by user request (20 October).** Work now starts with an Isaac
+Sim flexible block, random surface fixtures and force-driven loading for the
+boundary-learning benchmark. The complete4,000-draw Bird stage
 fails92/733 strict monitors: worst Rhat1.22643, minimum bulk/tail ESS12.93/10.51.
 The late-motion mixing deterioration persists despite zero retained invalid or
-divergent steps and passing density replay. Exact continuation to the declared
-8,000-draw cap is active. No predictive scores or wider comparison have been
+divergent steps and passing density replay. The coordinator and all four
+workers have exited; raw partial checkpoints are preserved. No predictive scores or wider comparison have been
 opened. See the [local audit and protocol](docs/BIRD_LOCAL_SAMPLER.md).
+
+The [Isaac Sim block setup](docs/ISAAC_BOUNDARY_BLOCK.md) provides a GPU FEM
+block, a random fixed surface point (or patch), random force pulses and RGB/full
+motion ground truth. Start a visible episode with
+`bash experiments/launch_isaac_block.sh --output runs/block-new --keep-open`.
+See the [actual RGB preview](examples/isaac-boundary-block/preview.gif).
 
 Research prototype for physically constrained Gaussian scene reconstruction from **one moving camera with missing frames**.
 

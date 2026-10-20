@@ -1,6 +1,31 @@
 # Handover
 
-## Latest research decisions — 20 October 2026
+## User-directed switch to Isaac Sim — 20 October 2026
+
+User explicitly requested: stop Bird; create a simulated flexible block with
+random fixed points and randomly applied forces using Isaac Sim. The Bird
+coordinator, four workers and snapshot watcher were terminated. Raw saved
+retained counts are4,150/4,100/4,150/4,100; checkpoint hashes are in
+`runs/bird-local-production/user-stop-checkpoints.json`, execution status
+`stopped_by_user`. All four complete4,000-draw stage snapshots remain intact.
+Do not restart Bird or launch the wider comparison without a new instruction.
+
+The active work is `experiments/isaac_boundary_block.py`, using the existing
+Isaac Sim6.2 Python environment in the neighboring `deformable worldmodel`
+project without modifying it. Known material, a random surface pin (optional
+fixed patch), and Newton-valued random loads form the first forward simulator.
+Loaded and unloaded explicit-clock episodes pass independent integrity replay.
+Sleeping and settling damping are disabled; linear drag is explicit0.5/s.
+The240/480Hz check remains sensitive (elastic RMS0.717/0.674mm, total
+displacement231/183mm), so continuum/time convergence is not claimed.
+See [setup and limitations](docs/ISAAC_BOUNDARY_BLOCK.md).
+No boundary inference or new calibration result is claimed yet.
+All83 stopped Bird files and461 Isaac development files are permanently
+archived with roundtrip and Git blob hash checks on artifact commit
+8605a4cbe35272d554185bf60568d355f3aae422. Compact results and raw pointers are
+in `examples/isaac-boundary-block` and the Bird `raw-archives.json`.
+
+## Earlier research discussion — 20 October 2026
 
 The user's supplied discussion makes **boundary-condition learning** the main
 scientific focus: infer the location, type, parameters and timing of supports,
@@ -12,8 +37,8 @@ records the agreed direction; the subsequently implemented beam reference is
 documented in [the two-Gaussian formulation](docs/GAUSSIAN_BOUNDARY_FORMULATION.md).
 The existing code does not yet infer general boundary patch/type hypotheses.
 
-Keep the authorized bounded Bird audit running under its frozen target and
-source. The complete4,000-draw gate fails92/733 monitors: Rhat1.22643, minimum
+Historical status before the explicit stop instruction above: the bounded
+Bird audit was running under its frozen target and source. The complete4,000-draw gate fails92/733 monitors: Rhat1.22643, minimum
 bulk/tail ESS12.93/10.51, zero retained invalid/divergent steps and passing
 density replay. Exact continuation to the declared8,000-draw cap is active.
 The3,000-draw preview had already deteriorated, dominated by late motion even

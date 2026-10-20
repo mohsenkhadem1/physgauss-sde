@@ -31,7 +31,7 @@ def archive(root,output,part_size=2_000_000,stage=None):
         fcntl.flock(lock,fcntl.LOCK_SH|fcntl.LOCK_NB)
         snapshot_lock=(root/'snapshot.lock').open('a')
         fcntl.flock(snapshot_lock,fcntl.LOCK_SH|fcntl.LOCK_NB)
-        if execution['status'] not in ['finished','convergence_failed_at_declared_cap',
+        if execution['status'] not in ['finished','convergence_failed_at_declared_cap','stopped_by_user',
                 'worker_failure_checkpoints_preserved']:
             raise ValueError('The run has not reached a declared stopped state')
         paths=sorted(p for p in root.rglob('*') if p.is_file() and p.name not in ['coordinator.lock','snapshot.lock'])
