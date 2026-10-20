@@ -6,6 +6,18 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
+**2026-10-20 final8000-draw result:** all four free-CPU chains completed.
+Worst Rhat improved to1.0339864, minimum bulkESS134.503 and tailESS33.233.
+The gate still FAILS (Rhat<1.01; both ESS>=400 for all monitored scalars).
+Invalid/divergent retained state steps remain zero; density replay passes
+with maximum cached-target error3.64e-12. Run39415918136 finished13:38:53UTC.
+The bounded follow-up correctly stopped at the declared8000-draw cap, without
+uncertainty evaluation or the wider comparison. No Bird sampling job is active.
+The complete JSON convergence report and stop decision, retrieved from the
+completed diagnose job log, are in `examples/pacnerf-bird-reflected-8000`;
+its full checkpoint artifact12268611805 remains on GitHub. Further inference
+audit is needed before trusting predictive uncertainty or expanding the matrix.
+
 **2026-10-20 completed four-chain diagnostics:** mixing is improving, but Bird
 has not converged. Worst Rhat fell from 1.87275 (256 draws/chain) to 1.33201
 (2000) and 1.08886 (4000). At 4000 the minimum bulk/tail ESS is 39.08/11.49;
