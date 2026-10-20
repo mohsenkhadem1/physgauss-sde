@@ -57,26 +57,27 @@ class ReflectedStateContext(ConditionalStateEvaluator):
 
 @torch.no_grad()
 def sample(target,dimension,core,checkpoint,total_draws,warmup=500,seed=940001,chunk=50,
-        min_time=1.,max_time=4.,target_accept=.9,initial=None,floor_scale=.002,progress=None,checkpoint_hook=None):
-    if total_draws<16 or not 2<core<=dimension or warmup<0:raise ValueError('Invalid reflected sampling budget')
+        min_time=1.,max_time=4.,target_accept=.9,initial=None,floor_scale=.002,progress=None,checkpoint_hook=None,chains_count=4,interweave=False):
+    if total_draws<16 or not 2<core<=dimension or warmup<0 or chains_count<1:raise ValueError('Invalid reflected sampling budget')
     root=Path(checkpoint);root.mkdir(parents=True,exist_ok=True)
     path=root/'chains.pt';warm_path=root/'reflected_warmup.pt'
     blocks=[{'indices':[0,1,*range(core,dimension)]}]
-    if initial is not None and initial.shape!=(4,dimension):raise ValueError('Invalid reflected initial states')
+    if initial is not None and initial.shape!=(chains_count,dimension):raise ValueError('Invalid reflected initial states')
     protocol={'sampler':'logistic-slice-reflected-hmc-parameter-ess-v1','dimension':dimension,'core':core,
-        'chains':4,'warmup':warmup,'seed':seed,'min_time':min_time,'max_time':max_time,'floor_scale':floor_scale,
+        'chains':chains_count,'warmup':warmup,'seed':seed,'min_time':min_time,'max_time':max_time,'floor_scale':floor_scale,
         'target_accept':target_accept,'parameter_blocks':blocks,
         'initial_state_sha256':None if initial is None else hashlib.sha256(initial.contiguous().numpy().tobytes()).hexdigest()}
+    if interweave:protocol['centered_parameter_interweaving']='exact-physical-density-v1'
     previous=torch.load(path,weights_only=True) if path.exists() else torch.load(warm_path,weights_only=True) if warm_path.exists() else None
     rng=torch.Generator().manual_seed(seed)
-    white=torch.empty(4,total_draws,dimension,dtype=torch.float64)
-    ratios=torch.empty(4,total_draws,dtype=torch.float64);errors=torch.empty_like(ratios)
+    white=torch.empty(chains_count,total_draws,dimension,dtype=torch.float64)
+    ratios=torch.empty(chains_count,total_draws,dtype=torch.float64);errors=torch.empty_like(ratios)
     if previous is None:
-        q=torch.randn(4,dimension,dtype=torch.float64,generator=rng) if initial is None else initial.clone()
+        q=torch.randn(chains_count,dimension,dtype=torch.float64,generator=rng) if initial is None else initial.clone()
         warm=0;retained=0;epsilon=.3;log_epsilon=math.log(epsilon)
         mu=math.log(10*epsilon);averaged=log_epsilon;hbar=0.
-        counts={phase:{key:[0]*4 for key in ['accepted','invalid','divergent','reflections']} for phase in ['warmup','retained']}
-        evaluations=0;gradients=0;attempts=[0]*4;invalid_slices=[0]*4
+        counts={phase:{key:[0]*chains_count for key in ['accepted','invalid','divergent','reflections']} for phase in ['warmup','retained']}
+        evaluations=0;gradients=0;attempts=[0]*chains_count;invalid_slices=[0]*chains_count
     else:
         if previous['protocol']!=protocol:raise ValueError('Reflected sampling protocol changed')
         q=previous['position'].clone();warm=previous['completed_warmup'];retained=previous['retained']
@@ -114,6 +115,10 @@ def sample(target,dimension,core,checkpoint,total_draws,warmup=500,seed=940001,c
         if bool(bad.any()):raise ValueError('Invalid marginal target after reflected state step')
         q,current,used,tried,invalid=sweep(target.log_ratio_no_grad,q,current,rng,blocks)
         evaluations+=used;attempts=[a+int(b) for a,b in zip(attempts,tried)];invalid_slices=[a+int(b) for a,b in zip(invalid_slices,invalid)]
+        if interweave:
+            from pacnerf_interweave import centered_parameter_step
+            q,current,used,tried,invalid=centered_parameter_step(target,q,core,rng)
+            evaluations+=used;attempts=[a+int(b) for a,b in zip(attempts,tried)];invalid_slices=[a+int(b) for a,b in zip(invalid_slices,invalid)]
         if phase=='warmup':
             warm+=1;rate=float(info['probability'].mean())
             hbar=(1-1/(warm+10))*hbar+(target_accept-rate)/(warm+10)

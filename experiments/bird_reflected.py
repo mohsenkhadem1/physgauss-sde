@@ -20,6 +20,7 @@ def run(args):
     restored=restore_correlations(model,original['model'])
     reference=torch.load(args.reference,weights_only=True)
     protocol={'case_index':8,'warmup':args.warmup,'seed':args.seed,
+        'chain_index':args.chain_index,'interweave':args.interweave,
         'input_sha256':hashlib.sha256((Path(args.inputs)/'bird-inputs.pt').read_bytes()).hexdigest(),
         'reference_sha256':hashlib.sha256(Path(args.reference).read_bytes()).hexdigest(),
         'runner_sha256_lf':hashlib.sha256(Path(__file__).read_bytes().replace(b'\r\n',b'\n')).hexdigest(),
@@ -32,6 +33,7 @@ def run(args):
         from shutil import copyfile
         copyfile(args.reference,out/'reference.pt')
     target=make_target(model,reference);initial=reference['initial_white']
+    if args.chain_index is not None:initial=initial[args.chain_index:args.chain_index+1]
     context=ReflectedStateContext(target,initial,model.core_dimension)
     normal,offset=context.geometry();physical=target.decode(initial)
     error=float((offset+torch.einsum('bkd,bd->bk',normal,initial[:,2:model.core_dimension])-model.floor_heights(physical).flatten(1)).abs().max())
@@ -45,7 +47,15 @@ def run(args):
     (out/'preflight.json').write_text(json.dumps(preflight,indent=2)+'\n',encoding='utf-8');print(preflight,flush=True)
     start=time.time()
     chains=sample(target,model.dimension,model.core_dimension,out,args.draws,warmup=args.warmup,seed=args.seed,
-        initial=initial,progress=lambda row:print(row,flush=True))
+        initial=initial,chains_count=len(initial),interweave=args.interweave,progress=lambda row:print(row,flush=True))
+    if len(initial)==1:
+        from compare_pacnerf_discrepancy import replay
+        proof=replay(model,target,chains)
+        print({'chain_index':args.chain_index,'retained':args.draws,'warmup':args.warmup,'replay':proof,'qualification':'One chain; convergence requires four-chain aggregation'},flush=True)
+        (out/'shard_summary.json').write_text(json.dumps({'chain_index':args.chain_index,'retained':args.draws,
+            'warmup':args.warmup,'elapsed_this_invocation_s':time.time()-start,'replay':proof,
+            'valid_for_ranking':False},indent=2)+'\n',encoding='utf-8')
+        return
     w=chains['white'];native=target.coordinates(w.flatten(0,1));physical=target.decode(w.flatten(0,1))
     log_density=chains['log_ratio']-.5*w.square().sum(-1)-target.center
     values=torch.cat((physical.reshape(4,args.draws,-1),native.reshape(4,args.draws,-1),log_density[...,None]),-1)
@@ -68,4 +78,6 @@ if __name__=='__main__':
     for name in ['inputs','reference','settings','output']:p.add_argument('--'+name,required=True)
     p.add_argument('--draws',type=int,default=256);p.add_argument('--warmup',type=int,default=128)
     p.add_argument('--seed',type=int,default=940009)
+    p.add_argument('--chain-index',type=int,choices=range(4))
+    p.add_argument('--interweave',action='store_true')
     run(p.parse_args())

@@ -13,7 +13,7 @@ from pacnerf_elliptical import atomic_save
 
 
 @torch.no_grad()
-def make_reference(model,parent,training,parameter_ridge=.01):
+def make_reference(model,parent,training,parameter_ridge=.01,anchor=None):
     old=make_target(model,parent);dimension=model.dimension;core=model.core_dimension
     psi=torch.tensor([0,1,*range(core,dimension)])
     # Native parameter rows are independent of state-reference coordinates.
@@ -23,16 +23,21 @@ def make_reference(model,parent,training,parameter_ridge=.01):
     precision=torch.eye(dimension,dtype=parameter.dtype)
     precision[psi[:,None],psi[None,:]]=torch.cholesky_inverse(torch.linalg.cholesky(covariance))
     mean=torch.zeros(dimension,dtype=parameter.dtype);mean[psi]=parameter.mean(0)
-    guide=copy.deepcopy(parent['guide'])
+    if anchor is None:
+        anchor=parent['anchor'].clone();guide=copy.deepcopy(parent['guide']);anchor_source='original guide anchor'
+    else:
+        anchor=anchor.clone()
+        with torch.enable_grad():guide=ConditionedTransport(model,anchor).guide
+        anchor_source='supplied observed-data physical trajectory mean; proposal only'
     guide.pop('constraint_precision',None);guide.pop('constraint_rhs',None)
     reference={'coordinates':'floor-slice-gaussian-state-bridge-v1','mean':mean,'precision':precision,
-        'guide':guide,'anchor':parent['anchor'].clone(),'parameter_blocked_reference':True,
+        'guide':guide,'anchor':anchor,'parameter_blocked_reference':True,
         'frozen_model_specification':model.specification(),
         'reference_kind':'analytic-floor-free-state-gaussian-with-five-parameter-moments',
         'proposal_training':{'discarded_parent_draws':len(parameter),'parameter_ridge':parameter_ridge,
             'parameter_mean':mean[psi].tolist(),'parameter_covariance':covariance.tolist(),
             'state_covariance':'identity in the parameter-dependent Gaussian state bridge; no empirical state covariance',
-            'future_geometry_used':False,'reference_is_posterior_mode':False}}
+            'anchor_source':anchor_source,'future_geometry_used':False,'reference_is_posterior_mode':False}}
     physical=old.decode(training['position'])
     new_guide=ConditionedTransport(model,reference['anchor'],reference['guide'])
     native,_=new_guide.transform(physical,inverse=True)
@@ -58,7 +63,11 @@ def prepare(args):
     states=Path(args.states);parent=torch.load(states/'reference.pt',weights_only=True)
     training=torch.load(states/'chains.pt',weights_only=True)
     proof=replay(model,make_target(model,parent),training)
-    reference=make_reference(model,parent,training)
+    anchor=None
+    if args.mean_anchor:
+        ids=torch.linspace(0,training['white'].shape[1]-1,min(512,training['white'].shape[1])).round().long()
+        anchor=make_target(model,parent).decode(training['white'][:,ids].flatten(0,1)).mean(0)
+    reference=make_reference(model,parent,training,anchor=anchor)
     reference['proposal_training'].update({'parent_reference_sha256':hashlib.sha256((states/'reference.pt').read_bytes()).hexdigest(),
         'parent_checkpoint_sha256':hashlib.sha256((states/'chains.pt').read_bytes()).hexdigest(),
         'input_sha256':settings['input_sha256'],'original_target_replay':proof})
@@ -72,4 +81,5 @@ def prepare(args):
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     for name in ['inputs','states','settings','output']:p.add_argument('--'+name,required=True)
+    p.add_argument('--mean-anchor',action='store_true',help='Linearize at a discarded observed-data trajectory mean')
     prepare(p.parse_args())

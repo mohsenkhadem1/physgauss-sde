@@ -6,6 +6,27 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
+**2026-10-20 reflected/interwoven update:** recovery is proven; Bird convergence
+is still pending. The mean-anchor floor-free guide preserves physical states
+to3.79e-14. An exact centered parameter step now complements the noncentered
+innovation update. Its nonlinear-funnel quadrature, actual neural joint/marginal
+path-preservation, and bit-identical single-chain resume tests pass. The real
+Bird16-draw integration check replays the target to3.64e-12. These are correctness
+checks, not convergence evidence. The previous local950009 guide trial was
+stopped during warmup; its50-step checkpoint is preserved, no draws pooled.
+
+`.github/workflows/pacnerf-bird-reflected.yml` runs four independently seeded
+standard free CPU workers,500 warmup/2000 retained draws, with archived256-draw
+previews and a strict four-chain force/normalizer/state convergence gate.
+The run record is `configs/pacnerf_bird_reflected.json` once dispatched.
+See `docs/PACNERF_REFLECTED_SAMPLING.md`. No larger comparison is dispatched
+until Bird converges AND independently validated uncertainty meets readiness.
+For exact continuation, use the original workflow source SHA and immutable
+reference blob; script hashes are strict. Do not resume older prototype output
+under the new runner/source fingerprint.
+
+The following earlier status entries are historical.
+
 **2026-10-20 recovery/mixing audit:** original run39214740152 is finished with
 failure: first worker timed out after saving3350 draws/chain, recovery rejected
 last-bit recomputed image correlations. Restoring saved values exactly makes

@@ -33,6 +33,50 @@ also use that marginal target. Physical contact, force conjugacy and model
 priors stay unchanged. The Gaussian reference is learned from discarded
 observed-data states; its centre is not claimed to be a stationary mode.
 
+## Interweaving physical and innovation coordinates
+
+The new optional `--interweave` update alternates two exact parameter
+conditionals. The ordinary update holds bridge innovations fixed, allowing the
+physical path to change with material/noise parameters. The added update holds
+the physical path fixed and samples the five parameters directly. A change of
+coordinates then maps the unchanged path back into the bridge. This addresses
+the scale/path coupling without changing the model or forcing the chains to
+agree through a shared random state.
+
+For physical parameters psi = mu + A v and fixed physical path x, its
+elliptical-slice residual is
+
+    R_centered(v) = log p(x, mu+A v, observed RGB, F=1) + ||v||²/2.
+
+The bridge Jacobian is absent from this physical-coordinate conditional.
+The five-parameter affine Jacobian is constant. The subsequent bridge mapping
+restores the full saved innovation-coordinate density, including its Jacobian.
+An independent nonlinear-funnel quadrature test detects incorrectly adding
+the bridge Jacobian. Actual neural joint/marginal tests check path preservation;
+a single-chain test checks bit-identical warmup and retained continuation.
+
+## Four-worker Bird protocol
+
+`pacnerf-bird-reflected.yml` prepares one fixed analytic state guide using the
+discarded3350-draw observed-data checkpoint. It relinearizes at the physical
+trajectory mean of2048 evenly selected parent states, removes floor curvature
+from the guide only, and learns only five-parameter moments. The state Gaussian
+is the analytic bridge rather than an empirical full covariance. Preparation
+checks the old cached density and the preserved physical starting trajectories.
+
+Four independent standard GitHub CPU workers use distinct seeds970009–970012,
+500 discarded warmup transitions and planned2000 retained draws each. Each
+retains a different parent endpoint; parent samples never enter the new
+posterior. The first256 retained draws are archived for early mixing inspection;
+each worker then continues its exact checkpoint to2000. No paid service is used.
+Learning time is research development cost, not a fair runtime comparison.
+
+The aggregator rejects different sources, references, inputs, seeds/indices or
+incomplete budgets, replays the density and monitors physical states, native
+states, log density,72 conditional force means and both covariance normalizers.
+Only four-chain diagnostics count. A passing convergence gate still requires
+independent uncertainty replay; it does not start the wider comparison.
+
 ## Validation and current status
 
 The event-driven flow passes energy conservation, reversal through multiple
@@ -43,11 +87,14 @@ moments computed by a separate Gaussian-conditioning integral. Warmup and
 retained-prefix resumption are bit-identical. Neural joint/marginal fixture
 tests verify the physical height map and residual gradient.
 
-All182 regression tests pass. The actual Bird preflight height error is6.4e-16m
-and residual-density identity error1.6e-12. Its empirical-covariance development
-trial was stopped in warmup: small conditional steps remain necessary. A guide
-without floor curvature is the next proposal experiment. No convergence is
-claimed. Production requires at least2000 retained draws/chain, Rhat<1.01,
+The original182-test regression suite passed before the guide/interweaving
+extensions. The new mean-anchor Bird preflight height error is3.33e-16m and
+residual-density identity error9.74e-13. A16-draw one-chain integration check
+replays the full target to3.64e-12. This is not a convergence run.
+The preceding guide trial was stopped during warmup to free local CPU for the
+validated interwoven variant. Its checkpoint is preserved and no samples from
+it are pooled. No convergence is claimed. Production requires at least2000
+retained draws/chain, Rhat<1.01,
 bulk/tailESS>=400 for every monitored state, parameter, conditional force and
 normalizer, followed by independent uncertainty evaluation. The larger
 comparison stays gated.

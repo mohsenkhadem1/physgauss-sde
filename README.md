@@ -2,6 +2,13 @@
 
 Research prototype for physically constrained Gaussian scene reconstruction from **one moving camera with missing frames**.
 
+**Bird recovery audit:** exact checkpoint recovery now passes on the real3350-draw
+checkpoint. The mixing audit finds severe covariance conditioning and slow
+mechanics/diffusion movement. A [reflected and interwoven sampler](docs/PACNERF_REFLECTED_SAMPLING.md)
+preserves the existing physical posterior and is being tested on Bird alone,
+using four independent free CPU workers. Bird convergence and uncertainty
+validation remain pending; the wider comparison remains gated.
+
 **Latest development:** all seven original CPU continuations have finished;
 10/16 baseline cells pass convergence and six Bird cells remain ineligible.
 The first single-Bird correction was stopped after unconverged trial paths

@@ -26,12 +26,12 @@ class ReflectedHybridTests(unittest.TestCase):
             def __init__(self,fixed):self.fixed=fixed.clone()
             def geometry(self):
                 offset=self.fixed@a+b-(self.fixed[:,2:core]*a[2:core]).sum(-1)
-                return a[None,None,2:core].expand(4,1,-1),offset[:,None]
+                return a[None,None,2:core].expand(len(self.fixed),1,-1),offset[:,None]
             def __call__(self,state):
                 full=self.fixed.clone();full[:,2:core]=state
                 value=-gaussian(full)+target.center+.5*full.square().sum(-1)
                 gradient=(-(full-mean)@precision)[:,2:core]+state
-                return value,gradient,torch.zeros(4,dtype=torch.bool)
+                return value,gradient,torch.zeros(len(self.fixed),dtype=torch.bool)
         target.reflection_context=Context
         return target,mean,torch.linalg.inv(precision),a,b,scale
 
@@ -90,3 +90,15 @@ class ReflectedHybridTests(unittest.TestCase):
             torch.testing.assert_close(value,full+penalty.detach(),atol=2e-7,rtol=1e-9)
             torch.testing.assert_close(grad,(full_grad+floor_grad)[:,2:model.core_dimension],atol=2e-6,rtol=1e-8)
             self.assertTrue(torch.equal(bad,full_bad));self.assertIsNone(model._conditional_context)
+
+    def test_single_chain_worker_continues_exactly_for_later_multichain_aggregation(self):
+        target,*rest=self.toy();scale=rest[-1]
+        initial=torch.zeros(1,7,dtype=torch.float64)
+        with tempfile.TemporaryDirectory(dir=self.root) as folder:
+            p=Path(folder)
+            direct=sample(target,7,4,p/'direct',64,warmup=16,seed=857,initial=initial,floor_scale=scale,chains_count=1)
+            sample(target,7,4,p/'split',32,warmup=16,seed=857,initial=initial,floor_scale=scale,chains_count=1)
+            resumed=sample(target,7,4,p/'split',64,warmup=16,seed=857,initial=initial,floor_scale=scale,chains_count=1)
+        self.assertEqual(direct['white'].shape,(1,64,7))
+        for key in ['white','log_ratio','energy_errors','rng_state']:
+            torch.testing.assert_close(resumed[key],direct[key],atol=0,rtol=0)

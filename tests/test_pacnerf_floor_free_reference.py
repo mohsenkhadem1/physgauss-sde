@@ -29,3 +29,17 @@ class FloorFreeReferenceTests(unittest.TestCase):
             torch.testing.assert_close(physical,old.decode(white[:,-1]),atol=1e-9,rtol=1e-10)
             torch.testing.assert_close(target.model.objective(native),model.objective(physical)-jac,atol=1e-8,rtol=1e-10)
             self.assertFalse(reference['proposal_training']['reference_is_posterior_mode'])
+
+    def test_observed_mean_relinearization_keeps_the_same_physical_density(self):
+        model=floor_model();d=model.dimension
+        guide=ConditionedTransport(model,torch.zeros(d,dtype=torch.float64))
+        parent={'mean':torch.zeros(d,dtype=torch.float64),'precision':torch.eye(d,dtype=torch.float64),
+            'anchor':guide.anchor,'guide':guide.guide,'parameter_blocked_reference':True}
+        white=.01*torch.randn(4,16,d,dtype=torch.float64,generator=torch.Generator().manual_seed(881))
+        training={'white':white,'position':white[:,-1]};old=make_target(model,parent)
+        anchor=old.decode(white[:,-1]).mean(0)
+        reference=make_reference(model,parent,training,anchor=anchor)
+        target=make_target(model,reference);native=target.coordinates(reference['initial_white'])
+        physical,jac=target.model.transform(native)
+        torch.testing.assert_close(physical,old.decode(white[:,-1]),atol=1e-9,rtol=1e-10)
+        torch.testing.assert_close(target.model.objective(native),model.objective(physical)-jac,atol=1e-8,rtol=1e-10)
