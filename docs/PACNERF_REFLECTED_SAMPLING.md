@@ -87,6 +87,16 @@ passed separately, bringing distinct tested checks to188.
 extend to4000/8000, using that exact worker commit and the same reference blob,
 initial states, warmup and saved RNG. It rejects source/reference/kernel drift
 and proves the old retained prefix unchanged. It has not been dispatched.
+The bounded follow-up workflow listens for completion of the initial run;
+it extends a failed2000-draw convergence gate to4000, then8000 if needed.
+Continuation workflows route their own next step with `workflow_dispatch`.
+This avoids recursively chaining `workflow_run` jobs. Dispatching with the
+repository token is supported by [GitHub's documented exception](https://docs.github.com/en/enterprise-cloud@latest/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow).
+It checks the exact shared reference SHA and numerical-source fingerprint,
+accepts only the one Bird case, stops at8000, and never starts the full matrix.
+Failed/partial workers preserve checkpoints but do not trigger an unbounded retry.
+If a dispatch returns an unknown outcome, inspect the remote runs before
+rerunning the coordinator; a route record is written before the API call.
 
 `pacnerf-bird-reflected-validate.yml` reruns the complete raw convergence gate
 before opening evaluation particles. It compares the full-image shader against
@@ -95,7 +105,13 @@ likelihood, decodes states in NumPy and checks all interval/proper scores agains
 the Torch path. It independently replays the original baseline and applies the
 existing80%-coverage/CRPS/floor development guardrails. A unit test verifies that
 a failed fresh convergence gate cannot open any tensor labels. This workflow
-has not been dispatched; no uncertainty result is claimed.
+has not been dispatched; no uncertainty result is claimed. The bounded
+follow-up will dispatch it when the observed-only convergence gate passes.
+
+A separate real-data pipeline integration check ran four16-draw, zero-warmup
+shards with seeds990009–990012. Raw target replay passed, all force/state
+diagnostics were calculated, and production eligibility was correctly false.
+These samples are not mixed with the main run or used as convergence evidence.
 
 ## Validation and current status
 

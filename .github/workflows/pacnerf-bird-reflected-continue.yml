@@ -63,9 +63,14 @@ jobs:
     if: always() && needs.chain.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    permissions:
+      contents: read
+      actions: write
     defaults:
       run: {working-directory: worker}
     steps:
+      - uses: actions/checkout@v4
+        with: {path: control}
       - uses: actions/checkout@v4
         with: {path: worker, ref: ad3ec582aaa5e5ff1f4fdddf76318bd9d0bde031}
       - uses: actions/setup-python@v5
@@ -88,3 +93,15 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with: {name: bird-reflected-diagnostics, path: worker/runs/diagnostics, retention-days: 30, if-no-files-found: ignore}
+      - run: python -m unittest discover -s ../control/tests -p test_reflected_routing.py -v
+      - name: Bounded continuation or independently gated uncertainty validation
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BIRD_PARENT_RUN: ${{ github.run_id }}
+        run: >-
+          python -u ../control/experiments/route_reflected_bird.py
+          --report runs/diagnostics/convergence.json --parent-run "$BIRD_PARENT_RUN"
+          --output runs/route/route.json --dispatch
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: bird-reflected-followup-decision, path: worker/runs/route, retention-days: 30, if-no-files-found: ignore}

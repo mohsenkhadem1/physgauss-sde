@@ -24,6 +24,13 @@ tests on GitHub, rebuilt the shared reference and started all four CPU workers.
 Exact continuation and independently gated uncertainty workflows are prepared
 but not dispatched: `pacnerf-bird-reflected-continue.yml` and
 `pacnerf-bird-reflected-validate.yml`. Use the recorded parent run and draw count.
+The bounded follow-up is configured to extend failed full gates to4000/8000
+or dispatch uncertainty validation on convergence. It pins the shared reference
+SHA and source fingerprint, stops at8000 and never starts the wider matrix.
+See `pacnerf-bird-reflected-followup.yml` and `experiments/route_reflected_bird.py`.
+Partial/failed workers retain artifacts and require inspected exact recovery;
+no infinite retry is scheduled. The separate16-draw four-shard integration
+check passed density replay and correctly failed the production gate.
 See `docs/PACNERF_REFLECTED_SAMPLING.md`. No larger comparison is dispatched
 until Bird converges AND independently validated uncertainty meets readiness.
 For exact continuation, use the original workflow source SHA and immutable
