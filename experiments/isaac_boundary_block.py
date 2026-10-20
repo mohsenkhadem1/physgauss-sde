@@ -10,6 +10,7 @@ import importlib.metadata
 import json
 from pathlib import Path
 import sys
+import traceback
 
 
 def main():
@@ -22,6 +23,7 @@ def main():
     parser.add_argument('--hz', type=int, default=240)
     parser.add_argument('--fps', type=int, default=20)
     parser.add_argument('--fixture-nodes', type=int, default=1)
+    parser.add_argument('--load-patch-nodes', type=int, default=1)
     parser.add_argument('--force-scale', type=float, default=.25)
     parser.add_argument('--youngs-modulus', type=float, default=20000.)
     parser.add_argument('--cells', type=int, nargs=3, default=[12, 6, 4])
@@ -43,6 +45,7 @@ def main():
     app = SimulationApp({'headless': args.headless, 'width': 960, 'height': 720,
                          'active_gpu': args.gpu, 'physics_gpu': args.gpu, 'multi_gpu': False,
                          'disable_viewport_updates': args.headless, 'fast_shutdown': True})
+    exit_code=0
     try:
         import carb
         import numpy as np
@@ -66,7 +69,7 @@ def main():
         physics.CreateEnableGPUDynamicsAttr(True); physics.CreateBroadphaseTypeAttr('GPU')
         points, tetrahedra, faces = block_mesh(cells=args.cells)
         spec = episode(points, faces, seed=args.seed, fixture_nodes=args.fixture_nodes,
-                       seconds=args.seconds, force_scale=args.force_scale)
+                       seconds=args.seconds, force_scale=args.force_scale,load_patch_nodes=args.load_patch_nodes)
         masses = lumped_masses(points, tetrahedra, density=500.)
         mesh = UsdGeom.TetMesh.Define(stage, '/World/Block')
         mesh.GetPointsAttr().Set(Vt.Vec3fArray.FromNumpy(points.astype(np.float32)))
@@ -122,7 +125,10 @@ def main():
             handle.CreateVisibilityAttr('invisible')
             UsdPhysics.RigidBodyAPI.Apply(handle.GetPrim())
             mass = UsdPhysics.MassAPI.Apply(handle.GetPrim()); mass.CreateMassAttr(handle_mass)
-            mass.CreateDiagonalInertiaAttr(Gf.Vec3f(*([.4*handle_mass*.003**2]*3)))
+            patch=spec['load_patches'][i];offsets=points[patch]-points[node]
+            inertia=handle_mass*np.mean(np.sum(offsets**2,axis=1)[:,None]-offsets**2,axis=0)
+            inertia=np.maximum(inertia,.4*handle_mass*.003**2)
+            mass.CreateDiagonalInertiaAttr(Gf.Vec3f(*inertia))
             handle_physics=PhysxSchema.PhysxRigidBodyAPI.Apply(handle.GetPrim())
             handle_physics.CreateDisableGravityAttr(True)
             handle_physics.CreateSleepThresholdAttr(0.)
@@ -130,7 +136,7 @@ def main():
             handle_physics.CreateLinearDampingAttr(0.)
             handle_physics.CreateAngularDampingAttr(0.)
             # No collider: this handle transfers load only through its attachment.
-            attach(f'LoadAttachment_{i}', [node], handle.GetPath(), [[0, 0, 0]])
+            attach(f'LoadAttachment_{i}', patch, handle.GetPath(), offsets)
         UsdLux.DomeLight.Define(stage, '/World/Light').CreateIntensityAttr(1500.)
         set_camera_view(eye=[.42, -.55, .48], target=[0, 0, .25])
         camera = UsdGeom.Camera.Define(stage, '/World/ObservationCamera')
@@ -221,6 +227,7 @@ def main():
                  'force_scale':args.force_scale,'cells':args.cells,
                  'nodes':len(points),'tetrahedra':len(tetrahedra),'fixture_nodes':spec['fixture_nodes'],
                  'load_nodes':spec['load_nodes'],'youngs_modulus_Pa':args.youngs_modulus,'poissons_ratio':.35,
+                 'load_patches':spec['load_patches'],'load_patch_nodes':args.load_patch_nodes,
                  'density_kg_m3':500.,'block_mass_kg':float(masses.sum()),'handle_mass_kg_each':handle_mass,
                  'gravity_m_s2':0.,'maximum_pin_error_m':maximum_pin_error,'minimum_tet_volume_ratio':minimum_volume_ratio,
                  'deformable_sleep_threshold_m_s':0.,'settling_damping_s_inverse':0.,'linear_damping_s_inverse':.5,
@@ -239,8 +246,19 @@ def main():
         if args.keep_open:
             world.pause()
             while app.is_running(): app.update()
+    except BaseException as error:
+        exit_code=1
+        failure={'completed':False,'exception':type(error).__name__,'message':str(error),
+                 'traceback':traceback.format_exc(),'source_sha256':source_hashes,
+                 'time_s':locals().get('t'),'minimum_tet_volume_ratio':locals().get('minimum_volume_ratio')}
+        (args.output/'failure.json').write_text(json.dumps(failure,indent=2)+'\n')
+        traceback.print_exc()
+        if 'q' in locals():
+            np.savez_compressed(args.output/'truth/failure-state.npz',positions_m=q,velocities_m_s=v,
+                                saved_positions_m=positions,saved_times_s=times)
+        raise
     finally:
-        app.close()
+        app.close(exit_code=exit_code)
 
 
 if __name__ == '__main__': main()

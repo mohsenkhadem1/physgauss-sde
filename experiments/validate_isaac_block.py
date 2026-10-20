@@ -25,6 +25,12 @@ def validate(root, unloaded=False):
     finite=all(np.isfinite(x).all() for x in [time,position,velocity,frame_forces,step_forces,handles])
     pin_error=float(np.linalg.norm(position[:,spec['fixture_nodes']]-rest[spec['fixture_nodes']],axis=-1).max())
     handle_error=float(np.linalg.norm(handles-position[:,spec['load_nodes']],axis=-1).max())
+    patch_error=0.
+    for patch in spec.get('load_patches',[[i] for i in spec['load_nodes']]):
+        initial=np.linalg.norm(rest[patch,None]-rest[np.array(patch)[None]],axis=-1)
+        moving=position[:,patch]
+        distances=np.linalg.norm(moving[:,:,None]-moving[:,None,:],axis=-1)
+        patch_error=max(patch_error,float(np.abs(distances-initial).max()))
     rest_det=np.linalg.det(rest[tet[:,1:]]-rest[tet[:,:1]])
     det=np.linalg.det(position[:,tet[:,1:]]-position[:,tet[:,:1]])
     replay=np.asarray([forces_at(spec,float(t)) for t in step_times])
@@ -44,6 +50,7 @@ def validate(root, unloaded=False):
             'gaussian_material_attachment':gaussian_error<1e-7,
             'no_inverted_saved_tets':bool(np.all(det>0)),'fixture_held':pin_error<2e-4,
             'handles_attached':handle_error<2e-3,'force_replay':force_error<1e-7,
+            'rigid_load_patch_geometry':patch_error<2e-4,
             'correct_step_count':len(step_times)==round(metadata['seconds']*metadata['physics_hz']),
             'actual_physics_clock_matches':bool(np.allclose(simulation_time,time,atol=1e-7,rtol=1e-7)),
             'uniform_frame_clock':bool(np.allclose(np.diff(time),1/metadata['observation_fps'])),
@@ -53,6 +60,7 @@ def validate(root, unloaded=False):
             'motion_check':displacement<1e-5 if unloaded else max(elastic)>1e-5}
     result={'checks':checks,'all_pass':all(checks.values()),'saved_frames':len(time),'rgb_frames':len(images),
             'maximum_pin_error_m':pin_error,'maximum_handle_attachment_error_m':handle_error,
+            'maximum_load_patch_distance_error_m':patch_error,
             'minimum_saved_tet_volume_ratio':float((det/rest_det).min()),'force_replay_error_N':force_error,
             'maximum_displacement_m':displacement,'maximum_elastic_coordinate_rms_m':max(elastic),
             'unloaded_control':unloaded,'qualification':'Simulator integrity checks; no inverse-boundary recovery or calibrated uncertainty claim'}

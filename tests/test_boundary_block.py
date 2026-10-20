@@ -33,5 +33,13 @@ class BoundaryBlockTests(unittest.TestCase):
         np.testing.assert_allclose(g['means_m'],np.einsum('ni,nij->nj',g['barycentric_weights'],p[g['face_vertex_ids']]),atol=3e-8)
         np.testing.assert_allclose(g['barycentric_weights'].sum(-1),1,atol=1e-7)
 
+    def test_finite_load_patches_are_compact_disjoint_and_clear_of_fixture(self):
+        p,t,f=block_mesh();s=episode(p,f,fixture_nodes=20,load_patch_nodes=9)
+        used=set(s['fixture_nodes'])
+        for center,patch in zip(s['load_nodes'],s['load_patches']):
+            self.assertIn(center,patch);self.assertEqual(len(patch),9)
+            self.assertFalse(used & set(patch));used.update(patch)
+            self.assertLessEqual(float(np.linalg.norm(p[patch]-p[center],axis=-1).max()),.065)
+
 
 if __name__=='__main__':unittest.main()

@@ -43,7 +43,7 @@ def lumped_masses(points, tetrahedra, density):
     return mass
 
 
-def episode(points, faces, seed=31001, fixture_nodes=1, loads=3, seconds=3.0, force_scale=1.0):
+def episode(points, faces, seed=31001, fixture_nodes=1, loads=3, seconds=3.0, force_scale=1.0, load_patch_nodes=1):
     rng = np.random.default_rng(seed)
     surface = np.unique(faces)
     if not 1 <= fixture_nodes <= len(surface) or not 1 <= loads < len(surface):
@@ -57,6 +57,15 @@ def episode(points, faces, seed=31001, fixture_nodes=1, loads=3, seconds=3.0, fo
     available = surface[np.min(np.linalg.norm(points[surface, None]-points[fixed][None], axis=-1), axis=1) > .055]
     if len(available) < loads: raise ValueError('Not enough surface nodes separated from fixture')
     selected = rng.choice(available, loads, replace=False)
+    if not 1 <= load_patch_nodes <= len(available): raise ValueError('Invalid load patch size')
+    patches=[];used=set()
+    for node in selected:
+        candidates=np.array([j for j in available if int(j) not in used and (j==node or j not in selected)])
+        order=np.argsort(np.linalg.norm(points[candidates]-points[node],axis=1),kind='stable')
+        patch=candidates[order[:load_patch_nodes]]
+        if len(patch)!=load_patch_nodes or np.linalg.norm(points[patch]-points[node],axis=1).max()>.065:
+            raise ValueError('Cannot form compact disjoint load patches')
+        patches.append(patch.tolist());used.update(map(int,patch))
     pulses = []
     for i, node in enumerate(selected):
         direction = rng.normal(size=3); direction /= np.linalg.norm(direction)
@@ -66,7 +75,7 @@ def episode(points, faces, seed=31001, fixture_nodes=1, loads=3, seconds=3.0, fo
                        'duration_s': float(seconds*.25)})
     return {'seed': seed, 'fixture_nodes': fixed.tolist(), 'fixture_rest_m': points[fixed].tolist(),
             'fixture_type': 'translational point pin' if fixture_nodes == 1 else 'fixed node patch',
-            'load_nodes': selected.tolist(), 'pulses': pulses,
+            'load_nodes': selected.tolist(), 'load_patches':patches, 'pulses': pulses,
             'force_frame': 'world', 'force_profile': 'sin(pi*(t-start)/duration)^2 inside pulse, zero outside',
             'seconds': seconds}
 

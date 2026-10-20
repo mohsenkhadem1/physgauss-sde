@@ -1,5 +1,13 @@
 # Isaac Sim boundary-learning starting scene
 
+**Revised flexible video:** the initial20kPa/single-pin example mostly rotates.
+Use `bash experiments/launch_flexible_block.sh --output runs/flexible-new --keep-open`
+for the1kPa, fixed-patch, finite-load-patch demo. See the
+[matched material comparison and results](../examples/isaac-flexible-block/README.md).
+The original configuration below remains available as an explicitly separate
+experiment. The new9-node load patches are attached to low-mass rigid handles;
+their geometry and inertia are recorded rather than treated as point forces.
+
 Bird was stopped at the user's request on20 October2026. This experiment
 starts the boundary-condition direction with a forward simulator, before
 implementing boundary inference.

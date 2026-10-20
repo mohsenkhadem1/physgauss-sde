@@ -1,5 +1,21 @@
 # Handover
 
+## Revised flexible block — 20 October 2026
+
+The user found the initial clip insufficiently flexible. The new launcher
+`experiments/launch_flexible_block.sh` selects1kPa material,20 fixed nodes,
+three9-node dynamic load patches, force scale0.35 and480Hz. A matched20kPa
+control uses identical boundaries, camera and force histories. Elastic
+coordinate RMS increases0.782→5.745mm (7.35×); no deformation is amplified
+in the new videos. All retained element volumes are positive, although local
+compression is large (minimum ratio0.274). Four numerical tests pass.
+Independent force/clock/source/fixture/load-patch replay passes. Point loading
+of the softest material was rejected after a negative tet determinant; the
+runner now records failure state/traceback and preserves nonzero exit status
+through Isaac fast shutdown. See `examples/isaac-flexible-block` for videos
+and complete evidence. Numerical convergence and inverse recovery remain open.
+Bird stays stopped.
+
 ## Active beam action selection — completed in this task
 
 The user requested active/random/fixed action selection on the existing beam.

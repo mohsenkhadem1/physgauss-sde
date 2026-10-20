@@ -28,8 +28,12 @@ opened. See the [local audit and protocol](docs/BIRD_LOCAL_SAMPLER.md).
 The [Isaac Sim block setup](docs/ISAAC_BOUNDARY_BLOCK.md) provides a GPU FEM
 block, a random fixed surface point (or patch), random force pulses and RGB/full
 motion ground truth. Start a visible episode with
-`bash experiments/launch_isaac_block.sh --output runs/block-new --keep-open`.
-See the [actual RGB preview](examples/isaac-boundary-block/preview.gif).
+`bash experiments/launch_flexible_block.sh --output runs/block-new --keep-open`.
+The [revised flexible demo](examples/isaac-flexible-block/README.md) uses a soft
+material, a support patch and finite load patches; it shows7.35× the elastic
+motion of a matched stiff control. Watch the
+[soft block](examples/isaac-flexible-block/soft/simulation.mp4) or
+[side-by-side comparison](examples/isaac-flexible-block/comparison/simulation.mp4).
 
 Research prototype for physically constrained Gaussian scene reconstruction from **one moving camera with missing frames**.
 
