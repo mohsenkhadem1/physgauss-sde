@@ -1,5 +1,13 @@
 # PhysGauss-SDE
 
+**Adaptive force prior:** [the completed uncertainty audit](examples/beam-adaptive/README.md)
+replaces fixed temporal smoothness with a joint posterior over force timescales
+and boundaries. On the same fast-force cases, active hidden RMSE improves
+2.525→0.697 mm and nominal 90% coverage improves 27→88%. Fresh hierarchical
+calibration passes; slow-force precision costs and early off-grid failures
+remain explicit. All 16 beam tests and 58,800 posterior replays pass.
+[Policy and equations](docs/BEAM_ADAPTIVE_FORCE.md).
+
 **Active beam measurements:** [the completed comparison](examples/beam-active/README.md)
 chooses another view or calibrated probe using expected hidden-deformation
 prediction error, with forces marginalized. Across 400 matched cases, two

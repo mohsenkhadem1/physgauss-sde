@@ -1,5 +1,38 @@
 # Handover
 
+## Adaptive beam force prior — completed in this task
+
+The user requested an audit of faster-force overconfidence, adaptive force
+priors, active/random/fixed reruns and publication. Implementation:
+`experiments/beam_adaptive.py`; experiment/verification:
+`experiments/run_beam_adaptive.py`, `experiments/verify_beam_adaptive.py`.
+Config: `configs/beam_adaptive.json`. Equations and the observation-conditioned
+uncertainty policy are in `docs/BEAM_ADAPTIVE_FORCE.md`. All data and results are
+under `examples/beam-adaptive`, with interpretation in its README.
+
+The model integrates forces and retains a joint posterior over 24 boundary
+hypotheses and six force timescales. No neural/RL policy was trained. The active
+rule maximizes expected reduction in hidden-deformation prediction variance
+using only acquired observations. Calibrated probes and replayable loads are
+still idealized, and material/noise/force amplitude remain given.
+
+Four local CPU workers completed 1,200 cases in 363.1 seconds. On the original
+200 fast-force cases, active RMSE improves 2.525→0.697 mm and nominal 90% tip
+coverage 27→88%. Adaptive random/fixed errors are 3.104/0.697 mm. Active helps
+earlier in the budget; by six measurements the strong fixed schedule catches up.
+The 400 fresh hierarchical-prior cases pass all declared adaptive scalar checks:
+final errors active/random/fixed 0.640/2.418/0.650 mm, coverage 91.75/88.25/92.25%.
+On 200 fresh off-grid (0.5s) cases, final active coverage is 91.5%, but steps 1
+and 2 still fail. Slow-force error rises slightly 0.547→0.563 mm, and early
+intervals are too conservative. Do not claim all-stage conditional robustness.
+
+Sixteen beam tests pass. All 58,800 states replay with zero recorded metric
+difference; prior-study baseline RMSEs reproduce within 1.85e-12 mm. Source/data
+hashes, identical initial inputs, action budgets, covariance PSD, interval CDFs
+and identical-final-data invariance pass. A tighter quadrature audit changes no
+chosen actions. Read-only free CPU reproduction is in `beam-adaptive.yml`.
+Other Isaac/Bird work is preserved; this task does not modify those models.
+
 ## Revised flexible block — 20 October 2026
 
 The user found the initial clip insufficiently flexible. The new launcher

@@ -16,10 +16,24 @@ def verify(output):
     assert all(hashlib.sha256(Path(p).read_bytes().replace(b'\r\n', b'\n')).hexdigest()==h for p, h in manifest['source_sha256_lf'].items())
     assert all(hashlib.sha256((output/p).read_bytes()).hexdigest()==h for p, h in manifest['dataset_sha256'].items())
     setups = {'fixed_2s': setup(config, [2.]), 'adaptive': setup(config, config['lengths_s'])}
-    replays = 0; max_error = 0.; max_cdf_error = 0.; same_sets = {}
+    replays = 0; max_error = 0.; max_cdf_error = 0.; legacy_error = 0.; same_sets = {}
     for arm in results['populations']:
         data = json.loads(gzip.decompress((output/f'{arm}-dataset.json.gz').read_bytes()))
         initial = data['initial_observations_pixels']; n = len(initial)
+        spec = results['populations'][arm]['specification']
+        if 'source' in spec:
+            payload = Path(spec['source']).read_bytes()
+            assert hashlib.sha256(payload).hexdigest()==data['replay_source_sha256']
+            old = json.loads(gzip.decompress(payload))
+            for key in ['labels', 'force_N', 'initial_observations_pixels', 'potential_action_observations_pixels', 'random_action_orders']:
+                assert data[key]==old[key][:n]
+            for policy in ['active', 'random', 'fixed']:
+                assert data['action_logs']['fixed_2s/'+policy][0][0]['action']==old['action_logs'][policy][0][0]['action']
+                for step in range(config['budget']+1):
+                    for i in range(n):
+                        legacy_error = max(legacy_error, abs(data['per_case_metrics']['fixed_2s/'+policy][step][i]['hidden_rmse_mm']
+                            -old['per_case_metrics_and_tip_posteriors'][policy][step][i]['hidden_rmse_mm']))
+            del old
         fits = {p: s[0].fit(initial) for p, s in setups.items()}
         oracle = {l: setup(config, [l]) for l in sorted(set(data['true_lengths_s']))}
         oracle_fits = {l: s[0].fit(initial) for l, s in oracle.items()}
@@ -73,9 +87,11 @@ def verify(output):
         print(f'Replayed {arm}: {n} cases', flush=True)
     assert max_error<1e-8, max_error
     assert max_cdf_error<1e-8, max_cdf_error
+    assert legacy_error<1e-7, legacy_error
     assert results['simulation_audit']['pass']
     assert max(r['max_quadrature_decision_regret'] for r in results['populations'].values())<.001
     validation = {'pass': True, 'states_replayed': replays, 'max_absolute_replay_error': max_error,
+        'max_previous_study_RMSE_reproduction_error_mm': legacy_error,
         'max_interval_cdf_error': max_cdf_error, 'source_LF_and_dataset_byte_hashes_match': True,
         'all_covariances_PSD': True, 'action_budget_pairing_and_argmin_checks': True,
         'same_final_action_set_checks': same_sets,
