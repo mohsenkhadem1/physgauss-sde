@@ -1,5 +1,13 @@
 # PhysGauss-SDE
 
+**Active beam measurements:** [the completed comparison](examples/beam-active/README.md)
+chooses another view or calibrated probe using expected hidden-deformation
+prediction error, with forces marginalized. Across 400 matched cases, two
+actions give 0.805 mm hidden RMSE versus random 1.649 mm and fixed 1.902 mm.
+By six actions the strong fixed schedule nearly catches up (0.554 versus
+0.547 mm). Matched scalar uncertainty checks pass; a separate 200-case wrong
+force-prior stress test fails calibration. [Equations and reproduction](docs/BEAM_ACTIVE_DESIGN.md).
+
 **Research direction:** learn uncertain boundary conditions—support and load
 patches, fixtures, compliance and changing contact—from a static Gaussian
 reference and partial views. Start with known material and a controlled hidden-

@@ -1,5 +1,31 @@
 # Handover
 
+## Active beam action selection — completed in this task
+
+The user requested active/random/fixed action selection on the existing beam.
+Implementation and equations: `experiments/beam_active.py`,
+`experiments/run_beam_active.py`, `docs/BEAM_ACTIVE_DESIGN.md`.
+Frozen config: `configs/beam_active.json`. All output and data are in
+`examples/beam-active`; the README there explains interpretation and limits.
+
+Local CPU completed 400 matched and 200 shorter-force-prior cases, with six
+actions per policy. Active improves measurement efficiency: at two actions,
+hidden RMSE is 0.805 mm vs random 1.649 and fixed 1.902. At six actions active
+0.547 and fixed 0.554 mm nearly agree; 366/400 cases have identical final
+measurement sets and posteriors. Final active 90% tip coverage is 93.25%, with
+3.52 mm mean width. All declared matched scalar gates pass. Under the wrong
+force correlation prior, active ends at 2.525 mm but only 27% coverage:
+uncertainty is NOT robustly validated under mismatch.
+
+Eleven beam unit tests and all 12,600 archived posterior replays pass.
+`experiments/verify_beam_active.py` checks hashes, data pairing, budgets,
+no repeats, posterior/metric replay, covariance PSD and action minimization.
+The read-only `.github/workflows/beam-active.yml` reproduces on standard CPU.
+No paid resources are needed. Earlier Bird and Isaac work is preserved.
+The next scientific limitation is model-mismatch-aware action scoring and
+comparison against an optimized fixed ordering; early gains here are against
+a strong spatial/probe design with chronological time ordering.
+
 ## User-directed switch to Isaac Sim — 20 October 2026
 
 User explicitly requested: stop Bird; create a simulated flexible block with

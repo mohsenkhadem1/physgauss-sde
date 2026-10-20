@@ -1,0 +1,22 @@
+{
+  "version": "beam-active-v1",
+  "seed": 20261023,
+  "cases": 400,
+  "stress_cases": 200,
+  "budget": 6,
+  "quadrature_order": 15,
+  "quadrature_audit_order": 61,
+  "quadrature_audit_cases": 8,
+  "inference_elements": 40,
+  "truth_elements": 80,
+  "pixel_noise_std": 0.25,
+  "utility_hidden_x_m": [0.05, 0.2, 0.85, 1.0],
+  "fixed_action_indices": [1, 3, 5, 7, 9, 12],
+  "bootstrap_resamples": 2000,
+  "primary_uncertainty_target": "hidden tip x=1m at t=5s, always withheld",
+  "utility": "Expected mean posterior variance of the ORIGINAL load sequence at four hidden spatial coordinates and all eight times; squared metres, uniform weights, equal scalar-measurement cost.",
+  "protocol": "Replayable quasistatic loads. One extra vertical track observation OR one calibrated 0.04N probe on the unloaded/reset beam per action. Shared initial data, case truths and per-action noise across policies; no repeated actions. Fixed baseline observes all five initially missing times in chronological order at x=0.7m, then probes at x=0.8m. Random is a uniform permutation of all 13 actions. Active minimizes one-step expected prediction risk, without ground truth.",
+  "pilot_disclosure": "An eight-case implementation pilot used the middle probe (0.55m) for fixed. Active consistently chose the distal probe (0.8m), so fixed was strengthened to use that probe before the full comparison. Pilot outcomes are not counted as independent validation; the final baseline and budget remain frozen for both populations.",
+  "stress": "True original force correlation length 0.8s; all policies continue to assume 2s. On-grid boundaries and identical physics otherwise. No tuning on stress outcomes.",
+  "claims": "Prior-predictive scalar coverage, not simultaneous trajectories or real-world calibration. This is an active measurement design benchmark, not causal online video, robot planning, unknown material learning or trained flow matching."
+}

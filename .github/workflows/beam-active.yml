@@ -1,0 +1,45 @@
+name: Active beam action comparison
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'experiments/beam_active.py'
+      - 'experiments/run_beam_active.py'
+      - 'experiments/verify_beam_active.py'
+      - 'experiments/beam_boundary.py'
+      - 'tests/test_beam_active.py'
+      - 'configs/beam_active.json'
+      - '.github/workflows/beam-active.yml'
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.0.0 matplotlib==3.9.2
+      - run: python -m unittest discover -s tests -p 'test_beam*.py' -v
+      - run: python -u experiments/run_beam_active.py --config configs/beam_active.json --output runs/beam-active
+      - run: python experiments/verify_beam_active.py --output runs/beam-active
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: beam-active-comparison
+          path: runs/beam-active
+          retention-days: 30
+      - name: Matched scalar calibration check
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('runs/beam-active/results.json').read_text())
+          assert r['matched']['scalar_calibration_gate_pass']
+          print('No superiority or model-mismatch calibration assumption is enforced.')
+          PY
