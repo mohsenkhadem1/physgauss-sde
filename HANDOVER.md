@@ -36,6 +36,18 @@ The new actual Bird256-draw GitHub checkpoint passed a separate local
 bit-identical and the original prefix is unchanged. Proof in
 `examples/pacnerf-bird-mixing-audit/reflected-real-checkpoint-recovery-proof.json`.
 No local proof samples are pooled with the production chains.
+
+**Latest observed-only preview:** all four workers completed500 warmup and256
+retained samples and continued to2000. Full gate fails: worstRhat1.87275,
+minimum bulk/tailESS5.688/11.186,518/733 monitored quantities fail, zero invalid
+or divergent retained steps. The worst physical state is236 (frame10 first
+elastic mode6). Stiffness/dampingRhat are1.063/1.062; latent motion remains the
+bottleneck. New state-coordinate empirical covariance spans0.0614–74.41;
+six straight physical interpolations have zero uphill excess, which does not
+exclude entropic barriers, other paths or unvisited modes. No predictive scores
+were opened. Evidence/plots in `examples/pacnerf-bird-reflected-preview`,
+reproduction through `experiments/audit_reflected_preview.py` after aggregation.
+The wider comparison remains gated; this preview is not a convergence result.
 See `docs/PACNERF_REFLECTED_SAMPLING.md`. No larger comparison is dispatched
 until Bird converges AND independently validated uncertainty meets readiness.
 For exact continuation, use the original workflow source SHA and immutable

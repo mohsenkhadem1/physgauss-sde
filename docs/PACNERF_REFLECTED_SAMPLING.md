@@ -151,6 +151,32 @@ assert bitwise equality of future trajectories across different CPU platforms.
 
 ## Validation and current status
 
+### First four-chain preview (256 retained after500 warmup)
+
+All four main workers reached the preview and continued their exact checkpoints
+to2000. The full gate still fails: worstRhat1.87275, minimum bulkESS5.688,
+minimum tailESS11.186. There are no invalid/divergent retained state steps.
+518 of733 monitored quantities fail. Stiffness/dampingRhat are1.063/1.062;
+the worst coordinate is the frame10 displacement of elastic mode6, not a
+material parameter. This frame has one camera observation; its full3D modal
+state is not directly measured. The empirical native-state covariance has
+eigenvalues0.0614–74.41, showing substantial remaining geometric distortion.
+These unconverged moments are diagnostic, not estimates of the final posterior.
+
+Six41-point straight physical interpolation paths between actual representative
+samples show no uphill excess above the endpoint chord. This does not establish
+unimodality or exclude narrow-volume/entropic barriers. The new chains cannot
+be called converged merely because material parameters overlap or steps accept.
+No withheld images or particle scores were evaluated. The predeclared full
+budgets and thresholds are unchanged.
+
+Evidence: `examples/pacnerf-bird-reflected-preview`. Reproduce the full gate with
+`aggregate_pacnerf_reflected.py --draws 256`, then run
+`experiments/audit_reflected_preview.py` with the same inputs, shards and saved
+convergence path. An optional`--worker` selects a matching frozen checkout;
+source and input hashes are checked. Parameter and slow-state trace figures
+are included. The256-draw gate cannot trigger production eligibility.
+
 The event-driven flow passes energy conservation, reversal through multiple
 walls and an independent orthant solution. Logistic augmentation plus residual
 Metropolis correction reproduces independent posterior quadrature. The full
