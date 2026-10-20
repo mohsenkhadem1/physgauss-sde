@@ -4,7 +4,7 @@ Actual GPU FEM recordings from Isaac Sim6.2, using a seeded random surface pin
 and three random Newton-valued force pulses. The four-node fixture variant,
 second seed, unloaded control and half-time-step case are recorded separately.
 See [setup](../../docs/ISAAC_BOUNDARY_BLOCK.md), [results](results.json),
-[actual RGB animation](preview.gif) and [diagnostic overview](overview.png).
+[MP4 video](simulation.mp4), [actual RGB animation](preview.gif) and [diagnostic overview](overview.png).
 
 All five final explicit-clock cases pass integrity replay, and three geometry/
 force tests pass. Sleep and artificial settling damping are disabled. This is
