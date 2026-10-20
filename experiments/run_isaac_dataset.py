@@ -19,6 +19,8 @@ def main():
     parser.add_argument('--plan',type=Path,default=Path('configs/isaac_boundary_orbit_v01.json'))
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--gpus',type=int,nargs='+',default=[0,1,2])
+    parser.add_argument('--split-order',nargs='+',choices=['train','validation','test'],
+                        help='Execution priority only; all frozen recipes are retained')
     parser.add_argument('--isaac-python',default='/home/bayespc2/vscode/deformable worldmodel/.venv/bin/python')
     args=parser.parse_args();root=args.output;root.mkdir(parents=True,exist_ok=True)
     lock=(root/'.generation.lock').open('w');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
@@ -52,8 +54,21 @@ def main():
             print(json.dumps(result),flush=True);results.append(result)
         return results
     results=[]
+    cases=plan['episodes']
+    if args.split_order:
+        if len(set(args.split_order))!=len(args.split_order):parser.error('Repeated split priority')
+        rank={name:index for index,name in enumerate(args.split_order)}
+        cases=sorted(cases,key=lambda case:rank.get(case['split'],len(rank)))
+    execution={'split_order':args.split_order,'gpus':args.gpus,
+               'episode_ids':[case['episode_id'] for case in cases],
+               'qualification':'Execution order only; no recipe or split assignment changes'}
+    execution_path=root/'execution-order.json'
+    if execution_path.exists():
+        old=json.loads(execution_path.read_text())
+        execution['previous_execution']=old
+    execution_path.write_text(json.dumps(execution,indent=2)+'\n')
     with ThreadPoolExecutor(max_workers=len(args.gpus)) as pool:
-        futures=[pool.submit(gpu_queue,gpu,plan['episodes'][i::len(args.gpus)]) for i,gpu in enumerate(args.gpus)]
+        futures=[pool.submit(gpu_queue,gpu,cases[i::len(args.gpus)]) for i,gpu in enumerate(args.gpus)]
         for future in as_completed(futures):results.extend(future.result())
     results.sort(key=lambda x:x['episode_id']);failed=[r for r in results if r['status']=='failed']
     catalog={'dataset':plan['dataset'],'plan_sha256':plan['plan_sha256'],'source_sha256':sources,

@@ -1,5 +1,10 @@
 # PhysGauss-SDE
 
+**Neural boundary/material study (in progress):** [direct trajectory operators, posterior flows and acquisition rules](docs/GAUSSIAN_NEURAL_ACTIVE_FORMULATION.md)
+implement the latest research direction. Fresh Isaac training data, held-out
+prediction and actual calibrated probes are being evaluated; the initial pilots
+are not final test results. [Baseline feasibility audit](docs/GAUSSIAN_BOUNDARY_BASELINES.md).
+
 **Orbiting-camera Isaac dataset:** [48 scenarios](examples/isaac-boundary-orbit/README.md)
 vary material properties, force families and support setups/locations. Each has
 RGB, depth, masks, camera poses and motion truth, with ten sparse inputs and a
