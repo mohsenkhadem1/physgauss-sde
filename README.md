@@ -1,12 +1,19 @@
 # PhysGauss-SDE
 
-**Local CPU/GPU Bird run (20 October):** the first complete2,000-draw
-stage fails45/733 strict monitors: worst Rhat1.01251, minimum bulk/tail
-ESS256.58/131.34. Exact continuation to4,000 is active; no retained invalid
-or divergent state steps occurred. All200 tests and an actual bit-identical
-CUDA recovery proof pass. Raw checkpoints are permanently archived. No
-predictive scores or wider comparison have been opened. See the
-[local audit and protocol](docs/BIRD_LOCAL_SAMPLER.md).
+**Research direction:** learn uncertain boundary conditions—support and load
+patches, fixtures, compliance and changing contact—from a static Gaussian
+reference and partial views. Start with known material and a controlled hidden-
+boundary benchmark; add learned perception and interactive updating later.
+See the [decision record and proposed benchmark](docs/BOUNDARY_LEARNING_DIRECTION.md).
+The current Bird experiments test inference infrastructure and do not yet
+implement general boundary-condition learning.
+
+**Local CPU/GPU Bird run (20 October):** the complete4,000-draw stage
+fails92/733 strict monitors: worst Rhat1.22643, minimum bulk/tail ESS12.93/10.51.
+The late-motion mixing deterioration persists despite zero retained invalid or
+divergent steps and passing density replay. Exact continuation to the declared
+8,000-draw cap is active. No predictive scores or wider comparison have been
+opened. See the [local audit and protocol](docs/BIRD_LOCAL_SAMPLER.md).
 
 Research prototype for physically constrained Gaussian scene reconstruction from **one moving camera with missing frames**.
 

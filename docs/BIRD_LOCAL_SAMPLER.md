@@ -1,5 +1,20 @@
 # Local Bird sampler audit and correction
 
+## Latest full stage: 4,000 draws per chain
+
+The frozen local CPU/GPU run fails92/733 monitors: maximum Rhat1.2264256,
+minimum bulk/tail ESS12.9310/10.5135. Retained invalid/divergent state steps
+remain zero; CPU density replay passes to3.64e-12. Late-motion exploration
+deteriorated relative to the2,000-draw gate. The run continues unchanged to
+its declared8,000-draw cap; no convergence or prediction-readiness claim is
+justified. Full diagnostics are in `production-4000/` beside the local audit.
+
+The new [research direction](BOUNDARY_LEARNING_DIRECTION.md) prioritizes
+learning unknown supports, boundary loads and contacts with known material.
+This Bird inference run does not implement that boundary-learning benchmark.
+
+## Original discarded run
+
 The 20 October 2026 four-chain, 8,000-draw reflected/interwoven run fails
 88 of 733 monitors. Its maximum Rhat is 1.0339864; minimum bulk/tail ESS is
 134.50/33.23. The old samples are discarded proposal-training data for this

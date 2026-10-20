@@ -1,6 +1,31 @@
 # Handover
 
-## Local CPU/GPU sampler correction — 20 October 2026
+## Latest research decisions — 20 October 2026
+
+The user's supplied discussion makes **boundary-condition learning** the main
+scientific focus: infer the location, type, parameters and timing of supports,
+fixtures, boundary tractions and contacts from a static Gaussian reference and
+partial observations. Begin with known geometry/material and hidden-boundary
+experiments. DINO/segmentation, material uncertainty and sequential interactive
+updating are later stages. The [decision record](docs/BOUNDARY_LEARNING_DIRECTION.md)
+distinguishes agreed direction from the proposed benchmark implementation.
+The existing code does not yet infer general boundary patch/type hypotheses.
+
+Keep the authorized bounded Bird audit running under its frozen target and
+source. The complete4,000-draw gate fails92/733 monitors: Rhat1.22643, minimum
+bulk/tail ESS12.93/10.51, zero retained invalid/divergent steps and passing
+density replay. Exact continuation to the declared8,000-draw cap is active.
+The3,000-draw preview had already deteriorated, dominated by late motion even
+though all five physical/noise parameters passed. Earlier improvement at2,000
+was insufficient.
+Do not claim convergence or open the wider comparison. The pasted discussion's
+8,000-draw result refers to the older CPU run, not this local CPU/GPU attempt.
+
+The separate constant-noise velocity-collapse prototype has three passing
+density/derivative/geometry tests. It has no sampler recovery, mixing or
+production evidence and is not integrated into the immutable active worker.
+
+## Historical 2,000-draw local stage — 20 October 2026
 
 The first full local2,000-draw stage fails45/733 monitors: worst Rhat1.012508,
 minimum bulk/tail ESS256.58/131.34. Zero retained invalid/divergent state steps;
