@@ -55,6 +55,32 @@ An independent nonlinear-funnel quadrature test detects incorrectly adding
 the bridge Jacobian. Actual neural joint/marginal tests check path preservation;
 a single-chain test checks bit-identical warmup and retained continuation.
 
+### Invariant measure of the composed sweep
+
+Write the unchanged physical posterior as pi(psi,x), with a linear Gaussian
+bridge x = mu(psi) + L(psi)^(-T) xi. The full change of variables is triangular:
+the material/noise parameters are unchanged by the bridge. Thus its determinant
+is det L(psi)^(-T), even though the path also depends on psi. The outer fixed
+affine reference contributes only a constant determinant.
+
+The innovation-coordinate target is therefore proportional to
+pi(psi,x(psi,xi)) times |det L(psi)^(-T)|. The reflected state update and the
+ordinary parameter slice preserve conditionals of this density. Mapping to
+physical coordinates, sampling psi conditional on fixed x using pi itself,
+and mapping back also preserves that same innovation-coordinate measure.
+Composing these invariant kernels needs no additional acceptance step. The
+composition need not itself be reversible. All adaptation is discarded before
+retained sampling; the fixed reference is shared, but seeds and warmup are
+independent per chain.
+
+The Gaussian-force integral is unaffected: at a fixed path, the transition
+residual is affine in force coefficients, its covariance is independent of
+those coefficients, and images/floor feasibility depend on the path. Both
+transition and force-integral log determinants remain in every physical
+density evaluation. Marginalization reduces the sampling dimension by72 and
+allows conditional-moment force estimates; it does not repair a misspecified
+mechanical model or establish uncertainty calibration.
+
 ## Four-worker Bird protocol
 
 `pacnerf-bird-reflected.yml` prepares one fixed analytic state guide using the
