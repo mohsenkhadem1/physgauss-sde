@@ -1,5 +1,9 @@
 # Isaac Sim boundary-learning starting scene
 
+The new [48-scenario orbit dataset](ISAAC_ORBIT_DATASET.md) adds varied materials,
+load/support setups, moving cameras, grouped splits and sparse inputs. The
+single-scene description below records the earlier starting experiment.
+
 **Revised flexible video:** the initial20kPa/single-pin example mostly rotates.
 Use `bash experiments/launch_flexible_block.sh --output runs/flexible-new --keep-open`
 for the1kPa, fixed-patch, finite-load-patch demo. See the

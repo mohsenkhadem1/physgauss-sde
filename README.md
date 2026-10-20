@@ -1,5 +1,11 @@
 # PhysGauss-SDE
 
+**Orbiting-camera Isaac dataset:** [48 scenarios](examples/isaac-boundary-orbit/README.md)
+vary material properties, force families and support setups/locations. Each has
+RGB, depth, masks, camera poses and motion truth, with ten sparse inputs and a
+one-second gap. [Watch a soft-block orbit](examples/isaac-boundary-orbit/preview/single/simulation.mp4)
+or read the [dataset protocol](docs/ISAAC_ORBIT_DATASET.md).
+
 **Adaptive force prior:** [the completed uncertainty audit](examples/beam-adaptive/README.md)
 replaces fixed temporal smoothness with a joint posterior over force timescales
 and boundaries. On the same fast-force cases, active hidden RMSE improves

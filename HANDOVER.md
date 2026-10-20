@@ -1,5 +1,25 @@
 # Handover
 
+## Orbiting-camera Isaac dataset — 20 October 2026
+
+The new user request is a multi-scenario flexible-block dataset with moving
+cameras, varied materials, force families and support setups/locations.
+`configs/isaac_boundary_orbit_v01.json` freezes 48 episodes (3 stiffness levels
+×4 loads×4 supports), grouped 24/12/12 train/validation/test. The generator,
+CPU validator, visibility postprocessing, final audit, previews and archive/
+restore helpers are in `experiments/*isaac_dataset.py` plus
+`isaac_dataset_worker.py`. See `docs/ISAAC_ORBIT_DATASET.md` and
+`examples/isaac-boundary-orbit` for the completed evidence and raw data index.
+Each 3 s episode has 61 actual RGB/depth/mask frames, an orbiting camera,
+4,096 attached Gaussians, dense nodal truth and a ten-frame sparse schedule
+with a one-second gap. Exact per-step load histories and moving-boundary
+targets are retained. Sources/recipes are frozen; retained cases use the same
+960 Hz discretization. GPU 3 had one time-zero sensor startup rejection;
+its untouched failure/source/log is preserved, and the same recipe succeeds
+on the primary GPU queue. Main dataset generation uses GPUs 0–2 with CPU
+replay and postprocessing. No inverse learner or uncertainty comparison was
+run; spatial/time convergence is not established. Bird stays stopped.
+
 ## Adaptive beam force prior — completed in this task
 
 The user requested an audit of faster-force overconfidence, adaptive force
