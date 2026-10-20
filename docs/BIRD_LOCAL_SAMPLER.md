@@ -134,3 +134,30 @@ from raw shards, then independently checks integrals, full rendering, floor
 likelihood and NumPy/Torch scores before applying the unchanged development
 coverage/CRPS/floor guardrails. No new convergence or uncertainty improvement
 is claimed until those recorded checks pass.
+
+
+## Permanent raw archives and live full-run status
+
+The original parent diagnostic ZIP and all new development checkpoints are
+[preserved on the artifact branch](https://github.com/mohsenkhadem1/physgauss-sde/tree/e58249361bdb8d6c47c9b1432e798f8be7ad2514/local-artifacts).
+The original ZIP is byte-identical to GitHub artifact12268611805 (81,465,907
+bytes, SHA-256c9b1e4999a0488421bcb9815b93bb0f6e2211801c65ff1b86fc7e544df304819).
+The 21MB new development ZIP contains101 files, including discarded pilot,
+recovery and warmup states, original/preconditioned references and exact inputs.
+Every uploaded Git blob hash matches its local file; reassembly and SHA-256
+manifests are provided. These archives contain no new production posterior draws.
+
+The state-only native covariance has eigenvalues0.12576–17.70330; after linear
+conditioning on parameters its range is0.12486–11.69271. The largest state/
+parameter canonical correlation is0.93130. The full native condition ratio
+3,113.69 reported above includes parameter scales as well as state directions.
+See `preconditioning-geometry.json` for the distinction. These remain discarded,
+unconverged proposal-training moments, not calibrated posterior summaries.
+
+The fresh full run is active locally with immutable numerical worker
+`4f0f0fcbfd518bd7be9b77001f5b23f34d5541dc`. All four chains completed500
+warmup steps and entered retained sampling. Use
+`runs/bird-local-production/execution.json` and `chain-*.log` for live status.
+The coordinator preserves exact RNG/kernel prefixes through declared budgets.
+There is no full convergence result yet. `archive_local_bird.py` losslessly
+packages the stopped full run and refuses to archive a changing live run.

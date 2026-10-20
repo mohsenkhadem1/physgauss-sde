@@ -10,13 +10,17 @@ scalar centered/noncentered parameter slices preserve the physical target.
 The 256-draw second pilot improves worst Rhat to1.10772 and minimum tailESS
 to98.29, but is not converged. All197 regression tests pass; actual Bird CUDA
 32-versus16+16 recovery is bit-identical with deterministic algorithms enabled.
-A fresh four-chain local full convergence test is frozen at500 warmup and
-2000/4000/8000 retained budgets. All four RTX2080Ti GPUs render in float64;
+The fresh four-chain local full convergence test is active under numerical
+worker4f0f0fcbfd518bd7be9b77001f5b23f34d5541dc, with500 warmup and
+2000/4000/8000 retained budgets. All four chains have entered retained sampling. All four RTX2080Ti GPUs render in float64;
 mechanics and random streams remain on CPU. New predictive scores and the
 wider comparison remain gated on full observed convergence and independent
 readiness. Pilot draws are discarded. Details/evidence are in
 `examples/bird-local-sampler-audit`; raw local output is
-`runs/bird-local-production`.
+`runs/bird-local-production`. The original parent diagnostics and all new
+development checkpoints are permanently preserved in artifact-branch commit
+e58249361bdb8d6c47c9b1432e798f8be7ad2514, with independently checked ZIP
+and Git-blob hashes. See `examples/bird-local-sampler-audit/raw-archives.json`.
 
 ## Objective
 
