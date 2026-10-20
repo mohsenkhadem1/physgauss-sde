@@ -20,7 +20,10 @@ meaningful correlation changes and changed sources, inputs and kernels.
 The free CPU recovery-proof workflow appends32 diagnostic draws, preserves the
 3350-draw prefix, and compares one32-draw continuation with two16-draw
 continuations, including RNG and acceptance state. This is a recovery check;
-it does not score predictions or declare convergence. Its result is pending.
+it does not score predictions or declare convergence. Free CPU proof
+run39391075353 passed. Its recomputation discrepancy was1.15e-14; after exact
+restoration, density replay error was7.28e-12 and direct/split paths were
+bit-identical through3382 draws/chain. The original3350-draw prefix is exact.
 
 ## Mixing
 

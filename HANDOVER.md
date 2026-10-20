@@ -10,18 +10,24 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 failure: first worker timed out after saving3350 draws/chain, recovery rejected
 last-bit recomputed image correlations. Restoring saved values exactly makes
 the unmodified worker settings guard pass and replays the target to3.64e-12.
-See `docs/PACNERF_BIRD_RECOVERY_AND_MIXING.md`. All176 regression tests pass
-in235.7s; a free-CPU real-checkpoint continuation proof is being prepared.
+See `docs/PACNERF_BIRD_RECOVERY_AND_MIXING.md`. All182 regression tests pass
+in292.8s. Free CPU proof39391075353 passed:3350 original draws remain exact,
+and32 extra draws match two16-draw continuations bit-for-bit, including RNG.
 Protected original source files remain unchanged.
 
 The local full joint-HMC trial finished256 draws and failed: Rhat1.656,
 minimum bulk/tailESS6.45/13.15. The3350-draw audit identifies poor conditioning
 (covariance eigenvalues0.011–91.99), slow mechanics/diffusion drift, and good
 mixing of RGB/smooth-load scales. Tested physical interpolation paths show no
-uphill barriers; global multimodality is not excluded. A local late-reference
-global elliptical trial is running in `runs/bird-late-reference-global`, log
-`runs/bird-late-reference-global.log`. All old draws are discarded training data.
-Its runner is `experiments/bird_late_reference.py`; no predictions are scored.
+uphill barriers; global multimodality is not excluded. The late-reference
+global elliptical trial finished256 draws and failed (Rhat3.412, minESS4.43).
+The slice-augmented reflective sampler passes six new mathematical tests;
+its actual Bird preflight passes. The first empirical-covariance reflective
+trial was stopped in warmup because conditional directions still force small
+steps. No convergence result is claimed. A floor-free conditional Gaussian
+GUIDE (unchanged physical target) is the next proposal experiment.
+See `docs/PACNERF_REFLECTED_SAMPLING.md`. All parent draws remain discarded
+proposal-learning data; no future geometry has been scored.
 The larger comparison has not started and must remain gated on Bird readiness.
 
 The following historical entries do not override this audit update.
