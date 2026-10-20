@@ -12,6 +12,16 @@ encoder or conditional flow-matching model. Those are proposed next stages.
 
 ## Bird sampler development
 
+The current scientific direction is [boundary-condition learning](../docs/BOUNDARY_LEARNING_DIRECTION.md).
+Bird sampler experiments provide inference diagnostics; they do not yet learn
+unknown fixture locations, boundary types or contact hypotheses.
+
+`bird_collapsed_state.py` is an unintegrated constant-noise prototype for exact
+Gaussian velocity/load elimination and conditional refreshes. Three tests
+check density factorization, derivatives and position/floor geometry. No full
+transition recovery or convergence result is available; do not use it to resume
+or replace the active frozen worker.
+
 The production run is recorded in `configs/pacnerf_bird_check.json`. Its
 convergence and uncertainty gates take precedence over development diagnostics.
 

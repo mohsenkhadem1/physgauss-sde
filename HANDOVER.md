@@ -1,5 +1,62 @@
 # Handover
 
+## Latest research decisions — 20 October 2026
+
+The user's supplied discussion makes **boundary-condition learning** the main
+scientific focus: infer the location, type, parameters and timing of supports,
+fixtures, boundary tractions and contacts from a static Gaussian reference and
+partial observations. Begin with known geometry/material and hidden-boundary
+experiments. DINO/segmentation, material uncertainty and sequential interactive
+updating are later stages. The [decision record](docs/BOUNDARY_LEARNING_DIRECTION.md)
+distinguishes agreed direction from the proposed benchmark implementation.
+The existing code does not yet infer general boundary patch/type hypotheses.
+
+Keep the authorized bounded Bird audit running under its frozen target and
+source. The complete4,000-draw gate fails92/733 monitors: Rhat1.22643, minimum
+bulk/tail ESS12.93/10.51, zero retained invalid/divergent steps and passing
+density replay. Exact continuation to the declared8,000-draw cap is active.
+The3,000-draw preview had already deteriorated, dominated by late motion even
+though all five physical/noise parameters passed. Earlier improvement at2,000
+was insufficient.
+Do not claim convergence or open the wider comparison. The pasted discussion's
+8,000-draw result refers to the older CPU run, not this local CPU/GPU attempt.
+
+The separate constant-noise velocity-collapse prototype has three passing
+density/derivative/geometry tests. It has no sampler recovery, mixing or
+production evidence and is not integrated into the immutable active worker.
+
+## Historical 2,000-draw local stage — 20 October 2026
+
+The first full local2,000-draw stage fails45/733 monitors: worst Rhat1.012508,
+minimum bulk/tail ESS256.58/131.34. Zero retained invalid/divergent state steps;
+CPU replay and independent integral checks pass. Exact frozen continuations
+are active to4,000, with8,000 available at the unchanged declared gate.
+No new withheld-position scores or larger comparison have been opened.
+
+Numerical worker remains4f0f0fcbfd518bd7be9b77001f5b23f34d5541dc. All four
+RTX2080Ti GPUs render in float64; mechanics and RNG remain on CPU. A full
+bridge preconditioner, joint/scalar parameter updates and deterministic CUDA
+recovery preserve the physical posterior. All200 regression tests pass.
+The remaining issues are early motion, late rigid-motion tails, mechanics
+scale/logdet_Q and seven conditional load means. Stiffness, damping and the
+old worst physical frame10/mode6 pass their scalar checks at2,000.
+
+The independent conditional-transport256-draw pilot remains unconverged
+(Rhat1.09703, min bulk/tail ESS33.16/85.34); it has no clear advantage and is
+not promoted. Its states are discarded. Paired long-trajectory probes do not
+justify changing the immutable full-run kernel. No physical/noise prior was
+retuned and no pilot draws enter full estimates.
+
+Live status: `runs/bird-local-production/execution.json`, `chain-*.log`.
+A separate watcher preserves each complete stage checkpoint, including RNG
+and counters. The original parent diagnostic ZIP, all initial development
+states and the full2,000-draw failed stage are permanently preserved on
+`bird-local-artifacts-2026-10-20` (latest stage commit
+0ef4b691b10b7fdb24a878eb81a871f924080aa4). All file, archive and uploaded
+Git blob hashes were independently checked. See the
+[local audit](docs/BIRD_LOCAL_SAMPLER.md),
+`examples/bird-local-sampler-audit/production-2000`, and `raw-archives.json`.
+
 ## Objective
 
 Improve physical realism and calibrated uncertainty for Gaussian scenes reconstructed from one moving camera with irregular, missing observations.

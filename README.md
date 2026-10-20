@@ -1,5 +1,20 @@
 # PhysGauss-SDE
 
+**Research direction:** learn uncertain boundary conditions—support and load
+patches, fixtures, compliance and changing contact—from a static Gaussian
+reference and partial views. Start with known material and a controlled hidden-
+boundary benchmark; add learned perception and interactive updating later.
+See the [decision record and proposed benchmark](docs/BOUNDARY_LEARNING_DIRECTION.md).
+The current Bird experiments test inference infrastructure and do not yet
+implement general boundary-condition learning.
+
+**Local CPU/GPU Bird run (20 October):** the complete4,000-draw stage
+fails92/733 strict monitors: worst Rhat1.22643, minimum bulk/tail ESS12.93/10.51.
+The late-motion mixing deterioration persists despite zero retained invalid or
+divergent steps and passing density replay. Exact continuation to the declared
+8,000-draw cap is active. No predictive scores or wider comparison have been
+opened. See the [local audit and protocol](docs/BIRD_LOCAL_SAMPLER.md).
+
 Research prototype for physically constrained Gaussian scene reconstruction from **one moving camera with missing frames**.
 
 **Current focus: learning hidden boundary conditions.** The new

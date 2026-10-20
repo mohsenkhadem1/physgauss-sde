@@ -1,0 +1,69 @@
+{
+  "case_index": 8,
+  "case": "bird__4views__constant__marginal",
+  "physical_target": "floor-conditioned-hierarchical-v2",
+  "proposal": "empirical-full-bridge-covariance-observed-only-v1",
+  "discarded_parent_draws": 32000,
+  "shrinkage_to_empirical_diagonal": 0.02,
+  "ridge": 0.001,
+  "pilot": {
+    "warmup": 128,
+    "draws": 256,
+    "seeds": [
+      1070009,
+      1070010,
+      1070011,
+      1070012
+    ],
+    "future_geometry_used": false,
+    "pooled_with_production": false
+  },
+  "production": {
+    "warmup": 500,
+    "draw_budgets": [
+      2000,
+      4000,
+      8000
+    ],
+    "seeds": [
+      1170009,
+      1170010,
+      1170011,
+      1170012
+    ],
+    "devices": [
+      "cuda:0",
+      "cuda:1",
+      "cuda:2",
+      "cuda:3"
+    ],
+    "torch_threads_per_chain": 2,
+    "min_time": 1.0,
+    "max_time": 4.0,
+    "state_target_accept": 0.9,
+    "interweave": true,
+    "strict_rhat_less_than": 1.01,
+    "minimum_bulk_ess": 400,
+    "minimum_tail_ess": 400,
+    "maximum_retained_invalid": 0,
+    "maximum_retained_divergent": 0,
+    "parameter_kernel": "Joint plus five scalar elliptical slices in both centered and noncentered parameterizations",
+    "deterministic_algorithms": true,
+    "cublas_workspace_config": ":4096:8"
+  },
+  "comparison_gate": "All 733 observed-only monitors and independent raw uncertainty replay, followed by original coverage/CRPS/floor development readiness checks. No automatic wider dispatch.",
+  "pilot_v2": {
+    "warmup": 128,
+    "draws": 256,
+    "seeds": [
+      1270009,
+      1270010,
+      1270011,
+      1270012
+    ],
+    "deterministic_algorithms": true,
+    "kernel": "joint-and-scalar-parameter-slices",
+    "future_geometry_used": false,
+    "pooled_with_production": false
+  }
+}
