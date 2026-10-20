@@ -217,3 +217,34 @@ maximum Rhat1.17625, minimum bulk/tail ESS19.22/17.55,657 scalar failures,
 zero retained invalid/divergent state steps. It is being extended unchanged
 to256 draws; its128 checkpoint, diagnostics and saved RNG are preserved.
 The full dense-reference run continues independently and remains authoritative.
+
+
+## First complete2,000-draw gate: FAIL, exact continuation active
+
+All four independently seeded workers complete500 warmup and2,000 retained
+draws. Forty-five of733 monitors fail:26 physical,11 native,7 conditional
+load means and logdet_Q. Maximum Rhat is1.012508; minimum bulk/tail ESS is
+256.58/131.34. No retained invalid/divergent state steps occur. Density replay
+passes, and no future position scores are opened. The same saved RNG streams,
+references and kernels continue to4,000 without pooling any pilot samples.
+
+Stiffness and damping pass; frame10/mode6 now has bulk/tail ESS996/1028.
+Mechanics-discrepancy remains slightly slow (Rhat1.01204, bulk ESS379),
+early motion has insufficient bulk ESS, and late rigid displacement mode0
+has tail ESS131. These failures remain failures under the original thresholds.
+
+The complete failed stage, all four exact RNG checkpoints, references,
+protocols, merged raw states and scalar diagnostics are
+[permanently archived](https://github.com/mohsenkhadem1/physgauss-sde/blob/0ef4b691b10b7fdb24a878eb81a871f924080aa4/local-artifacts/PRODUCTION-STAGE-2000.md).
+The archive is20,606,304 bytes; SHA-256
+`d4cc1e14215b1a70cbee453a3fd77d25f373174acf06f8310292561eb9eabe1d`.
+All19 archived files round-trip with exact SHA-256 matches; uploaded Git blob
+IDs also match local hashes. `snapshot_local_bird.py` preserves completed
+stages, while the archive tool locks both live writers and can separately
+package a verified immutable completed stage during continuation.
+
+The full regression suite, including the conditional proposal checks, passes
+all200 tests in177.515s. The conditional pilot's unchanged extension to256
+still fails (Rhat1.09703, minimum ESS33.16/85.34), with zero retained invalid/
+divergent steps and exact saved-prefix preservation. Its diagnostics are in
+`conditional-development/pilot-256`; it is not promoted over the full run.

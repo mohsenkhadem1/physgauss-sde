@@ -2,25 +2,35 @@
 
 ## Local CPU/GPU sampler correction — 20 October 2026
 
-See [the local audit and frozen protocol](docs/BIRD_LOCAL_SAMPLER.md).
-The final 8,000-draw failure has 88/733 failed monitors: early rigid modes,
-late mode-6 deformation, damping and mechanics discrepancy, eight conditional
-load means and logdet_Q. A full empirical bridge preconditioner and joint plus
-scalar centered/noncentered parameter slices preserve the physical target.
-The 256-draw second pilot improves worst Rhat to1.10772 and minimum tailESS
-to98.29, but is not converged. All197 regression tests pass; actual Bird CUDA
-32-versus16+16 recovery is bit-identical with deterministic algorithms enabled.
-The fresh four-chain local full convergence test is active under numerical
-worker4f0f0fcbfd518bd7be9b77001f5b23f34d5541dc, with500 warmup and
-2000/4000/8000 retained budgets. All four chains have entered retained sampling. All four RTX2080Ti GPUs render in float64;
-mechanics and random streams remain on CPU. New predictive scores and the
-wider comparison remain gated on full observed convergence and independent
-readiness. Pilot draws are discarded. Details/evidence are in
-`examples/bird-local-sampler-audit`; raw local output is
-`runs/bird-local-production`. The original parent diagnostics and all new
-development checkpoints are permanently preserved in artifact-branch commit
-e58249361bdb8d6c47c9b1432e798f8be7ad2514, with independently checked ZIP
-and Git-blob hashes. See `examples/bird-local-sampler-audit/raw-archives.json`.
+The first full local2,000-draw stage fails45/733 monitors: worst Rhat1.012508,
+minimum bulk/tail ESS256.58/131.34. Zero retained invalid/divergent state steps;
+CPU replay and independent integral checks pass. Exact frozen continuations
+are active to4,000, with8,000 available at the unchanged declared gate.
+No new withheld-position scores or larger comparison have been opened.
+
+Numerical worker remains4f0f0fcbfd518bd7be9b77001f5b23f34d5541dc. All four
+RTX2080Ti GPUs render in float64; mechanics and RNG remain on CPU. A full
+bridge preconditioner, joint/scalar parameter updates and deterministic CUDA
+recovery preserve the physical posterior. All200 regression tests pass.
+The remaining issues are early motion, late rigid-motion tails, mechanics
+scale/logdet_Q and seven conditional load means. Stiffness, damping and the
+old worst physical frame10/mode6 pass their scalar checks at2,000.
+
+The independent conditional-transport256-draw pilot remains unconverged
+(Rhat1.09703, min bulk/tail ESS33.16/85.34); it has no clear advantage and is
+not promoted. Its states are discarded. Paired long-trajectory probes do not
+justify changing the immutable full-run kernel. No physical/noise prior was
+retuned and no pilot draws enter full estimates.
+
+Live status: `runs/bird-local-production/execution.json`, `chain-*.log`.
+A separate watcher preserves each complete stage checkpoint, including RNG
+and counters. The original parent diagnostic ZIP, all initial development
+states and the full2,000-draw failed stage are permanently preserved on
+`bird-local-artifacts-2026-10-20` (latest stage commit
+0ef4b691b10b7fdb24a878eb81a871f924080aa4). All file, archive and uploaded
+Git blob hashes were independently checked. See the
+[local audit](docs/BIRD_LOCAL_SAMPLER.md),
+`examples/bird-local-sampler-audit/production-2000`, and `raw-archives.json`.
 
 ## Objective
 

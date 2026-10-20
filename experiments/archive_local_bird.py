@@ -9,7 +9,6 @@ import hashlib
 import io
 import json
 from pathlib import Path
-import subprocess
 import tarfile
 
 
@@ -21,20 +20,36 @@ def digest(path):
     return h.hexdigest()
 
 
-def archive(root,output,part_size=2_000_000):
+def archive(root,output,part_size=2_000_000,stage=None):
     root=Path(root).resolve();output=Path(output).resolve()
     output.parent.mkdir(parents=True,exist_ok=True)
     if output.exists():
         raise ValueError('Use a fresh archive filename')
-    lock=(root/'coordinator.lock').open('a')
-    fcntl.flock(lock,fcntl.LOCK_SH|fcntl.LOCK_NB)
     execution=json.loads((root/'execution.json').read_text())
-    if execution['status'] not in ['finished','convergence_failed_at_declared_cap',
-            'worker_failure_checkpoints_preserved']:
-        raise ValueError('The run has not reached a declared stopped state')
-    paths=sorted(p for p in root.rglob('*') if p.is_file() and p.name!='coordinator.lock')
+    if stage is None:
+        lock=(root/'coordinator.lock').open('a')
+        fcntl.flock(lock,fcntl.LOCK_SH|fcntl.LOCK_NB)
+        snapshot_lock=(root/'snapshot.lock').open('a')
+        fcntl.flock(snapshot_lock,fcntl.LOCK_SH|fcntl.LOCK_NB)
+        if execution['status'] not in ['finished','convergence_failed_at_declared_cap',
+                'worker_failure_checkpoints_preserved']:
+            raise ValueError('The run has not reached a declared stopped state')
+        paths=sorted(p for p in root.rglob('*') if p.is_file() and p.name not in ['coordinator.lock','snapshot.lock'])
+    else:
+        # The watcher publishes each manifest entry only after its complete
+        # immutable stage snapshot is copied. Current live shards are excluded.
+        saved=json.loads((root/'stage-checkpoint-manifest.json').read_text())['checkpoints']
+        for i in range(4):
+            entry=saved[f'{stage}/chain-{i}']
+            path=root/f'stage-checkpoints-{stage}'/f'chain-{i}'/'chains.pt'
+            if entry['retained']!=stage or digest(path)!=entry['sha256']:
+                raise ValueError('Completed stage checkpoint hash differs')
+        if not (root/f'diagnostics-{stage}'/'convergence.json').exists():
+            raise ValueError('Completed stage diagnostics are required')
+        paths=sorted(p for directory in [root/f'stage-checkpoints-{stage}',root/f'diagnostics-{stage}']
+            for p in directory.rglob('*') if p.is_file())
     files=[{'path':str(p.relative_to(root)),'bytes':p.stat().st_size,'sha256':digest(p)} for p in paths]
-    manifest={'execution':execution,'raw_root':root.name,'files':files,
+    manifest={'execution':execution,'archived_stage':stage,'raw_root':root.name,'files':files,
         'inference_worker_commit':execution['commit'],
         'reassembly':f'cat {output.name}.part-* > {output.name}',
         'qualification':'Raw samples and failures are preserved; archived checkpoints are not automatically valid posteriors.'}
@@ -68,4 +83,5 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run',default='runs/bird-local-production')
     parser.add_argument('--output',required=True)
-    args=parser.parse_args();archive(args.run,args.output)
+    parser.add_argument('--stage',type=int,choices=[2000,4000,8000])
+    args=parser.parse_args();archive(args.run,args.output,stage=args.stage)
