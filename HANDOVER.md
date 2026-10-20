@@ -6,6 +6,22 @@ Improve physical realism and calibrated uncertainty for Gaussian scenes reconstr
 
 ## Status
 
+**2026-10-20 completed four-chain diagnostics:** mixing is improving, but Bird
+has not converged. Worst Rhat fell from 1.87275 (256 draws/chain) to 1.33201
+(2000) and 1.08886 (4000). At 4000 the minimum bulk/tail ESS is 39.08/11.49;
+the strict gate remains Rhat <1.01 and both ESS >=400 for every monitored
+quantity. There are zero invalid or divergent retained state steps. Full
+convergence reports, per-quantity diagnostics and verified artifact provenance
+are saved in `examples/pacnerf-bird-reflected-2000` and
+`examples/pacnerf-bird-reflected-4000`. Run39408516882 completed computation
+successfully but failed the statistical convergence gate. Exact continuation
+run39415918136 targets8000 draws on free CPU workers; three of four workers
+have finished as of this update. Four-chain diagnostics are pending. No
+independent uncertainty evaluation or wider comparison has been launched.
+Worker source remains ad3ec582aaa5e5ff1f4fdddf76318bd9d0bde031.
+
+The earlier entries below describe preceding stages.
+
 **2026-10-20 reflected/interwoven update:** recovery is proven; Bird convergence
 is still pending. The mean-anchor floor-free guide preserves physical states
 to3.79e-14. An exact centered parameter step now complements the noncentered
