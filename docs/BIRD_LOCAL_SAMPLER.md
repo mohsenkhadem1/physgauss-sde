@@ -93,5 +93,44 @@ development readiness checks follow convergence. No wider comparison is
 eligible before both gates pass. Passing one Bird case cannot establish
 independent uncertainty calibration.
 
-Current status: the local preconditioned pilot is running. No new convergence
-or uncertainty improvement is claimed at this stage.
+## Deterministic scalar-parameter correction and full test
+
+The first dense-reference pilot (128 warmup/256 draws per chain) gives
+maximum Rhat 1.22659 and minimum bulk/tail ESS 29.34/21.82. It improves late
+mode-6 movement but leaves early motion and the mechanics-discrepancy scale
+slow. Its full failed diagnostic report is retained in `pilot-v1/`.
+
+A second kernel composes the joint five-parameter elliptical slice with five
+individual coordinate slices, in both physical and bridge parameterizations.
+Each component leaves the same conditional invariant. New discarded pilots
+use seeds 1270009–1270012. Maximum Rhat is 1.10772 and minimum bulk/tail ESS
+26.03/98.29. There are zero retained invalid/divergent state steps. The RGB
+and smooth-load scales pass all strict scalar diagnostics already; motion
+and mechanics discrepancy remain slow. The complete report is in `pilot-v2/`.
+These unequal short development trials do not establish a scientific ranking
+or replace the full four-chain convergence test.
+
+The first CUDA recovery trial exposed nondeterministic last-bit gradients:
+32 draws differed from a 16+16 run despite preserved saved prefixes. The
+failed trial is retained in `non-deterministic-prototype-recovery-failure.json`.
+Enabling deterministic algorithms and `CUBLAS_WORKSPACE_CONFIG=:4096:8`
+fixes it. The actual Bird 32-versus-16+16 GPU proof now matches samples,
+densities, energy errors, RNG, step size and all transition counters bit for
+bit; see `actual-gpu-recovery-proof.json`. These proof draws are discarded.
+All 197 regression tests pass in 171.96s, including independent funnel
+quadrature and interrupted warmup/retained recovery for the new composition.
+
+The frozen full test is `configs/bird_local_preconditioned.json`: four fresh
+seeds 1170009–1170012, 500 discarded warmup, 2,000 retained draws extended
+unchanged to 4,000/8,000 only if needed. The 256-draw pilots are never pooled.
+The coordinator is local and bounded; it never dispatches the wider matrix:
+
+```sh
+python -u experiments/run_local_bird.py --output runs/bird-local-production
+```
+
+`experiments/validate_local_bird.py` first recomputes all observed-only gates
+from raw shards, then independently checks integrals, full rendering, floor
+likelihood and NumPy/Torch scores before applying the unchanged development
+coverage/CRPS/floor guardrails. No new convergence or uncertainty improvement
+is claimed until those recorded checks pass.

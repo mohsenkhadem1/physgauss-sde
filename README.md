@@ -1,5 +1,12 @@
 # PhysGauss-SDE
 
+**Local sampler audit (20 October):** the 8,000-draw Bird failure has88/733
+failed monitors. A dense bridge preconditioner, joint/scalar parameter slices
+and deterministic local CPU/GPU execution are tested;197 regression checks and
+an actual bit-identical CUDA recovery proof pass. The short pilot is still
+unconverged. A fresh full Bird convergence test is frozen before any wider
+comparison. See the [local audit and protocol](docs/BIRD_LOCAL_SAMPLER.md).
+
 Research prototype for physically constrained Gaussian scene reconstruction from **one moving camera with missing frames**.
 
 **Bird recovery audit:** exact checkpoint recovery now passes on the real3350-draw

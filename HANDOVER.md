@@ -1,5 +1,23 @@
 # Handover
 
+## Local CPU/GPU sampler correction — 20 October 2026
+
+See [the local audit and frozen protocol](docs/BIRD_LOCAL_SAMPLER.md).
+The final 8,000-draw failure has 88/733 failed monitors: early rigid modes,
+late mode-6 deformation, damping and mechanics discrepancy, eight conditional
+load means and logdet_Q. A full empirical bridge preconditioner and joint plus
+scalar centered/noncentered parameter slices preserve the physical target.
+The 256-draw second pilot improves worst Rhat to1.10772 and minimum tailESS
+to98.29, but is not converged. All197 regression tests pass; actual Bird CUDA
+32-versus16+16 recovery is bit-identical with deterministic algorithms enabled.
+A fresh four-chain local full convergence test is frozen at500 warmup and
+2000/4000/8000 retained budgets. All four RTX2080Ti GPUs render in float64;
+mechanics and random streams remain on CPU. New predictive scores and the
+wider comparison remain gated on full observed convergence and independent
+readiness. Pilot draws are discarded. Details/evidence are in
+`examples/bird-local-sampler-audit`; raw local output is
+`runs/bird-local-production`.
+
 ## Objective
 
 Improve physical realism and calibrated uncertainty for Gaussian scenes reconstructed from one moving camera with irregular, missing observations.

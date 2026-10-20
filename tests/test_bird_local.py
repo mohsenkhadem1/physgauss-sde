@@ -1,6 +1,7 @@
 """Composition checks for dense state preconditioning and CPU/CUDA rendering."""
 from pathlib import Path
 import sys
+import tempfile
 import unittest
 import torch
 
@@ -10,6 +11,7 @@ from test_pacnerf_floor import model as floor_model
 from pacnerf_conditioned_transport import ConditionedTransport, make_target
 from pacnerf_reflected_hybrid import ReflectedStateContext
 from pacnerf_interweave import centered_parameter_step
+from bird_dense_sampler import sample as dense_sample, centered_parameter_step as dense_centered_step
 
 
 class LocalBirdTests(unittest.TestCase):
@@ -68,6 +70,49 @@ class LocalBirdTests(unittest.TestCase):
         self.assertEqual(label('physical_67'),'physical: frame 3 displacement mode 5')
         self.assertEqual(label('physical_236'),'physical: frame 10 displacement mode 6')
         self.assertEqual(label('physical_326'),'physical: mechanics discrepancy log scale')
+
+    def test_joint_and_scalar_parameter_composition_recovers_through_warmup(self):
+        from test_pacnerf_interweave import InterweaveTests
+        target=InterweaveTests.funnel(None)
+        class Context:
+            def __init__(self,fixed): self.fixed=fixed
+            def geometry(self):
+                return torch.zeros(1,1,2,dtype=torch.float64),torch.full((1,1),10.,dtype=torch.float64)
+            def __call__(self,state):
+                return torch.zeros(1,dtype=state.dtype),torch.zeros_like(state),torch.zeros(1,dtype=torch.bool)
+        target.reflection_context=Context
+        with tempfile.TemporaryDirectory() as folder:
+            def run(name,draws,hook=None):
+                return dense_sample(target,7,4,Path(folder)/name,draws,warmup=32,
+                    seed=19019,chains_count=1,interweave=True,
+                    initial=torch.zeros(1,7,dtype=torch.float64),checkpoint_hook=hook)
+            direct=run('direct',64)
+            run('split',32);resumed=run('split',64)
+            def stop(i): raise RuntimeError('interrupted warmup')
+            with self.assertRaisesRegex(RuntimeError,'interrupted warmup'):
+                run('warm',64,stop)
+            warm=run('warm',64)
+        for result in [resumed,warm]:
+            for key in ['white','log_ratio','energy_errors','rng_state']:
+                self.assertTrue(torch.equal(direct[key],result[key]),key)
+            self.assertEqual(direct['counts'],result['counts'])
+
+    def test_scalar_centered_funnel_conditional_matches_independent_quadrature(self):
+        import numpy as np
+        from test_pacnerf_interweave import InterweaveTests
+        target=InterweaveTests.funnel(None)
+        w=torch.zeros(4,7,dtype=torch.float64);w[:,2]=.8
+        rng=torch.Generator().manual_seed(19021);draws=[]
+        for i in range(1800):
+            w,*_=dense_centered_step(target,w,4,rng)
+            if i>=300:draws.append(w[:,0].clone())
+        torch.testing.assert_close(target.decode(w)[:,2],torch.full((4,),.8,dtype=w.dtype),atol=2e-12,rtol=0)
+        x=np.linspace(-8,8,100001)
+        density=np.exp(-.5*x*x-x-.5*.8**2*np.exp(-2*x));density/=np.trapezoid(density,x)
+        expected=np.trapezoid(x*density,x);variance=np.trapezoid((x-expected)**2*density,x)
+        values=torch.stack(draws).flatten()
+        self.assertAlmostEqual(float(values.mean()),expected,delta=.05)
+        self.assertAlmostEqual(float(values.var()),variance,delta=.05)
 
 
 if __name__=='__main__':

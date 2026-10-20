@@ -7,6 +7,7 @@ import argparse
 import copy
 import hashlib
 import json
+import os
 import platform
 import sys
 import time
@@ -14,12 +15,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
+os.environ.setdefault('CUBLAS_WORKSPACE_CONFIG', ':4096:8')
 import torch
+torch.use_deterministic_algorithms(True)
 from pacnerf_conditioned_transport import make_target
 from pacnerf_floor import make_floor_model
 from pacnerf_hybrid import conditional_reference_transform
 from pacnerf_recovery import restore_correlations
-from pacnerf_reflected_hybrid import sample
+from bird_dense_sampler import sample
 from pacnerf_elliptical import atomic_save
 from compare_pacnerf_discrepancy import replay, force_moments_stream
 from physgauss.chain_diagnostics import diagnose_quantities
@@ -36,7 +39,8 @@ def write(path, value):
 
 def source_hashes():
     paths = [* (ROOT / 'src/physgauss').glob('*.py'),
-             * (ROOT / 'scripts').glob('*.py'), Path(__file__)]
+             * (ROOT / 'scripts').glob('*.py'), Path(__file__),
+             ROOT/'experiments/bird_dense_sampler.py']
     return {str(p.relative_to(ROOT)): sha(p) for p in sorted(paths)}
 
 
@@ -172,8 +176,8 @@ def gpu_check(model, device, physical):
         b = pose.clone().requires_grad_()
         second = gpu(b,model.specs)
         g2, = torch.autograd.grad(second.square().sum(),b)
-    error = float((first-second).abs().max())
-    grad = float((g1-g2).abs().max())
+    error = float((first-second).detach().abs().max())
+    grad = float((g1-g2).detach().abs().max())
     if error > 5e-13 or not torch.allclose(g1,g2,rtol=1e-9,atol=1e-8):
         raise ValueError(f'CPU/CUDA rendering mismatch: RGB={error}, gradient={grad}')
     times = {}
@@ -208,6 +212,8 @@ def run(args):
         'reference_sha256':sha(args.reference),'source_sha256':source_hashes(),
         'frozen_model':model.specification(),'torch':torch.__version__,
         'python':platform.python_version(),'threads':torch.get_num_threads(),
+        'deterministic_algorithms':torch.are_deterministic_algorithms_enabled(),
+        'cublas_workspace_config':os.environ.get('CUBLAS_WORKSPACE_CONFIG'),
         'future_geometry_used':False,'valid_for_ranking':False}
     path=out/'local_protocol.json'
     if path.exists() and json.loads(path.read_text())!=protocol:
@@ -241,6 +247,10 @@ def aggregate(args):
     if sha(Path(args.inputs)/'bird-inputs.pt')!=protocols[0]['input_sha256']:
         raise ValueError('Input hash differs')
     data=[torch.load(p/'chains.pt',weights_only=True) for p in paths]
+    kernel=lambda d:{k:v for k,v in d['protocol'].items()
+        if k not in ['seed','initial_state_sha256']}
+    if any(kernel(d)!=kernel(data[0]) for d in data):
+        raise ValueError('Different frozen sampler kernels across shards')
     for p,d,protocol in zip(paths,data,protocols):
         if sha(p/'reference.pt')!=protocol['reference_sha256']:
             raise ValueError('Reference hash differs')
@@ -248,6 +258,10 @@ def aggregate(args):
             raise ValueError('Incomplete budgets')
         if d['protocol']['seed']!=protocol['seed'] or d['protocol']['chains']!=1:
             raise ValueError('Sampler/shard protocol differs')
+        if (d['protocol']['warmup']!=protocol['warmup'] or
+                d['protocol']['min_time']!=protocol['min_time'] or
+                d['protocol']['max_time']!=protocol['max_time']):
+            raise ValueError('Saved kernel settings differ from the frozen run')
     gate=json.loads(Path(args.gate).read_text());model=load_model(args.inputs,gate)
     reference=torch.load(paths[0]/'reference.pt',weights_only=True)
     if reference['frozen_model_specification']!=model.specification():
