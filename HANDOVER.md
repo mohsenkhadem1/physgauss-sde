@@ -31,6 +31,11 @@ See `pacnerf-bird-reflected-followup.yml` and `experiments/route_reflected_bird.
 Partial/failed workers retain artifacts and require inspected exact recovery;
 no infinite retry is scheduled. The separate16-draw four-shard integration
 check passed density replay and correctly failed the production gate.
+The new actual Bird256-draw GitHub checkpoint passed a separate local
+32-versus16+16 continuation proof: samples, RNG, densities and counters are
+bit-identical and the original prefix is unchanged. Proof in
+`examples/pacnerf-bird-mixing-audit/reflected-real-checkpoint-recovery-proof.json`.
+No local proof samples are pooled with the production chains.
 See `docs/PACNERF_REFLECTED_SAMPLING.md`. No larger comparison is dispatched
 until Bird converges AND independently validated uncertainty meets readiness.
 For exact continuation, use the original workflow source SHA and immutable

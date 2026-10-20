@@ -139,6 +139,16 @@ shards with seeds990009–990012. Raw target replay passed, all force/state
 diagnostics were calculated, and production eligibility was correctly false.
 These samples are not mixed with the main run or used as convergence evidence.
 
+The actual new Bird checkpoint also passes recovery: from the GitHub chain0
+256-draw preview after500 warmup, two local runs added32 versus16+16 draws.
+All samples, saved log ratios, energy errors, final position/density, RNG,
+acceptance/reflection counters and parameter-slice counters matched bit-for-bit.
+The original256-draw prefix is exact. See
+`examples/pacnerf-bird-mixing-audit/reflected-real-checkpoint-recovery-proof.json`.
+These local diagnostic continuations are not pooled with the four GitHub
+chains. This checks continuation on the same local environment; it does not
+assert bitwise equality of future trajectories across different CPU platforms.
+
 ## Validation and current status
 
 The event-driven flow passes energy conservation, reversal through multiple
