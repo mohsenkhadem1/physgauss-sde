@@ -1,0 +1,274 @@
+{
+  "execution": {
+    "config": {
+      "case_index": 8,
+      "case": "bird__4views__constant__marginal",
+      "physical_target": "floor-conditioned-hierarchical-v2",
+      "proposal": "empirical-full-bridge-covariance-observed-only-v1",
+      "discarded_parent_draws": 32000,
+      "shrinkage_to_empirical_diagonal": 0.02,
+      "ridge": 0.001,
+      "pilot": {
+        "warmup": 128,
+        "draws": 256,
+        "seeds": [
+          1070009,
+          1070010,
+          1070011,
+          1070012
+        ],
+        "future_geometry_used": false,
+        "pooled_with_production": false
+      },
+      "production": {
+        "warmup": 500,
+        "draw_budgets": [
+          2000,
+          4000,
+          8000
+        ],
+        "seeds": [
+          1170009,
+          1170010,
+          1170011,
+          1170012
+        ],
+        "devices": [
+          "cuda:0",
+          "cuda:1",
+          "cuda:2",
+          "cuda:3"
+        ],
+        "torch_threads_per_chain": 2,
+        "min_time": 1,
+        "max_time": 4,
+        "state_target_accept": 0.9,
+        "interweave": true,
+        "strict_rhat_less_than": 1.01,
+        "minimum_bulk_ess": 400,
+        "minimum_tail_ess": 400,
+        "maximum_retained_invalid": 0,
+        "maximum_retained_divergent": 0,
+        "parameter_kernel": "Joint plus five scalar elliptical slices in both centered and noncentered parameterizations",
+        "deterministic_algorithms": true,
+        "cublas_workspace_config": ":4096:8"
+      },
+      "comparison_gate": "All 733 observed-only monitors and independent raw uncertainty replay, followed by original coverage/CRPS/floor development readiness checks. No automatic wider dispatch.",
+      "pilot_v2": {
+        "warmup": 128,
+        "draws": 256,
+        "seeds": [
+          1270009,
+          1270010,
+          1270011,
+          1270012
+        ],
+        "deterministic_algorithms": true,
+        "kernel": "joint-and-scalar-parameter-slices",
+        "future_geometry_used": false,
+        "pooled_with_production": false
+      }
+    },
+    "reference": "/home/bayespc2/vscode/guassianSDE/runs/bird-preconditioned-reference/reference.pt",
+    "commit": "4f0f0fcbfd518bd7be9b77001f5b23f34d5541dc",
+    "pid": 1738328,
+    "status": "sampling",
+    "started_unix_s": 1792523922.7495503,
+    "larger_comparison_dispatched": false,
+    "attempts": [
+      {
+        "budget": 2000,
+        "started_unix_s": 1792523922.7496195,
+        "finished_unix_s": 1792526537.8515894,
+        "worker_exit_codes": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "convergence": {
+          "all_monitored_quantities_pass": false,
+          "failed_quantities": 45,
+          "worst_rhat": 1.012508154438919,
+          "minimum_bulk_ess": 256.5812607139491,
+          "minimum_tail_ess": 131.3373095230929,
+          "retained_invalid": 0,
+          "retained_divergent": 0
+        }
+      },
+      {
+        "budget": 4000,
+        "started_unix_s": 1792526592.570704
+      }
+    ],
+    "draws_per_chain_requested": 4000,
+    "worker_pids": [
+      1747791,
+      1747792,
+      1747793,
+      1747794
+    ]
+  },
+  "archived_stage": 2000,
+  "raw_root": "bird-local-production",
+  "files": [
+    {
+      "path": "diagnostics-2000/convergence.json",
+      "bytes": 17549,
+      "sha256": "b55052526555cfd30d3f3fc4d90fc09cf89620e23a22e4f77c1f53ca2be4d9d1"
+    },
+    {
+      "path": "diagnostics-2000/diagnostics.json",
+      "bytes": 155768,
+      "sha256": "d68f510e4a9e543f226ea874a0f2e929dd84f4d708a911d7ddb7f78b5879c12c"
+    },
+    {
+      "path": "diagnostics-2000/merged.pt",
+      "bytes": 21121917,
+      "sha256": "59af1321a69448817297ccdf2db76b3278a52d0b3e885475267a18f3b6830644"
+    },
+    {
+      "path": "stage-checkpoints-2000/chain-0/chains.pt",
+      "bytes": 5307705,
+      "sha256": "7a9a334c02568ba5f9bdb5d0bcc75b6e1055abaef0f51652d18c62cd58488ac2"
+    },
+    {
+      "path": "stage-checkpoints-2000/chain-0/device-validation.json",
+      "bytes": 242,
+      "sha256": "3cc10dab3afa9daf403acee6005a9d59b35136a2392b90ba3352cd79f10b976c"
+    },
+    {
+      "path": "stage-checkpoints-2000/chain-0/local_protocol.json",
+      "bytes": 16487,
+      "sha256": "4f7f1123cb902a04f89b62a67ba959f09353f9e6e1136ef7291602898c7a024b"
+    },
+    {
+      "path": "stage-checkpoints-2000/chain-0/reference.pt",
+      "bytes": 3393198,
+      "sha256": "9c6a7a4d94b76a92b8b81af96ef04b986cae22a1149c09ba5cbd9ed99c42d892"
+    },
+    {
+      "path": "stage-checkpoints-2000/chain-1/chains.pt",
+      "bytes": 5307705,
+      "sha256": "2f6d31b6fc7f602dffb17baa5cd23f7879cec5bb038058bb7e2b5e84ffa929d4"
+    },
+    {
+      "path": "stage-checkpoints-2000/chain-1/device-validation.json",
+      "bytes": 241,
+      "sha256": "3b981bbcabd3bfaaf2980d1b3ecbb2103d1dc953c1637cccccb97527a8b68d19"
+    },
+    {
+      "path": "stage-checkpoints-2000/chain-1/local_protocol.json",
+      "bytes": 16487,
+      "sha256": "46fcfeb3a5eb41eef7fe216609e3aed66c707b77b6db4584208a5db101ece5c9"
+    },
+    {
+      "path": "stage-checkpoints-2000/chain-1/reference.pt",
+      "bytes": 3393198,
+      "sha256": "9c6a7a4d94b76a92b8b81af96ef04b986cae22a1149c09ba5cbd9ed99c42d892"
+    },
+    {
+      "path": "stage-checkpoints-2000/chain-2/chains.pt",
+      "bytes": 5307705,
+      "sha256": "638f67d912b21277603176c58e5d445b7ce12587a967059210e602a7284b42c9"
+    },
+    {
+      "path": "stage-checkpoints-2000/chain-2/device-validation.json",
+      "bytes": 241,
+      "sha256": "00d9f9d09c8151ca43dd8c7c7ff690d35507e2ef6354bd1ebdbed8286de2b134"
+    },
+    {
+      "path": "stage-checkpoints-2000/chain-2/local_protocol.json",
+      "bytes": 16487,
+      "sha256": "6cb2eacc70846183e14cdb0755753064a387a4d2b654cfc1ec30e16eda4623b6"
+    },
+    {
+      "path": "stage-checkpoints-2000/chain-2/reference.pt",
+      "bytes": 3393198,
+      "sha256": "9c6a7a4d94b76a92b8b81af96ef04b986cae22a1149c09ba5cbd9ed99c42d892"
+    },
+    {
+      "path": "stage-checkpoints-2000/chain-3/chains.pt",
+      "bytes": 5307705,
+      "sha256": "4a530f4485292dcace4e1a3392ae633627851c605f6d656b4b06dfecb6454495"
+    },
+    {
+      "path": "stage-checkpoints-2000/chain-3/device-validation.json",
+      "bytes": 242,
+      "sha256": "0d201980181b19a52c85bc8c6f8b77bc801393e8567a8c57b3f8257a0eaeedca"
+    },
+    {
+      "path": "stage-checkpoints-2000/chain-3/local_protocol.json",
+      "bytes": 16487,
+      "sha256": "40e66548efb99474023f2c6e9db4e7f01a954a64b3dced3a73493320a0a4dcda"
+    },
+    {
+      "path": "stage-checkpoints-2000/chain-3/reference.pt",
+      "bytes": 3393198,
+      "sha256": "9c6a7a4d94b76a92b8b81af96ef04b986cae22a1149c09ba5cbd9ed99c42d892"
+    }
+  ],
+  "inference_worker_commit": "4f0f0fcbfd518bd7be9b77001f5b23f34d5541dc",
+  "reassembly": "cat production-stage-2000.tar.xz.part-* > production-stage-2000.tar.xz",
+  "qualification": "Raw samples and failures are preserved; archived checkpoints are not automatically valid posteriors.",
+  "archive": "production-stage-2000.tar.xz",
+  "bytes": 20606304,
+  "sha256": "d4cc1e14215b1a70cbee453a3fd77d25f373174acf06f8310292561eb9eabe1d",
+  "parts": [
+    {
+      "path": "production-stage-2000.tar.xz.part-000",
+      "bytes": 2000000,
+      "sha256": "a3342ea046893a8333ac9c86e0f65d52590cac3823607d2554ddfeca51cd06c6"
+    },
+    {
+      "path": "production-stage-2000.tar.xz.part-001",
+      "bytes": 2000000,
+      "sha256": "0833b2e2eaac5d76dab39bf9a4f210ef33a7778ddc551cd817add8a381242b58"
+    },
+    {
+      "path": "production-stage-2000.tar.xz.part-002",
+      "bytes": 2000000,
+      "sha256": "9591e1379b3a8a6e21b0325a332753ab458649af72922fe1f62cee637fc667b8"
+    },
+    {
+      "path": "production-stage-2000.tar.xz.part-003",
+      "bytes": 2000000,
+      "sha256": "b7ce7eea7e1242556dcfa7b47ac40c875ac67082930d75818e2df8161cca3ae4"
+    },
+    {
+      "path": "production-stage-2000.tar.xz.part-004",
+      "bytes": 2000000,
+      "sha256": "1360a23dede42a290cc4590bfbef85f987bb3162c3ac7f9ac4de1f659613ae0b"
+    },
+    {
+      "path": "production-stage-2000.tar.xz.part-005",
+      "bytes": 2000000,
+      "sha256": "69f79f9ddceff9f1fc9b40f7a931ad4d70934e203fd0569cfb3dc92b05d30f27"
+    },
+    {
+      "path": "production-stage-2000.tar.xz.part-006",
+      "bytes": 2000000,
+      "sha256": "e58cc29b19a602d6043e6016723d958d4fc4bc7f0e949146de0c8854ca4194eb"
+    },
+    {
+      "path": "production-stage-2000.tar.xz.part-007",
+      "bytes": 2000000,
+      "sha256": "b508a7c4562a2dec5ebf5d6a2e6c6ae686468e35b18c4292c4ac6ec806180865"
+    },
+    {
+      "path": "production-stage-2000.tar.xz.part-008",
+      "bytes": 2000000,
+      "sha256": "185b4ff9c9ba48ffa076d1b77efef103f862bd08866f21da1b9efa37107086fd"
+    },
+    {
+      "path": "production-stage-2000.tar.xz.part-009",
+      "bytes": 2000000,
+      "sha256": "0699f950a445466d93e5779416c7436dfa566e6189431ee92ecb0056b18819a7"
+    },
+    {
+      "path": "production-stage-2000.tar.xz.part-010",
+      "bytes": 606304,
+      "sha256": "76bf1718323967b0954e7f01311972997ac868c0d2863bb12a4e939f11a6897c"
+    }
+  ]
+}
