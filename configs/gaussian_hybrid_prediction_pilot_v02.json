@@ -1,0 +1,52 @@
+{
+  "protocol": "hybrid-Gaussian-force-linear-development-v0.2",
+  "dataset": "runs/gaussian-campaign-v01/hybrid-pilot-v01/dataset.npz",
+  "dataset_sha256": "5d6ca48b2a98a159f25d92d6c329e75b29b5d0f6087825107f9a6f98b1d36764",
+  "source_sha256": {
+    "experiments/train_campaign_hybrid_response.py": "ed619da315168eb57006dc687deef4b59ee96196939a06809ee3e8ba506d78ef",
+    "experiments/campaign_hybrid_response.py": "6b077a56fad0973a053ec7e5bbdc602901cd1af254960e007d8f65fc233a6f50",
+    "experiments/campaign_hybrid_predictor.py": "976693941fd0953553358aa33664b1493043da60e46b892c04e7c1bde919511c",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7"
+  },
+  "arms": [
+    {
+      "name": "exchange",
+      "device": "cuda:2"
+    },
+    {
+      "name": "no_exchange",
+      "device": "cuda:1"
+    }
+  ],
+  "steps_each": 1500,
+  "seed_each": 20261021,
+  "held_pairs": [
+    [
+      "t0000",
+      "pull_hold"
+    ],
+    [
+      "t0001",
+      "shear_oscillation"
+    ],
+    [
+      "t0002",
+      "twist_couple"
+    ],
+    [
+      "t0003",
+      "push_pulse"
+    ]
+  ],
+  "fit_pairs": 12,
+  "held_pairs_count": 4,
+  "checkpoint_selection": "fixed final only; no held score during fit",
+  "claim_scope": "four reused TRAIN layouts, known true physical hypotheses, from rest, planned known controls; developmental cross-action comparison",
+  "raw_outputs": "LOCAL_ONLY",
+  "GitHub_Actions": "all21 workflows verified disabled_manually through public GitHubAPI",
+  "sparse_view_posterior_implemented": false,
+  "calibrated_uncertainty_established": false,
+  "production_dataset_admitted": false,
+  "development_reuse": "V01 diagnostic scores were inspected before redesign; this is not fresh confirmation",
+  "response_prior": "static geometry/hypothesis-conditioned coefficients times causal force-linear history; finiteSO3 decode nonlinear"
+}

@@ -1,0 +1,23 @@
+{
+  "algorithm": "per-complete-public-H uncentered fit-only PCA + residualacceleration AR2 ridge",
+  "source_sha256": "6a8abf25a2da0731c446067ac4a8adedd94b35d700d1548b95f2ae1a67332be9",
+  "dataset": "runs/gaussian-campaign-v01/hybrid-pilot-v01/dataset.npz",
+  "dataset_sha256": "5d6ca48b2a98a159f25d92d6c329e75b29b5d0f6087825107f9a6f98b1d36764",
+  "output": "runs/gaussian-campaign-v01/hybrid-pilot-linear-baseline-v01",
+  "maximum_modes": 8,
+  "PCA_relative_rank_tolerance": 1e-10,
+  "ridge": 0.001,
+  "state_scale_m": 0.24,
+  "force_scale_N": 0.25,
+  "support_scale_m": 0.01,
+  "AR2": "z_t=2z_(t-1)-z_(t-2)+W[z_(t-1),delta_z_(t-1),u_t,u_(t-1),support_t,support_(t-1)]",
+  "initialization": "knownrest,z0andz-1zero;noobservedmotion",
+  "constraint": "exactknownfixturemaskprojection;nootherphysicsbarrierorstabilization",
+  "held_evaluation": "onceafterfrozenfitandrollout,noheldtuning",
+  "unknown_H": "reject,nonearestfallback",
+  "fit_pairs": 12,
+  "held_pairs": 4,
+  "scope": "allfourHseenandfixedphysicsperH;notunseenlayoutorproductioninference",
+  "GPU_used": false,
+  "physics_calls": 0
+}

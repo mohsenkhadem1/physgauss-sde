@@ -1,5 +1,13 @@
 # PhysGauss-SDE
 
+**Hybrid Gaussian prediction pilot:** [implementation and results](docs/GAUSSIAN_HYBRID_PREDICTION.md)
+now transport volumetric material Gaussians through a shared deformation field,
+with separate support/load Gaussian interactions and causal known-force prediction.
+On four held action/layout combinations from four reused TRAIN layouts, the
+structured neural model has 2.761 mm error; a simple linear dynamics model is
+better at 1.000 mm (static rest: 4.051 mm). Physics is supplied, and sparse-view
+inference and calibrated uncertainty remain unfinished. Raw data/videos stay local.
+
 **Neural boundary/material benchmark:** [sealed test report](reports/gaussian-sealed-study-v01/index.html),
 [formulation](docs/GAUSSIAN_NEURAL_ACTIVE_FORMULATION.md), and
 [actual simulation videos/data](examples/gaussian-neural-boundary/README.md).

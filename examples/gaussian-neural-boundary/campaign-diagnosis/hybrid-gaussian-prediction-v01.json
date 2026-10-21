@@ -1,0 +1,117 @@
+{
+  "recorded_utc": "2026-10-21T18:59:50.554861+00:00",
+  "implemented_direction": "moving volumetric material Gaussians and material-coordinate boundary Gaussian interactions with one compatible deformation field",
+  "parent_publication": "e67421ab6926c4974ad46fd0218c2a91efb46348",
+  "data": {
+    "capture_pairs": 16,
+    "fit_pairs": 12,
+    "held_cross_action_pairs": 4,
+    "known_hardware_layouts": 4,
+    "frames": 61,
+    "output_hz": 20,
+    "seconds": 3,
+    "dataset_sha256": "5d6ca48b2a98a159f25d92d6c329e75b29b5d0f6087825107f9a6f98b1d36764",
+    "raw_dataset_LOCAL": true,
+    "material_input_order": [
+      "youngs_modulus_Pa",
+      "density_kg_m3",
+      "poissons_ratio",
+      "linear_damping_s_inverse"
+    ],
+    "measured_motion_input_frames": 0,
+    "physical_hypotheses": "true supplied values for this forward diagnostic",
+    "ID_or_solverHz_neural_features": false
+  },
+  "results": [
+    {
+      "model": "gru_spatial",
+      "fit_mean_rmse_m": 0.00040340493761293304,
+      "held_mean_rmse_m": 0.0035732766296104534,
+      "held_after_1s_mean_rmse_m": 0.004349555243346724,
+      "held_static_mean_rmse_m": 0.004051234868386813,
+      "inverted_tetrahedron_frames": 0,
+      "elapsed_s": 30.57889075577259,
+      "metrics_path": "runs/gaussian-campaign-v01/hybrid-pilot-v01/exchange-v01/held_cross_action-metrics.json",
+      "metrics_sha256": "f86a21bead2bc1ef548eaea1e4b655eb3f3d96032a908a8a2a5a4cb35bb26519"
+    },
+    {
+      "model": "gru_no_exchange",
+      "fit_mean_rmse_m": 0.0006853818537646284,
+      "held_mean_rmse_m": 0.003345041467653525,
+      "held_after_1s_mean_rmse_m": 0.004058513790689897,
+      "held_static_mean_rmse_m": 0.004051234868386813,
+      "inverted_tetrahedron_frames": 0,
+      "elapsed_s": 39.78963145194575,
+      "metrics_path": "runs/gaussian-campaign-v01/hybrid-pilot-v01/no-exchange-v01/held_cross_action-metrics.json",
+      "metrics_sha256": "9e5131c89225160a7e4598dedfbaea6ba6a1fe94294573737bec43666361a9ed"
+    },
+    {
+      "model": "force_linear_spatial",
+      "fit_mean_rmse_m": 0.0008389856036606049,
+      "held_mean_rmse_m": 0.002761478155987488,
+      "held_after_1s_mean_rmse_m": 0.0033529061003934853,
+      "held_static_mean_rmse_m": 0.004051234868386813,
+      "inverted_tetrahedron_frames": 0,
+      "elapsed_s": 35.012208230793476,
+      "metrics_path": "runs/gaussian-campaign-v01/hybrid-pilot-v01/exchange-response-v02/held_cross_action-metrics.json",
+      "metrics_sha256": "0a7694fd47c99f88377e82dff579e16200fad40fd87c19489c0af0fe0c831cd8"
+    },
+    {
+      "model": "force_linear_no_exchange",
+      "fit_mean_rmse_m": 0.0009088141345484275,
+      "held_mean_rmse_m": 0.002699466019076743,
+      "held_after_1s_mean_rmse_m": 0.0032692798197056635,
+      "held_static_mean_rmse_m": 0.004051234868386813,
+      "inverted_tetrahedron_frames": 0,
+      "elapsed_s": 39.432600853964686,
+      "metrics_path": "runs/gaussian-campaign-v01/hybrid-pilot-v01/no-exchange-response-v02/held_cross_action-metrics.json",
+      "metrics_sha256": "437036f02020742d174c7fb0512de2be081515d1069d5f32a5eb99b6f84a46e0"
+    },
+    {
+      "model": "linear_state_baseline",
+      "fit_mean_rmse_m": 0.00014243069037644487,
+      "held_mean_rmse_m": 0.0009995978224611676,
+      "held_after_1s_mean_rmse_m": 0.0011908289257882433,
+      "held_static_mean_rmse_m": 0.004051234868386813,
+      "inverted_tetrahedron_frames": 0,
+      "elapsed_s": 1.3199310577474535,
+      "metrics_path": "runs/gaussian-campaign-v01/hybrid-pilot-linear-baseline-v01/held_cross_action-metrics.json",
+      "metrics_sha256": "70595ff9a660f6df2e9994954ca32c8675b21cb9f5f4258fe99d14010387244a"
+    }
+  ],
+  "interpretation": {
+    "Gaussian_spatial_exchange_advantage_established": false,
+    "best_this_development_comparison": "linear_state_baseline",
+    "neural_response_redesign_improves_mean_over_initial_GRU_spatial": true,
+    "new_material_or_layout_generalization_established": false,
+    "V02_reuses_development_split_after_V01_inspection": true,
+    "unexcited_force_directions": "H1shear and H2couple substantially outside fitting force span; regularized extrapolation not identification",
+    "reference_scope": "independent fixed FEM discretization; original full authored-force temporal qualification remains incomplete"
+  },
+  "validation": {
+    "material_tests": 11,
+    "boundary_tests": 13,
+    "hybrid_GRU_tests": 8,
+    "force_linear_tests": 5,
+    "dataset_tests": 4,
+    "linear_baseline_tests": 2,
+    "CPU_and_GPU_backward_checked": true,
+    "new_full_trajectory_independent_audit_passed": true,
+    "all_four_GPU_sessions_reaped_exit_zero": true
+  },
+  "unfinished": {
+    "sparse_view_hypothesis_encoder": true,
+    "calibrated_material_boundary_posterior": true,
+    "calibrated_forward_discrepancy": true,
+    "active_view_or_probe_policy": true,
+    "production_dataset_admission": true
+  },
+  "covariance_semantics": "physical extent F*Sigma0*Ftranspose, not posterior uncertainty",
+  "GitHub_Actions": "all21workflowsverifieddisabled_manually",
+  "raw_checkpoints_predictions_and_videos": "LOCAL_ONLY",
+  "videos": [
+    "runs/gaussian-campaign-v01/hybrid-pilot-v01/exchange-v01/actual-vs-predicted.mp4",
+    "runs/gaussian-campaign-v01/hybrid-pilot-v01/exchange-response-v02/actual-vs-predicted.mp4"
+  ],
+  "goal_complete": false
+}

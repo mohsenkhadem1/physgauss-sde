@@ -1,0 +1,50 @@
+{
+  "protocol": "hybrid-Gaussian-known-hypothesis-TRAIN-pilot-v0.1",
+  "dataset": "runs/gaussian-campaign-v01/hybrid-pilot-v01/dataset.npz",
+  "dataset_sha256": "5d6ca48b2a98a159f25d92d6c329e75b29b5d0f6087825107f9a6f98b1d36764",
+  "source_sha256": {
+    "experiments/campaign_hybrid_predictor.py": "976693941fd0953553358aa33664b1493043da60e46b892c04e7c1bde919511c",
+    "experiments/train_campaign_hybrid.py": "cdb0ef5fe210a59c1212c92c54626d8c5b39c6ae369932919ed2ed5a02e3353d",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7",
+    "experiments/prepare_campaign_hybrid_pilot.py": "f3088595b77e8b5aebe6317827f7eb1c16393d352b4cfad54f94ce70e9bee709"
+  },
+  "arms": [
+    {
+      "name": "exchange",
+      "device": "cuda:2"
+    },
+    {
+      "name": "no_exchange",
+      "device": "cuda:1"
+    }
+  ],
+  "steps_each": 1500,
+  "seed_each": 20261021,
+  "held_pairs": [
+    [
+      "t0000",
+      "pull_hold"
+    ],
+    [
+      "t0001",
+      "shear_oscillation"
+    ],
+    [
+      "t0002",
+      "twist_couple"
+    ],
+    [
+      "t0003",
+      "push_pulse"
+    ]
+  ],
+  "fit_pairs": 12,
+  "held_pairs_count": 4,
+  "checkpoint_selection": "fixed final only; no held score during fit",
+  "claim_scope": "four reused TRAIN layouts, known true physical hypotheses, from rest, planned known controls; developmental cross-action comparison",
+  "raw_outputs": "LOCAL_ONLY",
+  "GitHub_Actions": "all21 workflows verified disabled_manually through public GitHubAPI",
+  "sparse_view_posterior_implemented": false,
+  "calibrated_uncertainty_established": false,
+  "production_dataset_admitted": false
+}

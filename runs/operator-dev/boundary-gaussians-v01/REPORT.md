@@ -1,0 +1,11 @@
+# Material boundary Gaussians v01
+
+New source only: `experiments/campaign_boundary_gaussians.py`; no reference source, live pin, simulator or observation is modified.13 mechanics/role tests pass.
+
+Graph API: `weights, area = normalized_surface_weights(X, faces, centers, covariance, active)` returns[J,N] dimensionless weights and[N] lumped surface area[m²]. Coordinates/covariances are supplied in a common material frame; deformation does not redefine the patches. Vertex-lumped triangle quadrature integrates affine fields exactly; Gaussian surface integrals remain discrete approximations. Full covariance must be SPD; no bandwidth projection or stiffness repair is performed. PSD K/D validation accepts only an eigensolver roundoff window of64eps times matrix scale for rank-deficient tensors, without changing their entries; covariance bandwidths remain strictly positive.
+
+Fixed2-support/2-load feature banks separate latent support/unknown-force hypotheses from publicly known load hardware. The public projection omits latent centers/covariance/activity. Known force history stays in the separate explicit command context. Full PSD world stiffness K[N/m] and damping D[Ns/m] in the compliant branch describe total patch coefficients under normalized weights: E=.5Σw eᵀKe, F=−w(Ke+Dvrel), dissipation=Σw vrelᵀDvrel. Explicit targets/velocities are required; no support law is inferred. Tests verify energy gradients, affine quadrature, coordinate/objectivity transformations and moving-target power balance.
+
+Exact hard fixture masks/targets and complete ordered rigid patches/origins use a separate transparent reference decode. They are never approximated by large K or Gaussian soft supports. Gaussian distributed loads reproduce resultant force to float64 roundoff with a reported correction, and explicitly report moment differences from an actual handle-origin force. Consequently they are learned load features or a separate distributed-load hypothesis, not an automatic substitute for the exact rigid-handle reference. No world contact law is implemented; the contact entry point raises instead of inventing one.
+
+The module is a boundary representation/constitutive helper, not a trained predictor, calibrated posterior, contact solver or continuum validation.
