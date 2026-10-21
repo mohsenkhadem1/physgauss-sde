@@ -1,0 +1,105 @@
+{
+  "schema": "fixed-six-crossed-Gaussian-fits-v0.1",
+  "status": "FROZEN_BEFORE_DATASET_BUILD_OR_ANY_FIT",
+  "input_manifest": {
+    "path": "runs/gaussian-campaign-v01/hypothesis-inputs-v01/manifest.json",
+    "sha256": "2acaac9a9bf6438c6bc4677cce7cb77f8b56bfe9a3a3e8d56d6298f81e208a98"
+  },
+  "finite_batch_declaration": {
+    "path": "runs/gaussian-campaign-v01/hypothesis-cohort-v01/batch-declaration.json",
+    "sha256": "9fba3fd54804418aea0c140cbb769670cd0491689f2a6ed9f205193e73dba87d"
+  },
+  "finite_index": "runs/gaussian-campaign-v01/hypothesis-cohort-v01/result-index.json",
+  "output": "runs/gaussian-campaign-v01/crossed-gaussian-training-v01",
+  "source_sha256": {
+    "experiments/train_campaign_crossed_prediction.py": "586287232dfa38a632e1df46a471ac3c585ecb5b78fa475fb1e5d239557f2369",
+    "experiments/campaign_hybrid_response.py": "6b077a56fad0973a053ec7e5bbdc602901cd1af254960e007d8f65fc233a6f50",
+    "experiments/campaign_hybrid_predictor.py": "976693941fd0953553358aa33664b1493043da60e46b892c04e7c1bde919511c",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7",
+    "experiments/train_campaign_hybrid_response.py": "ed619da315168eb57006dc687deef4b59ee96196939a06809ee3e8ba506d78ef",
+    "experiments/prepare_campaign_hypothesis_dataset.py": "1e734df0ba2abf598483f4fdae0cf7f9da518ef5c1e9fcf67a581550d3efd906",
+    "experiments/prepare_campaign_hybrid_pilot.py": "f3088595b77e8b5aebe6317827f7eb1c16393d352b4cfad54f94ce70e9bee709",
+    "experiments/campaign_hypothesis_inputs.py": "bdae8dda6902a62b1a9fcfa401c7d17b53ecc27fce169b7a3c90b4c143e904f5",
+    "experiments/campaign_physical_prior.py": "755281cf028e64daad88828a2cdf89dce11a5a7cc4b1e635c50767090b3e80e4",
+    "experiments/campaign_full_hardware_context.py": "47cc0047f2cce6e88c4b76650c9358773eaa233fd670ce2223e4b1f29d7bb958",
+    "experiments/campaign_exciting_commands.py": "724cb9b4ddf845cc99ac74f44b82dbebf832423c152f11f6c325bd414cd063fc",
+    "experiments/campaign_fixed_actuator_clock.py": "1b1361696a3822e608687620b39363ef6667060ed4c313932daac3151e000c5f",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "runs/operator-dev/crossed-gaussian-training-v01/run.py": "cd49b03c615d5127c755ea3a3796b1da3a1a7e9a63796ce531e55c48aff5d70c"
+  },
+  "metric_test_sha256": "ddd2b326c8b9e3cc0ace6ff458965623bc8cbe6a0f7a87e7500aa123298746b7",
+  "fit_budget": {
+    "steps": 4000,
+    "width": 64,
+    "layers": 3,
+    "batch": 4,
+    "query_times": 8,
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05,
+    "J_barrier_weight": 0.05,
+    "J_barrier_threshold": 0.2,
+    "training_loss_scale_floor_m": 0.0005
+  },
+  "jobs": [
+    {
+      "id": "exchange__seed20261022",
+      "arm": "exchange",
+      "seed": 20261022,
+      "physical_GPU": 1
+    },
+    {
+      "id": "no_exchange__seed20261022",
+      "arm": "no_exchange",
+      "seed": 20261022,
+      "physical_GPU": 2
+    },
+    {
+      "id": "exchange__seed20261023",
+      "arm": "exchange",
+      "seed": 20261023,
+      "physical_GPU": 1
+    },
+    {
+      "id": "no_exchange__seed20261023",
+      "arm": "no_exchange",
+      "seed": 20261023,
+      "physical_GPU": 2
+    },
+    {
+      "id": "exchange__seed20261024",
+      "arm": "exchange",
+      "seed": 20261024,
+      "physical_GPU": 1
+    },
+    {
+      "id": "no_exchange__seed20261024",
+      "arm": "no_exchange",
+      "seed": 20261024,
+      "physical_GPU": 2
+    }
+  ],
+  "selection": "Fixed finalcheckpoint for all6runs; no development/middle score or baseline result selects weights, budget, architecture or seed.",
+  "roles": {
+    "fit": 32,
+    "development_force_transfer": 32,
+    "unseen_middle_material": 32
+  },
+  "resources": {
+    "maximum_concurrent_fits": 2,
+    "maximum_fits_per_GPU": 1,
+    "physical_GPUs": [
+      1,
+      2
+    ],
+    "threads_per_fit": 2,
+    "child_CUDA_VISIBLE_DEVICES": "one physical GPU per child; trainer internal cuda:0",
+    "GPU0_and_GPU3_exposed_to_children": false
+  },
+  "failure_policy": "No retries or dropped seeds; stopnewlaunchesonobservedfailure and drainrunningpeer.",
+  "data_precondition": "All96canonicalfinitecells terminalcompleted, strictrootbuilder succeeds; otherwise nofit.",
+  "evaluation": "Afterall6complete compare finalpredictions to independently frozen physicalbaseline/staticrest by role,BC,material and seed. Descriptive seedspread is trainingvariation, not calibrateduncertainty.",
+  "raw_dataset_checkpoints_predictions": "LOCAL_ONLY",
+  "reserved_old_data_access": false,
+  "native_or_continuum_reference_claim": false,
+  "sparse_view_posterior_or_calibration_claim": false
+}

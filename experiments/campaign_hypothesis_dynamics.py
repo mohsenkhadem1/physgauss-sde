@@ -76,7 +76,7 @@ def runtime_sources():
         'campaign_full_hardware_context.py', 'campaign_nonlinear_dynamics.py',
         'campaign_nonlinear_fem.py', 'campaign_linear_fem.py',
         'campaign_rigid_inertia.py', 'campaign_authored_commands.py', 'campaign_exciting_commands.py',
-        'isaac_dataset.py', 'boundary_block.py']
+        'isaac_dataset.py', 'boundary_block.py', 'campaign_hypothesis_batch.py']
     pins = {f'experiments/{name}':sha(ROOT/'experiments'/name) for name in names}
     if pins['experiments/campaign_nonlinear_dynamics.py'] != PHYSICAL_CORE_SHA256:
         raise ValueError('Original physical core changed')
@@ -162,18 +162,38 @@ def validate_protocol(path, digest):
     if sha(path) != digest:
         raise ValueError('Protocol digest mismatch')
     protocol = json.loads(path.read_text())
-    if (protocol.get('protocol') != 'independent-hypothesis-fixed-clock-smoke-v0.1'
-            or protocol.get('status') != 'FROZEN_REVIEWED_SINGLE_TRAIN_SMOKE'
+    smoke = (protocol.get('protocol') == 'independent-hypothesis-fixed-clock-smoke-v0.1'
+             and protocol.get('status') == 'FROZEN_REVIEWED_SINGLE_TRAIN_SMOKE')
+    batch_cell = (protocol.get('protocol') == 'independent-hypothesis-fixed-clock-batch-cell-v0.1'
+                  and protocol.get('status') == 'FROZEN_REVIEWED_FINITE_TRAIN_BATCH_CELL')
+    if (not (smoke or batch_cell)
             or protocol.get('split') != 'TRAIN' or protocol.get('settings') != SETTINGS
             or protocol.get('information_roles') != INFORMATION_ROLES
             or any(type(protocol['settings'][key]) is not type(value) for key,value in SETTINGS.items())):
-        raise ValueError('Exactly frozen new one-TRAIN-smoke scope required')
+        raise ValueError('Exactly frozen engineering TRAIN scope required')
     if type(protocol.get('integration_hz')) is not int or protocol['integration_hz'] not in (120,240,480):
         raise ValueError('Undeclared private integration rate')
     if protocol.get('source_sha256') != runtime_sources():
         raise ValueError('Frozen runtime source/dependency map mismatch')
     for key in ['public_hardware','realized_hypothesis','known_commands']:
         checked(protocol[key])
+    if batch_cell:
+        try:
+            import campaign_hypothesis_batch as batch_module
+        except ImportError:
+            from experiments import campaign_hypothesis_batch as batch_module
+        declaration=protocol['batch_declaration']
+        batch,manifest=batch_module.validate_batch(declaration['path'],declaration['sha256'])
+        matches=[c for c in manifest['cells'] if c['id']==protocol['cell_id']]
+        if len(matches)!=1:raise ValueError('Unknown canonical batch cell')
+        cell=matches[0]
+        if (protocol['integration_hz']!=batch['integration_hz'] or protocol['input_design']!=batch['manifest']
+                or protocol['program_id']!=cell['program_id'] or protocol['evaluation_role']!=cell['evaluation_role']
+                or protocol['public_hardware']!=batch['public_hardware'][cell['public_hardware_id']]
+                or protocol['realized_hypothesis']!=batch['realized_hypotheses'][cell['hypothesis_id']]
+                or protocol['known_commands']!=batch['known_commands'][cell['program_id']]
+                or protocol['output']!=batch['output_prefix']+'/cells/'+cell['id']):
+            raise ValueError('Batch cell identity/role/input/clock/output differs from frozen declaration')
     resolve(protocol['output'])
     return protocol
 
@@ -197,6 +217,16 @@ def run(protocol_path, protocol_sha256):
             **{key:raw[key].copy() for key in ['endpoint_times_s','output_times_s',
                 'handle_forces_world_N','handle_torques_world_Nm','nodal_forces_world_N','body_acceleration_world_m_s2']})
     refined = validate_clock(clock,protocol['integration_hz'],len(hardware.points),len(hardware.handles))
+    if clock.public_manifest()!=protocol['public_command_manifest']:
+        raise ValueError('Public command arrays disagree with declared manifest')
+    batch_cell = protocol['protocol']=='independent-hypothesis-fixed-clock-batch-cell-v0.1'
+    if batch_cell:
+        try:
+            from campaign_exciting_commands import make_exciting_commands
+        except ImportError:
+            from experiments.campaign_exciting_commands import make_exciting_commands
+        if clock.public_manifest()!=make_exciting_commands(protocol['program_id']).public_manifest():
+            raise ValueError('Canonical batch commands differ from frozen truth-independent program')
     # Input validation precedes output creation and all physical construction.
     inputs.validate_realized_hypothesis(hardware,hypothesis)
     output.mkdir(parents=True,exist_ok=False)
@@ -210,6 +240,8 @@ def run(protocol_path, protocol_sha256):
         private = output/'private-provenance'; private.mkdir()
         pins = {**protocol['source_sha256'],str(protocol_path):protocol_sha256,
             **{protocol[key]['path']:protocol[key]['sha256'] for key in ['public_hardware','realized_hypothesis','known_commands']}}
+        if batch_cell:
+            pins.update({protocol[key]['path']:protocol[key]['sha256'] for key in ['batch_declaration','input_design']})
         snapshots = []
         for i,(rel,digest) in enumerate(pins.items()):
             saved = f'{i:02d}-'+Path(rel).name

@@ -1,5 +1,12 @@
 # PhysGauss-SDE
 
+**Known-physics diagnosis:** [fixed excitation and engineering checks](runs/operator-dev/hypothesis-campaign-v01/REPORT.md)
+now use identical force programs across materials and supports. An unfitted,
+linearized physical model matches the first soft point-pin and moving-support
+cases within 0.013 and 0.023 mm respectively, given the true physical hypothesis.
+These are new diagnostic cases, separate from the older neural comparison below.
+The next crossed design has 96 cases; its prediction scores are still pending.
+
 **Hybrid Gaussian prediction pilot:** [implementation and results](docs/GAUSSIAN_HYBRID_PREDICTION.md)
 now transport volumetric material Gaussians through a shared deformation field,
 with separate support/load Gaussian interactions and causal known-force prediction.
