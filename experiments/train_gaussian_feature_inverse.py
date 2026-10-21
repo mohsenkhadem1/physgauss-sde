@@ -13,6 +13,7 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--roots',nargs='+',required=True);parser.add_argument('--output',required=True)
     parser.add_argument('--observation-mode',choices=['rgb','rgbd'],default='rgb')
+    parser.add_argument('--texture-calibration',help='New RGB geometry+texture feature version with frozen TRAIN color calibration')
     parser.add_argument('--context-mode',choices=['features','prior'],default='features')
     parser.add_argument('--steps',type=int,default=2000);parser.add_argument('--gpu',type=int,default=3)
     parser.add_argument('--selection-metric',choices=['nll','trajectory_rmse'],default='nll')

@@ -457,6 +457,9 @@ def evaluate_motion(episode,prediction_file,output=None):
     result={'evaluation':'held-out motion, performed after fixed-final-step RGBD fit',
             'episode_id':episode.name,'prediction_file':str(prediction_file),
             'withheld_frames':int(heldout.sum()),'temporal_gap_frames':int(gap.sum()),'rows':rows}
+    result['coordinate_rmse_m']=float(np.sqrt(np.mean((prediction-truth)**2)))
+    result['static_coordinate_rmse_m']=float(np.sqrt(np.mean((rest[None]-truth)**2)))
+    if gap.any():result['gap_coordinate_rmse_m']=float(np.sqrt(np.mean((prediction[gap]-truth[gap])**2)))
     for name,selection in [('withheld',heldout),('temporal_gap',gap),('observed',~heldout)]:
         if selection.any():
             value=float(errors[selection].mean());baseline=float(static_errors[selection].mean())

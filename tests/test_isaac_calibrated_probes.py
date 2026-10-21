@@ -2,10 +2,11 @@ import sys
 from pathlib import Path
 import json
 import tempfile
+import shutil
 import unittest
 import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'experiments'))
-from isaac_calibrated_probes import calibrated_menu, command_at, record_selection, load_selected_measurement
+from isaac_calibrated_probes import calibrated_menu, command_at, record_selection, load_selected_measurement, validate_case
 
 
 class CalibratedProbeTests(unittest.TestCase):
@@ -49,6 +50,38 @@ class CalibratedProbeTests(unittest.TestCase):
             menu['candidates'][0]['cost'] = 2.
             (public/'action-menu.json').write_text(json.dumps(menu))
             with self.assertRaises(ValueError): load_selected_measurement(root, selected)
+
+
+    def test_saved_probe_audit_rejects_force_camera_source_and_reset_corruptions(self):
+        source = Path(__file__).resolve().parents[1]/'runs/isaac-calibrated-probes-validation-v01'
+        if not (source/'private/e0002/summary.json').exists():
+            self.skipTest('Optional actual-Isaac corruption audit requires generated probe case e0002')
+        for corruption in ['force', 'camera', 'source', 'reset']:
+            with self.subTest(corruption=corruption), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                for folder in ['private', 'public', 'outcomes']:
+                    shutil.copytree(source/folder/'e0002', root/folder/'e0002')
+                if corruption == 'source':
+                    p = root/'private/e0002/provenance/boundary_block.py'
+                    p.write_bytes(p.read_bytes()+b'\n# deliberate corruption\n')
+                elif corruption == 'camera':
+                    p = root/'outcomes/e0002/poke_0/observations/cameras.npz'
+                    with np.load(p) as raw: arrays = {k: raw[k] for k in raw.files}
+                    arrays['camera_to_world_usd_row'][1, 3, 0] += .01
+                    np.savez_compressed(p, **arrays)
+                else:
+                    action = 'poke_0' if corruption == 'force' else 'reset_replay'
+                    p = root/'private/e0002'/action/'trajectory.npz'
+                    with np.load(p) as raw: arrays = {k: raw[k] for k in raw.files}
+                    if corruption == 'force':
+                        arrays['force_step_commands_N'][100, 0, 0] += .001
+                    else:
+                        with np.load(root/'private/e0002/reference.npz') as ref:
+                            interior = np.setdiff1d(np.arange(len(ref['rest_points_m'])), np.unique(ref['surface_faces']))[0]
+                        arrays['positions_m'][3, interior, 0] += 1e-5
+                    np.savez_compressed(p, **arrays)
+                with self.assertRaises((AssertionError, ValueError)):
+                    validate_case(root, 'e0002')
 
 
 if __name__ == '__main__': unittest.main()

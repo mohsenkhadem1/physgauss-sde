@@ -20,10 +20,19 @@ from gaussian_operator import deformation_diagnostics
 
 
 def load_model(inverse_checkpoint,forward_checkpoint,device='cpu'):
-    model,checkpoint=load_inverse_checkpoint(inverse_checkpoint,device)
+    model,checkpoint=load_observation_posterior(inverse_checkpoint,device)
     forward=load_frozen_operator(forward_checkpoint,device)
     return {'inverse':model,'forward':forward,'checkpoint':checkpoint,'device':torch.device(device),
             'inverse_checkpoint':str(inverse_checkpoint),'forward_checkpoint':str(forward_checkpoint)}
+
+
+def load_observation_posterior(path,device='cpu'):
+    """Load preserved25D baseline or explicitly tagged intrinsic-chart model."""
+    tag=torch.load(path,map_location='cpu',weights_only=False).get('model_class')
+    if tag=='ChartGaussianInverseModel':
+        from train_gaussian_chart_inverse import load_chart_checkpoint
+        return load_chart_checkpoint(path,device)
+    return load_inverse_checkpoint(path,device)
 
 
 def load_public_observations(episode,observation_mode='rgb',size=(192,160),max_time_s=None):
@@ -36,18 +45,21 @@ def load_public_observations(episode,observation_mode='rgb',size=(192,160),max_t
     native_k=c['K'];c={k:(v[chosen] if k!='K' else v) for k,v in c.items()}
     crop=project_reference_crops(reference,c['camera_to_world_usd_row'],native_k,size)
     c['native_K']=native_k;c['K']=crop['K'];c['crop_boxes_xyxy']=crop['crop_boxes_xyxy']
-    rgb=[];mask=[];depth=[];native_mask=[]
+    rgb=[];mask=[];depth=[];native_mask=[];native_rgb=[]
     for index,frame in enumerate(c['frame_ids']):
         box=tuple(crop['crop_boxes_xyxy'][index])
-        rgb.append(np.asarray(Image.open(episode/'observations/rgb'/f'{frame:05d}.png').convert('RGB').crop(box).resize(size,Image.Resampling.BILINEAR))/255.)
+        color=Image.open(episode/'observations/rgb'/f'{frame:05d}.png').convert('RGB')
+        rgb.append(np.asarray(color.crop(box).resize(size,Image.Resampling.BILINEAR))/255.)
+        native_rgb.append(np.asarray(color,dtype=np.float32)/255.)
         image=Image.open(episode/'observations/masks'/f'{frame:05d}.png').convert('L')
         mask.append(np.asarray(image.crop(box).resize(size,Image.Resampling.BILINEAR))/255.)
+        native_mask.append(np.asarray(image)>0)
         if observation_mode=='rgbd':
             with np.load(episode/'observations/depth'/f'{frame:05d}.npz') as raw:depth.append(raw['depth_m'])
-            native_mask.append(np.asarray(image)>0)
     inputs={'reference':reference,'cameras':c,'native_K':native_k,'rgb':np.asarray(rgb,dtype=np.float32),
             'mask':np.asarray(mask,dtype=np.float32),'calibration_size':tuple(size),'observation_mode':observation_mode}
-    if observation_mode=='rgbd':inputs['depth_native_m']=np.asarray(depth);inputs['native_mask']=np.asarray(native_mask)
+    inputs['rgb_native']=np.asarray(native_rgb);inputs['native_mask']=np.asarray(native_mask)
+    if observation_mode=='rgbd':inputs['depth_native_m']=np.asarray(depth)
     elif observation_mode!='rgb':raise ValueError('Expected rgb or rgbd mode')
     return inputs
 
@@ -67,7 +79,18 @@ def encode_inputs(bundle,inputs):
             specification=importlib.util.spec_from_file_location('archived_observed_features',checkpoint['archived_feature_source_path'])
             archived=importlib.util.module_from_spec(specification);specification.loader.exec_module(archived)
             extractor=archived.extract_features
-        features=extractor(inputs);batch['features']=torch.as_tensor(features['features'][None],device=device)
+        features=extractor(inputs)
+        if checkpoint.get('texture_calibration'):
+            from gaussian_texture_features import frame_texture_features
+            if 'rgb_native' not in inputs or 'native_mask' not in inputs:
+                raise ValueError('Texture mode requires native public RGB/masks for every acquired view')
+            texture=[]
+            for index,pose in enumerate(c['camera_to_world_usd_row']):
+                values,_=frame_texture_features(inputs['reference'],pose,inputs['native_K'],
+                    inputs['rgb_native'][index],inputs['native_mask'][index],checkpoint['texture_calibration'])
+                texture.append(values)
+            features['features']=np.concatenate((features['features'],np.asarray(texture)),axis=-1)
+        batch['features']=torch.as_tensor(features['features'][None],device=device)
         batch['images']=torch.zeros((1,len(c['times_s']),1,1,1),device=device)
     else:
         images=np.concatenate((inputs['rgb'],inputs['mask'][...,None]),-1).transpose(0,3,1,2)
@@ -101,13 +124,31 @@ def predict_particles(bundle,particles,reference,times,chunk_size=8):
 
 
 def evaluate(roots,inverse_checkpoint,forward_checkpoint,output,catalog=None,samples=64,device='cpu',
-             max_time_s=None,render_frames=(),appearance=None,split='validation'):
-    if split not in ('train','validation'):raise ValueError('Test groups remain locked until final protocol')
+             max_time_s=None,render_frames=(),appearance=None,split='validation',test_protocol=None):
+    sealed=None
+    if split=='test':
+        if not test_protocol:raise ValueError('Test groups remain locked until final protocol')
+        from gaussian_final_protocol import load_protocol,require_model,collect_test_cases
+        sealed=load_protocol(test_protocol);require_model(sealed,inverse_checkpoint,forward_checkpoint)
+        if samples!=sealed['design']['posterior_samples']:raise ValueError('TEST sample budget differs from frozen design')
+        if catalog:raise ValueError('TRAIN/VAL catalog cannot select TEST cases')
+        records=collect_test_cases(roots,sealed)
+    elif split in ('train','validation'):
+        records=collect_cases(roots)
+        if catalog:records=apply_catalog(records,catalog)
+        records=[r for r in records if r['recipe']['split']==split]
+    else:raise ValueError('Expected train, validation or sealed test split')
     torch.set_num_threads(2);bundle=load_model(inverse_checkpoint,forward_checkpoint,device)
-    records=collect_cases(roots)
-    if catalog:records=apply_catalog(records,catalog)
-    records=[r for r in records if r['recipe']['split']==split]
+    if not records:raise ValueError('No completed evaluation cases')
     output=Path(output);output.mkdir(parents=True,exist_ok=False);rows=[]
+    provenance=output/'provenance';provenance.mkdir()
+    source_names=['evaluate_gaussian_inverse.py','train_gaussian_inverse.py','gaussian_observed_features.py','gaussian_operator.py','gaussian_observation.py']
+    if bundle['checkpoint'].get('texture_calibration'):source_names.append('gaussian_texture_features.py')
+    if bundle['checkpoint'].get('model_class')=='ChartGaussianInverseModel':source_names.extend(('gaussian_chart_posterior.py','train_gaussian_chart_inverse.py'))
+    source_sha256={}
+    for name in source_names:
+        data=Path(__file__).with_name(name).read_bytes();(provenance/name).write_bytes(data)
+        source_sha256[name]=hashlib.sha256(data).hexdigest()
     for index,record in enumerate(records):
         episode=record['path'];encoded=encode_episode(bundle,episode,max_time_s)
         particles=posterior_samples(bundle,encoded,samples,seed=20261102+index)
@@ -121,14 +162,27 @@ def evaluate(roots,inverse_checkpoint,forward_checkpoint,output,catalog=None,sam
                             boundary_type=particles['boundary_type'].cpu().numpy(),force_type=particles['force_type'].cpu().numpy())
         with np.load(episode/'truth/trajectory.npz') as raw:target=raw['positions_m']
         rest=encoded['inputs']['reference']['rest_points_m'];gap=(c['times_s']>1)&(c['times_s']<2)
+        late=(c['times_s']>=2)&(c['times_s']<=3)
         # Initialstate is deterministic; exclude it from interval coverage.
         row={'key':record['key'],'episode_id':record['recipe']['episode_id'],
              'coordinate_rmse_m':float(np.sqrt(np.mean((mean-target)**2))),
              'static_coordinate_rmse_m':float(np.sqrt(np.mean((rest-target)**2))),
+             'static_gap_coordinate_rmse_m':float(np.sqrt(np.mean((rest-target[gap])**2))),
+             'static_late_2to3_coordinate_rmse_m':float(np.sqrt(np.mean((rest-target[late])**2))),
              'gap_coordinate_rmse_m':float(np.sqrt(np.mean((mean[gap]-target[gap])**2))),
+             'late_2to3_coordinate_rmse_m':float(np.sqrt(np.mean((mean[late]-target[late])**2))),
              'pointwise_coordinate90_coverage':float(((target[1:]>=lower[1:])&(target[1:]<=upper[1:])).mean()),
              'pointwise_coordinate90_mean_width_m':float((upper[1:]-lower[1:]).mean()),
              'particles':samples,'observed_frames':encoded['inputs']['cameras']['frame_ids'].tolist()}
+        # Proper multivariate score on a predeclared, computationally small
+        # motion query grid. Pairwise terms include their diagonal: empirical
+        # predictive-distribution energy score, not an unbiased population U-statistic.
+        score_times=np.array([10,20,30,40,50,60]);score_nodes=np.linspace(0,len(rest)-1,64).astype(int)
+        vectors=(predicted[:,score_times][:,:,score_nodes]-rest[score_nodes]).reshape(samples,-1).astype(np.float64)
+        truth_vector=(target[score_times][:,score_nodes]-rest[score_nodes]).reshape(-1)
+        d=vectors.shape[-1];norms=np.square(vectors).sum(-1)
+        pair=np.sqrt(np.maximum((norms[:,None]+norms[None]-2*vectors@vectors.T)/d,0.))
+        row['predictive_energy_score_6times64nodes_m']=float(np.sqrt(np.square(vectors-truth_vector).mean(-1)).mean()-.5*pair.mean())
         ref=encoded['inputs']['reference']
         tets=ref['tetrahedra'];audit_frames=np.array([15,30,45,60]);audit=predicted[:,audit_frames]
         determinant=np.linalg.det(audit[:,:,tets[:,1:]]-audit[:,:,tets[:,:1]])
@@ -153,11 +207,16 @@ def evaluate(roots,inverse_checkpoint,forward_checkpoint,output,catalog=None,sam
                 image_scores.append(image_metrics(rendered,rgb,mask))
         if image_scores:row['appearance']={k:float(np.mean([s[k] for s in image_scores])) for k in image_scores[0]}
         rows.append(row);print(json.dumps(row),flush=True)
-    aggregate={key:float(np.mean([r[key] for r in rows])) for key in ['coordinate_rmse_m','static_coordinate_rmse_m','gap_coordinate_rmse_m','pointwise_coordinate90_coverage','pointwise_coordinate90_mean_width_m']}
+    aggregate={key:float(np.mean([r[key] for r in rows])) for key in ['coordinate_rmse_m','static_coordinate_rmse_m','gap_coordinate_rmse_m','late_2to3_coordinate_rmse_m','static_gap_coordinate_rmse_m','static_late_2to3_coordinate_rmse_m','pointwise_coordinate90_coverage','pointwise_coordinate90_mean_width_m','predictive_energy_score_6times64nodes_m']}
     result={'episodes':rows,'aggregate':aggregate,'inverse_checkpoint':str(inverse_checkpoint),'forward_checkpoint':str(forward_checkpoint),
+            'source_sha256':source_sha256,'samples':samples,'render_frames':list(render_frames),
+            'appearance_prediction':'Render of posterior mean nodal positions, not mean of rendered images',
             'checkpoint_sha256':{name:hashlib.sha256(Path(path).read_bytes()).hexdigest() for name,path in [('inverse',inverse_checkpoint),('forward',forward_checkpoint)]},
             'max_observed_time_s':max_time_s,'observation_mode':bundle['checkpoint'].get('observation_mode','rgb'),
-            'qualification':'Finite-sample posterior predictive intervals are uncalibrated; pointwise coordinates are correlated; one known cuboid geometry; TRAIN/VAL only'}
+            'feature_version':bundle['checkpoint'].get('feature_version','geometry_v1'),
+            'texture_calibration_sha256':bundle['checkpoint'].get('texture_calibration_sha256'),
+            'final_test_protocol_sha256':sealed['protocol_sha256'] if sealed else None,
+            'qualification':'Finite-sample posterior predictive intervals require empirical calibration; pointwise coordinates are correlated; one known cuboid geometry; split='+split}
     (output/'results.json').write_text(json.dumps(result,indent=2)+'\n');return result
 
 
@@ -166,7 +225,8 @@ if __name__=='__main__':
     parser.add_argument('--inverse-checkpoint',required=True);parser.add_argument('--forward-checkpoint',required=True)
     parser.add_argument('--output',required=True);parser.add_argument('--catalog');parser.add_argument('--samples',type=int,default=64)
     parser.add_argument('--device',default='cpu');parser.add_argument('--max-time-s',type=float)
+    parser.add_argument('--split',choices=['train','validation','test'],default='validation');parser.add_argument('--test-protocol')
     parser.add_argument('--render-frames',type=int,nargs='*',default=[]);parser.add_argument('--appearance')
-    parser.add_argument('--split',choices=['train','validation'],default='validation');args=parser.parse_args()
+    args=parser.parse_args()
     if args.appearance:args.appearance=json.loads(Path(args.appearance).read_text())
     result=evaluate(**vars(args));print(json.dumps(result['aggregate'],indent=2))

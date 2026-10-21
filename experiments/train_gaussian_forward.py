@@ -87,9 +87,16 @@ def main():
     parser.add_argument('--depth',type=int,default=3);parser.add_argument('--lr',type=float,default=.001)
     parser.add_argument('--eval-every',type=int,default=500);parser.add_argument('--seed',type=int,default=20261031)
     parser.add_argument('--device',default='cuda:3');parser.add_argument('--resume',type=Path)
+    parser.add_argument('--catalog',type=Path,help='Immutable existing record snapshot; recipe hashes must match')
     args=parser.parse_args();torch.set_num_threads(2);torch.manual_seed(args.seed);rng=np.random.default_rng(args.seed)
     root=args.output;root.mkdir(parents=True,exist_ok=False);device=torch.device(args.device)
-    records=collect_records(args.roots);train=[r for r in records if r['split']=='train'];val=[r for r in records if r['split']=='validation']
+    records=collect_records(args.roots)
+    if args.catalog:
+        frozen_catalog=json.loads(args.catalog.read_text())
+        keys={(str(Path(r['path']).resolve()),r['recipe_sha256']) for r in frozen_catalog}
+        records=[r for r in records if (str(Path(r['path']).resolve()),r['recipe_sha256']) in keys]
+        if len(records)!=len(keys):raise ValueError('Frozen forward catalog has unavailable/changed recipes')
+    train=[r for r in records if r['split']=='train'];val=[r for r in records if r['split']=='validation']
     if not train or not val:raise ValueError('Need both TRAIN and VAL snapshots')
     shapes={(r['rest'].shape,r['q'].shape) for r in records}
     if len(shapes)!=1:raise ValueError('This initial batching runner requires shared mesh topology/time grid')
@@ -109,7 +116,7 @@ def main():
     source_hashes={name:hashlib.sha256(content).hexdigest() for name,content in sources.items()}
     catalog=[{k:r[k] for k in ['path','episode_id','split','group_id','trajectory_sha256','recipe_sha256']} for r in records]
     (root/'catalog.json').write_text(json.dumps(catalog,indent=2)+'\n')
-    protocol={**vars(args),'output':str(root),'resume':str(args.resume) if args.resume else None,
+    protocol={**vars(args),'output':str(root),'resume':str(args.resume) if args.resume else None,'catalog':str(args.catalog) if args.catalog else None,
         'train_episodes':len(train),'validation_episodes':len(val),'no_test_labels_opened':True,
         'source_sha256':source_hashes,'model_class':model_class,'model_kwargs':kwargs,
         'supervision':'TRAIN nodal motion and physical parameters; per-case displacement-normalized MSE, 0.4mm scale floor',

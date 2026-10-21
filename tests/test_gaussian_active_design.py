@@ -47,6 +47,23 @@ def test_correlated_covariance_matches_transformed_measurement():
     np.testing.assert_allclose(first, second)
 
 
+def test_vectorized_gram_risk_matches_direct_fantasy_calculation():
+    rng=np.random.default_rng(23);targets=rng.normal(size=(7,30))
+    predictions=rng.normal(size=(2,7,3));weights=np.arange(1.,8.);weights/=weights.sum()
+    result=score_actions(targets,predictions,.3,weights,fantasies=11,seed=7)
+    fantasy_rng=np.random.default_rng(7)
+    ancestors=fantasy_rng.choice(7,size=11,p=weights);noise=fantasy_rng.normal(size=(11,3))
+    expected=[]
+    for action in range(2):
+        gains=[]
+        for ancestor,epsilon in zip(ancestors,noise):
+            observation=predictions[action,ancestor]+np.sqrt(.3)*epsilon
+            posterior,_=condition(predictions[action],observation,.3,weights)
+            gains.append(predictive_risk(targets,weights)-predictive_risk(targets,posterior))
+        expected.append(np.mean(gains))
+    np.testing.assert_allclose(result['expected_risk_reduction'],expected,atol=1e-12)
+
+
 @pytest.mark.parametrize('covariance', [0., -1., np.array([[1., 2.], [2., 1.]])])
 def test_rejects_invalid_noise(covariance):
     with pytest.raises(ValueError):

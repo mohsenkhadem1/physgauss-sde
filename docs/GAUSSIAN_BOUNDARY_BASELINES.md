@@ -89,6 +89,115 @@ Set all three residual weights (`--physics-weight`, `--kinematic-weight`,
 `--constitutive-weight`) to zero for its deformation-only ablation. Keep the
 same RGB input schedule, architecture, iteration budget and appearance in both.
 
+The declared executable development run uses exactly 200 updates per scene on
+e0002, e0005, e0008 and e0015, at 192×160 known-rest ROI with the frozen training
+appearance calibration. Physics, kinematic and constitutive weights are each
+0.001; the matched deformation ablation sets those three weights to zero.
+Both use seed 1701 and the fixed final step, with no hidden images or motion
+opened by the fitter. Four physics fits took 110.05, 105.61, 104.15 and 102.97
+seconds on GPU3; peak allocated Torch memory stayed below 0.995 GB. The
+deformation ablation took 58.69–72.03 seconds per scene on GPU1, with peak
+allocated memory below 0.988 GB. GPU3's outer runner stops at a
+documented directory-exists handoff after all four successful physics fits,
+preventing duplicate queued ablations; `physics/COMPLETE.json` records the four
+completed artifacts. This is a resource-queue boundary, not a failed model fit.
+Reproduction helpers and logs are under `runs/baseline-research`, with models
+under `runs/pidg-style-validation-v01/physics` and
+`runs/pidg-style-deformation-validation-v01`. Run with
+`TORCH_DISABLE_NATIVE_JIT=1` on this compiler-free machine; the setting is saved
+in checkpoint metadata and avoids Torch's optional eager CUDA Triton compiler.
+
+The separate `experiments/rgbd_geometric_baseline.py` is an explicitly
+**depth-assisted** per-scene comparison. It fits rigid motion plus 48 smooth
+Gaussian RBF controls at observation-time knots using projective depth and
+point-to-plane residuals. Correspondences use current predicted normals and
+observed depth; unknown simulator material tracks and visibility are excluded.
+Depth interpolation is perspective-correct in inverse depth, and observed
+normal discontinuities are rejected. Mask support uses a one-pixel quantization
+dead zone. Queries use nonuniform Hermite or linear interpolation. Edge,
+control, temporal and rest-motion priors regularize invisible directions;
+inversions and rejected updates are reported. Photometric fitting is optional
+and disabled by default to avoid treating shader discrepancy as motion.
+
+Its four-case development check covers all boundary and force families using
+original validation episodes e0002, e0005, e0008 and e0015. The final declared
+geometric variant's withheld Gaussian mean 3D distances were 0.162, 0.129, 4.042
+and 2.267 mm; static reference errors were 0.105, 0.092, 1.887 and 4.344 mm.
+It helps the moving-patch case but is weak for pinned rotation and subpixel
+motion. It is preserved as an honest secondary baseline, not evidence of general
+recovery. All predictions were finite and uninverted; minimum query tetrahedron
+volume ratio was 0.935. These distances differ from per-coordinate RMSE; use
+the evaluator's explicitly named common RMSE fields for cross-method tables.
+Diagnostics and rejected attempts are under `runs/rgbd-geometric-validation-pilot-*`.
+
+`experiments/ridge_gaussian_inverse.py` supplies a distinct supervised point
+baseline: the same public RGB or RGB-D feature sequences regress 25 physical
+coefficients plus boundary/force one-hot labels. Feature and label standardizers
+fit TRAIN rows only. A dual ridge solve handles the feature dimension; a fixed
+lambda grid is selected by validation trajectory RMSE through a frozen neural
+forward operator. Runtime inference reads no physical labels. Class scores and
+regression residuals are not calibrated posterior probabilities or uncertainty.
+
+On the frozen `gaussian-inverse-fresh-stage01-catalog.json` development catalog
+(60 TRAIN, 23 validation episodes), with the same frozen Green-v03 forward
+operator, RGB ridge selected lambda 1 and achieved mean dense validation
+coordinate RMSE 1.005 mm; RGB-D selected lambda 100 and achieved 0.996 mm.
+The static reference scored 1.029 mm. Temporal-gap RMSE was respectively 1.223
+and 1.175 mm. Boundary/force classification accuracy was 17.4%/8.7% for RGB and
+39.1%/30.4% for RGB-D. The heavy regularization and small predictive improvement
+are evidence of limited identified information in this setup, not successful
+material/boundary recovery. These validation scores were used for selection;
+they are not untouched test estimates. Fits took 51 and 57 seconds on CPU.
+All model coefficients, source snapshots, lambda scores, dense predictions and
+input/label integrity manifests are in `runs/gaussian-ridge-{rgb,rgbd}-stage01`.
+
+### Matched four-case validation comparison
+
+`experiments/evaluate_gaussian_baseline_predictions.py` evaluates only completed,
+hash-checked predictions. It renders withheld orbit frames 25/30/35 and the
+actual Isaac independent camera at exactly t=1.5 s, using the same known-rest
+ROI, training-only appearance calibration, background and Gaussian renderer for
+every model. The table averages four episode scores; coordinate RMSE covers all
+61 trajectory times. This is the declared development subset, not an untouched
+test estimate. RGB-D methods belong to the secondary input condition.
+
+| Model | Inputs | Coordinate RMSE, mm ↓ | Withheld orbit PSNR, dB ↑ | Same-state new-view PSNR, dB ↑ |
+|---|---|---:|---:|---:|
+| Static reference | Known rest | 1.439 | 27.862 | 27.800 |
+| PIDG-inspired, 200 steps | RGB/masks | 1.840 | 29.522 | 28.357 |
+| Deformation-only ablation, 200 steps | RGB/masks | 1.909 | 29.483 | 28.351 |
+| Ridge inverse | RGB/masks | 1.390 | 27.982 | 27.900 |
+| Neural flow inverse mean | RGB/masks | 1.129 | 28.751 | 27.837 |
+| Geometric RBF/ICP | RGB-D/masks | 1.338 | 28.014 | 27.779 |
+| Ridge inverse | RGB-D/masks | 1.418 | 27.932 | 27.832 |
+| Neural flow inverse mean | RGB-D/masks | 1.199 | 28.140 | 27.719 |
+| True motion, privileged renderer diagnostic | Hidden full motion | 0.000 | 29.116 | 28.383 |
+
+The per-scene photometric fitter has **worse mechanics despite better orbit
+PSNR**: it even exceeds the true-motion renderer's orbit score by deforming to
+compensate for fixed sensor/shader differences. Physics regularization brings
+only a small improvement over deformation-only at this budget. Thus higher
+photometric score alone is not evidence of material identification or accurate
+deformation. The flow improves mean 3D trajectory error on this subset, while
+genuine new-view image gains are small for RGB and negative for RGB-D. Preserve
+both findings instead of selecting the favorable metric.
+
+All methods' mean trajectories were finite and uninverted. Exact per-case
+scores, mask IoU, foreground RGB errors, volume ratios, source/input hashes and
+unmodified static/prediction/sensor triptychs are under
+`runs/gaussian-baseline-images-validation-v01`; separate privileged diagnostics
+are under `runs/gaussian-baseline-images-oracle-validation-v01`. The directory's
+`summary.json`, `summary.csv` and four labeled independent-view contact sheets
+are produced by `runs/baseline-research/summarize_matched_validation.py`.
+
+```sh
+TORCH_DISABLE_NATIVE_JIT=1 OMP_NUM_THREADS=4 OPENBLAS_NUM_THREADS=4 \
+  .venv/bin/python experiments/ridge_gaussian_inverse.py \
+  --catalog runs/gaussian-inverse-fresh-stage01-catalog.json \
+  --operator-checkpoint runs/gaussian-forward-dev-green-v03/best.pt \
+  --output runs/ridge-rgbd-new --observation-mode rgbd --device cpu
+```
+
 ## Other relevant methods
 
 | Method | Relevant capability | Role in this experiment |
@@ -197,6 +306,51 @@ motion signal, not learned-model performance or a universal attainable ceiling.
 The diagnostic is in `runs/gaussian-observation-roi`; reproduce with
 `experiments/diagnose_gaussian_observation.py --fit-appearance` and its CLI
 dataset/output arguments. The test split was not used for this diagnostic.
+
+### Sensor freshness and exact-state repair
+
+The legacy dataset validator checks depth rays at five of the 61 frames. An
+additional all-frame audit now checks 32 rays from the projected known-rest
+interior and 32 from the saved mask interior at every frame, against independent
+triangle intersections with the saved nodal state and camera. Geometry-predicted
+background is checked as background when deformation leaves the rest projection.
+The unchanged maximum depth-error bound is 0.2 mm. This audit is simulator QA,
+including withheld pixels only for sensor verification; it supplies no hidden
+states or target pixels to fitting or action selection.
+
+The initial snapshot audited 154 completed episodes: 106 fresh and all 48
+original episodes, for 601,216 rays. After repairing fresh t0053, 149 passed and
+five isolated stale frames were detected: fresh training t0054/frame53,
+t0057/frame31, t0060/frame19, t0063/frame9, and original validation e0040/frame57.
+Their maximum ray errors were 4.81–8.55 mm. All five are unobserved frames, so
+their sparse model inputs are unaffected. Full reports and exact sensor hashes
+are in `runs/isaac-all-frame-sensor-audit-v01`; a CPU-only resumable watcher in
+`runs/baseline-research/watch_saved_sensor_audits.py` follows later completions
+under `runs/isaac-all-frame-sensor-audit-v02`.
+
+`experiments/repair_isaac_dataset_sensors.py` preserves the entire rejected
+episode, original status/log and all checksums under each dataset's
+`rejected-attempts/stale-sensor/`. It creates an independent working copy and
+recaptures only failed frames from the **exact saved q and pose**, using one
+paused static Isaac mesh, the original colors and dome light, and no dynamics
+steps. `rep.orchestrator.step(delta_time=0, wait_for_render=True)` provides an
+explicit annotation completion barrier; copied RGB/depth readbacks must pass
+current-state rays before they can replace pixels. Matching sparse copies are
+refreshed when necessary. Physics/reference/camera/recipe bytes and original
+worker source attribution remain unchanged; replacement pixels have their own
+source snapshot, checksums and repair lineage. Promotion requires all-frame
+auditing and the unchanged existing full validator. No threshold is relaxed.
+
+t0053 had 36 stale frames and was repaired successfully in 28.55 seconds,
+including startup and independent validation. Every recapture passed its first
+attempt, with depth errors around 0.2 µm. Its original remains byte-identical.
+The five additional one-frame repairs also passed in one static Isaac batch,
+about 36 seconds including startup and full CPU validation. All passed their
+first readback, with maximum depth error 2.02×10⁻⁷ m. Their originals and exact
+file checksums are preserved; no physics was resampled. The original
+e0040 failure predates current Torch sharing, so sharing is not established as
+the sole cause of asynchronous sensor readback. The four-case matched image
+comparison above does not contain e0040 or these fresh training episodes.
 
 ## Active observation and probing
 

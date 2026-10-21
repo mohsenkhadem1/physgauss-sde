@@ -238,6 +238,12 @@ def fit_episode(episode, output, *, steps=500, device='cuda:3', size=(64, 48),
         raise ValueError('Positive steps and collocation count required')
     output = Path(output)
     output.mkdir(parents=True, exist_ok=False)
+    source_paths = [Path(__file__), Path(__file__).with_name('gaussian_observation.py')]
+    source_bytes = {p.name: p.read_bytes() for p in source_paths}
+    source_hashes = {name: hashlib.sha256(data).hexdigest() for name,data in source_bytes.items()}
+    (output/'provenance').mkdir()
+    for name,data in source_bytes.items():
+        (output/'provenance'/name).write_bytes(data)
     started = time.monotonic()
     torch.manual_seed(seed)
     if torch.device(device).type == 'cuda':
@@ -354,8 +360,7 @@ def fit_episode(episode, output, *, steps=500, device='cuda:3', size=(64, 48),
               'seconds_elapsed': time.monotonic()-started,
               'peak_gpu_memory_allocated_bytes': torch.cuda.max_memory_allocated(device) if torch.device(device).type == 'cuda' else None,
               'input_sha256': file_hashes,
-              'source_sha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
-                                for p in [Path(__file__), Path(__file__).with_name('gaussian_observation.py')]},
+              'source_sha256': source_hashes,
               'limitations': ['one scene fitted at a time', 'deterministic prediction',
                              'no unknown boundary-type posterior', 'no control-conditioned new-poke prediction',
                              'fixed Gaussian/Isaac shader discrepancy',

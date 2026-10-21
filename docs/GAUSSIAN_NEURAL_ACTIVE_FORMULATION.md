@@ -38,6 +38,17 @@ It cannot be included inside an invertible change-of-variables density.
 Inactive label coordinates receive a declared small measurement tolerance;
 their log density is a regularized numerical quantity, not new physical evidence.
 
+A separate structured comparison uses 16 intrinsic cuboid surface-chart
+coefficients, a joint 16-way support/load-family category and autoregressive
+face categories. Surface coordinates, normal push/pull forces, tangential
+shear and equal/opposite perpendicular couples are enforced by its decoder.
+Both attached load handles remain part of the mechanical hypothesis, including
+when only one is driven. Its density is over chart coordinates and categories,
+not a 25-dimensional physical Lebesgue density. Explicit nuisance coefficients
+are uniform for inactive controls; finite-face clipping is a pushforward with
+boundary mass, outside the invertible density transformation. Geometry-valid
+hypotheses do not guarantee accurate parameter inference or positive volumes.
+
 ## Direct forward and inverse operators
 
 The learned decoder evaluates
@@ -67,6 +78,14 @@ non-injective. Invertibility of the flow does not repair that ambiguity. In
 quasistatic elasticity, scaling stiffness and load together can preserve motion.
 Metric geometry, known mass, informative transients and calibrated interventions
 can help. A narrow learned posterior is not proof of identification.
+
+For the homogeneous continuum equation
+`rho u_tt + rho d u_t = Div(E P_tilde(F,nu)) + f`, simultaneous scaling of
+`(E,rho,f)` by a positive constant preserves the equation and fixed prescribed
+motions. Additional passive views generally cannot break this scale ambiguity.
+Known force magnitudes can. Isaac's two fixed 1g attached handles weakly break
+the exact symmetry, so this is a continuum identifiability argument and a
+near-symmetry of this dataset, not an exact simulator theorem.
 
 Training currently uses simulation labels and deformation losses; an optional
 constitutive/momentum residual exists in the independent reconstruction
@@ -146,6 +165,33 @@ contact patch cannot be treated as adding a force to unchanged mechanics.
 Known handle positions are extra side information and must be supplied equally
 to all policies. Only actual simulated interventions support a claim about
 probing; neural counterfactual predictions alone do not.
+
+Probe observation modeling separately scores visibility bits and finite range
+returns. Missing returns are omitted range variables. The working model uses
+a smoothed Bernoulli visibility likelihood, valid-range covariance submatrices
+with their normalization determinants, and a proper broad background mixture.
+Fantasies and acquired-data conditioning use the same generative model. This
+replaces treating an absent return as a +50mm Gaussian residual. Global noise
+parameters must be frozen from reserved TRAIN controls; choosing a noise table
+using the true evaluation boundary category would leak the answer.
+
+The frozen controlled-data roles are in
+[`gaussian_probe_roles_v01.json`](../configs/gaussian_probe_roles_v01.json):
+t0000–t0011 candidate controls fit the teacher; t0012–t0015 candidate controls
+calibrate discrepancy. Every diagonal evaluation control and reset replay is
+excluded from fitting. Original passive TRAIN videos remain allowed, so the
+reserved calibration concerns new interventions, not unseen materials. The
+controlled teacher is selected at a predeclared fixed training step. Its
+queries retain the original contact hardware/supports and replace the unknown
+loads with known commands. They do not advance or integrate a neural state.
+
+The final test design is frozen separately from checkpoint identities in
+[`gaussian_final_test_design_v01.json`](../configs/gaussian_final_test_design_v01.json).
+All64 fresh TEST layouts are primary; the original12 episodes form a secondary
+four-layout comparison. An immutable checkpoint seal is required before the
+evaluation runner can open predictive TEST labels. Test acquisition scenarios,
+single-action budgets and strong random/fixed/viewpoint baselines are fixed by
+that design. Sensor-freshness audits are infrastructure checks, not model fits.
 
 ## Evidence status
 

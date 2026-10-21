@@ -112,20 +112,27 @@ def score_actions(targets, predictions, covariances, weights=None, *, fantasies=
     ancestors = rng.choice(particles, size=fantasies, p=weights)
     standard_noise = rng.normal(size=(fantasies, dimensions))
     risk_before = predictive_risk(targets, weights)
+    centered_targets = np.asarray(targets,dtype=np.float64).reshape(particles,-1)
+    centered_targets = centered_targets-weights@centered_targets
+    # A particle Gram matrix avoids recomputing an entire future trajectory
+    # mean for every fantasy. Centering avoids subtracting large rest positions.
+    gram = centered_targets@centered_targets.T/centered_targets.shape[-1]
+    target_norms = np.diag(gram)
+    prior_log_weights = np.full(particles,-np.inf)
+    prior_log_weights[weights>0] = np.log(weights[weights>0])
     gains = np.empty((actions, fantasies))
     ess = np.empty_like(gains)
     for action in range(actions):
         whitened_predictions, factor = whitened(predictions[action], covariances[action])
         observations = predictions[action, ancestors] + standard_noise @ factor.T
         whitened_observations = np.linalg.solve(factor, observations.T).T
-        for index, observation in enumerate(whitened_observations):
-            log_weights = np.full(particles, -np.inf)
-            positive = weights > 0
-            log_weights[positive] = (np.log(weights[positive])
-                -.5*np.square(whitened_predictions[positive]-observation).sum(-1))
-            posterior = normalized_weights(np.exp(log_weights-log_weights.max()))
-            gains[action, index] = risk_before-predictive_risk(targets, posterior)
-            ess[action, index] = 1/np.square(posterior).sum()
+        log_weights = prior_log_weights[None]-.5*np.square(
+            whitened_predictions[None]-whitened_observations[:,None]).sum(-1)
+        posterior = np.exp(log_weights-log_weights.max(-1,keepdims=True))
+        posterior /= posterior.sum(-1,keepdims=True)
+        risk_after = posterior@target_norms-np.einsum('fs,st,ft->f',posterior,gram,posterior,optimize=True)
+        gains[action] = risk_before-np.maximum(risk_after,0.)
+        ess[action] = 1/np.square(posterior).sum(-1)
     score = gains.mean(-1)/costs
     selected = int(np.argmax(score))
     paired = gains[selected][None]/costs[selected]-gains/costs[:, None]

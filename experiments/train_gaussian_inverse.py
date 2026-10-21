@@ -22,7 +22,7 @@ from gaussian_operator import (PhysicalPosterior,physical_vector,category_labels
                                PhysicalParameterTransform,NeuralGreenOperator,NeuralTrajectoryOperator)
 
 LABEL_TOLERANCE=np.r_[[.015,.01,.0015,.02],np.full(12,.0003),np.full(6,.001),np.full(3,.00005)].astype(np.float32)
-SOURCE_FILES=('train_gaussian_inverse.py','gaussian_observation.py','gaussian_video_encoder.py','gaussian_operator.py','gaussian_observed_features.py')
+SOURCE_FILES=('train_gaussian_inverse.py','gaussian_observation.py','gaussian_video_encoder.py','gaussian_operator.py','gaussian_observed_features.py','gaussian_texture_features.py')
 
 
 def source_hashes():
@@ -104,7 +104,7 @@ class GaussianInverseModel(nn.Module):
         return self.posterior.sample(self.context(batch,observation_mask),samples=samples,generator=generator)
 
 
-def load_cases(cases,size=(192,160),operator_targets=False,input_mode="cnn",observation_mode="rgb"):
+def load_cases(cases,size=(192,160),operator_targets=False,input_mode="cnn",observation_mode="rgb",texture_calibration=None):
     loaded=[]
     for item in cases:
         recipe=item['recipe'];episode=item['path']
@@ -112,6 +112,14 @@ def load_cases(cases,size=(192,160),operator_targets=False,input_mode="cnn",obse
             from gaussian_observed_features import load_observed_arrays,extract_features
             inputs=load_observed_arrays(episode,observation_mode,size)
             measured=extract_features(inputs)
+            if texture_calibration is not None:
+                if observation_mode!='rgb':raise ValueError('Texture ablation is declared RGB-only')
+                from gaussian_texture_features import load_texture_features
+                texture=load_texture_features(episode,texture_calibration)
+                if not np.array_equal(texture['frame_ids'],inputs['cameras']['frame_ids']):raise ValueError('Texture timestamps differ')
+                measured['features']=np.concatenate((measured['features'],texture['features']),axis=-1)
+                measured['feature_names']=list(measured['feature_names'])+[f'texture_face{f}_stat{s}' for f in range(6) for s in range(13)]
+                measured['audits']={'geometry':measured['audits'],'texture':texture['audits']}
         else:inputs=load_rgb_inputs(episode,size,roi=True)
         spec=json.loads((episode/'truth/boundaries.json').read_text())
         p=physical_vector(recipe,spec,inputs['reference']['rest_points_m']);bc,force=category_labels(recipe)
@@ -239,31 +247,47 @@ def load_inverse_checkpoint(path,device='cpu'):
 
 def load_frozen_operator(path,device):
     checkpoint=torch.load(path,map_location=device,weights_only=False)
-    classes={'NeuralGreenOperator':NeuralGreenOperator,'NeuralTrajectoryOperator':NeuralTrajectoryOperator}
     name=checkpoint.get('model_class')
-    if name not in classes:raise ValueError('Operator checkpoint needs model_class and model_kwargs')
-    kwargs=dict(checkpoint['model_kwargs'])
-    if 'geometry_reference' in checkpoint['model_state']:
-        kwargs['reference_points']=checkpoint['model_state']['geometry_reference'].detach().cpu().numpy()
     frozen_source=checkpoint.get('source_sha256',{})
     if isinstance(frozen_source,dict) and 'gaussian_operator.py' in frozen_source:
         if frozen_source['gaussian_operator.py']!=source_hashes()['gaussian_operator.py']:
             raise ValueError('Forward operator source fingerprint differs')
-    model=classes[name](**kwargs).to(device)
-    model.load_state_dict(checkpoint['model_state']);model.eval()
+    if name in ('NeuralModalGreenOperator','NeuralModalOperator'):
+        from gaussian_modal_operator import NeuralModalGreenOperator,NeuralModalOperator
+        expected=hashlib.sha256(Path(__file__).with_name('gaussian_modal_operator.py').read_bytes()).hexdigest()
+        if not isinstance(frozen_source,dict) or frozen_source.get('gaussian_modal_operator.py')!=expected:
+            raise ValueError('Modal operator source fingerprint missing or mismatched')
+        modal_classes={'NeuralModalGreenOperator':NeuralModalGreenOperator,'NeuralModalOperator':NeuralModalOperator}
+        payload=checkpoint.get('modal_checkpoint')
+        if payload is None:
+            payload={'model_type':name,'config':checkpoint['model_kwargs'],'state_dict':checkpoint['model_state']}
+        if payload['model_type']!=name:raise ValueError('Modal checkpoint type mismatch')
+        model=modal_classes[name].from_checkpoint(payload).to(device)
+    else:
+        classes={'NeuralGreenOperator':NeuralGreenOperator,'NeuralTrajectoryOperator':NeuralTrajectoryOperator}
+        if name not in classes:raise ValueError('Operator checkpoint needs a supported model_class')
+        kwargs=dict(checkpoint['model_kwargs'])
+        if 'geometry_reference' in checkpoint['model_state']:
+            kwargs['reference_points']=checkpoint['model_state']['geometry_reference'].detach().cpu().numpy()
+        model=classes[name](**kwargs).to(device)
+        model.load_state_dict(checkpoint['model_state'])
+    model.eval()
     for parameter in model.parameters():parameter.requires_grad_(False)
     return model
 
 
 def train(roots,output,steps=2000,gpu=3,resume=None,operator_checkpoint=None,
           batch_size=8,eval_every=50,learning_rate=3e-4,seed=61003,operator_weight=0.,size=(192,160),
-          input_mode="cnn",observation_mode="rgb",context_mode="features",hidden=128,flow_layers=8,catalog=None,selection_metric="nll",operator_samples=4,category_weight=0.):
+          input_mode="cnn",observation_mode="rgb",context_mode="features",hidden=128,flow_layers=8,catalog=None,selection_metric="nll",operator_samples=4,category_weight=0.,texture_calibration=None):
     torch.set_num_threads(4);random.seed(seed);np.random.seed(seed);torch.manual_seed(seed)
     device=f'cuda:{gpu}' if gpu>=0 else 'cpu';output=Path(output);output.mkdir(parents=True,exist_ok=True)
     frozen=source_hashes();cases=collect_cases(roots)
     catalog_path=str(catalog) if catalog else None
     if catalog:cases=apply_catalog(cases,catalog)
-    loaded=load_cases(cases,size,operator_targets=bool(operator_checkpoint and (operator_weight or selection_metric=="trajectory_rmse")),input_mode=input_mode,observation_mode=observation_mode)
+    texture_path=Path(texture_calibration) if texture_calibration else None
+    texture=json.loads(texture_path.read_text()) if texture_path else None
+    if texture is not None and input_mode!='features':raise ValueError('Texture augmentation requires measured feature input')
+    loaded=load_cases(cases,size,operator_targets=bool(operator_checkpoint and (operator_weight or selection_metric=="trajectory_rmse")),input_mode=input_mode,observation_mode=observation_mode,texture_calibration=texture)
     train_rows=[r for r in loaded if r['recipe']['split']=='train'];val_rows=[r for r in loaded if r['recipe']['split']=='validation']
     if not train_rows or not val_rows:raise ValueError('Need completed training and validation cases')
     model_kwargs={'context_dim':128,'hidden':hidden,'layers':flow_layers,'input_mode':input_mode,
@@ -271,7 +295,7 @@ def train(roots,output,steps=2000,gpu=3,resume=None,operator_checkpoint=None,
                   'context_mode':context_mode,'observation_mode':observation_mode}
     model=GaussianInverseModel(**model_kwargs).to(device)
     optimizer=torch.optim.AdamW(model.parameters(),lr=learning_rate,weight_decay=1e-4)
-    start_step=0;best=float('inf')
+    start_step=0;best=float('inf');resume_rng=None
     if resume:
         _,checkpoint=load_inverse_checkpoint(resume,device);model.load_state_dict(checkpoint['model_state'])
         optimizer.load_state_dict(checkpoint['optimizer_state']);start_step=checkpoint['step'];best=checkpoint.get('best_selection_score',checkpoint['best_validation_nll'])
@@ -281,16 +305,22 @@ def train(roots,output,steps=2000,gpu=3,resume=None,operator_checkpoint=None,
         for row in loaded:
             if row['key'] in old_recipes and old_recipes[row['key']]!=row['recipe']['recipe_sha256']:
                 raise ValueError('Existing supervised case recipe changed across resume')
-        torch.set_rng_state(checkpoint['torch_rng_state'].cpu());np.random.set_state(checkpoint['numpy_rng_state'])
-        if checkpoint.get('cuda_rng_state') is not None and gpu>=0:torch.cuda.set_rng_state(checkpoint['cuda_rng_state'],device)
+        resume_rng=checkpoint
         if not (output/'best.pt').exists():best=float('inf')
     operator=load_frozen_operator(operator_checkpoint,device) if operator_checkpoint else None
     if selection_metric=='trajectory_rmse' and operator is None:raise ValueError('Trajectory selection needs a frozen operator checkpoint')
+    if resume_rng is not None:
+        torch.set_rng_state(resume_rng['torch_rng_state'].cpu());np.random.set_state(resume_rng['numpy_rng_state'])
+        if resume_rng.get('cuda_rng_state') is not None and gpu>=0:
+            torch.cuda.set_rng_state(resume_rng['cuda_rng_state'].cpu(),device)
     catalog=[{'key':r['key'],'split':r['recipe']['split'],'group_id':r['recipe']['group_id'],
               'recipe_sha256':r['recipe']['recipe_sha256'],'plan_sha256':r['plan_sha256']} for r in loaded]
     metadata={'roots':[str(Path(r).resolve()) for r in roots],'cases':catalog,'train_count':len(train_rows),'validation_count':len(val_rows),
               'input_protocol':'Public sparse RGB/mask, known reference, restprojectionROI, known cameras/time; depth only for declared RGBD mode',
               'input_mode':input_mode,'observation_mode':observation_mode,'context_mode':context_mode,
+              'feature_version':'rgb_geometry_texture_v1' if texture else 'geometry_v1',
+              'texture_calibration':texture,
+              'texture_calibration_sha256':hashlib.sha256(texture_path.read_bytes()).hexdigest() if texture_path else None,
               'training_catalog_path':catalog_path,
               'training_catalog_sha256':hashlib.sha256(Path(catalog_path).read_bytes()).hexdigest() if catalog_path else None,
               'feature_names':train_rows[0].get('feature_names'),
@@ -310,6 +340,7 @@ def train(roots,output,steps=2000,gpu=3,resume=None,operator_checkpoint=None,
     (output/'protocol.json').write_text(json.dumps(metadata,indent=2)+'\n')
     provenance=output/'provenance';provenance.mkdir(exist_ok=True)
     for name in SOURCE_FILES:(provenance/name).write_bytes(Path(__file__).with_name(name).read_bytes())
+    if texture_path:(provenance/'texture-calibration.json').write_bytes(texture_path.read_bytes())
     history=[];t0=time.perf_counter();model.train()
     for step in range(start_step,start_step+steps+1):
         if step>start_step:
@@ -370,6 +401,7 @@ if __name__=='__main__':
     parser.add_argument('--catalog',help='Immutable common training/validation catalog snapshot')
     parser.add_argument('--input-mode',choices=['cnn','features'],default='cnn')
     parser.add_argument('--observation-mode',choices=['rgb','rgbd'],default='rgb')
+    parser.add_argument('--texture-calibration',help='Frozen TRAIN-only palette calibration: append local RGB texture features')
     parser.add_argument('--context-mode',choices=['features','prior'],default='features')
     parser.add_argument('--hidden',type=int,default=128);parser.add_argument('--flow-layers',type=int,default=8)
     parser.add_argument('--seed',type=int,default=61003);parser.add_argument('--size',type=int,nargs=2,default=[192,160])
