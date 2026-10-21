@@ -3,13 +3,29 @@ import sys
 from pathlib import Path
 import tempfile
 import unittest
+import io
+import hashlib
+import json
+from unittest.mock import patch
 import numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'experiments'))
 from archive_research_artifacts import archive
-from restore_research_artifacts import restore
+from restore_research_artifacts import restore,download_parts
 
 
 class ArchiveTests(unittest.TestCase):
+    def test_download_verifies_transport_and_never_keeps_corrupt_part(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);manifest=root/'manifest.json';parts=root/'parts'
+            content=b'expected content'
+            manifest.write_text(json.dumps({'parts':[{'name':'part-0000','bytes':len(content),'sha256':hashlib.sha256(content).hexdigest()}]}))
+            with patch('urllib.request.urlopen',return_value=io.BytesIO(b'corrupt')):
+                with self.assertRaisesRegex(ValueError,'checksum'):download_parts(manifest,'https://example.test/commit',parts)
+            self.assertEqual(list(parts.iterdir()),[])
+            with patch('urllib.request.urlopen',return_value=io.BytesIO(content)):
+                self.assertEqual(download_parts(manifest,'https://example.test/commit',parts),1)
+            self.assertEqual((parts/'part-0000').read_bytes(),content)
+
     def test_multipart_roundtrip_and_refuse_different_existing_file(self):
         previous=Path.cwd()
         with tempfile.TemporaryDirectory() as folder:
