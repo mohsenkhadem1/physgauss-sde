@@ -1,0 +1,59 @@
+{
+  "schema": "durable-point-rotation-postprocess-preparation-v0.2",
+  "completed": true,
+  "source": {
+    "path": "experiments/control_point_rotation_postprocess.py",
+    "sha256": "3756a526ffd428477246af2ede4f87b452eea7042c37ecc7df275bbabf05bfe9",
+    "bytes": 10331,
+    "git_blob_sha1": "4c87dea09dee5ab767b453634b92a4eb15c3e4b4"
+  },
+  "protocol": {
+    "path": "runs/operator-dev/point-rotation-postprocess-v02/protocol.json",
+    "sha256": "a5d62aed96b0889e513e4160d034d00abc3b34df9ad8b565679763e254c4e1e1",
+    "bytes": 14970,
+    "git_blob_sha1": "127383e347e68ff4c03b21fb126d5cfe171489b1"
+  },
+  "launch": {
+    "path": "runs/operator-dev/point-rotation-postprocess-v02/launch.json",
+    "sha256": "b13fb3283d88e16b0c234db09d9f243728ad6d91884357a2d9d7479f3bbaebfd",
+    "bytes": 752,
+    "git_blob_sha1": "c9681c38c801fed85092690515af91b46080389e"
+  },
+  "validation": {
+    "inline_synthetic_guards_passed": 6,
+    "details": [
+      "Complete exact32 primary metadata accepted",
+      "Nonterminal primary waits",
+      "Terminal failed primary rejects",
+      "Incomplete primary index list rejects",
+      "Nonempty primary failures reject",
+      "Complete exact32 auxiliary protocol/release metadata accepted"
+    ],
+    "no_actual_case_or_result_values_read": true,
+    "guard_function": "metadata_complete",
+    "source_import_only": true
+  },
+  "operational_contract": {
+    "detached_PID_session": 2147199,
+    "poll_interval_s": 10,
+    "wall_limit_s": 3600,
+    "CPU_threads": 2,
+    "GPU_visible": false,
+    "pinned_primary_sources": 48,
+    "total_pinned_runtime_sources": 54,
+    "stages": [
+      "Metadata-only primary completion wait",
+      "Frozen primary aggregation",
+      "Frozen RESERVED material audit",
+      "Frozen true-scale local video render",
+      "Metadata-only auxiliary completion wait plus allstates seal",
+      "Frozen compare --help",
+      "Frozen matched comparison"
+    ],
+    "failure": "Preserve logs/artifacts and stop; no stage retry",
+    "original_GPU_jobs_owned": false
+  },
+  "publication_scope": "Frozen source/protocol/launch/this preparation receipt only; no live status/logs, heldout values, binary arrays/videos or outcomes included",
+  "publication_pending_root_review": true,
+  "source_protocol_frozen": true
+}

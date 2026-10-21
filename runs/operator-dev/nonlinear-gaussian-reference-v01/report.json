@@ -1,0 +1,86 @@
+{
+  "schema": "tiny-nonlinear-gaussian-reference-implementation-v0.1",
+  "completed": true,
+  "scope": "Independent CPU2 two-tetrahedron implementation checks; no cohort or observation access; no pinned-source edits",
+  "source": {
+    "path": "experiments/campaign_nonlinear_gaussian_reference.py",
+    "sha256": "af86fbe7fc7c2cc6c827441835e647750068b27167afb0d9337135e385294c74"
+  },
+  "tests": {
+    "path": "tests/test_campaign_nonlinear_gaussian_reference.py",
+    "sha256": "8934d6d0c264a14e5f10bd6c9286e534decc3f0620815b9883d306f0f307c22f",
+    "result": "7 passed in 10.04s",
+    "log_path": "runs/operator-dev/nonlinear-gaussian-reference-v01/tests-inactive-guard-v02.txt"
+  },
+  "initial_test_failure_preserved": {
+    "result": "5 passed, 1 failed in 7.98s",
+    "cause": "Force-resultant float64 sum differed by 5.551115123125783e-17 N, beyond initial overly literal 5e-17 N assertion",
+    "resolution": "Test allowance uses documented 64*eps*magnitude float64 summation bound; no load/model/solver changes in response"
+  },
+  "mechanics": {
+    "elasticity": "Compressible objective log-J Neo-Hookean with compatible nodal F; original energy reused read-only",
+    "interactions": "S2 normalized material-frame vertex-lumped Gaussian quadrature, world-frame finite PSD K/D; H2 normalized known world loads",
+    "integration": "Implicit Euler stationary incremental potential with exact optional node-axis elimination and prescribed target backward-chord velocities",
+    "solver": "Dense original-objective Newton Hessian if SPD, otherwise declared SPD rest dynamic metric descent; positive-J Armijo search and decreasing residual near roundoff; no objective/stiffness/J/covariance repair",
+    "failure": "Explicit StepFailure with residual history and unmodified input state at line-search/iteration failure; threshold and regularization=0 reported",
+    "work_identity": "Delta(T+Uelastic+Usupport) = Wexternal+Wtarget+Wreaction - h*dissipation - kinetic_backward_Euler_term - spring_backward_Euler_term - signed_elastic_Bregman + free_residual_work",
+    "mass": "Only lumped tetrahedral solid masses enter inertia; material Gaussians carry the same material mass, never added mass"
+  },
+  "meaningful_checks": [
+    "Finite 1.9-radian rigid rest rotation has zero energy/force; passive rotation/translation of reference, patch shapes, K/D and controls yields rotated trajectory",
+    "Autograd energy gradient independently matches analytic first-Piola stress assembly and directional finite differences; spring gradient matches force",
+    "Rest Hessian agrees with independent small-strain assembly and tiny-force step agrees with linear implicit Euler",
+    "Known Gaussian controls change response; H2 resultants plus gravity match physical total force within explicit floating-point bound",
+    "Passive fixture trajectory dissipates energy; moving exact pin and compliant targets satisfy reaction/actuator work identity",
+    "Positive-J inversion rejection, explicit iteration-cap failure and input-state preservation",
+    "Affine material Gaussian F/covariance transport and density-volume mass conservation",
+    "Same continuous force law, full trajectories at 60/120/240 Hz show refinement contraction",
+    "Inactive load slots reject even 1e-30 N commanded force instead of silently dropping a known action"
+  ],
+  "diagnostic": {
+    "protocol": {
+      "path": "runs/gaussian-campaign-v01/nonlinear-gaussian-reference-v02/protocol.json",
+      "sha256": "abfd5242a7b1b5474f36149fd9a122262333d429970842940f7657962931c8f0"
+    },
+    "summary": {
+      "path": "runs/gaussian-campaign-v01/nonlinear-gaussian-reference-v02/summary.json",
+      "sha256": "4763e5b4b5413046d69ca0038cea2c362794b1ac96bca269858b5cf8d0e3ba6a"
+    },
+    "values": {
+      "completed": true,
+      "temporal_full_trajectory_rmse_m": [
+        1.4748782143034885e-06,
+        8.278055380544567e-07
+      ],
+      "adjacent_contraction": 0.5612704357731584,
+      "minimum_J": 0.9999499330351014,
+      "maximum_original_force_residual_N": 9.281145817443226e-15,
+      "maximum_energy_balance_error_J": 6.3471636352725196e-21,
+      "maximum_balance_minus_residual_work_J": 5.9310824331532855e-21,
+      "mass_transport_error_kg": 2.7755575615628914e-17,
+      "rest_metric_fallbacks": 0,
+      "limitations": [
+        "Discrete tiny-mesh validation only",
+        "Signed nonlinear elastic Bregman term is not guaranteed nonnegative",
+        "No contact or exact rigid handles",
+        "Gaussian covariance is shape extent, not uncertainty"
+      ]
+    }
+  },
+  "limitations": [
+    "Tiny fixed discretization only; no continuum or large-load convergence qualification",
+    "No contact integrated; separate world-plane primitive is not called",
+    "No exact finite rigid handles or current prediction/inference model replacement",
+    "Nonlinear elastic Bregman is signed, so no global nonconvex energy monotonicity assertion",
+    "Gaussians describe material/interaction shape, not calibrated uncertainty",
+    "No current cohort or reserved responses read; no GPU calls"
+  ],
+  "prepublication_guard_correction": {
+    "reviewer": "root",
+    "gap": "A requested nonzero force at an inactive load patch could previously be silently discarded by its zero quadrature row",
+    "fix": "Retain explicit bank active mask; reject any nonzero force on an inactive patch before distribution; nonfinite force/gravity also rejected",
+    "test": "Actually inactive second patch: 1e-30 N rejected, no weight mutation; zero inactive force permits active known force and gravity with conserved resultant",
+    "original_v01_diagnostic_preserved": "runs/gaussian-campaign-v01/nonlinear-gaussian-reference-v01",
+    "corrected_v02_outcomes_identical": true
+  }
+}

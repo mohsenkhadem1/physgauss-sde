@@ -1,0 +1,23 @@
+{
+  "schema": "standalone-world-plane-contact-check-v0.1",
+  "source_sha256": {
+    "experiments/campaign_world_plane_contact.py": "1ee2c283928aa79fe9a2dfc58b57cf2a5f027e9f904a2555a91a56d8308c7f46",
+    "tests/test_campaign_world_plane_contact.py": "42c87953c966270ccdb0ddda772821f82613542fc080dfa069490fd98c077ae1"
+  },
+  "pytest": {
+    "passed": 5,
+    "failed": 0,
+    "elapsed_s": 0.11,
+    "command": "OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 .venv/bin/python -m pytest -q tests/test_campaign_world_plane_contact.py"
+  },
+  "checks": [
+    "unilateral repulsion and no separated/interior force",
+    "independent finite-difference elastic energy gradient",
+    "passive rotation/translation/velocity-frame covariance",
+    "positive dissipation and regularized Coulomb force bound",
+    "invalid inputs rejected without normalization or repair"
+  ],
+  "independent_read_only_review": "native_solver_diagnosis found no concrete constitutive or work-sign defect",
+  "scope": "Standalone world-plane finite-penalty primitive; not integrated into a time integrator or inference; no exact nonpenetration, sticking, Isaac, or held-out performance claim",
+  "recorded_at_utc": "2026-10-21T22:45:38.257895+00:00"
+}

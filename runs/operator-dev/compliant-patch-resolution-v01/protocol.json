@@ -1,0 +1,53 @@
+{
+  "schema": "compliant-patch-secondary-resolution-v0.1",
+  "status": "FROZEN_BEFORE_EXTRA_SOLVES",
+  "original_design": {
+    "path": "runs/operator-dev/compliant-patch-inverse-v01/design.json",
+    "sha256": "928a6ccabfb460fcf5d8295a9600fa71d15210563c08843353d2e9e6a6034081"
+  },
+  "original_summary": {
+    "path": "runs/gaussian-campaign-v01/compliant-patch-inverse-v01/summary.json",
+    "sha256": "03c8844478ae3efb61c4a8fd34f7702464bcf905e3b54124e18a7a10f66da294"
+  },
+  "original_observation_archive": {
+    "path": "runs/gaussian-campaign-v01/compliant-patch-inverse-v01/posterior-order5.npz",
+    "sha256": "73de389e2931c8bd908334c81266dde0317886dad8a74000bc12a48e24d8cef9"
+  },
+  "source_sha256": {
+    "experiments/diagnose_compliant_patch_resolution.py": "657f7372953b13b3ed3b7f17fdf509afff5327960189820b535f009f802d1c6b",
+    "experiments/campaign_compliant_patch_inverse.py": "57c6833e7b9e318e5af726e50faee128b96eabbed2cd6e0e4ddfd844449722c1",
+    "experiments/campaign_compliant_gaussian_linear.py": "5937a41fe8058e8ba8f6d3388591ab18a78989ad72f18f9af1a39c7ff85bf383",
+    "experiments/campaign_boundary_gaussians.py": "d58b849f4c4399049e64182acb3fa84dc34fe040768c3b88a48d84fd55950362",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55"
+  },
+  "quadrature_family": "Deliberate Gauss-Legendre to nested Clenshaw-Curtis numerical diagnosis",
+  "orders": [
+    5,
+    9,
+    17
+  ],
+  "particles_per_level": [
+    625,
+    6561,
+    83521
+  ],
+  "CPU_threads": 2,
+  "chunk": 512,
+  "wall_cap_s": 55.0,
+  "hard_budget_behavior": "Check before each bounded chunk; preserve all complete/partial levels and declare NOT qualified if timeout",
+  "criteria": {
+    "CDF_sup_distance": 0.05,
+    "quantile_shift_fraction_prior_physical_span": 0.01,
+    "predictive_field_RMS_absolute_floor_m": 2e-06,
+    "predictive_field_RMS_fraction_posterior_std": 0.02,
+    "E_90_percent_interval_minimum_grid_nodes": 3,
+    "overall": "All3 levels complete; final adjacent comparison passes ALL parameterCDFs/quantiles, both targetmeans/stdfields, and material resolution guard"
+  },
+  "ESS_interpretation": "Quadrature weight concentration, NOT independent samples/MCMC mixing",
+  "no_physical_or_noise_or_control_retuning": true,
+  "same_saved_observation": true,
+  "no_filter_retry_or_best_selection": true,
+  "no_cohort_GPU_or_Isaac": true,
+  "scope": "Numerical finite-grid diagnosis, never calibrated physics; original GL5 results preserved"
+}
