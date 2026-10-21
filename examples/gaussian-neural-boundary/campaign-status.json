@@ -1,15 +1,15 @@
 {
   "campaign": "gaussian-known-force-recovery-v0.1",
   "status": "active",
-  "updated_utc": "2026-10-21T11:17:46.899644+00:00",
+  "updated_utc": "2026-10-21T12:14:52.820468+00:00",
   "campaign_sha256": "04bd467f559dcad3057b50a2832561e882bb9a7d7bab6d426ca3325724d8b510",
   "heldout_plan_sha256": "2dcb00635d60cae69719c03b539582287b4a51d9a11872f565c4938368259ea4",
-  "milestone": "Known-force forward prediction: pilot loss/sampling ablations and additional Isaac controls",
+  "milestone": "Known-force representability, nonlinear transfer comparison, and expanded Isaac controls",
   "jobs": [
     {
       "name": "controls-train",
       "gpu": 1,
-      "live_at_snapshot": true
+      "live_at_snapshot": false
     },
     {
       "name": "controls-validation",
@@ -19,6 +19,34 @@
     {
       "name": "forward-pilots",
       "gpu": 0,
+      "live_at_snapshot": false
+    },
+    {
+      "name": "zero-force-diagnostic",
+      "gpu": 0,
+      "live_at_snapshot": false
+    },
+    {
+      "name": "nonlinear-pilot",
+      "gpu": 0,
+      "live_at_snapshot": false
+    },
+    {
+      "name": "controls-train-two-gpu",
+      "gpu": [
+        0,
+        1
+      ],
+      "live_at_snapshot": true
+    },
+    {
+      "name": "nonlinear-first8",
+      "gpu": 0,
+      "live_at_snapshot": false
+    },
+    {
+      "name": "rich-controls",
+      "gpu": 3,
       "live_at_snapshot": true
     }
   ],
@@ -27,27 +55,55 @@
       "planned_layouts": 32,
       "verified_layouts": [
         "t0016",
-        "t0017"
+        "t0017",
+        "t0018",
+        "t0019",
+        "t0020",
+        "t0021",
+        "t0022",
+        "t0023",
+        "t0024",
+        "t0025",
+        "t0026",
+        "t0027",
+        "t0028",
+        "t0029",
+        "t0030",
+        "t0031",
+        "t0032"
       ],
       "failed_layouts": [],
       "in_progress_layouts": [
-        "t0018"
+        "t0033",
+        "t0034"
       ]
     },
     "controls-validation": {
       "planned_layouts": 16,
       "verified_layouts": [
         "v0000",
-        "v0001"
+        "v0001",
+        "v0002",
+        "v0003",
+        "v0004",
+        "v0005",
+        "v0006",
+        "v0007",
+        "v0008",
+        "v0009",
+        "v0010",
+        "v0011",
+        "v0012",
+        "v0013"
       ],
       "failed_layouts": [],
       "in_progress_layouts": [
-        "v0002"
+        "v0014"
       ]
     }
   },
   "pilots": {
-    "completed": false,
+    "completed": true,
     "arms": [
       {
         "name": "same_loss",
@@ -64,15 +120,28 @@
       },
       {
         "name": "small_response_loss",
-        "state": "running",
+        "state": "completed",
         "last_validation": {
-          "step": 6000,
-          "passive_rmse_m": 0.0009195678635478544,
-          "control_rmse_m": 0.0008033203489503649,
-          "control_normalized_rmse": 1.1308510674918122,
-          "selection_score": 1.396123470403566,
+          "step": 12000,
+          "passive_rmse_m": 0.0009407609801531759,
+          "control_rmse_m": 0.0008351494606131382,
+          "control_normalized_rmse": 1.1592828678607812,
+          "selection_score": 1.4306689565481472,
           "best_score": 1.2763218893827553,
-          "elapsed_s": 129.6995094991289
+          "elapsed_s": 269.9634799673222
+        }
+      },
+      {
+        "name": "balanced_small_response_loss",
+        "state": "completed",
+        "last_validation": {
+          "step": 12000,
+          "passive_rmse_m": 0.0009368636909708915,
+          "control_rmse_m": 0.0008344013891701252,
+          "control_normalized_rmse": 1.1591124177743295,
+          "selection_score": 1.4293742356958188,
+          "best_score": 1.2687668421434086,
+          "elapsed_s": 280.13003114098683
         }
       }
     ]
@@ -85,5 +154,123 @@
     "test_labels_opened": false,
     "validation_labels_opened": false,
     "clock_note": "Compare clock against step_count*float32(1/hz); retain nominal offset separately. Strict-double audit failure is preserved in rejected-audit-attempts/strict-double-clock. Physics and sensor acceptance thresholds unchanged."
+  },
+  "nonlinear_comparisons": {
+    "nonlinear-first8": {
+      "wave": "first8",
+      "completed": true,
+      "arms": [
+        {
+          "name": "green",
+          "state": "completed",
+          "last_validation": {
+            "step": 12000,
+            "passive_rmse_m": 0.0009422631765119149,
+            "control_rmse_m": 0.0006816975392212044,
+            "control_normalized_rmse": 0.9094385939953071,
+            "selection_score": 1.1812580288809522,
+            "best_score": 1.154211278201278,
+            "elapsed_s": 298.4259573346935
+          }
+        },
+        {
+          "name": "nonlinear",
+          "state": "completed",
+          "last_validation": {
+            "step": 12000,
+            "passive_rmse_m": 0.0010386308266871229,
+            "control_rmse_m": 0.0005537633164749423,
+            "control_normalized_rmse": 1.0287819533390596,
+            "selection_score": 1.328401052760944,
+            "best_score": 1.2154940662113503,
+            "elapsed_s": 144.78981738211587
+          }
+        },
+        {
+          "name": "zero_referenced",
+          "state": "completed",
+          "last_validation": {
+            "step": 12000,
+            "passive_rmse_m": 0.001017955651480985,
+            "control_rmse_m": 0.0006627188074617152,
+            "control_normalized_rmse": 0.9405413295079262,
+            "selection_score": 1.2341961563350798,
+            "best_score": 1.171162948185845,
+            "elapsed_s": 232.29938552482054
+          }
+        }
+      ]
+    },
+    "nonlinear-pilot": {
+      "wave": "pilot",
+      "completed": true,
+      "arms": [
+        {
+          "name": "green",
+          "state": "completed",
+          "last_validation": {
+            "step": 12000,
+            "passive_rmse_m": 0.001019747853371717,
+            "control_rmse_m": 0.0009130887505079954,
+            "control_normalized_rmse": 1.2185108035456476,
+            "selection_score": 1.5126826359369399,
+            "best_score": 1.2022026276027313,
+            "elapsed_s": 313.085427518934
+          }
+        },
+        {
+          "name": "nonlinear",
+          "state": "completed",
+          "last_validation": {
+            "step": 12000,
+            "passive_rmse_m": 0.001047237213035921,
+            "control_rmse_m": 0.0005499055980635603,
+            "control_normalized_rmse": 1.1461525031263622,
+            "selection_score": 1.448254330444287,
+            "best_score": 1.2221745018139674,
+            "elapsed_s": 130.47818792099133
+          }
+        },
+        {
+          "name": "zero_referenced",
+          "state": "completed",
+          "last_validation": {
+            "step": 12000,
+            "passive_rmse_m": 0.0013487698197423015,
+            "control_rmse_m": 0.0008422090073736399,
+            "control_normalized_rmse": 1.1358660348236993,
+            "selection_score": 1.524952501675065,
+            "best_score": 1.2220662193079572,
+            "elapsed_s": 205.80915974499658
+          }
+        }
+      ]
+    }
+  },
+  "zero_force_diagnostic": {
+    "completed": true,
+    "cases": [
+      {
+        "episode_id": "t0001",
+        "state": "completed_verified"
+      },
+      {
+        "episode_id": "t0000",
+        "state": "completed_verified"
+      },
+      {
+        "episode_id": "t0002",
+        "state": "completed_verified"
+      },
+      {
+        "episode_id": "t0003",
+        "state": "completed_verified"
+      }
+    ]
+  },
+  "rich_control_curriculum": {
+    "completed": false,
+    "planned_layouts": 4,
+    "cases": []
   }
 }

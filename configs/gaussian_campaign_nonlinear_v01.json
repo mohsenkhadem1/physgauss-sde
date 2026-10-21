@@ -1,0 +1,18 @@
+{
+  "phase": "known-force-recovery-nonlinear-v0.1",
+  "campaign": "configs/gaussian_campaign_v01.json",
+  "motivation": "All3initialGreenpilot best checkpoints occur at step1; final fits improve TRAIN but fail validation. TRAIN-only superposition audit finds large irreducible force-linear residual; fully verified t0001 zero-force experiment rules out a constant drift offset there.",
+  "models": ["green", "nonlinear", "zero_referenced"],
+  "initialization": "Allfromscratch; raw and zero-referenced nonlinear use identical parameter initialization; no new layers or extra capacity in zero-referenced variant",
+  "seed": 2026102102,
+  "training": {"steps": 12000, "batch": 16, "query_nodes": 192, "query_times": 16, "probe_fraction": 0.75, "lr": 0.0003, "evaluation_every": 1000, "control_scale_floor_m": 0.00004, "bc_balanced": true},
+  "initial_wave": "pilot",
+  "wave_policy": {"pilot": "152passiveTRAIN+48oldcandidateTRAINcontrols; four oldVALIDATION layouts", "first8": "Same plus fixed first8newTRAINlayouts; same pilotVALIDATION", "first16": "Same plus fixed first16newTRAINlayouts; new8selectionVALIDATIONlayouts", "full32": "Same plus all32newTRAINlayouts; new8selectionVALIDATIONlayouts"},
+  "snapshot_policy": "Every member of the fixed wave must complete and pass unchanged capture QC; no replacement by whichever cases happen to finish",
+  "selection": "Include initializer at step0; minimum control normalizedRMSE(.04mmfloor)+0.25*passiveRMSE/originalfrozenpassiveRMSE. Same normalizer for every candidate.",
+  "never_weight_fitting_targets": ["TRAIN independent diagonal diagnostic", "zero-force diagnostic recordings", "calibration-only controls", "forward_gate layouts", "oldTEST", "fresh_confirmation"],
+  "nonlinear_zero_reference": "q(phi)=X+q_base(phi)-q_base(phi with allforce andsupport-motionamplitudes zero); keeps nonlinear force dependence and enforces rest at zero input",
+  "runtime": "Directtime neural evaluation; no FEM/integration, no image context; zero-referenced model is nonlinear and cannot use analytic linear-load integration",
+  "resource": "GPU0 small MLP fits may share with the single Isaac diagnostic process after observed headroom; unchanged paused-capture synchronization and2micrometre QC remain mandatory",
+  "qualification": "Development comparison only; none of the initial pilots pass the forward gate. Newclass candidates must still pass reserved evaluation before physical uncertainty/probing is trusted. Simulator nonlinearity may include solver/discretization effects, not only real finite-deformation mechanics."
+}

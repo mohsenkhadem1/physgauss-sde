@@ -17,6 +17,10 @@ The RGB-D forecast gain has a 95% layout-bootstrap interval spanning zero. Physi
 
 [Active recovery campaign](../../docs/GAUSSIAN_RECOVERY_CAMPAIGN.md) · [Protocol](../../configs/gaussian_campaign_v01.json) · [Progress snapshot](campaign-status.json). Known-force loss/sampling ablations and additional Isaac control capture are running. Thirty-two newly reserved confirmation layouts are separate from the earlier TEST cases. Milestone gates must pass before uncertainty-guided probing is reassessed; no new performance gain is claimed at campaign launch.
 
+[First recovery trials](../../reports/gaussian-recovery-first-trials-v01/index.html): the loss/sampling pilots fit TRAIN better but fail to transfer. A separate verified zero-force experiment exposes a force-superposition mismatch that motivates the matched nonlinear comparison. The campaign remains active; the probing comparison has not been rerun.
+
+[Eight-layout development selection results](campaign-selection-pilot.json) retain all candidate checkpoints. The new nonlinear candidates do not yet outperform the original controlled teacher. Expanded-layout training and a separate off-axis TRAIN curriculum continue; reserved gate and confirmation responses remain excluded from fitting.
+
 [![Actual orbiting test scenarios](isaac-test-scenarios.poster.png)](isaac-test-scenarios.mp4)
 
 [Watch the actual calibrated probe](isaac-test-calibrated-probe.mp4) · [Orbit video source hashes](isaac-test-scenarios.manifest.json) · [Probe video source hashes](isaac-test-calibrated-probe.manifest.json)

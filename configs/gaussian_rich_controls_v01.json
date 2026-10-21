@@ -1,0 +1,19 @@
+{
+  "protocol": "known-force-angle-curriculum-v0.1",
+  "campaign": "configs/gaussian_campaign_v01.json",
+  "dataset": "runs/gaussian-boundary-neural-v01",
+  "output": "runs/gaussian-campaign-v01/rich-controls",
+  "train_ids": ["t0000", "t0001", "t0002", "t0003"],
+  "raw_direction_vectors": [[1, 1, 0], [1, 0, 1], [0, 1, 1], [-1, 1, 0]],
+  "resultant_force_norms_N": [0.01, 0.03],
+  "additional_force_family": "push_pulse",
+  "new_fitting_ids": ["rich_00", "rich_01", "rich_02", "rich_03", "rich_04", "rich_05", "rich_06", "rich_07", "zero_force"],
+  "baseline_replay_ids_not_duplicated_in_fitting": ["poke_0", "poke_1", "poke_2", "poke_3", "reset_replay"],
+  "excluded_fitting_ids": ["evaluation"],
+  "motivation": "Existing calibrated fitting controls have3axis pulses and1axis oscillation. Measured nonlinearity makes low-force angle/amplitude coverage necessary; passive larger forces do not provide matched small-force combinations on each layout.",
+  "physics_policy": "Unchanged v0.3 scene, hardware, supports, timestep, captures and QC; menu-only wrapper; both original handles retained; one Isaac case per GPU",
+  "base_worker_sha256": "116d4717bff0c7780925bd4e6d85f5b2f1615d33f4993e356a8284199829a821",
+  "gpus": [3],
+  "resource_note": "GPU3 observed about1GBof11GB used and about27%utilization before launch; display processes retained. Additional TRAIN-only pilot, not an active-policy comparison.",
+  "qualification": "New rich-menu TRAIN records may supervise future phase weights; earlier zero-force diagnostic recordings and all independent diagonal labels remain excluded. Preserve every failure without outcome-based replacement."
+}

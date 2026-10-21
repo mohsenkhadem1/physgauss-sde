@@ -56,6 +56,26 @@ def snapshot(campaign, root):
     if audit:
         status['command_audit'] = {key: audit[key] for key in ['records', 'passed', 'test_labels_opened', 'validation_labels_opened']}
         status['command_audit']['clock_note'] = audit['clock_note']
+    status['nonlinear_comparisons'] = {}
+    for directory in sorted(root.glob('nonlinear-*')):
+        run = read(directory/'execution.json')
+        if not run:
+            continue
+        rows = []
+        for arm in run['arms']:
+            history = read(directory/arm['name']/'history.json')
+            rows.append({'name': arm['name'], 'state': arm['state'],
+                         'last_validation': history[-1] if history else None})
+        status['nonlinear_comparisons'][directory.name] = {'wave': run['wave'], 'completed': run['completed'], 'arms': rows}
+    zero = read(root/'linearity-diagnostic/execution.json')
+    if zero:
+        status['zero_force_diagnostic'] = {'completed': zero['completed'],
+            'cases': [{'episode_id': c['episode_id'], 'state': c['state']} for c in zero['cases']]}
+        status['milestone'] = 'Known-force representability, nonlinear transfer comparison, and expanded Isaac controls'
+    rich = read(root/'rich-controls/execution.json')
+    if rich:
+        status['rich_control_curriculum'] = {'completed': rich['completed'], 'planned_layouts': len(rich['episode_ids']),
+            'cases': rich['cases']}
     return status
 
 
