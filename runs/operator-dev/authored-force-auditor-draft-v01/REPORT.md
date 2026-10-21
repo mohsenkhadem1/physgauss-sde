@@ -1,0 +1,35 @@
+# Authored-force auditor draft v01
+
+No physics jobs, dataset capture, held-out observation reads, source publication or git mutation were performed by this task. The implementation and offline tests are ready for independent source review and the parent's publication/seal process.
+
+The new `experiments/campaign_authored_force_audit.py` independently verifies saved engineering evidence for the immutable actual-force protocol `dd078bd8542cd99015d009e9806e2e09590ee855e6bdb8bafd1cc483ce3d8070`. It consumes the frozen runner `97ba4630866772b3399ce68c4dad48d0317486515120de616900784def1af405`, shared strict repository-relative seal validator and exact completed60 prerequisite. The old core, case runner, gates, failed480 temporal results and previous auditors are unchanged.
+
+## API and execution contract
+
+`audit_cell(seal_path, cell_id)` is read-only and returns a bounded JSON object with `passed`, `state`, cell identity, mechanics/clock metrics and role-tagged evidence hashes. It validates the exact reviewed seal before reading the selected TRAIN cell. It never launches physics or writes files. A passing cell is explicitly not temporal or dataset qualification. The supervisor can use it to audit the first exact t0001 push/120 row before parallel execution; no extra condition or capture is introduced.
+
+`run(seal_path, output)` writes a fresh audit and independently hashed analytic static-zero declaration sidecar. CLI: `--prelaunch-seal <relative.json> --output <fresh-relative.json>`. An initial51 manifest yields candidate decisions only. A matched-stage seal pins its candidate proof and original temporal seal; the auditor reopens and rechecks the initial51 evidence, rather than accepting proof booleans. Each stage uses its own complete seal/manifest pin map; physical source/compiler/context/auditor hashes remain common. Conditional new rates are not inferred or automatically authorized by this auditor revision.
+
+All persisted paths are canonical repository-relative and resolved only beneath the restored root. Absolute paths, traversal/noncanonical records, escaping symlinks and symlinks in saved captures are rejected. Snapshot original paths and indexed private copies are verified with their hashes.
+
+## Independent checks
+
+The auditor checks exact compiler arrays and metadata against the canonical float32-authored commands promoted to float64; all 61 output frames, every held force, actual accumulated solver intervals and nominal/request clocks; complete float64 q/v, auxiliary mass points, rigid rotations/origins, positive deformation gradients and exact fixture/patch maps; cap250 histories and physical residual thresholds including floor dominance. The rest mesh retains canonical float64 coordinates and int32 tetrahedron/surface indices, checked against the exact fixture descriptors.
+
+It reconstructs saved-frame tetrahedral J/stretches, body mass, six auxiliary points per handle, momentum, kinetic energy and compressible log-J Neo-Hookean energy from saved full geometry and physical inputs. Runtime minimum J must agree with independently reconstructed saved-frame J within1e-10, a float64 determinant cross-implementation tolerance substantially below the authored J>=.1 guard. It checks ledger continuity, total-energy components, independent F dot stable center increments, actual moving-origin start/end moments, moving-fixture reaction work and algebraic energy/momentum bookkeeping. These bookkeeping checks do not assert exact finite-step energy/angular momentum conservation. Full frame q cannot independently recreate unsaved intermediate q; runtime histories/endpoint geometry are trusted as records only after exact runner/source snapshot verification.
+
+Public engineering and privileged known-parameter contexts are independently rebuilt and compared, including complete ordered patch masks/offsets, full inertia/COM values, latent material/BC/support separation and zero unsupported forces. Scalar support endpoints preserve the exact authored scalar libm evaluation; vectorization can alter final bits. Recipe truth and support laws remain outside public image-conditioning features. The BC-dependent engineering command grid remains unadmitted for neural training.
+
+All16 families use full driven and full zero trajectory temporal errors separately. Zero subtraction computes only the finest force-induced tolerance denominator. Static zeros are independent analytic rest references, not captured/reset trajectories; moving zeros must be fresh61-frame captures. All initial rate/error objects remain explicit when a candidate fails. Proof output is accepted by the strict runner candidate consumer in an offline contract test.
+
+Matched checks require accuracy, undone-coordinate translation and full-array reset comparisons for every family, plus moving-zero absolute floors/translation/reset at each adopted rate. The initial plan119 (51+68) is preserved. Accuracy reports both adjacent differences and effective floors; no duplicated nominal-zero rtol evidence is invented. Replay compares q/v/auxiliary q/v, poses, clocks, commands, work and moments with1e-12 absolute tolerance and per-array bitwise flags.
+
+## Validation
+
+104 combined offline tests passed in16.01s with OMP/OPENBLAS/MKL threads2:39 new auditor tests,18 frozen runner draft tests,15 stage-driver tests and32 protocol/compiler tests. No simulation integrator was invoked. The artifact fixture is a hand-authored exact static rest solution for component verification, explicitly NOT a physical stage capture. Rehashed corruptions test commands/clocks, residual thresholds/history/cap, accepted/runtime J, fixture/rigid patches, full inertia, snapshots, context label leakage, stable increments/work/moments, momentum drag, float32 downcasts and missing/failed evidence. Comparison tests cover common-motion temporal cancellation, all68 matched slots, all51 comparisons, producer/consumer proof compatibility, stage-specific pin maps and full-array replay.
+
+A fresh interpreter verified a copied root using only relocated sources/fixture/evidence. A Python audit hook rejected reads beneath the original workspace (apart from its Python environment). Thus the verification did not succeed by falling back to original source/data paths. Runner's separate18 tests cover strict seal/manifest guards and relocated seal validation.
+
+## Limits
+
+No authored-amplitude physical cell has yet been qualified. A future full passing result qualifies only these four public TRAIN layouts/materials/mesh and exact authored force families for the declared independent discrete model. It does not establish the Isaac native solver, continuum/mesh accuracy, contact or continuous nonintersection, real material validity, prediction, inference or active policy. All corresponding flags and production neural dataset admission remain false. Factorized checks do not establish all rate/tolerance/translation/force interactions. Production needs a known actuator clock independent of latent BC and a separate prospective dataset admission decision.

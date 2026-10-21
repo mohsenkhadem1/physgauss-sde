@@ -1,0 +1,37 @@
+{
+  "role": "Independent read-only authored-force stage driver review; no edits or physical simulations.",
+  "reviewed_utc": "2026-10-21T17:58:25.222624+00:00",
+  "reviewed_sha256": {
+    "experiments/run_campaign_authored_stage.py": "aea6660b3c48aab1ad77abc961bb9dd75e79241f533bdeed2d487a6a930030bf",
+    "tests/test_campaign_authored_stage_driver.py": "4bd3d8c6cad4bd8ab0ac7b9e84a56f7cdf2033cba4462753c45c32d3efc012cd",
+    "configs/gaussian_campaign_authored_force_cpu_v01.json": "b3da8ba4763f5ec724acf42f4d63bed3edf41d4f679c498ec1d1e595e0339082"
+  },
+  "conclusion": "No remaining driver implementation blocker found for the declared initial51-cell execution stage, subject to the independently reviewed auditor audit_cell(seal_path,cell_id) interface. No source publication, launch or numerical qualification is inferred by this review.",
+  "blockers": [],
+  "resolved_findings": [
+    "Worker completion now requires exactly3*manifestHz planned steps and matching completion, rather than any positive worker-reported count; wrong-length tamper contract test added.",
+    "First-cell audit integration now runs exact declared t0001 push_pulse120 cell alone; a pinned independent auditor report with passed=True is mandatory before any subsequent worker starts. False audit persists report/hash, fails the cell and leaves all later cells queued. No extra physical case or modified settings introduced."
+  ],
+  "review_findings": [
+    "Each expected publication file is read with git show at an exact40-character commit and compared by SHA256 with current bytes. Commit existence and actual blobs are checked; a local unpublished commit also satisfies this local check, so root remote-publication verification remains a separately established orchestration fact.",
+    "Seal, manifest, resources, physical dependencies, runner, auditor and stage driver source are exact-pinned; sources rehashed before each launch/poll cycle and stage completion. Canonical relative paths and runner seal validation bind outputs to the repository and reject stale existing outputs/execution ledgers.",
+    "The reviewed resource file enables first-cell audit for exact t0001__push_pulse__temporal__hz120, then at most8 CPU workers. Every child has OMP/OPENBLAS/MKL threads explicitly2. Source driver validates integer max count and exact driver hash; runner independently validates resource types and GPU=false.",
+    "Unique manifest cells become one Popen each. There is no retry, replacement or resume path; any existing execution ledger prevents a new launch of the stage.",
+    "After observed worker failure no queued cells launch. Already running independent workers are polled to terminal and retain completed/failed records. Stage completed=true requires every exact job completed; queued cells remain visibly unlaunched after failure.",
+    "Completion verifies child exit0, exact PID/cell ID, explicit terminal/completed flags,61-frame summary, exact expected steps and complete counts, plus fresh trajectory/step SHA256. First-cell independent audit verifies physical evidence beyond supervisor metadata; full stage auditor remains required for all cells.",
+    "Stage exception ledger records driver_error and exact known in-flight process IDs under running_workers_may_remain. Driver terminal status does not falsely assert those children are gone; no hidden termination/restart is attempted.",
+    "Atomic JSON replacement and per-worker logs preserve bounded progress and complete raw output locally. Source/proof publication and prospective force-envelope protocol remain separate from numerical success."
+  ],
+  "optional_comments": [
+    "Completion hash mismatches can currently produce failed with a null completion_validation_error; recording a short exact mismatch reason would simplify postmortems, while artifacts remain preserved and admission correctly fails."
+  ],
+  "validation_scope": {
+    "contract_tests_reported_by_root": 15,
+    "reviewer_inspected_tests": true,
+    "reviewer_executed_tests": false,
+    "tests_use_synthetic_Popen_and_artifacts_not_physics": true,
+    "worker_cap_failure_restart_publication_tamper_and_first_audit_paths_reviewed": true
+  },
+  "actual_force_envelope_qualified": false,
+  "new_physics_executed_by_reviewer": false
+}

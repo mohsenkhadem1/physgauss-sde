@@ -1,0 +1,55 @@
+{
+  "role": "Offline exact request/source/proof preparation; no physical cell executed",
+  "all_51_guard_checks_passed": true,
+  "first_cell": "t0001__push_pulse__temporal__hz120",
+  "first_independent_audit_required": true,
+  "max_parallel_workers_after_first_audit": 8,
+  "threads_per_worker": 2,
+  "expected_reviewed_sha256": {
+    "experiments/campaign_authored_force_case.py": "97ba4630866772b3399ce68c4dad48d0317486515120de616900784def1af405",
+    "experiments/campaign_authored_force_audit.py": "3a91f0a93cb15787db56f6e742afb7047315a96416a35cbf2eeac665f18dab61",
+    "experiments/run_campaign_authored_stage.py": "aea6660b3c48aab1ad77abc961bb9dd75e79241f533bdeed2d487a6a930030bf",
+    "configs/gaussian_campaign_actual_force_envelope_v01.json": "dd078bd8542cd99015d009e9806e2e09590ee855e6bdb8bafd1cc483ce3d8070",
+    "configs/gaussian_campaign_authored_force_cpu_v01.json": "b3da8ba4763f5ec724acf42f4d63bed3edf41d4f679c498ec1d1e595e0339082"
+  },
+  "resolved_manifest": {
+    "path": "runs/gaussian-campaign-v01/authored-force-envelope-v01/stage1/resolved-manifest-v01.json",
+    "sha256": "717be528a74e873b70e611e9dc12260e0e234d04790eb328532b2ed98ea5e2b3"
+  },
+  "prelaunch_seal": {
+    "path": "runs/gaussian-campaign-v01/authored-force-envelope-v01/stage1/prelaunch-seal-v01.json",
+    "sha256": "b90e0937dc399b5c1edbe5606f8b2016ab01b493cf9144140eb470c419358fff"
+  },
+  "required_published_paths": [
+    "configs/gaussian_campaign_actual_force_envelope_v01.json",
+    "configs/gaussian_campaign_authored_force_cpu_v01.json",
+    "configs/gaussian_independent_diagnostic_inputs_v01.json",
+    "experiments/boundary_block.py",
+    "experiments/campaign_authored_commands.py",
+    "experiments/campaign_authored_force_audit.py",
+    "experiments/campaign_authored_force_case.py",
+    "experiments/campaign_full_hardware_context.py",
+    "experiments/campaign_linear_fem.py",
+    "experiments/campaign_nonlinear_dynamics.py",
+    "experiments/campaign_nonlinear_dynamics_case.py",
+    "experiments/campaign_nonlinear_fem.py",
+    "experiments/campaign_rigid_inertia.py",
+    "experiments/isaac_dataset.py",
+    "experiments/run_campaign_authored_stage.py",
+    "runs/gaussian-campaign-v01/authored-force-envelope-v01/stage1/prelaunch-seal-v01.json",
+    "runs/gaussian-campaign-v01/authored-force-envelope-v01/stage1/resolved-manifest-v01.json",
+    "runs/operator-dev/independent-dynamic-matched960-audit-complete-v01.json"
+  ],
+  "launch_command_template": [
+    ".venv/bin/python",
+    "-u",
+    "experiments/run_campaign_authored_stage.py",
+    "--prelaunch-seal",
+    "runs/gaussian-campaign-v01/authored-force-envelope-v01/stage1/prelaunch-seal-v01.json",
+    "--published-commit",
+    "<verified-published-source-commit>"
+  ],
+  "preservation": "No automatic retry/restart, no changed force/mesh/material/core/tolerance, no reserved responses.",
+  "production_neural_dataset_admitted": false,
+  "physics_launched": false
+}

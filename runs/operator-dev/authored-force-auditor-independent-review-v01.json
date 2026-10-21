@@ -1,0 +1,84 @@
+{
+  "review": "Independent read-only authored-force auditor compatibility and physics-evidence review",
+  "reviewed_unix_s": 1792605856.3000293,
+  "auditor_source": "experiments/campaign_authored_force_audit.py",
+  "auditor_sha256": "3a91f0a93cb15787db56f6e742afb7047315a96416a35cbf2eeac665f18dab61",
+  "runner_source": "experiments/campaign_authored_force_case.py",
+  "runner_sha256": "97ba4630866772b3399ce68c4dad48d0317486515120de616900784def1af405",
+  "auditor_test_sha256": "f76a2f1b48b5611e0a182bd1a3027e6e28165981d5b2f4ec81e6fc903c1895e8",
+  "canonical_protocol_sha256": "dd078bd8542cd99015d009e9806e2e09590ee855e6bdb8bafd1cc483ce3d8070",
+  "blocking_findings": [],
+  "verdict": "No remaining blocking implementation mismatch found on inspected revision; physical first-cell validation remains required before parallel campaign execution.",
+  "scope": {
+    "source_edits": false,
+    "simulations": 0,
+    "GPU_jobs": 0,
+    "tests_rerun_by_this_reviewer": false,
+    "only_new_artifact": "runs/operator-dev/authored-force-auditor-independent-review-v01.json"
+  },
+  "checks": [
+    {
+      "area": "Runner artifact compatibility",
+      "finding": "Auditor REPLAY_KEYS match the runner trajectory NPZ schema, including auxiliary mass-point positions/velocities,61actual20Hz states, exact held commands, moving origins, per-handle work and moments. Every saved trajectory array is float64 as produced by the unchanged runner/core."
+    },
+    {
+      "area": "Per-stage proof and source pins",
+      "finding": "audit_stage validates each source seal separately and passes source_pins from that stage into verify_cell. Common physical dependencies and auditor bytes are compared across stages, while legitimately different seal/manifest/proof pins are retained. Matched stage requires exactly one full original51-cell temporal predecessor; unsupported conditional stages fail."
+    },
+    {
+      "area": "Source and snapshot portability",
+      "finding": "Source/proof/output records resolve only through canonical ROOT-relative resolver; original paths and indexed saved snapshot hashes/coverage agree with the relevant seal. Output symlinks are rejected. No original-machine absolute path or CWD fallback was found. Tests include a fresh interpreter relocated-root deny-read hook."
+    },
+    {
+      "area": "Commands and clocks",
+      "finding": "Original compiler is independently called with exact world force family/amplitude and float32-to-float64 promotion. Compiler arrays/metadata and every actual core force are compared. Actual intervals are positive/continuous and linked to compiled intervals within1e-12; both actual61frame clocks and requested20Hz clocks are checked separately. No31-to61 upsampling or native clock claim."
+    },
+    {
+      "area": "Material, hardware and boundary information",
+      "finding": "Canonical TRAIN recipes/specs/static array hashes are verified. Full9-node patch geometry, authored masses/full diagonal COM inertias, zero COM and identity initial orientations are reconstructed. Known/public contexts and privileged material/BC/support groups are independently rebuilt with fixedS2/H2/K1 and exact descriptor/hash checks."
+    },
+    {
+      "area": "Independent mechanics at saved states",
+      "finding": "Reviewed inverse-rest-shape gradient and F=I+grad(u) convention matches CPU core. Saved61frame signedJ, rigid patch/fixture targets, proper rotations, auxiliary poses, body-lumped plus rigid auxiliary mass momentum/kinetic energy, log-J Neo-Hookean elastic energy and principal stretches are independently reconstructed. Sampled runtime minimumJ and geometryJ agree with independent saved-q values within1e-10."
+    },
+    {
+      "area": "Residual and all-step geometry evidence",
+      "finding": "Every accepted row has positive-J finite nonlinear history, correct original effective threshold max(floor,rtol*norm(F)), cap, final residual and endpointJ>=.1/constraint ledger gates. Per-step source evidence is linked to frozen runner/core, with independent q geometry reconstruction at saved61states."
+    },
+    {
+      "area": "Independent force/support work and couple moments",
+      "finding": "Per-handle F dot stable center increment is reconstructed and center difference consistency is checked; core summed work and NPZ work must agree. Moment uses actual start/end moving origins cross held force, not fixed reference separation. Twist force resultant is exactly zero each step. Moving support work uses reaction dotted with the exact prescribed target increment at measured state times."
+    },
+    {
+      "area": "Balance semantics",
+      "finding": "Mass/momentum and energy component checks link sampled states to ledger values. Algebraic momentum/energy bookkeeping is re-evaluated, explicitly without an energy-conservation or native-energy claim. Impulse, absolute impulse, temporal first moment and accumulated per-handle work are independently checked."
+    },
+    {
+      "area": "Temporal and matched qualification",
+      "finding": "Full61frame q errors are compared separately for driven and zero responses. Signal affects only the declared common tolerance; zero subtraction cannot cancel temporal errors. All16scenarios must pass, exact51temporal rows plus all required68matched controls must exist/verify, and every accuracy/translation/replay comparison must pass. Missing/incomplete/failed cells remain unqualified. Fresh movingzero controls are required; static rest references are explicitly analytic, not captures/resets."
+    },
+    {
+      "area": "Stable supervisor API and conservative outputs",
+      "finding": "audit_cell is read-only, validates exact sealed request and returns passed/state/evidence plus explicit false single-cell temporal/dataset qualification. Top-level audit retains production neural admission/native/continuum/prediction/inference/active-policy false, even if declared discrete engineering envelope eventually passes."
+    }
+  ],
+  "review_hardening_addressed": [
+    "Explicitfloat64 trajectory-array requirement added with corruption test.",
+    "Sampled runtime/frameJ consistency check added with rehashed corruption test."
+  ],
+  "material_limits": [
+    "This is source/offline-evidence review, not successful actual-force trajectory validation.",
+    "All-step residual/J/constraint ledger evidence relies on pinned runner/core execution; independent nodal mechanics reconstruction is at61savedstates, not an unavailable every-step full nodal trajectory.",
+    "Momentum/energy algebra is not a new conservation tolerance or native constitutive-energy check.",
+    "No contact model, continuous nonintersection certificate, continuum accuracy, native Isaac equivalence, learned prediction or policy result is established.",
+    "Engineering command grid depends on solver rate/latentBC; public neural dataset admission remains false."
+  ],
+  "validation_status": "Author final combined offline suite passed104 tests in16.01s:39auditor,18runner,15driver,32protocol/compiler; no simulation integrator calls. Reviewer inspected exactfinal source/test bytes and did not redundantly rerun tests.",
+  "author_validation_record": {
+    "path": "runs/operator-dev/authored-force-auditor-draft-v01/validation.json",
+    "sha256": "14a664f0fcbda178b3f9c9acbf3c6137a9ed8ca45e0ec66fc75e9f50f08bb40b",
+    "passed": 104,
+    "elapsed_seconds": 16.01,
+    "simulation_integrator_calls": 0
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "actual-authored-force-cpu-resources-v0.1",
+  "role": "Prospective CPU resource declaration for the guarded 51-cell initial temporal stage",
+  "threads_per_worker": 2,
+  "max_parallel_workers": 8,
+  "gpu_used": false,
+  "first_cell_independent_audit_before_parallel_launch": true,
+  "first_cell_id": "t0001__push_pulse__temporal__hz120",
+  "first_cell_scope": "One exact existing row from the declared 51; no extra case, changed force, retry or numerical setting",
+  "parallel_admission": "Launch only this first row, require its independent completed-cell audit to pass, then admit at most eight concurrent workers",
+  "thread_environment": {
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "MKL_NUM_THREADS": "2"
+  },
+  "failure_policy": "Stop new launches after any worker or first-cell audit failure; let independent in-flight workers finish; preserve outputs, statuses and queued rows without automatic retries",
+  "recovery_policy": "An existing stage execution ledger or output requires inspecting the actual processes and evidence; never automatically restart",
+  "other_work": "Retain unrelated machine processes; no GPU contexts or additional environments are started by this stage",
+  "monitoring": "Record actual driver/worker PIDs, progress, wall time and completion artifact hashes; inspect host load/memory during execution and reduce new admissions if needed",
+  "qualification": "Resource allocation only; no physical, numerical, prediction, uncertainty or policy qualification"
+}
