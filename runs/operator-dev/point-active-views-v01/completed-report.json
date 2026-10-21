@@ -1,0 +1,78 @@
+{
+  "status": "SOURCE_FROZEN_SYNTHETIC_TESTS_PASS_NO_COHORT_EXECUTION",
+  "sources": [
+    {
+      "path": "experiments/campaign_point_active_views.py",
+      "sha256": "af03ee5556dbec64ad7253ffbd688a0e01757a153938395850dd1691d7e32890",
+      "bytes": 8816
+    },
+    {
+      "path": "tests/test_campaign_point_active_views.py",
+      "sha256": "8f42ae7a9bd3b68ce82bcec42b2647df82ced6af687ee2a36c0c031791950e9a",
+      "bytes": 5786
+    },
+    {
+      "path": "experiments/censored_range_observation.py",
+      "sha256": "afc7eeaa8fc3f1f8543701e5ffe9d97f165255f16e5061347875d4df57a9ef11",
+      "bytes": 14035
+    }
+  ],
+  "method_protocol": {
+    "path": "runs/operator-dev/point-prior-analysis-v01/method-protocol.json",
+    "sha256": "ecbc02153336b36ddef33f0c6c01370b012f3ddbeb1d76bd5c71e15145dc3bff",
+    "bytes": 15639
+  },
+  "API": {
+    "select_point_active_view": "(target_features[2048,40950], list4 CensoredRanges[2048,36], frozenCensoredRangeModel,device=cpu) -> selected_index, expectedvariance, pairedMCSE,ESS andmethodmetadata",
+    "update_after_view": "(prediction[2048,36], one supplied CensoredRanges observation[36], frozenmodel) -> normalizedweights[2048], ESS anddiagnostics",
+    "generic_test_helpers": [
+      "TargetVariance",
+      "score_censored_views"
+    ]
+  },
+  "definition": {
+    "target": "FutureAframes31..60/all455nodeXYZ; uniform mean-coordinatevariance in m\u00b2",
+    "base_weights": "2048equal empiricalweights, allparticleentriesretained",
+    "fantasies": 32,
+    "common_fantasy_seed": 2026116000,
+    "sensor": "Existing properCensoredRangeModel handles Bernoullivisibility, validrangeGaussian subcovariances and broadbackground for observedfalsepredictedhits. Frozenrange\u03c3.0002m,visibility.005,background\u03c3.05m,outlier0.",
+    "choice": "Lowest expected posterior mean-coordinatevariance; np.argmin stablelowest exacttie. Equalactioncosts.",
+    "actual_observations": "Only separate update_after_view accepts actualobs, after actionchoicefreeze; noearlyA evidence reapplied."
+  },
+  "implementation": {
+    "risk": "Targets centered by firstparticle then baseweightedmean. Perparticle mean-square norms and chunked posteriorweightedmeans form E[X\u00b2]\u2212E[X]\u00b2. No particleGram/kernel NxN.",
+    "roundoff": "Negativevariance beyond64eps-scaled momentbound raises; only within-roundoff negatives clipzero.",
+    "actual_weights": "Likelihood-normalized weights explicitly normalized once more before return; ESS recomputed from returnedweights.",
+    "acceleration": "Optional explicitCUDAdevice uses Torchfloat64 matrixproducts; branch implemented but NO GPUqueried/executed/tested. CPUdefault is verified."
+  },
+  "tests": {
+    "passed": 7,
+    "seconds": 0.29,
+    "coverage": [
+      "Centeredmoments match directweightedvariance at largecommonorigin",
+      "Gaussian quadraturelaw totalvariance under properlikelihood",
+      "Discretevisibility exactlaw totalvariance including missingrange",
+      "Uninformativeviews retainrisk/ESS and lowesttie",
+      "Proper actual mixedlikelihood posterior andmissingrangeplaceholder invariance",
+      "Validation and selectionsignature have noactualobs/truthargument",
+      "Informativeviewwins with stableequal-helpfultie"
+    ],
+    "initial_test_failure": "Preserved tests-initial-normalization.log: model.condition returned weights with ~2e-14 totalmass error; explicit finalnormalization added, testtolerance unchanged."
+  },
+  "jointmax_conformal_protocol_review": {
+    "status": "NO_MATHEMATICAL_BLOCKER_WITH_STIPULATED_EXCHANGEABILITY_AND_FROZEN_EXECUTION",
+    "family": "Onecompleteobjectscore is maximum across noaction andALL4 potentialpostviewpredictionstates, bothprograms andtheir fixedfinite targetfields.",
+    "target_shape": "NoactionA21..60 and postviewA31..60 differ in length; compute scoreperstate overitsfixedtarget then jointmax, do not broadcast/misalign. B0..60 belongs to each fixedstate.",
+    "selection": "Because the event jointlycovers ALLprespecifiedpotentialstates, selecting bestfixedcamera on16calibrationtruths is compatible with that jointfamilyband. A selected active/random/fixedmember is a subset of coveredfamily.",
+    "freeze": "All4candidateviews, observation-generation/noiserules, baseinference, activefantasyseed/count, fieldindices, floor/scale and potentialpredictionfunctions mustfreeze before calibrationresponses.",
+    "observation_roles": "A10/20 acquired for baseinference. A24 consumed only afteractivechoicefreeze; futuretargetmotion/parameters only afterallpredictionstatesfreeze. Potentialactualviewmeasurements can be generated afterchoice for equalbudgetcomparisons, but activechoice neversees them.",
+    "limits": "Newcandidate/predictor tuning outside the frozenfamily requires freshcalibration or validexpandedfamilyanalysis. Coverage is marginal finitefield/policyfamily, not posteriorcalibration, physicalbackaction/planning, conditional-materialcoverage or advantageof32fantasyvariancechoice."
+  },
+  "no_data_or_device_queries": {
+    "cohort_response_or_truth_access": false,
+    "reserved_data_access": false,
+    "GPU_queries": false,
+    "new_physics": false,
+    "existing_dependency_edits": false
+  }
+}

@@ -1,0 +1,24 @@
+....F.                                                                   [100%]
+=================================== FAILURES ===================================
+__ test_actual_update_uses_proper_censored_likelihood_and_keeps_all_particles __
+
+    def test_actual_update_uses_proper_censored_likelihood_and_keeps_all_particles():
+        model=CensoredRangeModel(np.eye(36)*(.0002**2),.005,.05,0)
+        visible=np.ones((2048,36),bool);visible[1024:,0]=False
+        ranges=np.zeros((2048,36));ranges[:1024,0]=.0001
+        prediction=CensoredRanges(visible,ranges);values=np.zeros(36);values[0]=.0003
+        obs=CensoredRanges(np.ones(36,bool),values)
+        weights,d=update_after_view(prediction,obs,model)
+        hit=.995*np.exp(-.5*((.0003-.0001)/.0002)**2)/.0002
+        miss=.005*np.exp(-.5*(.0003/.05)**2)/.05
+>       assert weights[:1024].sum()==pytest.approx(hit/(hit+miss),abs=1e-14)
+E       assert np.float64(0.9999668615686442) == 0.9999668615686647 ± 1.0e-14
+E         
+E         comparison failed
+E         Obtained: 0.9999668615686442
+E         Expected: 0.9999668615686647 ± 1.0e-14
+
+tests/test_campaign_point_active_views.py:68: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_campaign_point_active_views.py::test_actual_update_uses_proper_censored_likelihood_and_keeps_all_particles
+1 failed, 5 passed in 0.23s

@@ -1,0 +1,51 @@
+{
+  "status": "SINGLE_ELIGIBLE_CELL_COMPLETED_NO_BULK",
+  "source_sha256": "c3c99c960f837de4107d9837417afec6c73b791e320e9de6cd9f07e54fafdd62",
+  "tests": {
+    "passed": 6,
+    "seconds": 0.14,
+    "log": "runs/operator-dev/order-k-support-single-cell-v01/tests.log"
+  },
+  "result": {
+    "completed": true,
+    "face": 0,
+    "atlas_cell": 0,
+    "k": 16,
+    "candidate_nodes": 35,
+    "regions": 2,
+    "enumeration_and_certificate_seconds": 0.08093002019450068,
+    "covered_area_uv_exact": "10514401138533025169552239457049/5192296858534827628530496329220096",
+    "declared_area_uv_exact": "10514401138533025169552239457049/5192296858534827628530496329220096",
+    "pairwise_positive_overlap_count": 0,
+    "realizer_checks": 128,
+    "probability_renormalized": false,
+    "positive_area_dropped": false,
+    "source_sha256": {
+      "experiments/campaign_order_k_support_geometry.py": "c3c99c960f837de4107d9837417afec6c73b791e320e9de6cd9f07e54fafdd62",
+      "experiments/campaign_support_mask_prior.py": "b561f383bddbd16e9e0fe26067481e113976f41b296885e7a323074bf07201e3",
+      "experiments/campaign_hypothesis_inputs.py": "bdae8dda6902a62b1a9fcfa401c7d17b53ecc27fce169b7a3c90b4c143e904f5",
+      "experiments/campaign_physical_prior.py": "755281cf028e64daad88828a2cdf89dce11a5a7cc4b1e635c50767090b3e80e4"
+    },
+    "scope": "ONE eligible BC1 cell only; no global K16/K9/moving prior, physics, cache or observations"
+  },
+  "worker_terminal": {
+    "session": 34057,
+    "reaped_exit_code": 0
+  },
+  "scaling": {
+    "observed_cell": "face0/cell0 has35candidates and2regions;0.08093s exact enumeration+certificates. This is a small cornercell, not a worst-case runtime estimate.",
+    "per_region_clipping": "K*(N-K) selected/outside halfplanes, exact Fraction arithmetic; no combinations enumeration.",
+    "facet_crossing": "Per positive-length facet, bound outward step by all O(N^2) affine ranking roots, crossing simultaneous ties together.",
+    "certificate": "Exact area exhaustion and pairwise positive-area overlap checks; pairwise certificate grows O(R^2) in region count.",
+    "larger_faces": "H0 eligible fixed-patch faces have35,65,35,91candidate nodes respectively; more candidates/regions and rational bit sizes may dominate. No timing extrapolation asserted.",
+    "degeneracy": "Strict rational seed lies on a parabola and avoids all nonidentical affine tie lines; coincident sites use global-node stable ordering. Any missing area, overlap, zero-area traversal or region budget failure aborts.",
+    "bounded_enumeration": "maximum_regions10000; partial results never become normalized weights."
+  },
+  "remaining_scope": [
+    "No other eligible cells, full K16 fixed-patch distribution, K9 distribution, paired opposite-face prior or moving-law pushforward constructed.",
+    "For two-patches, retain ordered conditional groups and exact opposite-face factorization: first face1/F, independent first/second eligiblecell+UV factors; no second1/F.",
+    "For moving patches, a geometry mask cannot replace the latent face/amplitude/tangent law; these continuous nuisance roles remain separate.",
+    "Any future bulkconstruction requires exact certification on EVERY eligiblecell, all positiveareas retained, and original face/cell prior weights. Root must authorize new scope."
+  ],
+  "responses_physics_GPU_or_cache_used": false
+}

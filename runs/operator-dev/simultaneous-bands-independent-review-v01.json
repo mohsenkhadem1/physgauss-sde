@@ -1,0 +1,54 @@
+{
+  "status": "NO_REMAINING_MATHEMATICAL_BLOCKER_WITH_CURRENT_FLOOR_FIX",
+  "role": "Read-only source/theory review; no calibration/cohort/reserved responses opened; no experiments or source edits",
+  "reviewed_sources": [
+    {
+      "path": "experiments/campaign_simultaneous_bands.py",
+      "sha256": "04bd038c7960b570024139a0daa4d1734292d272c38d1884333e1c2d845ff195"
+    },
+    {
+      "path": "tests/test_campaign_simultaneous_bands.py",
+      "sha256": "08d17f31eb8f9233788280f79b36a77e4afbdd19313979f0aaa6740a707100e6"
+    }
+  ],
+  "numerical_floor_review": {
+    "consistent_now": true,
+    "score": "max_target_coordinate(abs(truth-mean)/max(latent_std,1e-9m))",
+    "band": "mean +/- calibrated_scale*max(latent_std,1e-9m)",
+    "contains": "uses identical floor and <= boundary",
+    "old_issue": "Original prose mean +/-scale*latent_std could disagree with floored scores at std<1nm; root added bounds() and sixth test before this reviewed revision."
+  },
+  "finite_sample_math": {
+    "n_calibration": 16,
+    "alpha": 0.1,
+    "rank": 16,
+    "scale": "max(1, largest16 object scores)",
+    "guarantee": "At least nominal90% marginal simultaneous finite-target coverage under exchangeability; rank16/17 gives conservative94.1176% rank guarantee, with ties/minimumscale potentially more conservative. Not exact90% or per-object conditional90%.",
+    "no_pseudoreplication": "The two programs, allframes,nodes andXYZ coordinates form ONE objectscore; they do not increase n.",
+    "too_small_sample_rule": "Code correctly returns infinite band when ceil((n+1)*(1-alpha))>n instead of clippingrank."
+  },
+  "minimal_protocol_before_response_access": {
+    "population": "Explicitly pin H0/fullpublichardware, normalized point-support conditional prior/material distribution, observation noise/sensor and knownA/Bprograms. Calibration16 and reserved32 must share the same stipulated population and be independently drawn complete objects.",
+    "split": "Pin exact48object IDs/seed hierarchy and disjoint16/32 roles before responses. No response-based replacement, dropping, redraw or subset selection; predeclare failures as abort/unqualified or an explicit identically applied fallback.",
+    "predictor": "Hash fixed inference+forward source/cache, prior/table, sensoroperator, earlyAframe indices, numerical particlecounts/seed/seedreuse policy, likelihoodnoise and knowncommands. Freeze model and uncertainty function before calibrationtruth access.",
+    "information": "Per-object predictor may consume only declared earlyAobservations/publicH/knownprograms. No futureA, Bresponse, latenttruthmaterial/support or hiddenfixturelabels enter mean/std.",
+    "target": "Pin exact integer target indices: A21..60 and B0..60, all fixed455nodes andXYZ in meters, on61frames20Hz. One joint maxscore across those fields. No continuumspace/time extension claim.",
+    "calibration": "Pin alpha.1,floor1e-9m,minscale1,rank16,one score/object, same floored scale for score/bounds/coverage. Publish all16scores and resultingscale before reserved evaluation. No recalibration/tuning from32reservedresponses.",
+    "evaluation": "Report simultaneous objectcoverage count/32, width summaries and unchanged pointforecasterrors; distinguish noisy empiricalperformance from distribution-free marginal theorem. No cherry-picked action/material subgroup selection or passing-only denominator.",
+    "claim_limits": "Marginal finite-target predictiveband under same-population exchangeability only. Not calibrated Bayesianmaterial/supportposterior, conditionalcoverage, activepolicyguarantee, all4BCextension, continuousfieldcertificate or productionqualification."
+  },
+  "primary_reference": {
+    "title": "A Gentle Introduction to Conformal Prediction and Distribution-Free Uncertainty Quantification",
+    "authors": [
+      "Anastasios N. Angelopoulos",
+      "Stephen Bates"
+    ],
+    "url": "https://arxiv.org/html/2107.07511v6",
+    "sections": [
+      "1.1",
+      "2.3"
+    ],
+    "verified_by_browsing": true
+  },
+  "source_tests": "Root reports6PASS.22s; read-only review inspected those6tests, did not rerun."
+}

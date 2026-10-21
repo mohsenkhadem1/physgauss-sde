@@ -1,5 +1,7 @@
 # PhysGauss-SDE
 
+Independent 48-object calibration/view comparison [preregistered](runs/operator-dev/point-prior-analysis-v01/method-protocol.json): 16 calibration, 32 reserved; results pending.
+
 **Unknown point support and material:** [method and evidence](docs/GAUSSIAN_POINT_SUPPORT_ORACLE.md)
 use two sparse depth frames on one fresh object, with the point-pin type known.
 Coordinate RMSE against finite mechanics:
