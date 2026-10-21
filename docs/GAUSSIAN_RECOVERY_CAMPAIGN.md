@@ -55,3 +55,15 @@ The [completed numerical audit](GAUSSIAN_CAMPAIGN_NUMERICAL_AUDIT.md) retains al
 The conservative atlas [prior prototype](CAMPAIGN_REFERENCE_PRIOR_DESIGN.md) excludes some valid supports and has not been adopted. A separate [joint face/UV rejection prior](../experiments/campaign_rejection_prior.py) keeps BC probabilities uniform and samples the full exactly feasible continuous support domain conditional on the complete public attachment geometry. Its geometry-only audit includes all108 noncalibration TRAIN supports. This is a newly designed prior, not the exact conditional law of the seeded simulator generator.
 
 Its unknown normalization depends on BC and public hardware. The [tempered SMC prototype](../experiments/campaign_tempered_reference.py) therefore permits local kernel ratios only within the same normalization stratum; a whole-prior independence proposal cancels the entire prior. Invalid geometry is rejected before strict decoding. Bounded rejection failures abort sampling and are reported with a conservative probability bound; they cannot silently redraw a BC or become null MH moves. Synthetic tests check joint categorical/continuous targets, separated modes and differing category normalization constants. These implementations establish neither physical posterior calibration nor a converged numerical posterior on videos. They will share the same frozen prior and likelihood with a future amortized comparison after numerical reliability and known-force prediction pass their gates.
+
+## Independent nonlinear dynamic reference under qualification
+
+The declared float64 finite-strain reference now has exact finite rigid patches,
+full handle mass/inertia, prescribed supports and nonlinear residual/work ledgers.
+[Its component controls and reproducible TRAIN smoke](GAUSSIAN_INDEPENDENT_DYNAMICS.md)
+pass 36 targeted tests and one 120 Hz fixed-support integration. This is a new
+independent model with body-only viscous damping and no contact; it does not
+qualify the native Isaac engine or reproduce its internal elasticity damping.
+The published four-support temporal/tolerance/translation/reset gate remains
+unpassed. More fitting, uncertainty calibration and policy comparison still
+require the remaining campaign gates.

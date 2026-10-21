@@ -1,0 +1,817 @@
+{
+  "role": "Privileged TRAIN-only inputs for independent forward-model diagnosis; no motion/observation labels and no reserved case. Not a runtime inverse-model input.",
+  "geometry_function": "isaac_dataset.geometry(recipe)",
+  "geometry_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+  "block_mesh_source_sha256": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+  "all_static_arrays_exactly_regenerated": true,
+  "cases": [
+    {
+      "episode_id": "t0000",
+      "recipe": {
+        "episode_id": "t0000",
+        "group_id": "train-0000",
+        "split": "train",
+        "seed": 531000,
+        "material": {
+          "youngs_modulus_Pa": 13124.077168755555,
+          "poissons_ratio": 0.3457194874586554,
+          "density_kg_m3": 686.9059557675935,
+          "linear_damping_s_inverse": 0.47117182152093645,
+          "elasticity_damping": 0.02
+        },
+        "boundary_type": "point_pin",
+        "force_type": "push_pulse",
+        "seconds": 3.0,
+        "physics_hz": 960,
+        "fps": 20,
+        "cells": [
+          12,
+          6,
+          4
+        ],
+        "load_patch_nodes": 9,
+        "sparse_frames": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          40,
+          45,
+          50,
+          55,
+          60
+        ],
+        "units": {
+          "length": "m",
+          "time": "s",
+          "force": "N",
+          "modulus": "Pa",
+          "density": "kg/m^3"
+        },
+        "qualification": "Independent layout; fixed-discretization simulated supervision; no continuum accuracy claim",
+        "recipe_sha256": "0d21f89b5aef2110b42015565e06812bbd8af323644e9c67c91aeacdbacd7e4f"
+      },
+      "boundaries": {
+        "boundary_type": "point_pin",
+        "fixture_nodes": [
+          12
+        ],
+        "support_centers_m": [
+          [
+            -0.12,
+            -0.017801288742824477,
+            0.24815093690126117
+          ]
+        ],
+        "support_faces": [
+          [
+            0,
+            -1
+          ]
+        ],
+        "motion_amplitude_m": 0.0,
+        "motion_direction_world": [
+          0.0,
+          -0.7355063845573809,
+          0.6775177918514982
+        ],
+        "load_nodes": [
+          225,
+          312
+        ],
+        "load_patches": [
+          [
+            225,
+            220,
+            260,
+            255,
+            190,
+            230,
+            185,
+            265,
+            215
+          ],
+          [
+            312,
+            313,
+            277,
+            278,
+            347,
+            348,
+            311,
+            314,
+            276
+          ]
+        ],
+        "reference_load_normals": [
+          [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ]
+        ],
+        "force_type": "push_pulse",
+        "peak_force_N": 0.030249222859091197,
+        "normal_direction_world": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "shear_direction_world": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "couple_direction_world": [
+          0.537537196499798,
+          -0.6856211369688514,
+          0.4908945089534788
+        ],
+        "seconds": 3.0,
+        "camera": {
+          "center_m": [
+            0.0,
+            0.0,
+            0.25
+          ],
+          "radius_m": 0.8890550493426713,
+          "azimuth_start_deg": -104.71985943274271,
+          "arc_deg": 113.24123482402837,
+          "elevation_deg": 25.80287966723231,
+          "elevation_excursion_deg": 6.366127715902449,
+          "focal_length_mm": 35.0,
+          "horizontal_aperture_mm": 36.0,
+          "vertical_aperture_mm": 27.0,
+          "resolution": [
+            640,
+            480
+          ],
+          "path_depends_on_hidden_motion": false
+        },
+        "force_convention": "World directions defined from reference geometry; no follower pressure",
+        "handle_mass_kg_each": 0.001,
+        "seed": 531000
+      },
+      "reference_static_arrays": [
+        {
+          "key": "rest_points_m",
+          "dtype": "float64",
+          "shape": [
+            455,
+            3
+          ],
+          "sha256": "cefd196e6103641c9d4106afc3a1494c2a00ec1c57c7e04a0e364d6f98c89314"
+        },
+        {
+          "key": "tetrahedra",
+          "dtype": "int32",
+          "shape": [
+            1728,
+            4
+          ],
+          "sha256": "5efa9807f72302e2190f7ae9c73a8f20c2f5fc2a3e9caab15a5fd9988113cbe7"
+        },
+        {
+          "key": "surface_faces",
+          "dtype": "int32",
+          "shape": [
+            576,
+            3
+          ],
+          "sha256": "0ac556ebb26f7322b96685b3c516157fef3f160ab7d38fc5280056892d869b85"
+        }
+      ],
+      "original_input_files_sha256": {
+        "truth/recipe.json": "dd2f4eceddf2b2450684d23eca68bc1cd2cac55770fe33f3b4d1526590058f4c",
+        "truth/boundaries.json": "4eb4ac5fa96243ab2cd39bf6a03b1f890afd89e381250087b4c9ddf639869cbc",
+        "reference.npz": "caf02bed9a53f39466dbaad50d8dedd4ac7f39d421701215a38efd7105106e91"
+      }
+    },
+    {
+      "episode_id": "t0001",
+      "recipe": {
+        "episode_id": "t0001",
+        "group_id": "train-0001",
+        "split": "train",
+        "seed": 531001,
+        "material": {
+          "youngs_modulus_Pa": 4249.367739516093,
+          "poissons_ratio": 0.3407184360170016,
+          "density_kg_m3": 797.5013221490891,
+          "linear_damping_s_inverse": 0.5931586565297235,
+          "elasticity_damping": 0.02
+        },
+        "boundary_type": "fixed_patch",
+        "force_type": "push_pulse",
+        "seconds": 3.0,
+        "physics_hz": 960,
+        "fps": 20,
+        "cells": [
+          12,
+          6,
+          4
+        ],
+        "load_patch_nodes": 9,
+        "sparse_frames": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          40,
+          45,
+          50,
+          55,
+          60
+        ],
+        "units": {
+          "length": "m",
+          "time": "s",
+          "force": "N",
+          "modulus": "Pa",
+          "density": "kg/m^3"
+        },
+        "qualification": "Independent layout; fixed-discretization simulated supervision; no continuum accuracy claim",
+        "recipe_sha256": "040ced0bafe494fb5b5d141b1df9ad1e90d1e97b5fc71761ebb30b403f085345"
+      },
+      "boundaries": {
+        "boundary_type": "fixed_patch",
+        "fixture_nodes": [
+          115,
+          120,
+          145,
+          150,
+          155,
+          160,
+          180,
+          185,
+          190,
+          195,
+          215,
+          220,
+          225,
+          230,
+          255,
+          260
+        ],
+        "support_centers_m": [
+          [
+            -0.020338642753776625,
+            -0.00982979546059461,
+            0.21
+          ]
+        ],
+        "support_faces": [
+          [
+            2,
+            -1
+          ]
+        ],
+        "motion_amplitude_m": 0.0,
+        "motion_direction_world": [
+          -0.7373036526656331,
+          0.6755614877758466,
+          0.0
+        ],
+        "load_nodes": [
+          437,
+          207
+        ],
+        "load_patches": [
+          [
+            437,
+            438,
+            442,
+            443,
+            432,
+            436,
+            433,
+            441,
+            439
+          ],
+          [
+            207,
+            208,
+            172,
+            173,
+            242,
+            206,
+            243,
+            171,
+            209
+          ]
+        ],
+        "reference_load_normals": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ]
+        ],
+        "force_type": "push_pulse",
+        "peak_force_N": 0.1862031455981184,
+        "normal_direction_world": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "shear_direction_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "couple_direction_world": [
+          -0.054397910560849715,
+          -0.126928457975316,
+          0.9904191203135277
+        ],
+        "seconds": 3.0,
+        "camera": {
+          "center_m": [
+            0.0,
+            0.0,
+            0.25
+          ],
+          "radius_m": 0.9279557573426939,
+          "azimuth_start_deg": -92.68378482148242,
+          "arc_deg": 98.93889885417327,
+          "elevation_deg": 28.414976277886442,
+          "elevation_excursion_deg": 3.9120556108049507,
+          "focal_length_mm": 35.0,
+          "horizontal_aperture_mm": 36.0,
+          "vertical_aperture_mm": 27.0,
+          "resolution": [
+            640,
+            480
+          ],
+          "path_depends_on_hidden_motion": false
+        },
+        "force_convention": "World directions defined from reference geometry; no follower pressure",
+        "handle_mass_kg_each": 0.001,
+        "seed": 531001
+      },
+      "reference_static_arrays": [
+        {
+          "key": "rest_points_m",
+          "dtype": "float64",
+          "shape": [
+            455,
+            3
+          ],
+          "sha256": "cefd196e6103641c9d4106afc3a1494c2a00ec1c57c7e04a0e364d6f98c89314"
+        },
+        {
+          "key": "tetrahedra",
+          "dtype": "int32",
+          "shape": [
+            1728,
+            4
+          ],
+          "sha256": "5efa9807f72302e2190f7ae9c73a8f20c2f5fc2a3e9caab15a5fd9988113cbe7"
+        },
+        {
+          "key": "surface_faces",
+          "dtype": "int32",
+          "shape": [
+            576,
+            3
+          ],
+          "sha256": "0ac556ebb26f7322b96685b3c516157fef3f160ab7d38fc5280056892d869b85"
+        }
+      ],
+      "original_input_files_sha256": {
+        "truth/recipe.json": "73151396c5481e5eff40e7178bf0c1e9379053c962ba08de8cc7f18b7ddd41e4",
+        "truth/boundaries.json": "fb0cdbaa5445e1b178a2b602722fb541c21c446ca9b53d6c3b442325f6aa8c03",
+        "reference.npz": "caf02bed9a53f39466dbaad50d8dedd4ac7f39d421701215a38efd7105106e91"
+      }
+    },
+    {
+      "episode_id": "t0002",
+      "recipe": {
+        "episode_id": "t0002",
+        "group_id": "train-0002",
+        "split": "train",
+        "seed": 531002,
+        "material": {
+          "youngs_modulus_Pa": 12129.086090461054,
+          "poissons_ratio": 0.41243098545627,
+          "density_kg_m3": 453.0372493854995,
+          "linear_damping_s_inverse": 0.4184529613290616,
+          "elasticity_damping": 0.02
+        },
+        "boundary_type": "two_patches",
+        "force_type": "push_pulse",
+        "seconds": 3.0,
+        "physics_hz": 960,
+        "fps": 20,
+        "cells": [
+          12,
+          6,
+          4
+        ],
+        "load_patch_nodes": 9,
+        "sparse_frames": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          40,
+          45,
+          50,
+          55,
+          60
+        ],
+        "units": {
+          "length": "m",
+          "time": "s",
+          "force": "N",
+          "modulus": "Pa",
+          "density": "kg/m^3"
+        },
+        "qualification": "Independent layout; fixed-discretization simulated supervision; no continuum accuracy claim",
+        "recipe_sha256": "3bd5c10c1c2d1385bbd2c40aeba2f66c2eae112e90b2b3fd8ec7115308826f9a"
+      },
+      "boundaries": {
+        "boundary_type": "two_patches",
+        "fixture_nodes": [
+          154,
+          159,
+          164,
+          184,
+          189,
+          190,
+          194,
+          195,
+          199,
+          200,
+          224,
+          225,
+          229,
+          230,
+          235,
+          260,
+          265,
+          270
+        ],
+        "support_centers_m": [
+          [
+            0.005720874679449472,
+            0.02138413815800533,
+            0.21
+          ],
+          [
+            -0.02406956905304692,
+            -0.009527189120571553,
+            0.29
+          ]
+        ],
+        "support_faces": [
+          [
+            2,
+            -1
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        "motion_amplitude_m": 0.0,
+        "motion_direction_world": [
+          0.7911599977930542,
+          0.6116092362710805,
+          0.0
+        ],
+        "load_nodes": [
+          247,
+          21
+        ],
+        "load_patches": [
+          [
+            247,
+            212,
+            246,
+            211,
+            248,
+            282,
+            213,
+            281,
+            177
+          ],
+          [
+            21,
+            26,
+            22,
+            20,
+            16,
+            27,
+            25,
+            17,
+            15
+          ]
+        ],
+        "reference_load_normals": [
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "force_type": "push_pulse",
+        "peak_force_N": 0.14946816649260591,
+        "normal_direction_world": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "shear_direction_world": [
+          -0.0,
+          0.0,
+          1.0
+        ],
+        "couple_direction_world": [
+          -0.4843675391374781,
+          -0.8701996323270665,
+          -0.090225755345919
+        ],
+        "seconds": 3.0,
+        "camera": {
+          "center_m": [
+            0.0,
+            0.0,
+            0.25
+          ],
+          "radius_m": 0.8956918347269308,
+          "azimuth_start_deg": -75.8905866789153,
+          "arc_deg": 114.64637331206545,
+          "elevation_deg": 29.89863961052346,
+          "elevation_excursion_deg": 4.714216375949554,
+          "focal_length_mm": 35.0,
+          "horizontal_aperture_mm": 36.0,
+          "vertical_aperture_mm": 27.0,
+          "resolution": [
+            640,
+            480
+          ],
+          "path_depends_on_hidden_motion": false
+        },
+        "force_convention": "World directions defined from reference geometry; no follower pressure",
+        "handle_mass_kg_each": 0.001,
+        "seed": 531002
+      },
+      "reference_static_arrays": [
+        {
+          "key": "rest_points_m",
+          "dtype": "float64",
+          "shape": [
+            455,
+            3
+          ],
+          "sha256": "cefd196e6103641c9d4106afc3a1494c2a00ec1c57c7e04a0e364d6f98c89314"
+        },
+        {
+          "key": "tetrahedra",
+          "dtype": "int32",
+          "shape": [
+            1728,
+            4
+          ],
+          "sha256": "5efa9807f72302e2190f7ae9c73a8f20c2f5fc2a3e9caab15a5fd9988113cbe7"
+        },
+        {
+          "key": "surface_faces",
+          "dtype": "int32",
+          "shape": [
+            576,
+            3
+          ],
+          "sha256": "0ac556ebb26f7322b96685b3c516157fef3f160ab7d38fc5280056892d869b85"
+        }
+      ],
+      "original_input_files_sha256": {
+        "truth/recipe.json": "1eb43c4d49cfd3c162ac2f3cc42e7c2c1882e77983c09b10fc44ec3cd616e8da",
+        "truth/boundaries.json": "abb4a0be57b9094caa216fa2b28eb2b6496fdf10634b59805bb5c99ec946ded5",
+        "reference.npz": "caf02bed9a53f39466dbaad50d8dedd4ac7f39d421701215a38efd7105106e91"
+      }
+    },
+    {
+      "episode_id": "t0003",
+      "recipe": {
+        "episode_id": "t0003",
+        "group_id": "train-0003",
+        "split": "train",
+        "seed": 531003,
+        "material": {
+          "youngs_modulus_Pa": 2190.7863841969183,
+          "poissons_ratio": 0.33564590727172583,
+          "density_kg_m3": 699.2377314592911,
+          "linear_damping_s_inverse": 0.81458463571165,
+          "elasticity_damping": 0.02
+        },
+        "boundary_type": "moving_patch",
+        "force_type": "push_pulse",
+        "seconds": 3.0,
+        "physics_hz": 960,
+        "fps": 20,
+        "cells": [
+          12,
+          6,
+          4
+        ],
+        "load_patch_nodes": 9,
+        "sparse_frames": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          40,
+          45,
+          50,
+          55,
+          60
+        ],
+        "units": {
+          "length": "m",
+          "time": "s",
+          "force": "N",
+          "modulus": "Pa",
+          "density": "kg/m^3"
+        },
+        "qualification": "Independent layout; fixed-discretization simulated supervision; no continuum accuracy claim",
+        "recipe_sha256": "3e77d21a0561345abdbc622fb811533383e1ad465d54f844259e056ec2fd7ae5"
+      },
+      "boundaries": {
+        "boundary_type": "moving_patch",
+        "fixture_nodes": [
+          426,
+          427,
+          428,
+          430,
+          431,
+          432,
+          433,
+          435,
+          436,
+          437,
+          438,
+          439,
+          441,
+          442,
+          443,
+          447
+        ],
+        "support_centers_m": [
+          [
+            0.12,
+            -0.0036301092446927815,
+            0.24772078425406083
+          ]
+        ],
+        "support_faces": [
+          [
+            0,
+            1
+          ]
+        ],
+        "motion_amplitude_m": 0.008,
+        "motion_direction_world": [
+          0.0,
+          -0.8993402063039557,
+          -0.43724957784445967
+        ],
+        "load_nodes": [
+          246,
+          283
+        ],
+        "load_patches": [
+          [
+            246,
+            281,
+            247,
+            282,
+            245,
+            280,
+            211,
+            212,
+            316
+          ],
+          [
+            283,
+            248,
+            317,
+            318,
+            213,
+            284,
+            249,
+            352,
+            319
+          ]
+        ],
+        "reference_load_normals": [
+          [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0
+          ]
+        ],
+        "force_type": "push_pulse",
+        "peak_force_N": 0.21153619641676252,
+        "normal_direction_world": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "shear_direction_world": [
+          -0.0,
+          0.0,
+          1.0
+        ],
+        "couple_direction_world": [
+          -0.41929427781326445,
+          0.8833121677761019,
+          0.20964713890663206
+        ],
+        "seconds": 3.0,
+        "camera": {
+          "center_m": [
+            0.0,
+            0.0,
+            0.25
+          ],
+          "radius_m": 0.8897159970060433,
+          "azimuth_start_deg": -70.65485626961043,
+          "arc_deg": 93.3227445543323,
+          "elevation_deg": 28.5230013309417,
+          "elevation_excursion_deg": 4.881899695606932,
+          "focal_length_mm": 35.0,
+          "horizontal_aperture_mm": 36.0,
+          "vertical_aperture_mm": 27.0,
+          "resolution": [
+            640,
+            480
+          ],
+          "path_depends_on_hidden_motion": false
+        },
+        "force_convention": "World directions defined from reference geometry; no follower pressure",
+        "handle_mass_kg_each": 0.001,
+        "seed": 531003
+      },
+      "reference_static_arrays": [
+        {
+          "key": "rest_points_m",
+          "dtype": "float64",
+          "shape": [
+            455,
+            3
+          ],
+          "sha256": "cefd196e6103641c9d4106afc3a1494c2a00ec1c57c7e04a0e364d6f98c89314"
+        },
+        {
+          "key": "tetrahedra",
+          "dtype": "int32",
+          "shape": [
+            1728,
+            4
+          ],
+          "sha256": "5efa9807f72302e2190f7ae9c73a8f20c2f5fc2a3e9caab15a5fd9988113cbe7"
+        },
+        {
+          "key": "surface_faces",
+          "dtype": "int32",
+          "shape": [
+            576,
+            3
+          ],
+          "sha256": "0ac556ebb26f7322b96685b3c516157fef3f160ab7d38fc5280056892d869b85"
+        }
+      ],
+      "original_input_files_sha256": {
+        "truth/recipe.json": "b49a145d9e7ca19d6b1103e786d43dfaa23fe1f5615545c9d847439de9ca5ce4",
+        "truth/boundaries.json": "7fe9e8c29a3c1d55880fcaf6bab8aeb00a0a9419e8791279d4b88d174a6f5ce8",
+        "reference.npz": "caf02bed9a53f39466dbaad50d8dedd4ac7f39d421701215a38efd7105106e91"
+      }
+    }
+  ]
+}
