@@ -1,0 +1,48 @@
+{
+  "schema": "point-rotation-material-audit-recipe-v0.2",
+  "execution_protocol": {
+    "path": "runs/operator-dev/point-rotation-analysis-v02/execution-protocol.json",
+    "sha256": "0bac66d3701bf3661791859ea2ca6f6009a093c9fb2fd39ca5693b4713dd7fb3"
+  },
+  "method": {
+    "path": "runs/operator-dev/point-rotation-analysis-v02/method-protocol.json",
+    "sha256": "7c3a4a9fa89398fdf8c77d0208c6bf932efbaa31751128c95d0ce1f7d5d81ea5"
+  },
+  "roles": [
+    "CALIBRATION",
+    "RESERVED_EVALUATION"
+  ],
+  "particles": 2048,
+  "states": [
+    "no_additional_view",
+    "fixed_view_0",
+    "fixed_view_1",
+    "fixed_view_2",
+    "fixed_view_3"
+  ],
+  "prior_categories": 55,
+  "output_prefix": "runs/gaussian-campaign-v01/point-rotation-material-audit-v02",
+  "source_sha256": {
+    "experiments/campaign_point_rotation_material_audit.py": "e7eadf2476416879e91167d32872f22d0540133546e8ea5c4a9fcb3dc90f4730",
+    "experiments/campaign_point_postview_material_audit.py": "1142340d76406cec83856e49a51a7f246f6c93350282559beaec66939c20d771",
+    "experiments/summarize_point_rotation_analysis.py": "0c76db906a96daf02bb1513fba035d9acc70ad13f3f62c3ba9853abe6d67a671",
+    "experiments/run_point_rotation_analysis.py": "dbf51cf9c23b5eb2926b5f627e293764192ba7c7c64c43d126662fd01ccb366a",
+    "experiments/campaign_simultaneous_bands.py": "04bd038c7960b570024139a0daa4d1734292d272c38d1884333e1c2d845ff195"
+  },
+  "require_completed_primary_seal_before_any_values": true,
+  "execute_authorization": "ROOT_SEPARATE_AFTER_PRIMARY_SEAL",
+  "choices": {
+    "interval_probabilities": [
+      0.05,
+      0.95
+    ],
+    "quantiles": "Inverse empirical CDF, zero weights skipped, no interpolation",
+    "support_rank": "Probability descending then global node ID ascending; all55 including zeros",
+    "confidence_threshold": 0.9,
+    "lowest_ESS_objects": 5,
+    "relative_error": "Absolute posterior mean error divided by positive physical truth"
+  },
+  "claim": "Descriptive empirical marginal coverage and confidence, not Bayesian or conformal parameter coverage",
+  "no_model_queries_or_tuning": true,
+  "raw_object_diagnostics_LOCAL": true
+}

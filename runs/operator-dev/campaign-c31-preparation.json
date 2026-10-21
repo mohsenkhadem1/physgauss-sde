@@ -1,0 +1,95 @@
+{
+  "schema": "campaign-c31-publication-preparation-v1",
+  "status": "SOURCE_AND_COMPLETED_CALIBRATION_ONLY_NO_CONNECTOR_PUSH",
+  "base_commit": "b4aceec0157e868e0900aa6ee4452d1d62a45ce1",
+  "inventory_roots": [
+    {
+      "path": "runs/operator-dev/point-rotation-material-audit-v02/publish-inventory.json",
+      "sha256": "f49ad612234b4db671c2dd9ec014968148a82e62246633d78e157ce787705986"
+    },
+    {
+      "path": "runs/operator-dev/point-rotation-renderer-v02/publish-inventory.json",
+      "sha256": "f8aa7cff749e27d9349b01d7135ccb6c25ecaeccca2e0574615f69862e215d3d"
+    },
+    {
+      "path": "runs/operator-dev/point-old-matched-benchmark-v01/publication-inventory.json",
+      "sha256": "32d2d392a7e49186dff68c11366e9b153871c861a5e1d77cd20fd9726a83a35d"
+    }
+  ],
+  "calibration": {
+    "completed_objects": 16,
+    "failures": 0,
+    "elapsed_s": 527.0176848107949,
+    "band_scale": 8.991684563155914,
+    "fixed_camera_index": 1,
+    "freeze": {
+      "path": "runs/gaussian-campaign-v01/point-rotation-analysis-v02/calibration-frozen.json",
+      "sha256": "78a14782ed51dbed435d1fa8301cff9940ff55b4e193472e1710d157f8b8bd5b"
+    },
+    "release": {
+      "path": "runs/operator-dev/point-rotation-analysis-v02/reserved-release.json",
+      "sha256": "482e4f2a8cd84b935bd4048062011a68cb6e25c3d622fb578eea5bd74690bd72"
+    },
+    "terminal": {
+      "path": "runs/gaussian-campaign-v01/point-rotation-analysis-v02/calibration-execution.json",
+      "sha256": "efbe38c2f3af4bca6365de1de5be43862484d35ed74f46e6f30b0c4db4474ffb"
+    },
+    "material_summary": {
+      "path": "runs/gaussian-campaign-v01/point-rotation-material-audit-v02/CALIBRATION/summary.json",
+      "sha256": "aa4bec47ae81eda261c8f506a65adf26a3ea2dad8a1a090f301708b73778d847"
+    }
+  },
+  "compact_findings": {
+    "material_coverage_before_active": {
+      "E_Pa": [
+        13,
+        14
+      ],
+      "rho_kg_m3": [
+        14,
+        12
+      ],
+      "nu": [
+        16,
+        16
+      ],
+      "body_drag_s_inverse": [
+        16,
+        15
+      ]
+    },
+    "support_mode_correct_before_active": [
+      6,
+      12
+    ],
+    "active_confidently_wrong_at_least90percent_objects": 1,
+    "active_minimum_row_ESS": 22.132802099449087
+  },
+  "pending": [
+    "Fresh32 reserved prediction/coverage/policy comparison",
+    "Prospectively frozen same-new32 old-model matched benchmark",
+    "New actual-versus-predicted local videos"
+  ],
+  "old_matched_benchmark": {
+    "protocol": {
+      "path": "runs/operator-dev/point-old-matched-benchmark-v01/protocol.json",
+      "sha256": "8b077d9035c61207b35eaf2ac4d85f1fcf85a85d0e7988804fba51e481a0aadd"
+    },
+    "execution": false,
+    "chronology": "Frozen before new reserved release, as explicitly confirmed by root and benchmark owner; not inferred from filesystem timestamps"
+  },
+  "excluded": [
+    "Any new RESERVED values/results/labels",
+    "Per-object CALIB results/diagnostics/private inputs",
+    "Raw tensors/NPZ/GP factors/MP4/PNG",
+    "Live capture/progress files",
+    "Independent inverse toy draft"
+  ],
+  "safety": {
+    "reserved_values_read": false,
+    "private_arrays_read": false,
+    "source_pins_modified": false,
+    "connector_push_performed": false
+  },
+  "checks": "All fixed inventory hashes/bytes verified; completed calibration/release/terminal bindings checked; original SHA-bound completed CALIB material summary only used for docs."
+}

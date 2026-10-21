@@ -1,0 +1,59 @@
+{
+  "schema": "point-rotation-material-audit-prepared-v0.2",
+  "completed": true,
+  "source": {
+    "path": "experiments/campaign_point_rotation_material_audit.py",
+    "sha256": "e7eadf2476416879e91167d32872f22d0540133546e8ea5c4a9fcb3dc90f4730",
+    "bytes": 19146
+  },
+  "test": {
+    "path": "tests/test_campaign_point_rotation_material_audit.py",
+    "sha256": "72c8b4d98f6bd4d7307e99df4f5c4c49f11a198e8631907d6dbe6e9aa33dee4b",
+    "bytes": 11545
+  },
+  "recipe": {
+    "path": "runs/operator-dev/point-rotation-material-audit-v02/recipe.json",
+    "sha256": "6fcf0dcaad31a31b671aa55f0c924b5624e3e38f437e4a89e66a70bd1a99688b",
+    "bytes": 2129
+  },
+  "validation": {
+    "passed": 10,
+    "elapsed_s": 3.07,
+    "terminal_exit_code": 0,
+    "synthetic_only": true,
+    "command": "OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 .venv/bin/python -m pytest -q tests/test_campaign_point_rotation_material_audit.py"
+  },
+  "data_access": {
+    "new_cohort_values": false,
+    "old_cohort_values": false,
+    "actual_particle_arrays": false,
+    "private_labels": false,
+    "model_sensor_or_inference_queries": false
+  },
+  "API": "run_offline_audit(recipe_path,recipe_sha256,role,calibration_record=...,release_record=None,primary_record=None)",
+  "CLI": "OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 .venv/bin/python -m experiments.campaign_point_rotation_material_audit run --recipe runs/operator-dev/point-rotation-material-audit-v02/recipe.json --recipe-sha256 6fcf0dcaad31a31b671aa55f0c924b5624e3e38f437e4a89e66a70bd1a99688b --role CALIBRATION --calibration <root-supplied-relative-freeze-path> --calibration-sha256 <root-supplied-hash>; reserved additionally requires --release/--release-sha256 and --primary/--primary-sha256",
+  "gate_contract": [
+    "Root separately authorizes only after final primary stage freeze",
+    "Both roles require new validated complete16 calibration freeze",
+    "Reserved requires exact new release and hash-bound completed32 primary aggregate with all matching result records",
+    "New aggregator validates execution and full source/method/input closure",
+    "Terminal stage must retain every exact16/32 object with no failed/unlaunched slots",
+    "All selected state/choice/empirical-posterior hashes before any result values or NPZ members/private label parsing",
+    "Empirical NPZ supplies physical_coordinates,geometry_ids and all five state weights on same2048 particles"
+  ],
+  "metrics": [
+    "All4 physical material marginal inverse-CDF5/95 coverage/width and paired lost/gained coverage",
+    "Posterior mean MAE/RMSE/bias/relativeMAE and paired changes",
+    "True support probabilities/rank/mode confidence/entropy, >=90% confidently wrong modes",
+    "Empirical rowESS min/p05/median/mean/max and five lowestESS objects",
+    "All55 prior categories including zero-weight categories, same2048 particle set and all16/32 outcomes retained"
+  ],
+  "limitations": [
+    "Additional descriptive diagnostics after primary seals; no inference/model/action/sensor tuning",
+    "Resampled-rowESS is not independent hypothesis count",
+    "Empirical marginal material coverage is not conformal physical-field coverage or a Bayesian posterior guarantee",
+    "Raw per-object categorical tables and truth diagnostics remain local"
+  ],
+  "audit_executed": false,
+  "prior_frozen_sources_modified": false
+}
