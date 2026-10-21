@@ -1,0 +1,112 @@
+{
+  "role": "synthetic official API render/backward/kernel smoke; no training or dataset",
+  "CUDA_VISIBLE_DEVICES": "1",
+  "tests": [
+    {
+      "name": "official-render-forward-backward",
+      "enable_flow_grad": false,
+      "shape": [
+        3,
+        32,
+        32
+      ],
+      "visible_gaussians": 9,
+      "range": [
+        0.0,
+        0.2558479607105255
+      ],
+      "gradients": {
+        "_xyz": {
+          "finite": true,
+          "absolute_sum": 0.013799921609461308
+        },
+        "_features_dc": {
+          "finite": true,
+          "absolute_sum": 0.005203457083553076
+        },
+        "_opacity": {
+          "finite": true,
+          "absolute_sum": 0.007706746459007263
+        },
+        "_scaling": {
+          "finite": true,
+          "absolute_sum": 0.011394684202969074
+        },
+        "_rotation": {
+          "finite": true,
+          "absolute_sum": 2.5116287521997904e-11
+        }
+      },
+      "image_path": "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/metadata/render-flow-false.png",
+      "image_sha256": "ee9683d3dc305e4cbafd775a2f3162f4fd8b19a0c7331c944db547b7e455a5cc"
+    },
+    {
+      "name": "official-render-forward-backward",
+      "enable_flow_grad": true,
+      "shape": [
+        3,
+        32,
+        32
+      ],
+      "visible_gaussians": 9,
+      "range": [
+        0.0,
+        0.2558479607105255
+      ],
+      "gradients": {
+        "_xyz": {
+          "finite": true,
+          "absolute_sum": 0.027599845081567764
+        },
+        "_features_dc": {
+          "finite": true,
+          "absolute_sum": 0.0052034566178917885
+        },
+        "_opacity": {
+          "finite": true,
+          "absolute_sum": 0.007706747390329838
+        },
+        "_scaling": {
+          "finite": true,
+          "absolute_sum": 0.022789366543293
+        },
+        "_rotation": {
+          "finite": true,
+          "absolute_sum": 5.167326982968845e-11
+        }
+      },
+      "image_path": "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/metadata/render-flow-true.png",
+      "image_sha256": "ee9683d3dc305e4cbafd775a2f3162f4fd8b19a0c7331c944db547b7e455a5cc"
+    },
+    {
+      "name": "official-hashencoder-forward-first-second-backward",
+      "shape": [
+        3,
+        4
+      ],
+      "finite": true,
+      "first_gradient_abs_sum": 1.6473867958666233e-07,
+      "embedding_gradient_abs_sum": 6.683746889279973e-10
+    },
+    {
+      "name": "restored-official-velocity-stress-network",
+      "velocity_shape": [
+        9,
+        3
+      ],
+      "stress_shape": [
+        9,
+        6
+      ],
+      "finite": true
+    }
+  ],
+  "torch_version": "2.5.0+cu121",
+  "torch_cuda": "12.1",
+  "device": "NVIDIA GeForce RTX 2080 Ti",
+  "device_count": 1,
+  "physical_gpu_query": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb, 00000000:1A:00.0, NVIDIA GeForce RTX 2080 Ti",
+  "all_passed": true,
+  "peak_cuda_allocated_bytes": 87811072,
+  "peak_cuda_reserved_bytes": 102760448
+}

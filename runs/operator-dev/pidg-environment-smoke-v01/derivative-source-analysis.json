@@ -1,0 +1,94 @@
+{
+  "pinned_rasterizer_commit": "2146a1c0dc3558644af420f20c21a0ad07ffa67a",
+  "source_reference": "https://github.com/HaoqinHong/flow-based-diff-gaussian-rasterization/blob/2146a1c0dc3558644af420f20c21a0ad07ffa67a/cuda_rasterizer/backward.cu",
+  "source_sha256": "ea9d57d653e3938f9723112e592909c8e022df6d7a86eedfabde3185a481ac6b",
+  "source_mechanism": [
+    {
+      "lines": "638-651",
+      "meaning": "Normal RGB backward accumulates projection/conic gradients."
+    },
+    {
+      "lines": "658-666",
+      "meaning": "When flow flag is enabled, the same RGB contributions are added to auxiliary incoming-gradient buffers."
+    },
+    {
+      "lines": "165-167,215-218,408-427",
+      "meaning": "Covariance/mean preprocessing sums the normal and auxiliary paths, double counting this RGB component."
+    }
+  ],
+  "actual_training_path": {
+    "url": "https://github.com/SCAILab-USTC/Physics-Informed-Deformable-Gaussian-Splatting/blob/b77fd2107a50c875d7219bb4f82388d5e5ea1319/train_pidg.py",
+    "lines": "136-144;146-177",
+    "behavior": "Main RGB render enables flow flag when use_flow=True, iteration%100==0 and iteration>warm_up; RGB loss shares this renderer output. Auxiliary same/next velocity flow renders also enable flag in that physics/flow block.",
+    "default_use_flow": false,
+    "released_config_values": [
+      {
+        "path": "arguments/hypernerf/vrig_chicken.py",
+        "use_flow": true,
+        "sha256": "3ec2f83d0d522ff30cbd9fb57eef86f61e71fd007a643093cd57b8ee4e1c2707"
+      },
+      {
+        "path": "arguments/hypernerf/interp_cut-lemon.py",
+        "use_flow": true,
+        "sha256": "dc6b45c0f6160af49e3fb87e6a722891f4836a7dc01e75e183f712b996e20158"
+      },
+      {
+        "path": "arguments/hypernerf/vrig_3dprinter.py",
+        "use_flow": true,
+        "sha256": "52c2da3f229c9fae1a15fc72f16d6111ab5355d13a0f0baa3efc500ce35b83db"
+      },
+      {
+        "path": "arguments/hypernerf/vrig_peel-banana.py",
+        "use_flow": true,
+        "sha256": "a96628fa218af805b0a262f772ce374721aa11d5bf745a18050dd6efb46b83c6"
+      },
+      {
+        "path": "arguments/hypernerf/misc_split-cookie.py",
+        "use_flow": true,
+        "sha256": "0fbcfee188abfcd89446f2a450f04c8dc04820d981bc1d318dc4396d2f141e4a"
+      },
+      {
+        "path": "arguments/hypernerf/vrig_broom.py",
+        "use_flow": true,
+        "sha256": "be9f957dcd2bd07f9132002ae51fe4fb413fa4909f34a68efacbff5375b782b8"
+      },
+      {
+        "path": "arguments/hypernerf/interp_torchocolate.py",
+        "use_flow": true,
+        "sha256": "2944f0e4d5e85bb2742d8b71166de6e7ae6d610e2c08eaa6d22e412807f53cf7"
+      },
+      {
+        "path": "arguments/pidg/dry_ice.py",
+        "use_flow": true,
+        "sha256": "078632af12f8e076a94c9ff93e80b814bae42a404b87bc61bd3c2ef08be964e3"
+      },
+      {
+        "path": "arguments/pidg/balls_reaction.py",
+        "use_flow": true,
+        "sha256": "bc7663c0677ce3f57a5cef8ff19308f77bc313941edd6594e181037d0b642e1b"
+      },
+      {
+        "path": "arguments/pidg/motion_kuro.py",
+        "use_flow": true,
+        "sha256": "bc7663c0677ce3f57a5cef8ff19308f77bc313941edd6594e181037d0b642e1b"
+      },
+      {
+        "path": "arguments/pidg/rubber_dack.py",
+        "use_flow": false,
+        "sha256": "86de15536011d430aa45d933fb5453897eda8357d843e745ad223c748271a0e0"
+      },
+      {
+        "path": "arguments/pidg/mechanics_cloth.py",
+        "use_flow": true,
+        "sha256": "bc7663c0677ce3f57a5cef8ff19308f77bc313941edd6594e181037d0b642e1b"
+      }
+    ]
+  },
+  "scope": "Finite-difference counterexample for one synthetic renderer loss; source shows relevant path is used by configured training. No training was run; no measured trained-model impact or complete flow-gradient correctness verdict.",
+  "fd_caveats": [
+    "All24 comparisons retained, including coarse-epsilon disagreements.",
+    "Allpoints share z=2; moving one z crosses equal-depth ordering. Depth sort is keyed by depth bits (rasterizer_impl.cu94-104,315). Z finite differences are not treated as a smooth derivative reference.",
+    "The central Gaussian log-scale derivative agrees within0.11% for flagFalse at all3 epsilons, but is about2x for flagTrue. Fine-epsilon x/edge-scale controls support same discrepancy."
+  ],
+  "no_upstream_repair_performed": true
+}

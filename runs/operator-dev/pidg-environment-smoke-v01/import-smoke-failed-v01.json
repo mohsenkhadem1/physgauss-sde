@@ -1,0 +1,54 @@
+{
+  "role": "Official import/JIT build smoke only; no training, dataset or GPU workload",
+  "modules": [
+    {
+      "module": "simple_knn._C",
+      "ok": false,
+      "error": "ImportError: libc10.so: cannot open shared object file: No such file or directory",
+      "seconds": 0.00845956802368164
+    },
+    {
+      "module": "diff_gaussian_rasterization",
+      "ok": true,
+      "file": "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/env/lib/python3.10/site-packages/diff_gaussian_rasterization/__init__.py",
+      "seconds": 2.099252223968506
+    },
+    {
+      "module": "hashencoder",
+      "ok": false,
+      "error": "RuntimeError: Error building extension '_hash_encoder'",
+      "seconds": 27.501200437545776
+    },
+    {
+      "module": "scene_PIDG",
+      "ok": false,
+      "error": "ImportError: /home/bayespc2/.local/share/physgauss-external/pidg-official-v01/upstream/./tmp_build/_hash_encoder.so: cannot open shared object file: No such file or directory",
+      "seconds": 1.0606462955474854
+    },
+    {
+      "module": "gaussian_renderer",
+      "ok": true,
+      "file": "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/upstream/gaussian_renderer/__init__.py",
+      "seconds": 0.0017142295837402344
+    },
+    {
+      "module": "train_pidg",
+      "ok": false,
+      "error": "ImportError: /home/bayespc2/.local/share/physgauss-external/pidg-official-v01/upstream/./tmp_build/_hash_encoder.so: cannot open shared object file: No such file or directory",
+      "seconds": 0.005108833312988281
+    },
+    {
+      "module": "render",
+      "ok": false,
+      "error": "ImportError: /home/bayespc2/.local/share/physgauss-external/pidg-official-v01/upstream/./tmp_build/_hash_encoder.so: cannot open shared object file: No such file or directory",
+      "seconds": 0.004732847213745117
+    },
+    {
+      "module": "metrics",
+      "ok": true,
+      "file": "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/upstream/metrics.py",
+      "seconds": 0.035836219787597656
+    }
+  ],
+  "all_passed": false
+}

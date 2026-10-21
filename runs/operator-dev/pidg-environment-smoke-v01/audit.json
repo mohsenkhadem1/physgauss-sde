@@ -1,0 +1,55 @@
+{
+  "schema": "official-pidg-environment-smoke-v01",
+  "observed_date": "2026-10-21",
+  "external_root": "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01",
+  "official_main": "b77fd2107a50c875d7219bb4f82388d5e5ea1319",
+  "restored_module_commit": "907cd641ea01bf46a4c03ab509e6d4872c78af6b",
+  "rasterizer_commit": "2146a1c0dc3558644af420f20c21a0ad07ffa67a",
+  "environment": {
+    "python": "3.10.22",
+    "torch": "2.5.0+cu121",
+    "torchvision": "0.20.0+cu121",
+    "gcc": "11.4.0",
+    "cuda_nvcc": "12.1.105",
+    "numpy": "1.21.6",
+    "scipy": "1.7.3",
+    "build_max_jobs": 2,
+    "architecture": "7.5",
+    "initial_available_disk_approx_gib": 161,
+    "initial_available_ram_approx_gib": 103,
+    "final_external_root_bytes": 9403641253,
+    "final_disk_free_bytes": 162669912064
+  },
+  "builds_passed": [
+    "simple-knn",
+    "pinned flow rasterizer",
+    "hashencoder"
+  ],
+  "imports_passed": 8,
+  "gpu_smoke": {
+    "device_visibility": "1",
+    "execution_passed": true,
+    "peak_cuda_allocated_bytes": 87811072,
+    "peak_cuda_reserved_bytes": 102760448,
+    "synthetic_gaussians": 9,
+    "resolution": [
+      32,
+      32
+    ],
+    "finite_first_second_derivatives": true
+  },
+  "derivative_control": {
+    "execution_completed": true,
+    "correctness_gate_all_selected_derivatives_within5pct": false,
+    "finding": "Flow flag doubles stable RGB geometry derivatives; central scale FD ratio ~1 without flag versus ~2 with it. Coarse-epsilon and tied-depth z controls retained with limitations.",
+    "training_scope": "Same flag-enabled backward path is used by official flow-enabled configurations; no trained-model impact measured."
+  },
+  "all_jobs_terminal": true,
+  "gpu1_released": true,
+  "training_performed": false,
+  "dataset_accessed": false,
+  "system_packages_or_shared_venv_changed": false,
+  "upstream_implementation_copied_to_project": false,
+  "upstream_implementation_edits": "Only exact official historical missing-file restoration in external checkout; no scientific fixes",
+  "status": "Official build/import/render usable locally. Gradient correctness gate fails; training and independent-dataset evaluation not run."
+}

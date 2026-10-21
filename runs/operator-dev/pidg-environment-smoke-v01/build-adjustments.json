@@ -1,0 +1,34 @@
+{
+  "preserved_failure": "logs/11-import-and-hashencoder-build.log",
+  "issues": [
+    {
+      "observed": "Direct simple_knn._C import before torch: libc10.so unresolved",
+      "repair": "Own smoke harness preloads torch, matching the official GaussianModel import order; no upstream edit"
+    },
+    {
+      "observed": "Hashencoder CUDA build missing cusparse.h in Torch ATen header",
+      "repair": "Add include directories from the already-installed matching NVIDIA pip dependencies to isolated CPATH/CPLUS_INCLUDE_PATH; no upstream edit"
+    },
+    {
+      "observed": "Official train/render import closure requires matplotlib",
+      "repair": "Install upstream-pinned matplotlib3.5.3 inside isolated prefix; hashencoder itself now builds/imports successfully"
+    }
+  ],
+  "cuda_include_paths": [
+    "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/env/targets/x86_64-linux/include",
+    "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/env/lib/python3.10/site-packages/nvidia/cublas/include",
+    "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/env/lib/python3.10/site-packages/nvidia/cuda_cupti/include",
+    "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/env/lib/python3.10/site-packages/nvidia/cuda_nvrtc/include",
+    "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/env/lib/python3.10/site-packages/nvidia/cuda_runtime/include",
+    "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/env/lib/python3.10/site-packages/nvidia/cudnn/include",
+    "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/env/lib/python3.10/site-packages/nvidia/cufft/include",
+    "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/env/lib/python3.10/site-packages/nvidia/curand/include",
+    "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/env/lib/python3.10/site-packages/nvidia/cusolver/include",
+    "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/env/lib/python3.10/site-packages/nvidia/cusparse/include",
+    "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/env/lib/python3.10/site-packages/nvidia/nccl/include",
+    "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/env/lib/python3.10/site-packages/nvidia/nvjitlink/include",
+    "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/env/lib/python3.10/site-packages/nvidia/nvtx/include"
+  ],
+  "no_upstream_implementation_patch_beyond_historical_restore": true,
+  "additional_preserved_failure": "logs/12-import-and-hashencoder-build-retry.log"
+}
