@@ -1,0 +1,67 @@
+{
+  "campaign": "gaussian-known-force-recovery-v0.1",
+  "status": "active",
+  "updated_utc": "2026-10-21T11:11:59.805877+00:00",
+  "campaign_sha256": "04bd467f559dcad3057b50a2832561e882bb9a7d7bab6d426ca3325724d8b510",
+  "heldout_plan_sha256": "2dcb00635d60cae69719c03b539582287b4a51d9a11872f565c4938368259ea4",
+  "milestone": "Known-force forward prediction: pilot loss/sampling ablations and additional Isaac controls",
+  "jobs": [
+    {
+      "name": "controls-train",
+      "gpu": 1,
+      "live_at_snapshot": true
+    },
+    {
+      "name": "controls-validation",
+      "gpu": 2,
+      "live_at_snapshot": true
+    },
+    {
+      "name": "forward-pilots",
+      "gpu": 0,
+      "live_at_snapshot": true
+    }
+  ],
+  "simulation": {
+    "controls-train": {
+      "planned_layouts": 32,
+      "verified_layouts": [
+        "t0016"
+      ],
+      "failed_layouts": [],
+      "in_progress_layouts": [
+        "t0017"
+      ]
+    },
+    "controls-validation": {
+      "planned_layouts": 16,
+      "verified_layouts": [
+        "v0000"
+      ],
+      "failed_layouts": [],
+      "in_progress_layouts": [
+        "v0001"
+      ]
+    }
+  },
+  "pilots": {
+    "completed": false,
+    "arms": [
+      {
+        "name": "same_loss",
+        "state": "running",
+        "last_validation": {
+          "step": 3000,
+          "passive_rmse_m": 0.0009015478065273121,
+          "control_rmse_m": 0.0008104466345457695,
+          "control_normalized_rmse": 1.157264867768074,
+          "selection_score": 1.4173389334869606,
+          "best_score": 1.2841104879348069,
+          "elapsed_s": 67.74105917103589
+        }
+      }
+    ]
+  },
+  "confirmation_labels_used_for_model_selection": false,
+  "qualification": "Progress snapshot only; no new improvement or convergence claimed. Local ledgers remain the live source."
+}

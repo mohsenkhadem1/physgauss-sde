@@ -15,6 +15,8 @@ The RGB-D forecast gain has a 95% layout-bootstrap interval spanning zero. Physi
 
 [Follow-up forward/inverse diagnosis](../../reports/gaussian-forward-inverse-diagnosis-v01/index.html): supplying true physical parameters still leaves substantial prediction error. The controlled teacher severely underpredicts six of eight known-force responses. A three-stiffness numerical simulator reference separates forward bias from a genuinely ambiguous layout. This conditional reference supplies supports/loads and does not establish a full calibrated physical posterior. No models or policies were changed.
 
+[Active recovery campaign](../../docs/GAUSSIAN_RECOVERY_CAMPAIGN.md) · [Protocol](../../configs/gaussian_campaign_v01.json) · [Progress snapshot](campaign-status.json). Known-force loss/sampling ablations and additional Isaac control capture are running. Thirty-two newly reserved confirmation layouts are separate from the earlier TEST cases. Milestone gates must pass before uncertainty-guided probing is reassessed; no new performance gain is claimed at campaign launch.
+
 [![Actual orbiting test scenarios](isaac-test-scenarios.poster.png)](isaac-test-scenarios.mp4)
 
 [Watch the actual calibrated probe](isaac-test-calibrated-probe.mp4) · [Orbit video source hashes](isaac-test-scenarios.manifest.json) · [Probe video source hashes](isaac-test-calibrated-probe.manifest.json)
