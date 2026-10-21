@@ -202,3 +202,33 @@ passing960Hz response is only a temporal candidate. The separate
 is a proposal for the remaining accuracy, translation and replay checks; it
 is not yet an execution authorization or an adopted operating point. Neither
 this source activation nor any one run establishes full reference reliability.
+
+## Conditional960 result and matched controls
+
+Both predeclared960Hz trajectories completed all2880steps. Their complete
+zero-response adjacent errors are16.520→8.474→4.318µm; diagonal errors are
+16.082→8.262→4.217µm. Both finest differences are below6.524µm and contract
+by approximately0.51. The failed initial480Hz decisions remain unchanged.
+The separate480Hz effective absolute-floor study also passes: successive
+trajectory differences are0.0002084 and0.000001149µm.
+
+The [prospectively declared matched960 controls](../configs/gaussian_campaign_dynamic_960_validation_v02.json)
+now fix eight additional requests, reusing the two temporal responses. They
+cover relative and absolute accuracy, coordinate translation and fresh resets
+at the actual960Hz operating point. Exact request and proof guards plus the
+[60-cell combined auditor](../experiments/campaign_dynamic_960_audit.py)
+preserve all prior evidence. No changed force, material, damping, contact or
+physical-core implementation is introduced. Until those eight controls pass,
+overall independent reference qualification remains false.
+
+The complete known-hardware/query interface separately preserves full patch
+geometry, mass/inertia and latent material/BC/unknown-force roles. Its public
+image-conditioning API excludes unknown force/support-law values and their
+provenance. This fixes a representation/input contract omission; it is not a
+trained predictor or an inference result.
+
+A new Isaac render-only adapter passes a four-image TRAIN smoke from two
+actual10Hz trajectory states viewed by two calibrated cameras. Independent
+ray-depth error is at most0.195µm; sampled mask IoU is1.0. No native physics
+steps or extra motion frames are generated. Raw captures remain local;
+source and text evidence are published separately from them.

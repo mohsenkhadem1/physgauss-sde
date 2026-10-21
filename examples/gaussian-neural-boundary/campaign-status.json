@@ -1,10 +1,10 @@
 {
   "campaign": "gaussian-known-force-recovery-v0.1",
   "status": "active",
-  "updated_utc": "2026-10-21T16:04:10.177901+00:00",
+  "updated_utc": "2026-10-21T17:18:07.524309+00:00",
   "campaign_sha256": "04bd467f559dcad3057b50a2832561e882bb9a7d7bab6d426ca3325724d8b510",
   "heldout_plan_sha256": "2dcb00635d60cae69719c03b539582287b4a51d9a11872f565c4938368259ea4",
-  "milestone": "Numerical reliability diagnosis before further fitting or calibration",
+  "milestone": "Qualify independent dynamic operating points before forward retraining",
   "jobs": [
     {
       "name": "controls-train",
@@ -1495,5 +1495,127 @@
     "native_numerical_gate_passed": false,
     "qualification": "Independent finite-strain static local equilibrium on a fixed mesh; no native constitutive equivalence, dynamic prediction, continuum convergence or global-branch uniqueness claim. Preliminary v01 is preserved.",
     "evidence": "campaign-diagnosis/nonlinear-fem-static-t0001-v02.json"
+  },
+  "independent_nonlinear_dynamic_reference": {
+    "role": "Independent TRAIN numerical and render pipeline progress, not a predictive comparison",
+    "verified_existing_unique_physics_cells": 52,
+    "initial480_temporal_failure_preserved": true,
+    "zero_and_diagonal_all4rate_comparisons": [
+      {
+        "case": "t0003",
+        "response": "zero_external_force",
+        "kind": "conditional_temporal_extension",
+        "actual_rates_hz": [
+          120,
+          240,
+          480,
+          960
+        ],
+        "adjacent_rate_pairs_hz": [
+          [
+            120,
+            240
+          ],
+          [
+            240,
+            480
+          ],
+          [
+            480,
+            960
+          ]
+        ],
+        "full_coordinate_rmse_m": [
+          1.6520284113769228e-05,
+          8.473689585441797e-06,
+          4.317658336519772e-06
+        ],
+        "measured_contraction": [
+          true,
+          true
+        ],
+        "adjacent_error_ratios": [
+          0.5129263835347236,
+          0.5095369960138397
+        ],
+        "finest_force_induced_coordinate_RMS_m": 0.00013047036194414866,
+        "tolerance_m": 6.5235180972074335e-06,
+        "final_two_differences_below_2micrometre_floor": false,
+        "finest_adjacent_comparison_passed": true,
+        "initial_480_failure_is_not_replaced": true
+      },
+      {
+        "case": "t0003",
+        "response": "diagonal_pulse_handle0",
+        "kind": "conditional_temporal_extension",
+        "actual_rates_hz": [
+          120,
+          240,
+          480,
+          960
+        ],
+        "adjacent_rate_pairs_hz": [
+          [
+            120,
+            240
+          ],
+          [
+            240,
+            480
+          ],
+          [
+            480,
+            960
+          ]
+        ],
+        "full_coordinate_rmse_m": [
+          1.6082259962054073e-05,
+          8.26241031155273e-06,
+          4.216890987211134e-06
+        ],
+        "measured_contraction": [
+          true,
+          true
+        ],
+        "adjacent_error_ratios": [
+          0.5137592807881356,
+          0.5103705611563445
+        ],
+        "finest_force_induced_coordinate_RMS_m": 0.00013047036194414866,
+        "tolerance_m": 6.5235180972074335e-06,
+        "final_two_differences_below_2micrometre_floor": false,
+        "finest_adjacent_comparison_passed": true,
+        "initial_480_failure_is_not_replaced": true
+      }
+    ],
+    "moving960_temporal_candidate_passed": true,
+    "floor480_comparisons": [
+      {
+        "case": "t0003",
+        "response": "zero_external_force",
+        "kind": "absolute_floor",
+        "floors_N": [
+          1e-08,
+          1e-10,
+          1e-12
+        ],
+        "coordinate_rmse_m": [
+          2.0842642279076503e-10,
+          1.1485836359231452e-12
+        ],
+        "tolerance_m": 6.506866174814225e-06,
+        "passed": true
+      }
+    ],
+    "matched960_additional_cells_declared": 8,
+    "matched960_additional_cells_started": false,
+    "independent_reference_qualified": false,
+    "original_amplitude_dataset_qualified": false,
+    "native_reference_qualified": false,
+    "prediction_improved": false,
+    "uncertainty_calibrated": false,
+    "active_policy_qualified": false,
+    "isaac_rendering": "Independent FEM states rendered as a plain USD mesh; zero physics stepping. Four TRAIN images at two actual times/two views pass geometric checks; this is not forecasting.",
+    "render_raw_captures_remote": false
   }
 }

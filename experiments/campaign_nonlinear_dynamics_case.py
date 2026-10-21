@@ -38,18 +38,19 @@ def write_json(path, value):
 
 
 def validate_request(gate, episode, hz, response, relative_tolerance, translation,
-                     temporal_extension_metadata=None):
+                     temporal_extension_metadata=None,matched_960_metadata=None):
     if gate['protocol'] != 'independent-finite-strain-dynamic-reference-v0.1':
         raise ValueError('Frozen independent dynamic gate required')
     if episode not in CASE_BOUNDARIES or episode not in gate['diagnostic_cases']:
         raise ValueError('Only the four declared TRAIN cases are allowed')
     if hz not in gate['temporal_refinement_hz']:
-        if (temporal_extension_metadata is None
+        extension_metadata=matched_960_metadata if matched_960_metadata is not None else temporal_extension_metadata
+        if (extension_metadata is None
                 or hz != 960 or episode != 't0003'
-                or temporal_extension_metadata.get('physics_hz') != hz
-                or temporal_extension_metadata.get('episode_id') != episode
-                or temporal_extension_metadata.get('response') != response
-                or temporal_extension_metadata.get('initial_temporal_failure_preserved') is not True):
+                or extension_metadata.get('physics_hz') != hz
+                or extension_metadata.get('episode_id') != episode
+                or extension_metadata.get('response') != response
+                or extension_metadata.get('initial_temporal_failure_preserved') is not True):
             raise ValueError('Initial rates or the exactly validated conditional 960 Hz study required')
     if response not in gate['responses'] or relative_tolerance not in gate['nonlinear_relative_residual_tolerances']:
         raise ValueError('Predeclared response and nonlinear tolerance required')
@@ -193,14 +194,31 @@ def save_state(path, state):
 def run(output, *, episode='t0001', hz=120, response='diagonal_pulse_handle0',
         relative_tolerance=1e-7, translation=(0.,0.,0.), dataset='runs/gaussian-boundary-neural-v01',
         absolute_tolerance_N=1e-10, maximum_iterations=250, gate_path=GATE_PATH,inputs_json=None,
-        supplemental_floor_protocol=None,temporal_extension_protocol=None):
+        supplemental_floor_protocol=None,temporal_extension_protocol=None,
+        matched_960_protocol=None,study_cell_id=None):
     torch.set_num_threads(2)
     gate_path = Path(gate_path)
     if sha(gate_path) != GATE_SHA256:
         raise ValueError('Predeclared gate hash changed; no implicit protocol replacement')
     gate = json.loads(gate_path.read_text())
-    if supplemental_floor_protocol is not None and temporal_extension_protocol is not None:
-        raise ValueError('Floor and temporal studies are separately declared; no combined request')
+    if sum(p is not None for p in [supplemental_floor_protocol,temporal_extension_protocol,matched_960_protocol])>1:
+        raise ValueError('Floor, temporal and matched960 studies are separately declared; no combined request')
+    if (matched_960_protocol is None)!=(study_cell_id is None):
+        raise ValueError('Matched960 protocol and exact study cell ID must be supplied together')
+    matched_metadata=None
+    matched_dependencies=[]
+    if matched_960_protocol is not None:
+        try:
+            from campaign_dynamic_960_protocol import validate_matched_960
+        except ImportError:
+            from experiments.campaign_dynamic_960_protocol import validate_matched_960
+        matched_metadata=validate_matched_960(matched_960_protocol,study_cell_id=study_cell_id,
+            episode=episode,hz=hz,response=response,relative_tolerance=relative_tolerance,
+            absolute_tolerance_N=absolute_tolerance_N,maximum_iterations=maximum_iterations,
+            translation=translation,inputs_json=inputs_json,
+            core_path=Path(__file__).with_name('campaign_nonlinear_dynamics.py'),gate_path=gate_path)
+        matched_dependencies=[Path(p) for p in matched_metadata['provenance_dependency_paths']]
+        matched_dependencies.append(Path(__file__).with_name('campaign_dynamic_960_protocol.py'))
     temporal_metadata = None
     temporal_dependencies = []
     if temporal_extension_protocol is not None:
@@ -216,10 +234,12 @@ def run(output, *, episode='t0001', hz=120, response='diagonal_pulse_handle0',
         temporal_dependencies = [Path(temporal_extension_protocol),
             Path(__file__).with_name('campaign_dynamic_temporal_protocol.py'),
             Path(temporal_metadata['trigger_audit_path'])]
-    translation = validate_request(gate,episode,hz,response,relative_tolerance,translation,temporal_metadata)
+    translation = validate_request(gate,episode,hz,response,relative_tolerance,translation,temporal_metadata,matched_metadata)
     supplemental_metadata = None
     supplemental_dependencies = []
-    if supplemental_floor_protocol is None:
+    if matched_metadata is not None:
+        pass  # Exact matched request, including its floor/cap, was validated above.
+    elif supplemental_floor_protocol is None:
         if not math.isfinite(absolute_tolerance_N) or absolute_tolerance_N != 1e-10 or maximum_iterations != 250:
             raise ValueError('Frozen baseline requires 1e-10 N absolute floor and 250-iteration cap')
     else:
@@ -246,7 +266,7 @@ def run(output, *, episode='t0001', hz=120, response='diagonal_pulse_handle0',
     folder.mkdir(parents=True,exist_ok=False)
     dependencies = [Path(__file__),Path(__file__).with_name('campaign_nonlinear_dynamics.py'),
         Path(__file__).with_name('campaign_nonlinear_fem.py'),Path(__file__).with_name('campaign_linear_fem.py'),
-        Path(__file__).with_name('campaign_rigid_inertia.py'),*supplemental_dependencies,*temporal_dependencies]
+        Path(__file__).with_name('campaign_rigid_inertia.py'),*supplemental_dependencies,*temporal_dependencies,*matched_dependencies]
     hashes = {str(p):sha(p) for p in [*dependencies,*inputs,gate_path]}
     for p in [*dependencies,*inputs,gate_path]:
         target = folder/'provenance'/p.name;target.parent.mkdir(exist_ok=True)
@@ -265,6 +285,7 @@ def run(output, *, episode='t0001', hz=120, response='diagonal_pulse_handle0',
         'relative_nonlinear_residual_tolerance':relative_tolerance,'absolute_residual_floor_N':absolute_tolerance_N,
         'supplemental_accuracy_protocol':supplemental_metadata,
         'conditional_temporal_protocol':temporal_metadata,
+        'matched_960_protocol':matched_metadata,
         'nonlinear_iteration_cap':maximum_iterations,'velocity_semantics':'Unprojected finite pose-map point chords, not instantaneous rigid tangent velocity.',
         'boundary_law':'amplitude*sin(pi*clip(t/seconds,0,1))^2*known_world_direction; exact initial velocity zero.',
         'force_semantics':'Every actual float64 world force is midpoint-evaluated and held through its logged step. Zero applied handle torque and zero external nodal force.',
@@ -367,14 +388,19 @@ if __name__=='__main__':
     parser.add_argument('--translation',nargs=3,type=float,default=[0.,0.,0.])
     parser.add_argument('--dataset',default='runs/gaussian-boundary-neural-v01')
     parser.add_argument('--absolute-tolerance-N',type=float,default=1e-10)
-    parser.add_argument('--supplemental-floor-protocol',type=Path,
+    study=parser.add_mutually_exclusive_group()
+    study.add_argument('--supplemental-floor-protocol',type=Path,
         help='Exact separately predeclared moving-zero absolute-floor study only.')
-    parser.add_argument('--temporal-extension-protocol',type=Path,
+    study.add_argument('--temporal-extension-protocol',type=Path,
         help='Exact conditional t0003 zero/diagonal 960 Hz temporal study only.')
+    study.add_argument('--matched-960-protocol',type=Path,
+        help='Exact prospectively declared matched960 control, with --study-cell-id.')
+    parser.add_argument('--study-cell-id',help='One exact cell ID from the matched960 declaration.')
     parser.add_argument('--inputs-json',type=Path,help='Public privileged static fixture; verifies regenerated arrays and needs no bulk dataset.')
     args=parser.parse_args()
     result=run(args.output,episode=args.episode,hz=args.hz,response=args.response,
         relative_tolerance=args.relative_tolerance,translation=args.translation,dataset=args.dataset,inputs_json=args.inputs_json,
         absolute_tolerance_N=args.absolute_tolerance_N,supplemental_floor_protocol=args.supplemental_floor_protocol,
-        temporal_extension_protocol=args.temporal_extension_protocol)
+        temporal_extension_protocol=args.temporal_extension_protocol,
+        matched_960_protocol=args.matched_960_protocol,study_cell_id=args.study_cell_id)
     print(json.dumps({key:result[key] for key in ['completed','case','physics_hz','response','frames','elapsed_s','nonlinear_iterations','maximum_impulse_error_Ns','dynamic_reference_gate_passed']}),flush=True)

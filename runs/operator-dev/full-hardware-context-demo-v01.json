@@ -1,0 +1,1432 @@
+{
+  "kind": "Analytic literal interface demonstration; no simulation, observations, prediction or qualification.",
+  "schema": {
+    "version": "complete-hardware-query-context-v0.1",
+    "dimensions": {
+      "N": "rest nodes",
+      "E": "tetrahedra",
+      "F": "complete boundary faces",
+      "H": "rigid handles",
+      "P": "maximum ordered patch length, with explicit padding mask",
+      "T": "held command intervals",
+      "S": "declared support-program capacity, not observed active support count",
+      "Q": "requested times",
+      "K": "explicit known additive force programs",
+      "L": "explicit latent additive force hypotheses"
+    },
+    "groups": {
+      "public_known_hardware": {
+        "rest_points_relative_m": {
+          "shape": "N,3",
+          "units": "m"
+        },
+        "tetrahedra": {
+          "shape": "E,4",
+          "units": "node_id"
+        },
+        "surface_faces": {
+          "shape": "F,3",
+          "units": "node_id"
+        },
+        "tet_signed_rest_volumes_m3": {
+          "shape": "E",
+          "units": "m^3"
+        },
+        "handle_origins_relative_m": {
+          "shape": "H,3",
+          "units": "m"
+        },
+        "handle_origin_node_ids": {
+          "shape": "H",
+          "units": "node_id; -1 means origin not identified as a mesh node"
+        },
+        "ordered_patch_node_ids": {
+          "shape": "H,P",
+          "units": "node_id; -1 padding"
+        },
+        "ordered_patch_valid_mask": {
+          "shape": "H,P",
+          "units": "bool"
+        },
+        "patch_node_masks": {
+          "shape": "H,N",
+          "units": "bool"
+        },
+        "ordered_patch_local_offsets_body_m": {
+          "shape": "H,P,3",
+          "units": "m"
+        },
+        "handle_masses_kg": {
+          "shape": "H",
+          "units": "kg"
+        },
+        "handle_COM_inertias_body_kg_m2": {
+          "shape": "H,3,3",
+          "units": "kg*m^2"
+        },
+        "handle_COM_offsets_body_m": {
+          "shape": "H,3",
+          "units": "m"
+        },
+        "initial_handle_rotations_body_to_world": {
+          "shape": "H,3,3",
+          "units": "1"
+        },
+        "handle_COM_relative_m": {
+          "shape": "H,3",
+          "units": "m"
+        },
+        "handle_COM_inertias_world_kg_m2": {
+          "shape": "H,3,3",
+          "units": "kg*m^2"
+        },
+        "handle_inertias_about_origin_body_kg_m2": {
+          "shape": "H,3,3",
+          "units": "kg*m^2"
+        }
+      },
+      "public_known_commands": {
+        "command_boundary_times_s": {
+          "shape": "T+1",
+          "units": "s"
+        },
+        "force_intervals_s": {
+          "shape": "T,2",
+          "units": "s"
+        },
+        "held_interval_durations_s": {
+          "shape": "T",
+          "units": "s"
+        },
+        "requested_output_times_s": {
+          "shape": "Q",
+          "units": "s"
+        }
+      },
+      "latent_material_hypothesis": {
+        "homogeneous_material_parameters": {
+          "shape": "4",
+          "units": "[E:Pa,nu:1,rho:kg/m^3,body_drag:1/s]"
+        },
+        "constitutive_model_one_hot": {
+          "shape": "2",
+          "units": "[log_J_neo_hookean,small_strain_isotropic_linear]"
+        }
+      },
+      "latent_boundary_hypothesis": {
+        "support_constraint_axis_masks": {
+          "shape": "S,N,3",
+          "units": "bool"
+        },
+        "support_origins_relative_m": {
+          "shape": "S,3",
+          "units": "m"
+        }
+      },
+      "public_known_force_programs": {
+        "held_handle_forces_world_N": {
+          "shape": "K,T,H,3",
+          "units": "N"
+        },
+        "held_handle_torques_world_Nm": {
+          "shape": "K,T,H,3",
+          "units": "N*m"
+        },
+        "held_nodal_forces_world_N": {
+          "shape": "K,T,N,3",
+          "units": "N"
+        },
+        "held_body_acceleration_world_m_s2": {
+          "shape": "K,T,3",
+          "units": "m/s^2"
+        }
+      },
+      "latent_force_hypotheses": {
+        "held_handle_forces_world_N": {
+          "shape": "L,T,H,3",
+          "units": "N"
+        },
+        "held_handle_torques_world_Nm": {
+          "shape": "L,T,H,3",
+          "units": "N*m"
+        },
+        "held_nodal_forces_world_N": {
+          "shape": "L,T,N,3",
+          "units": "N"
+        },
+        "held_body_acceleration_world_m_s2": {
+          "shape": "L,T,3",
+          "units": "m/s^2"
+        }
+      },
+      "public_known_support_program": {
+        "prescribed_support_endpoint_translations_world_m": {
+          "shape": "T+1,S,3",
+          "units": "m"
+        },
+        "prescribed_support_endpoint_rotations_world": {
+          "shape": "T+1,S,3,3",
+          "units": "1"
+        }
+      },
+      "latent_support_law_hypothesis": {
+        "prescribed_support_endpoint_translations_world_m": {
+          "shape": "T+1,S,3",
+          "units": "m"
+        },
+        "prescribed_support_endpoint_rotations_world": {
+          "shape": "T+1,S,3,3",
+          "units": "1"
+        }
+      }
+    },
+    "spatial_frame": "World axes; point coordinates are relative to the explicitly supplied known coordinate origin. Absolute origin is provenance/output-restoration metadata, not a model feature.",
+    "initial_state_contract": "Undeformed rest geometry, supplied initial rigid orientations and zero nodal/rigid velocities at t=0. Preload, nonzero initial velocity and continuous support interpolation require an explicitly extended contract.",
+    "attachment_contract": "Each complete ordered handle patch follows one exact finite rigid transform. Handle mass is additional to the deformable body mass; inertia is about the handle COM in its supplied body frame. No attachment compliance or native-engine equivalence is implied.",
+    "external_load_contract": "All external loads are explicit: handle-origin forces/world pure torques, nodal forces and uniform body acceleration. Density-dependent gravity need not be converted into oracle nodal forces. No implicit contact/environment or hidden background load is supplied.",
+    "information_roles": "Only explicitly tagged known force/support programs enter public image conditioning. Passive force histories and unknown support motion belong to hypothesis groups. Program tags are caller declarations, not automatic evidence that recipe values were observable.",
+    "support_semantics": "Exact discrete endpoint transforms about latent support origins, applied on latent node-axis masks. No hidden interpolation, observed response or support truth is loaded."
+  },
+  "public_feature_groups": {
+    "public_known_hardware": {
+      "rest_points_relative_m": {
+        "shape": [
+          5,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "a9ce9efdf242504ace762f87880b7310bc02987836a964669ca1ce0399e675cc"
+      },
+      "tetrahedra": {
+        "shape": [
+          2,
+          4
+        ],
+        "dtype": "int64",
+        "sha256": "04ab981dd06c6e025e9e85911a4cde3a2d6905f31d3b7e7abbacc8f7fdd92b1f"
+      },
+      "surface_faces": {
+        "shape": [
+          6,
+          3
+        ],
+        "dtype": "int64",
+        "sha256": "37dcb0a4727954d8f4402fcd4b84f5191c7642606e2cd8eb48d7ce9aa0391899"
+      },
+      "tet_signed_rest_volumes_m3": {
+        "shape": [
+          2
+        ],
+        "dtype": "float64",
+        "sha256": "49dd4d951680363e53fc54835f2c5d663afc29d2afa32207820e9e7ab7684e78"
+      },
+      "handle_origins_relative_m": {
+        "shape": [
+          1,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "8b81f993e210bccd83bf72a3972052ffdc52879006e620ded80a737cc7fa157d"
+      },
+      "handle_origin_node_ids": {
+        "shape": [
+          1
+        ],
+        "dtype": "int64",
+        "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+      },
+      "ordered_patch_node_ids": {
+        "shape": [
+          1,
+          3
+        ],
+        "dtype": "int64",
+        "sha256": "ab25350e3e65efebe24584461683ecda68725576e825e550038b90e7b1479946"
+      },
+      "ordered_patch_valid_mask": {
+        "shape": [
+          1,
+          3
+        ],
+        "dtype": "bool",
+        "sha256": "75c8fd04ad916aec3e3d5cb76a452b116b3d4d0912a0a485e9fb8e3d240e210c"
+      },
+      "patch_node_masks": {
+        "shape": [
+          1,
+          5
+        ],
+        "dtype": "bool",
+        "sha256": "de772d9e9442a56e05f62c9287a4d28bcced41cc527935d26a4eb5e5d94b3db5"
+      },
+      "ordered_patch_local_offsets_body_m": {
+        "shape": [
+          1,
+          3,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "6406ac02c8cb514de1a4dacad8d5dc35dab4d1fa5fd64d274c545fb8fec7eec2"
+      },
+      "handle_masses_kg": {
+        "shape": [
+          1
+        ],
+        "dtype": "float64",
+        "sha256": "378f8d281b7a6851936c3e99fb635127734bfa39142515e347d0c3f5412de1ef"
+      },
+      "handle_COM_inertias_body_kg_m2": {
+        "shape": [
+          1,
+          3,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "9421ca4229878340615b531ea1b9b526bfa7306a3d7c8c3263c0c6c6e2db52b6"
+      },
+      "handle_COM_offsets_body_m": {
+        "shape": [
+          1,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "8ad0cffb184b90d3e6eefc761665201da88b8597bd7950e0e4a7132209f2c31d"
+      },
+      "initial_handle_rotations_body_to_world": {
+        "shape": [
+          1,
+          3,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "d6e2c5f3c584096fd35b6bb92c1d2ba2a2b3a53085a934189b6fea6019ca46ec"
+      },
+      "handle_COM_relative_m": {
+        "shape": [
+          1,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "62792c0b02fa041065da13922b0b27e8ea722a98211e4d740495d60525dd4c52"
+      },
+      "handle_COM_inertias_world_kg_m2": {
+        "shape": [
+          1,
+          3,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "fb01025663d61c5fe75341a4e9a50165e199e0bace8751118e8daf02af473186"
+      },
+      "handle_inertias_about_origin_body_kg_m2": {
+        "shape": [
+          1,
+          3,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "77a384bedbd0e72f25415900939e9d086a30a1649c196c0e31f9e8ea0dc697ec"
+      }
+    },
+    "public_known_commands": {
+      "command_boundary_times_s": {
+        "shape": [
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "256aa262b5cf9bbed2c856d4a51515ed2d11ab73220d26ce9e4a68936ca5e8f6"
+      },
+      "force_intervals_s": {
+        "shape": [
+          2,
+          2
+        ],
+        "dtype": "float64",
+        "sha256": "4722819767774b4c52ae801abad9362668dd89c9de0ec02fb2090747c5832dd4"
+      },
+      "held_interval_durations_s": {
+        "shape": [
+          2
+        ],
+        "dtype": "float64",
+        "sha256": "cf703264ffe755c4e2cbf0a8c94f316768bcb9c3720ce283afebe3873623f19b"
+      },
+      "requested_output_times_s": {
+        "shape": [
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "256aa262b5cf9bbed2c856d4a51515ed2d11ab73220d26ce9e4a68936ca5e8f6"
+      }
+    },
+    "public_known_force_programs": {
+      "held_handle_forces_world_N": {
+        "shape": [
+          1,
+          2,
+          1,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "f9e26cbc8b1ae9b58ac7abfde7b880fd8f7694a9cd96bb040eb5acf1bd70ffe3"
+      },
+      "held_handle_torques_world_Nm": {
+        "shape": [
+          1,
+          2,
+          1,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "ee3d8fb33c432010a8509800be5efa5435e24c1ebd3c84d33fc0a48b1d942c94"
+      },
+      "held_nodal_forces_world_N": {
+        "shape": [
+          1,
+          2,
+          5,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "2dfba633817046c7f559ed4b93076048435f7e1a90f14eb8035c04b9ebae2537"
+      },
+      "held_body_acceleration_world_m_s2": {
+        "shape": [
+          1,
+          2,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "17b0761f87b081d5cf10757ccc89f12be355c70e2e29df288b65b30710dcbcd1"
+      }
+    }
+  },
+  "conditioned_forward_feature_groups": {
+    "public_known_hardware": {
+      "rest_points_relative_m": {
+        "shape": [
+          5,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "a9ce9efdf242504ace762f87880b7310bc02987836a964669ca1ce0399e675cc"
+      },
+      "tetrahedra": {
+        "shape": [
+          2,
+          4
+        ],
+        "dtype": "int64",
+        "sha256": "04ab981dd06c6e025e9e85911a4cde3a2d6905f31d3b7e7abbacc8f7fdd92b1f"
+      },
+      "surface_faces": {
+        "shape": [
+          6,
+          3
+        ],
+        "dtype": "int64",
+        "sha256": "37dcb0a4727954d8f4402fcd4b84f5191c7642606e2cd8eb48d7ce9aa0391899"
+      },
+      "tet_signed_rest_volumes_m3": {
+        "shape": [
+          2
+        ],
+        "dtype": "float64",
+        "sha256": "49dd4d951680363e53fc54835f2c5d663afc29d2afa32207820e9e7ab7684e78"
+      },
+      "handle_origins_relative_m": {
+        "shape": [
+          1,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "8b81f993e210bccd83bf72a3972052ffdc52879006e620ded80a737cc7fa157d"
+      },
+      "handle_origin_node_ids": {
+        "shape": [
+          1
+        ],
+        "dtype": "int64",
+        "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+      },
+      "ordered_patch_node_ids": {
+        "shape": [
+          1,
+          3
+        ],
+        "dtype": "int64",
+        "sha256": "ab25350e3e65efebe24584461683ecda68725576e825e550038b90e7b1479946"
+      },
+      "ordered_patch_valid_mask": {
+        "shape": [
+          1,
+          3
+        ],
+        "dtype": "bool",
+        "sha256": "75c8fd04ad916aec3e3d5cb76a452b116b3d4d0912a0a485e9fb8e3d240e210c"
+      },
+      "patch_node_masks": {
+        "shape": [
+          1,
+          5
+        ],
+        "dtype": "bool",
+        "sha256": "de772d9e9442a56e05f62c9287a4d28bcced41cc527935d26a4eb5e5d94b3db5"
+      },
+      "ordered_patch_local_offsets_body_m": {
+        "shape": [
+          1,
+          3,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "6406ac02c8cb514de1a4dacad8d5dc35dab4d1fa5fd64d274c545fb8fec7eec2"
+      },
+      "handle_masses_kg": {
+        "shape": [
+          1
+        ],
+        "dtype": "float64",
+        "sha256": "378f8d281b7a6851936c3e99fb635127734bfa39142515e347d0c3f5412de1ef"
+      },
+      "handle_COM_inertias_body_kg_m2": {
+        "shape": [
+          1,
+          3,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "9421ca4229878340615b531ea1b9b526bfa7306a3d7c8c3263c0c6c6e2db52b6"
+      },
+      "handle_COM_offsets_body_m": {
+        "shape": [
+          1,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "8ad0cffb184b90d3e6eefc761665201da88b8597bd7950e0e4a7132209f2c31d"
+      },
+      "initial_handle_rotations_body_to_world": {
+        "shape": [
+          1,
+          3,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "d6e2c5f3c584096fd35b6bb92c1d2ba2a2b3a53085a934189b6fea6019ca46ec"
+      },
+      "handle_COM_relative_m": {
+        "shape": [
+          1,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "62792c0b02fa041065da13922b0b27e8ea722a98211e4d740495d60525dd4c52"
+      },
+      "handle_COM_inertias_world_kg_m2": {
+        "shape": [
+          1,
+          3,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "fb01025663d61c5fe75341a4e9a50165e199e0bace8751118e8daf02af473186"
+      },
+      "handle_inertias_about_origin_body_kg_m2": {
+        "shape": [
+          1,
+          3,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "77a384bedbd0e72f25415900939e9d086a30a1649c196c0e31f9e8ea0dc697ec"
+      }
+    },
+    "public_known_commands": {
+      "command_boundary_times_s": {
+        "shape": [
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "256aa262b5cf9bbed2c856d4a51515ed2d11ab73220d26ce9e4a68936ca5e8f6"
+      },
+      "force_intervals_s": {
+        "shape": [
+          2,
+          2
+        ],
+        "dtype": "float64",
+        "sha256": "4722819767774b4c52ae801abad9362668dd89c9de0ec02fb2090747c5832dd4"
+      },
+      "held_interval_durations_s": {
+        "shape": [
+          2
+        ],
+        "dtype": "float64",
+        "sha256": "cf703264ffe755c4e2cbf0a8c94f316768bcb9c3720ce283afebe3873623f19b"
+      },
+      "requested_output_times_s": {
+        "shape": [
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "256aa262b5cf9bbed2c856d4a51515ed2d11ab73220d26ce9e4a68936ca5e8f6"
+      }
+    },
+    "public_known_force_programs": {
+      "held_handle_forces_world_N": {
+        "shape": [
+          1,
+          2,
+          1,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "f9e26cbc8b1ae9b58ac7abfde7b880fd8f7694a9cd96bb040eb5acf1bd70ffe3"
+      },
+      "held_handle_torques_world_Nm": {
+        "shape": [
+          1,
+          2,
+          1,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "ee3d8fb33c432010a8509800be5efa5435e24c1ebd3c84d33fc0a48b1d942c94"
+      },
+      "held_nodal_forces_world_N": {
+        "shape": [
+          1,
+          2,
+          5,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "2dfba633817046c7f559ed4b93076048435f7e1a90f14eb8035c04b9ebae2537"
+      },
+      "held_body_acceleration_world_m_s2": {
+        "shape": [
+          1,
+          2,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "17b0761f87b081d5cf10757ccc89f12be355c70e2e29df288b65b30710dcbcd1"
+      }
+    },
+    "latent_material_hypothesis": {
+      "homogeneous_material_parameters": {
+        "shape": [
+          4
+        ],
+        "dtype": "float64",
+        "sha256": "8908c736d9f10ad898808609c5aa28ed2dd8341768aad52d50b301ec727537f8"
+      },
+      "constitutive_model_one_hot": {
+        "shape": [
+          2
+        ],
+        "dtype": "bool",
+        "sha256": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254"
+      }
+    },
+    "latent_boundary_hypothesis": {
+      "support_constraint_axis_masks": {
+        "shape": [
+          1,
+          5,
+          3
+        ],
+        "dtype": "bool",
+        "sha256": "dbef757a7afbeaab556b7ecdbd821778a645f7b9fccdfddd48b0ad1d39e0b78c"
+      },
+      "support_origins_relative_m": {
+        "shape": [
+          1,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "bb376072b4e0527a0055fb3a34899e0eaa53f894d4c538477f10e24b220c3203"
+      }
+    },
+    "latent_force_hypotheses": {
+      "held_handle_forces_world_N": {
+        "shape": [
+          1,
+          2,
+          1,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "e01c61184db083de6cd52a20e66d2cbdf2af7eecedccb8f005eedae4ba2fcdda"
+      },
+      "held_handle_torques_world_Nm": {
+        "shape": [
+          1,
+          2,
+          1,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "17b0761f87b081d5cf10757ccc89f12be355c70e2e29df288b65b30710dcbcd1"
+      },
+      "held_nodal_forces_world_N": {
+        "shape": [
+          1,
+          2,
+          5,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "2dfba633817046c7f559ed4b93076048435f7e1a90f14eb8035c04b9ebae2537"
+      },
+      "held_body_acceleration_world_m_s2": {
+        "shape": [
+          1,
+          2,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "17b0761f87b081d5cf10757ccc89f12be355c70e2e29df288b65b30710dcbcd1"
+      }
+    },
+    "latent_support_law_hypothesis": {
+      "prescribed_support_endpoint_translations_world_m": {
+        "shape": [
+          3,
+          1,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "040c84c374912b55802a1489ebf20b071b2f64fd5a2cecb7c5ef57ca91b57018"
+      },
+      "prescribed_support_endpoint_rotations_world": {
+        "shape": [
+          3,
+          1,
+          3,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "2471b095f88cf1c663cf5d6ffba59c514a7336df674eed5938f0959350f70f04"
+      }
+    }
+  },
+  "complete_known_hardware_features": {
+    "rest_points_relative_m": [
+      [
+        -0.2,
+        0.3,
+        -0.5
+      ],
+      [
+        0.8,
+        0.3,
+        -0.5
+      ],
+      [
+        -0.2,
+        1.3,
+        -0.5
+      ],
+      [
+        -0.2,
+        0.3,
+        0.5
+      ],
+      [
+        -1.2,
+        0.3,
+        -0.5
+      ]
+    ],
+    "tetrahedra": [
+      [
+        0,
+        1,
+        2,
+        3
+      ],
+      [
+        0,
+        4,
+        3,
+        2
+      ]
+    ],
+    "surface_faces": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        0,
+        1,
+        3
+      ],
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        0,
+        3,
+        4
+      ],
+      [
+        0,
+        2,
+        4
+      ],
+      [
+        2,
+        3,
+        4
+      ]
+    ],
+    "tet_signed_rest_volumes_m3": [
+      0.16666666666666666,
+      0.16666666666666666
+    ],
+    "handle_origins_relative_m": [
+      [
+        -0.2,
+        0.3,
+        -0.5
+      ]
+    ],
+    "handle_origin_node_ids": [
+      0
+    ],
+    "ordered_patch_node_ids": [
+      [
+        0,
+        1,
+        2
+      ]
+    ],
+    "ordered_patch_valid_mask": [
+      [
+        true,
+        true,
+        true
+      ]
+    ],
+    "patch_node_masks": [
+      [
+        true,
+        true,
+        true,
+        false,
+        false
+      ]
+    ],
+    "ordered_patch_local_offsets_body_m": [
+      [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.955336489125606,
+          -0.29552020666133955,
+          0.0
+        ],
+        [
+          0.29552020666133955,
+          0.955336489125606,
+          0.0
+        ]
+      ]
+    ],
+    "handle_masses_kg": [
+      0.002
+    ],
+    "handle_COM_inertias_body_kg_m2": [
+      [
+        [
+          4e-06,
+          1e-06,
+          0.0
+        ],
+        [
+          1e-06,
+          3e-06,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          4.9999999999999996e-06
+        ]
+      ]
+    ],
+    "handle_COM_offsets_body_m": [
+      [
+        0.01,
+        0.02,
+        0.03
+      ]
+    ],
+    "initial_handle_rotations_body_to_world": [
+      [
+        [
+          0.955336489125606,
+          -0.29552020666133955,
+          0.0
+        ],
+        [
+          0.29552020666133955,
+          0.955336489125606,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    ],
+    "handle_COM_relative_m": [
+      [
+        -0.19635703924197073,
+        0.3220619318491255,
+        -0.47
+      ]
+    ],
+    "handle_COM_inertias_world_kg_m2": [
+      [
+        [
+          3.3480253340598037e-06,
+          1.1076568516071959e-06,
+          0.0
+        ],
+        [
+          1.107656851607196e-06,
+          3.651974665940196e-06,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          4.9999999999999996e-06
+        ]
+      ]
+    ],
+    "handle_inertias_about_origin_body_kg_m2": [
+      [
+        [
+          6.5999999999999995e-06,
+          6e-07,
+          -6e-07
+        ],
+        [
+          6e-07,
+          4.9999999999999996e-06,
+          -1.2e-06
+        ],
+        [
+          -6e-07,
+          -1.2e-06,
+          5.999999999999999e-06
+        ]
+      ]
+    ]
+  },
+  "provenance": {
+    "known_hardware": {
+      "schema_version": "complete-hardware-query-context-v0.1",
+      "role": "public_known_hardware",
+      "arrays": {
+        "rest_points_relative_m": {
+          "shape": [
+            5,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "a9ce9efdf242504ace762f87880b7310bc02987836a964669ca1ce0399e675cc"
+        },
+        "tetrahedra": {
+          "shape": [
+            2,
+            4
+          ],
+          "dtype": "int64",
+          "sha256": "04ab981dd06c6e025e9e85911a4cde3a2d6905f31d3b7e7abbacc8f7fdd92b1f"
+        },
+        "surface_faces": {
+          "shape": [
+            6,
+            3
+          ],
+          "dtype": "int64",
+          "sha256": "37dcb0a4727954d8f4402fcd4b84f5191c7642606e2cd8eb48d7ce9aa0391899"
+        },
+        "tet_signed_rest_volumes_m3": {
+          "shape": [
+            2
+          ],
+          "dtype": "float64",
+          "sha256": "49dd4d951680363e53fc54835f2c5d663afc29d2afa32207820e9e7ab7684e78"
+        },
+        "handle_origins_relative_m": {
+          "shape": [
+            1,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "8b81f993e210bccd83bf72a3972052ffdc52879006e620ded80a737cc7fa157d"
+        },
+        "handle_origin_node_ids": {
+          "shape": [
+            1
+          ],
+          "dtype": "int64",
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        "ordered_patch_node_ids": {
+          "shape": [
+            1,
+            3
+          ],
+          "dtype": "int64",
+          "sha256": "ab25350e3e65efebe24584461683ecda68725576e825e550038b90e7b1479946"
+        },
+        "ordered_patch_valid_mask": {
+          "shape": [
+            1,
+            3
+          ],
+          "dtype": "bool",
+          "sha256": "75c8fd04ad916aec3e3d5cb76a452b116b3d4d0912a0a485e9fb8e3d240e210c"
+        },
+        "patch_node_masks": {
+          "shape": [
+            1,
+            5
+          ],
+          "dtype": "bool",
+          "sha256": "de772d9e9442a56e05f62c9287a4d28bcced41cc527935d26a4eb5e5d94b3db5"
+        },
+        "ordered_patch_local_offsets_body_m": {
+          "shape": [
+            1,
+            3,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "6406ac02c8cb514de1a4dacad8d5dc35dab4d1fa5fd64d274c545fb8fec7eec2"
+        },
+        "handle_masses_kg": {
+          "shape": [
+            1
+          ],
+          "dtype": "float64",
+          "sha256": "378f8d281b7a6851936c3e99fb635127734bfa39142515e347d0c3f5412de1ef"
+        },
+        "handle_COM_inertias_body_kg_m2": {
+          "shape": [
+            1,
+            3,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "9421ca4229878340615b531ea1b9b526bfa7306a3d7c8c3263c0c6c6e2db52b6"
+        },
+        "handle_COM_offsets_body_m": {
+          "shape": [
+            1,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "8ad0cffb184b90d3e6eefc761665201da88b8597bd7950e0e4a7132209f2c31d"
+        },
+        "initial_handle_rotations_body_to_world": {
+          "shape": [
+            1,
+            3,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "d6e2c5f3c584096fd35b6bb92c1d2ba2a2b3a53085a934189b6fea6019ca46ec"
+        },
+        "handle_COM_relative_m": {
+          "shape": [
+            1,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "62792c0b02fa041065da13922b0b27e8ea722a98211e4d740495d60525dd4c52"
+        },
+        "handle_COM_inertias_world_kg_m2": {
+          "shape": [
+            1,
+            3,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "fb01025663d61c5fe75341a4e9a50165e199e0bace8751118e8daf02af473186"
+        },
+        "handle_inertias_about_origin_body_kg_m2": {
+          "shape": [
+            1,
+            3,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "77a384bedbd0e72f25415900939e9d086a30a1649c196c0e31f9e8ea0dc697ec"
+        }
+      },
+      "caller_declared_source_sha256_not_opened_or_verified": {
+        "analytic_fixture_test_source": "791479e1c394172f389272f496dd954661d0d16d3bb0d1019154ea95f5ae93d1"
+      },
+      "interface_source_sha256": "47cc0047f2cce6e88c4b76650c9358773eaa233fd670ce2223e4b1f29d7bb958",
+      "dependency_source_sha256": {
+        "campaign_rigid_inertia.py": "e420d9cadaa97d1b1648227b7b28af1803952caa87432f819baf0827deecabf7"
+      },
+      "absolute_frame_input_arrays": {
+        "supplied_rest_points_world_m": {
+          "shape": [
+            5,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "03b3357c7f0cf207b437e5a434490488343f98426d239bc5e12e48078027df33"
+        },
+        "supplied_coordinate_origin_world_m": {
+          "shape": [
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "bdffa56c55897edb0db841b9760fb8710a54b3daf75ac8d6413d9f5207f8f793"
+        },
+        "supplied_handle_origins_world_m": {
+          "shape": [
+            1,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0"
+        }
+      },
+      "manifest_sha256": "40d66538f391d2ac4e71c01c2545409d4fbf2fdd14cc7e0974b2151b10aaae91"
+    },
+    "command_query": {
+      "schema_version": "complete-hardware-query-context-v0.1",
+      "role": "public_known_time_query",
+      "arrays": {
+        "command_boundary_times_s": {
+          "shape": [
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "256aa262b5cf9bbed2c856d4a51515ed2d11ab73220d26ce9e4a68936ca5e8f6"
+        },
+        "force_intervals_s": {
+          "shape": [
+            2,
+            2
+          ],
+          "dtype": "float64",
+          "sha256": "4722819767774b4c52ae801abad9362668dd89c9de0ec02fb2090747c5832dd4"
+        },
+        "held_interval_durations_s": {
+          "shape": [
+            2
+          ],
+          "dtype": "float64",
+          "sha256": "cf703264ffe755c4e2cbf0a8c94f316768bcb9c3720ce283afebe3873623f19b"
+        },
+        "requested_output_times_s": {
+          "shape": [
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "256aa262b5cf9bbed2c856d4a51515ed2d11ab73220d26ce9e4a68936ca5e8f6"
+        }
+      },
+      "caller_declared_source_sha256_not_opened_or_verified": {
+        "analytic_fixture_test_source": "791479e1c394172f389272f496dd954661d0d16d3bb0d1019154ea95f5ae93d1"
+      },
+      "interface_source_sha256": "47cc0047f2cce6e88c4b76650c9358773eaa233fd670ce2223e4b1f29d7bb958",
+      "dependency_source_sha256": {
+        "campaign_rigid_inertia.py": "e420d9cadaa97d1b1648227b7b28af1803952caa87432f819baf0827deecabf7"
+      },
+      "manifest_sha256": "d62bd2e40962cf0c2574b1d036b109292590dfacc6bdf9edd36354cf3e2535bc"
+    },
+    "known_force_programs": [
+      {
+        "schema_version": "complete-hardware-query-context-v0.1",
+        "role": "known_actuator_command",
+        "arrays": {
+          "held_handle_forces_world_N": {
+            "shape": [
+              2,
+              1,
+              3
+            ],
+            "dtype": "float64",
+            "sha256": "f9e26cbc8b1ae9b58ac7abfde7b880fd8f7694a9cd96bb040eb5acf1bd70ffe3"
+          },
+          "held_handle_torques_world_Nm": {
+            "shape": [
+              2,
+              1,
+              3
+            ],
+            "dtype": "float64",
+            "sha256": "ee3d8fb33c432010a8509800be5efa5435e24c1ebd3c84d33fc0a48b1d942c94"
+          },
+          "held_nodal_forces_world_N": {
+            "shape": [
+              2,
+              5,
+              3
+            ],
+            "dtype": "float64",
+            "sha256": "2dfba633817046c7f559ed4b93076048435f7e1a90f14eb8035c04b9ebae2537"
+          },
+          "held_body_acceleration_world_m_s2": {
+            "shape": [
+              2,
+              3
+            ],
+            "dtype": "float64",
+            "sha256": "17b0761f87b081d5cf10757ccc89f12be355c70e2e29df288b65b30710dcbcd1"
+          }
+        },
+        "caller_declared_source_sha256_not_opened_or_verified": {
+          "analytic_fixture_test_source": "791479e1c394172f389272f496dd954661d0d16d3bb0d1019154ea95f5ae93d1"
+        },
+        "interface_source_sha256": "47cc0047f2cce6e88c4b76650c9358773eaa233fd670ce2223e4b1f29d7bb958",
+        "dependency_source_sha256": {
+          "campaign_rigid_inertia.py": "e420d9cadaa97d1b1648227b7b28af1803952caa87432f819baf0827deecabf7"
+        },
+        "manifest_sha256": "311b7066022c0983f93b5633944bd90ff7f704d8ed8d541e16ad88b42d09d5d8"
+      }
+    ],
+    "hypotheses": {
+      "schema_version": "complete-hardware-query-context-v0.1",
+      "role": "candidate_from_prior_or_posterior",
+      "arrays": {
+        "latent_material_hypothesis/homogeneous_material_parameters": {
+          "shape": [
+            4
+          ],
+          "dtype": "float64",
+          "sha256": "8908c736d9f10ad898808609c5aa28ed2dd8341768aad52d50b301ec727537f8"
+        },
+        "latent_material_hypothesis/constitutive_model_one_hot": {
+          "shape": [
+            2
+          ],
+          "dtype": "bool",
+          "sha256": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254"
+        },
+        "latent_boundary_hypothesis/support_constraint_axis_masks": {
+          "shape": [
+            1,
+            5,
+            3
+          ],
+          "dtype": "bool",
+          "sha256": "dbef757a7afbeaab556b7ecdbd821778a645f7b9fccdfddd48b0ad1d39e0b78c"
+        },
+        "latent_boundary_hypothesis/support_origins_relative_m": {
+          "shape": [
+            1,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "bb376072b4e0527a0055fb3a34899e0eaa53f894d4c538477f10e24b220c3203"
+        },
+        "latent_force_hypotheses/held_handle_forces_world_N": {
+          "shape": [
+            1,
+            2,
+            1,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "e01c61184db083de6cd52a20e66d2cbdf2af7eecedccb8f005eedae4ba2fcdda"
+        },
+        "latent_force_hypotheses/held_handle_torques_world_Nm": {
+          "shape": [
+            1,
+            2,
+            1,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "17b0761f87b081d5cf10757ccc89f12be355c70e2e29df288b65b30710dcbcd1"
+        },
+        "latent_force_hypotheses/held_nodal_forces_world_N": {
+          "shape": [
+            1,
+            2,
+            5,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "2dfba633817046c7f559ed4b93076048435f7e1a90f14eb8035c04b9ebae2537"
+        },
+        "latent_force_hypotheses/held_body_acceleration_world_m_s2": {
+          "shape": [
+            1,
+            2,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "17b0761f87b081d5cf10757ccc89f12be355c70e2e29df288b65b30710dcbcd1"
+        },
+        "latent_support_law_hypothesis/prescribed_support_endpoint_translations_world_m": {
+          "shape": [
+            3,
+            1,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "040c84c374912b55802a1489ebf20b071b2f64fd5a2cecb7c5ef57ca91b57018"
+        },
+        "latent_support_law_hypothesis/prescribed_support_endpoint_rotations_world": {
+          "shape": [
+            3,
+            1,
+            3,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "2471b095f88cf1c663cf5d6ffba59c514a7336df674eed5938f0959350f70f04"
+        }
+      },
+      "caller_declared_source_sha256_not_opened_or_verified": {
+        "analytic_fixture_test_source": "791479e1c394172f389272f496dd954661d0d16d3bb0d1019154ea95f5ae93d1"
+      },
+      "interface_source_sha256": "47cc0047f2cce6e88c4b76650c9358773eaa233fd670ce2223e4b1f29d7bb958",
+      "dependency_source_sha256": {
+        "campaign_rigid_inertia.py": "e420d9cadaa97d1b1648227b7b28af1803952caa87432f819baf0827deecabf7"
+      },
+      "manifest_sha256": "0da81402b6c908fd947d9bb3bd60633c89bf7ec032bfb1050a1894cf4b9bd398",
+      "force_programs": [
+        {
+          "schema_version": "complete-hardware-query-context-v0.1",
+          "role": "candidate_force_hypothesis",
+          "arrays": {
+            "held_handle_forces_world_N": {
+              "shape": [
+                2,
+                1,
+                3
+              ],
+              "dtype": "float64",
+              "sha256": "e01c61184db083de6cd52a20e66d2cbdf2af7eecedccb8f005eedae4ba2fcdda"
+            },
+            "held_handle_torques_world_Nm": {
+              "shape": [
+                2,
+                1,
+                3
+              ],
+              "dtype": "float64",
+              "sha256": "17b0761f87b081d5cf10757ccc89f12be355c70e2e29df288b65b30710dcbcd1"
+            },
+            "held_nodal_forces_world_N": {
+              "shape": [
+                2,
+                5,
+                3
+              ],
+              "dtype": "float64",
+              "sha256": "2dfba633817046c7f559ed4b93076048435f7e1a90f14eb8035c04b9ebae2537"
+            },
+            "held_body_acceleration_world_m_s2": {
+              "shape": [
+                2,
+                3
+              ],
+              "dtype": "float64",
+              "sha256": "17b0761f87b081d5cf10757ccc89f12be355c70e2e29df288b65b30710dcbcd1"
+            }
+          },
+          "caller_declared_source_sha256_not_opened_or_verified": {
+            "analytic_fixture_test_source": "791479e1c394172f389272f496dd954661d0d16d3bb0d1019154ea95f5ae93d1"
+          },
+          "interface_source_sha256": "47cc0047f2cce6e88c4b76650c9358773eaa233fd670ce2223e4b1f29d7bb958",
+          "dependency_source_sha256": {
+            "campaign_rigid_inertia.py": "e420d9cadaa97d1b1648227b7b28af1803952caa87432f819baf0827deecabf7"
+          },
+          "manifest_sha256": "ed758e60a2e3ac736d08d33bde7832475a8986a8c9fa91c807f7dbf72ea9f26e"
+        }
+      ],
+      "support_law": {
+        "schema_version": "complete-hardware-query-context-v0.1",
+        "role": "candidate_boundary_hypothesis",
+        "arrays": {
+          "prescribed_support_endpoint_translations_world_m": {
+            "shape": [
+              3,
+              1,
+              3
+            ],
+            "dtype": "float64",
+            "sha256": "040c84c374912b55802a1489ebf20b071b2f64fd5a2cecb7c5ef57ca91b57018"
+          },
+          "prescribed_support_endpoint_rotations_world": {
+            "shape": [
+              3,
+              1,
+              3,
+              3
+            ],
+            "dtype": "float64",
+            "sha256": "2471b095f88cf1c663cf5d6ffba59c514a7336df674eed5938f0959350f70f04"
+          }
+        },
+        "caller_declared_source_sha256_not_opened_or_verified": {
+          "analytic_fixture_test_source": "791479e1c394172f389272f496dd954661d0d16d3bb0d1019154ea95f5ae93d1"
+        },
+        "interface_source_sha256": "47cc0047f2cce6e88c4b76650c9358773eaa233fd670ce2223e4b1f29d7bb958",
+        "dependency_source_sha256": {
+          "campaign_rigid_inertia.py": "e420d9cadaa97d1b1648227b7b28af1803952caa87432f819baf0827deecabf7"
+        },
+        "manifest_sha256": "5e1d3c1cf6ed0deb98b86560281cf8ca7792563b4025ca8c91ddffae37d357f0"
+      }
+    }
+  },
+  "checks": {
+    "same_load_origin_different_patch": true,
+    "maximum_global_translation_feature_error": 5.551115123125783e-17,
+    "latent_force_program_count": 1,
+    "known_probe_program_count": 1,
+    "latent_force_and_support_values_absent_from_public_groups": true,
+    "full_inertia_body_kg_m2": [
+      [
+        4e-06,
+        1e-06,
+        0.0
+      ],
+      [
+        1e-06,
+        3e-06,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        4.9999999999999996e-06
+      ]
+    ],
+    "COM_offset_body_m": [
+      0.01,
+      0.02,
+      0.03
+    ],
+    "rigid_kinetic_energy_J": 9.46824667955534e-05
+  },
+  "simulations_launched": false,
+  "trained_model_changed": false,
+  "physical_reference_qualification": false
+}
