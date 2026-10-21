@@ -1,0 +1,34 @@
+{
+  "schema": "crossed-known-hypothesis-Gaussian-forward-v0.1",
+  "dataset_sha256": "9c3a56e6a1f61637ccd102ddeb1e69da9a662d0f7797f0de1a7c250ddb82d01a",
+  "source_sha256": {
+    "experiments/train_campaign_crossed_prediction.py": "586287232dfa38a632e1df46a471ac3c585ecb5b78fa475fb1e5d239557f2369",
+    "experiments/campaign_hybrid_response.py": "6b077a56fad0973a053ec7e5bbdc602901cd1af254960e007d8f65fc233a6f50",
+    "experiments/campaign_hybrid_predictor.py": "976693941fd0953553358aa33664b1493043da60e46b892c04e7c1bde919511c",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7",
+    "experiments/train_campaign_hybrid_response.py": "ed619da315168eb57006dc687deef4b59ee96196939a06809ee3e8ba506d78ef"
+  },
+  "arm": "no_exchange",
+  "seed": 20261023,
+  "device": "cuda:0",
+  "steps": 4000,
+  "width": 64,
+  "layers": 3,
+  "batch": 4,
+  "query_times": 8,
+  "learning_rate": 0.001,
+  "weight_decay": 1e-05,
+  "fit_cases": 32,
+  "selection": "Fixed final checkpoint; no development or middle-material score during fitting",
+  "information": "Supplied true material/support hypothesis, known rest/hardware/commands; zero measured motion frames",
+  "loss": "TRAIN-balanced coordinate MSE plus .05*mean(relu(.2-J)^2)",
+  "fit_normalization": "TRAIN-only RMS motion with .5mm floor; never a model feature",
+  "limitations": [
+    "Same four hardware contexts, not unseen layouts",
+    "Three joint material tuples, not four independently identified effects",
+    "Engineering FEM data, not native or continuum truth",
+    "No sparse-view posterior or uncertainty calibration claim"
+  ],
+  "raw_outputs_LOCAL": true,
+  "GitHub_Actions_enabled": false
+}

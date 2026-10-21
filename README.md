@@ -6,14 +6,23 @@ fresh known-support object, future-motion error falls from 0.370 to 0.113 mm
 against an unconditional prior; held reset-force error falls from 0.216 to
 0.080 mm. Unknown-boundary inference and coverage calibration remain next steps.
 
-**Known-physics diagnosis:** [fixed excitation and engineering checks](runs/operator-dev/hypothesis-campaign-v01/REPORT.md)
-now use identical force programs across materials and supports. An unfitted,
-linearized physical model matches the first soft point-pin and moving-support
-cases within 0.013 and 0.023 mm respectively, given the true physical hypothesis.
-These are new diagnostic cases, separate from the older neural comparison below.
-The next crossed design has 96 cases; its prediction scores are still pending.
+**Completed 96-case known-physics comparison:** [six fixed neural fits and physical baselines](runs/gaussian-campaign-v01/crossed-gaussian-training-v01/final-comparison/REPORT.md)
+use identical force programs across materials and supports. Mean coordinate
+RMSE in millimetres, averaging three fixed seeds for each neural arm:
 
-**Hybrid Gaussian prediction pilot:** [implementation and results](docs/GAUSSIAN_HYBRID_PREDICTION.md)
+| Role | Gaussian exchange | No exchange | Linear physics |
+|---|---:|---:|---:|
+| Fit | 0.1882 | 0.1885 | 0.01015 |
+| Force transfer | 0.4687 | 0.4640 | 0.00924 |
+| Middle material | 0.5730 | 0.5609 | 0.02334 |
+
+The supplied-physics linear baseline is substantially better. Gaussian exchange
+shows no consistent advantage; no further architecture tuning followed these
+results. All methods receive true physical hypotheses. Four reused hardware
+contexts and three joint material tuples limit generalization claims; this is
+engineering FEM evidence, not calibrated uncertainty or native/continuum truth.
+
+**Earlier hybrid Gaussian prediction pilot:** [implementation and results](docs/GAUSSIAN_HYBRID_PREDICTION.md)
 now transport volumetric material Gaussians through a shared deformation field,
 with separate support/load Gaussian interactions and causal known-force prediction.
 On four held action/layout combinations from four reused TRAIN layouts, the

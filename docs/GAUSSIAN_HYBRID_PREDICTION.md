@@ -1,4 +1,4 @@
-# Hybrid material and boundary Gaussians: implemented prediction pilot
+# Hybrid material and boundary Gaussians: prediction evidence
 
 This implements the hybrid representation proposed in the October discussion. It is currently a **known-physical-hypothesis forward experiment**, using independent FEM targets. Sparse images do not yet infer those hypotheses; parameter uncertainty, forward-model discrepancy and active acquisition are unfinished. GitHub Actions stay disabled and raw targets, checkpoints and videos stay local.
 
@@ -16,7 +16,74 @@ Both learned predictors return a shared nodal deformation field. Material center
 
 Moving physical Gaussians have prior art in [PhysGaussian](https://arxiv.org/abs/2311.12198), which uses MPM. The present implementation uses a shared nodal field rather than implementing MPM. Particle message passing also has precedent in [Graph Network-based Simulators](https://arxiv.org/abs/2002.09405). This pilot makes no novelty claim for Gaussian transport or message passing.
 
-## What the comparison measures
+## Completed 96-case comparison
+
+The newer finite TRAIN design crosses four complete public hardware contexts,
+four boundary families, three shared joint material tuples and two globally
+fixed force programs. All 96 captures completed at the same private and public
+120 Hz, with 61 output states at 20 Hz. Each program excites both handles in
+xyz under a 0.02 N per-handle bound. Hardware is fixed before material/support
+draws. Equal-log-E strata have conditional density factor three; the original
+density, Poisson-ratio and drag marginals are retained. Support states are
+reused across materials. This is a dependent counterfactual cohort, not 96
+independent objects or separate identification of four material effects.
+
+The fitting role has 32 cases: the lower/upper material tuples under program A.
+Another 32 cases test program B on those tuples; the remaining 32 use the
+middle material tuple under both programs. Every hardware context is present
+in fitting. Inputs are true supplied physics, known rest geometry, complete
+rigid hardware and causal known commands, with zero observed motion frames.
+IDs and private solver rates are excluded from neural features.
+
+Both force-linear neural arms retain width 64 and three spatial blocks. Each
+uses exactly 4,000 optimization steps for seeds 20261022/23/24. All six final
+checkpoints are reported; held scores select no checkpoint, seed or budget.
+No additional architecture, residual model or tuning run followed this result.
+The strong baseline assembles small-strain mechanics from each actual material,
+support and full hardware descriptor, including mass, full inertia and COM. It
+uses the same held commands and exact moving Dirichlet lift without fitting.
+
+Coordinate RMSE below averages 32 cases per role, excluding the initial rest
+frame. Neural values are mean ± sample SD across the three fixed seeds, in mm.
+
+| Role | Gaussian exchange | No exchange | Linear physics | Static rest |
+|---|---:|---:|---:|---:|
+| Fit | 0.1882 ± 0.0223 | 0.1885 ± 0.0083 | 0.01015 | 1.1183 |
+| Force transfer | 0.4687 ± 0.0222 | 0.4640 ± 0.0121 | 0.00924 | 1.0515 |
+| Middle material | 0.5730 ± 0.0050 | 0.5609 ± 0.0057 | 0.02334 | 1.3342 |
+
+The physical baseline is substantially more accurate in every role. Gaussian
+exchange shows no consistent advantage over its matched no-exchange arm.
+Neither neural nor linear predictions invert over the recorded window, but
+positive determinants do not certify force balance or long-horizon stability.
+Seed SD describes optimization variation, not predictive uncertainty or an iid
+confidence interval. The shared hardware, three joint tuples and reused support
+draws limit what the force-transfer and middle-material scores establish.
+
+The finite targets are fixed-mesh engineering FEM outputs. Temporal refinement
+was checked on one point-pin case; it does not qualify temporal accuracy for
+every member of the 96-case cohort. The linear baseline has infinitesimal
+rotations and finite rigid-patch distance defects. Native equivalence,
+continuum accuracy, production admission, sparse-view inference, calibrated
+uncertainty and successful probing do not follow from this comparison.
+
+Source entry points are `prepare_campaign_hypothesis_dataset.py` and
+`train_campaign_crossed_prediction.py`. The fixed six-fit declaration is
+[`protocol.json`](../runs/operator-dev/crossed-gaussian-training-v01/protocol.json).
+The [completed report](../runs/gaussian-campaign-v01/crossed-gaussian-training-v01/final-comparison/REPORT.md)
+and [structured summary](../runs/gaussian-campaign-v01/crossed-gaussian-training-v01/final-comparison/summary.json)
+retain individual seeds, paired differences and per-BC/material groups. Raw
+datasets, checkpoints and predictions remain local.
+
+A separate [sparse-depth material oracle](GAUSSIAN_MATERIAL_ORACLE.md) now
+conditions material uncertainty on two frames for one known-support object.
+It does not train or select these neural models. Current work targets an
+unknown point-support mixture on H0. Its exact geometry-only prior covers point
+pins only and is preparatory;
+unknown-boundary prediction, coverage calibration and useful probing remain
+unestablished.
+
+## Earlier 16-capture pilot
 
 The local dataset has 16 three-second captures: four already-used TRAIN hardware/layouts crossed with four force families, with 61 states at 20 Hz. Fifteen pairs use the highest available independently verified original capture; the point-pinned twist uses the independently verified fresh optimizer-only trajectory. The incomplete original temporal qualification remains incomplete. These are engineering captures, not a newly admitted production or inference dataset.
 
@@ -51,4 +118,4 @@ Coordinate RMSE, averaged equally over pairs; units are millimetres. Four reused
 
 The structured response model improves the neural mean over the initial GRU, but spatial exchange does not beat its matched no-exchange ablation in either version. The simple linear state model is substantially better than all four neural arms. All reported predictions remain finite with positive tetrahedron determinants over this window; this does not certify physical balance or long-horizon stability.
 
-These are exploratory results from one seed and four held pairs, with material/support truth supplied. There is no demonstrated Gaussian-network advantage, calibrated posterior or active-policy improvement. In particular, fixed-patch shear and two-patch couple query directions are poorly excited by their fitting controls. More expressive neural structure alone cannot establish a response that the training experiments do not identify. The appropriate next step is a better-excited, factorized training distribution and discrepancy-aware inference, rather than reporting narrow uncertainty from this pilot.
+These earlier results use one seed and four held pairs, with material/support truth supplied. Fixed-patch shear and two-patch couple query directions are poorly excited by their fitting controls. This motivated the better-excited factorized cohort above. Its completed comparison still does not establish a Gaussian-network advantage. Physical inference, discrepancy calibration and active-policy improvement require separate evidence; narrow uncertainty is not justified by either neural prediction study.
