@@ -1,24 +1,26 @@
 # Rotation-aware geometry and joint predictive uncertainty
 
-This stage addresses two diagnosed problems in the previous point-support
-experiment: infinitesimal rotations missed near-rigid finite motion, and the
-forward model's latent spread omitted substantial mechanical discrepancy.
-It uses a **new independent 48-object cohort**. The 16-object calibration
-stage is complete and frozen; the fresh 32-object reserved test is **pending**.
-Calibration results do not establish held-out performance or an active-policy
-advantage.
+The fresh 32-object reserved study is complete. Extra depth views improve
+forecasting, but uncertainty-guided view selection has no demonstrated advantage
+over random or calibration-selected fixed views. The joint predictive bands
+cover **31/32 objects**, with **2.92 mm mean active full width**. Material and
+support inference remain only partly reliable.
 
-## Frozen model
+Read the [completed scientific report](../runs/gaussian-campaign-v01/point-rotation-analysis-v02/REPORT.md)
+for paired confidence intervals, the matched old/new benchmark and failure videos.
+All 48 independent objects and their 96 finite-mechanics A/B captures were
+retained: 16 calibration objects and 32 reserved objects, with no execution
+failures, redraws or post-test model tuning.
 
-The geometry wrapper retracts each particle's linear-modal motion to account
-for finite rotation about its hypothesized point pin. Rays are rendered from
-that corrected surface. This changes geometry, not the nonlinear forces,
-inertia integration or exact rigid-handle dynamics. Compatible material
-Gaussians can be transported by the resulting shared nodal field. Their shape
-covariance `F Σ₀ Fᵀ` describes physical extent, not epistemic uncertainty.
+## What changed in the model
 
-A separate rank-16 Gaussian discrepancy couples predicted target motion and
-sensor ranges through the **same latent variable**:
+A geometry wrapper retracts each particle's linear-modal motion to finite
+rotation about its hypothesized point pin. It preserves the residual deformation
+and exact candidate pin. This changes rendered geometry; it does not solve
+corrected nonlinear forces, inertia or exact rigid-handle dynamics.
+
+A rank-16 Gaussian discrepancy couples physical target motion and sensor ranges
+through the same latent variable:
 
 ```text
 target = corrected physical target + mT + BT z
@@ -26,138 +28,102 @@ ranges = corrected physical ranges + mO + BO z + sensor noise
 z ~ N(0, I)
 ```
 
-For each material/support particle, base observations condition both its
-physical-mixture weight and its latent discrepancy. An extra view uses
-`log p(base, view) − log p(base)` and retains the same conditional latent state.
-Treating the new view as independent would double-count shared information.
-Target discrepancy means/factors are projected to zero at each particle's
-candidate point pin. Predictive-risk view selection includes conditional
-discrepancy variance and disagreement between physical hypotheses.
+Base depths condition both physical-hypothesis weights and the shared latent
+state. A view update uses `log p(base, view) - log p(base)`; it does not treat
+correlated observations as independent evidence. Target discrepancy mean and
+factor are projected to zero at each candidate pin. View risk includes both
+between-hypothesis disagreement and conditional discrepancy variance.
 
-The working sensor retains 0.2 mm foreground noise, visibility-error
-probability 0.005 and 0.05 m broad background. Visibility is determined by the
-physical surface independently of discrepancy: a deliberate approximation to
-nonlinear rendering and missingness, not exact image-space physics.
+The discrepancy fit used only the **old 16 calibration objects**, now development
+data, with supplied-true parameters. It used no fresh-cohort values. Its retained
+corrected-forward training residuals were 27.4/25.9 µm coordinate RMS for A/B;
+these are training diagnostics, not test accuracy. Of 216 range channels,
+130 had no paired foreground training hits and retain zero learned offsets and
+loadings. A preserved early development rejection concerned byte-identical H0
+copies at different paths; the loader now checks digest and actual bytes.
 
-## Completed development work
+The working sensor keeps 0.2 mm foreground noise, visibility-error probability
+0.005 and a 0.05 m broad background. Physical-surface visibility is independent
+of discrepancy, an explicit rendering approximation. Compatible material
+Gaussians share the nodal deformation field; `F Σ₀ Fᵀ` is physical shape
+covariance, not epistemic uncertainty.
 
-The discrepancy fit used **only the old 16 calibration objects**, now
-development data, with supplied-true parameters and corrected forward
-predictions. No new-cohort truth or responses entered fitting. Before fitting,
-the retained corrected-forward residuals were:
+## Frozen evaluation and results
 
-| Old development program | Coordinate RMS | Maximum coordinate error |
+Fresh full-prior draws use seeds `2026120100+i`, conditioned only on known
+point-pin BC0 and fixed public H0. Unknowns include the pin node and homogeneous
+material; all 12 continuous coordinates and inactive nuisance fields are kept.
+Three fixed reference seeds retain all 55 support masks, with nested
+256/1,024 material draws per mask and exact `p(mask)/Nmask` weights. The first
+seed supplies 2,048 systematic samples. No category or failed outcome is removed.
+
+Inference observes 72 sparse depths from A at 0.5 and 1 s. One of four
+prepositioned virtual views supplies 36 additional depths at 1.2 s. Every policy
+is scored on **A frames 31–60 (1.55–3 s)** and **B frames 0–60**, where B is a
+separate known-control rollout from rest with no B observations. It is not a
+continuing-state poke. Predictions and view choices freeze before future
+motion or physical truth enters evaluation.
+
+| Policy | Future A pooled coordinate RMSE | Reset B pooled coordinate RMSE |
 |---|---:|---:|
-| A | 27.4 µm | 492.2 µm |
-| B | 25.9 µm | 352.0 µm |
+| No additional view | 0.756 mm | 0.516 mm |
+| Fixed view 1, chosen on calibration | 0.308 mm | 0.201 mm |
+| Random view | 0.375 mm | 0.246 mm |
+| Uncertainty-guided view | 0.373 mm | 0.243 mm |
 
-The fit completed in 6.235 s. Paired foreground range residual RMS was 3.323 µm;
-130/216 channels had no paired foreground training hits and keep zero learned
-offsets/loadings. Missing measurements are not invented. These are training
-residual diagnostics, without conditional or held-out calibration evidence.
+The paired mean-object RMSE difference, active minus random, is −0.0033 mm
+(95% object-bootstrap interval −0.0425 to 0.0358) for A. Active minus the
+calibration-selected fixed camera is +0.0321 mm (−0.0174 to 0.0835). There is
+no established active-policy benefit. The report retains every fixed camera and
+both RMSE/MSE comparisons; the B MSE comparison favors the fixed camera.
 
-All three corrected observation-independent prior libraries completed in
-417.53 s: **168,960 particles**, all 55 support categories retained, no sampled
-tet/frame inversions and minimum sampled Jacobian 0.96816. Only old prior
-geometry/material coordinates were reused; corrected rays were recomputed.
-Old case likelihoods, posterior weights and old rendered rays were excluded.
+The frozen conformal score takes one maximum per object across the fixed
+mesh/time targets and all five potential view states. Calibration chose scale
+8.9917 from 16 independent objects. The reserved joint count is **31/32**,
+exact binomial 95% interval **83.8–99.9%**, at the declared nominal 90% level.
+Mean full coordinate band widths are 5.49 mm without a view and 2.92 mm after
+the active view. These population predictive bands do not calibrate material
+probabilities or certify material/support-conditional coverage.
 
-A first development execution rejected two byte-identical H0 copies because
-their paths differed. That rejection is preserved. The loader now verifies
-both digests and actual bytes, accepting equal copies at different paths and
-rejecting changed hardware; nine synthetic tests pass. The intermediate loader
-was not separately published as a reproducible checkpoint. A subsequent full
-pipeline smoke on **old object 0 only** completed in 32.3 s. Nineteen root
-integration tests passed before execution froze. Neither check is held-out
-performance, and neither used new-cohort episode values.
+On the same 2,048 empirical particles, active acquisition narrows Young's
+modulus intervals but coverage falls **30→27/32**; drag falls **27→25/32**.
+Young's modulus and density mean estimates improve, while Poisson ratio and
+drag remain weakly constrained. Support-mode correctness rises **19→25/32**,
+but one active support mode is at least 90% confident and wrong. Mode accuracy
+is not support credible-set coverage. Minimum active row ESS is 39.3; repeated
+resampled rows do not count as independent hypotheses.
 
-## Fresh evaluation contract and current status
+A prerelease-frozen auxiliary benchmark reran the **old uncorrected method on
+these same 32 objects**, depths, noise, controls and view indices. Under the
+same active-selected views, future A pooled RMSE is 0.384 mm old versus
+0.373 mm new. The mean-object difference is −0.0087 mm (95% interval
+−0.0184 to −0.0006), while the paired MSE interval includes zero. Reset B is
+0.2433 versus 0.2429 mm with inconclusive paired differences. This is a modest
+comparison of complete methods, not an isolated rotation-versus-GP ablation;
+no claim relies on comparing means from different cohorts.
 
-The new proper full prior draws are conditioned only on known point-pin BC0,
-with seeds `2026120100+i`, 16 calibration objects and 32 reserved objects.
-All 12 continuous coordinates and inactive/discrete nuisance fields are
-retained. Public H0, known A/B reset controls, 120 Hz finite integration and
-61 output frames match the previous capture recipe. All 16 calibration objects
-completed without failure in 527.02 s. Remaining finite captures and the fresh
-reserved evaluation are pending at this checkpoint; live progress files and
-per-object result values are excluded from publication.
+## Videos and mechanics scope
 
-Base inference keeps three independent prior-library seeds and nested
-256/1,024 samples per support mask, using exact `p(mask)/Nmask` integration
-mass. The fixed first seed supplies 2,048 systematic samples with resampling
-seed 2026120700; repeated particles retain their aligned latent conditionals.
-One of four prepositioned virtual views at 1.2 s is selected using 32 fantasies.
-All policies share A frames 31–60 and B frames 0–60 for action comparisons.
+Six local true-scale, common-camera actual/no-view/active videos show the
+largest improvement (object 19), worst regression (17) and worst absolute
+active future error (40), selected **after** the sealed aggregate using the
+frozen recipe. Each has a future-A clip and separate reset-B clip. They are
+illustrations of extremes, not representative sampling. The [video manifest](../runs/gaussian-campaign-v01/point-rotation-videos-v02/render-manifest.json)
+records selection, errors and hashes; MP4/PNG files remain local.
 
-The frozen object-level band score covers no-action and all four potential
-view states; calibration, camera selection and explicit reserved release remain
-separate. No redraw, retries, category filtering, held-score selection or
-post-freeze tuning is allowed. Calibration selected a simultaneous-band scale of
-**8.991684563155914** using the maximum of the 16 independent object scores
-(rank 16 at the declared 90% level), with the same 1 nm denominator floor.
-The fixed camera is **view index 1**, selected solely by calibration A31–60 MSE.
-An explicit hash-bound release now permits the 32 reserved objects; their
-prediction, coverage, bandwidth and active-versus-fixed/random comparisons
-remain pending. This scale is not a direct held-out improvement over the
-previous experiment, which used a different cohort and predictive model.
-The [previous 738.59× inflation and negative policy result](GAUSSIAN_MATERIAL_INTERACTION_EXTENSION.md)
-are preserved rather than replaced by this development stage.
-
-An auxiliary [matched old-model benchmark](../runs/operator-dev/point-old-matched-benchmark-v01/protocol.json)
-was frozen before the new reserved release. It will rerun the uncorrected
-physical predictor on these same 32 objects, acquired depths, noise seeds,
-queries and known controls, comparing the same five potential view states
-and common target windows. It has not run at this checkpoint. This is a
-paired comparison of complete old and new methods, not an isolated rotation
-versus discrepancy ablation or a newly selected old-model policy.
-
-
-## Calibration-only material and support diagnostic
-
-A separately frozen, post-seal audit uses the **same 2,048 empirical particles**
-before and after each view. It retains all 55 support categories and all 16
-calibration objects. These are descriptive marginal material intervals, separate
-from the calibrated predictive-field bands.
-
-| Parameter | 90% interval coverage, before → active | Mean interval width, before → active | Posterior-mean MAE, before → active |
-|---|---:|---:|---:|
-| Young's modulus | 13/16 → 14/16 | 14,261 → 8,672 Pa | 3,740 → 2,141 Pa |
-| Density | 14/16 → 12/16 | 249.4 → 170.3 kg/m³ | 62.0 → 48.6 kg/m³ |
-| Poisson ratio | 16/16 → 16/16 | 0.1264 → 0.1248 | 0.0324 → 0.0321 |
-| Body drag | 16/16 → 15/16 | 0.4485 → 0.4387 s⁻¹ | 0.1146 → 0.1073 s⁻¹ |
-
-Narrower intervals can still lose coverage: active acquisition lost previously
-covered density truths for two objects and drag for one. Mean true-support
-probability rose from 0.319 to 0.626, and support-mode correctness from 6/16 to
-12/16, but one active support mode was at least 90% confident and wrong.
-The active update's mean empirical row ESS was 452, with a minimum of 22.1;
-resampled-row ESS is not an independent-hypothesis count. No model or policy
-was tuned using this audit. The frozen fixed camera and random policy remain
-required comparators on the fresh reserved test.
-
-A separate video adapter is prepared but has not rendered new-cohort videos.
-After the complete reserved aggregate seals, it will select the largest active
-improvement, worst regression and worst absolute active forecast error from
-sealed A31–60 metrics, breaking ties by object index. It will show true-scale,
-common-camera actual/no-view/active panels for **A31–60 future prediction** and
-separate **B0–60 known-control rollout from rest**, with no B observations.
-The selection is a posthoc illustration, not a representative sample. MP4 and
-PNG outputs remain local; compact metadata will record selection and hashes.
-
-Scope remains fixed public H0 and known point-pin type, with unknown node and
-homogeneous material. There is no RGB encoder, general BC/contact inference,
-continuing-state poke, native-Isaac equivalence or continuum claim. A global
-old-data discrepancy model does not establish material/support-conditional
-calibration. Raw GP factors, prior archives, private hypotheses and captures
-remain local; all live execution source pins are immutable.
+A separate [tiny nonlinear Gaussian reference](../runs/operator-dev/nonlinear-gaussian-reference-v01/report.json)
+passes objective Neo-Hookean, gradient, Gaussian fixture damping/work, exact
+constraint, transport and temporal-refinement implementation checks. It is
+**not used by this predictor** and does not validate its approximate forward
+law. Finite compliant springs are separate hypotheses from exact hard supports.
+No general boundary/contact inference, RGB reconstruction, real camera path
+planning, native-Isaac equivalence or continuum convergence is established.
 
 Evidence: [method](../runs/operator-dev/point-rotation-analysis-v02/method-protocol.json),
 [execution](../runs/operator-dev/point-rotation-analysis-v02/execution-protocol.json),
-[old-only fit freeze](../runs/operator-dev/point-rotation-discrepancy-v02/fit-frozen.json),
-[completed prior-library summary](../runs/gaussian-campaign-v01/point-rotation-library-v02/summary.json),
-[preserved development rejection](../runs/operator-dev/point-rotation-analysis-v02/development-smoke-v01/terminal.json)
-and [old-only development completion](../runs/operator-dev/point-rotation-analysis-v02/development-smoke-v02/terminal.json),
-[completed calibration freeze](../runs/gaussian-campaign-v01/point-rotation-analysis-v02/calibration-frozen.json),
-[explicit reserved release](../runs/operator-dev/point-rotation-analysis-v02/reserved-release.json),
-[calibration material audit](../runs/gaussian-campaign-v01/point-rotation-material-audit-v02/CALIBRATION/summary.json)
-and [prospective video recipe](../runs/operator-dev/point-rotation-renderer-v02/recipe.json).
+[calibration freeze](../runs/gaussian-campaign-v01/point-rotation-analysis-v02/calibration-frozen.json),
+[reserved aggregate](../runs/gaussian-campaign-v01/point-rotation-analysis-v02/reserved-evaluation.json),
+[material/support audit](../runs/gaussian-campaign-v01/point-rotation-material-audit-v02/RESERVED_EVALUATION/summary.json),
+[matched benchmark](../runs/gaussian-campaign-v01/point-old-matched-benchmark-v01/matched-comparison.json)
+and [completed durable postprocessing](../runs/operator-dev/point-rotation-postprocess-v02/status.json).
+The [previous study](GAUSSIAN_MATERIAL_INTERACTION_EXTENSION.md) remains historical evidence.

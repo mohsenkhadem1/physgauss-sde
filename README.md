@@ -1,16 +1,23 @@
 # PhysGauss-SDE
 
-**Latest: [sealed 32-object forecasting/view comparison](runs/gaussian-campaign-v01/point-prior-analysis-v01/REPORT.md).**
-Extra depth observations reduce future RMSE from 0.675 to 0.310 mm; random views
-score0.308 mm, so uncertainty-guided selection has no established advantage.
-Simultaneous coverage requires roughly object-sized bands. True-parameter
-controls locate a missing finite-rotation term in the linear forward model.
+**Latest: [sealed rotation-aware 32-object study](runs/gaussian-campaign-v01/point-rotation-analysis-v02/REPORT.md).**
+Extra depth views reduce future RMSE from **0.756 to 0.373 mm**; random views
+score 0.375 mm and the calibration-selected fixed view 0.308 mm. Active selection
+has no established advantage. Joint predictive bands cover 31/32 objects
+(exact 95% CI 83.8–99.9%) with 2.92 mm mean active full width. Material intervals
+still lose coverage after some updates. A same-object old/new benchmark finds
+only a small forecast change; [method and limits](docs/GAUSSIAN_ROTATION_UNCERTAINTY.md).
 
 **Current direction: [moving material and localized interactions](docs/GAUSSIAN_MATERIAL_INTERACTION_EXTENSION.md).**
-Compatible mass-carrying material Gaussians are separate from fixture/load laws.
-A new implicit compliant-fixture adapter passes CPU/GPU manufactured checks;
-rotation repair and balanced elastic-excitation pilots remain development work.
-Raw datasets, particles and videos remain local; GitHub Actions stay disabled.
+Compatible material Gaussians are separate from uncertain fixture/load laws.
+New linear and nonlinear tiny mechanics checks validate implementation pieces;
+they do not replace this study's approximate forward model.
+Manufactured [uncertain compliant-fixture inference](docs/GAUSSIAN_COMPLIANT_PATCH_INVERSE.md)
+remains numerically unresolved: the 625-point material interval collapses, and
+the 83,521-point refinement fails its declared criteria. The
+[previous point-support study](runs/gaussian-campaign-v01/point-prior-analysis-v01/REPORT.md)
+remains historical evidence. Raw datasets, particles and videos remain local;
+GitHub Actions stay disabled.
 
 **Earlier one-object unknown point support and material:** [method and evidence](docs/GAUSSIAN_POINT_SUPPORT_ORACLE.md)
 use two sparse depth frames on one fresh object, with the point-pin type known.
