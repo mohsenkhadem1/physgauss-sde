@@ -1,0 +1,408 @@
+{
+  "role": "Independent finite-strain static TRAIN t0001 diagnostic; not native PhysX or dynamic predictor",
+  "current_revision": "v02",
+  "preliminary_v01_preserved": true,
+  "conclusion": "All seven finite-strain static local equilibria pass declared residual and independent nodal force/moment checks; peak coordinate difference from linear statics is 0.422603 micrometres (0.326%).",
+  "native_numerical_gate_passed": false,
+  "native_constitutive_equivalence_established": false,
+  "dynamic_prediction_validated": false,
+  "continuum_convergence_established": false,
+  "node_count": 455,
+  "tetrahedra": 1728,
+  "reduced_dofs": 1275,
+  "material": {
+    "youngs_modulus_Pa": 4249.367739516093,
+    "poissons_ratio": 0.3407184360170016,
+    "density_kg_m3": 797.5013221490891,
+    "linear_damping_s_inverse": 0.5931586565297235,
+    "elasticity_damping": 0.02
+  },
+  "constitutive_law": "W=mu/2*(tr(F.T F)-3)-mu*log J+lambda/2*(log J)^2; J>1e-8",
+  "fixture": "Exact fixed reference positions; no penalty",
+  "handles": "Both full 9-node patches: x_i=X_origin+t+exp(skew(omega))*r_i; exact finite rigid distances",
+  "load": "Constant dead force (.01,.01,.005)N at first handle origin; no applied torque; handle1 unforced",
+  "solver": "Rest-linear-Kr Cholesky preconditioned nonlinear descent; explicit positive-J energy/residual line search; no stiffness repair",
+  "residual_definition": "All free-node and handle translation gradients in N; physical WORLD torque J_left(omega)^(-T)*axis-angle-gradient divided by maximum rest bounding-box extent. Relative to applied force norm. Axis-angle gradients also separately reported.",
+  "damping_and_inertia": "Not present in static equilibrium; no static mass/damping effect is inferred.",
+  "all_declared_residual_gates_passed": true,
+  "continuation": [
+    {
+      "load_scale": 0.001,
+      "converged": true,
+      "iterations": 2,
+      "coordinate_rms_displacement_m": 1.2963550806701656e-07,
+      "linear_coordinate_rms_displacement_m": 1.2963590411847885e-07,
+      "coordinate_rmse_vs_linear_m": 4.236421985783319e-13,
+      "relative_coordinate_rmse_vs_linear": 3.267938781767976e-06,
+      "maximum_nodal_displacement_m": 5.226299042877142e-07,
+      "fixture_max_error_m": 0.0,
+      "maximum_rigid_patch_pairwise_distance_error_m": 3.469446951953614e-17,
+      "maximum_absolute_green_principal_strain": 3.909619937736208e-06,
+      "minimum_J": 0.999999042923364,
+      "elastic_energy_J": 2.6611113199576666e-12,
+      "potential_energy_J": -2.6611175023677302e-12,
+      "residual_tolerance_N": 1e-11,
+      "invalid_J_trials_rejected": 0,
+      "energy_roundoff_window_J": 1.0377420365190275e-13,
+      "scaled_generalized_residual_norm_N": 1.3796759027932023e-13,
+      "relative_scaled_generalized_residual": 9.19783935195468e-09,
+      "maximum_translational_residual_N": 3.118118437739738e-14,
+      "maximum_handle_torque_residual_Nm": 1.1608969138960334e-16,
+      "maximum_axis_angle_gradient_Nm": 1.1608955124022583e-16,
+      "rotation_residual_length_scale_m": 0.24
+    },
+    {
+      "load_scale": 0.01,
+      "converged": true,
+      "iterations": 2,
+      "coordinate_rms_displacement_m": 1.2963194021774772e-06,
+      "linear_coordinate_rms_displacement_m": 1.2963590411847885e-06,
+      "coordinate_rmse_vs_linear_m": 4.239636979028867e-11,
+      "relative_coordinate_rmse_vs_linear": 3.270418799373754e-05,
+      "maximum_nodal_displacement_m": 5.226144699954961e-06,
+      "fixture_max_error_m": 0.0,
+      "maximum_rigid_patch_pairwise_distance_error_m": 4.163336342344337e-17,
+      "maximum_absolute_green_principal_strain": 3.9096676184230996e-05,
+      "minimum_J": 0.99999042954317,
+      "elastic_energy_J": 2.6609999385638446e-10,
+      "potential_energy_J": -2.6610618760338067e-10,
+      "residual_tolerance_N": 1.4999999999999997e-11,
+      "invalid_J_trials_rejected": 0,
+      "energy_roundoff_window_J": 1.0377420365190275e-13,
+      "scaled_generalized_residual_norm_N": 2.048881495817636e-12,
+      "relative_scaled_generalized_residual": 1.3659209972117574e-08,
+      "maximum_translational_residual_N": 1.3105581209019515e-12,
+      "maximum_handle_torque_residual_Nm": 3.962870893222997e-15,
+      "maximum_axis_angle_gradient_Nm": 3.962861875587866e-15,
+      "rotation_residual_length_scale_m": 0.24
+    },
+    {
+      "load_scale": 0.1,
+      "converged": true,
+      "iterations": 3,
+      "coordinate_rms_displacement_m": 1.2959631128914063e-05,
+      "linear_coordinate_rms_displacement_m": 1.2963590411847883e-05,
+      "coordinate_rmse_vs_linear_m": 4.235003224613552e-09,
+      "relative_coordinate_rmse_vs_linear": 0.0003266844361839011,
+      "maximum_nodal_displacement_m": 5.224603433331654e-05,
+      "fixture_max_error_m": 0.0,
+      "maximum_rigid_patch_pairwise_distance_error_m": 2.7755575615628914e-17,
+      "maximum_absolute_green_principal_strain": 0.00039101453232298525,
+      "minimum_J": 0.9999043263444566,
+      "elastic_energy_J": 2.6598879698277858e-08,
+      "potential_energy_J": -2.6605057450379218e-08,
+      "residual_tolerance_N": 1.4999999999999997e-10,
+      "invalid_J_trials_rejected": 0,
+      "energy_roundoff_window_J": 1.0377420365190275e-13,
+      "scaled_generalized_residual_norm_N": 2.0603443186766308e-11,
+      "relative_scaled_generalized_residual": 1.373562879117754e-08,
+      "maximum_translational_residual_N": 1.4531046071269982e-11,
+      "maximum_handle_torque_residual_Nm": 1.0814402751198043e-13,
+      "maximum_axis_angle_gradient_Nm": 1.0814458800510253e-13,
+      "rotation_residual_length_scale_m": 0.24
+    },
+    {
+      "load_scale": 0.25,
+      "converged": true,
+      "iterations": 4,
+      "coordinate_rms_displacement_m": 3.238423786377807e-05,
+      "linear_coordinate_rms_displacement_m": 3.240897602961971e-05,
+      "coordinate_rmse_vs_linear_m": 2.645952121671604e-08,
+      "relative_coordinate_rmse_vs_linear": 0.0008164257084992056,
+      "maximum_nodal_displacement_m": 0.00013055088842420866,
+      "fixture_max_error_m": 0.0,
+      "maximum_rigid_patch_pairwise_distance_error_m": 3.469446951953614e-17,
+      "maximum_absolute_green_principal_strain": 0.0009777351036540569,
+      "minimum_J": 0.9997609446155563,
+      "elastic_energy_J": 1.6612725105515222e-07,
+      "potential_energy_J": -1.6622371192468822e-07,
+      "residual_tolerance_N": 3.7499999999999995e-10,
+      "invalid_J_trials_rejected": 0,
+      "energy_roundoff_window_J": 1.0377420365190275e-13,
+      "scaled_generalized_residual_norm_N": 1.595901434564305e-12,
+      "relative_scaled_generalized_residual": 4.255737158838147e-10,
+      "maximum_translational_residual_N": 1.0676654872698865e-12,
+      "maximum_handle_torque_residual_Nm": 5.376803252213972e-15,
+      "maximum_axis_angle_gradient_Nm": 5.3767580121589086e-15,
+      "rotation_residual_length_scale_m": 0.24
+    },
+    {
+      "load_scale": 0.5,
+      "converged": true,
+      "iterations": 4,
+      "coordinate_rms_displacement_m": 6.471904955463694e-05,
+      "linear_coordinate_rms_displacement_m": 6.481795205923941e-05,
+      "coordinate_rmse_vs_linear_m": 1.0577523258118047e-07,
+      "relative_coordinate_rmse_vs_linear": 0.0016318817429546177,
+      "maximum_nodal_displacement_m": 0.0002608879528127163,
+      "fixture_max_error_m": 0.0,
+      "maximum_rigid_patch_pairwise_distance_error_m": 2.7755575615628914e-17,
+      "maximum_absolute_green_principal_strain": 0.001956131548750133,
+      "minimum_J": 0.999522318060497,
+      "elastic_energy_J": 6.637384600875176e-07,
+      "potential_energy_J": -6.645092352184562e-07,
+      "residual_tolerance_N": 7.499999999999999e-10,
+      "invalid_J_trials_rejected": 0,
+      "energy_roundoff_window_J": 1.0377420365190275e-13,
+      "scaled_generalized_residual_norm_N": 4.67825735505808e-11,
+      "relative_scaled_generalized_residual": 6.2376764734107735e-09,
+      "maximum_translational_residual_N": 3.146871652148775e-11,
+      "maximum_handle_torque_residual_Nm": 1.624154025233007e-13,
+      "maximum_axis_angle_gradient_Nm": 1.6241340553769264e-13,
+      "rotation_residual_length_scale_m": 0.24
+    },
+    {
+      "load_scale": 0.75,
+      "converged": true,
+      "iterations": 4,
+      "coordinate_rms_displacement_m": 9.700450950501468e-05,
+      "linear_coordinate_rms_displacement_m": 9.722692808885912e-05,
+      "coordinate_rmse_vs_linear_m": 2.3785370674683639e-07,
+      "relative_coordinate_rmse_vs_linear": 0.002446376856928499,
+      "maximum_nodal_displacement_m": 0.00039101150146821746,
+      "fixture_max_error_m": 0.0,
+      "maximum_rigid_patch_pairwise_distance_error_m": 4.163336342344337e-17,
+      "maximum_absolute_green_principal_strain": 0.0029351869886604168,
+      "minimum_J": 0.9992841196848036,
+      "elastic_energy_J": 1.49168087351444e-06,
+      "potential_energy_J": -1.4942791869149772e-06,
+      "residual_tolerance_N": 1.125e-09,
+      "invalid_J_trials_rejected": 0,
+      "energy_roundoff_window_J": 1.0377420365190275e-13,
+      "scaled_generalized_residual_norm_N": 2.7108607867388436e-10,
+      "relative_scaled_generalized_residual": 2.40965403265675e-08,
+      "maximum_translational_residual_N": 1.8288939807042937e-10,
+      "maximum_handle_torque_residual_Nm": 9.591699341796094e-13,
+      "maximum_axis_angle_gradient_Nm": 9.591549002248865e-13,
+      "rotation_residual_length_scale_m": 0.24
+    },
+    {
+      "load_scale": 1.0,
+      "converged": true,
+      "iterations": 4,
+      "coordinate_rms_displacement_m": 0.0001292406910055379,
+      "linear_coordinate_rms_displacement_m": 0.00012963590411847883,
+      "coordinate_rmse_vs_linear_m": 4.226027173141919e-07,
+      "relative_coordinate_rmse_vs_linear": 0.00325992031442123,
+      "maximum_nodal_displacement_m": 0.0005209218376899762,
+      "fixture_max_error_m": 0.0,
+      "maximum_rigid_patch_pairwise_distance_error_m": 2.7755575615628914e-17,
+      "maximum_absolute_green_principal_strain": 0.003914899047840162,
+      "minimum_J": 0.9990463488476253,
+      "elastic_energy_J": 2.648805773778129e-06,
+      "potential_energy_J": -2.6549575639721375e-06,
+      "residual_tolerance_N": 1.4999999999999998e-09,
+      "invalid_J_trials_rejected": 0,
+      "energy_roundoff_window_J": 1.0377420365190275e-13,
+      "scaled_generalized_residual_norm_N": 9.25752349414255e-10,
+      "relative_scaled_generalized_residual": 6.171682329428367e-08,
+      "maximum_translational_residual_N": 6.26200502909513e-10,
+      "maximum_handle_torque_residual_Nm": 3.332193227890206e-12,
+      "maximum_axis_angle_gradient_Nm": 3.3321362392315736e-12,
+      "rotation_residual_length_scale_m": 0.24
+    }
+  ],
+  "final_nonlinear_equilibrium_tangent": {
+    "minimum_eigenvalue": 0.0698001849748317,
+    "maximum_eigenvalue": 1522.9988057950845,
+    "smallest_ten_eigenvalues": [
+      0.0698001849748317,
+      0.07485609506680257,
+      0.08818752369070454,
+      0.13958289796598017,
+      0.18221910337935987,
+      0.1905373446387839,
+      0.3847461519414358,
+      0.4235573187785875,
+      0.5351096663432797,
+      0.8305751182149114
+    ],
+    "eigenvalues_at_or_below_cutoff": 0,
+    "relative_eigenvalue_cutoff": 1e-10,
+    "absolute_cutoff": 1.5229988057950847e-07,
+    "cholesky_info": 0
+  },
+  "tangent_qualification": "Positive tangent in this generalized-coordinate representation supports a local equilibrium; raw translations/rotations use different units and the threshold is not an invariant conditioning certificate.",
+  "reaction_audit_method": "Differentiate energy w.r.t every physical node position; sum forces and torques directly, independently of condensed coordinates and SO(3) Jacobian conversion. Fixed-node gradient is external support reaction.",
+  "all_independent_nodal_reaction_checks_passed": true,
+  "independent_nodal_reactions": [
+    {
+      "load_scale": 0.001,
+      "free_node_gradient_norm_N": 1.3374114971854367e-13,
+      "total_external_force_residual_norm_N": 5.366646115062311e-15,
+      "total_external_moment_residual_norm_Nm": 4.918568682553715e-16,
+      "force_residual_tolerance_N": 1e-11,
+      "aggregate_balance_bound_N": 2.133072900770154e-10,
+      "all_checks_passed": true,
+      "handle_residuals": [
+        {
+          "handle": 0,
+          "residual_norm_N": 3.268726076102777e-14,
+          "torque_residual_norm_Nm": 1.532900344642774e-16
+        },
+        {
+          "handle": 1,
+          "residual_norm_N": 8.909411407681863e-15,
+          "torque_residual_norm_Nm": 8.253457571044967e-17
+        }
+      ]
+    },
+    {
+      "load_scale": 0.01,
+      "free_node_gradient_norm_N": 1.3951136310065823e-12,
+      "total_external_force_residual_norm_N": 2.7514826483824875e-13,
+      "total_external_moment_residual_norm_Nm": 4.2044954522505835e-13,
+      "force_residual_tolerance_N": 1.4999999999999997e-11,
+      "aggregate_balance_bound_N": 3.1996093511552304e-10,
+      "all_checks_passed": true,
+      "handle_residuals": [
+        {
+          "handle": 0,
+          "residual_norm_N": 1.4624478812123345e-12,
+          "torque_residual_norm_Nm": 4.090204890170461e-15
+        },
+        {
+          "handle": 1,
+          "residual_norm_N": 3.3539170437944986e-13,
+          "torque_residual_norm_Nm": 1.5459490049731006e-15
+        }
+      ]
+    },
+    {
+      "load_scale": 0.1,
+      "free_node_gradient_norm_N": 1.3909904575637827e-11,
+      "total_external_force_residual_norm_N": 2.882529074540112e-12,
+      "total_external_moment_residual_norm_Nm": 3.8413079223433486e-13,
+      "force_residual_tolerance_N": 1.4999999999999997e-10,
+      "aggregate_balance_bound_N": 3.1996093511552306e-09,
+      "all_checks_passed": true,
+      "handle_residuals": [
+        {
+          "handle": 0,
+          "residual_norm_N": 1.482388175801517e-11,
+          "torque_residual_norm_Nm": 1.146142122426409e-13
+        },
+        {
+          "handle": 1,
+          "residual_norm_N": 3.3226628488019326e-12,
+          "torque_residual_norm_Nm": 6.805616048238967e-15
+        }
+      ]
+    },
+    {
+      "load_scale": 0.25,
+      "free_node_gradient_norm_N": 1.1100860920543281e-12,
+      "total_external_force_residual_norm_N": 2.158880390069876e-13,
+      "total_external_moment_residual_norm_Nm": 2.327282973365124e-13,
+      "force_residual_tolerance_N": 3.7499999999999995e-10,
+      "aggregate_balance_bound_N": 7.999023377888078e-09,
+      "all_checks_passed": true,
+      "handle_residuals": [
+        {
+          "handle": 0,
+          "residual_norm_N": 1.1172401735655463e-12,
+          "torque_residual_norm_Nm": 5.405950142996802e-15
+        },
+        {
+          "handle": 1,
+          "residual_norm_N": 2.5662981412203704e-13,
+          "torque_residual_norm_Nm": 1.0308196832747848e-15
+        }
+      ]
+    },
+    {
+      "load_scale": 0.5,
+      "free_node_gradient_norm_N": 3.2526557656900546e-11,
+      "total_external_force_residual_norm_N": 6.411000359272478e-12,
+      "total_external_moment_residual_norm_Nm": 6.659080983989365e-12,
+      "force_residual_tolerance_N": 7.499999999999999e-10,
+      "aggregate_balance_bound_N": 1.5998046755776155e-08,
+      "all_checks_passed": true,
+      "handle_residuals": [
+        {
+          "handle": 0,
+          "residual_norm_N": 3.274633328944272e-11,
+          "torque_residual_norm_Nm": 1.6395223875531827e-13
+        },
+        {
+          "handle": 1,
+          "residual_norm_N": 7.604701285872031e-12,
+          "torque_residual_norm_Nm": 2.599987238095669e-14
+        }
+      ]
+    },
+    {
+      "load_scale": 0.75,
+      "free_node_gradient_norm_N": 1.88368505814573e-10,
+      "total_external_force_residual_norm_N": 3.7244383012530134e-11,
+      "total_external_moment_residual_norm_Nm": 3.7468354396870505e-11,
+      "force_residual_tolerance_N": 1.125e-09,
+      "aggregate_balance_bound_N": 2.3997070133664233e-08,
+      "all_checks_passed": true,
+      "handle_residuals": [
+        {
+          "handle": 0,
+          "residual_norm_N": 1.8984990900792334e-10,
+          "torque_residual_norm_Nm": 9.693351601839038e-13
+        },
+        {
+          "handle": 1,
+          "residual_norm_N": 4.4105400180934674e-11,
+          "torque_residual_norm_Nm": 1.4816188906254175e-13
+        }
+      ]
+    },
+    {
+      "load_scale": 1.0,
+      "free_node_gradient_norm_N": 6.428805365220699e-10,
+      "total_external_force_residual_norm_N": 1.2728739378887677e-10,
+      "total_external_moment_residual_norm_Nm": 1.2437697926795323e-10,
+      "force_residual_tolerance_N": 1.4999999999999998e-09,
+      "aggregate_balance_bound_N": 3.199609351155231e-08,
+      "all_checks_passed": true,
+      "handle_residuals": [
+        {
+          "handle": 0,
+          "residual_norm_N": 6.486919211497072e-10,
+          "torque_residual_norm_Nm": 3.371428396831807e-12
+        },
+        {
+          "handle": 1,
+          "residual_norm_N": 1.5072890807256204e-10,
+          "torque_residual_norm_Nm": 4.96534654732811e-13
+        }
+      ]
+    }
+  ],
+  "source_sha256": {
+    "experiments/campaign_nonlinear_fem.py": "468daaafa9d02c9db27553e2cfb154190248500677c212d9dde25bffdf14e1ff",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "runs/gaussian-campaign-v01/nonlinear-fem-static-t0001-v02/reaction-audit-source.py": "30e22bd445df4cf85dfc1c0475be600c81343b1482a37f7c4a4b29a609e11a91"
+  },
+  "input_sha256": {
+    "runs/gaussian-boundary-neural-v01/episodes/t0001/reference.npz": "caf02bed9a53f39466dbaad50d8dedd4ac7f39d421701215a38efd7105106e91",
+    "runs/gaussian-boundary-neural-v01/episodes/t0001/truth/recipe.json": "73151396c5481e5eff40e7178bf0c1e9379053c962ba08de8cc7f18b7ddd41e4",
+    "runs/gaussian-boundary-neural-v01/episodes/t0001/truth/boundaries.json": "fb0cdbaa5445e1b178a2b602722fb541c21c446ca9b53d6c3b442325f6aa8c03"
+  },
+  "saved_equilibrium_sha256": {
+    "runs/gaussian-campaign-v01/nonlinear-fem-static-t0001-v02/scale-0.001.npz": "c71e02ae80eb8662a0ec3ac3a41ee2e4b8acfb221ae9c0c6126b36dc181fbb61",
+    "runs/gaussian-campaign-v01/nonlinear-fem-static-t0001-v02/scale-0.01.npz": "1a7fa1a323817ba8d4678538d4578f902b7f4e27afcfcb2810556744944f36f4",
+    "runs/gaussian-campaign-v01/nonlinear-fem-static-t0001-v02/scale-0.1.npz": "fea24b0722946f0b36583c58b610ca492bf0ad735ed40ce71301d91e75596054",
+    "runs/gaussian-campaign-v01/nonlinear-fem-static-t0001-v02/scale-0.25.npz": "1d3d20ed37f91819d00d9268cf7d7b6e3d186651b03c5a7ed0537c8c92ef0a67",
+    "runs/gaussian-campaign-v01/nonlinear-fem-static-t0001-v02/scale-0.5.npz": "4a422df57efbe702015d4d8c90ed7a4c8371bd7f14da58e46b634b78777db879",
+    "runs/gaussian-campaign-v01/nonlinear-fem-static-t0001-v02/scale-0.75.npz": "ab88db7046b8d139cf9cad9b73a9096eda74adbd27052b30f002e63452042b0d",
+    "runs/gaussian-campaign-v01/nonlinear-fem-static-t0001-v02/scale-1.npz": "2217c7c650cb700a10d4d899d4ebf4aedfcd70a116ef9c91a860febb43e8d115"
+  },
+  "evidence_sha256": {
+    "runs/gaussian-campaign-v01/nonlinear-fem-static-t0001-v02/protocol.json": "d408a023829ebd67e5b11c33b7b779adb461b11dc66ed0cf09c0493a4ee8705e",
+    "runs/gaussian-campaign-v01/nonlinear-fem-static-t0001-v02/results.json": "1ac0b405f16349cdd8ea6ec68d53489e68f417d15624884f01b7ad8c855464ba",
+    "runs/gaussian-campaign-v01/nonlinear-fem-static-t0001-v02/reaction-balance-audit.json": "b5b28166b86fe0c65f22662de01d125e77873f708425bbdf7089139281a9e6f2"
+  },
+  "qualification": "Finite-strain static fixed-discretization continuum diagnostic only. No native/continuum accuracy, dynamics, posterior calibration or active-probing success claim.",
+  "local_equilibrium_only": "Continuation from rest; no global-minimum or branch-uniqueness proof.",
+  "version_qualification": "v02 reports physical world torque via the SO(3) Jacobian conversion. v01 preliminary axis-angle torque metadata is preserved and is not treated as the current torque audit.",
+  "reserved_control_gate_opened_predictively": false,
+  "calibration_audit_opened": false,
+  "fresh_confirmation_opened": false,
+  "raw_artifact_archive_published": false
+}

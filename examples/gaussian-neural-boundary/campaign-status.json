@@ -1,7 +1,7 @@
 {
   "campaign": "gaussian-known-force-recovery-v0.1",
   "status": "active",
-  "updated_utc": "2026-10-21T13:38:54.883122+00:00",
+  "updated_utc": "2026-10-21T15:21:37.602252+00:00",
   "campaign_sha256": "04bd467f559dcad3057b50a2832561e882bb9a7d7bab6d426ca3325724d8b510",
   "heldout_plan_sha256": "2dcb00635d60cae69719c03b539582287b4a51d9a11872f565c4938368259ea4",
   "milestone": "Numerical reliability diagnosis before further fitting or calibration",
@@ -470,33 +470,35 @@
     },
     "numerical-external-forces-v01": {
       "completed": false,
-      "driver_live_at_snapshot": true,
+      "driver_live_at_snapshot": false,
       "cells": [
         {
           "iterations": 32,
-          "state": "captured",
+          "state": "completed_verified",
           "exit_code": 0,
           "gpu": 1,
           "worker_live_at_snapshot": false
         },
         {
           "iterations": 32,
-          "state": "captured",
+          "state": "completed_verified",
           "exit_code": 0,
           "gpu": 2,
           "worker_live_at_snapshot": false
         },
         {
           "iterations": 64,
-          "state": "running",
+          "state": "completed_verified",
+          "exit_code": 0,
           "gpu": 1,
-          "worker_live_at_snapshot": true
+          "worker_live_at_snapshot": false
         },
         {
           "iterations": 128,
-          "state": "running",
+          "state": "failed",
+          "exit_code": 1,
           "gpu": 2,
-          "worker_live_at_snapshot": true
+          "worker_live_at_snapshot": false
         }
       ]
     },
@@ -504,6 +506,60 @@
       "completed": true,
       "driver_live_at_snapshot": false,
       "cells": []
+    },
+    "numerical-lowrate-v01": {
+      "completed": true,
+      "driver_live_at_snapshot": false,
+      "cells": [
+        {
+          "condition": "original",
+          "physics_hz": 60,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 1,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "condition": "recentered",
+          "physics_hz": 60,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 2,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "condition": "recentered",
+          "physics_hz": 120,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 2,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "condition": "original",
+          "physics_hz": 120,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 1,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "condition": "recentered",
+          "physics_hz": 240,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 2,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "condition": "original",
+          "physics_hz": 240,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 1,
+          "worker_live_at_snapshot": false
+        }
+      ]
     },
     "numerical-solver-coordinates-v02": {
       "completed": false,
@@ -605,5 +661,272 @@
         }
       ]
     }
+  },
+  "external_force_iteration_flag": {
+    "case": "TRAIN t0001",
+    "physics_hz": 960,
+    "native_numerical_gate_passed": false,
+    "conclusion": "Flag alone does not restore numerical reliability; retain the failed 128-iteration cell.",
+    "cells": [
+      {
+        "id": "false32",
+        "enabled": false,
+        "iterations": 32,
+        "state": "completed_verified",
+        "diagonal_coordinate_rms_from_rest_m": 0.0002365557452375995
+      },
+      {
+        "id": "true32",
+        "enabled": true,
+        "iterations": 32,
+        "state": "completed_verified",
+        "diagonal_coordinate_rms_from_rest_m": 0.00022641544576607183
+      },
+      {
+        "id": "true64",
+        "enabled": true,
+        "iterations": 64,
+        "state": "completed_verified",
+        "diagonal_coordinate_rms_from_rest_m": 0.0007109650195480228
+      },
+      {
+        "id": "true128",
+        "enabled": true,
+        "iterations": 128,
+        "state": "failed",
+        "failure_time_s": 1.2,
+        "failure_message": "Probe compression/inversion or support drift"
+      }
+    ],
+    "comparisons": [
+      {
+        "cells": [
+          "false32",
+          "true32"
+        ],
+        "available": true,
+        "coordinate_rmse_m": 0.0001914916336277183
+      },
+      {
+        "cells": [
+          "true32",
+          "true64"
+        ],
+        "available": true,
+        "coordinate_rmse_m": 0.0005942426319484746
+      },
+      {
+        "cells": [
+          "true64",
+          "true128"
+        ],
+        "available": false,
+        "reason": "Failed predeclared cell retained"
+      }
+    ],
+    "false32_baseline_bitwise": {
+      "zero_force": {
+        "positions_m": true,
+        "velocities_m_s": true,
+        "force_step_commands_N": true
+      },
+      "evaluation": {
+        "positions_m": true,
+        "velocities_m_s": true,
+        "force_step_commands_N": true
+      },
+      "reset_replay": {
+        "positions_m": true,
+        "velocities_m_s": true,
+        "force_step_commands_N": true
+      }
+    },
+    "evidence": "campaign-diagnosis/external-force-iteration-flag-v01.json"
+  },
+  "lowrate_numerical_audit": {
+    "case": "TRAIN t0001",
+    "deformable_iterations": 32,
+    "native_numerical_gate_passed": false,
+    "assessments": [
+      {
+        "condition": "original",
+        "all_three_rates_available": true,
+        "tolerance_m": 8.439406144556893e-06,
+        "lowrate_refinement_gate_passed": false
+      },
+      {
+        "condition": "recentered",
+        "all_three_rates_available": true,
+        "tolerance_m": 2.344941204609929e-06,
+        "lowrate_refinement_gate_passed": false
+      }
+    ],
+    "translation_gate_passed": false,
+    "diagonal_responses": [
+      {
+        "condition": "original",
+        "physics_hz": 60,
+        "state": "completed_verified",
+        "coordinate_rms_from_rest_m": 0.0004120423213694166
+      },
+      {
+        "condition": "original",
+        "physics_hz": 120,
+        "state": "completed_verified",
+        "coordinate_rms_from_rest_m": 0.00022520784508880606
+      },
+      {
+        "condition": "original",
+        "physics_hz": 240,
+        "state": "completed_verified",
+        "coordinate_rms_from_rest_m": 0.00016878812289113787
+      },
+      {
+        "condition": "recentered",
+        "physics_hz": 60,
+        "state": "completed_verified",
+        "coordinate_rms_from_rest_m": 0.0002846971613496393
+      },
+      {
+        "condition": "recentered",
+        "physics_hz": 120,
+        "state": "completed_verified",
+        "coordinate_rms_from_rest_m": 0.00023251480892404325
+      },
+      {
+        "condition": "recentered",
+        "physics_hz": 240,
+        "state": "completed_verified",
+        "coordinate_rms_from_rest_m": 4.689882409219858e-05
+      }
+    ],
+    "diagonal_refinement_pairs": [
+      {
+        "condition": "original",
+        "rates_hz": [
+          60,
+          120
+        ],
+        "action_id": "evaluation",
+        "coordinate_rmse_m": 0.00032832475521221065,
+        "maximum_nodal_distance_m": 0.0018718168012862393
+      },
+      {
+        "condition": "original",
+        "rates_hz": [
+          120,
+          240
+        ],
+        "action_id": "evaluation",
+        "coordinate_rmse_m": 0.0002512620759472106,
+        "maximum_nodal_distance_m": 0.0016511226828437504
+      },
+      {
+        "condition": "recentered",
+        "rates_hz": [
+          60,
+          120
+        ],
+        "action_id": "evaluation",
+        "coordinate_rmse_m": 0.0001499213535449979,
+        "maximum_nodal_distance_m": 0.0009872076520565543
+      },
+      {
+        "condition": "recentered",
+        "rates_hz": [
+          120,
+          240
+        ],
+        "action_id": "evaluation",
+        "coordinate_rmse_m": 0.00020752359764699224,
+        "maximum_nodal_distance_m": 0.0015286167351876744
+      }
+    ],
+    "diagonal_translation_pairs": [
+      {
+        "physics_hz": 60,
+        "action_id": "evaluation",
+        "coordinate_rmse_m": 0.0003168114563306974,
+        "maximum_nodal_distance_m": 0.0018945923120235926
+      },
+      {
+        "physics_hz": 120,
+        "action_id": "evaluation",
+        "coordinate_rmse_m": 0.00013756339281808237,
+        "maximum_nodal_distance_m": 0.0010007177134809695
+      },
+      {
+        "physics_hz": 240,
+        "action_id": "evaluation",
+        "coordinate_rmse_m": 0.00016211691658938576,
+        "maximum_nodal_distance_m": 0.0009165808581565916
+      }
+    ],
+    "qualification": "All six cells passed sensor/physics QC; both coordinate conditions fail low-rate refinement and translation agreement also fails. Higher-rate negative evidence is retained.",
+    "evidence": "campaign-diagnosis/lowrate-numerical-v01.json"
+  },
+  "continuum_energy_proxy_metadata": {
+    "case": "TRAIN t0001",
+    "physics_hz": 960,
+    "conditions": [
+      "original",
+      "recentered"
+    ],
+    "native_energy_conservation_assessed": false,
+    "qualification": "Independent declared continuum proxies and held-force translational work; native deformable masses, rigid kinetic and constraint energies are unavailable. No native conservation verdict.",
+    "evidence": "campaign-diagnosis/continuum-energy-proxy-v01.json"
+  },
+  "independent_linear_fem": {
+    "case": "TRAIN t0001",
+    "temporal_refinement_passed_for_declared_linear_system": true,
+    "native_numerical_gate_passed": false,
+    "static_coordinate_rms_displacement_m": 0.00012963590411848005,
+    "dynamic_coordinate_rms_displacement_m": [
+      {
+        "hz": 240,
+        "coordinate_rms_displacement_m": 7.710616069142996e-05
+      },
+      {
+        "hz": 480,
+        "coordinate_rms_displacement_m": 7.710195435604007e-05
+      },
+      {
+        "hz": 960,
+        "coordinate_rms_displacement_m": 7.71009046762724e-05
+      }
+    ],
+    "refinement_pairs": [
+      {
+        "low_hz": 240,
+        "high_hz": 480,
+        "coordinate_rmse_m": 1.681589325934005e-08,
+        "maximum_nodal_difference_m": 1.4535271534923707e-07,
+        "difference_contraction": null,
+        "declared_tolerance_m": 7.710195435604007e-07
+      },
+      {
+        "low_hz": 480,
+        "high_hz": 960,
+        "coordinate_rmse_m": 4.211521008640242e-09,
+        "maximum_nodal_difference_m": 3.604997124984336e-08,
+        "difference_contraction": 0.2504488428707786,
+        "declared_tolerance_m": 7.71009046762724e-07
+      }
+    ],
+    "qualification": "Independent small-strain linear FEM sanity reference; finite rotations, geometric nonlinearity and native elasticity damping are absent. Temporal convergence is not native or continuum validation.",
+    "evidence": "campaign-diagnosis/linear-fem-t0001-v01.json"
+  },
+  "independent_finite_strain_static_fem": {
+    "case": "TRAIN t0001",
+    "current_revision": "v02",
+    "all_seven_load_scale_residual_gates_passed": true,
+    "independent_nodal_reaction_balance_passed": true,
+    "peak_coordinate_rms_displacement_m": 0.0001292406910055379,
+    "peak_coordinate_rmse_vs_linear_m": 4.226027173141919e-07,
+    "peak_relative_coordinate_rmse_vs_linear": 0.00325992031442123,
+    "final_tangent_minimum_eigenvalue": 0.0698001849748317,
+    "native_numerical_gate_passed": false,
+    "qualification": "Independent finite-strain static local equilibrium on a fixed mesh; no native constitutive equivalence, dynamic prediction, continuum convergence or global-branch uniqueness claim. Preliminary v01 is preserved.",
+    "evidence": "campaign-diagnosis/nonlinear-fem-static-t0001-v02.json"
   }
 }

@@ -1,0 +1,13 @@
+{
+  "protocol": "train-t0001-external-forces-every-iteration-v0.1",
+  "dataset": "runs/gaussian-boundary-neural-v01",
+  "base_worker_sha256": "116d4717bff0c7780925bd4e6d85f5b2f1615d33f4993e356a8284199829a821",
+  "cells": [
+    {"id": "false32", "enabled": false, "iterations": 32, "gpu": 1},
+    {"id": "true32", "enabled": true, "iterations": 32, "gpu": 2},
+    {"id": "true64", "enabled": true, "iterations": 64, "gpu": 1},
+    {"id": "true128", "enabled": true, "iterations": 128, "gpu": 2}
+  ],
+  "primary_documentation": "https://docs.omniverse.nvidia.com/kit/docs/omni_physics/110.1/dev_guide/simulation_control/simulation_control.html#physics-solver",
+  "qualification": "Fixed TRAIN t0001/960Hz original-coordinate numerical audit. Change only the scene external-forces-every-iteration flag and declared deformable iteration count. FALSE32 must reproduce the earlier fallback-FALSE32 case. Keep full physics/sensor/state guards and preserve failures. The flag changes TGS intra-iteration force/coupling behavior; identical logged external Fdt impulses alone do not validate native integration semantics or physical accuracy. No fitting or reserved responses."
+}

@@ -1,0 +1,259 @@
+{
+  "role": "Privileged TRAIN t0001 numerical diagnostic only; no fitting or reserved predictive responses.",
+  "physics_hz": 960,
+  "coordinate_condition": "original",
+  "conclusion": "Enabling external forces every iteration alone does not restore numerical reliability.",
+  "native_numerical_gate_passed": false,
+  "cells": [
+    {
+      "id": "false32",
+      "enabled": false,
+      "iterations": 32,
+      "gpu": 1,
+      "state": "completed_verified",
+      "exit_code": 0,
+      "diagonal_coordinate_rms_from_rest_m": 0.0002365557452375995,
+      "diagonal_strain": {
+        "minimum_volume_ratio": 0.9406030444599045,
+        "maximum_absolute_principal_stretch_minus_one": 0.09990240149794927,
+        "green_strain_frobenius_p95": 0.04123579560220321,
+        "green_strain_frobenius_max": 0.12563503499841133,
+        "qualification": "Kinematic strain, not a bound on nonlinear force-response error"
+      },
+      "analytic_pulse_impulse_Ns": [
+        [
+          0.006750000000000001,
+          0.006750000000000001,
+          0.0033750000000000004
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "nominal_impulse_max_error_Ns": 1.3792971105541785e-11
+    },
+    {
+      "id": "true32",
+      "enabled": true,
+      "iterations": 32,
+      "gpu": 2,
+      "state": "completed_verified",
+      "exit_code": 0,
+      "diagonal_coordinate_rms_from_rest_m": 0.00022641544576607183,
+      "diagonal_strain": {
+        "minimum_volume_ratio": 0.9330737268600213,
+        "maximum_absolute_principal_stretch_minus_one": 0.09401507380966478,
+        "green_strain_frobenius_p95": 0.0384474016706014,
+        "green_strain_frobenius_max": 0.12146624232153337,
+        "qualification": "Kinematic strain, not a bound on nonlinear force-response error"
+      },
+      "analytic_pulse_impulse_Ns": [
+        [
+          0.006750000000000001,
+          0.006750000000000001,
+          0.0033750000000000004
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "nominal_impulse_max_error_Ns": 1.3792971105541785e-11
+    },
+    {
+      "id": "true64",
+      "enabled": true,
+      "iterations": 64,
+      "gpu": 1,
+      "state": "completed_verified",
+      "exit_code": 0,
+      "diagonal_coordinate_rms_from_rest_m": 0.0007109650195480228,
+      "diagonal_strain": {
+        "minimum_volume_ratio": 0.7715986481768182,
+        "maximum_absolute_principal_stretch_minus_one": 0.3540224008254378,
+        "green_strain_frobenius_p95": 0.12112481776409632,
+        "green_strain_frobenius_max": 0.4555077878428467,
+        "qualification": "Kinematic strain, not a bound on nonlinear force-response error"
+      },
+      "analytic_pulse_impulse_Ns": [
+        [
+          0.006750000000000001,
+          0.006750000000000001,
+          0.0033750000000000004
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "nominal_impulse_max_error_Ns": 1.3792971105541785e-11
+    },
+    {
+      "id": "true128",
+      "enabled": true,
+      "iterations": 128,
+      "gpu": 2,
+      "state": "failed",
+      "exit_code": 1,
+      "failure": {
+        "time_s": 1.2,
+        "exception": "RuntimeError",
+        "message": "Probe compression/inversion or support drift",
+        "completed": false
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "cells": [
+        "false32",
+        "true32"
+      ],
+      "available": true,
+      "coordinate_rmse_m": 0.0001914916336277183
+    },
+    {
+      "cells": [
+        "true32",
+        "true64"
+      ],
+      "available": true,
+      "coordinate_rmse_m": 0.0005942426319484746
+    },
+    {
+      "cells": [
+        "true64",
+        "true128"
+      ],
+      "available": false,
+      "reason": "Failed predeclared cell retained"
+    }
+  ],
+  "false32_baseline_bitwise": {
+    "zero_force": {
+      "positions_m": true,
+      "velocities_m_s": true,
+      "force_step_commands_N": true
+    },
+    "evaluation": {
+      "positions_m": true,
+      "velocities_m_s": true,
+      "force_step_commands_N": true
+    },
+    "reset_replay": {
+      "positions_m": true,
+      "velocities_m_s": true,
+      "force_step_commands_N": true
+    }
+  },
+  "native_rigid_properties": {
+    "provider": "Native RigidBodyView tensor API backend getters, copied after reset",
+    "prim_paths": [
+      "/World/ProbeObject/Load_0",
+      "/World/ProbeObject/Load_1"
+    ],
+    "buffers": {
+      "get_masses": [
+        [
+          0.0010000000474974513
+        ],
+        [
+          0.0010000000474974513
+        ]
+      ],
+      "get_inv_masses": [
+        [
+          999.9999389648438
+        ],
+        [
+          999.9999389648438
+        ]
+      ],
+      "get_inertias": [
+        [
+          6.222222168617009e-07,
+          0.0,
+          0.0,
+          0.0,
+          4.0000000467443897e-07,
+          0.0,
+          0.0,
+          0.0,
+          2.2222222639811662e-07
+        ],
+        [
+          4.0000000467443897e-07,
+          0.0,
+          0.0,
+          0.0,
+          6.222222168617009e-07,
+          0.0,
+          0.0,
+          0.0,
+          2.2222222639811662e-07
+        ]
+      ],
+      "get_coms": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "deformable_nodal_mass_getter_available": false,
+    "qualification": "Native rigid properties only; do not infer actual deformable mass from authored density. COM quaternion layout retained as native raw buffer."
+  },
+  "source_sha256": {
+    "experiments/campaign_numerical_external_forces.py": "68878104e276bf08e84e19de97bddfbc989f20886d1931a8c3f483d951de2c85",
+    "experiments/campaign_numerical_solver_coordinates.py": "a49c9168f7aa0deccf5db7108eeef87b94875f5b01e8f2521fe7e0a528aa1ee7",
+    "experiments/isaac_calibrated_probes_v03.py": "116d4717bff0c7780925bd4e6d85f5b2f1615d33f4993e356a8284199829a821",
+    "experiments/isaac_probe_sensor_guard.py": "4a68720c50311fb7c8b4d207accd35641a0b0db90cf9d007e4d16490bf0aa8d8",
+    "experiments/isaac_dataset.py": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/validate_isaac_dataset.py": "f42b92872eb54217f66249f4a4c0547fc27c40ac705493ba1cf66483ab5939f7"
+  },
+  "protocol_input_sha256": {
+    "runs/gaussian-campaign-v01/numerical-external-forces-v01/protocol.json": "de2501a9137e03fe22744703b13f5c040c40f5eb6e615266fa7212a240eed470",
+    "experiments/campaign_numerical_external_forces_config.json": "21a51527ad5e518c43d1ddf9bdffcbf31011c9e3b5955a7f8a80a8f0e89cdaf9"
+  },
+  "analysis_sha256": {
+    "runs/gaussian-campaign-v01/numerical-external-forces-v01/analysis.json": "165c9deeb6e97feed80a9e2f28ef1d34d2a10aa12a097387dbdb0e6603e934b4"
+  },
+  "trajectory_input_sha256": {
+    "runs/gaussian-campaign-v01/numerical-external-forces-v01/false32/original/i32/captures/private/t0001/zero_force/trajectory.npz": "08d497dfdf03fd8144db828d0546d7129b2abc48eb69bcf1dd7da2463eafcfec",
+    "runs/gaussian-campaign-v01/numerical-external-forces-v01/false32/original/i32/captures/private/t0001/evaluation/trajectory.npz": "7a47fff7f580b24b41b0fef6e6fab5daa660c8763a5c5cd6265040b33d1aaf8c",
+    "runs/gaussian-campaign-v01/numerical-external-forces-v01/false32/original/i32/captures/private/t0001/reset_replay/trajectory.npz": "08d497dfdf03fd8144db828d0546d7129b2abc48eb69bcf1dd7da2463eafcfec",
+    "runs/gaussian-campaign-v01/numerical-external-forces-v01/true32/original/i32/captures/private/t0001/zero_force/trajectory.npz": "7e34a56d8aaa527c08f2a726772c6d79f2b94e026e2d99ae13512220f53b55de",
+    "runs/gaussian-campaign-v01/numerical-external-forces-v01/true32/original/i32/captures/private/t0001/evaluation/trajectory.npz": "cd01e93f8e75d7e1bdffa69950e54366680a3bd0ab01df7b67d1b12b72b6b008",
+    "runs/gaussian-campaign-v01/numerical-external-forces-v01/true32/original/i32/captures/private/t0001/reset_replay/trajectory.npz": "7e34a56d8aaa527c08f2a726772c6d79f2b94e026e2d99ae13512220f53b55de",
+    "runs/gaussian-campaign-v01/numerical-external-forces-v01/true64/original/i64/captures/private/t0001/zero_force/trajectory.npz": "584d9a49e7a14c6d80f85c480dd5a5b1a6b4d2cf972998bce5f59e48758e529f",
+    "runs/gaussian-campaign-v01/numerical-external-forces-v01/true64/original/i64/captures/private/t0001/evaluation/trajectory.npz": "48de62c79ac5c32318bee745deca1005ca9192753a1321e420325d00173d7643",
+    "runs/gaussian-campaign-v01/numerical-external-forces-v01/true64/original/i64/captures/private/t0001/reset_replay/trajectory.npz": "584d9a49e7a14c6d80f85c480dd5a5b1a6b4d2cf972998bce5f59e48758e529f"
+  },
+  "native_rigid_properties_sha256": {
+    "runs/gaussian-campaign-v01/numerical-external-forces-v01/false32/original/i32/captures/private/t0001/evaluation-native-rigid-properties.json": "a383a0c5a0fa4ac6595c4a4df65be91774be52621bceea33049244351f7f5688"
+  },
+  "qualification": "Fixed TRAIN t0001/960Hz original-coordinate numerical audit. Change only the scene external-forces-every-iteration flag and declared deformable iteration count. FALSE32 must reproduce the earlier fallback-FALSE32 case. Keep full physics/sensor/state guards and preserve failures. The flag changes TGS intra-iteration force/coupling behavior; identical logged external Fdt impulses alone do not validate native integration semantics or physical accuracy. No fitting or reserved responses.",
+  "reserved_control_gate_opened_predictively": false,
+  "calibration_audit_opened": false,
+  "fresh_confirmation_opened": false,
+  "raw_artifact_archive_published": false
+}

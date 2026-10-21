@@ -1,0 +1,59 @@
+{
+  "role": "Metadata for privileged fixed-fixture TRAIN t0001 continuum proxies only.",
+  "native_energy_conservation_assessed": false,
+  "qualification": "No native conservation verdict. These quantities are independently declared proxies, not backend total energy. Native effective deformable masses, rigid rotational kinetic energy, internal constraint energies and equivalence of the elastic density to the installed backend are unverified.",
+  "source_sha256": {
+    "experiments/campaign_native_energy_audit.py": "bd82259b563bb53dbbdbbc3ccaa8cbaa37cac29ddb9c2750bfcd972b6b502d05"
+  },
+  "local_evidence_sha256": {
+    "runs/gaussian-campaign-v01/native-energy-proxy-v01.json": "23ee39143036e1cdeb1101c1410a8d3e50d42366804d13fc35eee97f5f5989d4"
+  },
+  "formula_reference": "https://nvidia-omniverse.github.io/PhysX/physx/5.8.0/docs/DeformableVolume.html#constitutive-model",
+  "cases": [
+    {
+      "private_directory": "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/original/i32/captures/private/t0001",
+      "physics_hz": 960,
+      "declared_body_mass_kg": 1.8374430462315012,
+      "qualification": "Independent declared continuum proxies, not native total energy. Actual engine nodal mass and rigid kinetic/constraint energy unverified; no energy-conservation verdict. Fixed fixture does no prescribed work; zero external torque on handle origins. Roundoff bound is indicative and excludes engine state/force errors.",
+      "inputs_sha256": {
+        "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/original/i32/captures/private/t0001/truth/recipe.json": "73151396c5481e5eff40e7178bf0c1e9379053c962ba08de8cc7f18b7ddd41e4",
+        "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/original/i32/captures/private/t0001/truth/boundaries.json": "fb0cdbaa5445e1b178a2b602722fb541c21c446ca9b53d6c3b442325f6aa8c03",
+        "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/original/i32/captures/private/t0001/reference.npz": "caf02bed9a53f39466dbaad50d8dedd4ac7f39d421701215a38efd7105106e91",
+        "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/original/i32/captures/private/t0001/evaluation/trajectory.npz": "7a47fff7f580b24b41b0fef6e6fab5daa660c8763a5c5cd6265040b33d1aaf8c",
+        "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/original/i32/captures/private/t0001/validation.json": "288a005473402bb29620c8e5a686d66d12eff75687f49b34e1e5c4771c9cf525"
+      },
+      "saved_frame_count": 31,
+      "quantities_computed": [
+        "held-force translational work at logged handle origins",
+        "declared corotated continuum elastic-energy proxy",
+        "declared-density lumped deformable-body kinetic-energy proxy"
+      ],
+      "numeric_time_series_retained_locally_in": "runs/gaussian-campaign-v01/native-energy-proxy-v01.json"
+    },
+    {
+      "private_directory": "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/recentered/i32/captures/private/t0001",
+      "physics_hz": 960,
+      "declared_body_mass_kg": 1.8374430462315012,
+      "qualification": "Independent declared continuum proxies, not native total energy. Actual engine nodal mass and rigid kinetic/constraint energy unverified; no energy-conservation verdict. Fixed fixture does no prescribed work; zero external torque on handle origins. Roundoff bound is indicative and excludes engine state/force errors.",
+      "inputs_sha256": {
+        "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/recentered/i32/captures/private/t0001/truth/recipe.json": "73151396c5481e5eff40e7178bf0c1e9379053c962ba08de8cc7f18b7ddd41e4",
+        "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/recentered/i32/captures/private/t0001/truth/boundaries.json": "6fa891d6f1a7d6aa457e1492d41a07634719005f3cda4ab8ea252a76b259f900",
+        "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/recentered/i32/captures/private/t0001/reference.npz": "de2b94e67cde5cd7f04f8ffb4711588d83632f8a74e6d238c3e0572ecd313d51",
+        "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/recentered/i32/captures/private/t0001/evaluation/trajectory.npz": "bf4c5127593c0eaba5947a4027e06cf49b69a5c4427dd20a572b4382199d3eef",
+        "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/recentered/i32/captures/private/t0001/validation.json": "cd3851c4e0186357caa06f4bd4c5248ba0c599d5e7e499236a7b93867caba0b7"
+      },
+      "saved_frame_count": 31,
+      "quantities_computed": [
+        "held-force translational work at logged handle origins",
+        "declared corotated continuum elastic-energy proxy",
+        "declared-density lumped deformable-body kinetic-energy proxy"
+      ],
+      "numeric_time_series_retained_locally_in": "runs/gaussian-campaign-v01/native-energy-proxy-v01.json"
+    }
+  ],
+  "work_qualification": "For each logged held world-space force the translational work uses F dot (x_after - x_before). Float32-position roundoff bound is indicative and excludes engine state/force errors. Zero applied torque and stationary fixed fixture only.",
+  "reserved_control_gate_opened_predictively": false,
+  "calibration_audit_opened": false,
+  "fresh_confirmation_opened": false,
+  "raw_artifact_archive_published": false
+}
