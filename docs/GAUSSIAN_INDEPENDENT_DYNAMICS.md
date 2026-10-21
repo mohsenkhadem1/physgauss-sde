@@ -1,8 +1,15 @@
-# Independent nonlinear dynamics: component implementation and mechanics evidence
+# Independent nonlinear dynamics: declared small-force operating points
 
-At the component-test checkpoint, new files were `experiments/campaign_nonlinear_dynamics.py` and
-`tests/test_campaign_nonlinear_dynamics.py`. Existing static/native capture
-sources remain untouched. The initial component checkpoint preceded any TRAIN case. The later single smoke is recorded below. The independent four-BC gate remains unpassed.
+The completed audit verifies **60 unique TRAIN physics cells**. Selected
+fixed-discretization small-force operating points pass at 480 Hz for a point
+pin, fixed patch and two patches, and 960 Hz for the moving patch. The original
+480 Hz moving-support temporal comparisons remain failed and preserved. This
+qualifies the declared known-input numerical reference only; actual-force data
+generation, learned prediction, calibration and probing remain unqualified.
+
+The sections below retain the component and earlier checkpoint evidence. The
+completed matched-960 result appears at the end. Existing static/native capture
+sources and the independent physical core remain unchanged.
 
 ## Declared discrete model
 
@@ -169,10 +176,10 @@ full-coordinate temporal differences (120→240 then 240→480 Hz) are:
 The moving-support errors contract but remain above the unchanged threshold.
 The [conditional 960 Hz protocol](../configs/gaussian_campaign_dynamic_temporal_extension_v01.json)
 uses the original gate's optional refinement and preserves the failed initial
-result. It has not run at this checkpoint. A passing temporal extension alone
+result. It had not run at that initial checkpoint. A passing temporal extension alone
 will not qualify untested accuracy/translation/replay interactions at 960 Hz.
-The remaining factorized 480 Hz accuracy, translation and replay controls are
-ongoing. The whole independent reference gate remains **false**.
+At that checkpoint, the remaining factorized 480 Hz controls were ongoing
+and the whole independent reference gate was **false**.
 
 [Compact initial evidence](../examples/gaussian-neural-boundary/campaign-diagnosis/independent-dynamic-initial-temporal-v01.json)
 and the [strict audit implementation](../experiments/campaign_independent_dynamic_audit.py)
@@ -218,8 +225,7 @@ cover relative and absolute accuracy, coordinate translation and fresh resets
 at the actual960Hz operating point. Exact request and proof guards plus the
 [60-cell combined auditor](../experiments/campaign_dynamic_960_audit.py)
 preserve all prior evidence. No changed force, material, damping, contact or
-physical-core implementation is introduced. Until those eight controls pass,
-overall independent reference qualification remains false.
+physical-core implementation is introduced. Their completed result is recorded below.
 
 The complete known-hardware/query interface separately preserves full patch
 geometry, mass/inertia and latent material/BC/unknown-force roles. Its public
@@ -232,3 +238,41 @@ actual10Hz trajectory states viewed by two calibrated cameras. Independent
 ray-depth error is at most0.195µm; sampled mask IoU is1.0. No native physics
 steps or extra motion frames are generated. Raw captures remain local;
 source and text evidence are published separately from them.
+
+
+## Completed matched960 controls and bounded qualification
+
+The [combined audit](../examples/gaussian-neural-boundary/campaign-diagnosis/independent-dynamic-matched960-v01.json)
+verifies 60 unique cells: 50 original/floor cells, two conditional temporal
+responses and eight fresh matched960 controls. All six new matched comparisons
+pass. The fresh prior50 and temporal audit reports are byte-identical to their
+original completed reports. Every worker and supervisor PID is absent, and all
+frozen physical, input, helper, protocol and proof hashes still match.
+
+| Matched960 check | Coordinate differences (m) | Acceptance |
+|---|---:|---:|
+| Diagonal relative accuracy, loose→middle→tight | 3.939e-10, 2.037e-11 | Tight pair < 6.524e-6 |
+| Moving-zero absolute floors, loose→middle→tight | 1.295e-10, 1.104e-12 | Tight pair < 6.524e-6 |
+| Zero coordinate translation | 6.453e-17 | < 6.524e-6 |
+| Diagonal coordinate translation | 5.781e-17 | < 6.524e-6 |
+| Zero fresh reset | 0 | Every saved array ≤ 1e-12 |
+| Diagonal fresh reset | 0 | Every saved array ≤ 1e-12 |
+
+Both reset responses are bitwise identical in positions, chord velocities,
+rigid poses and force commands. The absolute force floor dominates the tight
+1e-9 diagonal residual request; effective thresholds and accepted residual
+quantiles are recorded rather than treating nominal tolerances as identical
+accuracy evidence. All three moving-zero absolute floors were tested directly.
+
+The selected operating points are **480 Hz for point pin, fixed patch and two
+patches; 960 Hz for moving support**, for the declared zero or
+`[0.01, 0.01, 0.005]` N three-second held pulse. The moving960 temporal differences
+are 4.318 µm (zero) and 4.217 µm (diagonal), below 6.524 µm and contracting.
+Verifying 60 cells does not turn the original 480 Hz moving temporal failures
+into passes: their 8.474/8.262 µm differences still exceed 6.507 µm.
+
+This is a factorized fixed-discretization check on four declared TRAIN layouts.
+It establishes neither continuum/native equivalence nor the larger original
+force amplitudes and other force profiles. **Actual-force envelope, learned
+prediction, uncertainty calibration and active-policy gates remain false.** No
+replacement bulk capture or training is justified by this small-force result.

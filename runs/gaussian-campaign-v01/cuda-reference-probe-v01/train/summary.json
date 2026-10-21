@@ -1,0 +1,128 @@
+{
+  "completed": true,
+  "parity_passed": true,
+  "nodal_and_pose_maximum_absolute_errors": {
+    "positions": 5.551115123125783e-16,
+    "velocities": 1.3251118952117835e-14,
+    "handle_centers": 8.326672684688674e-17,
+    "handle_rotations": 1.5432100042289676e-14
+  },
+  "predeclared_tolerances": {
+    "positions": 1e-09,
+    "velocities": 1e-07,
+    "handle_centers": 1e-09,
+    "handle_rotations": 1e-08
+  },
+  "minimum_J_maximum_difference": 5.88418203051333e-15,
+  "all_original_residual_tolerances_met": true,
+  "residual_tolerance_maximum_difference_N": 2.0679515313825692e-25,
+  "exact_command_maximum_difference_N": 0.0,
+  "impulse_maximum_difference_Ns": 0.0,
+  "energy_maximum_differences_J": {
+    "elastic_energy_J": 3.9725845226226686e-19,
+    "chord_kinetic_energy_J": 2.456395547037471e-20,
+    "energy_J": 3.9725845226226686e-19
+  },
+  "GPU_wall_including_capture_IO_telemetry_s": 309.73100065393373,
+  "CPU_captured_wall_s": 133.2496270192787,
+  "GPU_step_including_original_balance_telemetry_s": 305.1486327480525,
+  "CPU_captured_step_including_original_balance_telemetry_s": 129.0245295772329,
+  "GPU_setup_CPU_assembly_transfer_s": 0.7681689183227718,
+  "sample_state_D2H_transfer_s": 0.007879034150391817,
+  "JSON_IO_s": 0.4821649603545666,
+  "OS_telemetry_s": 3.9410333395935595,
+  "timing_caveat": "Captured CPU run includes per-step geometry eigvalsh telemetry omitted here; execution hardware contention differs. This is initial-path timing, not matched benchmark speedup.",
+  "binding_proof": {
+    "method_code_identity": {
+      "targets": true,
+      "configuration": true,
+      "coordinates": true,
+      "increments": true,
+      "elastic": true,
+      "initial_state": true,
+      "validate_state": true,
+      "_jacobians": true,
+      "preconditioner": true,
+      "invariants": true,
+      "step": true,
+      "_balance": true
+    },
+    "helper_code_identity": {
+      "skew": true,
+      "determinant3": true,
+      "rotation_matrix": true,
+      "rotation_left_jacobian": true,
+      "x_minus_log1p": true,
+      "neo_hookean_energy": true,
+      "equilibrium_metrics": true,
+      "finite_array": true
+    },
+    "cpu_tensor_binding_unchanged": true,
+    "device": "cuda:0",
+    "physical_buffer_dtype_devices": {
+      "points": {
+        "dtype": "torch.float64",
+        "device": "cuda:0"
+      },
+      "K": {
+        "dtype": "torch.float64",
+        "device": "cuda:0"
+      },
+      "body_mass": {
+        "dtype": "torch.float64",
+        "device": "cuda:0"
+      },
+      "gradients": {
+        "dtype": "torch.float64",
+        "device": "cuda:0"
+      },
+      "volumes": {
+        "dtype": "torch.float64",
+        "device": "cuda:0"
+      },
+      "auxiliary_offsets": {
+        "dtype": "torch.float64",
+        "device": "cuda:0"
+      },
+      "auxiliary_mass": {
+        "dtype": "torch.float64",
+        "device": "cuda:0"
+      },
+      "com_offsets": {
+        "dtype": "torch.float64",
+        "device": "cuda:0"
+      },
+      "mapping_A": {
+        "dtype": "torch.float64",
+        "device": "cuda:0"
+      },
+      "mapping_points": {
+        "dtype": "torch.float64",
+        "device": "cuda:0"
+      }
+    },
+    "cpu_assembly_then_transfer": true,
+    "preconditioner_rebuilt_on_device": true
+  },
+  "GPU_assignment": [
+    {
+      "gpu": 2,
+      "pid": 2090582,
+      "type": "C",
+      "memory": "348 MiB"
+    }
+  ],
+  "physics_source_sha256": {
+    "campaign_nonlinear_dynamics.py": "da0db7018b4913020bb228c2fc4df3c240e7dd872f17db4868de147eaaf78fa2",
+    "campaign_nonlinear_fem.py": "468daaafa9d02c9db27553e2cfb154190248500677c212d9dde25bffdf14e1ff",
+    "campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "campaign_rigid_inertia.py": "e420d9cadaa97d1b1648227b7b28af1803952caa87432f819baf0827deecabf7"
+  },
+  "probe_source_sha256": "3885af3bbe12246046e6caa38470988b5dac3bfd7c85441b19b81a2a12ab98f2",
+  "production_equivalence_claim": false,
+  "no_reserved_data": true,
+  "new_force_envelope": false,
+  "float64": true,
+  "peak_cuda_allocated_bytes": 123521024,
+  "peak_cuda_reserved_bytes": 142606336
+}

@@ -1,10 +1,10 @@
 {
   "campaign": "gaussian-known-force-recovery-v0.1",
   "status": "active",
-  "updated_utc": "2026-10-21T17:18:07.524309+00:00",
+  "updated_utc": "2026-10-21T17:39:14.042776+00:00",
   "campaign_sha256": "04bd467f559dcad3057b50a2832561e882bb9a7d7bab6d426ca3325724d8b510",
   "heldout_plan_sha256": "2dcb00635d60cae69719c03b539582287b4a51d9a11872f565c4938368259ea4",
-  "milestone": "Qualify independent dynamic operating points before forward retraining",
+  "milestone": "Qualify the actual force envelope before replacement data and forward retraining",
   "jobs": [
     {
       "name": "controls-train",
@@ -1497,8 +1497,8 @@
     "evidence": "campaign-diagnosis/nonlinear-fem-static-t0001-v02.json"
   },
   "independent_nonlinear_dynamic_reference": {
-    "role": "Independent TRAIN numerical and render pipeline progress, not a predictive comparison",
-    "verified_existing_unique_physics_cells": 52,
+    "role": "60 unique TRAIN physics cells verified; selected per-BC fixed-discretization small-force operating points pass; original480 moving temporal failure preserved.",
+    "verified_existing_unique_physics_cells": 60,
     "initial480_temporal_failure_preserved": true,
     "zero_and_diagonal_all4rate_comparisons": [
       {
@@ -1608,14 +1608,120 @@
       }
     ],
     "matched960_additional_cells_declared": 8,
-    "matched960_additional_cells_started": false,
-    "independent_reference_qualified": false,
+    "matched960_additional_cells_started": true,
+    "independent_reference_qualified": true,
     "original_amplitude_dataset_qualified": false,
     "native_reference_qualified": false,
     "prediction_improved": false,
     "uncertainty_calibrated": false,
     "active_policy_qualified": false,
     "isaac_rendering": "Independent FEM states rendered as a plain USD mesh; zero physics stepping. Four TRAIN images at two actual times/two views pass geometric checks; this is not forecasting.",
-    "render_raw_captures_remote": false
+    "render_raw_captures_remote": false,
+    "matched960_additional_cells_completed": 8,
+    "matched960_operating_point_checks_passed": true,
+    "matched960_comparisons": [
+      {
+        "kind": "nonlinear_tolerance",
+        "coordinate_rmse_m": [
+          3.938748480836027e-10,
+          2.0365743337453e-11
+        ],
+        "tolerance_m": 6.5235180972074335e-06,
+        "passed": true
+      },
+      {
+        "kind": "absolute_floor",
+        "coordinate_rmse_m": [
+          1.2950671221584517e-10,
+          1.104039768878549e-12
+        ],
+        "tolerance_m": 6.5235180972074335e-06,
+        "passed": true
+      },
+      {
+        "response": "zero_external_force",
+        "kind": "translated",
+        "coordinate_rmse_m": 6.452995559076235e-17,
+        "tolerance_m": 6.5235180972074335e-06,
+        "passed": true
+      },
+      {
+        "response": "zero_external_force",
+        "kind": "reset_replay",
+        "coordinate_rmse_m": 0.0,
+        "tolerance_m": 1e-12,
+        "passed": true,
+        "maximum_saved_array_absolute_error": 0.0,
+        "replay_arrays_bitwise": {
+          "positions_m": true,
+          "velocities_point_chord_m_s": true,
+          "handle_centers_m": true,
+          "handle_rotations": true,
+          "force_step_commands_N": true
+        }
+      },
+      {
+        "response": "diagonal_pulse_handle0",
+        "kind": "translated",
+        "coordinate_rmse_m": 5.780760981411477e-17,
+        "tolerance_m": 6.5235180972074335e-06,
+        "passed": true
+      },
+      {
+        "response": "diagonal_pulse_handle0",
+        "kind": "reset_replay",
+        "coordinate_rmse_m": 0.0,
+        "tolerance_m": 1e-12,
+        "passed": true,
+        "maximum_saved_array_absolute_error": 0.0,
+        "replay_arrays_bitwise": {
+          "positions_m": true,
+          "velocities_point_chord_m_s": true,
+          "handle_centers_m": true,
+          "handle_rotations": true,
+          "force_step_commands_N": true
+        }
+      }
+    ],
+    "independent_fixed_discretization_small_force_reference_qualified": true,
+    "qualification_scope": "Only four declared TRAIN layouts, zero or [.01,.01,.005]N midpoint-held pulse,480Hz point/fixed/two-patch and960Hz moving patch.60 cells verified does not mean every earlier comparison passed.",
+    "per_BC_small_force_operating_points_Hz": {
+      "point_pin": 480,
+      "fixed_patch": 480,
+      "two_patches": 480,
+      "moving_patch": 960
+    },
+    "original480_gate_passed": false,
+    "initial480_failed_temporal_comparisons": [
+      {
+        "case": "t0003",
+        "response": "zero_external_force",
+        "kind": "temporal",
+        "coordinate_rmse_m": [
+          1.6520284113769228e-05,
+          8.473689585441797e-06
+        ],
+        "finest_force_induced_coordinate_RMS_m": 0.00013013732349628448,
+        "tolerance_m": 6.506866174814225e-06,
+        "both_differences_below_2micrometre_floor": false,
+        "passed": false
+      },
+      {
+        "case": "t0003",
+        "response": "diagonal_pulse_handle0",
+        "kind": "temporal",
+        "coordinate_rmse_m": [
+          1.6082259962054073e-05,
+          8.26241031155273e-06
+        ],
+        "finest_force_induced_coordinate_RMS_m": 0.00013013732349628448,
+        "tolerance_m": 6.506866174814225e-06,
+        "both_differences_below_2micrometre_floor": false,
+        "passed": false
+      }
+    ],
+    "actual_force_envelope_qualified": false,
+    "continuum_accuracy_established": false,
+    "evidence": "campaign-diagnosis/independent-dynamic-matched960-v01.json"
   }
 }

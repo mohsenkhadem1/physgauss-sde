@@ -1,0 +1,2961 @@
+{
+  "completed": true,
+  "all_tiny_controls_passed": true,
+  "physics_source_sha256": {
+    "campaign_nonlinear_dynamics.py": "da0db7018b4913020bb228c2fc4df3c240e7dd872f17db4868de147eaaf78fa2",
+    "campaign_nonlinear_fem.py": "468daaafa9d02c9db27553e2cfb154190248500677c212d9dde25bffdf14e1ff",
+    "campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "campaign_rigid_inertia.py": "e420d9cadaa97d1b1648227b7b28af1803952caa87432f819baf0827deecabf7"
+  },
+  "probe_source_sha256": "3885af3bbe12246046e6caa38470988b5dac3bfd7c85441b19b81a2a12ab98f2",
+  "CPU_profile_wall_s": 0.42179412487894297,
+  "CUDA_startup_s": 0.13188031688332558,
+  "GPU_controls_including_assembly_transfer_telemetry_wall_s": 4.892617734149098,
+  "controls": [
+    {
+      "name": "free-rest",
+      "ledgers": [
+        {
+          "start_time_s": 0.0,
+          "end_time_s": 0.01,
+          "step_s": 0.01,
+          "held_handle_forces_N": [],
+          "held_nodal_forces_N": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "old_invariants": {
+            "elastic_energy_J": 0.0,
+            "chord_kinetic_energy_J": 0.0,
+            "energy_J": 0.0,
+            "point_linear_momentum_Ns": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "minimum_J": 1.0
+          },
+          "new_invariants": {
+            "elastic_energy_J": 0.0,
+            "chord_kinetic_energy_J": 0.0,
+            "energy_J": 0.0,
+            "point_linear_momentum_Ns": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "minimum_J": 1.0
+          },
+          "fixture_reactions_inertia_elastic_drag_minus_external_N": [],
+          "support_work_J": 0.0,
+          "held_handle_work_J": 0.0,
+          "held_nodal_work_J": 0.0,
+          "body_viscous_dissipation_J": 0.0,
+          "body_drag_impulse_Ns": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "implicit_velocity_increment_loss_J": 0.0,
+          "backward_elastic_gradient_defect_J": 0.0,
+          "constraint_chord_work_J": 0.0,
+          "energy_balance_time_discretization_defect_J": 0.0,
+          "energy_algebra_identity_residual_J": 0.0,
+          "linear_momentum_balance_error_Ns": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "endpoint_angular_momentum_discretization_defect_Nms": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "converged": true,
+          "residual_tolerance_N": 1e-10,
+          "minimum_J": 1.0,
+          "invalid_J_trials_rejected": 0,
+          "nonlinear_history": [
+            {
+              "iteration": 0,
+              "incremental_potential_J": 0.0,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 0.0,
+              "relative_scaled_generalized_residual": 0.0,
+              "maximum_translational_residual_N": 0.0,
+              "maximum_handle_torque_residual_Nm": 0.0,
+              "maximum_axis_angle_gradient_Nm": 0.0,
+              "rotation_residual_length_scale_m": 1.0
+            }
+          ],
+          "point_velocity_semantics": "finite pose-map pointwise chord; absolute-position subtraction agrees to recorded roundoff",
+          "position_increment_representation_roundoff_m": 0.0,
+          "native_equivalence": false,
+          "continuum_accuracy_established": false
+        }
+      ],
+      "errors": [
+        {
+          "positions": 0.0,
+          "velocities": 0.0,
+          "auxiliary_positions": 0.0,
+          "auxiliary_velocities": 0.0,
+          "handle_centers": 0.0,
+          "handle_rotations": 0.0
+        }
+      ],
+      "binding_proof": {
+        "method_code_identity": {
+          "targets": true,
+          "configuration": true,
+          "coordinates": true,
+          "increments": true,
+          "elastic": true,
+          "initial_state": true,
+          "validate_state": true,
+          "_jacobians": true,
+          "preconditioner": true,
+          "invariants": true,
+          "step": true,
+          "_balance": true
+        },
+        "helper_code_identity": {
+          "skew": true,
+          "determinant3": true,
+          "rotation_matrix": true,
+          "rotation_left_jacobian": true,
+          "x_minus_log1p": true,
+          "neo_hookean_energy": true,
+          "equilibrium_metrics": true,
+          "finite_array": true
+        },
+        "cpu_tensor_binding_unchanged": true,
+        "device": "cuda:0",
+        "physical_buffer_dtype_devices": {
+          "points": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "K": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "body_mass": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "gradients": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "volumes": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "auxiliary_offsets": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "auxiliary_mass": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "com_offsets": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "mapping_A": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "mapping_points": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "cpu_assembly_then_transfer": true,
+        "preconditioner_rebuilt_on_device": true
+      }
+    },
+    {
+      "name": "point_pin-rest",
+      "ledgers": [
+        {
+          "start_time_s": 0.0,
+          "end_time_s": 0.01,
+          "step_s": 0.01,
+          "held_handle_forces_N": [],
+          "held_nodal_forces_N": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "old_invariants": {
+            "elastic_energy_J": 0.0,
+            "chord_kinetic_energy_J": 0.0,
+            "energy_J": 0.0,
+            "point_linear_momentum_Ns": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "minimum_J": 1.0
+          },
+          "new_invariants": {
+            "elastic_energy_J": 0.0,
+            "chord_kinetic_energy_J": 0.0,
+            "energy_J": 0.0,
+            "point_linear_momentum_Ns": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "minimum_J": 1.0
+          },
+          "fixture_reactions_inertia_elastic_drag_minus_external_N": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "support_work_J": 0.0,
+          "held_handle_work_J": 0.0,
+          "held_nodal_work_J": 0.0,
+          "body_viscous_dissipation_J": 0.0,
+          "body_drag_impulse_Ns": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "implicit_velocity_increment_loss_J": 0.0,
+          "backward_elastic_gradient_defect_J": 0.0,
+          "constraint_chord_work_J": 0.0,
+          "energy_balance_time_discretization_defect_J": 0.0,
+          "energy_algebra_identity_residual_J": 0.0,
+          "linear_momentum_balance_error_Ns": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "endpoint_angular_momentum_discretization_defect_Nms": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "converged": true,
+          "residual_tolerance_N": 1e-10,
+          "minimum_J": 1.0,
+          "invalid_J_trials_rejected": 0,
+          "nonlinear_history": [
+            {
+              "iteration": 0,
+              "incremental_potential_J": 0.0,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 0.0,
+              "relative_scaled_generalized_residual": 0.0,
+              "maximum_translational_residual_N": 0.0,
+              "maximum_handle_torque_residual_Nm": 0.0,
+              "maximum_axis_angle_gradient_Nm": 0.0,
+              "rotation_residual_length_scale_m": 1.0
+            }
+          ],
+          "point_velocity_semantics": "finite pose-map pointwise chord; absolute-position subtraction agrees to recorded roundoff",
+          "position_increment_representation_roundoff_m": 0.0,
+          "native_equivalence": false,
+          "continuum_accuracy_established": false
+        }
+      ],
+      "errors": [
+        {
+          "positions": 0.0,
+          "velocities": 0.0,
+          "auxiliary_positions": 0.0,
+          "auxiliary_velocities": 0.0,
+          "handle_centers": 0.0,
+          "handle_rotations": 0.0
+        }
+      ],
+      "binding_proof": {
+        "method_code_identity": {
+          "targets": true,
+          "configuration": true,
+          "coordinates": true,
+          "increments": true,
+          "elastic": true,
+          "initial_state": true,
+          "validate_state": true,
+          "_jacobians": true,
+          "preconditioner": true,
+          "invariants": true,
+          "step": true,
+          "_balance": true
+        },
+        "helper_code_identity": {
+          "skew": true,
+          "determinant3": true,
+          "rotation_matrix": true,
+          "rotation_left_jacobian": true,
+          "x_minus_log1p": true,
+          "neo_hookean_energy": true,
+          "equilibrium_metrics": true,
+          "finite_array": true
+        },
+        "cpu_tensor_binding_unchanged": true,
+        "device": "cuda:0",
+        "physical_buffer_dtype_devices": {
+          "points": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "K": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "body_mass": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "gradients": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "volumes": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "auxiliary_offsets": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "auxiliary_mass": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "com_offsets": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "mapping_A": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "mapping_points": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "cpu_assembly_then_transfer": true,
+        "preconditioner_rebuilt_on_device": true
+      }
+    },
+    {
+      "name": "fixed_patch-rest",
+      "ledgers": [
+        {
+          "start_time_s": 0.0,
+          "end_time_s": 0.01,
+          "step_s": 0.01,
+          "held_handle_forces_N": [],
+          "held_nodal_forces_N": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "old_invariants": {
+            "elastic_energy_J": 0.0,
+            "chord_kinetic_energy_J": 0.0,
+            "energy_J": 0.0,
+            "point_linear_momentum_Ns": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "minimum_J": 1.0
+          },
+          "new_invariants": {
+            "elastic_energy_J": 0.0,
+            "chord_kinetic_energy_J": 0.0,
+            "energy_J": 0.0,
+            "point_linear_momentum_Ns": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "minimum_J": 1.0
+          },
+          "fixture_reactions_inertia_elastic_drag_minus_external_N": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "support_work_J": 0.0,
+          "held_handle_work_J": 0.0,
+          "held_nodal_work_J": 0.0,
+          "body_viscous_dissipation_J": 0.0,
+          "body_drag_impulse_Ns": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "implicit_velocity_increment_loss_J": 0.0,
+          "backward_elastic_gradient_defect_J": 0.0,
+          "constraint_chord_work_J": 0.0,
+          "energy_balance_time_discretization_defect_J": 0.0,
+          "energy_algebra_identity_residual_J": 0.0,
+          "linear_momentum_balance_error_Ns": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "endpoint_angular_momentum_discretization_defect_Nms": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "converged": true,
+          "residual_tolerance_N": 1e-10,
+          "minimum_J": 1.0,
+          "invalid_J_trials_rejected": 0,
+          "nonlinear_history": [
+            {
+              "iteration": 0,
+              "incremental_potential_J": 0.0,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 0.0,
+              "relative_scaled_generalized_residual": 0.0,
+              "maximum_translational_residual_N": 0.0,
+              "maximum_handle_torque_residual_Nm": 0.0,
+              "maximum_axis_angle_gradient_Nm": 0.0,
+              "rotation_residual_length_scale_m": 1.0
+            }
+          ],
+          "point_velocity_semantics": "finite pose-map pointwise chord; absolute-position subtraction agrees to recorded roundoff",
+          "position_increment_representation_roundoff_m": 0.0,
+          "native_equivalence": false,
+          "continuum_accuracy_established": false
+        }
+      ],
+      "errors": [
+        {
+          "positions": 0.0,
+          "velocities": 0.0,
+          "auxiliary_positions": 0.0,
+          "auxiliary_velocities": 0.0,
+          "handle_centers": 0.0,
+          "handle_rotations": 0.0
+        }
+      ],
+      "binding_proof": {
+        "method_code_identity": {
+          "targets": true,
+          "configuration": true,
+          "coordinates": true,
+          "increments": true,
+          "elastic": true,
+          "initial_state": true,
+          "validate_state": true,
+          "_jacobians": true,
+          "preconditioner": true,
+          "invariants": true,
+          "step": true,
+          "_balance": true
+        },
+        "helper_code_identity": {
+          "skew": true,
+          "determinant3": true,
+          "rotation_matrix": true,
+          "rotation_left_jacobian": true,
+          "x_minus_log1p": true,
+          "neo_hookean_energy": true,
+          "equilibrium_metrics": true,
+          "finite_array": true
+        },
+        "cpu_tensor_binding_unchanged": true,
+        "device": "cuda:0",
+        "physical_buffer_dtype_devices": {
+          "points": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "K": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "body_mass": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "gradients": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "volumes": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "auxiliary_offsets": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "auxiliary_mass": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "com_offsets": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "mapping_A": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "mapping_points": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "cpu_assembly_then_transfer": true,
+        "preconditioner_rebuilt_on_device": true
+      }
+    },
+    {
+      "name": "two_patches-rest",
+      "ledgers": [
+        {
+          "start_time_s": 0.0,
+          "end_time_s": 0.01,
+          "step_s": 0.01,
+          "held_handle_forces_N": [],
+          "held_nodal_forces_N": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "old_invariants": {
+            "elastic_energy_J": 0.0,
+            "chord_kinetic_energy_J": 0.0,
+            "energy_J": 0.0,
+            "point_linear_momentum_Ns": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "minimum_J": 1.0
+          },
+          "new_invariants": {
+            "elastic_energy_J": 0.0,
+            "chord_kinetic_energy_J": 0.0,
+            "energy_J": 0.0,
+            "point_linear_momentum_Ns": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "minimum_J": 1.0
+          },
+          "fixture_reactions_inertia_elastic_drag_minus_external_N": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "support_work_J": 0.0,
+          "held_handle_work_J": 0.0,
+          "held_nodal_work_J": 0.0,
+          "body_viscous_dissipation_J": 0.0,
+          "body_drag_impulse_Ns": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "implicit_velocity_increment_loss_J": 0.0,
+          "backward_elastic_gradient_defect_J": 0.0,
+          "constraint_chord_work_J": 0.0,
+          "energy_balance_time_discretization_defect_J": 0.0,
+          "energy_algebra_identity_residual_J": 0.0,
+          "linear_momentum_balance_error_Ns": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "endpoint_angular_momentum_discretization_defect_Nms": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "converged": true,
+          "residual_tolerance_N": 1e-10,
+          "minimum_J": 1.0,
+          "invalid_J_trials_rejected": 0,
+          "nonlinear_history": [
+            {
+              "iteration": 0,
+              "incremental_potential_J": 0.0,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 0.0,
+              "relative_scaled_generalized_residual": 0.0,
+              "maximum_translational_residual_N": 0.0,
+              "maximum_handle_torque_residual_Nm": 0.0,
+              "maximum_axis_angle_gradient_Nm": 0.0,
+              "rotation_residual_length_scale_m": 1.0
+            }
+          ],
+          "point_velocity_semantics": "finite pose-map pointwise chord; absolute-position subtraction agrees to recorded roundoff",
+          "position_increment_representation_roundoff_m": 0.0,
+          "native_equivalence": false,
+          "continuum_accuracy_established": false
+        }
+      ],
+      "errors": [
+        {
+          "positions": 0.0,
+          "velocities": 0.0,
+          "auxiliary_positions": 0.0,
+          "auxiliary_velocities": 0.0,
+          "handle_centers": 0.0,
+          "handle_rotations": 0.0
+        }
+      ],
+      "binding_proof": {
+        "method_code_identity": {
+          "targets": true,
+          "configuration": true,
+          "coordinates": true,
+          "increments": true,
+          "elastic": true,
+          "initial_state": true,
+          "validate_state": true,
+          "_jacobians": true,
+          "preconditioner": true,
+          "invariants": true,
+          "step": true,
+          "_balance": true
+        },
+        "helper_code_identity": {
+          "skew": true,
+          "determinant3": true,
+          "rotation_matrix": true,
+          "rotation_left_jacobian": true,
+          "x_minus_log1p": true,
+          "neo_hookean_energy": true,
+          "equilibrium_metrics": true,
+          "finite_array": true
+        },
+        "cpu_tensor_binding_unchanged": true,
+        "device": "cuda:0",
+        "physical_buffer_dtype_devices": {
+          "points": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "K": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "body_mass": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "gradients": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "volumes": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "auxiliary_offsets": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "auxiliary_mass": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "com_offsets": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "mapping_A": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "mapping_points": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "cpu_assembly_then_transfer": true,
+        "preconditioner_rebuilt_on_device": true
+      }
+    },
+    {
+      "name": "uniform-acceleration",
+      "ledgers": [
+        {
+          "start_time_s": 0.0,
+          "end_time_s": 0.01,
+          "step_s": 0.01,
+          "held_handle_forces_N": [],
+          "held_nodal_forces_N": [
+            [
+              0.75,
+              -0.5,
+              0.25
+            ],
+            [
+              0.75,
+              -0.5,
+              0.25
+            ],
+            [
+              0.75,
+              -0.5,
+              0.25
+            ],
+            [
+              0.75,
+              -0.5,
+              0.25
+            ]
+          ],
+          "old_invariants": {
+            "elastic_energy_J": 0.0,
+            "chord_kinetic_energy_J": 0.0,
+            "energy_J": 0.0,
+            "point_linear_momentum_Ns": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "minimum_J": 1.0
+          },
+          "new_invariants": {
+            "elastic_energy_J": 9.688991214487727e-31,
+            "chord_kinetic_energy_J": 7.000000000000001e-06,
+            "energy_J": 7.000000000000001e-06,
+            "point_linear_momentum_Ns": [
+              0.030000000000000002,
+              -0.02,
+              0.010000000000000002
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.007500000000000005,
+              0.005000000000000001,
+              -0.012499999999999995
+            ],
+            "minimum_J": 1.0
+          },
+          "fixture_reactions_inertia_elastic_drag_minus_external_N": [],
+          "support_work_J": 0.0,
+          "held_handle_work_J": 0.0,
+          "held_nodal_work_J": 1.4000000000000001e-05,
+          "body_viscous_dissipation_J": 0.0,
+          "body_drag_impulse_Ns": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "implicit_velocity_increment_loss_J": 7.000000000000001e-06,
+          "backward_elastic_gradient_defect_J": -9.688931029176965e-31,
+          "constraint_chord_work_J": 1.1102230246251715e-21,
+          "energy_balance_time_discretization_defect_J": -7.000000000000001e-06,
+          "energy_algebra_identity_residual_J": -8.470329472543003e-22,
+          "linear_momentum_balance_error_Ns": [
+            3.469446951953614e-18,
+            0.0,
+            1.734723475976807e-18
+          ],
+          "endpoint_angular_momentum_discretization_defect_Nms": [
+            5.204170427930421e-18,
+            1.734723475976807e-18,
+            5.204170427930421e-18
+          ],
+          "converged": true,
+          "residual_tolerance_N": 1.8708286933869707e-10,
+          "minimum_J": 1.0,
+          "invalid_J_trials_rejected": 0,
+          "nonlinear_history": [
+            {
+              "iteration": 0,
+              "incremental_potential_J": 0.0,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 1.8708286933869707,
+              "relative_scaled_generalized_residual": 1.0,
+              "maximum_translational_residual_N": 0.75,
+              "maximum_handle_torque_residual_Nm": 0.0,
+              "maximum_axis_angle_gradient_Nm": 0.0,
+              "rotation_residual_length_scale_m": 1.0,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 1,
+              "incremental_potential_J": -7.000000000000001e-06,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 3.197472060810303e-14,
+              "relative_scaled_generalized_residual": 1.709120707904881e-14,
+              "maximum_translational_residual_N": 1.9838490421175615e-14,
+              "maximum_handle_torque_residual_Nm": 0.0,
+              "maximum_axis_angle_gradient_Nm": 0.0,
+              "rotation_residual_length_scale_m": 1.0
+            }
+          ],
+          "point_velocity_semantics": "finite pose-map pointwise chord; absolute-position subtraction agrees to recorded roundoff",
+          "position_increment_representation_roundoff_m": 8.226638093617941e-17,
+          "native_equivalence": false,
+          "continuum_accuracy_established": false
+        },
+        {
+          "start_time_s": 0.01,
+          "end_time_s": 0.02,
+          "step_s": 0.01,
+          "held_handle_forces_N": [],
+          "held_nodal_forces_N": [
+            [
+              0.75,
+              -0.5,
+              0.25
+            ],
+            [
+              0.75,
+              -0.5,
+              0.25
+            ],
+            [
+              0.75,
+              -0.5,
+              0.25
+            ],
+            [
+              0.75,
+              -0.5,
+              0.25
+            ]
+          ],
+          "old_invariants": {
+            "elastic_energy_J": 9.688991214487727e-31,
+            "chord_kinetic_energy_J": 7.000000000000001e-06,
+            "energy_J": 7.000000000000001e-06,
+            "point_linear_momentum_Ns": [
+              0.030000000000000002,
+              -0.02,
+              0.010000000000000002
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.007500000000000005,
+              0.005000000000000001,
+              -0.012499999999999995
+            ],
+            "minimum_J": 1.0
+          },
+          "new_invariants": {
+            "elastic_energy_J": 8.134506719433642e-31,
+            "chord_kinetic_energy_J": 2.800000000000001e-05,
+            "energy_J": 2.800000000000001e-05,
+            "point_linear_momentum_Ns": [
+              0.06000000000000001,
+              -0.04000000000000001,
+              0.020000000000000004
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.015000000000000015,
+              0.010000000000000007,
+              -0.024999999999999994
+            ],
+            "minimum_J": 1.0
+          },
+          "fixture_reactions_inertia_elastic_drag_minus_external_N": [],
+          "support_work_J": 0.0,
+          "held_handle_work_J": 0.0,
+          "held_nodal_work_J": 2.8000000000000003e-05,
+          "body_viscous_dissipation_J": 0.0,
+          "body_drag_impulse_Ns": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "implicit_velocity_increment_loss_J": 7.000000000000003e-06,
+          "backward_elastic_gradient_defect_J": 1.5222251684855992e-31,
+          "constraint_chord_work_J": 6.328271240364223e-21,
+          "energy_balance_time_discretization_defect_J": -6.999999999999994e-06,
+          "energy_algebra_identity_residual_J": 3.3881317890172014e-21,
+          "linear_momentum_balance_error_Ns": [
+            1.0408340855860843e-17,
+            -6.938893903907228e-18,
+            1.734723475976807e-18
+          ],
+          "endpoint_angular_momentum_discretization_defect_Nms": [
+            1.0408340855860843e-17,
+            6.071532165918825e-18,
+            1.734723475976807e-18
+          ],
+          "converged": true,
+          "residual_tolerance_N": 1.8708286933869707e-10,
+          "minimum_J": 1.0,
+          "invalid_J_trials_rejected": 0,
+          "nonlinear_history": [
+            {
+              "iteration": 0,
+              "incremental_potential_J": 7.000000000000001e-06,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 3.7416573867739413,
+              "relative_scaled_generalized_residual": 2.0,
+              "maximum_translational_residual_N": 1.5000000000000109,
+              "maximum_handle_torque_residual_Nm": 0.0,
+              "maximum_axis_angle_gradient_Nm": 0.0,
+              "rotation_residual_length_scale_m": 1.0,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 1,
+              "incremental_potential_J": -2.1000000000000002e-05,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 1.602366182639143e-14,
+              "relative_scaled_generalized_residual": 8.565007519412161e-15,
+              "maximum_translational_residual_N": 9.14795036598575e-15,
+              "maximum_handle_torque_residual_Nm": 0.0,
+              "maximum_axis_angle_gradient_Nm": 0.0,
+              "rotation_residual_length_scale_m": 1.0
+            }
+          ],
+          "point_velocity_semantics": "finite pose-map pointwise chord; absolute-position subtraction agrees to recorded roundoff",
+          "position_increment_representation_roundoff_m": 5.743349250505146e-17,
+          "native_equivalence": false,
+          "continuum_accuracy_established": false
+        },
+        {
+          "start_time_s": 0.02,
+          "end_time_s": 0.03,
+          "step_s": 0.01,
+          "held_handle_forces_N": [],
+          "held_nodal_forces_N": [
+            [
+              0.75,
+              -0.5,
+              0.25
+            ],
+            [
+              0.75,
+              -0.5,
+              0.25
+            ],
+            [
+              0.75,
+              -0.5,
+              0.25
+            ],
+            [
+              0.75,
+              -0.5,
+              0.25
+            ]
+          ],
+          "old_invariants": {
+            "elastic_energy_J": 8.134506719433642e-31,
+            "chord_kinetic_energy_J": 2.800000000000001e-05,
+            "energy_J": 2.800000000000001e-05,
+            "point_linear_momentum_Ns": [
+              0.06000000000000001,
+              -0.04000000000000001,
+              0.020000000000000004
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.015000000000000015,
+              0.010000000000000007,
+              -0.024999999999999994
+            ],
+            "minimum_J": 1.0
+          },
+          "new_invariants": {
+            "elastic_energy_J": 6.166205354319069e-31,
+            "chord_kinetic_energy_J": 6.300000000000004e-05,
+            "energy_J": 6.300000000000004e-05,
+            "point_linear_momentum_Ns": [
+              0.09000000000000002,
+              -0.06000000000000001,
+              0.030000000000000013
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.022500000000000023,
+              0.015000000000000013,
+              -0.0375
+            ],
+            "minimum_J": 1.0
+          },
+          "fixture_reactions_inertia_elastic_drag_minus_external_N": [],
+          "support_work_J": 0.0,
+          "held_handle_work_J": 0.0,
+          "held_nodal_work_J": 4.200000000000001e-05,
+          "body_viscous_dissipation_J": 0.0,
+          "body_drag_impulse_Ns": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "implicit_velocity_increment_loss_J": 7.0000000000000075e-06,
+          "backward_elastic_gradient_defect_J": 1.984671769641864e-31,
+          "constraint_chord_work_J": 2.5895952049390197e-20,
+          "energy_balance_time_discretization_defect_J": -6.99999999999998e-06,
+          "energy_algebra_identity_residual_J": 8.470329472543003e-22,
+          "linear_momentum_balance_error_Ns": [
+            1.3877787807814457e-17,
+            -3.469446951953614e-18,
+            8.673617379884035e-18
+          ],
+          "endpoint_angular_momentum_discretization_defect_Nms": [
+            8.673617379884035e-18,
+            6.071532165918825e-18,
+            -3.469446951953614e-18
+          ],
+          "converged": true,
+          "residual_tolerance_N": 1.8708286933869707e-10,
+          "minimum_J": 1.0,
+          "invalid_J_trials_rejected": 0,
+          "nonlinear_history": [
+            {
+              "iteration": 0,
+              "incremental_potential_J": 2.8000000000000003e-05,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 5.612486080160913,
+              "relative_scaled_generalized_residual": 3.0000000000000004,
+              "maximum_translational_residual_N": 2.2500000000000293,
+              "maximum_handle_torque_residual_Nm": 0.0,
+              "maximum_axis_angle_gradient_Nm": 0.0,
+              "rotation_residual_length_scale_m": 1.0,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 1,
+              "incremental_potential_J": -3.5000000000000004e-05,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 4.4479335256129066e-14,
+              "relative_scaled_generalized_residual": 2.3775204759984276e-14,
+              "maximum_translational_residual_N": 3.147531228183137e-14,
+              "maximum_handle_torque_residual_Nm": 0.0,
+              "maximum_axis_angle_gradient_Nm": 0.0,
+              "rotation_residual_length_scale_m": 1.0
+            }
+          ],
+          "point_velocity_semantics": "finite pose-map pointwise chord; absolute-position subtraction agrees to recorded roundoff",
+          "position_increment_representation_roundoff_m": 1.4765817149715865e-16,
+          "native_equivalence": false,
+          "continuum_accuracy_established": false
+        },
+        {
+          "start_time_s": 0.03,
+          "end_time_s": 0.04,
+          "step_s": 0.01,
+          "held_handle_forces_N": [],
+          "held_nodal_forces_N": [
+            [
+              0.75,
+              -0.5,
+              0.25
+            ],
+            [
+              0.75,
+              -0.5,
+              0.25
+            ],
+            [
+              0.75,
+              -0.5,
+              0.25
+            ],
+            [
+              0.75,
+              -0.5,
+              0.25
+            ]
+          ],
+          "old_invariants": {
+            "elastic_energy_J": 6.166205354319069e-31,
+            "chord_kinetic_energy_J": 6.300000000000004e-05,
+            "energy_J": 6.300000000000004e-05,
+            "point_linear_momentum_Ns": [
+              0.09000000000000002,
+              -0.06000000000000001,
+              0.030000000000000013
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.022500000000000023,
+              0.015000000000000013,
+              -0.0375
+            ],
+            "minimum_J": 1.0
+          },
+          "new_invariants": {
+            "elastic_energy_J": 4.356852309187258e-31,
+            "chord_kinetic_energy_J": 0.00011200000000000008,
+            "energy_J": 0.00011200000000000008,
+            "point_linear_momentum_Ns": [
+              0.12000000000000005,
+              -0.08000000000000003,
+              0.04000000000000002
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.03000000000000005,
+              0.020000000000000025,
+              -0.049999999999999975
+            ],
+            "minimum_J": 1.0
+          },
+          "fixture_reactions_inertia_elastic_drag_minus_external_N": [],
+          "support_work_J": 0.0,
+          "held_handle_work_J": 0.0,
+          "held_nodal_work_J": 5.600000000000002e-05,
+          "body_viscous_dissipation_J": 0.0,
+          "body_drag_impulse_Ns": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "implicit_velocity_increment_loss_J": 7.000000000000009e-06,
+          "backward_elastic_gradient_defect_J": 1.843779042887733e-31,
+          "constraint_chord_work_J": 3.4861002973233194e-20,
+          "energy_balance_time_discretization_defect_J": -6.99999999999998e-06,
+          "energy_algebra_identity_residual_J": -5.929230630780102e-21,
+          "linear_momentum_balance_error_Ns": [
+            2.7755575615628914e-17,
+            -1.734723475976807e-17,
+            8.673617379884035e-18
+          ],
+          "endpoint_angular_momentum_discretization_defect_Nms": [
+            2.7755575615628914e-17,
+            1.1275702593849246e-17,
+            2.42861286636753e-17
+          ],
+          "converged": true,
+          "residual_tolerance_N": 1.8708286933869707e-10,
+          "minimum_J": 1.0,
+          "invalid_J_trials_rejected": 0,
+          "nonlinear_history": [
+            {
+              "iteration": 0,
+              "incremental_potential_J": 6.300000000000004e-05,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 7.483314773547884,
+              "relative_scaled_generalized_residual": 4.000000000000001,
+              "maximum_translational_residual_N": 3.0000000000000173,
+              "maximum_handle_torque_residual_Nm": 0.0,
+              "maximum_axis_angle_gradient_Nm": 0.0,
+              "rotation_residual_length_scale_m": 1.0,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 1,
+              "incremental_potential_J": -4.900000000000001e-05,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 3.2479950198373224e-14,
+              "relative_scaled_generalized_residual": 1.7361263654541844e-14,
+              "maximum_translational_residual_N": 1.829106104238753e-14,
+              "maximum_handle_torque_residual_Nm": 0.0,
+              "maximum_axis_angle_gradient_Nm": 0.0,
+              "rotation_residual_length_scale_m": 1.0
+            }
+          ],
+          "point_velocity_semantics": "finite pose-map pointwise chord; absolute-position subtraction agrees to recorded roundoff",
+          "position_increment_representation_roundoff_m": 1.1488138457020625e-16,
+          "native_equivalence": false,
+          "continuum_accuracy_established": false
+        }
+      ],
+      "errors": [
+        {
+          "positions": 1.2705494208814505e-21,
+          "velocities": 1.3552527156068805e-19,
+          "auxiliary_positions": 0.0,
+          "auxiliary_velocities": 0.0,
+          "handle_centers": 0.0,
+          "handle_rotations": 0.0
+        },
+        {
+          "positions": 5.082197683525802e-21,
+          "velocities": 3.2526065174565133e-19,
+          "auxiliary_positions": 0.0,
+          "auxiliary_velocities": 0.0,
+          "handle_centers": 0.0,
+          "handle_rotations": 0.0
+        },
+        {
+          "positions": 1.6940658945086007e-20,
+          "velocities": 1.1926223897340549e-18,
+          "auxiliary_positions": 0.0,
+          "auxiliary_velocities": 0.0,
+          "handle_centers": 0.0,
+          "handle_rotations": 0.0
+        },
+        {
+          "positions": 3.3881317890172014e-20,
+          "velocities": 1.734723475976807e-18,
+          "auxiliary_positions": 0.0,
+          "auxiliary_velocities": 0.0,
+          "handle_centers": 0.0,
+          "handle_rotations": 0.0
+        }
+      ],
+      "binding_proof": {
+        "method_code_identity": {
+          "targets": true,
+          "configuration": true,
+          "coordinates": true,
+          "increments": true,
+          "elastic": true,
+          "initial_state": true,
+          "validate_state": true,
+          "_jacobians": true,
+          "preconditioner": true,
+          "invariants": true,
+          "step": true,
+          "_balance": true
+        },
+        "helper_code_identity": {
+          "skew": true,
+          "determinant3": true,
+          "rotation_matrix": true,
+          "rotation_left_jacobian": true,
+          "x_minus_log1p": true,
+          "neo_hookean_energy": true,
+          "equilibrium_metrics": true,
+          "finite_array": true
+        },
+        "cpu_tensor_binding_unchanged": true,
+        "device": "cuda:0",
+        "physical_buffer_dtype_devices": {
+          "points": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "K": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "body_mass": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "gradients": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "volumes": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "auxiliary_offsets": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "auxiliary_mass": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "com_offsets": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "mapping_A": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "mapping_points": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "cpu_assembly_then_transfer": true,
+        "preconditioner_rebuilt_on_device": true
+      }
+    },
+    {
+      "name": "finite-rigid-rotation",
+      "ledgers": [
+        {
+          "start_time_s": 0.0,
+          "end_time_s": 0.01,
+          "step_s": 0.01,
+          "held_handle_forces_N": [
+            [
+              0.003,
+              -0.002,
+              0.001
+            ]
+          ],
+          "held_nodal_forces_N": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "old_invariants": {
+            "elastic_energy_J": 0.0,
+            "chord_kinetic_energy_J": 0.004831666666666668,
+            "energy_J": 0.004831666666666668,
+            "point_linear_momentum_Ns": [
+              0.0258,
+              0.017199999999999997,
+              -0.0086
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0016666666666666672,
+              0.003726666666666668,
+              -0.005760000000000002
+            ],
+            "minimum_J": 1.0
+          },
+          "new_invariants": {
+            "elastic_energy_J": -4.5670550497364055e-20,
+            "chord_kinetic_energy_J": 0.004831613185346265,
+            "energy_J": 0.004831613185346265,
+            "point_linear_momentum_Ns": [
+              0.02583,
+              0.017180000000000008,
+              -0.008589999999999999
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0016665289894206203,
+              0.003726387181874473,
+              -0.0057596055288162504
+            ],
+            "minimum_J": 0.9999999999999999
+          },
+          "fixture_reactions_inertia_elastic_drag_minus_external_N": [],
+          "support_work_J": 0.0,
+          "held_handle_work_J": 4.0162790697674414e-07,
+          "held_nodal_work_J": 0.0,
+          "body_viscous_dissipation_J": 0.0,
+          "body_drag_impulse_Ns": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "implicit_velocity_increment_loss_J": 1.5225299792809926e-07,
+          "backward_elastic_gradient_defect_J": -2.4485070006232898e-20,
+          "constraint_chord_work_J": -3.028562294516709e-07,
+          "energy_balance_time_discretization_defect_J": -4.551092273802753e-07,
+          "energy_algebra_identity_residual_J": -5.296602898299547e-19,
+          "linear_momentum_balance_error_Ns": [
+            -1.2231155758352097e-18,
+            1.1224880617013988e-17,
+            1.3264535954002343e-18
+          ],
+          "endpoint_angular_momentum_discretization_defect_Nms": [
+            -1.376772460468835e-07,
+            -2.7348479219526767e-07,
+            4.064711837516532e-07
+          ],
+          "converged": true,
+          "residual_tolerance_N": 1e-10,
+          "minimum_J": 0.9999999999999999,
+          "invalid_J_trials_rejected": 0,
+          "nonlinear_history": [
+            {
+              "iteration": 0,
+              "incremental_potential_J": 0.004831666666666668,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 4.777253348479183,
+              "relative_scaled_generalized_residual": 1276.7746628448344,
+              "maximum_translational_residual_N": 2.5829999999999997,
+              "maximum_handle_torque_residual_Nm": 0.5760000000000003,
+              "maximum_axis_angle_gradient_Nm": 0.5760000000000003,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 1,
+              "incremental_potential_J": -2.46432372366503e-07,
+              "minimum_J": 0.9999999999999999,
+              "scaled_generalized_residual_norm_N": 0.0027564804449683256,
+              "relative_scaled_generalized_residual": 0.7367003870295469,
+              "maximum_translational_residual_N": 6.132247487578013e-16,
+              "maximum_handle_torque_residual_Nm": 0.00042253425944124135,
+              "maximum_axis_angle_gradient_Nm": 0.0004213327691867054,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 2,
+              "incremental_potential_J": -2.493749020887123e-07,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 4.311767723085268e-06,
+              "relative_scaled_generalized_residual": 0.001152368396509675,
+              "maximum_translational_residual_N": 3.0747973611688906e-16,
+              "maximum_handle_torque_residual_Nm": 6.048052708631715e-07,
+              "maximum_axis_angle_gradient_Nm": 6.023325359598704e-07,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 3,
+              "incremental_potential_J": -2.4937490904858796e-07,
+              "minimum_J": 0.9999999999999999,
+              "scaled_generalized_residual_norm_N": 7.328648703346177e-09,
+              "relative_scaled_generalized_residual": 1.9586637539961778e-06,
+              "maximum_translational_residual_N": 2.3787395664331967e-16,
+              "maximum_handle_torque_residual_Nm": 9.508720287205538e-10,
+              "maximum_axis_angle_gradient_Nm": 9.569869476782255e-10,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 4,
+              "incremental_potential_J": -2.4937490904868987e-07,
+              "minimum_J": 0.9999999999999999,
+              "scaled_generalized_residual_norm_N": 1.263629991552324e-11,
+              "relative_scaled_generalized_residual": 3.3771932086006044e-09,
+              "maximum_translational_residual_N": 2.190088388420719e-16,
+              "maximum_handle_torque_residual_Nm": 1.6703029623576837e-12,
+              "maximum_axis_angle_gradient_Nm": 1.6804907544534585e-12,
+              "rotation_residual_length_scale_m": 0.2
+            }
+          ],
+          "point_velocity_semantics": "finite pose-map pointwise chord; absolute-position subtraction agrees to recorded roundoff",
+          "position_increment_representation_roundoff_m": 1.6046192152785466e-17,
+          "native_equivalence": false,
+          "continuum_accuracy_established": false
+        },
+        {
+          "start_time_s": 0.01,
+          "end_time_s": 0.02,
+          "step_s": 0.01,
+          "held_handle_forces_N": [
+            [
+              0.003,
+              -0.002,
+              0.001
+            ]
+          ],
+          "held_nodal_forces_N": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "old_invariants": {
+            "elastic_energy_J": -4.5670550497364055e-20,
+            "chord_kinetic_energy_J": 0.004831613185346265,
+            "energy_J": 0.004831613185346265,
+            "point_linear_momentum_Ns": [
+              0.02583,
+              0.017180000000000008,
+              -0.008589999999999999
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0016665289894206203,
+              0.003726387181874473,
+              -0.0057596055288162504
+            ],
+            "minimum_J": 0.9999999999999999
+          },
+          "new_invariants": {
+            "elastic_energy_J": 2.1729652916102877e-19,
+            "chord_kinetic_energy_J": 0.004830804595082058,
+            "energy_J": 0.004830804595082058,
+            "point_linear_momentum_Ns": [
+              0.025859999999999998,
+              0.017160000000000005,
+              -0.00858
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0016662534241276093,
+              0.003725822632139173,
+              -0.005758828741896101
+            ],
+            "minimum_J": 1.0
+          },
+          "fixture_reactions_inertia_elastic_drag_minus_external_N": [],
+          "support_work_J": 0.0,
+          "held_handle_work_J": 4.032558139534882e-07,
+          "held_nodal_work_J": 0.0,
+          "body_viscous_dissipation_J": 0.0,
+          "body_drag_impulse_Ns": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "implicit_velocity_increment_loss_J": 6.063955999865864e-07,
+          "backward_elastic_gradient_defect_J": -2.3896854881856232e-19,
+          "constraint_chord_work_J": -6.054504781747201e-07,
+          "energy_balance_time_discretization_defect_J": -1.2118460781605035e-06,
+          "energy_algebra_identity_residual_J": 5.64123942871364e-19,
+          "linear_momentum_balance_error_Ns": [
+            -1.2231155758352097e-18,
+            -2.6529071908004687e-18,
+            -2.14299335655338e-18
+          ],
+          "endpoint_angular_momentum_discretization_defect_Nms": [
+            -2.7556529301107045e-07,
+            -5.525497352995895e-07,
+            8.007869201497774e-07
+          ],
+          "converged": true,
+          "residual_tolerance_N": 1e-10,
+          "minimum_J": 1.0,
+          "invalid_J_trials_rejected": 0,
+          "nonlinear_history": [
+            {
+              "iteration": 0,
+              "incremental_potential_J": 0.004831613185346265,
+              "minimum_J": 0.9999999999999999,
+              "scaled_generalized_residual_norm_N": 4.777792381147083,
+              "relative_scaled_generalized_residual": 1276.9187253850885,
+              "maximum_translational_residual_N": 2.586,
+              "maximum_handle_torque_residual_Nm": 0.5759605528816251,
+              "maximum_axis_angle_gradient_Nm": 0.5759605528816251,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 1,
+              "incremental_potential_J": 2.2958897469391418e-07,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 0.008259297430829081,
+              "relative_scaled_generalized_residual": 2.207390088687476,
+              "maximum_translational_residual_N": 4.553649124439119e-16,
+              "maximum_handle_torque_residual_Nm": 0.001263220707963037,
+              "maximum_axis_angle_gradient_Nm": 0.0012596775964447457,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 2,
+              "incremental_potential_J": 2.0314035429591685e-07,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 3.8917042172665005e-05,
+              "relative_scaled_generalized_residual": 0.010401017022624644,
+              "maximum_translational_residual_N": 3.7686867515596134e-16,
+              "maximum_handle_torque_residual_Nm": 5.461393077048385e-06,
+              "maximum_axis_angle_gradient_Nm": 5.4390892850592315e-06,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 3,
+              "incremental_potential_J": 2.0313978604830028e-07,
+              "minimum_J": 0.9999999999999999,
+              "scaled_generalized_residual_norm_N": 1.9932075534614242e-07,
+              "relative_scaled_generalized_residual": 5.3270712612732525e-05,
+              "maximum_translational_residual_N": 4.588343593958655e-16,
+              "maximum_handle_torque_residual_Nm": 2.5688235440911765e-08,
+              "maximum_axis_angle_gradient_Nm": 2.585473473779523e-08,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 4,
+              "incremental_potential_J": 2.0313978603349425e-07,
+              "minimum_J": 0.9999999999999999,
+              "scaled_generalized_residual_norm_N": 1.0339729828381393e-09,
+              "relative_scaled_generalized_residual": 2.7634090349721495e-07,
+              "maximum_translational_residual_N": 4.553649124439119e-16,
+              "maximum_handle_torque_residual_Nm": 1.3573860104353824e-10,
+              "maximum_axis_angle_gradient_Nm": 1.3657506250823728e-10,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 5,
+              "incremental_potential_J": 2.0313978603331542e-07,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 5.381155290944162e-12,
+              "relative_scaled_generalized_residual": 1.4381742459813501e-09,
+              "maximum_translational_residual_N": 3.959506333917062e-16,
+              "maximum_handle_torque_residual_Nm": 6.945126052501053e-13,
+              "maximum_axis_angle_gradient_Nm": 6.989436658940028e-13,
+              "rotation_residual_length_scale_m": 0.2
+            }
+          ],
+          "point_velocity_semantics": "finite pose-map pointwise chord; absolute-position subtraction agrees to recorded roundoff",
+          "position_increment_representation_roundoff_m": 2.168404344971009e-17,
+          "native_equivalence": false,
+          "continuum_accuracy_established": false
+        },
+        {
+          "start_time_s": 0.02,
+          "end_time_s": 0.03,
+          "step_s": 0.01,
+          "held_handle_forces_N": [
+            [
+              0.003,
+              -0.002,
+              0.001
+            ]
+          ],
+          "held_nodal_forces_N": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "old_invariants": {
+            "elastic_energy_J": 2.1729652916102877e-19,
+            "chord_kinetic_energy_J": 0.004830804595082058,
+            "energy_J": 0.004830804595082058,
+            "point_linear_momentum_Ns": [
+              0.025859999999999998,
+              0.017160000000000005,
+              -0.00858
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0016662534241276093,
+              0.003725822632139173,
+              -0.005758828741896101
+            ],
+            "minimum_J": 1.0
+          },
+          "new_invariants": {
+            "elastic_energy_J": -1.9546914167404572e-19,
+            "chord_kinetic_energy_J": 0.00482999832857639,
+            "energy_J": 0.00482999832857639,
+            "point_linear_momentum_Ns": [
+              0.025889999999999996,
+              0.017140000000000002,
+              -0.008570000000000001
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0016659774001851757,
+              0.0037252528444195777,
+              -0.005758064147947284
+            ],
+            "minimum_J": 1.0
+          },
+          "fixture_reactions_inertia_elastic_drag_minus_external_N": [],
+          "support_work_J": 0.0,
+          "held_handle_work_J": 4.0488372093023234e-07,
+          "held_nodal_work_J": 0.0,
+          "body_viscous_dissipation_J": 0.0,
+          "body_drag_impulse_Ns": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "implicit_velocity_increment_loss_J": 6.060475836687265e-07,
+          "backward_elastic_gradient_defect_J": 5.383092380661862e-19,
+          "constraint_chord_work_J": -6.05102642927474e-07,
+          "energy_balance_time_discretization_defect_J": -1.2111502265974903e-06,
+          "energy_algebra_identity_residual_J": -7.51529982451378e-19,
+          "linear_momentum_balance_error_Ns": [
+            -1.2231155758352097e-18,
+            -2.6529071908004687e-18,
+            -4.0826988057657276e-19
+          ],
+          "endpoint_angular_momentum_discretization_defect_Nms": [
+            -2.760239424335481e-07,
+            -5.517877195954583e-07,
+            8.00593948816665e-07
+          ],
+          "converged": true,
+          "residual_tolerance_N": 1e-10,
+          "minimum_J": 1.0,
+          "invalid_J_trials_rejected": 0,
+          "nonlinear_history": [
+            {
+              "iteration": 0,
+              "incremental_potential_J": 0.004830804595082057,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 4.778149059422169,
+              "relative_scaled_generalized_residual": 1277.0140516638514,
+              "maximum_translational_residual_N": 2.5889999999999995,
+              "maximum_handle_torque_residual_Nm": 0.57588167418961,
+              "maximum_axis_angle_gradient_Nm": 0.57588167418961,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 1,
+              "incremental_potential_J": 2.7448747043907954e-07,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 0.01374086066841332,
+              "relative_scaled_generalized_residual": 3.6723994871857295,
+              "maximum_translational_residual_N": 8.903468240450962e-16,
+              "maximum_handle_torque_residual_Nm": 0.002081786601618489,
+              "maximum_axis_angle_gradient_Nm": 0.002075988632695155,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 2,
+              "incremental_potential_J": 2.0116833715582055e-07,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 0.00010906655563180077,
+              "relative_scaled_generalized_residual": 0.029149263109265595,
+              "maximum_translational_residual_N": 2.3418766925686896e-16,
+              "maximum_handle_torque_residual_Nm": 1.5278084280715123e-05,
+              "maximum_axis_angle_gradient_Nm": 1.5215462103231496e-05,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 3,
+              "incremental_potential_J": 2.0116386307136223e-07,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 9.363122956174797e-07,
+              "relative_scaled_generalized_residual": 0.0002502399869446006,
+              "maximum_translational_residual_N": 3.972516759986888e-16,
+              "maximum_handle_torque_residual_Nm": 1.1995020750324194e-07,
+              "maximum_axis_angle_gradient_Nm": 1.2073311898289312e-07,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 4,
+              "incremental_potential_J": 2.011638627381743e-07,
+              "minimum_J": 0.9999999999999999,
+              "scaled_generalized_residual_norm_N": 8.128264496700946e-09,
+              "relative_scaled_generalized_residual": 2.1723700639809616e-06,
+              "maximum_translational_residual_N": 3.8467493079785697e-16,
+              "maximum_handle_torque_residual_Nm": 1.0591904805783002e-09,
+              "maximum_axis_angle_gradient_Nm": 1.0657950093815198e-09,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": true
+            },
+            {
+              "iteration": 5,
+              "incremental_potential_J": 2.011638627382985e-07,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 7.077016401195256e-11,
+              "relative_scaled_generalized_residual": 1.8914121924180402e-08,
+              "maximum_translational_residual_N": 1.8778381627448937e-16,
+              "maximum_handle_torque_residual_Nm": 9.080914931739376e-12,
+              "maximum_axis_angle_gradient_Nm": 9.139318376092454e-12,
+              "rotation_residual_length_scale_m": 0.2
+            }
+          ],
+          "point_velocity_semantics": "finite pose-map pointwise chord; absolute-position subtraction agrees to recorded roundoff",
+          "position_increment_representation_roundoff_m": 2.47198095326695e-17,
+          "native_equivalence": false,
+          "continuum_accuracy_established": false
+        },
+        {
+          "start_time_s": 0.03,
+          "end_time_s": 0.04,
+          "step_s": 0.01,
+          "held_handle_forces_N": [
+            [
+              0.003,
+              -0.002,
+              0.001
+            ]
+          ],
+          "held_nodal_forces_N": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "old_invariants": {
+            "elastic_energy_J": -1.9546914167404572e-19,
+            "chord_kinetic_energy_J": 0.00482999832857639,
+            "energy_J": 0.00482999832857639,
+            "point_linear_momentum_Ns": [
+              0.025889999999999996,
+              0.017140000000000002,
+              -0.008570000000000001
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0016659774001851757,
+              0.0037252528444195777,
+              -0.005758064147947284
+            ],
+            "minimum_J": 1.0
+          },
+          "new_invariants": {
+            "elastic_energy_J": 3.296912856237671e-19,
+            "chord_kinetic_energy_J": 0.0048291943853774316,
+            "energy_J": 0.0048291943853774316,
+            "point_linear_momentum_Ns": [
+              0.02592,
+              0.017120000000000007,
+              -0.008560000000000005
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0016657009248558883,
+              0.0037246778244409895,
+              -0.005757311740920113
+            ],
+            "minimum_J": 0.9999999999999998
+          },
+          "fixture_reactions_inertia_elastic_drag_minus_external_N": [],
+          "support_work_J": 0.0,
+          "held_handle_work_J": 4.065116279069766e-07,
+          "held_nodal_work_J": 0.0,
+          "body_viscous_dissipation_J": 0.0,
+          "body_drag_impulse_Ns": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "implicit_velocity_increment_loss_J": 6.056998641570873e-07,
+          "backward_elastic_gradient_defect_J": -7.608594000254506e-19,
+          "constraint_chord_work_J": -6.047549627098155e-07,
+          "energy_balance_time_discretization_defect_J": -1.210454826865758e-06,
+          "energy_algebra_identity_residual_J": 3.8391768334301163e-19,
+          "linear_momentum_balance_error_Ns": [
+            2.2463313761184045e-18,
+            4.28598671310676e-18,
+            -3.877716832530187e-18
+          ],
+          "endpoint_angular_momentum_discretization_defect_Nms": [
+            -2.7647532928744105e-07,
+            -5.510199785882829e-07,
+            8.004070271712133e-07
+          ],
+          "converged": true,
+          "residual_tolerance_N": 1e-10,
+          "minimum_J": 0.9999999999999998,
+          "invalid_J_trials_rejected": 0,
+          "nonlinear_history": [
+            {
+              "iteration": 0,
+              "incremental_potential_J": 0.004829998328576392,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 4.77850886037589,
+              "relative_scaled_generalized_residual": 1277.110212513584,
+              "maximum_translational_residual_N": 2.5919999999999996,
+              "maximum_handle_torque_residual_Nm": 0.5758028147947285,
+              "maximum_axis_angle_gradient_Nm": 0.5758028147947285,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 1,
+              "incremental_potential_J": 3.42767015146391e-07,
+              "minimum_J": 1.0000000000000002,
+              "scaled_generalized_residual_norm_N": 0.019215473672225696,
+              "relative_scaled_generalized_residual": 5.135551357574533,
+              "maximum_translational_residual_N": 4.145989107584569e-16,
+              "maximum_handle_torque_residual_Nm": 0.0029061113853421504,
+              "maximum_axis_angle_gradient_Nm": 0.0028981280953258052,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 2,
+              "incremental_potential_J": 1.9920551796545793e-07,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 0.00021411472254304927,
+              "relative_scaled_generalized_residual": 0.057224566658589514,
+              "maximum_translational_residual_N": 4.185020385794047e-16,
+              "maximum_handle_torque_residual_Nm": 3.0038564666532407e-05,
+              "maximum_axis_angle_gradient_Nm": 2.991586760523287e-05,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 3,
+              "incremental_potential_J": 1.9918823877632702e-07,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 2.576162158189937e-06,
+              "relative_scaled_generalized_residual": 0.000688508297765634,
+              "maximum_translational_residual_N": 2.3592239273284576e-16,
+              "maximum_handle_torque_residual_Nm": 3.277525085286067e-07,
+              "maximum_axis_angle_gradient_Nm": 3.29912927774295e-07,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 4,
+              "incremental_potential_J": 1.9918823625037217e-07,
+              "minimum_J": 0.9999999999999999,
+              "scaled_generalized_residual_norm_N": 3.131766011096505e-08,
+              "relative_scaled_generalized_residual": 8.369996735047713e-06,
+              "maximum_translational_residual_N": 4.124305064134859e-16,
+              "maximum_handle_torque_residual_Nm": 4.055142526978253e-09,
+              "maximum_axis_angle_gradient_Nm": 4.080679305776265e-09,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": false
+            },
+            {
+              "iteration": 5,
+              "incremental_potential_J": 1.9918823625036232e-07,
+              "minimum_J": 0.9999999999999999,
+              "scaled_generalized_residual_norm_N": 3.8188006080218325e-10,
+              "relative_scaled_generalized_residual": 1.0206173931158362e-07,
+              "maximum_translational_residual_N": 4.141652298894627e-16,
+              "maximum_handle_torque_residual_Nm": 4.9005907255280496e-11,
+              "maximum_axis_angle_gradient_Nm": 4.8992149344835606e-11,
+              "rotation_residual_length_scale_m": 0.2,
+              "accepted_step_length": 1.0,
+              "accepted_by_roundoff_residual_rule": true
+            },
+            {
+              "iteration": 6,
+              "incremental_potential_J": 1.991882362504412e-07,
+              "minimum_J": 0.9999999999999998,
+              "scaled_generalized_residual_norm_N": 4.640781798426785e-12,
+              "relative_scaled_generalized_residual": 1.2403011068921167e-09,
+              "maximum_translational_residual_N": 2.224782857940255e-16,
+              "maximum_handle_torque_residual_Nm": 5.9932301793463e-13,
+              "maximum_axis_angle_gradient_Nm": 6.031261048697069e-13,
+              "rotation_residual_length_scale_m": 0.2
+            }
+          ],
+          "point_velocity_semantics": "finite pose-map pointwise chord; absolute-position subtraction agrees to recorded roundoff",
+          "position_increment_representation_roundoff_m": 2.3744027577432547e-17,
+          "native_equivalence": false,
+          "continuum_accuracy_established": false
+        }
+      ],
+      "errors": [
+        {
+          "positions": 1.3877787807814457e-17,
+          "velocities": 2.7755575615628914e-17,
+          "auxiliary_positions": 0.0,
+          "auxiliary_velocities": 0.0,
+          "handle_centers": 0.0,
+          "handle_rotations": 0.0
+        },
+        {
+          "positions": 2.7755575615628914e-17,
+          "velocities": 2.7755575615628914e-17,
+          "auxiliary_positions": 1.3877787807814457e-17,
+          "auxiliary_velocities": 1.3877787807814457e-17,
+          "handle_centers": 1.0842021724855044e-19,
+          "handle_rotations": 1.1102230246251565e-16
+        },
+        {
+          "positions": 2.7755575615628914e-17,
+          "velocities": 2.7755575615628914e-17,
+          "auxiliary_positions": 1.3877787807814457e-17,
+          "auxiliary_velocities": 2.7755575615628914e-17,
+          "handle_centers": 2.168404344971009e-19,
+          "handle_rotations": 1.1102230246251565e-16
+        },
+        {
+          "positions": 2.7755575615628914e-17,
+          "velocities": 4.163336342344337e-17,
+          "auxiliary_positions": 2.7755575615628914e-17,
+          "auxiliary_velocities": 2.7755575615628914e-17,
+          "handle_centers": 2.168404344971009e-19,
+          "handle_rotations": 2.220446049250313e-16
+        }
+      ],
+      "binding_proof": {
+        "method_code_identity": {
+          "targets": true,
+          "configuration": true,
+          "coordinates": true,
+          "increments": true,
+          "elastic": true,
+          "initial_state": true,
+          "validate_state": true,
+          "_jacobians": true,
+          "preconditioner": true,
+          "invariants": true,
+          "step": true,
+          "_balance": true
+        },
+        "helper_code_identity": {
+          "skew": true,
+          "determinant3": true,
+          "rotation_matrix": true,
+          "rotation_left_jacobian": true,
+          "x_minus_log1p": true,
+          "neo_hookean_energy": true,
+          "equilibrium_metrics": true,
+          "finite_array": true
+        },
+        "cpu_tensor_binding_unchanged": true,
+        "device": "cuda:0",
+        "physical_buffer_dtype_devices": {
+          "points": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "K": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "body_mass": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "gradients": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "volumes": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "auxiliary_offsets": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "auxiliary_mass": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "com_offsets": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "mapping_A": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "mapping_points": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "cpu_assembly_then_transfer": true,
+        "preconditioner_rebuilt_on_device": true
+      }
+    },
+    {
+      "name": "accelerating-prescribed-boundary",
+      "ledgers": [
+        {
+          "start_time_s": 0.0,
+          "end_time_s": 0.01,
+          "step_s": 0.01,
+          "held_handle_forces_N": [],
+          "held_nodal_forces_N": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "old_invariants": {
+            "elastic_energy_J": 0.0,
+            "chord_kinetic_energy_J": 0.0,
+            "energy_J": 0.0,
+            "point_linear_momentum_Ns": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "minimum_J": 1.0
+          },
+          "new_invariants": {
+            "elastic_energy_J": 6.302163027086956e-31,
+            "chord_kinetic_energy_J": 9.062500000008868e-05,
+            "energy_J": 9.062500000008868e-05,
+            "point_linear_momentum_Ns": [
+              0.10000000000016379,
+              -0.050000000000081896,
+              0.07499999999984527
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.03125,
+              0.006250000000000002,
+              -0.037500000000000006
+            ],
+            "minimum_J": 1.0
+          },
+          "fixture_reactions_inertia_elastic_drag_minus_external_N": [
+            [
+              2.5174999999999943,
+              -1.258749999999993,
+              1.8881250000000107
+            ],
+            [
+              2.5175000000164984,
+              -1.25875,
+              1.888125
+            ],
+            [
+              2.5175,
+              -1.2587500000082534,
+              1.888125
+            ],
+            [
+              2.5175,
+              -1.25875,
+              1.888124999984409
+            ]
+          ],
+          "support_work_J": 0.0001825187500001786,
+          "held_handle_work_J": 0.0,
+          "held_nodal_work_J": 0.0,
+          "body_viscous_dissipation_J": 1.2687500000012415e-06,
+          "body_drag_impulse_Ns": [
+            0.0007000000000011465,
+            -0.00035000000000057327,
+            0.000524999999998917
+          ],
+          "implicit_velocity_increment_loss_J": 9.062500000008868e-05,
+          "backward_elastic_gradient_defect_J": 6.302145679266071e-31,
+          "constraint_chord_work_J": 0.0,
+          "energy_balance_time_discretization_defect_J": -9.062500000008868e-05,
+          "energy_algebra_identity_residual_J": 0.0,
+          "linear_momentum_balance_error_Ns": [
+            1.3877787807814457e-17,
+            -6.938893903907228e-18,
+            -1.3877787807814457e-17
+          ],
+          "endpoint_angular_momentum_discretization_defect_Nms": [
+            0.0,
+            1.734723475976807e-18,
+            -6.938893903907228e-18
+          ],
+          "converged": true,
+          "residual_tolerance_N": 1e-10,
+          "minimum_J": 1.0,
+          "invalid_J_trials_rejected": 0,
+          "nonlinear_history": [
+            {
+              "iteration": 0,
+              "incremental_potential_J": 9.125937500008932e-05,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 0.0,
+              "relative_scaled_generalized_residual": 0.0,
+              "maximum_translational_residual_N": 0.0,
+              "maximum_handle_torque_residual_Nm": 0.0,
+              "maximum_axis_angle_gradient_Nm": 0.0,
+              "rotation_residual_length_scale_m": 1.0
+            }
+          ],
+          "point_velocity_semantics": "finite pose-map pointwise chord; absolute-position subtraction agrees to recorded roundoff",
+          "position_increment_representation_roundoff_m": 0.0,
+          "native_equivalence": false,
+          "continuum_accuracy_established": false
+        },
+        {
+          "start_time_s": 0.01,
+          "end_time_s": 0.02,
+          "step_s": 0.01,
+          "held_handle_forces_N": [],
+          "held_nodal_forces_N": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "old_invariants": {
+            "elastic_energy_J": 6.302163027086956e-31,
+            "chord_kinetic_energy_J": 9.062500000008868e-05,
+            "energy_J": 9.062500000008868e-05,
+            "point_linear_momentum_Ns": [
+              0.10000000000016379,
+              -0.050000000000081896,
+              0.07499999999984527
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.03125,
+              0.006250000000000002,
+              -0.037500000000000006
+            ],
+            "minimum_J": 1.0
+          },
+          "new_invariants": {
+            "elastic_energy_J": 1.713790120453831e-31,
+            "chord_kinetic_energy_J": 0.0008156249999999657,
+            "energy_J": 0.0008156249999999657,
+            "point_linear_momentum_Ns": [
+              0.29999999999993626,
+              -0.14999999999996813,
+              0.22500000000009096
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.09375,
+              0.018749999999999996,
+              -0.11250000000000002
+            ],
+            "minimum_J": 1.0
+          },
+          "fixture_reactions_inertia_elastic_drag_minus_external_N": [
+            [
+              5.052499999999997,
+              -2.5262499999999974,
+              3.7893750000000046
+            ],
+            [
+              5.052499999977205,
+              -2.5262500000000006,
+              3.7893750000000006
+            ],
+            [
+              5.052500000000001,
+              -2.5262499999886034,
+              3.7893750000000006
+            ],
+            [
+              5.052500000000001,
+              -2.5262500000000006,
+              3.7893750000246267
+            ]
+          ],
+          "support_work_J": 0.0010989187499996762,
+          "held_handle_work_J": 0.0,
+          "held_nodal_work_J": 0.0,
+          "body_viscous_dissipation_J": 1.1418749999999519e-05,
+          "body_drag_impulse_Ns": [
+            0.002099999999999554,
+            -0.001049999999999777,
+            0.001575000000000637
+          ],
+          "implicit_velocity_increment_loss_J": 0.0003624999999997997,
+          "backward_elastic_gradient_defect_J": 1.6382695290072152e-31,
+          "constraint_chord_work_J": 0.0,
+          "energy_balance_time_discretization_defect_J": -0.0003624999999997996,
+          "energy_algebra_identity_residual_J": 1.0842021724855044e-19,
+          "linear_momentum_balance_error_Ns": [
+            -5.551115123125783e-17,
+            2.7755575615628914e-17,
+            -2.7755575615628914e-17
+          ],
+          "endpoint_angular_momentum_discretization_defect_Nms": [
+            -1.3877787807814457e-17,
+            6.938893903907228e-18,
+            0.0
+          ],
+          "converged": true,
+          "residual_tolerance_N": 1e-10,
+          "minimum_J": 1.0,
+          "invalid_J_trials_rejected": 0,
+          "nonlinear_history": [
+            {
+              "iteration": 0,
+              "incremental_potential_J": 0.0003682093749997995,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 0.0,
+              "relative_scaled_generalized_residual": 0.0,
+              "maximum_translational_residual_N": 0.0,
+              "maximum_handle_torque_residual_Nm": 0.0,
+              "maximum_axis_angle_gradient_Nm": 0.0,
+              "rotation_residual_length_scale_m": 1.0
+            }
+          ],
+          "point_velocity_semantics": "finite pose-map pointwise chord; absolute-position subtraction agrees to recorded roundoff",
+          "position_increment_representation_roundoff_m": 0.0,
+          "native_equivalence": false,
+          "continuum_accuracy_established": false
+        },
+        {
+          "start_time_s": 0.02,
+          "end_time_s": 0.03,
+          "step_s": 0.01,
+          "held_handle_forces_N": [],
+          "held_nodal_forces_N": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "old_invariants": {
+            "elastic_energy_J": 1.713790120453831e-31,
+            "chord_kinetic_energy_J": 0.0008156249999999657,
+            "energy_J": 0.0008156249999999657,
+            "point_linear_momentum_Ns": [
+              0.29999999999993626,
+              -0.14999999999996813,
+              0.22500000000009096
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.09375,
+              0.018749999999999996,
+              -0.11250000000000002
+            ],
+            "minimum_J": 1.0
+          },
+          "new_invariants": {
+            "elastic_energy_J": 1.4745022697941021e-30,
+            "chord_kinetic_energy_J": 0.002265624999999441,
+            "energy_J": 0.002265624999999441,
+            "point_linear_momentum_Ns": [
+              0.4999999999997087,
+              -0.24999999999985434,
+              0.3750000000003365
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.15624999999999994,
+              0.03125,
+              -0.18749999999999997
+            ],
+            "minimum_J": 1.0
+          },
+          "fixture_reactions_inertia_elastic_drag_minus_external_N": [
+            [
+              5.0874999999999995,
+              -2.54375000000001,
+              3.815624999999976
+            ],
+            [
+              5.087499999977038,
+              -2.5437499999999984,
+              3.8156249999999967
+            ],
+            [
+              5.087499999999997,
+              -2.543749999988509,
+              3.8156249999999967
+            ],
+            [
+              5.087499999999997,
+              -2.5437499999999984,
+              3.8156250000248235
+            ]
+          ],
+          "support_work_J": 0.0018442187499992666,
+          "held_handle_work_J": 0.0,
+          "held_nodal_work_J": 0.0,
+          "body_viscous_dissipation_J": 3.171874999999217e-05,
+          "body_drag_impulse_Ns": [
+            0.0034999999999979596,
+            -0.0017499999999989798,
+            0.002625000000002356
+          ],
+          "implicit_velocity_increment_loss_J": 0.0003624999999997992,
+          "backward_elastic_gradient_defect_J": 2.5309217790401708e-30,
+          "constraint_chord_work_J": 0.0,
+          "energy_balance_time_discretization_defect_J": -0.0003624999999997992,
+          "energy_algebra_identity_residual_J": 0.0,
+          "linear_momentum_balance_error_Ns": [
+            5.551115123125783e-17,
+            -2.7755575615628914e-17,
+            -2.7755575615628914e-17
+          ],
+          "endpoint_angular_momentum_discretization_defect_Nms": [
+            6.938893903907228e-18,
+            3.469446951953614e-17,
+            0.0
+          ],
+          "converged": true,
+          "residual_tolerance_N": 1e-10,
+          "minimum_J": 1.0,
+          "invalid_J_trials_rejected": 0,
+          "nonlinear_history": [
+            {
+              "iteration": 0,
+              "incremental_potential_J": 0.00037835937499979525,
+              "minimum_J": 1.0,
+              "scaled_generalized_residual_norm_N": 0.0,
+              "relative_scaled_generalized_residual": 0.0,
+              "maximum_translational_residual_N": 0.0,
+              "maximum_handle_torque_residual_Nm": 0.0,
+              "maximum_axis_angle_gradient_Nm": 0.0,
+              "rotation_residual_length_scale_m": 1.0
+            }
+          ],
+          "point_velocity_semantics": "finite pose-map pointwise chord; absolute-position subtraction agrees to recorded roundoff",
+          "position_increment_representation_roundoff_m": 0.0,
+          "native_equivalence": false,
+          "continuum_accuracy_established": false
+        },
+        {
+          "start_time_s": 0.03,
+          "end_time_s": 0.04,
+          "step_s": 0.01,
+          "held_handle_forces_N": [],
+          "held_nodal_forces_N": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "old_invariants": {
+            "elastic_energy_J": 1.4745022697941021e-30,
+            "chord_kinetic_energy_J": 0.002265624999999441,
+            "energy_J": 0.002265624999999441,
+            "point_linear_momentum_Ns": [
+              0.4999999999997087,
+              -0.24999999999985434,
+              0.3750000000003365
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.15624999999999994,
+              0.03125,
+              -0.18749999999999997
+            ],
+            "minimum_J": 1.0
+          },
+          "new_invariants": {
+            "elastic_energy_J": 1.8270352773414293e-30,
+            "chord_kinetic_energy_J": 0.004440624999997547,
+            "energy_J": 0.004440624999997547,
+            "point_linear_momentum_Ns": [
+              0.7000000000000364,
+              -0.3500000000000182,
+              0.5249999999994721
+            ],
+            "chord_angular_momentum_about_world_origin_Nms": [
+              0.2187500000000001,
+              0.04375000000000007,
+              -0.26250000000000007
+            ],
+            "minimum_J": 0.9999999999999999
+          },
+          "fixture_reactions_inertia_elastic_drag_minus_external_N": [
+            [
+              5.122500000000026,
+              -2.561249999999994,
+              3.841875000000031
+            ],
+            [
+              5.122500000032761,
+              -2.561250000000003,
+              3.8418750000000053
+            ],
+            [
+              5.122500000000006,
+              -2.5612500000163996,
+              3.8418750000000053
+            ],
+            [
+              5.122500000000006,
+              -2.561250000000003,
+              3.8418749999131494
+            ]
+          ],
+          "support_work_J": 0.0025996687499975947,
+          "held_handle_work_J": 0.0,
+          "held_nodal_work_J": 0.0,
+          "body_viscous_dissipation_J": 6.216874999996566e-05,
+          "body_drag_impulse_Ns": [
+            0.004900000000000256,
+            -0.002450000000000128,
+            0.0036749999999963054
+          ],
+          "implicit_velocity_increment_loss_J": 0.0003624999999995228,
+          "backward_elastic_gradient_defect_J": 4.875596419486263e-30,
+          "constraint_chord_work_J": 0.0,
+          "energy_balance_time_discretization_defect_J": -0.0003624999999995225,
+          "energy_algebra_identity_residual_J": 3.2526065174565133e-19,
+          "linear_momentum_balance_error_Ns": [
+            -5.551115123125783e-17,
+            2.7755575615628914e-17,
+            0.0
+          ],
+          "endpoint_angular_momentum_discretization_defect_Nms": [
+            0.0,
+            -1.1102230246251565e-16,
+            0.0
+          ],
+          "converged": true,
+          "residual_tolerance_N": 1e-10,
+          "minimum_J": 0.9999999999999999,
+          "invalid_J_trials_rejected": 0,
+          "nonlinear_history": [
+            {
+              "iteration": 0,
+              "incremental_potential_J": 0.0003935843749995057,
+              "minimum_J": 0.9999999999999999,
+              "scaled_generalized_residual_norm_N": 0.0,
+              "relative_scaled_generalized_residual": 0.0,
+              "maximum_translational_residual_N": 0.0,
+              "maximum_handle_torque_residual_Nm": 0.0,
+              "maximum_axis_angle_gradient_Nm": 0.0,
+              "rotation_residual_length_scale_m": 1.0
+            }
+          ],
+          "point_velocity_semantics": "finite pose-map pointwise chord; absolute-position subtraction agrees to recorded roundoff",
+          "position_increment_representation_roundoff_m": 0.0,
+          "native_equivalence": false,
+          "continuum_accuracy_established": false
+        }
+      ],
+      "errors": [
+        {
+          "positions": 0.0,
+          "velocities": 0.0,
+          "auxiliary_positions": 0.0,
+          "auxiliary_velocities": 0.0,
+          "handle_centers": 0.0,
+          "handle_rotations": 0.0
+        },
+        {
+          "positions": 0.0,
+          "velocities": 0.0,
+          "auxiliary_positions": 0.0,
+          "auxiliary_velocities": 0.0,
+          "handle_centers": 0.0,
+          "handle_rotations": 0.0
+        },
+        {
+          "positions": 0.0,
+          "velocities": 8.673617379884035e-19,
+          "auxiliary_positions": 0.0,
+          "auxiliary_velocities": 0.0,
+          "handle_centers": 0.0,
+          "handle_rotations": 0.0
+        },
+        {
+          "positions": 0.0,
+          "velocities": 0.0,
+          "auxiliary_positions": 0.0,
+          "auxiliary_velocities": 0.0,
+          "handle_centers": 0.0,
+          "handle_rotations": 0.0
+        }
+      ],
+      "binding_proof": {
+        "method_code_identity": {
+          "targets": true,
+          "configuration": true,
+          "coordinates": true,
+          "increments": true,
+          "elastic": true,
+          "initial_state": true,
+          "validate_state": true,
+          "_jacobians": true,
+          "preconditioner": true,
+          "invariants": true,
+          "step": true,
+          "_balance": true
+        },
+        "helper_code_identity": {
+          "skew": true,
+          "determinant3": true,
+          "rotation_matrix": true,
+          "rotation_left_jacobian": true,
+          "x_minus_log1p": true,
+          "neo_hookean_energy": true,
+          "equilibrium_metrics": true,
+          "finite_array": true
+        },
+        "cpu_tensor_binding_unchanged": true,
+        "device": "cuda:0",
+        "physical_buffer_dtype_devices": {
+          "points": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "K": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "body_mass": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "gradients": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "volumes": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "auxiliary_offsets": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "auxiliary_mass": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "com_offsets": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "mapping_A": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          },
+          "mapping_points": {
+            "dtype": "torch.float64",
+            "device": "cuda:0"
+          }
+        },
+        "cpu_assembly_then_transfer": true,
+        "preconditioner_rebuilt_on_device": true
+      }
+    }
+  ],
+  "gpu_assignment": [
+    {
+      "gpu": 2,
+      "pid": 2090556,
+      "type": "C",
+      "memory": "232 MiB"
+    }
+  ],
+  "torch": "2.14.1+cu130",
+  "torch_cuda": "13.0",
+  "device": "NVIDIA GeForce RTX 2080 Ti",
+  "float64": true,
+  "production_equivalence_claim": false,
+  "peak_cuda_allocated_bytes": 17117184,
+  "peak_cuda_reserved_bytes": 23068672
+}

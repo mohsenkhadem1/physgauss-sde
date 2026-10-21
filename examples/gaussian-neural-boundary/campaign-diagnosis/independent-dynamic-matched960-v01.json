@@ -1,0 +1,231 @@
+{
+  "role": "60 unique TRAIN physics cells verified; selected per-BC fixed-discretization small-force operating points pass; original480 moving temporal failure preserved.",
+  "verified_unique_cells": 60,
+  "independent_fixed_discretization_small_force_reference_qualified": true,
+  "per_BC_small_force_operating_points_Hz": {
+    "point_pin": 480,
+    "fixed_patch": 480,
+    "two_patches": 480,
+    "moving_patch": 960
+  },
+  "force_envelope": {
+    "responses": [
+      "zero_external_force",
+      "diagonal_pulse_handle0"
+    ],
+    "peak_world_handle0_force_N": [
+      0.01,
+      0.01,
+      0.005
+    ],
+    "peak_world_handle1_force_N": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "seconds": 3.0,
+    "output_frames": 31
+  },
+  "matched960_comparisons": [
+    {
+      "kind": "nonlinear_tolerance",
+      "coordinate_rmse_m": [
+        3.938748480836027e-10,
+        2.0365743337453e-11
+      ],
+      "tolerance_m": 6.5235180972074335e-06,
+      "passed": true
+    },
+    {
+      "kind": "absolute_floor",
+      "coordinate_rmse_m": [
+        1.2950671221584517e-10,
+        1.104039768878549e-12
+      ],
+      "tolerance_m": 6.5235180972074335e-06,
+      "passed": true
+    },
+    {
+      "response": "zero_external_force",
+      "kind": "translated",
+      "coordinate_rmse_m": 6.452995559076235e-17,
+      "tolerance_m": 6.5235180972074335e-06,
+      "passed": true
+    },
+    {
+      "response": "zero_external_force",
+      "kind": "reset_replay",
+      "coordinate_rmse_m": 0.0,
+      "tolerance_m": 1e-12,
+      "passed": true,
+      "maximum_saved_array_absolute_error": 0.0,
+      "replay_arrays_bitwise": {
+        "positions_m": true,
+        "velocities_point_chord_m_s": true,
+        "handle_centers_m": true,
+        "handle_rotations": true,
+        "force_step_commands_N": true
+      }
+    },
+    {
+      "response": "diagonal_pulse_handle0",
+      "kind": "translated",
+      "coordinate_rmse_m": 5.780760981411477e-17,
+      "tolerance_m": 6.5235180972074335e-06,
+      "passed": true
+    },
+    {
+      "response": "diagonal_pulse_handle0",
+      "kind": "reset_replay",
+      "coordinate_rmse_m": 0.0,
+      "tolerance_m": 1e-12,
+      "passed": true,
+      "maximum_saved_array_absolute_error": 0.0,
+      "replay_arrays_bitwise": {
+        "positions_m": true,
+        "velocities_point_chord_m_s": true,
+        "handle_centers_m": true,
+        "handle_rotations": true,
+        "force_step_commands_N": true
+      }
+    }
+  ],
+  "moving_temporal_four_rate_comparisons": [
+    {
+      "case": "t0003",
+      "response": "zero_external_force",
+      "kind": "conditional_temporal_extension",
+      "actual_rates_hz": [
+        120,
+        240,
+        480,
+        960
+      ],
+      "adjacent_rate_pairs_hz": [
+        [
+          120,
+          240
+        ],
+        [
+          240,
+          480
+        ],
+        [
+          480,
+          960
+        ]
+      ],
+      "full_coordinate_rmse_m": [
+        1.6520284113769228e-05,
+        8.473689585441797e-06,
+        4.317658336519772e-06
+      ],
+      "measured_contraction": [
+        true,
+        true
+      ],
+      "adjacent_error_ratios": [
+        0.5129263835347236,
+        0.5095369960138397
+      ],
+      "finest_force_induced_coordinate_RMS_m": 0.00013047036194414866,
+      "tolerance_m": 6.5235180972074335e-06,
+      "final_two_differences_below_2micrometre_floor": false,
+      "finest_adjacent_comparison_passed": true,
+      "initial_480_failure_is_not_replaced": true
+    },
+    {
+      "case": "t0003",
+      "response": "diagonal_pulse_handle0",
+      "kind": "conditional_temporal_extension",
+      "actual_rates_hz": [
+        120,
+        240,
+        480,
+        960
+      ],
+      "adjacent_rate_pairs_hz": [
+        [
+          120,
+          240
+        ],
+        [
+          240,
+          480
+        ],
+        [
+          480,
+          960
+        ]
+      ],
+      "full_coordinate_rmse_m": [
+        1.6082259962054073e-05,
+        8.26241031155273e-06,
+        4.216890987211134e-06
+      ],
+      "measured_contraction": [
+        true,
+        true
+      ],
+      "adjacent_error_ratios": [
+        0.5137592807881356,
+        0.5103705611563445
+      ],
+      "finest_force_induced_coordinate_RMS_m": 0.00013047036194414866,
+      "tolerance_m": 6.5235180972074335e-06,
+      "final_two_differences_below_2micrometre_floor": false,
+      "finest_adjacent_comparison_passed": true,
+      "initial_480_failure_is_not_replaced": true
+    }
+  ],
+  "original480_failed_temporal_comparisons_preserved": [
+    {
+      "case": "t0003",
+      "response": "zero_external_force",
+      "kind": "temporal",
+      "coordinate_rmse_m": [
+        1.6520284113769228e-05,
+        8.473689585441797e-06
+      ],
+      "finest_force_induced_coordinate_RMS_m": 0.00013013732349628448,
+      "tolerance_m": 6.506866174814225e-06,
+      "both_differences_below_2micrometre_floor": false,
+      "passed": false
+    },
+    {
+      "case": "t0003",
+      "response": "diagonal_pulse_handle0",
+      "kind": "temporal",
+      "coordinate_rmse_m": [
+        1.6082259962054073e-05,
+        8.26241031155273e-06
+      ],
+      "finest_force_induced_coordinate_RMS_m": 0.00013013732349628448,
+      "tolerance_m": 6.506866174814225e-06,
+      "both_differences_below_2micrometre_floor": false,
+      "passed": false
+    }
+  ],
+  "prior50_and_temporal_reaudit_reports_byte_identical_to_original_completed_reports": true,
+  "all_workers_and_supervisors_terminal_and_missing": true,
+  "physical_core_source_sha256": "da0db7018b4913020bb228c2fc4df3c240e7dd872f17db4868de147eaaf78fa2",
+  "matched_protocol_sha256": "b7c6692a34d5b67c6b99f8ff6124bc9520e20da6afa715facecaa392d9f331fc",
+  "static_input_fixture_sha256": "073380f72559c50ccc674d5f69fdff1be7e4d0b30484ad66f0233695a813847f",
+  "source_and_evidence_sha256": {
+    "runs/operator-dev/independent-dynamic-matched960-audit-complete-v01.json": "53b4a43c2c86485180ee6786bc4d38b7e8897c9e3dcc737de85f7e7adfa8444d",
+    "runs/gaussian-campaign-v01/independent-dynamic-gate-v01/matched960-stage-v01/matched-manifest-v01.json": "231d368ee2ca7ea6a8dfb99fdf87af3041b512063e990b9cfe576fd3d67b2937",
+    "runs/gaussian-campaign-v01/independent-dynamic-gate-v01/matched960-stage-v01/terminal-verification-v01.json": "8830170a8db793a760cabcc374be9e5a4f28f0d99cd0a016d70c4d339b2ae1ef",
+    "runs/gaussian-campaign-v01/independent-dynamic-gate-v01/matched960-stage-v01/result-summary-v01.json": "49d9bc30099702792ad330b2ccd66e1938100325c015a4b87c0a0c27b44b720f",
+    "experiments/campaign_nonlinear_dynamics_case.py": "e7b6b785c262f43d4b1acc503b14feaf1cad659c171024346fc9e70a4dffc342",
+    "experiments/campaign_dynamic_960_protocol.py": "98576cc72c8172e6a0766d0fd4f2ddfb8f900d54ca51dd96e270faca8f85edcb",
+    "experiments/campaign_dynamic_960_audit.py": "29cb5e7f9e41822c43a2c2d3aa62a5825e2767b9357b2be04eed0bf7c9abb0ca"
+  },
+  "actual_force_envelope_qualified": false,
+  "native_reference_qualified": false,
+  "continuum_accuracy_established": false,
+  "prediction_gate_passed": false,
+  "uncertainty_calibrated": false,
+  "active_policy_qualified": false,
+  "raw_trajectories_remotely_published": false,
+  "qualification": "Known-input numerical engineering result for the stated fixed discretization and small-force operating points. Initial480 moving temporal comparisons remain failed. No original-force dataset, learned prediction, inference calibration or probing success is established."
+}

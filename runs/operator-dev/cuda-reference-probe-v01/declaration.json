@@ -1,0 +1,28 @@
+{
+  "source_sha256": "3885af3bbe12246046e6caa38470988b5dac3bfd7c85441b19b81a2a12ab98f2",
+  "source_physical_core": "da0db7018b4913020bb228c2fc4df3c240e7dd872f17db4868de147eaaf78fa2",
+  "scope": "CPU profile first, tiny independent mechanics CPU/GPU+analytic controls, conditional at mostone completed TRAINt0001/480 diagonal replay parity/timing; no newforces/reserveddata/bulk",
+  "gpu_physical_index": 2,
+  "CUDA_VISIBLE_DEVICES": "2",
+  "cuda_logical_device": "cuda:0",
+  "precision": "All physical buffers/states and arithmetic float64; noTF32/mixedprecision",
+  "method": "Original CPU method/helper code objects preserved in private namespace; only tensor helper/factory placement rebound; CPU assembly and H2D buffers recorded; no shared globals or source edits",
+  "tiny_state_limits": {
+    "position_pose_abs": 1e-10,
+    "velocity_abs": 1e-08
+  },
+  "train_limits": {
+    "all_nodal_positions_abs_m": 1e-09,
+    "all_nodal_velocities_abs_m_s": 1e-07,
+    "handle_centers_abs_m": 1e-09,
+    "handle_rotation_matrix_abs": 1e-08,
+    "minimumJ_perstep_difference": 1e-08,
+    "all_original_residuals_required": true,
+    "residual_tolerance_difference_N": 1e-20,
+    "commands_exact": true,
+    "impulse_difference_Ns": 1e-15
+  },
+  "integration": "Same constrained variational implicitEuler, exact patches/mass/inertia/damping/energy/positiveJ/line-search rules",
+  "failure_policy": "Preserve terminalfailure/partialoutput; noresidualrelaxation ornewforce test. TRAIN onlyif tiny controls pass.",
+  "timing": "Wall includes physicscore balance telemetry, transfer/JSON/OS overhead separately; capturedCPUstep timing matched tocore; CPU case geometry eigvalsh telemetry omitted onGPU and explicitlyexcluded fromspeedclaim."
+}
