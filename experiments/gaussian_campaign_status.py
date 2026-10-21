@@ -52,6 +52,10 @@ def snapshot(campaign, root):
             history = read(root/'pilots'/arm['name']/'history.json')
             status['pilots']['arms'].append({'name': arm['name'], 'state': arm['state'],
                 'last_validation': history[-1] if history else None})
+    audit = read(root/'command-audit-v02.json')
+    if audit:
+        status['command_audit'] = {key: audit[key] for key in ['records', 'passed', 'test_labels_opened', 'validation_labels_opened']}
+        status['command_audit']['clock_note'] = audit['clock_note']
     return status
 
 

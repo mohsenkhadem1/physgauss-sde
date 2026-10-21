@@ -5,7 +5,16 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'experiments'))
 from train_campaign_forward import normalized_scales, sample_ids
 from isaac_dataset import digest_json
+from audit_campaign_commands import quantized_clock_residual
 import json
+
+
+def test_clock_audit_handles_float32_dt_but_rejects_real_time_offset():
+    times = np.arange(61)/20
+    simulated = np.rint(times*960)*float(np.float32(1/960))
+    assert np.max(np.abs(simulated-times)) > 1e-7
+    assert quantized_clock_residual(simulated, times, 960) == 0
+    assert quantized_clock_residual(simulated+.001, times, 960) > .00099
 
 
 def test_small_control_loss_floor_leaves_passive_scales_unchanged():
