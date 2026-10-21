@@ -1,0 +1,3007 @@
+{
+  "protocol": "actual-authored-force-envelope-TRAIN-draft-v0.1",
+  "status": "DRAFT_READY_FOR_PARENT_REVIEW_NOT_LAUNCH_AUTHORIZATION",
+  "role": "Prospective fixed-discretization TRAIN qualification only; no physical runs under this draft",
+  "source_fixture": "configs/gaussian_independent_diagnostic_inputs_v01.json",
+  "source_fixture_sha256": "073380f72559c50ccc674d5f69fdff1be7e4d0b30484ad66f0233695a813847f",
+  "frozen_source_sha256": {
+    "experiments/campaign_authored_commands.py": "fdbf333b9531ce11700b6be05ab916fbdb7b30c2fb96cec3762369ae05a3c475",
+    "experiments/isaac_dataset.py": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_nonlinear_dynamics.py": "da0db7018b4913020bb228c2fc4df3c240e7dd872f17db4868de147eaaf78fa2",
+    "experiments/campaign_nonlinear_fem.py": "468daaafa9d02c9db27553e2cfb154190248500677c212d9dde25bffdf14e1ff",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "experiments/campaign_rigid_inertia.py": "e420d9cadaa97d1b1648227b7b28af1803952caa87432f819baf0827deecabf7"
+  },
+  "seconds": 3.0,
+  "output_hz": 20,
+  "frames": 61,
+  "nominal_relative_tolerance": 1e-07,
+  "nominal_absolute_tolerance_N": 1e-10,
+  "nonlinear_iteration_cap": 250,
+  "known_force_information_role": "known_actuator_command",
+  "force_semantics": {
+    "compiler": "campaign_authored_commands.compile_authored_commands",
+    "precision": "Original isaac_dataset.forces_at float32 result promoted exactly to float64; no force amplitude rescaling or follower conversion",
+    "clock": "Integer endpoint i/hz; midpoint(i+0.5)/hz. Record compiled clocks AND actual accumulated solver-state clocks; reconcile within1e-12s, never call compiled grid a measured native clock.",
+    "application": "Two world handle-origin resultant forces; source couple uses equal/opposite forces, not directly applied torque. Both hardware handles remain present at zero load.",
+    "profiles": {
+      "push_pulse": "-A*n0*sin(pi*p)^2 on p=(t/3-.1)/.45 in(0,1); else source result",
+      "pull_hold": "+A*n0*sin(pi/2*clip((t/3-.1)/.2,0,1))^2*cos(pi/2*clip((t/3-.65)/.25,0,1))^2",
+      "shear_oscillation": "+A*s0*sin(4*pi*p)*sin(pi*p)^2; p=clip((t/3-.1)/.8,0,1)",
+      "twist_couple": "+A*c0*pulse onhandle0 and exactnegative onhandle1"
+    },
+    "diagnostics": [
+      "Exact byte-equality to promoted source commands at every midpoint",
+      "Signed impulse perhandle/component over compiled and actual state intervals",
+      "Componentwise absolute impulse and first temporal moment; zero signed shear/netcouple impulse is insufficient",
+      "Full held-command arrays, true application-center increments and per-handle work",
+      "For twist_couple every held step has exactly zero resultant; compute start/end moments from ACTUAL moving handle origins and held forces, never require a constant reference-separation torque. Pure supplied torques remain zero."
+    ]
+  },
+  "boundary_law": "Unchanged exact fixture membership/hardware/material for each public case; moving shift .008*sin(pi*clip(t/3,0,1))^2*authored_world_direction; exact fixed targets otherwise.",
+  "scenarios": [
+    {
+      "id": "t0000__push_pulse",
+      "source_case": "t0000",
+      "boundary_type": "point_pin",
+      "source_recipe_force_family": "push_pulse",
+      "requested_force_family": "push_pulse",
+      "family_intervention": false,
+      "exact_authored_amplitude_coefficient_N": 0.030249222859091197,
+      "pointpin_scaling_already_in_spec": true,
+      "mathematical_coefficient_vectors_world_N": [
+        [
+          -0.0,
+          -0.0,
+          0.030249222859091197
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "initial_rates_hz": [
+        120,
+        240,
+        480
+      ],
+      "initial_candidate_hz": 480,
+      "source_recipe_sha256": "0d21f89b5aef2110b42015565e06812bbd8af323644e9c67c91aeacdbacd7e4f",
+      "source_spec_canonical_sha256": "3a00b3f33ddf767f7fabf2033bf4f49dc2dfb78d50b4f3896b013e469904e720"
+    },
+    {
+      "id": "t0000__pull_hold",
+      "source_case": "t0000",
+      "boundary_type": "point_pin",
+      "source_recipe_force_family": "push_pulse",
+      "requested_force_family": "pull_hold",
+      "family_intervention": true,
+      "exact_authored_amplitude_coefficient_N": 0.030249222859091197,
+      "pointpin_scaling_already_in_spec": true,
+      "mathematical_coefficient_vectors_world_N": [
+        [
+          0.0,
+          0.0,
+          -0.030249222859091197
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "initial_rates_hz": [
+        120,
+        240,
+        480
+      ],
+      "initial_candidate_hz": 480,
+      "source_recipe_sha256": "0d21f89b5aef2110b42015565e06812bbd8af323644e9c67c91aeacdbacd7e4f",
+      "source_spec_canonical_sha256": "3a00b3f33ddf767f7fabf2033bf4f49dc2dfb78d50b4f3896b013e469904e720"
+    },
+    {
+      "id": "t0000__shear_oscillation",
+      "source_case": "t0000",
+      "boundary_type": "point_pin",
+      "source_recipe_force_family": "push_pulse",
+      "requested_force_family": "shear_oscillation",
+      "family_intervention": true,
+      "exact_authored_amplitude_coefficient_N": 0.030249222859091197,
+      "pointpin_scaling_already_in_spec": true,
+      "mathematical_coefficient_vectors_world_N": [
+        [
+          0.0,
+          -0.030249222859091197,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "initial_rates_hz": [
+        120,
+        240,
+        480
+      ],
+      "initial_candidate_hz": 480,
+      "source_recipe_sha256": "0d21f89b5aef2110b42015565e06812bbd8af323644e9c67c91aeacdbacd7e4f",
+      "source_spec_canonical_sha256": "3a00b3f33ddf767f7fabf2033bf4f49dc2dfb78d50b4f3896b013e469904e720"
+    },
+    {
+      "id": "t0000__twist_couple",
+      "source_case": "t0000",
+      "boundary_type": "point_pin",
+      "source_recipe_force_family": "push_pulse",
+      "requested_force_family": "twist_couple",
+      "family_intervention": true,
+      "exact_authored_amplitude_coefficient_N": 0.030249222859091197,
+      "pointpin_scaling_already_in_spec": true,
+      "mathematical_coefficient_vectors_world_N": [
+        [
+          0.01626008245197349,
+          -0.020739506569074275,
+          0.014849177401637919
+        ],
+        [
+          -0.01626008245197349,
+          0.020739506569074275,
+          -0.014849177401637919
+        ]
+      ],
+      "initial_rates_hz": [
+        120,
+        240,
+        480
+      ],
+      "initial_candidate_hz": 480,
+      "source_recipe_sha256": "0d21f89b5aef2110b42015565e06812bbd8af323644e9c67c91aeacdbacd7e4f",
+      "source_spec_canonical_sha256": "3a00b3f33ddf767f7fabf2033bf4f49dc2dfb78d50b4f3896b013e469904e720"
+    },
+    {
+      "id": "t0001__push_pulse",
+      "source_case": "t0001",
+      "boundary_type": "fixed_patch",
+      "source_recipe_force_family": "push_pulse",
+      "requested_force_family": "push_pulse",
+      "family_intervention": false,
+      "exact_authored_amplitude_coefficient_N": 0.1862031455981184,
+      "pointpin_scaling_already_in_spec": false,
+      "mathematical_coefficient_vectors_world_N": [
+        [
+          -0.1862031455981184,
+          -0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "initial_rates_hz": [
+        120,
+        240,
+        480
+      ],
+      "initial_candidate_hz": 480,
+      "source_recipe_sha256": "040ced0bafe494fb5b5d141b1df9ad1e90d1e97b5fc71761ebb30b403f085345",
+      "source_spec_canonical_sha256": "b47951fcc5cd7f998be2a361a84f6219ca7d4ad537e5b01cb6123568d98a68b6"
+    },
+    {
+      "id": "t0001__pull_hold",
+      "source_case": "t0001",
+      "boundary_type": "fixed_patch",
+      "source_recipe_force_family": "push_pulse",
+      "requested_force_family": "pull_hold",
+      "family_intervention": true,
+      "exact_authored_amplitude_coefficient_N": 0.1862031455981184,
+      "pointpin_scaling_already_in_spec": false,
+      "mathematical_coefficient_vectors_world_N": [
+        [
+          0.1862031455981184,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "initial_rates_hz": [
+        120,
+        240,
+        480
+      ],
+      "initial_candidate_hz": 480,
+      "source_recipe_sha256": "040ced0bafe494fb5b5d141b1df9ad1e90d1e97b5fc71761ebb30b403f085345",
+      "source_spec_canonical_sha256": "b47951fcc5cd7f998be2a361a84f6219ca7d4ad537e5b01cb6123568d98a68b6"
+    },
+    {
+      "id": "t0001__shear_oscillation",
+      "source_case": "t0001",
+      "boundary_type": "fixed_patch",
+      "source_recipe_force_family": "push_pulse",
+      "requested_force_family": "shear_oscillation",
+      "family_intervention": true,
+      "exact_authored_amplitude_coefficient_N": 0.1862031455981184,
+      "pointpin_scaling_already_in_spec": false,
+      "mathematical_coefficient_vectors_world_N": [
+        [
+          0.0,
+          0.0,
+          0.1862031455981184
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "initial_rates_hz": [
+        120,
+        240,
+        480
+      ],
+      "initial_candidate_hz": 480,
+      "source_recipe_sha256": "040ced0bafe494fb5b5d141b1df9ad1e90d1e97b5fc71761ebb30b403f085345",
+      "source_spec_canonical_sha256": "b47951fcc5cd7f998be2a361a84f6219ca7d4ad537e5b01cb6123568d98a68b6"
+    },
+    {
+      "id": "t0001__twist_couple",
+      "source_case": "t0001",
+      "boundary_type": "fixed_patch",
+      "source_recipe_force_family": "push_pulse",
+      "requested_force_family": "twist_couple",
+      "family_intervention": true,
+      "exact_authored_amplitude_coefficient_N": 0.1862031455981184,
+      "pointpin_scaling_already_in_spec": false,
+      "mathematical_coefficient_vectors_world_N": [
+        [
+          -0.010129062060395322,
+          -0.023634478140922417,
+          0.18441915566290015
+        ],
+        [
+          0.010129062060395322,
+          0.023634478140922417,
+          -0.18441915566290015
+        ]
+      ],
+      "initial_rates_hz": [
+        120,
+        240,
+        480
+      ],
+      "initial_candidate_hz": 480,
+      "source_recipe_sha256": "040ced0bafe494fb5b5d141b1df9ad1e90d1e97b5fc71761ebb30b403f085345",
+      "source_spec_canonical_sha256": "b47951fcc5cd7f998be2a361a84f6219ca7d4ad537e5b01cb6123568d98a68b6"
+    },
+    {
+      "id": "t0002__push_pulse",
+      "source_case": "t0002",
+      "boundary_type": "two_patches",
+      "source_recipe_force_family": "push_pulse",
+      "requested_force_family": "push_pulse",
+      "family_intervention": false,
+      "exact_authored_amplitude_coefficient_N": 0.14946816649260591,
+      "pointpin_scaling_already_in_spec": false,
+      "mathematical_coefficient_vectors_world_N": [
+        [
+          -0.0,
+          0.14946816649260591,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "initial_rates_hz": [
+        120,
+        240,
+        480
+      ],
+      "initial_candidate_hz": 480,
+      "source_recipe_sha256": "3bd5c10c1c2d1385bbd2c40aeba2f66c2eae112e90b2b3fd8ec7115308826f9a",
+      "source_spec_canonical_sha256": "154b5407f69ec8199072f92447d333a603bcf6c2984aa321c4c42a8557a441f0"
+    },
+    {
+      "id": "t0002__pull_hold",
+      "source_case": "t0002",
+      "boundary_type": "two_patches",
+      "source_recipe_force_family": "push_pulse",
+      "requested_force_family": "pull_hold",
+      "family_intervention": true,
+      "exact_authored_amplitude_coefficient_N": 0.14946816649260591,
+      "pointpin_scaling_already_in_spec": false,
+      "mathematical_coefficient_vectors_world_N": [
+        [
+          0.0,
+          -0.14946816649260591,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "initial_rates_hz": [
+        120,
+        240,
+        480
+      ],
+      "initial_candidate_hz": 480,
+      "source_recipe_sha256": "3bd5c10c1c2d1385bbd2c40aeba2f66c2eae112e90b2b3fd8ec7115308826f9a",
+      "source_spec_canonical_sha256": "154b5407f69ec8199072f92447d333a603bcf6c2984aa321c4c42a8557a441f0"
+    },
+    {
+      "id": "t0002__shear_oscillation",
+      "source_case": "t0002",
+      "boundary_type": "two_patches",
+      "source_recipe_force_family": "push_pulse",
+      "requested_force_family": "shear_oscillation",
+      "family_intervention": true,
+      "exact_authored_amplitude_coefficient_N": 0.14946816649260591,
+      "pointpin_scaling_already_in_spec": false,
+      "mathematical_coefficient_vectors_world_N": [
+        [
+          -0.0,
+          0.0,
+          0.14946816649260591
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "initial_rates_hz": [
+        120,
+        240,
+        480
+      ],
+      "initial_candidate_hz": 480,
+      "source_recipe_sha256": "3bd5c10c1c2d1385bbd2c40aeba2f66c2eae112e90b2b3fd8ec7115308826f9a",
+      "source_spec_canonical_sha256": "154b5407f69ec8199072f92447d333a603bcf6c2984aa321c4c42a8557a441f0"
+    },
+    {
+      "id": "t0002__twist_couple",
+      "source_case": "t0002",
+      "boundary_type": "two_patches",
+      "source_recipe_force_family": "push_pulse",
+      "requested_force_family": "twist_couple",
+      "family_intervention": true,
+      "exact_authored_amplitude_coefficient_N": 0.14946816649260591,
+      "pointpin_scaling_already_in_spec": false,
+      "mathematical_coefficient_vectors_world_N": [
+        [
+          -0.07239752798341438,
+          -0.13006714352646642,
+          -0.01348587822196495
+        ],
+        [
+          0.07239752798341438,
+          0.13006714352646642,
+          0.01348587822196495
+        ]
+      ],
+      "initial_rates_hz": [
+        120,
+        240,
+        480
+      ],
+      "initial_candidate_hz": 480,
+      "source_recipe_sha256": "3bd5c10c1c2d1385bbd2c40aeba2f66c2eae112e90b2b3fd8ec7115308826f9a",
+      "source_spec_canonical_sha256": "154b5407f69ec8199072f92447d333a603bcf6c2984aa321c4c42a8557a441f0"
+    },
+    {
+      "id": "t0003__push_pulse",
+      "source_case": "t0003",
+      "boundary_type": "moving_patch",
+      "source_recipe_force_family": "push_pulse",
+      "requested_force_family": "push_pulse",
+      "family_intervention": false,
+      "exact_authored_amplitude_coefficient_N": 0.21153619641676252,
+      "pointpin_scaling_already_in_spec": false,
+      "mathematical_coefficient_vectors_world_N": [
+        [
+          -0.0,
+          0.21153619641676252,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "initial_rates_hz": [
+        240,
+        480,
+        960
+      ],
+      "initial_candidate_hz": 960,
+      "source_recipe_sha256": "3e77d21a0561345abdbc622fb811533383e1ad465d54f844259e056ec2fd7ae5",
+      "source_spec_canonical_sha256": "293867c45449761b30a153e95100c8fbd503eb88f5537d0a9c804e7a1a501144"
+    },
+    {
+      "id": "t0003__pull_hold",
+      "source_case": "t0003",
+      "boundary_type": "moving_patch",
+      "source_recipe_force_family": "push_pulse",
+      "requested_force_family": "pull_hold",
+      "family_intervention": true,
+      "exact_authored_amplitude_coefficient_N": 0.21153619641676252,
+      "pointpin_scaling_already_in_spec": false,
+      "mathematical_coefficient_vectors_world_N": [
+        [
+          0.0,
+          -0.21153619641676252,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "initial_rates_hz": [
+        240,
+        480,
+        960
+      ],
+      "initial_candidate_hz": 960,
+      "source_recipe_sha256": "3e77d21a0561345abdbc622fb811533383e1ad465d54f844259e056ec2fd7ae5",
+      "source_spec_canonical_sha256": "293867c45449761b30a153e95100c8fbd503eb88f5537d0a9c804e7a1a501144"
+    },
+    {
+      "id": "t0003__shear_oscillation",
+      "source_case": "t0003",
+      "boundary_type": "moving_patch",
+      "source_recipe_force_family": "push_pulse",
+      "requested_force_family": "shear_oscillation",
+      "family_intervention": true,
+      "exact_authored_amplitude_coefficient_N": 0.21153619641676252,
+      "pointpin_scaling_already_in_spec": false,
+      "mathematical_coefficient_vectors_world_N": [
+        [
+          -0.0,
+          0.0,
+          0.21153619641676252
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "initial_rates_hz": [
+        240,
+        480,
+        960
+      ],
+      "initial_candidate_hz": 960,
+      "source_recipe_sha256": "3e77d21a0561345abdbc622fb811533383e1ad465d54f844259e056ec2fd7ae5",
+      "source_spec_canonical_sha256": "293867c45449761b30a153e95100c8fbd503eb88f5537d0a9c804e7a1a501144"
+    },
+    {
+      "id": "t0003__twist_couple",
+      "source_case": "t0003",
+      "boundary_type": "moving_patch",
+      "source_recipe_force_family": "push_pulse",
+      "requested_force_family": "twist_couple",
+      "family_intervention": true,
+      "exact_authored_amplitude_coefficient_N": 0.21153619641676252,
+      "pointpin_scaling_already_in_spec": false,
+      "mathematical_coefficient_vectors_world_N": [
+        [
+          -0.0886959167079313,
+          0.18685249622000177,
+          0.044347958353965614
+        ],
+        [
+          0.0886959167079313,
+          -0.18685249622000177,
+          -0.044347958353965614
+        ]
+      ],
+      "initial_rates_hz": [
+        240,
+        480,
+        960
+      ],
+      "initial_candidate_hz": 960,
+      "source_recipe_sha256": "3e77d21a0561345abdbc622fb811533383e1ad465d54f844259e056ec2fd7ae5",
+      "source_spec_canonical_sha256": "293867c45449761b30a153e95100c8fbd503eb88f5537d0a9c804e7a1a501144"
+    }
+  ],
+  "initial_cell_plan": [
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__push_pulse__temporal__hz120",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 120,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__push_pulse__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__push_pulse__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-05,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__push_pulse__matched__rtol1e-5",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__push_pulse__matched__rtol1e-9",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__push_pulse__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__push_pulse__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__pull_hold__temporal__hz120",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 120,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__pull_hold__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__pull_hold__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-05,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__pull_hold__matched__rtol1e-5",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__pull_hold__matched__rtol1e-9",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__pull_hold__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__pull_hold__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__shear_oscillation__temporal__hz120",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 120,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__shear_oscillation__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__shear_oscillation__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-05,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__shear_oscillation__matched__rtol1e-5",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__shear_oscillation__matched__rtol1e-9",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__shear_oscillation__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__shear_oscillation__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__twist_couple__temporal__hz120",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 120,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__twist_couple__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__twist_couple__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-05,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__twist_couple__matched__rtol1e-5",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__twist_couple__matched__rtol1e-9",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__twist_couple__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0000",
+      "scenario_id": "t0000__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0000__twist_couple__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__push_pulse__temporal__hz120",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 120,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__push_pulse__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__push_pulse__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-05,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__push_pulse__matched__rtol1e-5",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__push_pulse__matched__rtol1e-9",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__push_pulse__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__push_pulse__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__pull_hold__temporal__hz120",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 120,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__pull_hold__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__pull_hold__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-05,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__pull_hold__matched__rtol1e-5",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__pull_hold__matched__rtol1e-9",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__pull_hold__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__pull_hold__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__shear_oscillation__temporal__hz120",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 120,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__shear_oscillation__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__shear_oscillation__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-05,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__shear_oscillation__matched__rtol1e-5",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__shear_oscillation__matched__rtol1e-9",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__shear_oscillation__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__shear_oscillation__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__twist_couple__temporal__hz120",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 120,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__twist_couple__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__twist_couple__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-05,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__twist_couple__matched__rtol1e-5",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__twist_couple__matched__rtol1e-9",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__twist_couple__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0001",
+      "scenario_id": "t0001__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0001__twist_couple__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__push_pulse__temporal__hz120",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 120,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__push_pulse__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__push_pulse__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-05,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__push_pulse__matched__rtol1e-5",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__push_pulse__matched__rtol1e-9",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__push_pulse__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__push_pulse__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__pull_hold__temporal__hz120",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 120,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__pull_hold__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__pull_hold__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-05,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__pull_hold__matched__rtol1e-5",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__pull_hold__matched__rtol1e-9",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__pull_hold__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__pull_hold__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__shear_oscillation__temporal__hz120",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 120,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__shear_oscillation__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__shear_oscillation__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-05,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__shear_oscillation__matched__rtol1e-5",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__shear_oscillation__matched__rtol1e-9",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__shear_oscillation__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__shear_oscillation__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__twist_couple__temporal__hz120",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 120,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__twist_couple__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__twist_couple__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-05,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__twist_couple__matched__rtol1e-5",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__twist_couple__matched__rtol1e-9",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__twist_couple__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0002",
+      "scenario_id": "t0002__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0002__twist_couple__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 480,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__push_pulse__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__push_pulse__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__push_pulse__temporal__hz960",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 960,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-05,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__push_pulse__matched__rtol1e-5",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 960,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__push_pulse__matched__rtol1e-9",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 960,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__push_pulse__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 960,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__push_pulse",
+      "response": "push_pulse",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__push_pulse__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 960,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__pull_hold__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__pull_hold__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__pull_hold__temporal__hz960",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 960,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-05,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__pull_hold__matched__rtol1e-5",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 960,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__pull_hold__matched__rtol1e-9",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 960,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__pull_hold__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 960,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__pull_hold",
+      "response": "pull_hold",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__pull_hold__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 960,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__shear_oscillation__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__shear_oscillation__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__shear_oscillation__temporal__hz960",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 960,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-05,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__shear_oscillation__matched__rtol1e-5",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 960,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__shear_oscillation__matched__rtol1e-9",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 960,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__shear_oscillation__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 960,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__shear_oscillation",
+      "response": "shear_oscillation",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__shear_oscillation__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 960,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__twist_couple__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__twist_couple__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__twist_couple__temporal__hz960",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 960,
+      "execution_condition": "Prospective source/publication freeze and complete small-force prerequisite; no prior high-force outcome required."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-05,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__twist_couple__matched__rtol1e-5",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 960,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-09,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__twist_couple__matched__rtol1e-9",
+      "stage": "matched_after_temporal",
+      "kind": "nonlinear_tolerance",
+      "initial_candidate_hz": 960,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__twist_couple__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 960,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__twist_couple",
+      "response": "twist_couple",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__twist_couple__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 960,
+      "hz_selector": "accepted_temporal_candidate_rate_for_this_scenario",
+      "execution_condition": "Do not run for a failing temporal candidate; publish exact resolved-rate manifest linked to passing candidate audit before execution."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__zero_external_force",
+      "response": "zero_external_force",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__zero__temporal__hz240",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 240,
+      "execution_condition": "Fresh61frame moving-zero control; prior31frames cannot be upsampled."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__zero_external_force",
+      "response": "zero_external_force",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__zero__temporal__hz480",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 480,
+      "execution_condition": "Fresh61frame moving-zero control; prior31frames cannot be upsampled."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__zero_external_force",
+      "response": "zero_external_force",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__zero__temporal__hz960",
+      "stage": "initial_temporal",
+      "kind": "temporal",
+      "hz": 960,
+      "execution_condition": "Fresh61frame moving-zero control; prior31frames cannot be upsampled."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__zero_external_force",
+      "response": "zero_external_force",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-08,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__zero__matched__floor1e-8",
+      "stage": "matched_after_temporal",
+      "kind": "zero_absolute_floor",
+      "initial_candidate_hz": 960,
+      "hz_selector": "each_distinct_accepted_moving_case_candidate_rate",
+      "execution_condition": "Share across moving families only at identical accepted rate/settings/61frame grid; publish exact resolved-rate manifest first."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__zero_external_force",
+      "response": "zero_external_force",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-12,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__zero__matched__floor1e-12",
+      "stage": "matched_after_temporal",
+      "kind": "zero_absolute_floor",
+      "initial_candidate_hz": 960,
+      "hz_selector": "each_distinct_accepted_moving_case_candidate_rate",
+      "execution_condition": "Share across moving families only at identical accepted rate/settings/61frame grid; publish exact resolved-rate manifest first."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__zero_external_force",
+      "response": "zero_external_force",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        -0.25
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__zero__matched__translated",
+      "stage": "matched_after_temporal",
+      "kind": "translated",
+      "initial_candidate_hz": 960,
+      "hz_selector": "each_distinct_accepted_moving_case_candidate_rate",
+      "execution_condition": "Share across moving families only at identical accepted rate/settings/61frame grid; publish exact resolved-rate manifest first."
+    },
+    {
+      "case": "t0003",
+      "scenario_id": "t0003__zero_external_force",
+      "response": "zero_external_force",
+      "output_hz": 20,
+      "relative_tolerance": 1e-07,
+      "absolute_tolerance_N": 1e-10,
+      "translation_m": [
+        0,
+        0,
+        0
+      ],
+      "maximum_iterations": 250,
+      "id": "t0003__zero__matched__fresh_reset",
+      "stage": "matched_after_temporal",
+      "kind": "reset_replay",
+      "initial_candidate_hz": 960,
+      "hz_selector": "each_distinct_accepted_moving_case_candidate_rate",
+      "execution_condition": "Share across moving families only at identical accepted rate/settings/61frame grid; publish exact resolved-rate manifest first."
+    }
+  ],
+  "counts": {
+    "force_family_scenarios": 16,
+    "driven_temporal": 48,
+    "fresh_moving_zero_temporal": 3,
+    "stage1_physical_runs": 51,
+    "driven_matched_templates": 64,
+    "moving_zero_matched_templates": 4,
+    "stage2_initial_physical_runs_if_all_initial_candidates_pass": 68,
+    "initial_physical_runs_if_one_moving_candidate_rate": 119,
+    "analytic_static_zero_reference_grids": 9
+  },
+  "reuse_policy": {
+    "small_force_audit": "Completed60cell audit is pinned as a prerequisite only; it is not actual-force qualification. Its initial failed480 moving results and all scope limits remain preserved.",
+    "static_zero": "Nine20Hz reference grids for3staticBCs\u00d73initialrates may be independently constructed from the exact rest solution plus validated frozen mechanics. They are analytic references, never labelled captured trajectories or actual resets.",
+    "moving_zero": "Existing31frame zero trajectories are retained prior evidence only. No upsampling to61frames. Seven fresh20Hz moving-zero cells/templates are included.",
+    "driven": "No existing small diagonal/native/static trajectory is reused as an authored-amplitude driven response."
+  },
+  "temporal_pass": {
+    "metric": "Full61frame q-coordinate RMSE separately for driven and matching-rate zero response; no error cancellation by zero subtraction.",
+    "tolerance_m": "max(2e-6,.05*RMS(q_finest_driven-q_finest_zero))",
+    "criterion": "Finest adjacent difference below tolerance and contracts from preceding difference, unless both adjacent differences are below2e-6m. Reevaluate reused zero errors under each family-specific tolerance.",
+    "retain": "All actual rates, adjacent errors, signal/tolerance, zero/driven decisions and original failures."
+  },
+  "matched_pass": {
+    "rate": "Only the proven accepted temporal candidate rate for each scenario; never assume480/960 after a failure.",
+    "accuracy": "Driven rtol1e-5/1e-7/1e-9 at floor1e-10; report both adjacent errors, tightest pair below common tolerance. Report effective residual thresholds/floor dominance.",
+    "moving_zero_accuracy": "At every distinct adopted moving-case rate, zero floors1e-8/1e-10/1e-12; tightest pair below each relevant family tolerance. No duplicate nominal-zero rtol proof.",
+    "translation": "Undo[0,0,-.25]m and compare complete61frames for every driven scenario plus moving-zero at each adopted rate.",
+    "reset": "Fresh process/output per driven scenario plus moving-zero at each adopted rate. Compare all saved q/v/rigidposes/commands within1e-12 and report bitwise equality. Analytic static-zero references do not constitute reset evidence."
+  },
+  "conditional_refinement": {
+    "status": "Declared proposal only, never automatic execution authorization",
+    "allowed_next_rates_hz": {
+      "point_pin": [
+        960,
+        1920
+      ],
+      "fixed_patch": [
+        960,
+        1920
+      ],
+      "two_patches": [
+        960,
+        1920
+      ],
+      "moving_patch": [
+        1920,
+        3840
+      ]
+    },
+    "trigger": "Temporal criterion fails while all declared discrete residual/J/constraint guards pass; retain failed initial result. Only prospective parent-authorized exact resolved-rate requests may run.",
+    "new_runs": "Only failing family/rate plus shared moving-zero at that rate when needed; full4/5rate history retained. Matched controls occur only at resulting passing rate, with additional moving-zero matched controls per distinct adopted rate.",
+    "limits": "No amplitude reduction, mesh/material/damping change, dropped frames or relaxed tolerance. Maximum two further rates; failure remains failure and requires new prospective decision. Nonlinear cap/line-search/contact failure is not silently bypassed by another rate."
+  },
+  "geometry_contact_guards": {
+    "scope": "Checks concern the declared discrete no-contact model only, not continuous trajectories or real-material validity.",
+    "accepted_endpoints": "All accepted fullstates/velocities/residual histories finite; every accepted endpoint tetJ>=0.1; all nonlinear evaluations require J>0 and no stiffness repair.",
+    "constraints": "Fixture positions and finite rigid patches/rotations agree within1e-12m or1e-12dimensionless as appropriate at every accepted endpoint.",
+    "reported_extrema": [
+      "Minimum/maximum accepted endpoint J",
+      "Minimum/maximum principal stretches and Green strain",
+      "Maximum reference-relative nodal displacement and point-chord speed",
+      "Maximum handle rotation/step angle and all residual thresholds/iteration counts"
+    ],
+    "contact_model": "Self-contact and external contact are NOT MODELED. Gravity remains explicitly zero, no floor/externalcolliders or invented handle collision shapes.",
+    "surface_diagnostic": "Discrete saved-output nonlocal surface crossings may be reported if a separately tested implementation is available; record evaluated/not_evaluated and exact pair-exclusion policy. Absence at sampled endpoints is not proof of continuous no-contact.",
+    "not_required": [
+      "No continuous-chord determinant model",
+      "No continuous BVH contact certificate",
+      "No invented0.2mmclearance pass/fail",
+      "No invented principal-stretch interval as real-material/admissibility gate"
+    ],
+    "failure_preservation": "Persist first failing endpoint/state, exact force/step clocks, residual/nonlinear history, geometry extrema, last valid state and reason BEFORE cell termination. Preserve failure.json and do not delete/relabel/retry at changed settings."
+  },
+  "new_runner_auditor_required": [
+    "Separate new episode runner; old runner/core/gates unchanged",
+    "New authored-family auditor; old baseauditor hardcodes .01N diagonal and31frames and cannot silently audit this plan",
+    "Publish exact protocol+source+resolved manifest hashes before all physical stages",
+    "Full60smallforce prerequisite must finish and pass before new runner launch;8current matched jobs remain untouched",
+    "Exact compiler/source/mesh/material/fullhardware/BC hashes and ForceProgram information roles",
+    "CPU2threads perworker; exact driver resource policy must be predeclared separately beforelaunch. GPU requires independent prospective numerical/command parity proof, not just a speed result."
+  ],
+  "dataset_admission": {
+    "qualification_scope": "Only these4public static/layout/material/hardware contexts and4exact-family interventions at their original per-case coefficients in the declared discrete no-contact model. It is not a uniform guarantee over all .12-.24N amplitudes, unseen materials/layouts, actualcontact trajectories or native Isaac.",
+    "new_distribution": "Before bulk general capture, freeze a prospective TRAIN generation/admission plan with exact per-episode compiler/settings and numeric refinement checks; passed templates do not automatically qualify arbitrary new cases. Do not use reserved response outcomes for threshold/model selection.",
+    "gates_false": [
+      "actual_authored_force_envelope_qualified",
+      "new_dataset_generation_qualified",
+      "native_reference_qualified",
+      "continuum_accuracy_established",
+      "prediction_qualified",
+      "uncertainty_calibrated",
+      "active_policy_qualified"
+    ],
+    "public_clock_fidelity": {
+      "engineering_only": "In this119-run study command sampling/quadrature follows solverHz deliberately for temporal refinement. Per-BC/family candidate rates are internal numerical operating points, not a neural public query clock.",
+      "no_latent_label_leakage": "Do not expose integration step grids, chosen rate, solver tolerances/refinement outcomes, source IDs or provenance fingerprints as neural public features. A class-specific command_boundary_times_s could reveal the true latentBC.",
+      "production_requirement": "Before any learning dataset/admission, prospectively freeze a common known actuator-command clock independent of latentBC/material/layout or inference hypothesis. Solver substeps must refine that fixed externally declared held-command history without changing its force samples, or choose a common conservatively qualified global rate.",
+      "hypothesis_consistency": "All candidate physical/BC hypotheses for the same experiment receive identical public known commands/times. Unknown passive force/support programs remain latent; internal teacher/adaptive clocks stay provenance only.",
+      "scope_limit": "Passing119variable-clock engineering cells does NOT automatically qualify a BC-specific public command grid or a final neural dataset. Any new common production clock and its actual fixed held-force semantics need prospective qualification before dataset generation."
+    }
+  },
+  "cpu_policy_proposal": {
+    "threads_per_worker": 2,
+    "initial_max_parallel_workers": 4,
+    "optional_max_parallel_workers_after_separate_resource_predeclaration": 8,
+    "machine_logical_cores": 36,
+    "condition": "Measure CPUload/RAM/worker progress and unrelatedCOMSOL stability first; preserve all unrelated jobs. No change of numerical settings or omitted cells to increase throughput. Exact driver limits are a separate prelaunch declaration."
+  },
+  "resolved_manifest_requirements": {
+    "separate_stages": "Freeze/publish exact runner/auditor/source and resolved stage manifest before executing that stage. This draft is not an execution manifest.",
+    "fields": [
+      "template_id",
+      "unique_resolved_id_with_hz",
+      "case",
+      "force_family",
+      "exact_hz",
+      "output_hz20",
+      "rtol",
+      "absolute_floor_N",
+      "max_iterations250",
+      "translation",
+      "fresh_output_path",
+      "full_static_and_command_source_hashes",
+      "passing_temporal_candidate_proof_sha256_for_matched_rows"
+    ],
+    "candidate_resolution": "Matched templates have no default operational hz. Resolve only to a prospectively allowed passing candidate rate and preserve all failed/coarse evidence. Append exact resolved rate to each matched output ID.",
+    "shared_zero": "Share a moving-zero control only if physical inputs,rate,tolerances,outputgrid,translation/resetrole are identical. Instantiate extra moving-zero controls at each distinct adopted moving rate, rather than reuse different-rate evidence.",
+    "static_analytic": "Mark61frame staticzero arrays as analytic rest references with1e-12numerical comparison tolerance and provenance; they are not captured/replayed resets."
+  },
+  "physical_model_semantics": {
+    "teacher": "Frozen independent float64 finite-strain log-J Neo-Hookean dynamics with exact rigid patches, authored E/nu/rho and body-only linear drag.",
+    "native_elasticity_damping_reproduced": false,
+    "authored_elasticity_damping_field": "Original .02 field retained as input lineage, not secretly implemented or claimed equivalent.",
+    "force_application": "Promoted original force commands at two current handle origins; zero supplied pure torque, zero external nodal force/gravity.",
+    "qualification": "Exact authored-force command semantics and declared independent discrete model only; no Isaac-engine, continuum or real-material equivalence."
+  },
+  "proof_pin_pending_before_launch": {
+    "small_force_complete60_audit_sha256": "53b4a43c2c86485180ee6786bc4d38b7e8897c9e3dcc737de85f7e7adfa8444d",
+    "new_envelope_runner_sha256": null,
+    "new_envelope_auditor_sha256": null,
+    "resolved_stage1_manifest_sha256": null,
+    "required": "Completed60cell small-force proof is pinned; all new runner/auditor/resolved manifests still require review, freeze, publication and verification before launch. This draft remains unauthorized.",
+    "small_force_complete60_audit_path": "runs/operator-dev/independent-dynamic-matched960-audit-complete-v01.json"
+  },
+  "candidate_proof_contract": {
+    "schema": "accepted_candidates:{scenario_id:{passed:boolean,physics_hz:integer,output_hz:20,frames:61,source_evidence_records:[{path,sha256}],full_driven_temporal_metrics,full_zero_temporal_metrics,force_induced_signal_m,tolerance_m,all_actual_rates_hz,all_adjacent_errors_m,geometry_residual_checks_passed:boolean}}",
+    "rate_guard": "A passed flag alone is insufficient: validate complete zero+driven metrics, allowed actual rates, exact source/commands/inputs,61frame clocks, accepted endpoints and failure retention. Pin proof SHA in exact resolved matched manifest.",
+    "initial_false_retained": "Any initial failure remains a separate immutable object after conditional refinement; never overwrite its decision with a later passing rate.",
+    "authority": "Candidate evidence is produced by an independently reviewed authored-family auditor, not inferred by runner from nominal settings or solver success alone."
+  }
+}
