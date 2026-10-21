@@ -12,7 +12,9 @@ def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
 def attachment_descriptor(points,node,patch,mass):
-    points=np.asarray(points,dtype=float);patch=np.asarray(patch,dtype=int)
+    # IDs and offsets share one canonical ordering. Constraint order itself is
+    # irrelevant, but an ID-sorted context must permute its offsets together.
+    points=np.asarray(points,dtype=float);patch=np.sort(np.asarray(patch,dtype=int))
     offsets=points[patch]-points[node]
     # Exactly the v0.3 worker's authored diagonal inertia, including sphere floor.
     inertia=mass*np.mean(np.sum(offsets**2,axis=1)[:,None]-offsets**2,axis=0)

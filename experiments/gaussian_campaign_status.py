@@ -102,6 +102,19 @@ def snapshot(campaign, root):
             'protocol': 'configs/gaussian_campaign_numerical_gate_v01.json'}
         stopped = read(root/'calibration-stop-status.json')
         status['calibration_capture_graceful_stop'] = stopped
+        status['numerical_jobs'] = {}
+        for directory in sorted(root.glob('numerical-*')):
+            execution = read(directory/'execution.json')
+            if not execution:
+                continue
+            rows = []
+            for cell in execution.get('cells',execution.get('cases',[])):
+                rows.append({**{key:cell[key] for key in
+                    ['condition','iterations','physics_hz','state','exit_code','gpu'] if key in cell},
+                    'worker_live_at_snapshot': process_live(cell['pid']) if 'pid' in cell else False})
+            status['numerical_jobs'][directory.name] = {'completed':execution.get('completed'),
+                'driver_live_at_snapshot': process_live(execution['driver_pid']) if 'driver_pid' in execution else False,
+                'cells':rows}
     return status
 
 

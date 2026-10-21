@@ -1,7 +1,7 @@
 {
   "campaign": "gaussian-known-force-recovery-v0.1",
   "status": "active",
-  "updated_utc": "2026-10-21T13:11:39.942848+00:00",
+  "updated_utc": "2026-10-21T13:38:54.883122+00:00",
   "campaign_sha256": "04bd467f559dcad3057b50a2832561e882bb9a7d7bab6d426ca3325724d8b510",
   "heldout_plan_sha256": "2dcb00635d60cae69719c03b539582287b4a51d9a11872f565c4938368259ea4",
   "milestone": "Numerical reliability diagnosis before further fitting or calibration",
@@ -461,5 +461,149 @@
     ],
     "coordinator_stop_requested": true,
     "verification_passed": true
+  },
+  "numerical_jobs": {
+    "numerical-capture-backaction-v01": {
+      "completed": null,
+      "driver_live_at_snapshot": false,
+      "cells": []
+    },
+    "numerical-external-forces-v01": {
+      "completed": false,
+      "driver_live_at_snapshot": true,
+      "cells": [
+        {
+          "iterations": 32,
+          "state": "captured",
+          "exit_code": 0,
+          "gpu": 1,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "iterations": 32,
+          "state": "captured",
+          "exit_code": 0,
+          "gpu": 2,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "iterations": 64,
+          "state": "running",
+          "gpu": 1,
+          "worker_live_at_snapshot": true
+        },
+        {
+          "iterations": 128,
+          "state": "running",
+          "gpu": 2,
+          "worker_live_at_snapshot": true
+        }
+      ]
+    },
+    "numerical-hardware-pair-v01": {
+      "completed": true,
+      "driver_live_at_snapshot": false,
+      "cells": []
+    },
+    "numerical-solver-coordinates-v02": {
+      "completed": false,
+      "driver_live_at_snapshot": false,
+      "cells": [
+        {
+          "condition": "original",
+          "iterations": 32,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 0,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "condition": "recentered",
+          "iterations": 32,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 3,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "condition": "recentered",
+          "iterations": 64,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 3,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "condition": "original",
+          "iterations": 64,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 0,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "condition": "recentered",
+          "iterations": 128,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 3,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "condition": "original",
+          "iterations": 128,
+          "state": "failed",
+          "exit_code": 1,
+          "gpu": 0,
+          "worker_live_at_snapshot": false
+        }
+      ]
+    },
+    "numerical-solver-crossed-v01": {
+      "completed": true,
+      "driver_live_at_snapshot": false,
+      "cells": [
+        {
+          "condition": "original",
+          "iterations": 32,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 3,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "condition": "recentered",
+          "iterations": 32,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 0,
+          "worker_live_at_snapshot": false
+        }
+      ]
+    },
+    "numerical-timestep-v01": {
+      "completed": false,
+      "driver_live_at_snapshot": false,
+      "cells": [
+        {
+          "physics_hz": 480,
+          "state": "failed_validation",
+          "exit_code": 0,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "physics_hz": 960,
+          "state": "failed_validation",
+          "exit_code": 0,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "physics_hz": 1920,
+          "state": "failed_validation",
+          "exit_code": 0,
+          "worker_live_at_snapshot": false
+        }
+      ]
+    }
   }
 }
