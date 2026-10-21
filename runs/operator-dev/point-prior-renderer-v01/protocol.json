@@ -1,0 +1,48 @@
+{
+  "status": "READY_SYNTHETIC_TESTED_ACTUAL_RENDER_NOT_AUTHORIZED_UNTIL_ROOT_NOTIFICATION",
+  "renderer": {
+    "path": "experiments/render_point_prior_comparison.py",
+    "sha256": "9714c9ed40dda42d7afbbed757034f786743307718ef71a68c05c53c9c878614"
+  },
+  "tests": {
+    "path": "tests/test_render_point_prior_comparison.py",
+    "sha256": "8a5fc91f2d509a7eef99a94d49c86e0c18cf10643619b75db28408d105d1d769",
+    "result": "2 passed in3.52s"
+  },
+  "required_input": "Existing completed32-object reserved-evaluation.json with explicit externalSHA256; no additional renderseal.",
+  "source_gates": [
+    "Completed32 aggregate/methodhash",
+    "Hash-bound reservedrelease/calibrationfreeze/execution sourceclosure",
+    "All32 ordered hashed completedresultJSONs, then theirhash-bound posteriorstates/activechoice metadata",
+    "All32 statesNPZ hashes and flagssavedbeforetruth; no arraysloaduntilcompleteverification"
+  ],
+  "predetermined_cases": [
+    16,
+    17
+  ],
+  "optional_failure_illustration": "--include-worst: maximum sealed no-extra-view A31..60 MSE, tie lowestindex. Explicitly posthoc; never successselection.",
+  "layout": [
+    "Actual independentFEM",
+    "No-extra-view posterior mean, conditions through1.0s",
+    "Selected-active-view posterior mean, conditions through1.2s"
+  ],
+  "camera": "Same mildorbit aroundpublicrest for all3 panels; reference-onlylimits +/-0.04m; ortho andcommoncolors. Noauto-rescale or deformationmagnification.",
+  "time_labels": "Earlyobservations0.5/1.0s, additionalvirtualview1.2s, futureevaluationt>1.5s. Earlier meanframes are retrospective.",
+  "physical_vs_epistemic": "No Gaussian covariances/ellipsoids depicted as epistemicuncertainty. Means maynot themselves satisfy exact nonlinearmechanics.",
+  "CPU_threads": 2,
+  "GPU_used": false,
+  "new_inference_or_physics": false,
+  "video_format": {
+    "frames": 61,
+    "fps": 20,
+    "duration_s": 3.05,
+    "resolution": [
+      1536,
+      576
+    ]
+  },
+  "raw_MP4_and_PNG_LOCAL": true,
+  "compact_manifest_publishable": true,
+  "actual_cohort_arrays_opened": false,
+  "example_command_after_root_notice": "OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 .venv/bin/python experiments/render_point_prior_comparison.py --evaluation runs/gaussian-campaign-v01/point-prior-analysis-v01/reserved-evaluation.json --evaluation-sha256 <ROOT_FINAL_AGGREGATE_SHA256> --output runs/gaussian-campaign-v01/point-prior-videos-v01 --include-worst"
+}

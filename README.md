@@ -1,8 +1,18 @@
 # PhysGauss-SDE
 
-Independent 48-object calibration/view comparison [preregistered](runs/operator-dev/point-prior-analysis-v01/method-protocol.json): 16 calibration, 32 reserved; results pending.
+**Latest: [sealed 32-object forecasting/view comparison](runs/gaussian-campaign-v01/point-prior-analysis-v01/REPORT.md).**
+Extra depth observations reduce future RMSE from 0.675 to 0.310 mm; random views
+score0.308 mm, so uncertainty-guided selection has no established advantage.
+Simultaneous coverage requires roughly object-sized bands. True-parameter
+controls locate a missing finite-rotation term in the linear forward model.
 
-**Unknown point support and material:** [method and evidence](docs/GAUSSIAN_POINT_SUPPORT_ORACLE.md)
+**Current direction: [moving material and localized interactions](docs/GAUSSIAN_MATERIAL_INTERACTION_EXTENSION.md).**
+Compatible mass-carrying material Gaussians are separate from fixture/load laws.
+A new implicit compliant-fixture adapter passes CPU/GPU manufactured checks;
+rotation repair and balanced elastic-excitation pilots remain development work.
+Raw datasets, particles and videos remain local; GitHub Actions stay disabled.
+
+**Earlier one-object unknown point support and material:** [method and evidence](docs/GAUSSIAN_POINT_SUPPORT_ORACLE.md)
 use two sparse depth frames on one fresh object, with the point-pin type known.
 Coordinate RMSE against finite mechanics:
 
@@ -16,7 +26,7 @@ Materials remain ambiguous; true-parameter linear errors of 41.8/19.2 µm show
 that forward approximation also matters. This one-case result does not establish
 coverage calibration, general BC inference or a successful active-probing policy.
 
-**Sparse-depth material oracle:** [method and evidence](docs/GAUSSIAN_MATERIAL_ORACLE.md)
+**Earlier sparse-depth material oracle:** [method and evidence](docs/GAUSSIAN_MATERIAL_ORACLE.md)
 conditions a numerical material posterior on two sparse depth frames. On one
 fresh known-support object, future-motion error falls from 0.370 to 0.113 mm
 against an unconditional prior; held reset-force error falls from 0.216 to
@@ -135,7 +145,7 @@ penetrated the known floor by tens of centimeters. The
 adds opaque-plane visibility and explicit non-penetration conditioning while
 preserving exact Gaussian force integration. A conditional state-HMC/parameter-
 slice sampler is being tested on Bird alone. The independent10,000-simulation
-floor-conditioned check gives89.78% coverage for90% intervals; this is not
+floor-conditioned check gives89.78% coverage for 90% intervals; this is not
 PAC calibration or a completed Bird result. The larger comparison stays gated.
 
 **Current PAC-NeRF work:** the first exact-integral batch has finished with

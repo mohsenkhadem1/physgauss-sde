@@ -1,0 +1,58 @@
+{
+  "status": "COMPLETED_NEW_IMPLICIT_GAUSSIAN_FIXTURE_MECHANICS_CHECK",
+  "source_sha256": {
+    "experiments/campaign_compliant_gaussian_linear.py": "5937a41fe8058e8ba8f6d3388591ab18a78989ad72f18f9af1a39c7ff85bf383",
+    "experiments/campaign_boundary_gaussians.py": "d58b849f4c4399049e64182acb3fa84dc34fe040768c3b88a48d84fd55950362",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55"
+  },
+  "tests": {
+    "path": "tests/test_campaign_compliant_gaussian_linear.py",
+    "sha256": "6b3d463cb8b57d93acd1005f5d549994c79702ad0a9141e59f9cd23d7c044da6",
+    "passed": 4,
+    "elapsed_s": 2.42,
+    "checks": [
+      "matrixforces vs independentNumPyboundary law + autogradenergygradient",
+      "prescribeddiscreterecovery + energy/work/physicalandnumericaldissipation + compatiblekernel/mass",
+      "passiveobservertransforms forces/positions andpreservesscalarledger",
+      "negativeKreject + exactzero/rank1modeswithoutrepair"
+    ]
+  },
+  "preserved_initial_preflight_failure": {
+    "test_passed": 2,
+    "test_setup_errors": 2,
+    "cause": "Toysecondtet [4,1,2,3] had negative restwinding; positiveorientationassembler correctlyrejected it.",
+    "correction": "Declaredpositive toywinding [4,2,1,3] beforefirstbenchmarkprotocol/solve. No dynamicallysolved geometry, stiffness, mass, constraint or covariance repair.",
+    "later_benchmark_failures": 0
+  },
+  "integration": "NEWadapter assembles blockdiagonal Ks=sum_s wiKs and Cs=sum_s wiDs from materialGaussian quadrature; movingtargetforce is sum_s wi(Ks*ys+Ds*vys). Newallfree nodal implicitEuler system uses existing restelasticK and physicalmass. No heldforceapproximation tosoftspring.",
+  "verified_energy_identity": "Delta(T+Uelastic+Usupport)=Fheld dot DeltaU+sum Fsupport,new dot DeltaTarget-h*relativeVDrelativeV-0.5||DeltaV||M^2-0.5||DeltaU||K^2-0.5 sum wi||DeltaE||Ks^2, up to equilibriumresidualwork. Targetvelocity is backwardchord; constantworldK/D only.",
+  "maxima": {
+    "CPUposition_error_m": 7.357917571413145e-16,
+    "CPUforce_residual_N": 6.278971468790706e-14,
+    "CPUenergy_balance_error_J": 7.249754995549557e-18,
+    "passiveframe_transform_error_m": 1.6653345369377348e-16,
+    "CPU_GPU2_position_difference_m": 1.3877787807814457e-16,
+    "mass_conservation_error_kg": 2.7755575615628914e-17
+  },
+  "CPU_rates_Hz": [
+    120,
+    240,
+    480
+  ],
+  "CPU_threads": 2,
+  "GPU_parity_device": "cuda:2",
+  "elapsed_s": 1.7606409336440265,
+  "scope_limits": [
+    "Manufactured loads independently enforce a different exactdiscretetrajectory at eachrate; NOT temporal convergence evidence.",
+    "SmallstrainFEM, nofiniteSO3hardware/contact/hardfixtureapproximation. MaterialGaussian F/covariance transport remains exactcompatiblegeometry forsolvednodes.",
+    "PSDlawtensors arecandidatehypotheses; no uncertaintyinference/calibration/learnedperformance/nativeIsaac/continuumclaim.",
+    "ConstantworldanisotropicK/D only; timevaryingmaterial/anchororientation law wouldneed explicittransport andadditionalorientationactuatorpower.",
+    "PhysicalGaussian covariances are shape, not epistemicuncertainty.",
+    "No cohortobservations/truth/responsearrays read; allpinnedanalysis/corefiles unchanged."
+  ],
+  "reproduction_command": "OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 .venv/bin/python experiments/campaign_compliant_gaussian_linear.py --output runs/gaussian-campaign-v01/compliant-gaussian-manufactured-v01 --gpu-device cuda:2",
+  "terminal": true,
+  "completed": true,
+  "GPU2_released": true
+}

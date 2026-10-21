@@ -1,0 +1,59 @@
+{
+  "status": "SYNTHETIC_CANDIDATE_ADAPTER_VALIDATED_NOT_APPLIED_TO_RESERVED",
+  "API": "retract_positions(public_rest[N,3],positions[B,T,N,3],candidate_point_nodes[B]) -> corrected_positions/correction/fittedomega/R/diagnostics; float64TorchCPUorGPU, candidatepinisexplicitlatenthypothesis nottrue-label lookup",
+  "source_sha256": {
+    "experiments/campaign_batched_point_rotation.py": "592b2e12c7892002a164c5d95284b9c9dc516c39e76bc2afdae53ec3f6eea056",
+    "experiments/campaign_point_rotation_retraction.py": "a4b3f7e5fb54e435dc08f2ab5f6efe89f92efc5fc0da4e75f4b07510b6afc22d"
+  },
+  "tests": {
+    "passed": 5,
+    "elapsed_s": 2.67,
+    "checks": [
+      "NumPyparityacross3candidatepins + unchangedradialelasticresidual",
+      "purefirstorderrotation -> exactSO3 positions",
+      "exactpinpreserved + inputdrift/singulardegenerategeometryrejected",
+      "passiveobserverequivariance",
+      "position-outputautogradatzeroangle finiteexactidentity, nonzeroanglecoefficients stable"
+    ]
+  },
+  "initial_test_only_failure": {
+    "passed": 4,
+    "failed": 1,
+    "cause": "Testfixture calledtorch.linalg.cross on1Domega/2Dnodes; explicitbroadcastaddedin test. Adapterimplementationwasunchanged.",
+    "corrected_test_passed": true
+  },
+  "benchmark": {
+    "status": "COMPLETED_SYNTHETIC_CANDIDATE_ROTATION_ADAPTER_PARITY",
+    "CPU_NumPy_max_absolute_errors": {
+      "correction_m": 1.734723475976807e-17,
+      "fitted_infinitesimal_rotation_rad": 3.3306690738754696e-16,
+      "fitted_rotation_matrix": 3.3306690738754696e-16
+    },
+    "CPU_GPU2_max_absolute_errors": {
+      "positions_m": 2.7755575615628914e-17,
+      "correction_m": 1.8214596497756474e-17,
+      "fitted_infinitesimal_rotation_rad": 3.3306690738754696e-16,
+      "fitted_rotation_matrix": 3.3306690738754696e-16,
+      "linear_residual_coordinate_RMS_m": 3.7947076036992655e-19,
+      "rotation_fit_normal_condition_number": 3.552713678800501e-15
+    },
+    "elapsed_s": 0.980712650809437,
+    "source_sha256": {
+      "experiments/campaign_batched_point_rotation.py": "592b2e12c7892002a164c5d95284b9c9dc516c39e76bc2afdae53ec3f6eea056",
+      "experiments/campaign_point_rotation_retraction.py": "a4b3f7e5fb54e435dc08f2ab5f6efe89f92efc5fc0da4e75f4b07510b6afc22d"
+    },
+    "role": "Candidate geometry-only anchored firstorder-to-exp correction; unchanged elastic residual, no improved dynamics/exactrigidhandles/calibration claim",
+    "current_reserved_data_or_truth_used": false,
+    "new_physics_or_inference": false
+  },
+  "role_limits": [
+    "Candidate geometry-only correction, no force/mass/timeintegrationchange.",
+    "Uniformall-node anchoredLS; onlyfittedfirstorderrotation replacedbyexp, elasticresidualunchanged.",
+    "No exactfinite-strain/hardware/rigidhandle constraint guarantee or calibrateduncertainty.",
+    "DiagnosticRMSnorm is not a differentiablelossdefinitionat zero; positionmapis tested differentiable there.",
+    "Nocurrentreserved32performanceevaluation/fit/retractionapplied. Futurefreshcalibrationrequired before anymodelqualification."
+  ],
+  "physics_or_observation_queries": 0,
+  "GPU2_released": true,
+  "frozen_forward_cache_libraries_analysis_unchanged": true
+}

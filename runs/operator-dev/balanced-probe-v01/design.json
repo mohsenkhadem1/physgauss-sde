@@ -1,0 +1,196 @@
+{
+  "schema": "balanced-reference-probe-development-v0.1",
+  "calibration_freeze": {
+    "path": "runs/gaussian-campaign-v01/point-prior-analysis-v01/calibration-frozen.json",
+    "sha256": "80c61a592588cd61c571caf3804bcaefe5d0cea2627c656ae590f08655dac3df"
+  },
+  "role": "DEVELOPMENT_EXCITATION_DIAGNOSTIC",
+  "object_index": 15,
+  "selection": "Post-hoc diagnosis of near-rigid calibration motion; both amplitudes fixed before execution",
+  "public_hardware": {
+    "path": "runs/operator-dev/point-prior-calibration-inputs-v01/public/H0.json",
+    "sha256": "c31667d7bf368e0b7fe3ac8ae20b64176500db6fc3cdbda8f335ef5de393df1b"
+  },
+  "realized_hypothesis": {
+    "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_015/realized-hypothesis.json",
+    "sha256": "64d09aacfa804b5fd9321259957853e78b529a6a7a8ec2ed0d960abbff92a198"
+  },
+  "source_sha256": {
+    "experiments/campaign_hypothesis_dynamics.py": "595143a5a6034b3d7373c90b92a71fec111ba8f58d78753d95bc45bdeaef601d",
+    "experiments/campaign_hypothesis_inputs.py": "bdae8dda6902a62b1a9fcfa401c7d17b53ecc27fce169b7a3c90b4c143e904f5",
+    "experiments/campaign_physical_prior.py": "755281cf028e64daad88828a2cdf89dce11a5a7cc4b1e635c50767090b3e80e4",
+    "experiments/campaign_fixed_actuator_clock.py": "1b1361696a3822e608687620b39363ef6667060ed4c313932daac3151e000c5f",
+    "experiments/campaign_authored_force_case.py": "97ba4630866772b3399ce68c4dad48d0317486515120de616900784def1af405",
+    "experiments/campaign_nonlinear_dynamics_case.py": "e7b6b785c262f43d4b1acc503b14feaf1cad659c171024346fc9e70a4dffc342",
+    "experiments/campaign_full_hardware_context.py": "47cc0047f2cce6e88c4b76650c9358773eaa233fd670ce2223e4b1f29d7bb958",
+    "experiments/campaign_nonlinear_dynamics.py": "da0db7018b4913020bb228c2fc4df3c240e7dd872f17db4868de147eaaf78fa2",
+    "experiments/campaign_nonlinear_fem.py": "468daaafa9d02c9db27553e2cfb154190248500677c212d9dde25bffdf14e1ff",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "experiments/campaign_rigid_inertia.py": "e420d9cadaa97d1b1648227b7b28af1803952caa87432f819baf0827deecabf7",
+    "experiments/campaign_authored_commands.py": "fdbf333b9531ce11700b6be05ab916fbdb7b30c2fb96cec3762369ae05a3c475",
+    "experiments/campaign_exciting_commands.py": "724cb9b4ddf845cc99ac74f44b82dbebf832423c152f11f6c325bd414cd063fc",
+    "experiments/isaac_dataset.py": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_hypothesis_batch.py": "2b150d71645cf6c55033c097e6c9f3e2f4cfb0e6ac5356b6be3aa95860c4b448",
+    "experiments/campaign_balanced_probe.py": "234d386f0838edbc081a284dfbb1aa00a177ce03533f200fcdbd0984b1aae2e3",
+    "experiments/prepare_balanced_probe.py": "b77a400577b47017ec0d58f26dd26d12223f866c2788832e91b8229d1bf956d8"
+  },
+  "clocks": [
+    {
+      "label": "020N",
+      "amplitude_N": 0.02,
+      "commands": {
+        "path": "runs/operator-dev/balanced-probe-v01/020N-commands.npz",
+        "sha256": "8b58b40dfec353121024e489c3228e1b93f303ec7e2aa5705de0456ec8c46890"
+      },
+      "public_command_manifest": {
+        "schema": "fixed-known-actuator-clock-v0.1",
+        "information_role": "known_actuator_command",
+        "actuator_hz": 120,
+        "arrays": {
+          "command_boundary_times_s": {
+            "shape": [
+              361
+            ],
+            "dtype": "float64",
+            "sha256": "95fe65f55bc670b63d5055867174117a994028809517d92036365582ce1c5c13"
+          },
+          "requested_output_times_s": {
+            "shape": [
+              61
+            ],
+            "dtype": "float64",
+            "sha256": "20e457a8eb103ee9d88e5760213fbd5ae6f1734412e55c383786d968d213b65c"
+          },
+          "held_handle_forces_world_N": {
+            "shape": [
+              360,
+              2,
+              3
+            ],
+            "dtype": "float64",
+            "sha256": "a0a6611be95e39c26c3c446f641f3fa47550e1586b00ea3c97ae48150cea2128"
+          },
+          "held_handle_torques_world_Nm": {
+            "shape": [
+              360,
+              2,
+              3
+            ],
+            "dtype": "float64",
+            "sha256": "55ecc6e1af2de98d63e14a413199b378c013252b5d30ed742aec47414350b24d"
+          },
+          "held_nodal_forces_world_N": {
+            "shape": [
+              360,
+              0,
+              3
+            ],
+            "dtype": "float64",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "held_body_acceleration_world_m_s2": {
+            "shape": [
+              360,
+              3
+            ],
+            "dtype": "float64",
+            "sha256": "423fdfd63cdb0a3bd7cb7c798b1dc532e41d0d98234fad78e2cba05b49f97911"
+          }
+        },
+        "qualification": "Command-grid compilation only; actual solver clocks must be measured separately. No support-law interpolation or execution is implemented. A caller must freeze one public actuator clock independently of latent labels. Production dataset and physical convergence are not qualified.",
+        "production_dataset_qualified": false,
+        "manifest_sha256": "45c8e314aa2b5659d0f40d7dc9f0464d158d323a6da4f1dd60aefa367fd86510"
+      },
+      "reference_wrench": {
+        "maximum_resultant_N": 0.0,
+        "maximum_moment_about_world_origin_Nm": 6.133173666733497e-19,
+        "maximum_per_handle_force_N": 0.019999405050001497,
+        "force_values_sha256": "a0a6611be95e39c26c3c446f641f3fa47550e1586b00ea3c97ae48150cea2128",
+        "meaning": "Zero reference moment is not a guarantee of zero moment after deformation"
+      }
+    },
+    {
+      "label": "200N",
+      "amplitude_N": 0.2,
+      "commands": {
+        "path": "runs/operator-dev/balanced-probe-v01/200N-commands.npz",
+        "sha256": "e93246585c4bf9ecc2575e8d4146c43c9cf95603bbd7b1ea848c10f3d125ae1c"
+      },
+      "public_command_manifest": {
+        "schema": "fixed-known-actuator-clock-v0.1",
+        "information_role": "known_actuator_command",
+        "actuator_hz": 120,
+        "arrays": {
+          "command_boundary_times_s": {
+            "shape": [
+              361
+            ],
+            "dtype": "float64",
+            "sha256": "95fe65f55bc670b63d5055867174117a994028809517d92036365582ce1c5c13"
+          },
+          "requested_output_times_s": {
+            "shape": [
+              61
+            ],
+            "dtype": "float64",
+            "sha256": "20e457a8eb103ee9d88e5760213fbd5ae6f1734412e55c383786d968d213b65c"
+          },
+          "held_handle_forces_world_N": {
+            "shape": [
+              360,
+              2,
+              3
+            ],
+            "dtype": "float64",
+            "sha256": "37297df7908c102cd2f79de042d07d25fad7e841c2f21333be50378b134955d6"
+          },
+          "held_handle_torques_world_Nm": {
+            "shape": [
+              360,
+              2,
+              3
+            ],
+            "dtype": "float64",
+            "sha256": "55ecc6e1af2de98d63e14a413199b378c013252b5d30ed742aec47414350b24d"
+          },
+          "held_nodal_forces_world_N": {
+            "shape": [
+              360,
+              0,
+              3
+            ],
+            "dtype": "float64",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "held_body_acceleration_world_m_s2": {
+            "shape": [
+              360,
+              3
+            ],
+            "dtype": "float64",
+            "sha256": "423fdfd63cdb0a3bd7cb7c798b1dc532e41d0d98234fad78e2cba05b49f97911"
+          }
+        },
+        "qualification": "Command-grid compilation only; actual solver clocks must be measured separately. No support-law interpolation or execution is implemented. A caller must freeze one public actuator clock independently of latent labels. Production dataset and physical convergence are not qualified.",
+        "production_dataset_qualified": false,
+        "manifest_sha256": "2ab5127b5a6b15eacf0b4a9ba041dfd6dc088272b0174b0b6c22f3c4a347ecf0"
+      },
+      "reference_wrench": {
+        "maximum_resultant_N": 0.0,
+        "maximum_moment_about_world_origin_Nm": 3.903127820947816e-18,
+        "maximum_per_handle_force_N": 0.19999405050001498,
+        "force_values_sha256": "37297df7908c102cd2f79de042d07d25fad7e841c2f21333be50378b134955d6",
+        "meaning": "Zero reference moment is not a guarantee of zero moment after deformation"
+      }
+    }
+  ],
+  "finite_runs_per_amplitude": 1,
+  "inference_or_reserved_comparison": false,
+  "retries_or_response_selection": false,
+  "limitations": [
+    "Open-loop force is central at rest only; measure actual moment.",
+    "Same previously seen calibration object, no generalization or uncertainty claim.",
+    "Independent engineering finite mechanics, not native Isaac or continuum truth."
+  ]
+}
