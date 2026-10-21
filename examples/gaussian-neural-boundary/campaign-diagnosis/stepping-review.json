@@ -1,0 +1,34 @@
+{
+  "scope": "Read-only local installed SDK source and project worker, no simulation or new response labels. No proven runtime cause identified.",
+  "sources": {
+    "world": {
+      "path": "/home/bayespc2/vscode/deformable worldmodel/.venv/lib/python3.12/site-packages/isaacsim/extsDeprecated/isaacsim.core.api/isaacsim/core/api/world/world.py",
+      "sha256": "fac1308f85c07f8f0d29e79b37e68e77a21584cee6194720d789228b0bf695e5"
+    },
+    "simulation_context": {
+      "path": "/home/bayespc2/vscode/deformable worldmodel/.venv/lib/python3.12/site-packages/isaacsim/extsDeprecated/isaacsim.core.api/isaacsim/core/api/simulation_context/simulation_context.py",
+      "sha256": "b12c82533b383e1ad9dbf19f44e773af42b4c58530503f1bcf5edabc83e7b515"
+    },
+    "physics_context": {
+      "path": "/home/bayespc2/vscode/deformable worldmodel/.venv/lib/python3.12/site-packages/isaacsim/extsDeprecated/isaacsim.core.api/isaacsim/core/api/physics_context/physics_context.py",
+      "sha256": "ff9360698a6777eaf3f304448a105c2fc8e7f18310aebb8d39cd1a957b2bc839"
+    },
+    "rigid_prim": {
+      "path": "/home/bayespc2/vscode/deformable worldmodel/.venv/lib/python3.12/site-packages/isaacsim/exts/isaacsim.core.experimental.prims/isaacsim/core/experimental/prims/impl/rigid_prim.py",
+      "sha256": "47b3a902523c9a63349bacea11902ab9688e2c65b846dbb6b65c0cb7b51f67ce"
+    },
+    "replicator_orchestrator": {
+      "path": "/home/bayespc2/vscode/deformable worldmodel/.venv/lib/python3.12/site-packages/isaacsim/extscache/omni.replicator.core-1.13.38+110.4.0.lx64.r.cp312/omni/replicator/core/scripts/orchestrator.py",
+      "sha256": "b7494088bc8b1f564f8f8d905f421d8d0afa3987e2e8a53e5ece1f099b6591b0"
+    }
+  },
+  "findings": [
+    "World.step(render=False) invokes SimulationContext.step\u2192PhysicsContext._step exactly once when playing; PhysicsContext calls native simulate(get_physics_dt(),current_time). Rendering substep ratio is explicitly not used for render=False.",
+    "PhysicsContext.set_physics_dt authors integer stepsPerSecond=int(1/dt); for480/960/1920 Hz this matches requested integer Hz. The getter ultimately uses SimulationManager physics-scene dt. Runtime nominal/actual dt must still be recorded.",
+    "SimulationContext.current_time accumulates actual physics callback step_size and counts steps separately; current clock checks therefore test actual stepped time, not only a requested loop index.",
+    "Experimental RigidPrim.apply_forces defaults local_frame=False and passes native is_global=True with float32 force data. Source reveals no extra dt multiplication or impulse interpretation at the Python wrapper level. Native accumulation/reset semantics remain an engine behavior to isolate experimentally.",
+    "SimulationContext.render disables playSimulations during app.update, and manual stepping bypasses app.update. Replicator step(delta_time=0) disables automatic timeline advance; ordinary manual timeline advancement branch tests a truthy nonzero delta. There is no source proof that capture adds a positive dt physics step.",
+    "Capture freshness guard checks world clock and display/sensor agreement against q captured before rendering. It does not re-read deformable positions/velocities, rigid poses/velocities, or physics-step count after capture. A hypothetical zero-dt state/constraint update would not be ruled out by clock alone; not observed/proven.",
+    "Proposed instrumentation only: compare actual body q/qdot/rigid poses/velocities, current_time_step_index or SimulationManager count, runtime physics dt and scene Hz before/after paused sensor sync; separately test a free rigid body under a known force to isolate force impulse/timestep semantics. Do not alter production worker or tune physical values on current nonconverged labels."
+  ]
+}

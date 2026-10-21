@@ -1,0 +1,84 @@
+{
+  "episode": "runs/gaussian-boundary-neural-v01/episodes/t0000",
+  "split": "train",
+  "selected_frames": [
+    1,
+    10,
+    20,
+    40,
+    60
+  ],
+  "particles": 128,
+  "states": 640,
+  "rays_per_state": 24,
+  "surface_triangles": 576,
+  "repeats": 3,
+  "cpu_torch_threads": 2,
+  "numpy_loop_median_seconds": 1.2770997690968215,
+  "dtype_reference": "numpy float64",
+  "timing_includes": "sensor forward; input device transfer excluded, likelihood conversion excluded",
+  "qualification": "Repeated one TRAIN case measures throughput/numerical equivalence, not physical accuracy or generalization. CUDA tensor peaks exclude driver/runtime context. Triangle-edge/grazing classification remains numerically ill conditioned.",
+  "source_sha256": "d5a6b03398bda6daefcc9b4b4f6d9d264fb742098366bb6435cccbd0adb1e0b7",
+  "results": [
+    {
+      "device": "cpu",
+      "dtype": "torch.float64",
+      "median_seconds": 0.29379712510854006,
+      "chunks": {
+        "particle_chunk": 16,
+        "ray_chunk": 64,
+        "triangle_chunk": 128
+      },
+      "numpy_loop_speedup": 4.346876330478085,
+      "mesh_states_per_second": 2178.373936652917,
+      "hit_mask_mismatches": 0,
+      "maximum_joint_hit_depth_error_m": 1.333377852574813e-13,
+      "peak_cuda_tensor_allocation_bytes": null
+    },
+    {
+      "device": "cpu",
+      "dtype": "torch.float32",
+      "median_seconds": 0.19513796968385577,
+      "chunks": {
+        "particle_chunk": 16,
+        "ray_chunk": 64,
+        "triangle_chunk": 128
+      },
+      "numpy_loop_speedup": 6.544599040186073,
+      "mesh_states_per_second": 3279.7307517182226,
+      "hit_mask_mismatches": 0,
+      "maximum_joint_hit_depth_error_m": 1.3668215370632453e-07,
+      "peak_cuda_tensor_allocation_bytes": null
+    },
+    {
+      "device": "cuda:0",
+      "dtype": "torch.float64",
+      "median_seconds": 0.029370680917054415,
+      "chunks": {
+        "particle_chunk": 64,
+        "ray_chunk": 24,
+        "triangle_chunk": 576
+      },
+      "numpy_loop_speedup": 43.482130111435694,
+      "mesh_states_per_second": 21790.437947537568,
+      "hit_mask_mismatches": 0,
+      "maximum_joint_hit_depth_error_m": 1.333377852574813e-13,
+      "peak_cuda_tensor_allocation_bytes": 73460224
+    },
+    {
+      "device": "cuda:0",
+      "dtype": "torch.float32",
+      "median_seconds": 0.021772007923573256,
+      "chunks": {
+        "particle_chunk": 64,
+        "ray_chunk": 24,
+        "triangle_chunk": 576
+      },
+      "numpy_loop_speedup": 58.657877288114726,
+      "mesh_states_per_second": 29395.543224428617,
+      "hit_mask_mismatches": 0,
+      "maximum_joint_hit_depth_error_m": 1.3668215370632453e-07,
+      "peak_cuda_tensor_allocation_bytes": 42678784
+    }
+  ]
+}

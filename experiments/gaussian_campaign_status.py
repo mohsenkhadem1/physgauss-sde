@@ -92,6 +92,16 @@ def snapshot(campaign, root):
             'planned_layouts': len(calibration['fit_ids'])+len(calibration['audit_only_ids']),
             'verified_layouts': verified, 'in_progress_layouts': partial, 'failed_layouts': failed,
             'weight_fitting_allowed': False, 'predictive_audit_opened': False}
+    numerical = read(root/'numerical-timestep-v01/analysis.json')
+    if numerical:
+        status['milestone'] = 'Numerical reliability diagnosis before further fitting or calibration'
+        status['numerical_reliability'] = {
+            'timestep_gate_passed': False, 'case': 't0001',
+            'refinement_pairs': numerical['refinement_pairs'],
+            'fresh960_bitwise_replay': numerical['fresh960_vs_original960_bitwise'],
+            'protocol': 'configs/gaussian_campaign_numerical_gate_v01.json'}
+        stopped = read(root/'calibration-stop-status.json')
+        status['calibration_capture_graceful_stop'] = stopped
     return status
 
 

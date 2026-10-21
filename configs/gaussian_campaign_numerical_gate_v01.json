@@ -1,0 +1,28 @@
+{
+  "protocol": "numerical-reliability-before-physical-inference-v0.1",
+  "supersedes_execution_priority_only": "configs/gaussian_campaign_v01.json",
+  "original_campaign_unchanged": true,
+  "trigger": "TRAIN t0001 diagonal response is repeatable at960Hz but fails480/960/1920Hz timestep refinement; force impulses, captured states and clocks pass independent checks",
+  "status": "diagnosis_in_progress_gate_not_passed",
+  "immediate_policy": "Complete active diagnostic cases. Stop calibration capture at a case boundary. Suspend additional predictive fitting, bulk capture and active-policy comparison until numerical reliability is assessed.",
+  "diagnostic_cases": ["t0000", "t0001", "t0002", "t0003"],
+  "roles": "TRAIN-only engineering diagnosis, never weight fitting or calibration targets",
+  "required_checks": {
+    "repeatability": "Record fresh independent exact960Hz replay and all actual authored solver settings",
+    "rates": "At least3 physics-rate levels with matched mesh, hardware, solver settings, cameras and world-space force-time impulse",
+    "iterations": "At least3 deformable solver-iteration levels with matched rate and all other settings",
+    "translation": "Matched physical scene with world-coordinate translation; undo translation before comparison",
+    "responses": ["zero_force", "independent_diagonal"],
+    "coverage": "All4 declared TRAIN support families before large-scale replacement capture or reliability claims; a single t0001 factorial is diagnostic only"
+  },
+  "primary_engineering_acceptance": {
+    "metric": "Full-trajectory coordinate RMSE between matched saved states",
+    "tolerance_m": "max(0.000002,0.05*finest_force_induced_coordinate_RMS)",
+    "refinement": "Finest successive difference must be below fixed tolerance; both successive differences may be below tolerance, otherwise require the finer difference smaller than the coarser difference",
+    "translation": "Matched translated/untranslated states must agree within the same fixed tolerance",
+    "other_metrics": "Report velocities, extrema of nodal displacement, volume ratios, amplitude and temporal traces; do not invent outcome-dependent pass thresholds"
+  },
+  "unchanged_checks": "Existing force-command, nominal/midpoint impulse, float32-dt clock,2um sensor-state, positive-volume and reset checks remain mandatory. Menu naming adapters must preserve every validation test and their executed source.",
+  "qualification": "Predeclared practical engineering acceptance, not a mathematical convergence proof. Passing timestep/iteration/translation checks does not establish mesh convergence, attachment-model fidelity or continuum material accuracy.",
+  "preservation": "Keep all prior960Hz data, models and sealed evidence as fixed-discretization experimental results. Publish failures and source hashes. Do not silently overwrite the old worker, dataset or confirmation plan."
+}

@@ -1,0 +1,11 @@
+TRAIN-only forward audit: 176 candidate controls /44 layouts. No forward-model changes.
+
+Original controlled teacher total coordinate RMSE0.273345mm. Moving-BC fixture coordinate RMSE0.335718mm, mean per-control maximum1.518765mm, absolute maximum2.223978mm. Actual fixture absolute maximum0.499442um. Editing ONLY fixture positions to oracle targets changes mean RMSE0.273345→0.272541mm, so this cannot explain the interior response failure.
+
+Original controlled attached-patch pair-distance absolute maximum2.105530mm versus actual TRAIN maximum7.738703um. Both original attached patches constrain geometry even when unforced. Gaussian local fields are only features; no exact boundary or rigid-body constraint layer exists.
+
+Fixed half-maximum mask diagnostic: fixed/two/moving support precision~0.54–0.56, about11–15 nonfixture nodes inside the high-valued field; load precision0.549 with6.18 nonpatch nodes/patch. This quantifies smoothing mismatch, not proof that feature widths alone caused error.
+
+Stationary-control rank24 oracle snapshot residual≤5.85um, versus tens-to-hundreds of um teacher errors. Moving Green has two nonzero rank24 responses; a rank48 bound does not limit31 saved times. These floors do not assess the nonlinear physical-parameter-to-basis mapping, spatial MLP expressiveness, or time extrapolation.
+
+Minimal proposed fix AFTER numerical physics is established: supply exact known attachment topology/local offsets/mass/inertia as common hardware conditioning (centers alone are ambiguous); derive actual fixture masks from each hypothesized BC and known reference recipe; impose q_fixture(t)=X_fixture+known prescribed support shift algebraically. Next consider exact two-rigid-patch pose heads q_patch=c(t)+R(t)r with identity/zero initial state. This is a new fixed-object hypothesis-conditioned architecture, not a repair using unknown true BC at inverse runtime. Hard fixture replacement alone is not an accuracy solution. Do not increase rank on current evidence.

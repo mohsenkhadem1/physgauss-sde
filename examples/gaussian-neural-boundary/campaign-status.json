@@ -1,10 +1,10 @@
 {
   "campaign": "gaussian-known-force-recovery-v0.1",
   "status": "active",
-  "updated_utc": "2026-10-21T12:49:19.682613+00:00",
+  "updated_utc": "2026-10-21T13:11:39.942848+00:00",
   "campaign_sha256": "04bd467f559dcad3057b50a2832561e882bb9a7d7bab6d426ca3325724d8b510",
   "heldout_plan_sha256": "2dcb00635d60cae69719c03b539582287b4a51d9a11872f565c4938368259ea4",
-  "milestone": "Known-force representability, nonlinear transfer comparison, and expanded Isaac controls",
+  "milestone": "Numerical reliability diagnosis before further fitting or calibration",
   "jobs": [
     {
       "name": "controls-train",
@@ -47,7 +47,7 @@
     {
       "name": "rich-controls",
       "gpu": 3,
-      "live_at_snapshot": true
+      "live_at_snapshot": false
     },
     {
       "name": "nonlinear-transfer-first16",
@@ -57,7 +57,7 @@
     {
       "name": "controls-calibration",
       "gpu": 2,
-      "live_at_snapshot": true
+      "live_at_snapshot": false
     }
   ],
   "simulation": {
@@ -129,11 +129,13 @@
         "t0112",
         "t0113",
         "t0114",
-        "t0115"
+        "t0115",
+        "t0116",
+        "t0117",
+        "t0118",
+        "t0119"
       ],
-      "in_progress_layouts": [
-        "t0116"
-      ],
+      "in_progress_layouts": [],
       "failed_layouts": [],
       "weight_fitting_allowed": false,
       "predictive_audit_opened": false
@@ -351,7 +353,7 @@
     ]
   },
   "rich_control_curriculum": {
-    "completed": false,
+    "completed": true,
     "planned_layouts": 4,
     "cases": [
       {
@@ -371,7 +373,93 @@
         "gpu": 3,
         "passed": true,
         "completed_utc": "2026-10-21T12:43:36.424189+00:00"
+      },
+      {
+        "episode_id": "t0003",
+        "gpu": 3,
+        "passed": true,
+        "completed_utc": "2026-10-21T12:55:52.105500+00:00"
       }
     ]
+  },
+  "numerical_reliability": {
+    "timestep_gate_passed": false,
+    "case": "t0001",
+    "refinement_pairs": [
+      {
+        "rates_hz": [
+          480,
+          960
+        ],
+        "action_id": "zero_force",
+        "coordinate_rmse_m": 4.387129051533647e-12,
+        "max_nodal_distance_m": 8.139117158023623e-11,
+        "velocity_rmse_m_s": 3.1643439153980454e-10
+      },
+      {
+        "rates_hz": [
+          480,
+          960
+        ],
+        "action_id": "evaluation",
+        "coordinate_rmse_m": 0.00018121622810248844,
+        "max_nodal_distance_m": 0.0029170278843065655,
+        "velocity_rmse_m_s": 0.0005228968793549372
+      },
+      {
+        "rates_hz": [
+          960,
+          1920
+        ],
+        "action_id": "zero_force",
+        "coordinate_rmse_m": 1.036679745054108e-11,
+        "max_nodal_distance_m": 1.373534619375505e-10,
+        "velocity_rmse_m_s": 3.332871011567914e-10
+      },
+      {
+        "rates_hz": [
+          960,
+          1920
+        ],
+        "action_id": "evaluation",
+        "coordinate_rmse_m": 0.00027542708850872066,
+        "max_nodal_distance_m": 0.003937007992560941,
+        "velocity_rmse_m_s": 0.0005446472995383243
+      }
+    ],
+    "fresh960_bitwise_replay": {
+      "zero_force": {
+        "positions_m": true,
+        "velocities_m_s": true,
+        "force_step_commands_N": true
+      },
+      "evaluation": {
+        "positions_m": true,
+        "velocities_m_s": true,
+        "force_step_commands_N": true
+      }
+    },
+    "protocol": "configs/gaussian_campaign_numerical_gate_v01.json"
+  },
+  "calibration_capture_graceful_stop": {
+    "coordinator_pid": 2024640,
+    "observed_unix_s": 1792588057.3509927,
+    "coordinator": null,
+    "active_children": [],
+    "unexpected_next_cases": [],
+    "terminal": true,
+    "policy": "Observeonly; initialSIGTERMtocoordinatorPIDonly, neverIsaacchild",
+    "finished_cases": [
+      "t0112",
+      "t0113",
+      "t0114",
+      "t0115",
+      "t0116",
+      "t0117",
+      "t0118",
+      "t0119"
+    ],
+    "coordinator_stop_requested": true,
+    "verification_passed": true
   }
 }

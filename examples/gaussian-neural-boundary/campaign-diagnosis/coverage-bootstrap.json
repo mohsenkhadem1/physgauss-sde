@@ -1,0 +1,93 @@
+{
+  "qualification": "Postprocessing of fixed models; selection8 diagnostic only. Paired unadjusted layout bootstrap, four actions stay together; no model tuning or gate/TEST data. Original control pools and expanded pools have different worker source versions. Coverage is descriptor-based, not proof of sufficient identifiability.",
+  "selection_gains": {
+    "old48_nearest_raw": {
+      "gain_over_static_percent": -38.5076264674598,
+      "paired_8layout_bootstrap95_percent": [
+        -189.123134624373,
+        -11.476276020319487
+      ]
+    },
+    "old48_rbf_raw": {
+      "gain_over_static_percent": -27.04270241794,
+      "paired_8layout_bootstrap95_percent": [
+        -228.51833209916416,
+        -3.896558969631583
+      ]
+    },
+    "old48_nearest_fe": {
+      "gain_over_static_percent": -32.83807262474732,
+      "paired_8layout_bootstrap95_percent": [
+        -85.47186431068918,
+        -10.151523488397451
+      ]
+    },
+    "old48_rbf_fe": {
+      "gain_over_static_percent": -18.172751156226852,
+      "paired_8layout_bootstrap95_percent": [
+        -78.94485956569542,
+        0.10859009385840723
+      ]
+    },
+    "all176_nearest_raw": {
+      "gain_over_static_percent": -5.331623855964995,
+      "paired_8layout_bootstrap95_percent": [
+        -189.55462816218557,
+        39.09585153020016
+      ]
+    },
+    "all176_rbf_raw": {
+      "gain_over_static_percent": -4.05618630080089,
+      "paired_8layout_bootstrap95_percent": [
+        -299.5072272553478,
+        38.174234919673026
+      ]
+    },
+    "all176_nearest_fe": {
+      "gain_over_static_percent": -0.956100099515389,
+      "paired_8layout_bootstrap95_percent": [
+        -137.38952303612066,
+        41.55574234352808
+      ]
+    },
+    "all176_rbf_fe": {
+      "gain_over_static_percent": 4.904540137935321,
+      "paired_8layout_bootstrap95_percent": [
+        -137.12055237873483,
+        42.40275386060885
+      ]
+    },
+    "static": {
+      "gain_over_static_percent": 0.0,
+      "paired_8layout_bootstrap95_percent": [
+        0.0,
+        0.0
+      ]
+    },
+    "original_passive": {
+      "gain_over_static_percent": 25.422729135619825,
+      "paired_8layout_bootstrap95_percent": [
+        -3.311484020931626,
+        29.759082107138603
+      ]
+    },
+    "original_controlled": {
+      "gain_over_static_percent": 26.731425444447854,
+      "paired_8layout_bootstrap95_percent": [
+        -27.503176715107923,
+        33.72885010127644
+      ]
+    }
+  },
+  "bootstrap": {
+    "seed": 2102026,
+    "replicates": 10000,
+    "layout_definition": "episode_id before /action; average four candidate errors per layout",
+    "statistic": "100*(1-mean(model_layout_errors)/mean(static_layout_errors))",
+    "quantiles": [
+      0.025,
+      0.975
+    ],
+    "resampling": "8 layouts drawn with replacement; model/static errors paired"
+  }
+}
