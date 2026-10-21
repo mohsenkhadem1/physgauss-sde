@@ -21,6 +21,8 @@ The RGB-D forecast gain has a 95% layout-bootstrap interval spanning zero. Physi
 
 [Eight-layout development selection results](campaign-selection-pilot.json) retain all candidate checkpoints. The new nonlinear candidates do not yet outperform the original controlled teacher. Expanded-layout training and a separate off-axis TRAIN curriculum continue; reserved gate and confirmation responses remain excluded from fitting.
 
+[Expanded first-wave comparison](campaign-selection-first8.json) · [Sixteen-layout warm transfer comparison](campaign-selection-transfer-first16.json) · [Recovery campaign archives](campaign-artifacts.json) · [Restoration and bitwise replay proof](campaign-restore-proof.json). Both completed comparisons still trail the original teacher on development selection; the forward gate has not passed. The new archive index preserves the earlier sealed study separately.
+
 [![Actual orbiting test scenarios](isaac-test-scenarios.poster.png)](isaac-test-scenarios.mp4)
 
 [Watch the actual calibrated probe](isaac-test-calibrated-probe.mp4) · [Orbit video source hashes](isaac-test-scenarios.manifest.json) · [Probe video source hashes](isaac-test-calibrated-probe.manifest.json)

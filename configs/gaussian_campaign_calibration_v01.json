@@ -1,0 +1,14 @@
+{
+  "protocol": "reserved-known-control-calibration-v0.1",
+  "campaign": "configs/gaussian_campaign_v01.json",
+  "dataset": "runs/gaussian-boundary-neural-v01",
+  "pool": "runs/gaussian-campaign-v01/controls-calibration",
+  "fit_ids": ["t0112", "t0113", "t0114", "t0115", "t0116", "t0117", "t0118", "t0119"],
+  "audit_only_ids": ["t0120", "t0121", "t0122", "t0123", "t0124", "t0125", "t0126", "t0127"],
+  "eligible_controls": ["poke_0", "poke_1", "poke_2", "poke_3"],
+  "excluded_controls": ["evaluation", "reset_replay"],
+  "weight_fitting_allowed": false,
+  "predictive_role_policy": "Freeze forward checkpoint before fitting discrepancy on fit_ids; freeze likelihood before opening audit_only_ids predictively. Sensor generation/QC may process all declared cases for infrastructure checks.",
+  "calibration_policy": "One global proper mixed visibility/range likelihood, same in fantasies and posterior conditioning; never select noise using a hidden evaluation boundary/material label. Compare coverage with proper predictive scores, not width alone.",
+  "qualification": "Reserved interventions, not unseen materials: passive TRAIN episodes from these layouts remain in the forward-training set. Eight audit layouts give limited precision. The32fresh confirmation layouts remain separate and closed."
+}

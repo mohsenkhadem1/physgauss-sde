@@ -76,6 +76,22 @@ def snapshot(campaign, root):
     if rich:
         status['rich_control_curriculum'] = {'completed': rich['completed'], 'planned_layouts': len(rich['episode_ids']),
             'cases': rich['cases']}
+    calibration = read(Path('configs/gaussian_campaign_calibration_v01.json'))
+    if calibration:
+        verified, partial, failed = [], [], []
+        for eid in calibration['fit_ids']+calibration['audit_only_ids']:
+            private = Path(calibration['pool'])/'private'/eid
+            audit, summary = read(private/'validation.json'), read(private/'summary.json')
+            if audit and audit.get('passed') and summary and summary.get('completed'):
+                verified.append(eid)
+            elif (private/'failure.json').is_file():
+                failed.append(eid)
+            elif private.exists():
+                partial.append(eid)
+        status['simulation']['controls-calibration'] = {
+            'planned_layouts': len(calibration['fit_ids'])+len(calibration['audit_only_ids']),
+            'verified_layouts': verified, 'in_progress_layouts': partial, 'failed_layouts': failed,
+            'weight_fitting_allowed': False, 'predictive_audit_opened': False}
     return status
 
 

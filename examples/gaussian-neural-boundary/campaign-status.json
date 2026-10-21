@@ -1,7 +1,7 @@
 {
   "campaign": "gaussian-known-force-recovery-v0.1",
   "status": "active",
-  "updated_utc": "2026-10-21T12:14:52.820468+00:00",
+  "updated_utc": "2026-10-21T12:49:19.682613+00:00",
   "campaign_sha256": "04bd467f559dcad3057b50a2832561e882bb9a7d7bab6d426ca3325724d8b510",
   "heldout_plan_sha256": "2dcb00635d60cae69719c03b539582287b4a51d9a11872f565c4938368259ea4",
   "milestone": "Known-force representability, nonlinear transfer comparison, and expanded Isaac controls",
@@ -14,7 +14,7 @@
     {
       "name": "controls-validation",
       "gpu": 2,
-      "live_at_snapshot": true
+      "live_at_snapshot": false
     },
     {
       "name": "forward-pilots",
@@ -37,7 +37,7 @@
         0,
         1
       ],
-      "live_at_snapshot": true
+      "live_at_snapshot": false
     },
     {
       "name": "nonlinear-first8",
@@ -47,6 +47,16 @@
     {
       "name": "rich-controls",
       "gpu": 3,
+      "live_at_snapshot": true
+    },
+    {
+      "name": "nonlinear-transfer-first16",
+      "gpu": 0,
+      "live_at_snapshot": false
+    },
+    {
+      "name": "controls-calibration",
+      "gpu": 2,
       "live_at_snapshot": true
     }
   ],
@@ -70,13 +80,25 @@
         "t0029",
         "t0030",
         "t0031",
-        "t0032"
+        "t0032",
+        "t0033",
+        "t0034",
+        "t0035",
+        "t0036",
+        "t0037",
+        "t0038",
+        "t0039",
+        "t0040",
+        "t0041",
+        "t0042",
+        "t0043",
+        "t0044",
+        "t0045",
+        "t0046",
+        "t0047"
       ],
       "failed_layouts": [],
-      "in_progress_layouts": [
-        "t0033",
-        "t0034"
-      ]
+      "in_progress_layouts": []
     },
     "controls-validation": {
       "planned_layouts": 16,
@@ -94,12 +116,27 @@
         "v0010",
         "v0011",
         "v0012",
-        "v0013"
+        "v0013",
+        "v0014",
+        "v0015"
       ],
       "failed_layouts": [],
+      "in_progress_layouts": []
+    },
+    "controls-calibration": {
+      "planned_layouts": 16,
+      "verified_layouts": [
+        "t0112",
+        "t0113",
+        "t0114",
+        "t0115"
+      ],
       "in_progress_layouts": [
-        "v0014"
-      ]
+        "t0116"
+      ],
+      "failed_layouts": [],
+      "weight_fitting_allowed": false,
+      "predictive_audit_opened": false
     }
   },
   "pilots": {
@@ -245,6 +282,51 @@
           }
         }
       ]
+    },
+    "nonlinear-transfer-first16": {
+      "wave": "first16",
+      "completed": true,
+      "arms": [
+        {
+          "name": "green",
+          "state": "completed",
+          "last_validation": {
+            "step": 16000,
+            "passive_rmse_m": 0.0009544018874872894,
+            "control_rmse_m": 0.00048746679474476196,
+            "control_normalized_rmse": 0.7850399622397978,
+            "selection_score": 1.0603611126119599,
+            "best_score": 0.9245931517638774,
+            "elapsed_s": 407.8215295756236
+          }
+        },
+        {
+          "name": "nonlinear",
+          "state": "completed",
+          "last_validation": {
+            "step": 16000,
+            "passive_rmse_m": 0.0011864520893967974,
+            "control_rmse_m": 0.000499057637767919,
+            "control_normalized_rmse": 1.1150615766919145,
+            "selection_score": 1.4573234250775946,
+            "best_score": 1.3308479495412173,
+            "elapsed_s": 191.52164076361805
+          }
+        },
+        {
+          "name": "zero_referenced",
+          "state": "completed",
+          "last_validation": {
+            "step": 16000,
+            "passive_rmse_m": 0.0011586984447521072,
+            "control_rmse_m": 0.0005127167502507746,
+            "control_normalized_rmse": 0.9388528944694843,
+            "selection_score": 1.2731085083005431,
+            "best_score": 1.1105509134019733,
+            "elapsed_s": 297.77819074410945
+          }
+        }
+      ]
     }
   },
   "zero_force_diagnostic": {
@@ -271,6 +353,25 @@
   "rich_control_curriculum": {
     "completed": false,
     "planned_layouts": 4,
-    "cases": []
+    "cases": [
+      {
+        "episode_id": "t0000",
+        "gpu": 3,
+        "passed": true,
+        "completed_utc": "2026-10-21T12:22:25.329092+00:00"
+      },
+      {
+        "episode_id": "t0001",
+        "gpu": 3,
+        "passed": true,
+        "completed_utc": "2026-10-21T12:33:28.203432+00:00"
+      },
+      {
+        "episode_id": "t0002",
+        "gpu": 3,
+        "passed": true,
+        "completed_utc": "2026-10-21T12:43:36.424189+00:00"
+      }
+    ]
   }
 }

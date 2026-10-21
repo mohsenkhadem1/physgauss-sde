@@ -1,4 +1,9 @@
-"""Matched from-scratch Green/nonlinear/zero-referenced forward experiments."""
+"""Forward experiments with frozen data roles and explicitly declared warm starts.
+
+The original nonlinear phase remains a matched from-scratch comparison. Later
+phase files may declare checkpoint initializers and the designated selection
+set; these choices and every source/checkpoint hash are recorded separately.
+"""
 import os
 os.environ.setdefault('TORCH_DISABLE_NATIVE_JIT', '1')
 import argparse
@@ -13,10 +18,10 @@ from train_gaussian_control_forward import collect_control_records, decimate_pas
 from train_gaussian_forward import collect_records
 from train_gaussian_inverse import load_frozen_operator
 from campaign_control_data import load_control_snapshot
-from campaign_forward_models import CLASSES
+from campaign_forward_models import CLASSES, load_campaign_operator
 
 
-def dataset_snapshot(config, wave):
+def dataset_snapshot(config, wave, selection_set=None):
     controls = collect_control_records(Path(config['dataset']), Path(config['old_train_pool']), Path('configs/gaussian_probe_roles_v01.json'))
     passive = decimate_passive_training(collect_records([config['original_dataset'], config['dataset']]), controls[0]['times'])
     train = [r for r in passive if r['split'] == 'train']+controls
@@ -24,7 +29,10 @@ def dataset_snapshot(config, wave):
     if count:
         train += load_control_snapshot(config, config['new_train_control_ids'][:count], 'fit')
     val_passive = [r for r in passive if r['split'] == 'validation']
-    val_control = load_validation_controls(Path(config['original_dataset']), Path(config['old_validation_pool'])) if wave in ['pilot', 'first8'] else \
+    if selection_set not in (None, 'pilot', 'selection8'):
+        raise ValueError('Unknown checkpoint selection role')
+    use_pilot = wave in ['pilot', 'first8'] if selection_set is None else selection_set == 'pilot'
+    val_control = load_validation_controls(Path(config['original_dataset']), Path(config['old_validation_pool'])) if use_pilot else \
         load_control_snapshot(config, config['new_validation_roles']['selection'], 'select')
     if len(train) != 200+count*4 or len(val_passive) != 44:
         raise ValueError('Snapshot record count differs')
@@ -37,12 +45,20 @@ def run(phase_path, name, wave, output, device):
     if name not in phase['models']:
         raise ValueError('Model not in frozen comparison')
     train_cfg = phase['training']
-    train, val_passive, val_control = dataset_snapshot(config, wave)
+    train, val_passive, val_control = dataset_snapshot(config, wave, phase.get('selection_set'))
     torch.set_num_threads(2)
     torch.manual_seed(phase['seed'])
     rng = np.random.default_rng(phase['seed'])
     kwargs = {'hidden': 128, 'rank': 24, 'depth': 3, 'seconds': 3., 'displacement_scale_m': .03}
     model = CLASSES[name](**kwargs, reference_points=train[0]['rest']).to(device)
+    resume = phase.get('resume_by_model', {}).get(name)
+    if resume:
+        donor = load_campaign_operator(resume, 'cpu')
+        if type(donor).__name__ != type(model).__name__:
+            raise ValueError('Warm start architecture differs from selected class')
+        torch.testing.assert_close(donor.geometry_reference.cpu(), torch.tensor(train[0]['rest']), atol=0, rtol=0)
+        model.load_state_dict(donor.state_dict())
+        del donor
     optimizer = torch.optim.AdamW(model.parameters(), lr=train_cfg['lr'], weight_decay=1e-5)
     output.mkdir(parents=True, exist_ok=False)
     source_names = ['train_campaign_nonlinear.py', 'campaign_forward_models.py', 'campaign_control_data.py',
@@ -61,7 +77,9 @@ def run(phase_path, name, wave, output, device):
         'seed': phase['seed'], 'training': train_cfg, 'source_sha256': hashes, 'training_records': len(train),
         'validation_passive': len(val_passive), 'validation_controls': len(val_control),
         'selection': phase['selection'], 'test_labels_opened': False, 'fresh_gate_labels_opened': False,
-        'training_independent_diagonal_targets': False, 'training_zero_force_diagnostic_targets': False}
+        'training_independent_diagonal_targets': False, 'training_zero_force_diagnostic_targets': False,
+        'resume': resume, 'resume_sha256': sha(resume) if resume else None,
+        'optimizer_resumed': False, 'selection_set': phase.get('selection_set', 'wave_default')}
     (output/'protocol.json').write_text(json.dumps(protocol, indent=2)+'\n')
     rest = torch.tensor(np.stack([r['rest'] for r in train]), device=device)
     target = torch.tensor(np.stack([r['q'] for r in train]), device=device)

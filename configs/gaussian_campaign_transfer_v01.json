@@ -1,0 +1,20 @@
+{
+  "phase": "known-force-transfer-v0.1",
+  "campaign": "configs/gaussian_campaign_v01.json",
+  "models": ["green", "nonlinear", "zero_referenced"],
+  "seed": 2026102103,
+  "selection_set": "selection8",
+  "resume_by_model": {
+    "green": "runs/gaussian-inverse-final-forward.pt",
+    "nonlinear": "runs/gaussian-campaign-v01/nonlinear-first8/nonlinear/final.pt",
+    "zero_referenced": "runs/gaussian-campaign-v01/nonlinear-first8/zero_referenced/final.pt"
+  },
+  "training": {"steps": 16000, "batch": 16, "query_nodes": 192, "query_times": 16, "probe_fraction": 0.5, "lr": 0.0001, "evaluation_every": 1000, "control_scale_floor_m": 0.00004, "bc_balanced": true},
+  "data_wave": "first16",
+  "selection": "Include initializer; minimum mean control normalizedRMSE(.04mmfloor)+0.25*passiveRMSE/originalfrozenpassiveRMSE, on designated8selectionlayouts; reservedgate remains closed",
+  "motivation": "Initial loss pilots overfit; nonlinear models trained from scratch do not beat the original teacher on8selectionlayouts. Test warm starts,16addedTRAINlayouts and50%passive replay to limit forgetting before changing architecture again.",
+  "initialization_note": "Productive development fine-tuning, not a causal architecture comparison. Green uses the original passive initializer, which has a better joint selection score than the controlled teacher; other classes use their fixed-step first-wave finals. Optimizer is fresh.",
+  "scope": "264TRAINrecords:152passive+48oldcandidatecontrols+64newcandidatecontrols. All source data roles unchanged. No rich controls, independent diagonals, calibration controls, gate controls or confirmation data fit these weights.",
+  "baseline": "Both original frozen teachers remain comparators. Static improvements alone do not establish success or justify replacing a stronger baseline.",
+  "runtime": "Same direct neural operator classes; no numerical mechanics solver or image shortcut; zero-referenced model keeps exact rest at zero force and zero prescribed support motion."
+}
