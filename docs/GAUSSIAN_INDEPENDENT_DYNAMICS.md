@@ -133,3 +133,48 @@ that the raw files have been remotely published.
 The [independent dynamic gate](../configs/gaussian_campaign_independent_dynamic_gate_v01.json)
 remains separate from the failed native reliability gate and all prediction,
 physical inference, calibration and active-probing acceptance requirements.
+
+## Scope of the initial force check
+
+The gate's diagonal peak is `[0.01, 0.01, 0.005]` N at one handle.
+Original dataset recipes use 0.12–0.24 N peaks, with a factor of 0.25 for a
+point pin, and include push, pull, oscillating shear and a two-handle couple.
+Even a passing initial gate establishes accuracy only for its declared inputs.
+Before generating replacement data at the broader original force envelope,
+TRAIN engineering checks must establish temporal, residual and coordinate
+robustness for the actual force profiles/amplitudes and resulting deformation.
+A small-force qualification cannot substitute for that evidence.
+
+The [separate absolute-floor study](../configs/gaussian_campaign_dynamic_floor_refinement_v01.json)
+addresses an identified accuracy-test limitation: without external force, all
+nominal relative tolerances use the same absolute threshold, even when a
+moving support drives the body. Its two additional cells use the identical
+physical model, reuse the original middle-floor baseline and retain failures.
+Nominally different but effectively identical thresholds are not presented as
+independent accuracy evidence.
+
+## Initial full-response temporal results
+
+All 24 case/response/rate cells completed and passed the separate protocol,
+clock, force, residual, positive-volume and fixture/patch audits. Their
+full-coordinate temporal differences (120→240 then 240→480 Hz) are:
+
+| Support | Zero-response differences (µm) | Diagonal differences (µm) | Tolerance (µm) | Initial result |
+|---|---:|---:|---:|---|
+| Point pin | 0, 0 | 2.315, 1.162 | 119.005 | Pass |
+| Fixed patch | 0, 0 | 3.890, 2.159 | 3.781 | Pass |
+| Two patches | 0, 0 | 0.237, 0.193 | 2.000 | Pass |
+| Moving patch | 16.520, 8.474 | 16.082, 8.262 | 6.507 | **Fail** |
+
+The moving-support errors contract but remain above the unchanged threshold.
+The [conditional 960 Hz protocol](../configs/gaussian_campaign_dynamic_temporal_extension_v01.json)
+uses the original gate's optional refinement and preserves the failed initial
+result. It has not run at this checkpoint. A passing temporal extension alone
+will not qualify untested accuracy/translation/replay interactions at 960 Hz.
+The remaining factorized 480 Hz accuracy, translation and replay controls are
+ongoing. The whole independent reference gate remains **false**.
+
+[Compact initial evidence](../examples/gaussian-neural-boundary/campaign-diagnosis/independent-dynamic-initial-temporal-v01.json)
+and the [strict audit implementation](../experiments/campaign_independent_dynamic_audit.py)
+retain missing/failed cells rather than converting them into success. The
+initial trigger audit is frozen; later results use new reports.

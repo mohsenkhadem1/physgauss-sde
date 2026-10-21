@@ -1,0 +1,65 @@
+{
+  "protocol": "independent-dynamic-conditional-temporal-refinement-v0.1",
+  "parent_gate_path": "configs/gaussian_campaign_independent_dynamic_gate_v01.json",
+  "parent_gate_sha256": "962457955d72a97dd0d8e48a41aff0c6ead821931031343e081cf837c561b2a0",
+  "role": "TRAIN engineering diagnosis only",
+  "status": "declared_before_optional_refinement_execution",
+  "trigger_audit_path": "runs/operator-dev/independent-dynamic-t0003-refinement-trigger-v01.json",
+  "trigger_audit_sha256": "3733850713231a5d750a74e8d454475fe30f579f6b4e638699a53e6268872f43",
+  "trigger": "Initial120/240/480Hz full zero and diagonal trajectories contract but finest differences exceed the original unchanged tolerance. All initial results are retained.",
+  "trigger_comparisons": [
+    {
+      "case": "t0003",
+      "response": "zero_external_force",
+      "kind": "temporal",
+      "coordinate_rmse_m": [
+        1.6520284113769228e-05,
+        8.473689585441797e-06
+      ],
+      "finest_force_induced_coordinate_RMS_m": 0.00013013732349628448,
+      "tolerance_m": 6.506866174814225e-06,
+      "both_differences_below_2micrometre_floor": false,
+      "passed": false
+    },
+    {
+      "case": "t0003",
+      "response": "diagonal_pulse_handle0",
+      "kind": "temporal",
+      "coordinate_rmse_m": [
+        1.6082259962054073e-05,
+        8.26241031155273e-06
+      ],
+      "finest_force_induced_coordinate_RMS_m": 0.00013013732349628448,
+      "tolerance_m": 6.506866174814225e-06,
+      "both_differences_below_2micrometre_floor": false,
+      "passed": false
+    }
+  ],
+  "episode_id": "t0003",
+  "new_physics_hz": 960,
+  "reused_initial_rates_hz": [
+    120,
+    240,
+    480
+  ],
+  "responses": [
+    "zero_external_force",
+    "diagonal_pulse_handle0"
+  ],
+  "relative_residual_tolerance": 1e-07,
+  "absolute_residual_floor_N": 1e-10,
+  "nonlinear_iteration_cap": 250,
+  "translation_m": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "seconds": 3.0,
+  "output_hz": 10,
+  "core_sha256": "da0db7018b4913020bb228c2fc4df3c240e7dd872f17db4868de147eaaf78fa2",
+  "static_fixture_sha256": "073380f72559c50ccc674d5f69fdff1be7e4d0b30484ad66f0233695a813847f",
+  "execution": "Wait until all frozen-source baseline jobs are terminal before extending the runner guard. Publish revised runner and exact request validation before either960Hzcell. No physical core change, fallback or1920Hzlaunch.",
+  "analysis": "Preserve initial120/240/480 comparisons and failed initial gate. Separately report all4rates and3adjacent full-trajectory differences, measured contraction, finest960 force-induced signal and unchanged max(2um,5percent signal) tolerance. Zero subtraction only determines denominator.",
+  "qualification": "A passing temporal extension is a temporal candidate only. Final operating-point translation, nonlinear accuracy and replay at960Hz remain required before full moving-boundary reference qualification. Previously run480Hzfactorized checks do not automatically test960Hzinteractions.",
+  "contingent_followup": "Only after960 temporal passes, prospectively declare and complete matched moving-case960Hztranslation, relative/absolute accuracy and fresh reset controls before adopting960Hzasits operating point. No automatic1920Hztrial."
+}

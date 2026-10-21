@@ -22,7 +22,10 @@ def archive(paths,output,name,part_bytes=40_000_000):
     if part_bytes<1_000_000 or part_bytes>49_000_000:raise ValueError('Use1–49MBGit-sized chunks')
     records=[{'path':str(path),'bytes':path.stat().st_size,'sha256':digest(path)} for path in files]
     archive_path=output/(name+'.tar.gz')
-    with tarfile.open(archive_path,'w:gz',compresslevel=1) as tar:
+    # Provenance trees can contain hardlinked copies. Store each named file's
+    # bytes so the portable archive retains the regular-file-only contract.
+    # Symbolic links are still rejected above before any content is added.
+    with tarfile.open(archive_path,'w:gz',compresslevel=1,dereference=True) as tar:
         for path in files:tar.add(path,arcname=str(path),recursive=False)
     expected={row['path']:row for row in records};seen=set()
     with tarfile.open(archive_path,'r:gz') as tar:

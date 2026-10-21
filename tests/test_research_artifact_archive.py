@@ -6,6 +6,7 @@ import unittest
 import io
 import hashlib
 import json
+import tarfile
 from unittest.mock import patch
 import numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'experiments'))
@@ -50,6 +51,27 @@ class ArchiveTests(unittest.TestCase):
             try:
                 os.chdir(folder);Path('source').write_text('data');Path('link').symlink_to('source')
                 with self.assertRaises(ValueError):archive(['link'],'parts','test')
+            finally:os.chdir(previous)
+
+    def test_hardlinked_provenance_is_stored_as_regular_files_and_restores(self):
+        previous=Path.cwd()
+        with tempfile.TemporaryDirectory() as folder:
+            try:
+                os.chdir(folder);Path('evidence').mkdir()
+                content=b'original and clock-adapted trajectory bytes'
+                Path('evidence/original.npz').write_bytes(content)
+                os.link('evidence/original.npz','evidence/clock-adapted.npz')
+                self.assertEqual(Path('evidence/original.npz').stat().st_ino,
+                                 Path('evidence/clock-adapted.npz').stat().st_ino)
+                archive(['evidence'],'parts','hardlink',part_bytes=1_000_000)
+                with tarfile.open('parts/hardlink.tar.gz','r:gz') as package:
+                    members=package.getmembers()
+                    self.assertEqual(len(members),2)
+                    self.assertTrue(all(member.isfile() for member in members))
+                restored=restore('parts/manifest.json','parts','restored')
+                self.assertEqual(restored['files_verified'],2)
+                for name in ['original.npz','clock-adapted.npz']:
+                    self.assertEqual((Path('restored/evidence')/name).read_bytes(),content)
             finally:os.chdir(previous)
 
 
