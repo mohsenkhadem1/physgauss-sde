@@ -1,0 +1,463 @@
+{
+  "status": "publication_verified",
+  "scientific_source_commit": "f140bc980f6d24961f84e397dc8a5aced5b4b837",
+  "raw_archive_branch_head": "765fb75121b774425d54c6a4be59f2287b0b260d",
+  "archive_parts": 261,
+  "archive_file_records": 92905,
+  "requirements": [
+    {
+      "requirement": "Gaussian-boundary/material uncertainty formulation and direct neural trajectory inference",
+      "evidence": [
+        "docs/GAUSSIAN_NEURAL_ACTIVE_FORMULATION.md",
+        "experiments/gaussian_operator.py",
+        "experiments/gaussian_chart_posterior.py"
+      ],
+      "result": "Implemented; materialhomogeneous, knowncuboid; empiricalphysicalcalibrationfails"
+    },
+    {
+      "requirement": "Held-out motion/view prediction before active tests with honest baselines",
+      "evidence": [
+        "reports/gaussian-sealed-study-v01/summary.json",
+        "reports/gaussian-sealed-study-v01/passive-seal.json",
+        "docs/GAUSSIAN_BOUNDARY_BASELINES.md"
+      ],
+      "result": "All24passiveTESTevaluations,12physicalaudits,4ridgefits and8PIDGinspired/deformationfits reported;14percentgapgain;forecastCIincludeszero"
+    },
+    {
+      "requirement": "Actual uncertainty-driven camera and calibrated-probe actions",
+      "evidence": [
+        "reports/gaussian-sealed-study-v01/controlled-probe-seal.json",
+        "experiments/gaussian_active_design.py",
+        "experiments/censored_range_observation.py"
+      ],
+      "result": "16viewstates and8testprobeobjects,choice-before-reveal logs,TRAIN-onlyfrozenR; noactive-policy superiorityclaim"
+    },
+    {
+      "requirement": "Isaacflexible dataset with varied materials,forces,supports andorbitingcamera",
+      "evidence": [
+        "examples/gaussian-neural-boundary/artifacts.json",
+        "examples/gaussian-neural-boundary/isaac-test-scenarios.manifest.json"
+      ],
+      "result": "272episodes all61framesaudited;TRAIN16+TEST8probes separatelyaudited; actualvideosincluded"
+    },
+    {
+      "requirement": "Severalagents/localCPU+GPUresources/preservefailures/pushevidence",
+      "evidence": [
+        "examples/gaussian-neural-boundary/completion-audit.json",
+        "examples/gaussian-neural-boundary/artifacts.json"
+      ],
+      "result": "3specialistagents;all4GPUs;4immutableverifiedarchives;source/report/videos onmain;Birdstopped"
+    }
+  ],
+  "restored_inference": {
+    "restored_passive_max_absolute_difference_m": 0.0,
+    "restored_control_all128particles_max_absolute_difference_m": 0.0,
+    "reference": "Original sealed TEST outputs",
+    "inputs": "Actual restoredphase02data,phase03checkpoints,phase04menu;currentpublishedsource",
+    "sample_seeds": [
+      20261102,
+      20261106
+    ],
+    "passed": true
+  },
+  "independent_science_review": "completion-audit.json is prior publication-gate snapshot; this audit resolves its publication-pending item",
+  "scientific_success_limits": [
+    "Calibratedphysicalrecovery notachieved",
+    "Novelactivepolicyadvantage notestablished",
+    "RealCOLMAP/arbitrarygeometry/heterogeneousmaterials nottested",
+    "OfficialPIDGnotrun;independentinspiredbaseline explicit",
+    "No continuumconvergenceclaim"
+  ],
+  "remote_download_checks": [
+    {
+      "name": "manifest.json",
+      "bytes": 703477,
+      "sha256": "483166d99e53829850c399ebff967b9a231ee0ce6723a410477ed9970d1aa6e5",
+      "verified": true
+    },
+    {
+      "name": "gaussian-neural-evidence-phase01.tar.gz.part-0097",
+      "bytes": 22883053,
+      "sha256": "5c30753b843c7cec01680c48f05de440c063ff52252a52e8fcab77bc8405732e",
+      "verified": true
+    },
+    {
+      "name": "manifest.json",
+      "bytes": 13429798,
+      "sha256": "376cb1433c0366ed7bdb8dd12375d3325711e2cf17ec494435175c455aa8bb01",
+      "verified": true
+    },
+    {
+      "name": "gaussian-isaac-completed-data-phase02.tar.gz.part-0047",
+      "bytes": 32729951,
+      "sha256": "a7450c1e9de79b48aebecd1c39738b356f4e37867ac77d7362ed0f4e85100dd1",
+      "verified": true
+    },
+    {
+      "phase": "03",
+      "commit": "33aca949fc9546410241750a5869a2072b6e8d04",
+      "name": "manifest.json",
+      "bytes": 1536053,
+      "sha256": "e46cb27e1e5716f7e47e8875cbfbaf855a1fd765ed40b0be36eef4e61e8d472e",
+      "verified": true
+    },
+    {
+      "phase": "03",
+      "commit": "33aca949fc9546410241750a5869a2072b6e8d04",
+      "name": "gaussian-prediction-evidence-phase03.tar.gz.part-0064",
+      "bytes": 31238658,
+      "sha256": "79b64c5250d3de6d82dacef7b296617026e8cd2247311ebee41b46c7fe038090",
+      "verified": true
+    },
+    {
+      "phase": "04",
+      "commit": "765fb75121b774425d54c6a4be59f2287b0b260d",
+      "name": "manifest.json",
+      "bytes": 3909501,
+      "sha256": "27f77f74ac6e50838b675aefe6e0aeda8b4ce77839efff2dfc73331c28281189",
+      "verified": true
+    },
+    {
+      "phase": "04",
+      "commit": "765fb75121b774425d54c6a4be59f2287b0b260d",
+      "name": "gaussian-controlled-final-evidence-phase04.tar.gz.part-0049",
+      "bytes": 3846476,
+      "sha256": "6e7f48d9d70c51362410abfe31a6eb40872efb9eab4f0d9256e7294f8b4656f6",
+      "verified": true
+    }
+  ],
+  "source_tree_files_verified": 61,
+  "source_files_sha256": [
+    {
+      "path": "README.md",
+      "sha256": "8926d77d8661aafd7f92d0ce8d799eb8676ec732a1e4cb5d6274b29cb385c8ea",
+      "git_blob_sha1": "1a235cf11c494f560dfad8857be703f0ddaac151"
+    },
+    {
+      "path": "configs/gaussian_probe_sensor_v03.json",
+      "sha256": "b076f1489d05067b3c0dc14c5d6be1dd84bb4a420a4d0fa04b5a39cc8424b95a",
+      "git_blob_sha1": "4ecce091ae92d90ec7a125668018847998fa9afe"
+    },
+    {
+      "path": "docs/GAUSSIAN_BOUNDARY_BASELINES.md",
+      "sha256": "9c99fd488fd4d088f3af38c851305a2f208f24d465022ac7131659b0782cec9e",
+      "git_blob_sha1": "7aad426f4a8bf6a65a09e10ed60791269e447341"
+    },
+    {
+      "path": "docs/GAUSSIAN_NEURAL_ACTIVE_FORMULATION.md",
+      "sha256": "c492bb4fbd493baee930bc612acf74d20553d7dd741850994f4b16e3a7cce58e",
+      "git_blob_sha1": "481be90864f7766b289e49f3fc59fab467049f3b"
+    },
+    {
+      "path": "examples/gaussian-neural-boundary/README.md",
+      "sha256": "53c624acbe181b431194eab900e4c779a6d19c5fabe4ac569c6e608d0e26daf8",
+      "git_blob_sha1": "82d8eb17b65cc7f7c6f91fdc30edd87275f82ab9"
+    },
+    {
+      "path": "examples/gaussian-neural-boundary/artifacts.json",
+      "sha256": "ca3b549c554e9b92d48f1d7cd78b0f783420f67caa1d60deeffb5977c30b5ebe",
+      "git_blob_sha1": "81a85bf261c5c006c6d3ba27bd1ca208b5bfdc6f"
+    },
+    {
+      "path": "examples/gaussian-neural-boundary/completion-audit.json",
+      "sha256": "355a363197d2a4755c309df4c6e7f4ada8545691dbbc24ff40412f689aae7f4c",
+      "git_blob_sha1": "997d2433e4efc0561001206ad1afe62cec058bed"
+    },
+    {
+      "path": "examples/gaussian-neural-boundary/development-status.json",
+      "sha256": "cbce3e1419c5f927b55748cafac62ba4fe1c3f33566a0841e84c796a71d26323",
+      "git_blob_sha1": "ba38d82b55c0dcf0046bf86d67a5c35c77271203"
+    },
+    {
+      "path": "examples/gaussian-neural-boundary/isaac-test-calibrated-probe.manifest.json",
+      "sha256": "90570cdc9ff6d583b4992fd516ad2b13482f36bc570c113c655659318da9da3a",
+      "git_blob_sha1": "03ca75e6760e13905a3a9ed61f406930e230c127"
+    },
+    {
+      "path": "examples/gaussian-neural-boundary/isaac-test-calibrated-probe.mp4",
+      "sha256": "d3b46c889d7d2b0564351c309fd1323ac09573c39f20a39e7e5e5c79bdc35a97",
+      "git_blob_sha1": "12c9f7e9fac22c4ae908b51021650a2ce2189f6a"
+    },
+    {
+      "path": "examples/gaussian-neural-boundary/isaac-test-calibrated-probe.poster.png",
+      "sha256": "6d809ff5aa4b431f930cad10b77d68ff5093844d792a08369f83cd1889d91c36",
+      "git_blob_sha1": "3dd8778e07abfb1da713c76a73e0c6086a642af9"
+    },
+    {
+      "path": "examples/gaussian-neural-boundary/isaac-test-scenarios.manifest.json",
+      "sha256": "e8f73042a5f470d2ae757d7eceb1992f1f7b7a4c4c97202db5ffcde2faac4b72",
+      "git_blob_sha1": "24d7356032ea8ebe2d7c2cd434ed13a690c579d2"
+    },
+    {
+      "path": "examples/gaussian-neural-boundary/isaac-test-scenarios.mp4",
+      "sha256": "3b29f0b60764b65b300a70610d15653c6dbe50d1f56c88fd26c9d6b4660299fb",
+      "git_blob_sha1": "e47b5d796fd8326535dfedc37abc13abd5b19564"
+    },
+    {
+      "path": "examples/gaussian-neural-boundary/isaac-test-scenarios.poster.png",
+      "sha256": "e4a84b263957e5df2d1b5322906aec95a1990079a86d038009916a910943b57d",
+      "git_blob_sha1": "24aeecc18997c2d8bc2203ee1d09545d939d5e8a"
+    },
+    {
+      "path": "examples/gaussian-neural-boundary/metadata-notes.json",
+      "sha256": "2210e6a77f7cfccd9465643f626dde30b2bf2d4f71fd3204b591de1ecedc3bbf",
+      "git_blob_sha1": "c0e950dd0a1c69298754aa1dbe48ae3500160332"
+    },
+    {
+      "path": "experiments/calibrate_gaussian_censored_probes.py",
+      "sha256": "7c8b086434ca9a7f90310321eec43be63e37c49c2f1b92ff4932dbd0894d18d3",
+      "git_blob_sha1": "90e10730e51d9cfbab20b552ff108116a8b34e81"
+    },
+    {
+      "path": "experiments/evaluate_gaussian_active_probes.py",
+      "sha256": "670350d40f76d17012325273e4034a01ad0e2b8f1cc171375544165994dd4663",
+      "git_blob_sha1": "32232cced8243e7467d9c640746f2121498af1f6"
+    },
+    {
+      "path": "experiments/evaluate_gaussian_active_views.py",
+      "sha256": "93d067fd5ce6833c04c214082b951a890863b1680ebcbaddf563bd319bbcd319",
+      "git_blob_sha1": "b60d1937f54c310f9dae33e8fbd7e919044d9b77"
+    },
+    {
+      "path": "experiments/evaluate_gaussian_parameters.py",
+      "sha256": "c926ad5a4b2e2a3d986ce288ae886b77d43c1f90aa9e56aa4a5faba9c71a9d5c",
+      "git_blob_sha1": "5b0b6dbe54c9eda21ad98b5eb54670e2cf497aef"
+    },
+    {
+      "path": "experiments/evaluate_ridge_gaussian_inverse.py",
+      "sha256": "26258ca080652401b968aaa486fae1faa0edd90de7128ecd4bdaedcc114aa944",
+      "git_blob_sha1": "5800a28729a425c8e28f934e90cad82e76f9a23a"
+    },
+    {
+      "path": "experiments/isaac_calibrated_probes_v03.py",
+      "sha256": "116d4717bff0c7780925bd4e6d85f5b2f1615d33f4993e356a8284199829a821",
+      "git_blob_sha1": "7560a3d659423a86264ca00d4cf2de664c9879ce"
+    },
+    {
+      "path": "experiments/isaac_probe_pool_coordinator.py",
+      "sha256": "e82077a7c4f6b4c1ae009ac4fdea950ec3851ff790c6548a48b2dafc48f01e8c",
+      "git_blob_sha1": "54c365a41cd66943c87ffcbe1ae5e77af59a8edf"
+    },
+    {
+      "path": "experiments/isaac_probe_sensor_guard.py",
+      "sha256": "4a68720c50311fb7c8b4d207accd35641a0b0db90cf9d007e4d16490bf0aa8d8",
+      "git_blob_sha1": "1abe14d1363b9e9bcc7c847de55db866d4af4c7f"
+    },
+    {
+      "path": "experiments/render_isaac_dataset_videos.py",
+      "sha256": "16fac23b425ef12cf0d31581d2ca608f0d73d9844fe8162ad153abd0d7515195",
+      "git_blob_sha1": "0cb503c19c68090a66eab1527d362da5f826235b"
+    },
+    {
+      "path": "experiments/report_gaussian_sealed_study.py",
+      "sha256": "0f8ba6fcf55bc32ff2cfbebbb0dfe85b505cdfd44bbb655c3eda11f4f81eb5f7",
+      "git_blob_sha1": "05d4f25da4f1e10b63fd40f1ecaa9fa211c9fffd"
+    },
+    {
+      "path": "experiments/report_gaussian_validation.py",
+      "sha256": "47e9a8be12b65672524daece4fa8435f3567e564579af8ddd2ce8fb0e072bcb9",
+      "git_blob_sha1": "2c9a42c9734d4b4e70c391aeeac498c1bbc10740"
+    },
+    {
+      "path": "reports/gaussian-sealed-study-v01/controlled-probe-seal.json",
+      "sha256": "d9b86792a76108c444c2a9bb0a39836132df20a2fe1e3593be0ac060acba65c1",
+      "git_blob_sha1": "8585aa80434ac5d19591f1b2e4eae10ca8e00954"
+    },
+    {
+      "path": "reports/gaussian-sealed-study-v01/index.html",
+      "sha256": "be8080da1bd8749021d77e9e854c36668a3b024464c34064a26774c56d4e907c",
+      "git_blob_sha1": "52bd5062f688895e0d6e6ed37752e1effa42357c"
+    },
+    {
+      "path": "reports/gaussian-sealed-study-v01/passive-seal.json",
+      "sha256": "a5910642303a3df2dbbd76cd37fb3771fac8c1c4ec40baa2aa0d1f3f5f12f7ce",
+      "git_blob_sha1": "49265377c8152df3c48496814c65f29fe4380cde"
+    },
+    {
+      "path": "reports/gaussian-sealed-study-v01/seal.json",
+      "sha256": "a5910642303a3df2dbbd76cd37fb3771fac8c1c4ec40baa2aa0d1f3f5f12f7ce",
+      "git_blob_sha1": "49265377c8152df3c48496814c65f29fe4380cde"
+    },
+    {
+      "path": "reports/gaussian-sealed-study-v01/sealed-active-probe-gain.pdf",
+      "sha256": "39a87e0cee9697707ff906d5130d094b7c023d1c11ad77d5e9bc5794c2bf5374",
+      "git_blob_sha1": "8109c8a6d680ad686d8b9fafe874bcbd89784809"
+    },
+    {
+      "path": "reports/gaussian-sealed-study-v01/sealed-active-probe-gain.png",
+      "sha256": "2348bba325fd3da1ad31239fc01e4c3bbb2328dd6abc2569e8c6015977a2dc2a",
+      "git_blob_sha1": "85b76c3143a43dcd18b9f929346e6388a23686cd"
+    },
+    {
+      "path": "reports/gaussian-sealed-study-v01/sealed-active-view-gain.pdf",
+      "sha256": "3e8af7635fa82d186e20b9af8e612c637581f1c3b4c5a968939404b8d896d1a0",
+      "git_blob_sha1": "68072b3f5bcff533fb1449dc2173372306072ca1"
+    },
+    {
+      "path": "reports/gaussian-sealed-study-v01/sealed-active-view-gain.png",
+      "sha256": "5c1f964e8a420beff6e0f9716654b074dad63247b6742487671f3e4710ca4c37",
+      "git_blob_sha1": "78561bd840c87388eada410187f677a74100e821"
+    },
+    {
+      "path": "reports/gaussian-sealed-study-v01/sealed-image-baselines.pdf",
+      "sha256": "9ac4dcc9a8b8412e8f590a5fb8febad54598f9a2a4d4880249086334b520ff3f",
+      "git_blob_sha1": "4015620a89a4f8576ba648c0dd197f4cb6764c23"
+    },
+    {
+      "path": "reports/gaussian-sealed-study-v01/sealed-image-baselines.png",
+      "sha256": "f35aa670da97838e8625bbd56825e158c9c99810ba0811e34f2f4ac2fd47cb21",
+      "git_blob_sha1": "b80b6761c5643f1bbbff7ef6f0cc918f3e4c720e"
+    },
+    {
+      "path": "reports/gaussian-sealed-study-v01/sealed-material-coverage.pdf",
+      "sha256": "ce39a9b1336c963b277adf4d6cd1563d103597910fc7f6220bd2225b4e134bc6",
+      "git_blob_sha1": "42faa7df987fb5c825354410be09bf8aae7cf15e"
+    },
+    {
+      "path": "reports/gaussian-sealed-study-v01/sealed-material-coverage.png",
+      "sha256": "a72a7e983e19b530926308d2cd920f45bf6924462b6f6d784469b31a3339edbc",
+      "git_blob_sha1": "5633c9638d5df4eee679c0f8acc9be05c0e1b38a"
+    },
+    {
+      "path": "reports/gaussian-sealed-study-v01/sealed-passive-gain.pdf",
+      "sha256": "27a1651ee926a9985764ec180771786f26279de54e09da6f0d745a897fa0fadf",
+      "git_blob_sha1": "6a16c1632631c251f8d4c9cb8110133eb5ee136e"
+    },
+    {
+      "path": "reports/gaussian-sealed-study-v01/sealed-passive-gain.png",
+      "sha256": "c52b5eb710eba277ca17af518867d9fda634358895e974456d958ce19f252a2f",
+      "git_blob_sha1": "ceffe619186032632ff39033f89288743f2816ad"
+    },
+    {
+      "path": "reports/gaussian-sealed-study-v01/source.py",
+      "sha256": "0f8ba6fcf55bc32ff2cfbebbb0dfe85b505cdfd44bbb655c3eda11f4f81eb5f7",
+      "git_blob_sha1": "05d4f25da4f1e10b63fd40f1ecaa9fa211c9fffd"
+    },
+    {
+      "path": "reports/gaussian-sealed-study-v01/summary.json",
+      "sha256": "687bb0c6dc62d72ef9a1c6a3fa3197ceda9dee41db4ccbf15b3cd566fb8d09a3",
+      "git_blob_sha1": "cfe6c6bbac1bdf5c97ed98a43f53cf10a9b54a99"
+    },
+    {
+      "path": "reports/gaussian-validation-v01/bootstrap-summary.json",
+      "sha256": "441bae797e49a786837d6f6ead2edbffacb5a21ece8c248f890d3cb0c5c27092",
+      "git_blob_sha1": "9cfa27f91a02a7f2953da4c9e4c91c186f593dcb"
+    },
+    {
+      "path": "reports/gaussian-validation-v01/index.html",
+      "sha256": "484804e33e5e9962e1ab69419abdb826e73652abcba9435fa475a69a27561573",
+      "git_blob_sha1": "438b2cfa730ffd1c4096cf97a24d81ab3956716a"
+    },
+    {
+      "path": "reports/gaussian-validation-v01/material-coverage.pdf",
+      "sha256": "142f704635304199f408d6cc06dd0f359a4657dbfff2e0d6eb3defeb367f2a5e",
+      "git_blob_sha1": "9f4b6b4f1a9cb474701bc444d5a47f25e7f309a3"
+    },
+    {
+      "path": "reports/gaussian-validation-v01/material-coverage.png",
+      "sha256": "68b8f4eb4f84c91e282f7b2e4c664bd04d96ee4efdb43df46be9e062092bdeaa",
+      "git_blob_sha1": "fbcd41cc84f2bcb4cf5f897df01551a3e53e3f50"
+    },
+    {
+      "path": "reports/gaussian-validation-v01/predictive-gain.pdf",
+      "sha256": "7177cb5bbf2c5776248f8e2ec68298d3999bdc546195329a486e33b57e4eed89",
+      "git_blob_sha1": "6d96c5578541af30bb8db991788a5327e87faefc"
+    },
+    {
+      "path": "reports/gaussian-validation-v01/predictive-gain.png",
+      "sha256": "e8f88c6aeed95f0482c7f45d6ad45e99ab7f5ac4877c52f1b98430e6382748a5",
+      "git_blob_sha1": "948c8701b83be68306b39eed5d3870a106a7af22"
+    },
+    {
+      "path": "reports/gaussian-validation-v01/source.py",
+      "sha256": "4e5e275758fba76bb2ce8990ae18ae86c17c2411e885f008441594706ddb3b22",
+      "git_blob_sha1": "90fc769b9bb903f3538e9aff4b2800967dc6dbdb"
+    },
+    {
+      "path": "reports/gaussian-validation-v02/bootstrap-summary.json",
+      "sha256": "95f0bf69bdaf8558de9b947ac3372df65fa75579f21a43113b94f9936d2159a0",
+      "git_blob_sha1": "7bd8b73fd33aad4c3ff898b853c19b4835934e26"
+    },
+    {
+      "path": "reports/gaussian-validation-v02/index.html",
+      "sha256": "4368d719c7ef815df6405213f0731aff4ac988885a603154bff28d255fcdc695",
+      "git_blob_sha1": "af635de25220abd3c0c98922397e02f2f8b530da"
+    },
+    {
+      "path": "reports/gaussian-validation-v02/material-coverage.pdf",
+      "sha256": "b93f4c0fd065b5ad6fbcb68bbb8d7c552ea8ca0886bc7cf87a5a45bd0fa64d67",
+      "git_blob_sha1": "622124aa0d65e7baff9a3e3dee7ca2116c322f28"
+    },
+    {
+      "path": "reports/gaussian-validation-v02/material-coverage.png",
+      "sha256": "2024c9aba8b127b62b463e45fb9e1060fb06adb81e21692c1f1eaf220a206909",
+      "git_blob_sha1": "94ec5c33b7fee14059539f72e5d6aae069427bd9"
+    },
+    {
+      "path": "reports/gaussian-validation-v02/predictive-gain.pdf",
+      "sha256": "c96b02dacc94ee05d7dede8bb0be2c1ca1cfe523e6301b6a5597e0181d594920",
+      "git_blob_sha1": "6fae20d15d4d19300c1f37686f721ce01bc301c5"
+    },
+    {
+      "path": "reports/gaussian-validation-v02/predictive-gain.png",
+      "sha256": "57157189a236cd27b25fe3eeb410b25e35050779b72e77bc316c104ea8f3319f",
+      "git_blob_sha1": "cad99b399f781b5456c8261cc8092473fb3a2ca9"
+    },
+    {
+      "path": "reports/gaussian-validation-v02/source.py",
+      "sha256": "47e9a8be12b65672524daece4fa8435f3567e564579af8ddd2ce8fb0e072bcb9",
+      "git_blob_sha1": "2c9a42c9734d4b4e70c391aeeac498c1bbc10740"
+    },
+    {
+      "path": "tests/test_gaussian_active_probes.py",
+      "sha256": "e37bda496704d81b496cf3859da5e5228e8393faed981e292b3579cba0b02079",
+      "git_blob_sha1": "8464324e5aebfedc4aab39bf69d095d6fb27ce29"
+    },
+    {
+      "path": "tests/test_gaussian_censored_calibration.py",
+      "sha256": "6afd7dc810c18e68ca75c2cdf6f8fbb0b8b64915f41a0b25bce7c9a2ca4365c0",
+      "git_blob_sha1": "a436898a6e055456f7e1e9bd8b0a56e60be2a327"
+    },
+    {
+      "path": "tests/test_isaac_probe_pool_coordinator.py",
+      "sha256": "2e973b6858a4cc81572cfddf8dff02c705d02cc675fc42477900ede96d0601de",
+      "git_blob_sha1": "afb2edbc769fd0e18fb0b621a9768bcfc3ac2ddf"
+    },
+    {
+      "path": "tests/test_isaac_probe_sensor_guard.py",
+      "sha256": "fac6a0a9f2650dd5a4a7b71888e787f767191bf3baa2bf9a597a456546ea6b0c",
+      "git_blob_sha1": "d825347250f7429930dcd4418d957300ea8fc264"
+    },
+    {
+      "path": "tests/test_ridge_test_evaluation.py",
+      "sha256": "a2480ee17dfc5d3a3987f204ccf0fcae5e23e3a65be53f76b088ebfd07ce9a39",
+      "git_blob_sha1": "b18037ba783e10b7a1b1692197c0ddc074aa80d1"
+    }
+  ],
+  "source_download_checks": [
+    {
+      "path": "reports/gaussian-sealed-study-v01/index.html",
+      "sha256": "be8080da1bd8749021d77e9e854c36668a3b024464c34064a26774c56d4e907c",
+      "bytes": 27274,
+      "verified": true
+    },
+    {
+      "path": "examples/gaussian-neural-boundary/isaac-test-scenarios.mp4",
+      "sha256": "3b29f0b60764b65b300a70610d15653c6dbe50d1f56c88fd26c9d6b4660299fb",
+      "bytes": 191295,
+      "verified": true
+    },
+    {
+      "path": "examples/gaussian-neural-boundary/isaac-test-calibrated-probe.mp4",
+      "sha256": "d3b46c889d7d2b0564351c309fd1323ac09573c39f20a39e7e5e5c79bdc35a97",
+      "bytes": 105804,
+      "verified": true
+    }
+  ],
+  "tests": {
+    "result": "130passed,4subtests passed",
+    "command": "OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 .venv/bin/python -m pytest tests/test_gaussian* tests/test_censored_range_observation.py tests/test_isaac_calibrated_probes* tests/test_isaac_probe* tests/test_ridge* tests/test_research_artifact_archive.py tests/test_repair_isaac_dataset_sensors.py -q",
+    "log_sha256": "5b30b71e94963539a9be646cd884fc6b9154a2bb6fed151974d0e56d4581dab3",
+    "elapsed_s": 10.09
+  }
+}
