@@ -1,0 +1,36 @@
+{
+  "protocol": "independent-dynamic-moving-zero-absolute-floor-refinement-v0.1",
+  "declared_utc": "2026-10-21T16:22:29.127088+00:00",
+  "status": "predeclared_before_supplemental_floor_runs",
+  "parent_gate": "configs/gaussian_campaign_independent_dynamic_gate_v01.json",
+  "parent_gate_sha256": "962457955d72a97dd0d8e48a41aff0c6ead821931031343e081cf837c561b2a0",
+  "does_not_replace_parent_gate": true,
+  "reason": "At zero external force the frozen residual acceptance max(absolute_floor,relative_tolerance*external_force_norm) equals the absolute floor even for moving-boundary-driven motion. Three nominal relative tolerances then provide only one effective accuracy.",
+  "episode_id": "t0003",
+  "role": "TRAIN engineering diagnosis only",
+  "response": "zero_external_force",
+  "physics_hz": 480,
+  "output_hz": 10,
+  "seconds": 3.0,
+  "translation_m": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "relative_residual_tolerance": 1e-07,
+  "absolute_residual_floors_N": [
+    1e-08,
+    1e-10,
+    1e-12
+  ],
+  "nonlinear_iteration_cap": 250,
+  "reuse": "Reuse terminal completed original480Hz/1e-10N baseline, with exact core/physical-input hashes; do not rerun it merely to create a new label.",
+  "new_cells": "Two fresh outputs at1e-8N and1e-12N only, after baseline stage terminates and reviewed runner extension is published.",
+  "physical_model_source_sha256": "da0db7018b4913020bb228c2fc4df3c240e7dd872f17db4868de147eaaf78fa2",
+  "physical_input_fixture": "configs/gaussian_independent_diagnostic_inputs_v01.json",
+  "physical_input_fixture_sha256": "073380f72559c50ccc674d5f69fdff1be7e4d0b30484ad66f0233695a813847f",
+  "unchanged": "Exact same material, mesh, full hardware, support law, drag, integrator, force commands, step count, output clocks and250iteration cap. No regularization/solver fallback.",
+  "analysis": "Full-coordinate trajectory RMSE; tightest two agree within parent max(2micrometres,5percent finest diagonal-minus-zero coordinate RMS). Report all adjacent differences, effective thresholds, residual distributions, geometry/work/energy checks, source revisions and failures. Passing this factorized study does not prove all accuracy/translation/time-step interactions.",
+  "failure_preservation": "Iteration cap or line-search failure remains a failed cell; no changed tolerance, softened physics, dropped timestep or silent replacement.",
+  "publication": "Protocol text published before either new floor run; original gate and sealed evidence unchanged."
+}
