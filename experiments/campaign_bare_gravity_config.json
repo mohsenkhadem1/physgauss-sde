@@ -1,0 +1,77 @@
+{
+  "protocol": "train-t0001-bare-block-gravity-six-cell-v0.1",
+  "dataset": "runs/gaussian-boundary-neural-v01",
+  "gpu": 2,
+  "cells": [
+    {
+      "name": "tgs-original-hz120",
+      "solver": "TGS",
+      "physics_hz": 120,
+      "translation_m": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "tgs-recentered-hz120",
+      "solver": "TGS",
+      "physics_hz": 120,
+      "translation_m": [
+        0.0,
+        0.0,
+        -0.25
+      ]
+    },
+    {
+      "name": "tgs-original-hz960",
+      "solver": "TGS",
+      "physics_hz": 960,
+      "translation_m": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "tgs-recentered-hz960",
+      "solver": "TGS",
+      "physics_hz": 960,
+      "translation_m": [
+        0.0,
+        0.0,
+        -0.25
+      ]
+    },
+    {
+      "name": "pgs-original-hz960",
+      "solver": "PGS",
+      "physics_hz": 960,
+      "translation_m": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "pgs-recentered-hz960",
+      "solver": "PGS",
+      "physics_hz": 960,
+      "translation_m": [
+        0.0,
+        0.0,
+        -0.25
+      ]
+    }
+  ],
+  "peak_acceleration_m_s2": [
+    0.01,
+    0.01,
+    0.005
+  ],
+  "base_worker_sha256": "116d4717bff0c7780925bd4e6d85f5b2f1615d33f4993e356a8284199829a821",
+  "native_verifier_source_sha256": "c0ce2f232e3ee899f3679c1c1ed345baa54e7e95506622ba12d72f384506b993",
+  "geometry_wrapper_sha256": "2b3e197b0711033006f6074bfe837ef2d6b0ebdea2ffe97be11033fba72c1e6e",
+  "isaac_python": "/home/bayespc2/vscode/deformable worldmodel/.venv/bin/python",
+  "qualification": "Six predeclared physics-only TRAINgeometry diagnostics: bareblock, allsupports/handles/attachments removed, authoredlinear andelasticitydampingzero, selfcollisionfalse, bodygravityenabled, nativegravitypulsea_peak(.01,.01,.005)m/s\u00b2. TGS120/960 andPGS960 eachoriginal/recentered,32deformiterations, sequentialGPU2. NativeE/nu/rest/all-free-target checks; perstepactualclock, nativegravity andvolumeweightedCOM/q/v;31common10Hzfullnodes. Uniformacceleration prediction ismassindependent. OriginalmaterialE/nu/rho retained butnotinferred. Exactheldacceleration andkickdriftpositionreferences bothreportedwithintegrationcaveat; velocityreferenceprimary. Noimages/sensorQCclaims, no native nodalmassgetter, nofourBC/materialreferencequalification; retainallfailures. Stopafterthese6, noautomaticextrasweeps."
+}

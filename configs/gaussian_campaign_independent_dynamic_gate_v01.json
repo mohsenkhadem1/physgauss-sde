@@ -1,0 +1,61 @@
+{
+  "protocol": "independent-finite-strain-dynamic-reference-v0.1",
+  "status": "implementation_and_validation_pending",
+  "objective": "Qualify an explicit independent nonlinear dynamic reference for diagnosing native forward errors and, only after qualification, generating a separately identified dataset for direct neural prediction and matching-prior physical inference.",
+  "does_not_supersede": [
+    "configs/gaussian_campaign_v01.json",
+    "configs/gaussian_campaign_numerical_gate_v01.json",
+    "configs/gaussian_campaign_holdout_v01.json"
+  ],
+  "preservation": "Native Isaac failures, original data/models/sealed reports, reserved prediction gates and confirmation plan remain unchanged. Passing this gate never qualifies the native engine or retroactively validates its material labels.",
+  "declared_model": {
+    "elasticity": "Compressible finite-strain log-J Neo-Hookean energy in float64, exact authored tetrahedra and positive reference orientation.",
+    "body_mass": "Declared density times rest-volume-lumped nodal masses; an independent physical model, not unobserved native engine masses.",
+    "rigid_hardware": "Both complete ordered nine-node patches, reference origins/local offsets, mass, full COM inertia and initial orientation. Exact finite rigid patch transforms; no penalty spring or stiffness repair.",
+    "rigid_kinetics": "Six auxiliary masses reproduce total mass/COM/inertia and share each handle's rigid transform. They replace the kinetic representation of the same handle; they add no hardware mass or collision geometry.",
+    "integration": "Constrained point-mass variational implicit Euler with positive-J line search and explicit residual checks. Auxiliary-point step velocities are chords, not instantaneous SO(3) tangent velocities. Require first-order consistency and measured refinement of angular momentum/energy errors; do not claim exact finite-step conservation.",
+    "damping": "Declared linear body-only viscous damping. Native elasticity damping is a different implementation and is not reproduced or silently interpreted as the same constitutive parameter.",
+    "boundaries": "Exact point pin, fixed patch, two patches and prescribed moving patch. Prescribed positions evaluated at the declared physical times; report inertial, elastic and damping reactions and their work.",
+    "contacts": "No external contact or self-contact in the initial reference; all diagnosed trajectories must retain positive volumes and report deformation bounds. No contact-prediction claim."
+  },
+  "mandatory_mechanics_checks_before_case_qualification": [
+    "Zero-force/rest equilibrium and exact fixed constraints.",
+    "Free translation and held-force linear momentum against an independently integrated reference.",
+    "Finite rigid transformation objectivity, exact patch distances, kinetic energy, COM/inertia and linear/angular momentum identities.",
+    "Free asymmetric rigid rotation: report energy and angular-momentum drift and require decreasing errors over at least three timesteps; a kinetic identity alone is not integrator validation.",
+    "Linear small-amplitude limit against the independently implemented linear dynamic reference; retain integration and constitutive differences explicitly.",
+    "Moving-boundary reaction-work accounting includes inertia and damping, rather than elastic reaction alone.",
+    "Positive-J and nonfinite checks, source/input hashes, complete step/command clocks, reset replay and preserved failures."
+  ],
+  "diagnostic_cases": ["t0000", "t0001", "t0002", "t0003"],
+  "roles": "TRAIN-only engineering diagnosis. Initial t0001 implementation smoke runs qualify nothing. No validation/held-out prediction response, calibration-audit response or confirmation response may select this reference.",
+  "responses": ["zero_external_force", "diagonal_pulse_handle0"],
+  "force": {
+    "peak_world_force_N_handle0": [0.01, 0.01, 0.005],
+    "peak_world_force_N_handle1": [0.0, 0.0, 0.0],
+    "profile": "3 second sinusoid-squared pulse on t in (0.3,1.65); world force held over each interval at its midpoint value, zero applied handle torque.",
+    "commands": "Store every actual float64 force, midpoint and step interval; independently audit the analytic impulse."
+  },
+  "temporal_refinement_hz": [120, 240, 480],
+  "optional_further_refinement_hz_if_gate_fails": [960, 1920],
+  "nonlinear_relative_residual_tolerances": [0.00001, 0.0000001, 0.000000001],
+  "output_hz": 10,
+  "seconds": 3.0,
+  "coordinate_translation_m": [0.0, 0.0, -0.25],
+  "engineering_acceptance": {
+    "metric": "Full-trajectory coordinate RMSE at identical sample times, undoing translations.",
+    "tolerance_m": "max(0.000002,0.05*finest_force_induced_coordinate_RMS)",
+    "temporal": "At least three timestep levels. Finest adjacent difference below tolerance and smaller than the preceding difference unless both are below the 2 micrometre floor.",
+    "nonlinear_accuracy": "At least three residual tolerances with unchanged physical inputs; the tightest two trajectories agree within the same tolerance. Cap failures remain failures, never label-success replacements.",
+    "translation": "Matched translated/untranslated results agree within the same tolerance.",
+    "boundary_coverage": "Every declared support family must pass before bulk replacement capture, calibration or native-independent reference reliability claims.",
+    "other_metrics": "Report velocities, displacement extrema, strain/J ranges, patch rigidity and fixture errors, work/energy balance and nonlinear residual histories. Compare with independent linear/quasistatic limits where applicable; amplitudes alone are insufficient."
+  },
+  "subsequent_gates_remain_required": {
+    "prediction": "A direct neural forward model must improve known-force missing-view and future-motion predictions against static and strong learned baselines on appropriately reserved unseen layouts/forces. A numerical reference alone does not satisfy this requirement.",
+    "physical_uncertainty": "Use the same explicit prior, complete known hardware, observation likelihood and numerical discrepancy for numerical posterior and amortized inference. Verify multi-seed/particle/mode agreement, proper scores and held-out coverage before policy use.",
+    "active_probing": "Freeze prediction, likelihood and policies before opening reserved responses; compare uncertainty-guided views/pokes against strong fixed/random choices with uncertainty on the difference.",
+    "publication": "Publish source, predeclared protocols, positive and negative evidence, reproducible archives and actual-versus-predicted videos. Distinguish independent physics and Isaac rendering from native Isaac simulation."
+  },
+  "qualification": "A practical engineering gate for a declared fixed-discretization independent model, not a continuum-accuracy proof, native equivalence, real-material calibration or active-probing success."
+}

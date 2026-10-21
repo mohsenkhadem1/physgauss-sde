@@ -140,6 +140,20 @@ def snapshot(campaign, root):
             'actions': pgs['actions'],
             'qualification': 'One original-coordinate scene-PGS request passed full QC and changes the trajectory. Actual internal deformable solver identity and numerical convergence remain unverified; no energy-conservation verdict.',
             'evidence': 'campaign-diagnosis/original-pgs-request-v01.json'}
+    pgs_recenter = read(root/'numerical-pgs-recenter-v01/analysis.json')
+    pgs_iterations = read(root/'numerical-pgs-iterations-v01/analysis.json')
+    if pgs_recenter and pgs_iterations:
+        status['scene_pgs_coordinate_iteration_audit'] = {
+            'case': 'TRAIN t0001', 'physics_hz': 960,
+            'native_numerical_gate_passed': False,
+            'native_solver_identity_verified': False,
+            'cooked_constitutive_rest_matrices_verified': False,
+            'native_body_material_index_verified': False,
+            'translation_pairs_32': pgs_recenter['translation_pairs'],
+            'paired_evaluation_metrics': pgs_iterations['paired_evaluation_metrics'],
+            'iteration_convergence_proved_by_two_levels': False,
+            'qualification': 'Completed scene-PGS coordinate pairs fail translation agreement at both32/64 matched rigid/deformable counts. Translation error increases; one small iteration difference per condition cannot prove convergence. Full QC/native E/nu/rest checks do not establish solver identity or physical accuracy.',
+            'evidence': 'campaign-diagnosis/scene-pgs-coordinate-iterations-v01.json'}
     free_clock = read(root/'native-free-handle-v01/clock-analysis-v01/analysis.json')
     if free_clock:
         status['free_rigid_force_api_control'] = {
@@ -154,6 +168,55 @@ def snapshot(campaign, root):
             'rigid_deformable_coupling_validated': False,
             'qualification': 'Free native rigid handle only: no deformable or attachments. Explicit adapter verifies recorded native clock intervals against float32-rounded nominal getters; predeclared momentum and rotation gates are unchanged.',
             'evidence': 'campaign-diagnosis/free-rigid-force-api-v01.json'}
+    free_wholebody = read(root/'native-free-deformable-v02/analysis.json')
+    free_wholebody_protocol = read(root/'native-free-deformable-v02/protocol.json')
+    if free_wholebody and free_wholebody_protocol:
+        cells = []
+        for cell in free_wholebody['cells']:
+            if not cell.get('capture_verified'):
+                cells.append({'cell': cell['cell'], 'capture_verified': False})
+                continue
+            control, driven = cell['actions']
+            cells.append({
+                'cell': cell['cell'], 'capture_verified': True,
+                'co_translation_control': control['co_translation_control'],
+                'mass_fit': driven['mass_fit'],
+                'mass_fit_establishes_native_density': False})
+        status['free_wholebody_momentum_proxy'] = {
+            'case': 'TRAIN t0001', 'physics_hz': 960,
+            'native_numerical_gate_passed': False,
+            'native_nodal_mass_getter_available': False,
+            'cooked_constitutive_rest_matrices_verified': False,
+            'native_body_material_index_verified': False,
+            'background_linear_damping_override_s_inverse': 0.,
+            'original_background_linear_damping_s_inverse': free_wholebody_protocol['original_background_linear_damping_s_inverse'],
+            'co_translation_initial_velocity_m_s': [.001, 0., 0.],
+            'predeclared_co_translation_relative_tolerance': .01,
+            'declared_body_mass_kg': free_wholebody_protocol['declared_body_mass_kg'],
+            'cells': cells,
+            'translation_comparison': free_wholebody['translation_comparison'],
+            'qualification': 'Volume-weighted body COM is a uniform-density lumping proxy, not native mass readback. TGS controls fail; PGS co-translation passes but best driven scalar fit leaves13.6% momentum residual. No native density or coupled forward reference is established.',
+            'evidence': 'campaign-diagnosis/free-wholebody-momentum-v02.json'}
+    bare_gravity = read(root/'bare-gravity-v01/analysis.json')
+    if bare_gravity:
+        status['bare_uniform_gravity_control'] = {
+            'case': 'TRAIN t0001',
+            'native_numerical_gate_passed': False,
+            'peak_acceleration_m_s2': [.01, .01, .005],
+            'handles_attachments_and_supports_removed': True,
+            'linear_and_elasticity_damping_zero': True,
+            'mass_independent_uniform_acceleration_reference': True,
+            'native_solver_identity_verified': False,
+            'cooked_constitutive_rest_matrices_verified': False,
+            'native_body_material_index_verified': False,
+            'cells': [{key: row['result'][key] for key in [
+                'cell', 'velocity_reference_gate_passed',
+                'velocity_max_error_relative_to_peak_speed',
+                'maximum_node_displacement_nonuniformity_coordinate_rms_m',
+                'all_native_material_rest_and_free_flag_guards_passed']}
+                for row in bare_gravity['cells']],
+            'qualification': 'Three scene-TGS configurations fail uniform gravity without mass/attachment ambiguity; recentered120Hz passes. Both scene-PGS960Hz cells pass this engineering velocity gate, but localized-force/fixture/coupled deformation accuracy remains unqualified. No native energy conservation verdict or predictive promotion.',
+            'evidence': 'campaign-diagnosis/bare-uniform-gravity-v01.json'}
     force_flag = read(root/'numerical-external-forces-v01/analysis.json')
     if force_flag:
         status['external_force_iteration_flag'] = {
@@ -194,6 +257,26 @@ def snapshot(campaign, root):
             'native_energy_conservation_assessed': False,
             'qualification': 'Independent declared continuum proxies and held-force translational work; native deformable masses, rigid kinetic and constraint energies are unavailable. No native conservation verdict.',
             'evidence': 'campaign-diagnosis/continuum-energy-proxy-v01.json'}
+    fixed_energy_proxy = read(root/'native-fixed-corotated-energy-v01.json')
+    if fixed_energy_proxy:
+        energy_cases = []
+        for case in fixed_energy_proxy['cases']:
+            common_peak = max(case['declared_corotated_elastic_energy_J'])
+            fixed_peak = max(case['declared_fixed_corotated_elastic_energy_J'])
+            private = case['private_directory']
+            energy_cases.append({
+                'condition': 'recentered' if '/recentered/' in private else 'original',
+                'requested_scene_solver_type': 'TGS' if 'numerical-matched-rigid' in private else 'PGS',
+                'iterations': 64 if '/i64/' in private else 32,
+                'peak_elastic_proxy_fractional_change': fixed_peak/common_peak-1})
+        status['fixed_corotated_energy_proxy_metadata'] = {
+            'case': 'TRAIN t0001', 'physics_hz': 960,
+            'native_numerical_gate_passed': False,
+            'native_energy_conservation_assessed': False,
+            'installed_backend_formula_verified': False,
+            'cases': energy_cases,
+            'qualification': 'Additional documented fixed-corotated continuum proxy for eight completed trajectories; old common proxy remains intact. Maximum peak change2.481% does not resolve discrepancy; neither formula is verified as installed native total energy, so no conservation verdict.',
+            'evidence': 'campaign-diagnosis/fixed-corotated-energy-proxy-v01.json'}
     linear_fem = read(root/'linear-fem-t0001-v01/results.json')
     if linear_fem:
         status['independent_linear_fem'] = {

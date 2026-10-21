@@ -1,0 +1,148 @@
+{
+  "role": "Completed TRAIN t0001 scene-PGS requests in original/recentered coordinates and32/64matched rigid/deformableposition iterations.",
+  "native_numerical_gate_passed": false,
+  "known_force_prediction_gate_passed": false,
+  "material_calibration_gate_passed": false,
+  "active_policy_gate_passed": false,
+  "reserved_control_gate_opened_predictively": false,
+  "calibration_audit_opened": false,
+  "fresh_confirmation_opened": false,
+  "raw_artifact_archive_published": false,
+  "native_rest_verification_scope": "Tensor-backend-managed rest-point buffer and oriented topology match authored data. Pinned public upstream initializes that buffer from parsed rest positions; internal cooked constitutive inverse-tet matrices are not exposed or verified.",
+  "cooked_constitutive_rest_matrices_verified": false,
+  "native_body_material_index_verified": false,
+  "native_material_verification_scope": "E/nu getters read backend material-view properties; no direct native body-to-material index getter was verified.",
+  "physics_hz": 960,
+  "authored_scene_solver_type": "PGS",
+  "native_solver_identity_verified": false,
+  "full_qc_and_native_checks": [
+    {
+      "condition": "original",
+      "iterations": 32,
+      "native_material_and_rest_verified_all_three_branches": true,
+      "full_sensor_physics_qc_passed": true
+    },
+    {
+      "condition": "recentered",
+      "iterations": 32,
+      "native_material_and_rest_verified_all_three_branches": true,
+      "full_sensor_physics_qc_passed": true
+    },
+    {
+      "condition": "original",
+      "iterations": 64,
+      "native_material_and_rest_verified_all_three_branches": true,
+      "full_sensor_physics_qc_passed": true
+    },
+    {
+      "condition": "recentered",
+      "iterations": 64,
+      "native_material_and_rest_verified_all_three_branches": true,
+      "full_sensor_physics_qc_passed": true
+    }
+  ],
+  "translation_pairs_32": [
+    {
+      "action_id": "zero_force",
+      "coordinate_rmse_m": 4.219165014132174e-09,
+      "maximum_nodal_distance_m": 2.4648804458049307e-08,
+      "velocity_rmse_m_s": 1.0479716740728344e-07,
+      "tolerance_m": 2e-06,
+      "passed": true,
+      "original_pgs_trajectory_sha256": "28ebb4a3652efe655f83aa717540b335a8fca4a802077462a75671ec34b338a3"
+    },
+    {
+      "action_id": "evaluation",
+      "coordinate_rmse_m": 4.2096287590991486e-05,
+      "maximum_nodal_distance_m": 0.00029813031688280875,
+      "velocity_rmse_m_s": 0.00014726166586750972,
+      "tolerance_m": 1.545289113125805e-05,
+      "passed": false,
+      "original_pgs_trajectory_sha256": "43241db71c6f72a4fe529f17822343e5a3130bbc65a86598702251ee0d6fb585"
+    }
+  ],
+  "paired_evaluation_metrics": {
+    "translation_32_coordinate_rmse_m": 4.2096287590991486e-05,
+    "translation_64_coordinate_rmse_m": 4.270403510191487e-05,
+    "translation_error_ratio_64_over_32": 1.0144370809328431,
+    "translation_error_decreased": false,
+    "translation_tolerance_m": 1.5445250124225655e-05,
+    "translation_64_gate_passed": false,
+    "iteration_pairs": [
+      {
+        "condition": "original",
+        "iterations": [
+          32,
+          64
+        ],
+        "coordinate_rmse_m": 3.965600607054112e-06,
+        "tolerance_m": 1.5445250124225655e-05,
+        "below_tolerance": true
+      },
+      {
+        "condition": "recentered",
+        "iterations": [
+          32,
+          64
+        ],
+        "coordinate_rmse_m": 3.6691850225458306e-06,
+        "tolerance_m": 1.4967218024132347e-05,
+        "below_tolerance": true
+      }
+    ],
+    "both_iteration_differences_below_tolerance": true,
+    "qualification": "Only one32-to64 iteration difference per coordinate condition; this cannot establish contraction of iteration differences or convergence."
+  },
+  "iteration_convergence_proved_by_two_levels": false,
+  "conclusion": "Both coordinate-pair gates fail. Translation disagreement increases32to64 iterations; small singleiterationdifferences do not establish convergence. No native-reference or solveridentity qualification.",
+  "source_and_config_sha256": {
+    "experiments/campaign_numerical_matched_rigid.py": "c0ce2f232e3ee899f3679c1c1ed345baa54e7e95506622ba12d72f384506b993",
+    "experiments/campaign_numerical_pgs_attempt.py": "748459d191decda055b2933f28294c962bfa6e8e3969a9363bd771286e115129",
+    "experiments/campaign_numerical_pgs_attempt_config.json": "96b563eb36d1ca4cdcb2bf0432326720b94556b27de1042c8ca53e759b19c60d",
+    "experiments/campaign_numerical_pgs_iterations.py": "3f08841c8292a54ddc15fba0f0769614676b3a0a75d74d859c083880624a07f3",
+    "experiments/campaign_numerical_pgs_iterations_config.json": "f1983b1c2f1fd55d3c457f98f2ceef079cd26e8f291c4a8ff205d14410e6810e",
+    "experiments/campaign_numerical_pgs_recenter.py": "86b877f38ebf7d83448a9a56c72ce71a30bfd0e3e8a7f2f2d1eaeec4bc253ea7",
+    "experiments/campaign_numerical_pgs_recenter_config.json": "ac2002d907ebaeab2835c6d7c4ad45965b6b8d5a770b088f3a73c5d92aa86120",
+    "experiments/campaign_numerical_solver_coordinates.py": "a49c9168f7aa0deccf5db7108eeef87b94875f5b01e8f2521fe7e0a528aa1ee7",
+    "experiments/isaac_calibrated_probes_v03.py": "116d4717bff0c7780925bd4e6d85f5b2f1615d33f4993e356a8284199829a821"
+  },
+  "evidence_sha256": {
+    "runs/gaussian-campaign-v01/numerical-pgs-attempt-v01/original/i32/captures/private/t0001/actual-solver-state.json": "eaadff7e6061bb6c2d1b9bc24473544cb82cb6f190c4e85a7e7c17ea6c2c3f07",
+    "runs/gaussian-campaign-v01/numerical-pgs-attempt-v01/original/i32/captures/private/t0001/native-runtime-state.json": "65a4e3bc1fac0bba0bc446fc96871e2344f79c182fe4d26135438a2c174869a9",
+    "runs/gaussian-campaign-v01/numerical-pgs-attempt-v01/original/i32/captures/private/t0001/summary.json": "b53ee37f96c9d4810981adcd8f8f5b6fd1a71495293affd14c3d4edfa05905c8",
+    "runs/gaussian-campaign-v01/numerical-pgs-attempt-v01/original/i32/captures/private/t0001/validation.json": "91bc63e3fea1c25c98a119d0e3b10e7bf54d76ced84551f44830d502fbf36bff",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/analysis.json": "5b5190e25db3a68f67ba27b468a9647e4c38ff675763cb93758860ee10b0148f",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/execution.json": "df6400a3ae57aa4d00e47a50070e8595d0cbee5a8912d8f1cc8c190cbb3ae080",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/original/i64/captures/private/t0001/actual-solver-state.json": "047ed3c88d2e6f3de651ac163b83c793be3f5372314101ec4acf4d70b2d0a098",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/original/i64/captures/private/t0001/native-runtime-state.json": "65a4e3bc1fac0bba0bc446fc96871e2344f79c182fe4d26135438a2c174869a9",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/original/i64/captures/private/t0001/summary.json": "c5d58c35ca071802848fc68a1aee58395dcc1d7c36a08bf0485a2ba7f8178910",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/original/i64/captures/private/t0001/validation.json": "ad166198acccfa3199c15f8fbd3b381a9f2fe628a3d160b567841a185d5f5788",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/protocol.json": "4be19134a4b9ed5e575e107d2debdf93a45173585343962d02f3ce5306d601f9",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/recentered/i64/captures/private/t0001/actual-solver-state.json": "047ed3c88d2e6f3de651ac163b83c793be3f5372314101ec4acf4d70b2d0a098",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/recentered/i64/captures/private/t0001/native-runtime-state.json": "65a4e3bc1fac0bba0bc446fc96871e2344f79c182fe4d26135438a2c174869a9",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/recentered/i64/captures/private/t0001/summary.json": "8d02793ff019a8dc0631b8bd3a4a0c4d280e17aa632b6b582ab583bb423e5d14",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/recentered/i64/captures/private/t0001/validation.json": "5678742399222d422e72c394a83dbc436d38588ffa87811a1bee4a899b6c2bb1",
+    "runs/gaussian-campaign-v01/numerical-pgs-recenter-v01/analysis.json": "8da27f54de67c7d71f346f51e74f2862af14c20b7d68f6f1a805708a72a00359",
+    "runs/gaussian-campaign-v01/numerical-pgs-recenter-v01/execution.json": "77fd64927fdd31dfa50ab69dca599c08d19ce22b494e6ca73ceeed70300c76fa",
+    "runs/gaussian-campaign-v01/numerical-pgs-recenter-v01/protocol.json": "7f113ed92300007c2e4c0c7ac8cda2803ac3e2c777b2a662ef7874c4965ea72c",
+    "runs/gaussian-campaign-v01/numerical-pgs-recenter-v01/recentered/i32/captures/private/t0001/actual-solver-state.json": "eaadff7e6061bb6c2d1b9bc24473544cb82cb6f190c4e85a7e7c17ea6c2c3f07",
+    "runs/gaussian-campaign-v01/numerical-pgs-recenter-v01/recentered/i32/captures/private/t0001/native-runtime-state.json": "65a4e3bc1fac0bba0bc446fc96871e2344f79c182fe4d26135438a2c174869a9",
+    "runs/gaussian-campaign-v01/numerical-pgs-recenter-v01/recentered/i32/captures/private/t0001/summary.json": "15de1f3637f5f6d38a589740f3066046b5db05d8680a99d35b808cd27bd4a4f2",
+    "runs/gaussian-campaign-v01/numerical-pgs-recenter-v01/recentered/i32/captures/private/t0001/validation.json": "0737fc2889fad61f3f756d0027ef07789c3b27eef83dcb787259c771d739dbd4"
+  },
+  "trajectory_input_sha256": {
+    "runs/gaussian-campaign-v01/numerical-pgs-attempt-v01/original/i32/captures/private/t0001/evaluation/trajectory.npz": "43241db71c6f72a4fe529f17822343e5a3130bbc65a86598702251ee0d6fb585",
+    "runs/gaussian-campaign-v01/numerical-pgs-attempt-v01/original/i32/captures/private/t0001/reset_replay/trajectory.npz": "28ebb4a3652efe655f83aa717540b335a8fca4a802077462a75671ec34b338a3",
+    "runs/gaussian-campaign-v01/numerical-pgs-attempt-v01/original/i32/captures/private/t0001/zero_force/trajectory.npz": "28ebb4a3652efe655f83aa717540b335a8fca4a802077462a75671ec34b338a3",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/original/i64/captures/private/t0001/evaluation/trajectory.npz": "eb3162a01b5354d3e93d7ad48bc027a9c54231fbda4ece4677fa87f9dd35bb27",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/original/i64/captures/private/t0001/reset_replay/trajectory.npz": "61c55fe0a084b18c830564c556055380885cb300a1e21c5ac134ff7f97df4429",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/original/i64/captures/private/t0001/zero_force/trajectory.npz": "61c55fe0a084b18c830564c556055380885cb300a1e21c5ac134ff7f97df4429",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/recentered/i64/captures/private/t0001/evaluation/trajectory.npz": "8df88108ea611f5fbd84b204e1026fcc1d8800158c18881338896f7eaa2ac6f1",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/recentered/i64/captures/private/t0001/reset_replay/trajectory.npz": "e70db93e360d5f8d48bbe1c6f0cbaa802bb8c6616080198912f09aee0b1c6a69",
+    "runs/gaussian-campaign-v01/numerical-pgs-iterations-v01/recentered/i64/captures/private/t0001/zero_force/trajectory.npz": "e70db93e360d5f8d48bbe1c6f0cbaa802bb8c6616080198912f09aee0b1c6a69",
+    "runs/gaussian-campaign-v01/numerical-pgs-recenter-v01/recentered/i32/captures/private/t0001/evaluation/trajectory.npz": "25e0993beccafcfce45dc1083a71815da4d417cab9addb0f492748d3636d4b68",
+    "runs/gaussian-campaign-v01/numerical-pgs-recenter-v01/recentered/i32/captures/private/t0001/reset_replay/trajectory.npz": "b3f0b3bd349be736480541674f07c03622ee1528a6b4f64fabd9ea299c140881",
+    "runs/gaussian-campaign-v01/numerical-pgs-recenter-v01/recentered/i32/captures/private/t0001/zero_force/trajectory.npz": "b3f0b3bd349be736480541674f07c03622ee1528a6b4f64fabd9ea299c140881"
+  },
+  "qualification": "Scene schema request and successful execution do not identify the internal deformable solver. All four cells pass fullQC/nativeE/nu/rest checks, which do not prove physical accuracy. No energyconservation verdict."
+}

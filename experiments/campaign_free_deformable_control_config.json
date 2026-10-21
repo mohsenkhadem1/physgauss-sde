@@ -1,0 +1,12 @@
+{
+  "protocol": "train-t0001-free-whole-body-momentum-v02",
+  "dataset": "runs/gaussian-boundary-neural-v01",
+  "isaac_python": "/home/bayespc2/vscode/deformable worldmodel/.venv/bin/python",
+  "co_translation_relative_tolerance": 0.01,
+  "cells": [
+    {"id": "original-tgs", "solver": "TGS", "translation_m": [0.0, 0.0, 0.0]},
+    {"id": "recentered-tgs", "solver": "TGS", "translation_m": [0.0, 0.0, -0.25]},
+    {"id": "original-pgs", "solver": "PGS", "translation_m": [0.0, 0.0, 0.0]}
+  ],
+  "qualification": "Three declared TRAIN-only 960Hz physics-only free-whole-body controls; remove fixture and explicitly override background linear drag to0, retain E/nu/rho/elasticityDamping and two full rigid9nodeattachments. Original volume CollisionAPI retained for actor construction, selfcollisionoff and no externalcolliders/rigid collision shapes/gravity. Fresh unforced uniform co-translation [.001,0,0]m/s then fresh driven rest branch. Require predeclared1% engineering proxy momentum/COM-velocity drift control before interpreting driven scalar mass fit. Rest-volume-lumped COM mass inference is a proxy, not native nodal mass getter/density proof. No fitting dataset, images, sensor QC, reserved evidence or calibrated uncertainty claim. Stop after three cells."
+}

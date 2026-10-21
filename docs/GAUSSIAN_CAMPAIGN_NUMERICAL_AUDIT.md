@@ -105,11 +105,20 @@ bitwise and the oriented tetrahedral multiset matches. Native rigid masses
 and inertias are also recorded. No native deformable nodal mass/density getter
 is available. These observations rule out a material/rest mismatch in those
 12 checks; they do not establish the integration/coupling law's accuracy.
+The rest check concerns the tensor-backend-managed rest-point buffer and
+oriented topology. Pinned public upstream code initializes this buffer from
+parsed rest positions; it does not read the internal cooked constitutive
+inverse-tet matrices. Those matrices remain unverified, and equivalence of
+that upstream code to the installed binary is unproved. E/nu are genuine
+backend material-view getters, but no direct native body-to-material index
+getter was verified. Thus the checks do not prove internal rest-matrix or
+material-assignment correctness. This scope applies to the native checks in
+the later diagnostics below.
 The [matched-count summary](../examples/gaussian-neural-boundary/campaign-diagnosis/matched-rigid-native-state-v02.json)
 retains native-state, validation, source/protocol and trajectory hashes.
 The preliminary v01 runtime-verification failure remains preserved.
 
-## Original-coordinate scene-PGS request: changed response, unqualified
+## Scene-PGS requests: coordinate agreement still fails
 
 One completed TRAIN t0001/960 Hz original-coordinate cell requests scene PGS
 with matched rigid/deformable position count 32. Full sensor/physics QC and
@@ -127,7 +136,20 @@ getter is exposed. The
 preserves that limitation and includes metadata for the associated
 `native-energy-proxy-pgs-v01.json`. Those elastic/kinetic quantities remain
 independent declared continuum proxies, without a native energy-conservation
-verdict. No result from a pending translated PGS experiment is used here.
+verdict. The subsequently completed translated 32-iteration cell also passes
+full QC and native material/rest checks, but translation-undone diagonal
+disagreement is 42.096 µm, above its predeclared 15.453 µm tolerance.
+
+Two further predeclared cells repeat both coordinate conditions at matched
+rigid/deformable position count 64. Both pass full QC and native material/rest
+checks. Translation disagreement becomes 42.704 µm, above 15.445 µm tolerance
+and **1.44% larger** than at 32 iterations. The 32→64 iteration differences
+are only 3.966 µm in original coordinates and 3.669 µm after recentering, each
+below its engineering tolerance. However, two levels provide only one
+iteration difference per condition: they cannot establish contraction or
+iteration convergence, and the coordinate gate still fails. See the
+[completed PGS pair/iteration summary](../examples/gaussian-neural-boundary/campaign-diagnosis/scene-pgs-coordinate-iterations-v01.json).
+Scene-PGS changes the response but does not qualify a numerical reference.
 
 ## Free rigid force-API controls and explicit clock adaptation
 
@@ -160,6 +182,87 @@ includes frozen capture/adapter sources, input/trajectory/native-state hashes
 and original failure hashes. The isolated force API has no large multiplicative
 gain error in these controls; rigid-deformable coupling remains unvalidated.
 All prediction, material-calibration and active-policy gates remain unpassed.
+
+## Free whole-body momentum controls: no trustworthy mass estimate
+
+Three further predeclared 960 Hz physics-only cells retain the same mesh,
+E/nu/rho, internal elasticity damping and both full rigid attachments, while
+removing the fixture and explicitly overriding background linear damping
+from 0.593159/s to zero. The volume actor retains its collision construction,
+but self-collision is explicitly disabled and there are no external colliders,
+rigid collision shapes or gravity. An earlier damping-confounded v01 protocol
+was prepared and never launched; v02 records this intentional intervention.
+
+Each cell first tests unforced uniform co-translation at (0.001, 0, 0) m/s
+for every node and both handles. It then starts independently from rest for
+the diagonal pulse. Native E/nu, rest points/oriented topology and rigid
+mass/inertia/COM checks pass; all nodal fixture flags are disabled. Full q/v
+is sampled at 31 times, with volume-weighted body COM velocity, both rigid
+velocities and measured native clock intervals recorded at every step.
+
+The predeclared co-translation tolerance is 1% for both proxy total momentum
+and body COM velocity drift:
+
+| Scene request / coordinates | Unforced proxy momentum drift | Co-translation gate | Driven scalar mass fit | Driven declared-mass momentum residual |
+|---|---:|---|---:|---:|
+| TGS / original | 3.028% | Failed | −4.797 kg | 103.04% of pulse impulse |
+| TGS / recentered | 5.440% | Failed | 3.328 kg | 100.06% |
+| PGS / original | 0.02998% | Passed | 1.7368 kg | 14.685% |
+
+The declared body mass is 1.837443 kg. Its COM uses normalized rest-tet-volume
+nodal lumping, an explicit uniform-density assumption. No native deformable
+mass getter exists. The TGS fits are incompatible and cannot be interpreted
+as density estimates. PGS improves the unforced control, but even its best
+scalar mass fit leaves **13.610%** driven momentum residual. Passing the
+unforced control alone therefore does not validate that fit or an effective
+native density. Unknown effective mass distribution, attachment coupling,
+kinematic implementation and integration remain possible contributors.
+
+The TGS diagonal trajectories also differ by 220.241 µm coordinate RMSE after
+undoing translation. These are mass/momentum proxies rather than an exact
+native conservation test; they do not establish a specific backend defect.
+All six branches remain positive-volume and finite, and failures of the
+engineering controls are retained. The
+[whole-body summary](../examples/gaussian-neural-boundary/campaign-diagnosis/free-wholebody-momentum-v02.json)
+records the original inputs, intentional override and source/evidence hashes.
+No images, sensor-QC claim, material correction or predictive promotion follows.
+
+## Bare uniform gravity: bulk sensitivity without attachments or mass ambiguity
+
+Six further predeclared physics-only controls remove **both handles, every
+attachment and all supports**, and set both background and elasticity damping
+to zero. Self-collision is disabled; native body gravity is enabled. The same
+TRAIN geometry and E/nu/rho are retained. A native gravity pulse with peak
+acceleration (0.01, 0.01, 0.005) m/s² acts uniformly on all nodes. Its native
+acceleration readback and measured float32-clock intervals determine the
+analytic held-acceleration velocity reference. This reference is independent
+of density or nodal masses: every free node should translate identically.
+
+All six cells remain finite and positive-volume, and pass native E/nu/rest
+checks and raw dynamic-target checks (fourth component 1 for every node).
+The velocity gate was declared before execution: maximum vector error below
+the larger of 2 µm/s and 0.1% of peak expected speed.
+
+| Scene request | Rate | Coordinates | Maximum velocity error / peak speed | Maximum spurious nodal displacement nonuniformity | Velocity gate |
+|---|---:|---|---:|---:|---|
+| TGS | 120 Hz | Original | 15.755% | 14.982 µm | Failed |
+| TGS | 120 Hz | Recentered | 0.02769% | 0.340 µm | Passed |
+| TGS | 960 Hz | Original | 17.405% | 287.400 µm | Failed |
+| TGS | 960 Hz | Recentered | 2.451% | 86.642 µm | Failed |
+| PGS | 960 Hz | Original | 0.09397% | 0.411 µm | Passed |
+| PGS | 960 Hz | Recentered | 0.07479% | 1.513 µm | Passed |
+
+Thus a bulk numerical response failure occurs in these scene-TGS
+configurations even without rigid attachments, an applied-force interface or
+an unknown mass reference. Increasing the recentered rate from 120 to 960 Hz
+also loses agreement with the uniform-acceleration reference. The scene-PGS
+bare passes help narrow the diagnosis, but do not fix its separately observed
+fixed-support translation error or coupled/localized-force discrepancies.
+The authored scene options do not expose the internal deformable solver's
+identity. No native energy-conservation result is inferred. The
+[bare-gravity summary](../examples/gaussian-neural-boundary/campaign-diagnosis/bare-uniform-gravity-v01.json)
+records all six cells, thresholds, guards and source/input/evidence hashes;
+these outputs contain no sensor data and do not open any predictive gate.
 
 ## External-force iteration option: negative result
 
@@ -225,6 +328,19 @@ masses, rigid rotational kinetic energy and internal constraint energies have
 not been established; the elastic proxy's equivalence to the installed backend
 is also unverified. No native energy-conservation violation or conservation
 pass is inferred from these quantities.
+
+A separate eight-case CPU audit adds the documented **fixed-corotated**
+volumetric term, giving
+`mu * ||F-R||² + lambda/2 * (det(F)-1)²`, while preserving the earlier common
+corotated source and curves. It covers both coordinates at 32/64 matched
+counts for scene TGS and PGS. Changing the formula alters peak elastic proxies
+by −0.036%, −0.377%, −2.480% and +0.698% for the TGS cases, and approximately
+−0.07% to −0.09% for PGS. This correction does not resolve the discrepancy.
+The documented PhysX 5.8 formula is not verified to equal the installed Isaac
+implementation, and these are still independent continuum proxies with
+unverified native mass/constraint energy. It establishes neither native
+energy-conservation failure nor a pass. See the
+[fixed-corotated proxy summary](../examples/gaussian-neural-boundary/campaign-diagnosis/fixed-corotated-energy-proxy-v01.json).
 
 ## Independent linear FEM sanity reference
 

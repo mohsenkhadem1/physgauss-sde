@@ -1,7 +1,7 @@
 {
   "campaign": "gaussian-known-force-recovery-v0.1",
   "status": "active",
-  "updated_utc": "2026-10-21T15:36:40.657994+00:00",
+  "updated_utc": "2026-10-21T16:04:10.177901+00:00",
   "campaign_sha256": "04bd467f559dcad3057b50a2832561e882bb9a7d7bab6d426ca3325724d8b510",
   "heldout_plan_sha256": "2dcb00635d60cae69719c03b539582287b4a51d9a11872f565c4938368259ea4",
   "milestone": "Numerical reliability diagnosis before further fitting or calibration",
@@ -604,6 +604,28 @@
       "driver_live_at_snapshot": false,
       "cells": []
     },
+    "numerical-pgs-iterations-v01": {
+      "completed": true,
+      "driver_live_at_snapshot": false,
+      "cells": [
+        {
+          "condition": "original",
+          "iterations": 64,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 2,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "condition": "recentered",
+          "iterations": 64,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 2,
+          "worker_live_at_snapshot": false
+        }
+      ]
+    },
     "numerical-pgs-recenter-v01": {
       "completed": null,
       "driver_live_at_snapshot": false,
@@ -794,6 +816,69 @@
     "qualification": "One original-coordinate scene-PGS request passed full QC and changes the trajectory. Actual internal deformable solver identity and numerical convergence remain unverified; no energy-conservation verdict.",
     "evidence": "campaign-diagnosis/original-pgs-request-v01.json"
   },
+  "scene_pgs_coordinate_iteration_audit": {
+    "case": "TRAIN t0001",
+    "physics_hz": 960,
+    "native_numerical_gate_passed": false,
+    "native_solver_identity_verified": false,
+    "cooked_constitutive_rest_matrices_verified": false,
+    "native_body_material_index_verified": false,
+    "translation_pairs_32": [
+      {
+        "action_id": "zero_force",
+        "coordinate_rmse_m": 4.219165014132174e-09,
+        "maximum_nodal_distance_m": 2.4648804458049307e-08,
+        "velocity_rmse_m_s": 1.0479716740728344e-07,
+        "tolerance_m": 2e-06,
+        "passed": true,
+        "original_pgs_trajectory_sha256": "28ebb4a3652efe655f83aa717540b335a8fca4a802077462a75671ec34b338a3"
+      },
+      {
+        "action_id": "evaluation",
+        "coordinate_rmse_m": 4.2096287590991486e-05,
+        "maximum_nodal_distance_m": 0.00029813031688280875,
+        "velocity_rmse_m_s": 0.00014726166586750972,
+        "tolerance_m": 1.545289113125805e-05,
+        "passed": false,
+        "original_pgs_trajectory_sha256": "43241db71c6f72a4fe529f17822343e5a3130bbc65a86598702251ee0d6fb585"
+      }
+    ],
+    "paired_evaluation_metrics": {
+      "translation_32_coordinate_rmse_m": 4.2096287590991486e-05,
+      "translation_64_coordinate_rmse_m": 4.270403510191487e-05,
+      "translation_error_ratio_64_over_32": 1.0144370809328431,
+      "translation_error_decreased": false,
+      "translation_tolerance_m": 1.5445250124225655e-05,
+      "translation_64_gate_passed": false,
+      "iteration_pairs": [
+        {
+          "condition": "original",
+          "iterations": [
+            32,
+            64
+          ],
+          "coordinate_rmse_m": 3.965600607054112e-06,
+          "tolerance_m": 1.5445250124225655e-05,
+          "below_tolerance": true
+        },
+        {
+          "condition": "recentered",
+          "iterations": [
+            32,
+            64
+          ],
+          "coordinate_rmse_m": 3.6691850225458306e-06,
+          "tolerance_m": 1.4967218024132347e-05,
+          "below_tolerance": true
+        }
+      ],
+      "both_iteration_differences_below_tolerance": true,
+      "qualification": "Only one32-to64 iteration difference per coordinate condition; this cannot establish contraction of iteration differences or convergence."
+    },
+    "iteration_convergence_proved_by_two_levels": false,
+    "qualification": "Completed scene-PGS coordinate pairs fail translation agreement at both32/64 matched rigid/deformable counts. Translation error increases; one small iteration difference per condition cannot prove convergence. Full QC/native E/nu/rest checks do not establish solver identity or physical accuracy.",
+    "evidence": "campaign-diagnosis/scene-pgs-coordinate-iterations-v01.json"
+  },
   "free_rigid_force_api_control": {
     "all_four_momentum_controls_passed": true,
     "relative_momentum_tolerance": 0.0001,
@@ -848,6 +933,242 @@
     "rigid_deformable_coupling_validated": false,
     "qualification": "Free native rigid handle only: no deformable or attachments. Explicit adapter verifies recorded native clock intervals against float32-rounded nominal getters; predeclared momentum and rotation gates are unchanged.",
     "evidence": "campaign-diagnosis/free-rigid-force-api-v01.json"
+  },
+  "free_wholebody_momentum_proxy": {
+    "case": "TRAIN t0001",
+    "physics_hz": 960,
+    "native_numerical_gate_passed": false,
+    "native_nodal_mass_getter_available": false,
+    "cooked_constitutive_rest_matrices_verified": false,
+    "native_body_material_index_verified": false,
+    "background_linear_damping_override_s_inverse": 0.0,
+    "original_background_linear_damping_s_inverse": 0.5931586565297235,
+    "co_translation_initial_velocity_m_s": [
+      0.001,
+      0.0,
+      0.0
+    ],
+    "predeclared_co_translation_relative_tolerance": 0.01,
+    "declared_body_mass_kg": 1.837443046231501,
+    "cells": [
+      {
+        "cell": {
+          "id": "original-tgs",
+          "solver": "TGS",
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "capture_verified": true,
+        "co_translation_control": {
+          "maximum_relative_proxy_total_momentum_drift": 0.03027831509638265,
+          "maximum_relative_body_COM_velocity_drift": 0.029386367205025684,
+          "predeclared_relative_tolerance": 0.01,
+          "passed": false,
+          "qualification": "Engineering proxy control with declared mass/rest-volume lumping. If this fails, driven mass fit cannot be interpreted as density."
+        },
+        "mass_fit": {
+          "fitted_body_mass_kg": -4.797365892851092,
+          "declared_body_mass_kg": 1.837443046231501,
+          "fitted_to_declared_mass_ratio": -2.610892295513723,
+          "velocity_design_squared_norm_m2_s2": 7.872752130196396e-05,
+          "fitted_mass_momentum_coordinate_rmse_Ns": 0.004611601069947364,
+          "declared_mass_momentum_coordinate_rmse_Ns": 0.004654872814158619,
+          "maximum_declared_mass_momentum_residual_Ns": 0.010432426757580665,
+          "maximum_declared_mass_relative_momentum_residual": 1.0303630849190035,
+          "maximum_fitted_mass_relative_momentum_residual": 1.0819765681122555,
+          "proxy_qualification": "Scalar LS using uniform density and rest-volume-lumped nodal weights. A good fit is not a native nodal mass getter; nonuniform effective masses or momentum injection can invalidate interpretation."
+        },
+        "mass_fit_establishes_native_density": false
+      },
+      {
+        "cell": {
+          "id": "recentered-tgs",
+          "solver": "TGS",
+          "translation_m": [
+            0.0,
+            0.0,
+            -0.25
+          ]
+        },
+        "capture_verified": true,
+        "co_translation_control": {
+          "maximum_relative_proxy_total_momentum_drift": 0.05440122250064212,
+          "maximum_relative_body_COM_velocity_drift": 0.052798752628688564,
+          "predeclared_relative_tolerance": 0.01,
+          "passed": false,
+          "qualification": "Engineering proxy control with declared mass/rest-volume lumping. If this fails, driven mass fit cannot be interpreted as density."
+        },
+        "mass_fit": {
+          "fitted_body_mass_kg": 3.32750737503056,
+          "declared_body_mass_kg": 1.837443046231501,
+          "fitted_to_declared_mass_ratio": 1.8109444980376956,
+          "velocity_design_squared_norm_m2_s2": 5.16755734701346e-07,
+          "fitted_mass_momentum_coordinate_rmse_Ns": 0.0046341290273831754,
+          "declared_mass_momentum_coordinate_rmse_Ns": 0.004634143350318791,
+          "maximum_declared_mass_momentum_residual_Ns": 0.010130755423845637,
+          "maximum_declared_mass_relative_momentum_residual": 1.0005683867838846,
+          "maximum_fitted_mass_relative_momentum_residual": 1.0010120130197717,
+          "proxy_qualification": "Scalar LS using uniform density and rest-volume-lumped nodal weights. A good fit is not a native nodal mass getter; nonuniform effective masses or momentum injection can invalidate interpretation."
+        },
+        "mass_fit_establishes_native_density": false
+      },
+      {
+        "cell": {
+          "id": "original-pgs",
+          "solver": "PGS",
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "capture_verified": true,
+        "co_translation_control": {
+          "maximum_relative_proxy_total_momentum_drift": 0.0002997525439332292,
+          "maximum_relative_body_COM_velocity_drift": 0.0005185846347939485,
+          "predeclared_relative_tolerance": 0.01,
+          "passed": true,
+          "qualification": "Engineering proxy control with declared mass/rest-volume lumping. If this fails, driven mass fit cannot be interpreted as density."
+        },
+        "mass_fit": {
+          "fitted_body_mass_kg": 1.7368015165971034,
+          "declared_body_mass_kg": 1.837443046231501,
+          "fitted_to_declared_mass_ratio": 0.9452274018284224,
+          "velocity_design_squared_norm_m2_s2": 0.06029090772381704,
+          "fitted_mass_momentum_coordinate_rmse_Ns": 0.0006118006680729105,
+          "declared_mass_momentum_coordinate_rmse_Ns": 0.0006670493782858532,
+          "maximum_declared_mass_momentum_residual_Ns": 0.001486823193823174,
+          "maximum_declared_mass_relative_momentum_residual": 0.14684672783382594,
+          "maximum_fitted_mass_relative_momentum_residual": 0.13610476915656292,
+          "proxy_qualification": "Scalar LS using uniform density and rest-volume-lumped nodal weights. A good fit is not a native nodal mass getter; nonuniform effective masses or momentum injection can invalidate interpretation."
+        },
+        "mass_fit_establishes_native_density": false
+      }
+    ],
+    "translation_comparison": {
+      "sample_q_coordinate_rmse_translation_undone_m": 0.00022024051893908267,
+      "body_COM_velocity_coordinate_rmse_m_s": 9.463576329050526e-05
+    },
+    "qualification": "Volume-weighted body COM is a uniform-density lumping proxy, not native mass readback. TGS controls fail; PGS co-translation passes but best driven scalar fit leaves13.6% momentum residual. No native density or coupled forward reference is established.",
+    "evidence": "campaign-diagnosis/free-wholebody-momentum-v02.json"
+  },
+  "bare_uniform_gravity_control": {
+    "case": "TRAIN t0001",
+    "native_numerical_gate_passed": false,
+    "peak_acceleration_m_s2": [
+      0.01,
+      0.01,
+      0.005
+    ],
+    "handles_attachments_and_supports_removed": true,
+    "linear_and_elasticity_damping_zero": true,
+    "mass_independent_uniform_acceleration_reference": true,
+    "native_solver_identity_verified": false,
+    "cooked_constitutive_rest_matrices_verified": false,
+    "native_body_material_index_verified": false,
+    "cells": [
+      {
+        "cell": {
+          "name": "tgs-original-hz120",
+          "solver": "TGS",
+          "physics_hz": 120,
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "velocity_reference_gate_passed": false,
+        "velocity_max_error_relative_to_peak_speed": 0.15754900865427957,
+        "maximum_node_displacement_nonuniformity_coordinate_rms_m": 1.4981887310432253e-05,
+        "all_native_material_rest_and_free_flag_guards_passed": true
+      },
+      {
+        "cell": {
+          "name": "tgs-recentered-hz120",
+          "solver": "TGS",
+          "physics_hz": 120,
+          "translation_m": [
+            0.0,
+            0.0,
+            -0.25
+          ]
+        },
+        "velocity_reference_gate_passed": true,
+        "velocity_max_error_relative_to_peak_speed": 0.00027689295485882053,
+        "maximum_node_displacement_nonuniformity_coordinate_rms_m": 3.3981782978796685e-07,
+        "all_native_material_rest_and_free_flag_guards_passed": true
+      },
+      {
+        "cell": {
+          "name": "tgs-original-hz960",
+          "solver": "TGS",
+          "physics_hz": 960,
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "velocity_reference_gate_passed": false,
+        "velocity_max_error_relative_to_peak_speed": 0.17404743640658726,
+        "maximum_node_displacement_nonuniformity_coordinate_rms_m": 0.0002873997463321065,
+        "all_native_material_rest_and_free_flag_guards_passed": true
+      },
+      {
+        "cell": {
+          "name": "tgs-recentered-hz960",
+          "solver": "TGS",
+          "physics_hz": 960,
+          "translation_m": [
+            0.0,
+            0.0,
+            -0.25
+          ]
+        },
+        "velocity_reference_gate_passed": false,
+        "velocity_max_error_relative_to_peak_speed": 0.02451137420673954,
+        "maximum_node_displacement_nonuniformity_coordinate_rms_m": 8.664198140146389e-05,
+        "all_native_material_rest_and_free_flag_guards_passed": true
+      },
+      {
+        "cell": {
+          "name": "pgs-original-hz960",
+          "solver": "PGS",
+          "physics_hz": 960,
+          "translation_m": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "velocity_reference_gate_passed": true,
+        "velocity_max_error_relative_to_peak_speed": 0.0009397299673581655,
+        "maximum_node_displacement_nonuniformity_coordinate_rms_m": 4.1051538906653455e-07,
+        "all_native_material_rest_and_free_flag_guards_passed": true
+      },
+      {
+        "cell": {
+          "name": "pgs-recentered-hz960",
+          "solver": "PGS",
+          "physics_hz": 960,
+          "translation_m": [
+            0.0,
+            0.0,
+            -0.25
+          ]
+        },
+        "velocity_reference_gate_passed": true,
+        "velocity_max_error_relative_to_peak_speed": 0.0007478541660365558,
+        "maximum_node_displacement_nonuniformity_coordinate_rms_m": 1.5126402774251727e-06,
+        "all_native_material_rest_and_free_flag_guards_passed": true
+      }
+    ],
+    "qualification": "Three scene-TGS configurations fail uniform gravity without mass/attachment ambiguity; recentered120Hz passes. Both scene-PGS960Hz cells pass this engineering velocity gate, but localized-force/fixture/coupled deformation accuracy remains unqualified. No native energy conservation verdict or predictive promotion.",
+    "evidence": "campaign-diagnosis/bare-uniform-gravity-v01.json"
   },
   "external_force_iteration_flag": {
     "case": "TRAIN t0001",
@@ -1062,6 +1383,65 @@
     "native_energy_conservation_assessed": false,
     "qualification": "Independent declared continuum proxies and held-force translational work; native deformable masses, rigid kinetic and constraint energies are unavailable. No native conservation verdict.",
     "evidence": "campaign-diagnosis/continuum-energy-proxy-v01.json"
+  },
+  "fixed_corotated_energy_proxy_metadata": {
+    "case": "TRAIN t0001",
+    "physics_hz": 960,
+    "native_numerical_gate_passed": false,
+    "native_energy_conservation_assessed": false,
+    "installed_backend_formula_verified": false,
+    "cases": [
+      {
+        "condition": "original",
+        "requested_scene_solver_type": "TGS",
+        "iterations": 32,
+        "peak_elastic_proxy_fractional_change": -0.00036198914944418625
+      },
+      {
+        "condition": "recentered",
+        "requested_scene_solver_type": "TGS",
+        "iterations": 32,
+        "peak_elastic_proxy_fractional_change": -0.003767142447004379
+      },
+      {
+        "condition": "original",
+        "requested_scene_solver_type": "TGS",
+        "iterations": 64,
+        "peak_elastic_proxy_fractional_change": -0.024804498618843707
+      },
+      {
+        "condition": "recentered",
+        "requested_scene_solver_type": "TGS",
+        "iterations": 64,
+        "peak_elastic_proxy_fractional_change": 0.006976964084721482
+      },
+      {
+        "condition": "original",
+        "requested_scene_solver_type": "PGS",
+        "iterations": 32,
+        "peak_elastic_proxy_fractional_change": -0.0008858472925481475
+      },
+      {
+        "condition": "recentered",
+        "requested_scene_solver_type": "PGS",
+        "iterations": 32,
+        "peak_elastic_proxy_fractional_change": -0.0007346510565461317
+      },
+      {
+        "condition": "original",
+        "requested_scene_solver_type": "PGS",
+        "iterations": 64,
+        "peak_elastic_proxy_fractional_change": -0.0008715215484800254
+      },
+      {
+        "condition": "recentered",
+        "requested_scene_solver_type": "PGS",
+        "iterations": 64,
+        "peak_elastic_proxy_fractional_change": -0.0007131625164147337
+      }
+    ],
+    "qualification": "Additional documented fixed-corotated continuum proxy for eight completed trajectories; old common proxy remains intact. Maximum peak change2.481% does not resolve discrepancy; neither formula is verified as installed native total energy, so no conservation verdict.",
+    "evidence": "campaign-diagnosis/fixed-corotated-energy-proxy-v01.json"
   },
   "independent_linear_fem": {
     "case": "TRAIN t0001",

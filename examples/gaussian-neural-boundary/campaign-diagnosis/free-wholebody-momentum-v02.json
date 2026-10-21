@@ -1,0 +1,200 @@
+{
+  "role": "Three TRAIN-only free-whole-body inertialdiagnostics, withfixture removed andbackgroundlineardrag explicitlyzeroed.",
+  "native_numerical_gate_passed": false,
+  "known_force_prediction_gate_passed": false,
+  "material_calibration_gate_passed": false,
+  "active_policy_gate_passed": false,
+  "reserved_control_gate_opened_predictively": false,
+  "calibration_audit_opened": false,
+  "fresh_confirmation_opened": false,
+  "raw_artifact_archive_published": false,
+  "native_rest_verification_scope": "Tensor-backend-managed rest-point buffer and oriented topology match authored data. Pinned public upstream initializes that buffer from parsed rest positions; internal cooked constitutive inverse-tet matrices are not exposed or verified.",
+  "cooked_constitutive_rest_matrices_verified": false,
+  "native_body_material_index_verified": false,
+  "native_material_verification_scope": "E/nu getters read backend material-view properties; no direct native body-to-material index getter was verified.",
+  "physics_hz": 960,
+  "deformable_rigid_position_iterations": 32,
+  "rigid_velocity_iterations": 1,
+  "intentional_background_linear_damping_override_s_inverse": 0.0,
+  "original_background_linear_damping_s_inverse": 0.5931586565297235,
+  "elasticity_damping_preserved": 0.02,
+  "co_translation_initial_velocity_m_s": [
+    0.001,
+    0,
+    0
+  ],
+  "evaluation_initial_velocity_m_s": [
+    0,
+    0,
+    0
+  ],
+  "predeclared_co_translation_relative_tolerance": 0.01,
+  "declared_body_mass_kg": 1.837443046231501,
+  "native_nodal_mass_getter_available": false,
+  "all_completed_native_material_rest_and_rigid_hardware_checks_passed": true,
+  "cells": [
+    {
+      "cell": {
+        "id": "original-tgs",
+        "solver": "TGS",
+        "translation_m": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "capture_verified": true,
+      "co_translation_control": {
+        "maximum_relative_proxy_total_momentum_drift": 0.03027831509638265,
+        "maximum_relative_body_COM_velocity_drift": 0.029386367205025684,
+        "predeclared_relative_tolerance": 0.01,
+        "passed": false,
+        "qualification": "Engineering proxy control with declared mass/rest-volume lumping. If this fails, driven mass fit cannot be interpreted as density."
+      },
+      "co_translation_minimum_volume_ratio": 0.9746257005543312,
+      "driven_minimum_volume_ratio": 0.9410703063103247,
+      "driven_body_COM_drift_m": 0.00012275927780062092,
+      "mass_fit": {
+        "fitted_body_mass_kg": -4.797365892851092,
+        "declared_body_mass_kg": 1.837443046231501,
+        "fitted_to_declared_mass_ratio": -2.610892295513723,
+        "velocity_design_squared_norm_m2_s2": 7.872752130196396e-05,
+        "fitted_mass_momentum_coordinate_rmse_Ns": 0.004611601069947364,
+        "declared_mass_momentum_coordinate_rmse_Ns": 0.004654872814158619,
+        "maximum_declared_mass_momentum_residual_Ns": 0.010432426757580665,
+        "maximum_declared_mass_relative_momentum_residual": 1.0303630849190035,
+        "maximum_fitted_mass_relative_momentum_residual": 1.0819765681122555,
+        "proxy_qualification": "Scalar LS using uniform density and rest-volume-lumped nodal weights. A good fit is not a native nodal mass getter; nonuniform effective masses or momentum injection can invalidate interpretation."
+      },
+      "mass_fit_establishes_native_density": false
+    },
+    {
+      "cell": {
+        "id": "recentered-tgs",
+        "solver": "TGS",
+        "translation_m": [
+          0.0,
+          0.0,
+          -0.25
+        ]
+      },
+      "capture_verified": true,
+      "co_translation_control": {
+        "maximum_relative_proxy_total_momentum_drift": 0.05440122250064212,
+        "maximum_relative_body_COM_velocity_drift": 0.052798752628688564,
+        "predeclared_relative_tolerance": 0.01,
+        "passed": false,
+        "qualification": "Engineering proxy control with declared mass/rest-volume lumping. If this fails, driven mass fit cannot be interpreted as density."
+      },
+      "co_translation_minimum_volume_ratio": 0.9734960940448855,
+      "driven_minimum_volume_ratio": 0.987635122607494,
+      "driven_body_COM_drift_m": 1.1948589003580065e-05,
+      "mass_fit": {
+        "fitted_body_mass_kg": 3.32750737503056,
+        "declared_body_mass_kg": 1.837443046231501,
+        "fitted_to_declared_mass_ratio": 1.8109444980376956,
+        "velocity_design_squared_norm_m2_s2": 5.16755734701346e-07,
+        "fitted_mass_momentum_coordinate_rmse_Ns": 0.0046341290273831754,
+        "declared_mass_momentum_coordinate_rmse_Ns": 0.004634143350318791,
+        "maximum_declared_mass_momentum_residual_Ns": 0.010130755423845637,
+        "maximum_declared_mass_relative_momentum_residual": 1.0005683867838846,
+        "maximum_fitted_mass_relative_momentum_residual": 1.0010120130197717,
+        "proxy_qualification": "Scalar LS using uniform density and rest-volume-lumped nodal weights. A good fit is not a native nodal mass getter; nonuniform effective masses or momentum injection can invalidate interpretation."
+      },
+      "mass_fit_establishes_native_density": false
+    },
+    {
+      "cell": {
+        "id": "original-pgs",
+        "solver": "PGS",
+        "translation_m": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "capture_verified": true,
+      "co_translation_control": {
+        "maximum_relative_proxy_total_momentum_drift": 0.0002997525439332292,
+        "maximum_relative_body_COM_velocity_drift": 0.0005185846347939485,
+        "predeclared_relative_tolerance": 0.01,
+        "passed": true,
+        "qualification": "Engineering proxy control with declared mass/rest-volume lumping. If this fails, driven mass fit cannot be interpreted as density."
+      },
+      "co_translation_minimum_volume_ratio": 0.9999844729935745,
+      "driven_minimum_volume_ratio": 0.9985274086816595,
+      "driven_body_COM_drift_m": 0.011667007283062933,
+      "mass_fit": {
+        "fitted_body_mass_kg": 1.7368015165971034,
+        "declared_body_mass_kg": 1.837443046231501,
+        "fitted_to_declared_mass_ratio": 0.9452274018284224,
+        "velocity_design_squared_norm_m2_s2": 0.06029090772381704,
+        "fitted_mass_momentum_coordinate_rmse_Ns": 0.0006118006680729105,
+        "declared_mass_momentum_coordinate_rmse_Ns": 0.0006670493782858532,
+        "maximum_declared_mass_momentum_residual_Ns": 0.001486823193823174,
+        "maximum_declared_mass_relative_momentum_residual": 0.14684672783382594,
+        "maximum_fitted_mass_relative_momentum_residual": 0.13610476915656292,
+        "proxy_qualification": "Scalar LS using uniform density and rest-volume-lumped nodal weights. A good fit is not a native nodal mass getter; nonuniform effective masses or momentum injection can invalidate interpretation."
+      },
+      "mass_fit_establishes_native_density": false
+    }
+  ],
+  "translation_comparison": {
+    "sample_q_coordinate_rmse_translation_undone_m": 0.00022024051893908267,
+    "body_COM_velocity_coordinate_rmse_m_s": 9.463576329050526e-05
+  },
+  "body_COM_definition": "Normalized rest-tet-volume nodal lumping, assumes uniform density. This is an engineering proxy; native effective mass redistribution is not measured.",
+  "conclusion": "TGS co-translation controls fail; their incompatible/negative scalar mass fits are uninterpretable as density. PGS co-translation passes, but driven bestscalar momentumresidual remains13.6%, so no exact mass/density estimate is established.",
+  "source_and_config_sha256": {
+    "experiments/campaign_free_deformable_control.py": "440e42ec7660bf5d6b1f2c49fb72a5ca879ecfe6299d0d916dddba02f7aaa045",
+    "experiments/campaign_free_deformable_control_config.json": "a1caaf6741e7d265e355e76a25e8ca0cc0cf6831c0f66da6c98587de9ac45e7b"
+  },
+  "dependency_sha256": {
+    "experiments/campaign_free_handle_control.py": "d92d336a7f517346269dc8aacdfed4e581ec5fedee15de5efd1b25e46b60536b",
+    "experiments/campaign_free_handle_clock_adapter.py": "4649552e45f09aa95b812a8df0cb778722a4e57b17d31713eb249c52324ab54b",
+    "experiments/campaign_numerical_matched_rigid.py": "c0ce2f232e3ee899f3679c1c1ed345baa54e7e95506622ba12d72f384506b993"
+  },
+  "original_input_sha256": {
+    "runs/gaussian-boundary-neural-v01/episodes/t0001/reference.npz": "caf02bed9a53f39466dbaad50d8dedd4ac7f39d421701215a38efd7105106e91",
+    "runs/gaussian-boundary-neural-v01/episodes/t0001/truth/recipe.json": "73151396c5481e5eff40e7178bf0c1e9379053c962ba08de8cc7f18b7ddd41e4",
+    "runs/gaussian-boundary-neural-v01/episodes/t0001/truth/boundaries.json": "fb0cdbaa5445e1b178a2b602722fb541c21c446ca9b53d6c3b442325f6aa8c03"
+  },
+  "evidence_sha256": {
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/analysis.json": "7854af358db292981e170dc93c525d6d1ce650545e97a77b06bf722fbd79a236",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/execution.json": "a9b49437e8938a39413261763e50d2074f38d9a0762882a4fb582876a0f75c35",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-pgs/co_translation/analysis.json": "116ea7232151def0c9b2c2f59c4fc53a2e0d18ec2c66983578eab34b6f18c01e",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-pgs/co_translation/native-rest.npz": "de05089c6a4e075439497331d7b75a36f7d86fb20e6c9c56f813a1b3e44da649",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-pgs/co_translation/native-state.json": "30531060ebdaacfc6c38a3dc9293b3816253ece98cbf11a966cef1222cafe005",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-pgs/evaluation/analysis.json": "06c3545cdf1c19ea1ec14f965aaa50bc2f44060e827b63e6813fc39ef428aa04",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-pgs/evaluation/native-rest.npz": "de05089c6a4e075439497331d7b75a36f7d86fb20e6c9c56f813a1b3e44da649",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-pgs/evaluation/native-state.json": "5d8624440215ca6a4882c07df4668740fad0c4c57553ecb54014ed1bb8cc98c0",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-pgs/worker-status.json": "6756fab40a2dc7ac3ea9144da3c20759b9c139cadaa7bce55d9ff51dd5c3459d",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-tgs/co_translation/analysis.json": "fe534b37b6b93f5d0eec3884736330996267c1430e55be0f047dccbb31c8b11c",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-tgs/co_translation/native-rest.npz": "de05089c6a4e075439497331d7b75a36f7d86fb20e6c9c56f813a1b3e44da649",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-tgs/co_translation/native-state.json": "29c61e8680ce4ddcd668657df5a3a69b24b65d0aa329b9fc195acb081dfc7cfe",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-tgs/evaluation/analysis.json": "f61cfcadea5342022d946c68b3e35e05768fee2f03b7315c1fb3af36a636007c",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-tgs/evaluation/native-rest.npz": "de05089c6a4e075439497331d7b75a36f7d86fb20e6c9c56f813a1b3e44da649",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-tgs/evaluation/native-state.json": "306db9a6a600f9ee2c16652336094a789fee34769255d6729a2f48151888bad0",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-tgs/worker-status.json": "5a191aba22cda09d2ddca3faa23fbf717c5efc4bd252d0ecbe0c2cc8ab5121f2",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/protocol.json": "59e2740308d81419b9677f775541bab0452bfe12f1ae46077cd63a7eefc0dd1d",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/recentered-tgs/co_translation/analysis.json": "ef97195a059428aef251d00ed18958c51f00c12cebc1d13e8a4ccabb6f520034",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/recentered-tgs/co_translation/native-rest.npz": "c9ffa52146a833142ab5e0d849a84ab3591a6756c62d9adb6844c2e3d3f423e4",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/recentered-tgs/co_translation/native-state.json": "29c61e8680ce4ddcd668657df5a3a69b24b65d0aa329b9fc195acb081dfc7cfe",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/recentered-tgs/evaluation/analysis.json": "698e398f284d6d02dda158166d77c3c8814f101e441264349252d0c09a42cec5",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/recentered-tgs/evaluation/native-rest.npz": "c9ffa52146a833142ab5e0d849a84ab3591a6756c62d9adb6844c2e3d3f423e4",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/recentered-tgs/evaluation/native-state.json": "306db9a6a600f9ee2c16652336094a789fee34769255d6729a2f48151888bad0",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/recentered-tgs/worker-status.json": "74df9db1b28eadda549abbfc312d691a48211b14d254a21dd4c15e5a1535bce9"
+  },
+  "trajectory_input_sha256": {
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-pgs/co_translation/trajectory.npz": "2577f5118a7708c661654fa323062369bbeaadd03d4f14381433c72f33c7392a",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-pgs/evaluation/trajectory.npz": "236f4661d6d779b374191b14dbf23474a433c2dae3b0825995dab73f70244d8c",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-tgs/co_translation/trajectory.npz": "ea3727fae2ae413641c95f53a693f64cb0e13b5a60dcbf15d4fada002b1cdf7e",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/original-tgs/evaluation/trajectory.npz": "c1a4f5d94b0e1a1495a76c90de52e36fe11ef4a6a9a9e0a612c151e56e1b7144",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/recentered-tgs/co_translation/trajectory.npz": "d8a412cfa3a68026870b80da07d2464133c76edc82867d24c0db5bf1726aa724",
+    "runs/gaussian-campaign-v01/native-free-deformable-v02/recentered-tgs/evaluation/trajectory.npz": "c3f48a0b895b6de8366013b960090f9729994596077cf3e22b66dc90d44ecb38"
+  },
+  "unlaunched_confounded_v01_preserved": true,
+  "images_generated": false,
+  "sensor_qc_performed": false,
+  "qualification": "Three declared TRAIN-only 960Hz physics-only free-whole-body controls; remove fixture and explicitly override background linear drag to0, retain E/nu/rho/elasticityDamping and two full rigid9nodeattachments. Original volume CollisionAPI retained for actor construction, selfcollisionoff and no externalcolliders/rigid collision shapes/gravity. Fresh unforced uniform co-translation [.001,0,0]m/s then fresh driven rest branch. Require predeclared1% engineering proxy momentum/COM-velocity drift control before interpreting driven scalar mass fit. Rest-volume-lumped COM mass inference is a proxy, not native nodal mass getter/density proof. No fitting dataset, images, sensor QC, reserved evidence or calibrated uncertainty claim. Stop after three cells."
+}
