@@ -276,3 +276,37 @@ It establishes neither continuum/native equivalence nor the larger original
 force amplitudes and other force profiles. **Actual-force envelope, learned
 prediction, uncertainty calibration and active-policy gates remain false.** No
 replacement bulk capture or training is justified by this small-force result.
+
+
+## Initial authored-force stage: stopped after a preserved cap failure
+
+The [initial authored-force outcome](../examples/gaussian-neural-boundary/campaign-diagnosis/actual-force-initial-stage-v01.json)
+records **26 completed cells independently verified, one preserved nonlinear-cap
+failure and 24 cells never launched**. All 27 launched workers and the stage
+supervisor are absent. The exact C18 source, protocol, manifest, seal and
+resource hashes remain unchanged; the driver stopped new launches after the
+failure and allowed in-flight jobs to finish.
+
+The first serial t0001 push-pulse120Hz cell passed its independent audit before
+eight-worker admission: 61 actual frames, peak nodal displacement **4.412 mm**,
+minimum J **0.98835**, and frame-clock error 7.99e-15 s.
+
+The failure is t0000 twist-couple120Hz at step240, starting at2.0s, **0.35s after
+the pulse ended at1.65s**. The held force was exactly zero. Minimum J remained
+**0.999985**. Residual fell from **0.104N to6.238e-10N**, with all accepted step
+lengths1.0, but the unchanged250-iteration cap was reached before the declared
+**1e-10N** floor. This is a preserved solve failure with continuing residual
+decay, not an inversion or flat numerical stall. Last accepted state, partial
+frames and explicitly unaccepted trial/history evidence remain local.
+
+There are **zero complete temporal-family qualifications because finest driven
+cells were not captured**. The16 families are pending or have failed/missing
+inputs; this does not mean16 measured temporal comparisons failed. The earlier
+60-cell small-force operating-point pass remains a separate bounded result.
+Actual-force envelope, production dataset, native/continuum equivalence,
+prediction, calibration and active-policy gates remain false. No matrix resume
+or hidden replacement was attempted; private one-step diagnosis is next.
+
+The user explicitly requested **keeping raw datasets local for now**. Source,
+protocol and compact text reports remain publishable. This is an established
+storage preference, not an unresolved authentication or permission blocker.

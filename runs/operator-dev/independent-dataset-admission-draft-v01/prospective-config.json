@@ -1,0 +1,168 @@
+{
+  "protocol": "independent-dataset-admission-PROSPECTIVE-DRAFT-v0.1",
+  "status": "DESIGN_ONLY_NO_PHYSICAL_CAPTURE_TRAINING_OR_LAUNCH_AUTHORIZATION",
+  "production_neural_dataset_admitted": false,
+  "operating_envelope_qualified": false,
+  "source_sha256": {
+    "experiments/isaac_dataset.py": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+    "experiments/prepare_gaussian_boundary_study.py": "719e266571d3f73641fd4235615b5952de0d1761cc6587ce7c6efea6f19d252d",
+    "experiments/campaign_physical_prior.py": "755281cf028e64daad88828a2cdf89dce11a5a7cc4b1e635c50767090b3e80e4",
+    "experiments/campaign_rejection_prior.py": "2c6350e50aa497d505a859ab5a9ff6152b2b53f88a2a6cfaeea8f08cb48553c7",
+    "experiments/campaign_tempered_reference.py": "e878ef5d973c99bcee0fbb62024c4b4a86733bd323537b2927ed391ba5a1589b",
+    "experiments/campaign_full_hardware_context.py": "47cc0047f2cce6e88c4b76650c9358773eaa233fd670ce2223e4b1f29d7bb958",
+    "experiments/isaac_calibrated_probes_v03.py": "116d4717bff0c7780925bd4e6d85f5b2f1615d33f4993e356a8284199829a821",
+    "experiments/gaussian_active_design.py": "834217356af306b94ee72c64783af89e06f7ca8cb2a67cdb994d60d630b064b3",
+    "experiments/campaign_authored_commands.py": "fdbf333b9531ce11700b6be05ab916fbdb7b30c2fb96cec3762369ae05a3c475",
+    "configs/gaussian_independent_diagnostic_inputs_v01.json": "073380f72559c50ccc674d5f69fdff1be7e4d0b30484ad66f0233695a813847f",
+    "configs/gaussian_campaign_actual_force_envelope_v01.json": "dd078bd8542cd99015d009e9806e2e09590ee855e6bdb8bafd1cc483ce3d8070"
+  },
+  "immutable_engineering_predecessor": {
+    "protocol_path": "configs/gaussian_campaign_actual_force_envelope_v01.json",
+    "sha256": "dd078bd8542cd99015d009e9806e2e09590ee855e6bdb8bafd1cc483ce3d8070",
+    "initial_cells": 119,
+    "scope": "Prerequisite fixed-four-layout authored-force engineering test, not production distribution or command-clock admission"
+  },
+  "activation_prerequisites": [
+    "Completed passing actual-authored-force temporal and matched gates, without overwriting failures",
+    "Separate published production generator/clock-support adapter/auditor/source seals and exact resolved requests",
+    "Prospective TRAIN qualification for the common commands AND material/support/hardware prior; current four material points do not qualify a continuum of hypotheses",
+    "Validated independent-state renderer/sensor alignment before image capture; no native-physics substitution"
+  ],
+  "joint_distribution": {
+    "factorization": "p(H,C,M) p(theta_material) p(B|H) p(support,law|B,H) p(passive_force_nuisance) p(A|H,C,M,allowed_observed_history)",
+    "H": "Public rest mesh + ordered full rigid patches/origins + measured masses/full COM inertias/COM offsets/initial rotations, sampled or fixed BEFORE latent BC/material",
+    "C": "Public camera/sensor plan from independently keyed stream; identical across latent counterfactuals for fixed H/menu replicate",
+    "M": "Externally randomized common menu replicate, independent of truth; all action amplitudes/families/timing/costs shared across latent conditions",
+    "BC_probabilities_given_H": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "material": {
+      "E_Pa": {
+        "distribution": "log_uniform",
+        "bounds": [
+          1500,
+          20000
+        ]
+      },
+      "rho_kg_m3": {
+        "distribution": "uniform",
+        "bounds": [
+          400,
+          850
+        ]
+      },
+      "nu": {
+        "distribution": "uniform",
+        "bounds": [
+          0.28,
+          0.42
+        ]
+      },
+      "body_drag_s_inverse": {
+        "distribution": "uniform",
+        "bounds": [
+          0.35,
+          0.85
+        ]
+      },
+      "native_elasticity_damping_reproduced": false
+    },
+    "support_prior_primary": "Exactly normalized finite certified atlas from ConditionalPhysicalPrior with all2x9 public patch nodes; use SAME stipulated prior to generate truth, train amortization and run numerical inference. All BCs must retain nonzero feasible support.",
+    "prior_coordinates": "12D intrinsic chart plus categorical counting measure with normalized inactive nuisances; never25D physical-space Lebesgue density",
+    "prior_decode": "New complete hardware/BC-mask/support-law forward adapter required; do not feed existing25D decode to new forward model",
+    "support_law": {
+      "information_role": "candidate_boundary_hypothesis",
+      "group_capacity": 2,
+      "single_support_inactive_second_group": "Retain fixed tensor capacity, private zero mask; no active-count feature",
+      "moving_amplitude_m_bounds": [
+        0.006,
+        0.01
+      ],
+      "moving_direction": "Latent tangent direction on sampled support face",
+      "law": "Initial rest-compatible3s sine-squared translation; explicit analytic law/parameters, no unannounced interpolation"
+    },
+    "rejection_prior_alternative": "Different designed law; NO log_prob. Unknown Z_BC(H); within-BC fixed-H kernel ratios or genuine whole-prior proposals only. Do not mix atlas truth with rejection posterior or use kernel as BC Bayes factor."
+  },
+  "known_public_query": {
+    "H": 2,
+    "S": 2,
+    "K": 1,
+    "P_per_handle": 9,
+    "seconds": 3,
+    "output_hz": 20,
+    "frames": 61,
+    "actuator_command_hz": 120,
+    "held_intervals": 360,
+    "actuator_boundaries": 361,
+    "known_forcing_role": "known_actuator_command",
+    "public_support_program_present": false,
+    "inactive_fields": "Always include fixed-shape zero pure torque/nodal force/body acceleration; zero command is K1 not missing channel",
+    "public_neural_inputs": "Observed causal RGB-D/camera prefix, public reference/full hardware, actual known actuator programs and requested times only",
+    "forbidden_neural_fields": [
+      "BC/material/support truth",
+      "unknown passive force truth",
+      "unknown prescribed support law",
+      "recipe/source/checkpoint hashes",
+      "episode/group/seed or output paths",
+      "solver step grids/rates/refinement/admission flags",
+      "future RGB/depth/masks/responses",
+      "per-episode future-response normalization"
+    ]
+  },
+  "common_action_menu": {
+    "draft_executable": "runs/operator-dev/independent-dataset-admission-draft-v01/admission_contract.py",
+    "primary_proposed_peak_per_handle_N": 0.01,
+    "secondary_proposed_common_peak_per_handle_N": 0.02,
+    "physically_qualified_now": false,
+    "tier_scope": "Any enabled tier must apply identically to ALL BC/material prior strata. No point-pin quartering or per-object truth clamp.",
+    "basis": "Three signed/permuted world axes from public menu RNG; two orthonormal couple directions from public handle separation only",
+    "actions_per_tier": 12,
+    "families": "zero plus3 pulse +3 pull-hold +3 shear-oscillation +2 exact equal/opposite moving-origin couples",
+    "force_waveforms": "Existing3s envelopes, compiled once on120Hz midpoint grid, float32quantized then promotedfloat64; explicit world force vectors, zero supplied pure torques",
+    "budget": "One reset probe initially, cost1 for every menu action. Multiple-action sequential phase requires new prospective decision.",
+    "evaluation_commands": "Withheld known directions/amplitudes or family instances fixed before validation/test; same queries across latent strata, require their own operating-point coverage"
+  },
+  "clock_and_forward_contract": {
+    "held_history_refinement": "Do not resample/requantize waveform at solverHz. For solverHz multiple of120, repeat exact actuator interval values; integrated impulse/first moments preserve same held piecewise-constant program.",
+    "solver_settings": "Private numerical metadata; must not condition image inference. Common conservative global solver rate for a production checkpoint is preferred until a separately validated private adaptive solver exists.",
+    "existing_interface_gap": "HeldCommandQuery currently ties force and support endpoints to one time grid; cannot silently expand public input by latent-dependent solver rate or invent between-endpoint support interpolation.",
+    "required_future_extension": "Versioned two-clock adapter: public actuator120Hz query plus separate latent analytic support-law representation evaluated at private solver endpoints. Full forward hypothesis context receives the COMPLETE law; image conditioning never receives its truth or private step grid.",
+    "candidate_solver_hz": null,
+    "why_unset": "Choose after actual-force gate and fixed-held-program TRAIN temporal tests; declaring960 now would reuse a different quadrature experiment without proof."
+  },
+  "production_failure_policy": {
+    "physics": "Preserve failed truth/action slot; no redraw, drop, amplitude clamp or class-specific rescheduling. Pause affected production admission and make new prospective globally shared design decision. Numerical failure is not a zero likelihood or normalized truncation certificate.",
+    "geometry": "Sample H first, certify feasible atlas for each BC; abort invalid public context before dynamics, never remove a BC. Keep rejection conditioning and density exactly matched.",
+    "resources": "No simulator or training authorized by this draft."
+  },
+  "minimal_next_TRAIN_design": {
+    "static_geometry_probe_completed": "All4 existing TRAIN public H admit all4 BCs in normalized atlas; only geometry/prior check, no mechanics.",
+    "pilot_factorization": "Reuse these4 public H as fixed contexts; cross4 BCs with3 shared material anchor tuples then all12 common actions;576 driven/reset conditions before refinement controls, only after a separately bounded plan/source/proof seal.",
+    "anchors": "Use one global tuple table across every H/BC, e.g E1500/5000/20000Pa with rho625,nu.35,drag.60 in declared units; NEW prospective states, not already qualified by four-layout gate.",
+    "moving_zero": "Additional matched zero-support-motion controls and accuracy/translation/reset tests as declared by new runner. Zero is already one action in menu but not independent numerical validation.",
+    "expansion": "Only after pilot and continuous matching-prior TRAIN coverage checks; dataset size/splits/solver rates remain a separate prospective frozen decision."
+  },
+  "evaluation_contract": {
+    "splits": "Split entire public-H/menu/latent-family groups before physics. Keep all sibling BC/material/action/reset branches together. IDs not neural inputs. All categorical actions/BCs supported in each split.",
+    "forecast": "Observed prefix times0,.25,.5,.75,1s only; target1.05..3s, known future controlled commands allowed; future RGB/depth/masks unavailable. Gap-filling with later frames is separate.",
+    "reset_transfer": "Predict held-out reset-force response from passive/selected-probe history and complete known query; label independent reset, not same-rollout future state.",
+    "calibration": "Prior predictive checks/SBC on stipulated prior; predictive interval coverage/sharpness and proper scores by BC/material/action/noise strata, with uncertainty. Parameter marginals evaluated when meaningful, no forced point identification.",
+    "active": "Same menu/hardware/budget/camera choices/costs for every baseline; log selection before opening only selected outcome. Same unknown material/support law across reset branches, passive forces replaced only if experiment explicitly says so. Marginalize nuisance rather than plug-in truth.",
+    "numerical_reference": "Small TRAIN numerical posterior uses SAME normalized prior, complete forward context, known query and observation likelihood. Surrogate discrepancy and sensor noise separately calibrated; no doubled passive evidence.",
+    "primary_goal": "Held-out deformation/observation predictive risk and reliable useful-action choice, even if several material/BC states remain observationally equivalent."
+  },
+  "anti_oracle_guards": [
+    "Counterfactual same-H/menu replicate public command/camera/schema hashes identical across ALL BC/material conditions before physics",
+    "No class-specific amplitude scaling, stopping, command family or clock; known commands cannot be recreated from hidden recipe",
+    "Fixed H2/S2/K1 capacities and group-key presence; masks/law/unknown force private",
+    "IDs/source metadata excluded; randomization namespaces have no BC/material-dependent keys",
+    "Private solver refinement exact-held-command equality and analytic support-law clocks verified independently",
+    "No outcome-dependent replacement/failure filtering; density/prior and all inactive nuisance factors preserved",
+    "Data loader explicit causal allowlist with future-frame deny test; reset and interpolation roles distinct",
+    "Prior generator/inference metadata fingerprints identical; unknown-normalizer cross-BC proposals rejected",
+    "Menu-only/metadata-only no-motion baselines reported, with source-based invariance tests primary; statistical near-chance results alone not proof"
+  ]
+}
