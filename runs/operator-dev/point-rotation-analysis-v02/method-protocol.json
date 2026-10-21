@@ -1,0 +1,121 @@
+{
+  "schema": "point-rotation-joint-discrepancy-method-v0.2",
+  "status": "METHOD_FIXED_BEFORE_NEW_COHORT_VALUES",
+  "cohort_plan": {
+    "path": "runs/operator-dev/point-rotation-prior-v02/cohort-plan.json",
+    "sha256": "0e86347b7f627de757ae5b9e47424c55c3763422e1e3e5ec075323dba704dd74"
+  },
+  "library_plan": {
+    "path": "runs/operator-dev/point-rotation-library-v02/library-plan.json",
+    "sha256": "f5e9268d33deb4d7b989c852b557635345ba835c4e7cf16aafaea5f5766262e7"
+  },
+  "discrepancy_fit": {
+    "path": "runs/operator-dev/point-rotation-discrepancy-v02/fit-frozen.json",
+    "sha256": "8af6ac61b33149fa31b39b8e59ea88be9eb79911fa558da2bb9eba1158fc4238"
+  },
+  "base_inference": {
+    "seeds": [
+      20261112,
+      20261113,
+      20261114
+    ],
+    "counts_per_mask": [
+      256,
+      1024
+    ],
+    "primary_seed": 20261112,
+    "predictive_particles": 2048,
+    "resampling_seed": 2026120700,
+    "geometry_categories": 55,
+    "prior_mass": "Exact p(mask)/N at each nested count; no categories removed or observation-dependent budget"
+  },
+  "sensor": {
+    "range_std_m": 0.0002,
+    "visibility_error_probability": 0.005,
+    "background_std_m": 0.05,
+    "outlier_probability": 0.0
+  },
+  "discrepancy": {
+    "training": "Only OLD16 calibration objects, now development; supplied-true corrected-forward residuals, no new cohort values",
+    "rank_columns": 16,
+    "target": "Shared A/B all61times/455nodesXYZ",
+    "observations": "Shared72base+4x36view pool; paired-hit available-case PSD factors",
+    "conditioning": "One shared latent z across observations/targets; exact Gaussian marginalization conditional on physical particle and observed foreground mask; extra update LLjoint-LLbase",
+    "visibility": "Depends on physical surface, independent of discrepancy: working rendering approximation",
+    "target_boundary": "Project GP target mean and factor to zero at each particle candidate point pin",
+    "nugget_m": 0.0,
+    "unknown_range_channels": "Zero learned offsets/loadings with counts published; no invented observations or conditional calibration claim"
+  },
+  "observations": {
+    "acquired_frames": [
+      10,
+      20
+    ],
+    "candidate_frame": 24,
+    "rays_per_frame": 36,
+    "offsets_deg": [
+      [
+        -60.0,
+        10.0
+      ],
+      [
+        -20.0,
+        10.0
+      ],
+      [
+        20.0,
+        10.0
+      ],
+      [
+        60.0,
+        10.0
+      ]
+    ],
+    "equal_cost": true,
+    "virtual_prepositioned_views": true
+  },
+  "active": {
+    "target": "Aframes31..60,all455nodesXYZ",
+    "risk": "Total mixture variance including conditional shared discrepancy, exact within working model; fantasy integration Monte Carlo",
+    "fantasies": 32,
+    "fantasy_seed": 2026120400,
+    "tie_break": "Lowest index exact minimum",
+    "candidate_actuals_after_choice": true
+  },
+  "seeds": {
+    "initial_sensor_base": 2026120200,
+    "random_view_base": 2026120300,
+    "candidate_sensor_base": 2026120500,
+    "bootstrap": 2026120600
+  },
+  "calibration": {
+    "objects": 16,
+    "reserved_objects": 32,
+    "alpha": 0.1,
+    "numerical_floor_m": 1e-09,
+    "minimum_scale": 1.0,
+    "score": "Object maximum absolute standardized error over all5fixedpotentialstates; noactionA21..60,B0..60; eachviewA31..60,B0..60; allnodesXYZ",
+    "fixed_view_selection": "Lowest-index minimum calibration mean A31..60 MSE",
+    "rank": 16
+  },
+  "statistics": {
+    "independent_unit": "Complete object including A/B and all potential views",
+    "bootstrap_replicates": 10000,
+    "seed": 2026120600,
+    "paired_targets": "All policies same A31..60,B0..60",
+    "coverage_interval": "Exact binomial95%"
+  },
+  "constraints": {
+    "CPU_threads": 2,
+    "particle_chunk": 512,
+    "source_execution_freeze_before_calibration": true,
+    "no_retry_redraw_filter_or_test_tuning": true,
+    "raw_artifacts_LOCAL": true
+  },
+  "limitations": [
+    "Known point-pin type and fixed public H0; unknown node/homogeneous materials only",
+    "Geometry retraction does not correct nonlinear dynamics or exact rigid handles",
+    "Approximate statistical discrepancy under nonlinear rendering/missingness, not exact physics",
+    "No continuing-state probing, RGB inference, world contact, native/continuum claim"
+  ]
+}

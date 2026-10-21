@@ -1,0 +1,981 @@
+{
+  "schema": "point-rotation-discrepancy-fit-v0.2",
+  "status": "FROZEN_BEFORE_KNOWN_PARAMETER_FORWARD_QUERIES",
+  "old_seal": {
+    "path": "runs/gaussian-campaign-v01/point-prior-analysis-v01/reserved-evaluation.json",
+    "sha256": "51fcbd0e93e92e2a6f80ab996c45c30b21e73c57c797cd436bca4549b733240d"
+  },
+  "old_execution": {
+    "path": "runs/operator-dev/point-prior-analysis-v01/execution-protocol.json",
+    "sha256": "fabad32cb79a94bde93890506f8862f0ea00d9535f001bfad026236aaa08242c"
+  },
+  "training_role": "Previous CALIBRATION objects0..15 repurposed as DEVELOPMENT_DISCREPANCY_FIT",
+  "object_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "source_sha256": {
+    "experiments/campaign_hypothesis_dynamics.py": "595143a5a6034b3d7373c90b92a71fec111ba8f58d78753d95bc45bdeaef601d",
+    "experiments/campaign_hypothesis_inputs.py": "bdae8dda6902a62b1a9fcfa401c7d17b53ecc27fce169b7a3c90b4c143e904f5",
+    "experiments/campaign_physical_prior.py": "755281cf028e64daad88828a2cdf89dce11a5a7cc4b1e635c50767090b3e80e4",
+    "experiments/campaign_fixed_actuator_clock.py": "1b1361696a3822e608687620b39363ef6667060ed4c313932daac3151e000c5f",
+    "experiments/campaign_authored_force_case.py": "97ba4630866772b3399ce68c4dad48d0317486515120de616900784def1af405",
+    "experiments/campaign_nonlinear_dynamics_case.py": "e7b6b785c262f43d4b1acc503b14feaf1cad659c171024346fc9e70a4dffc342",
+    "experiments/campaign_full_hardware_context.py": "47cc0047f2cce6e88c4b76650c9358773eaa233fd670ce2223e4b1f29d7bb958",
+    "experiments/campaign_nonlinear_dynamics.py": "da0db7018b4913020bb228c2fc4df3c240e7dd872f17db4868de147eaaf78fa2",
+    "experiments/campaign_nonlinear_fem.py": "468daaafa9d02c9db27553e2cfb154190248500677c212d9dde25bffdf14e1ff",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "experiments/campaign_rigid_inertia.py": "e420d9cadaa97d1b1648227b7b28af1803952caa87432f819baf0827deecabf7",
+    "experiments/campaign_authored_commands.py": "fdbf333b9531ce11700b6be05ab916fbdb7b30c2fb96cec3762369ae05a3c475",
+    "experiments/campaign_exciting_commands.py": "724cb9b4ddf845cc99ac74f44b82dbebf832423c152f11f6c325bd414cd063fc",
+    "experiments/isaac_dataset.py": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_hypothesis_batch.py": "2b150d71645cf6c55033c097e6c9f3e2f4cfb0e6ac5356b6be3aa95860c4b448",
+    "experiments/prepare_point_prior_calibration.py": "bcf1c3b18002c179b4bd0fdbfdafe506f945c46bf1cae2df191a3ea3b340c900",
+    "experiments/run_point_prior_calibration.py": "d2f7a4f1e34928008ed7d1c3d8f14eba5df99780233b31216b4494aaea487340",
+    "experiments/prepare_unknown_point_oracle.py": "4c4d72e07c951dfbad7cc48792f3584c6eac385490a83bf2983a5686b257f4bf",
+    "experiments/campaign_support_mask_prior.py": "b561f383bddbd16e9e0fe26067481e113976f41b296885e7a323074bf07201e3",
+    "experiments/campaign_material_marginal.py": "8f768961feaa6e4debbf8d98ce2a797bc3d53006eb4d558b6eb55898465e86ce",
+    "experiments/campaign_sparse_depth_queries.py": "8f13226db5dd6cbb2dc352195641a2da71331e15f0c9102d7704c5f783f8019f",
+    "experiments/render_independent_trajectory.py": "da1a2d51d1b7ba7bcb335dafabbec6929f4228c41c749a3fe5297f542e8217d2",
+    "experiments/campaign_ray_sensor.py": "24612aeec38d121d022a5054e93b18e06842d11311fc8c8dcb73fe243e072751",
+    "experiments/censored_range_observation.py": "afc7eeaa8fc3f1f8543701e5ffe9d97f165255f16e5061347875d4df57a9ef11",
+    "experiments/campaign_support_basis_cache.py": "5b5b5bc492b40bd49251b4e0b0f10d3163d14bae70daca31ac24cd11efda5ddb",
+    "experiments/campaign_packed_boundary_forward.py": "240ba6fbcb3f74440171a8bc1b4ddfae82f5a1f34855be90b2352e8c05e3affd",
+    "experiments/campaign_linear_hypothesis.py": "eff2ab0e18d4da1a3c62d2565dc03f23ab06de197190f00accdcf26f144b98df",
+    "experiments/campaign_modal_hypothesis.py": "0a5af443d76410e5a44067beabbd5891c9234df6321002e4073b71daffb5b936",
+    "experiments/campaign_modal_static_lift.py": "cb4025e448b935cc2eeb362a7cbe774aa619b84fa32b30ecdaf224d2c50c1c50",
+    "experiments/campaign_modal_material_forward.py": "29b00b8f3980431ab79e08caf2ce316ddca57f3bc61407bbe89b683370b38b04",
+    "experiments/run_point_prior_analysis.py": "7e520e36c660028494e25f5701cc9674b4a54fbf055534352420b3456b2c99fa",
+    "experiments/campaign_point_prior_posterior.py": "87c067bdba48cb0ffdf6560445012ea1771096c17721e6db728b6fee77d56be6",
+    "experiments/campaign_point_active_views.py": "af03ee5556dbec64ad7253ffbd688a0e01757a153938395850dd1691d7e32890",
+    "experiments/campaign_simultaneous_bands.py": "04bd038c7960b570024139a0daa4d1734292d272c38d1884333e1c2d845ff195",
+    "experiments/campaign_point_material_reference.py": "7816d41d41dab6d012f9ccf390da06991e008a543baa93fe2f357de8163eba63",
+    "experiments/summarize_point_prior_analysis.py": "89d9141cb6e201feae461f927b1fd83b8c2ce706ff82ee21b9812fb791cd990c",
+    "experiments/fit_point_rotation_discrepancy.py": "09eea4a949e655cdb1c7a8bfca6e2de6b199d0893e0dda0dbf999a42a42e0cc2",
+    "experiments/campaign_batched_point_rotation.py": "592b2e12c7892002a164c5d95284b9c9dc516c39e76bc2afdae53ec3f6eea056"
+  },
+  "cache": {
+    "path": "runs/gaussian-campaign-v01/point-support-bases-v01/cache-manifest.json",
+    "sha256": "642f50c696129c0cafda781b87a3342d3effcc25ca5484172afb25b604977664"
+  },
+  "targets": {
+    "shape": [
+      2,
+      61,
+      455,
+      3
+    ],
+    "order": "A/B,all61times,455nodes,xyz"
+  },
+  "range_order": {
+    "base_rows": [
+      0,
+      72
+    ],
+    "view_rows": [
+      [
+        72,
+        108
+      ],
+      [
+        108,
+        144
+      ],
+      [
+        144,
+        180
+      ],
+      [
+        180,
+        216
+      ]
+    ],
+    "frames": [
+      10,
+      20,
+      24
+    ],
+    "candidate_offsets_deg": [
+      [
+        -60,
+        10
+      ],
+      [
+        -20,
+        10
+      ],
+      [
+        20,
+        10
+      ],
+      [
+        60,
+        10
+      ]
+    ]
+  },
+  "estimator": "Empirical shared object-column Gaussian factors; available-case range rows",
+  "target_constraint": "Future caller projects target mean/factors to exact zero at each candidate point pin",
+  "sensor_std_m": 0.0002,
+  "visibility_error_probability": 0.005,
+  "background_std_m": 0.05,
+  "outlier_probability": 0.0,
+  "CPU_threads": 2,
+  "CUDA_VISIBLE_DEVICES": "1",
+  "device": "cuda:0",
+  "output": "runs/operator-dev/point-rotation-discrepancy-v02",
+  "fit_objects": [
+    {
+      "object_id": "point_prior_000",
+      "index": 0,
+      "seed": 2026112000,
+      "role": "CALIBRATION",
+      "realized_hypothesis": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_000/realized-hypothesis.json",
+        "sha256": "17da3339228b7e81e5b3cf6e754b66de8db85af0d05952e35199c7d63fc40865"
+      },
+      "retained_state": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_000/retained-state.json",
+        "sha256": "e16cab5c2ec8e4ed3a1bca2838cd4f8f9a98ed59e3c68d69f69d850f118fc35a"
+      }
+    },
+    {
+      "object_id": "point_prior_001",
+      "index": 1,
+      "seed": 2026112001,
+      "role": "CALIBRATION",
+      "realized_hypothesis": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_001/realized-hypothesis.json",
+        "sha256": "b9100f9e7f61d7e79fa970798df1a88557b4864c36883ec0bbe316cb3b1b0dc4"
+      },
+      "retained_state": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_001/retained-state.json",
+        "sha256": "44a5ac5d73cefcbde0b3b45b050ef84c5fbfc4541322d34668575da86bd23db4"
+      }
+    },
+    {
+      "object_id": "point_prior_002",
+      "index": 2,
+      "seed": 2026112002,
+      "role": "CALIBRATION",
+      "realized_hypothesis": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_002/realized-hypothesis.json",
+        "sha256": "2836b255916713dae16bd99a4d69b7e07c28db240c0ae3266cc15d9687ddcb51"
+      },
+      "retained_state": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_002/retained-state.json",
+        "sha256": "86afe0bf3a581391014f2ac3e0997c62d7af7e1cafe9567faa48559dc7383e70"
+      }
+    },
+    {
+      "object_id": "point_prior_003",
+      "index": 3,
+      "seed": 2026112003,
+      "role": "CALIBRATION",
+      "realized_hypothesis": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_003/realized-hypothesis.json",
+        "sha256": "e513f7377205600dc9228e3284b40d898d4c89cabfa1f6e3362645bd1df6306f"
+      },
+      "retained_state": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_003/retained-state.json",
+        "sha256": "af1e1696f925533a67b3e836da6a9b0dea36f04e134c8fabd3428e326d71feb8"
+      }
+    },
+    {
+      "object_id": "point_prior_004",
+      "index": 4,
+      "seed": 2026112004,
+      "role": "CALIBRATION",
+      "realized_hypothesis": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_004/realized-hypothesis.json",
+        "sha256": "a176f0e3de7a7400a92edc66129982f092961b1fb6d114acaf78096c4b631d30"
+      },
+      "retained_state": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_004/retained-state.json",
+        "sha256": "2ffdf04e70b69c931e25c482784ec859a08133eeebe85cc65e49baeeac852f94"
+      }
+    },
+    {
+      "object_id": "point_prior_005",
+      "index": 5,
+      "seed": 2026112005,
+      "role": "CALIBRATION",
+      "realized_hypothesis": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_005/realized-hypothesis.json",
+        "sha256": "b67df2e14d756725d91548788375acb501da2f80b0dba9ef6937f34d8997ac53"
+      },
+      "retained_state": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_005/retained-state.json",
+        "sha256": "32e3af8ec24cba375f0d3ddd20c60e4ac2cf073c672e40996e80fcd5fff66216"
+      }
+    },
+    {
+      "object_id": "point_prior_006",
+      "index": 6,
+      "seed": 2026112006,
+      "role": "CALIBRATION",
+      "realized_hypothesis": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_006/realized-hypothesis.json",
+        "sha256": "4633bcd28663c4a50451f1549ea2f536d287020c821a04d00bba2eea516d0a4a"
+      },
+      "retained_state": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_006/retained-state.json",
+        "sha256": "bb2183da72ad13c498512409662971b50b3bc90de5e06947e751aefcfdb16f51"
+      }
+    },
+    {
+      "object_id": "point_prior_007",
+      "index": 7,
+      "seed": 2026112007,
+      "role": "CALIBRATION",
+      "realized_hypothesis": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_007/realized-hypothesis.json",
+        "sha256": "83c6e72ec98a4b911d0e952ad2531bd26fe2afc2f6bb63a2df060581745a2f3d"
+      },
+      "retained_state": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_007/retained-state.json",
+        "sha256": "bea0afbfac203051bb732cdd36877e6f12cf1975e682d13f4e751d93ca2c5d23"
+      }
+    },
+    {
+      "object_id": "point_prior_008",
+      "index": 8,
+      "seed": 2026112008,
+      "role": "CALIBRATION",
+      "realized_hypothesis": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_008/realized-hypothesis.json",
+        "sha256": "29b92192564ad3e12703ce58f9b9dcac0e8bad355100c794054e787bed47a1b4"
+      },
+      "retained_state": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_008/retained-state.json",
+        "sha256": "2b4163437045597ca8cd1a260e48d8e4118abf2a9511754156b9a7e2e759e109"
+      }
+    },
+    {
+      "object_id": "point_prior_009",
+      "index": 9,
+      "seed": 2026112009,
+      "role": "CALIBRATION",
+      "realized_hypothesis": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_009/realized-hypothesis.json",
+        "sha256": "20fded1ab9bee6b5bb17eb779d95036e6ca3d6bc51fa85b7a3e54fbaca1ffbaf"
+      },
+      "retained_state": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_009/retained-state.json",
+        "sha256": "0b3edb565f29669745b19c70895b93d10f3165a4bfad58f92fe66d6d2dff69c8"
+      }
+    },
+    {
+      "object_id": "point_prior_010",
+      "index": 10,
+      "seed": 2026112010,
+      "role": "CALIBRATION",
+      "realized_hypothesis": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_010/realized-hypothesis.json",
+        "sha256": "a0e861338aa81957257a677991f88a70b51e3b091d217a205528b72eec1f6b2c"
+      },
+      "retained_state": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_010/retained-state.json",
+        "sha256": "8aec0d02a7bdc7dbe740c94b0de748ad05b36b114d31a3a63631cc1375121b74"
+      }
+    },
+    {
+      "object_id": "point_prior_011",
+      "index": 11,
+      "seed": 2026112011,
+      "role": "CALIBRATION",
+      "realized_hypothesis": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_011/realized-hypothesis.json",
+        "sha256": "8c736bc9d55a45c45ac0dfbee728a6cecf2002a5bdfdef2b72f79ca04325a1d0"
+      },
+      "retained_state": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_011/retained-state.json",
+        "sha256": "fb170603d8ada29bc74bf51ba0428156b355a4680c6a2a6808d46e89b9f44ae8"
+      }
+    },
+    {
+      "object_id": "point_prior_012",
+      "index": 12,
+      "seed": 2026112012,
+      "role": "CALIBRATION",
+      "realized_hypothesis": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_012/realized-hypothesis.json",
+        "sha256": "247f744e7c71aeb3a1190828f2370f650f54c2567493046b45db1b179031b4d9"
+      },
+      "retained_state": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_012/retained-state.json",
+        "sha256": "d269549f5fdafbd7e524072124a6220f626794e1419fdc5e5180a4687c27ebf1"
+      }
+    },
+    {
+      "object_id": "point_prior_013",
+      "index": 13,
+      "seed": 2026112013,
+      "role": "CALIBRATION",
+      "realized_hypothesis": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_013/realized-hypothesis.json",
+        "sha256": "03bd7a7603e4371f3b0cf8370d55b744f391f48a33461b819ff344edb5e26003"
+      },
+      "retained_state": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_013/retained-state.json",
+        "sha256": "bd6ffa6e56c6f2e463cbef454086b8d2da7ef51d2997f776ebd42dd21faf2f4d"
+      }
+    },
+    {
+      "object_id": "point_prior_014",
+      "index": 14,
+      "seed": 2026112014,
+      "role": "CALIBRATION",
+      "realized_hypothesis": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_014/realized-hypothesis.json",
+        "sha256": "4b89eb2fb08991f55bb3666bbc2c66181b822003edac647634fd25cedb1c6941"
+      },
+      "retained_state": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_014/retained-state.json",
+        "sha256": "7e41d9587e4728c7323474a6b4286e90fb06b96bc1cda601886cc9da09586c4f"
+      }
+    },
+    {
+      "object_id": "point_prior_015",
+      "index": 15,
+      "seed": 2026112015,
+      "role": "CALIBRATION",
+      "realized_hypothesis": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_015/realized-hypothesis.json",
+        "sha256": "64d09aacfa804b5fd9321259957853e78b529a6a7a8ec2ed0d960abbff92a198"
+      },
+      "retained_state": {
+        "path": "runs/operator-dev/point-prior-calibration-inputs-v01/private-truth/CALIBRATION/point_prior_015/retained-state.json",
+        "sha256": "6cb7d0ebe4684a4c90a2e31555fb23f78201306f4110a6dddad91a5bed9b3913"
+      }
+    }
+  ],
+  "capture_pairs": {
+    "0": {
+      "A": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_000__A/trajectory.npz",
+          "sha256": "f0f2d1db3dc3340b681cc860c9cfea22e5fd5181c72e5ca199b2085ee28eddad"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_000__A/execution.json",
+          "sha256": "053d22d34e12374474b40f786357d967597b3c8a6619929ae17060c51551bb12"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_000__A/summary.json",
+          "sha256": "f97b8669c0b21627c746a561b89571505b7747c1aa31f207a69bb7845fbb24c8"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_000__A.json",
+          "sha256": "c69a1d031d22937f57f51573d9b7cf2a988f5898e81ccd55851bb7ea82b4b2f1"
+        }
+      },
+      "B": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_000__B/trajectory.npz",
+          "sha256": "b6e9dc914d6ed792f3106cc1310c5a86c3e867b69f7629a201027df55520ca84"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_000__B/execution.json",
+          "sha256": "efe66955199fb83118b2e35f75c3ee0448cdfbdfc126a7ad8a53996fb4a751ff"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_000__B/summary.json",
+          "sha256": "c77424cfa03cf00d3582ccee70637e21e5b31237cdfb04316fcb70ca6654b89f"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_000__B.json",
+          "sha256": "07ec316647f94817972b7cf28796dd0cd7283e3aceb38e239072100ff1e1294d"
+        }
+      }
+    },
+    "1": {
+      "A": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_001__A/trajectory.npz",
+          "sha256": "f41d743ffab3a5bc06d600972a93d18e2f3503932c85b9e5e286d029d8f6775a"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_001__A/execution.json",
+          "sha256": "f2e877eeb0cfd1010107216dbead67f555300413ffae3eb65f0ffd4934b5f7c2"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_001__A/summary.json",
+          "sha256": "b25fba79592291f39757493037fcbff9cfd525950fe2d581aa52176ddd613939"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_001__A.json",
+          "sha256": "18bdad0f82a21ce14e0cb6685ee91ee149fb593da59eb98b986e0dd545c16147"
+        }
+      },
+      "B": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_001__B/trajectory.npz",
+          "sha256": "bbcf10d4f4f4acd6c0b8f8a6dc24eaa902cb63285fbe86d4ff3f048e9bf18463"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_001__B/execution.json",
+          "sha256": "b5f45c1c9d4b6fe6406855074b50dcd2a78253a9fd98308625f88bbddcb8687c"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_001__B/summary.json",
+          "sha256": "65670a87b89f7dac42637b24c400114137a9bcac85e8f3ca659e526f3ad71487"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_001__B.json",
+          "sha256": "cb35fb90de248576e0bc21f9cf571878b44ee0229ca3d57e813c32e7e71f5645"
+        }
+      }
+    },
+    "2": {
+      "A": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_002__A/trajectory.npz",
+          "sha256": "aedc079d715a3b9831468c000d6f1e82cf7b8b45b931dece8eb495196d0d8435"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_002__A/execution.json",
+          "sha256": "860a36394a810e52975a157b08e095dc94c6b9e6ebbccd5bd297698e677fdbb9"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_002__A/summary.json",
+          "sha256": "4a8b5acdd3abfa6784a8553c654805b37796a618e194fd0cb22bd9248ae1e913"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_002__A.json",
+          "sha256": "2e790eeb66da8fb8d0770fafe3854ff3862d8172b650db083afca3b0c6f8df6e"
+        }
+      },
+      "B": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_002__B/trajectory.npz",
+          "sha256": "5b29d4426de2dc45b500cd400bac642169367a60ac774b0a1532295b10000661"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_002__B/execution.json",
+          "sha256": "227e445822cbc7c1683a249ac682ad586f1f5138630f287265d6e02e3a022184"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_002__B/summary.json",
+          "sha256": "86128afcd43ce955a100a0b581be8af2a1e1998849d53480ba92a1a7be8e3177"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_002__B.json",
+          "sha256": "cd9cc8930b94138d918b0d4bc7ad30e0f8221163f47e5b04d4114d835b6d23d9"
+        }
+      }
+    },
+    "3": {
+      "A": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_003__A/trajectory.npz",
+          "sha256": "48c61efd9cc871b70dba09b416a54d3b1cb8c65a5e2d819a85b99e92690545e2"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_003__A/execution.json",
+          "sha256": "c552ed0bd367d4eab4e0e1aee0c367356458f06fb4ad0689def33b77b964c728"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_003__A/summary.json",
+          "sha256": "f2ddb2b8d5450524486877a9643fecfedac672c089fc64c1f50d90fdf67fa668"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_003__A.json",
+          "sha256": "341f79dca474d99deb3db6aab6855c47b3321b47a7e5eb213bfc8db67faef244"
+        }
+      },
+      "B": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_003__B/trajectory.npz",
+          "sha256": "b73c4968571fc51fbfd3ed63503a4b0c55ef939b3c2b027da184635122206d24"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_003__B/execution.json",
+          "sha256": "f670773db6fbe01c52485fdb261d980304ae49efa0b14fb1c38f911e6b6dbeb1"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_003__B/summary.json",
+          "sha256": "0717d72bc5a30e6fa7016ae56ddcdc24e8bc98bb1f18d649e3d89c6fbcb4e691"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_003__B.json",
+          "sha256": "6aaf02d6e4d938b650d80d724898c02d450de667e75c8367ceced308af4fbf95"
+        }
+      }
+    },
+    "4": {
+      "A": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_004__A/trajectory.npz",
+          "sha256": "8bc9258cc730e6ae3bc26d6caab60425e93ed47e300bcd65322f6b604727de47"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_004__A/execution.json",
+          "sha256": "90de131824dce28d2bd7b7217ce4d82e8a58cff9312c2e5096f8f275b84c95ae"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_004__A/summary.json",
+          "sha256": "e6598b6feb848d194a424959eec2a66fb9c8dad0bd8ca370d14f5d0de2b4208c"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_004__A.json",
+          "sha256": "4700e2b91c6b089ababc237cea7eac7648c5406cd565d7fcdf35859684c7b235"
+        }
+      },
+      "B": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_004__B/trajectory.npz",
+          "sha256": "3d5dd0ff545f7b914611f26e191cf1938359597fdcdfd91715363229aab1aa60"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_004__B/execution.json",
+          "sha256": "6c23248353aad7b2febc7fbcc7e2153dff6fc82eb2fd81a96ff6b200208f9c8b"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_004__B/summary.json",
+          "sha256": "32e926089cd53b152f9f3f483b4e22c779dea6a64151916841d8a9faec5e2e37"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_004__B.json",
+          "sha256": "0643f13de2f3aa840f96dbbf4a40a7a7dc3373e47968a8986036f1bcb36af18a"
+        }
+      }
+    },
+    "5": {
+      "A": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_005__A/trajectory.npz",
+          "sha256": "38770d7fcaafbdc0383c3dc90c931948ef9ba40a1352d8045f3275ce697465b7"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_005__A/execution.json",
+          "sha256": "59e3b671f4de2f60d56886cc09ce869fc1ceb01b142ae54453af1fba04275407"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_005__A/summary.json",
+          "sha256": "cb7ec4b74a35be5a2eb20d22dfb4e04f16e78d13fef0bbbccce3b2e5901500be"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_005__A.json",
+          "sha256": "d228c3a01a11f75762c59fc41dfdb40bf01c68b158c8f9637c579307e349fb0f"
+        }
+      },
+      "B": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_005__B/trajectory.npz",
+          "sha256": "dde96b659aff26feea7a2e1a8aac383fddfe411b574287d15053d06ae3a00f42"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_005__B/execution.json",
+          "sha256": "17849490a3925716928649b9233a756db912435dd9401fd8414d115091187fa2"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_005__B/summary.json",
+          "sha256": "c3695a58074035c3a24b74270455a06458c06e6966ff432942b9edcf21648328"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_005__B.json",
+          "sha256": "051ebdf85e1618dd6b319b1baec4d640bf19b1dbd99035fe3443df5de2c2c5f6"
+        }
+      }
+    },
+    "6": {
+      "A": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_006__A/trajectory.npz",
+          "sha256": "98368105f8db83de37f00f88d3bef0613477d2c36b84b807cb32056451fd089f"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_006__A/execution.json",
+          "sha256": "af3b3f0dc4761080850063ededafcb53e71c0974d47ef158f73bb87df1bf61b9"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_006__A/summary.json",
+          "sha256": "76f2e13a2b378a46da5daaf6fdfbd70b78c488123ae60ee32bbcb1ddbf0edb94"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_006__A.json",
+          "sha256": "c42456fa2002c8b5e4df40f2a73a5e74da57503ee109ba1df2c167ae6ac5e834"
+        }
+      },
+      "B": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_006__B/trajectory.npz",
+          "sha256": "a9968117c911f34c7000635445fc58e44b41e218457e4aaf0efa9ff8f06f2ee6"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_006__B/execution.json",
+          "sha256": "90bc32ea20893c68a83e3a87a11c68df7fb7a9b0edc24c827ea8a514b2bcb0b4"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_006__B/summary.json",
+          "sha256": "6c70e8837afd5460b668442bc5325da3c8ab45245a0bbaf3ba729176742d4d64"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_006__B.json",
+          "sha256": "eb51ced3bfedc04c6afa3d2fce9cd7bb61975f1dd510177234b7b4c298e85bed"
+        }
+      }
+    },
+    "7": {
+      "A": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_007__A/trajectory.npz",
+          "sha256": "29f4528c46be476e0e1b79288280b58f5218edf0fa2f38a9f5c4cb1f935da80f"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_007__A/execution.json",
+          "sha256": "758ad31949bb304a9e551d2164df3a4f1c17ec3471b20f5b1a20fcae5d0e472c"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_007__A/summary.json",
+          "sha256": "a66d173ebfb9237730d37264192970a76434b4d9814f4b44fb0e82db8157d97b"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_007__A.json",
+          "sha256": "5274d4a9e617bd9148e3acfa587f32ef45887398ed2d219064c2ebefd172b3e3"
+        }
+      },
+      "B": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_007__B/trajectory.npz",
+          "sha256": "93933d20dfc2fe53ad5603ddb84b4072a958146868d2636496fe63308140e14c"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_007__B/execution.json",
+          "sha256": "f8b417943a69e62ad9b27cf188c769c81877fc4487dad29ce028bfef231ee0c8"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_007__B/summary.json",
+          "sha256": "754a6ce6a296e27b2011360625527b5b757a7f937433c80a44e336901e8a5d1f"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_007__B.json",
+          "sha256": "827365b3b94bfc0f4026e7366038849a87539a86613dfbecfdbd23496916d702"
+        }
+      }
+    },
+    "8": {
+      "A": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_008__A/trajectory.npz",
+          "sha256": "fe4cc0e71b0b22032ab419b0ee3ecb6a0f68cb2ac45da06613b5e52926f209ed"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_008__A/execution.json",
+          "sha256": "b95e02273b407bdf323361eb3df2dbbc915c30579e6895680136ae79f1c3c076"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_008__A/summary.json",
+          "sha256": "14eddfa6c6015d75b8582fd23860e94b325a57749b51f365e57226167e9cc780"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_008__A.json",
+          "sha256": "01343015f741c3204303da83bd83eb78fdedd3d9132c8d45ab336f4ca9b89ab8"
+        }
+      },
+      "B": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_008__B/trajectory.npz",
+          "sha256": "50a1b90c8a1df49298259efdb93038c41a357610ab815e32a89bd55a0e91670f"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_008__B/execution.json",
+          "sha256": "8e2aca2e12932f8a36687bbe0d202ff819eca7ea4ef98dc9d6bc306da49c50bc"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_008__B/summary.json",
+          "sha256": "2a9e63fa1fc0ddef28ae91c1a8f41943f351a0338b4870a2fc5eb47015b14147"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_008__B.json",
+          "sha256": "ba3f9abe1cc1733c40821a1f8fa8b6aeafd9ce2b824465278931c6777984f814"
+        }
+      }
+    },
+    "9": {
+      "A": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_009__A/trajectory.npz",
+          "sha256": "17ea541f069ed559ee4287752d9d2451f8d4c0921d6165bf8565c8057895adeb"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_009__A/execution.json",
+          "sha256": "786a7ad126fbbe6089709d2a68111c5ba7a606377c1d44eae18a3e51e3cc0480"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_009__A/summary.json",
+          "sha256": "f751a9a41c07733213a90d58a922d4fdbed3142a01f70f848f6daed0816efe77"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_009__A.json",
+          "sha256": "4097eb8d479d9b2fd469180df3eeb7604b6a2767854ed097c5a7e2b7ab7a2689"
+        }
+      },
+      "B": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_009__B/trajectory.npz",
+          "sha256": "eb921cf56d331dd58c9cbf9feaee39d23b18a65e68d55461ff010f0485d37008"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_009__B/execution.json",
+          "sha256": "a50619fd823caa14e23a0a510f75b542ae555041b0360ddcb8d61f20bc0f2c14"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_009__B/summary.json",
+          "sha256": "65c5ec94b150012f31bbe097ae6ade20b6449a5c1b348c51ee0f32e5f343ec5e"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_009__B.json",
+          "sha256": "b77d028b7bf48ec9c3e889646dd2f3d347ec62dcaf4ad7fc64e51482c3bcccc8"
+        }
+      }
+    },
+    "10": {
+      "A": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_010__A/trajectory.npz",
+          "sha256": "c250c8e2327eab520ad36048e25e92a392430556d2b7ebc03498166d49bed216"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_010__A/execution.json",
+          "sha256": "1ca6456768ab5c776e315237d6e0003aaf466c1c6237376c99423ee4e31015e7"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_010__A/summary.json",
+          "sha256": "91e290e96696cf7d2c29b065d4d4161f750009ac05398629d5741de9333ca83c"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_010__A.json",
+          "sha256": "83797d50b86b5710d073ae403d3497333790ad049377b70beb6ff1b1ac74e248"
+        }
+      },
+      "B": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_010__B/trajectory.npz",
+          "sha256": "fc5bf2c5642b153e5f4c7f334928c6a028828578def4a5cb6cfbc569cd1bc4bc"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_010__B/execution.json",
+          "sha256": "c14932f9b94bc7ac0eef18f316b4e4acf2010698870bf6483eac437790aec0fe"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_010__B/summary.json",
+          "sha256": "20c2678b319f4ac6429e43231fad109b1ba0b653abc6e7c19340e9161063c171"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_010__B.json",
+          "sha256": "a7a9963b0ed64b8c8421b1d2aeb969a4e4db0e30a56085ff0fb222a474e87c9c"
+        }
+      }
+    },
+    "11": {
+      "A": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_011__A/trajectory.npz",
+          "sha256": "ecba2755b25aac4d1415c8d7ddae693d53d75da9f522c2cb121340b4e55a4cef"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_011__A/execution.json",
+          "sha256": "341b4d0a5becb154bbf47b9abd31a758ed193a12e527d5b566107d217b4bcc11"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_011__A/summary.json",
+          "sha256": "92cb910c7f42e0372a3401b68ae015ce19bc2e67b9d10a22a44f1b210c19b201"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_011__A.json",
+          "sha256": "e0877bddaaf4106fb16bc2b8e35077b3b1bb006c47361be05cb18100091f5ae9"
+        }
+      },
+      "B": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_011__B/trajectory.npz",
+          "sha256": "168a944fa04b34a5952476447e36ef68f89ecaacb7375e4da4a6a1c23070c68f"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_011__B/execution.json",
+          "sha256": "80e3072af5faa2c82803374ebbae24e1b208bf6e2c09cbc06374c9d1525f356e"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_011__B/summary.json",
+          "sha256": "581b6d03d8ff4313672f40882c760c3ff9ec5e35e7b443898bb539f5af59f042"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_011__B.json",
+          "sha256": "1b2b130f9f470501315a74714b1feff41271b841c05abc747736818604d49ad5"
+        }
+      }
+    },
+    "12": {
+      "A": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_012__A/trajectory.npz",
+          "sha256": "ee50e88322baa78d44c127eb15b1472309ea71fb55ba8df1d5929fcf38296f83"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_012__A/execution.json",
+          "sha256": "449442cfa64d39082cfd7db5ccfb98482a1111d902b6eb7704aed01f001686cc"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_012__A/summary.json",
+          "sha256": "2ab58e055a4650bc269cdbb664a92b6f561560626cc1d1ce5c3ee3c63826ef48"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_012__A.json",
+          "sha256": "dd81c84dbf91c4b1f6327dcafe23f3bcd1dd0f1e6544142b8338f113f11ee518"
+        }
+      },
+      "B": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_012__B/trajectory.npz",
+          "sha256": "4fa72785525f8822fc8a407495a97c0ce71146107b0809aa6c990bbff8ba47a0"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_012__B/execution.json",
+          "sha256": "b2ad47360c5de7189c2b75e271957cebafc06b1bc8e3e74deb4bac4b46fe558b"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_012__B/summary.json",
+          "sha256": "6d276a6bf068e8e769495ec2ea066b6b7f627cef0255ba6509d032effdfa062e"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_012__B.json",
+          "sha256": "5c18e4afcc67857ac67bcebc04853e9a81d53e277742c1555d08a5142135e7b8"
+        }
+      }
+    },
+    "13": {
+      "A": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_013__A/trajectory.npz",
+          "sha256": "3b45b03d1f774175b4c3188e48f77e6a3e8dd5e460e3d8cd6a3c1b9582be8218"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_013__A/execution.json",
+          "sha256": "5059497bd4e19ffcc7f074ab2580a83e7b1ff52370f72e409d91b7c5354d81f7"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_013__A/summary.json",
+          "sha256": "75c1316057df9af7d6260e1f60ee00366d65ee2842e1ec206acf96f979eddb18"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_013__A.json",
+          "sha256": "b032672b1a15ddf3ecb953f3c3668c0204d87ef15313ef23aefcd697d8aa210d"
+        }
+      },
+      "B": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_013__B/trajectory.npz",
+          "sha256": "06c0837c2bab81c9baec8ad89c4752ec5ed8d0bcf62c5658fe04dfa1d78d50e6"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_013__B/execution.json",
+          "sha256": "92f706fc25b1bfc8c52a19902ae88ec23e11e9c42401d9e282521fe1de52aeba"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_013__B/summary.json",
+          "sha256": "ccee2b64f9dd5313416282f34a289008d375cf5a97276268e31d01ebd221c828"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_013__B.json",
+          "sha256": "b29c3018b5bf32b7413fb026c1be35f99fc8157c8dcc413f06cf0d24051ed699"
+        }
+      }
+    },
+    "14": {
+      "A": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_014__A/trajectory.npz",
+          "sha256": "81140c8a3ae85d5420912fbc91dce11e5efea06ad8dc2ccf6b5d9bcbed4407a0"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_014__A/execution.json",
+          "sha256": "8d2f2ed9dd52c2e9651b08c591d6205717d87ad585a47aac43a884dde482d013"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_014__A/summary.json",
+          "sha256": "0631b2fc56d8db737a63e453ccfd9823c142f595e22bb5829a1a438808fe2ade"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_014__A.json",
+          "sha256": "9f6339d4db383e58af26224dadd3db16092dfd82bd20a4b620f8429ecf197eb7"
+        }
+      },
+      "B": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_014__B/trajectory.npz",
+          "sha256": "f3f405fbbce3e28a2057c656d15d6c0b7b72e86a7af39d56e0d1dbd64247a6af"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_014__B/execution.json",
+          "sha256": "7597ede6489b3b6151a6b70a0a260703193f35bd9914646e23b1cabc073fa023"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_014__B/summary.json",
+          "sha256": "04c2121c4c509c7e4679612d862f6ed862e307c96350be22b078b148cdb460b6"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_014__B.json",
+          "sha256": "c89d5df0e3aa878801d40448cd13754b4a45f78f0b8e0f2e5d6aef43b5fc7004"
+        }
+      }
+    },
+    "15": {
+      "A": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_015__A/trajectory.npz",
+          "sha256": "fce10dd0f9ff028a6fa9eb5192ab56c8e0f299d80f30ec86b835f1f5058e3c26"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_015__A/execution.json",
+          "sha256": "f4bd1f591565066e690b8956b2d272c5d50398e100df30d5232b6ed41e656745"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_015__A/summary.json",
+          "sha256": "4dacf80694468984fe7c5174819b558b61edc3eac99c2507ebf491430a2061b4"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_015__A.json",
+          "sha256": "95362f276f9a2c616fe7d5ba05c452ad679a4aea72784f6943e8fbb84dda847b"
+        }
+      },
+      "B": {
+        "trajectory": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_015__B/trajectory.npz",
+          "sha256": "90eff6ea659e1c7af1ebf44ef6e6db656762f6f404a1fdb8bb984ea5c33a7e75"
+        },
+        "execution": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_015__B/execution.json",
+          "sha256": "5ae05a0055dc8f6970da35de1901cf3cd49727e1f1e9ca21dafcf3742cbae557"
+        },
+        "summary": {
+          "path": "runs/gaussian-campaign-v01/point-prior-calibration-v01/cells/point_prior_015__B/summary.json",
+          "sha256": "2f840f64af0004352e583b66bd5393c7a6e20188212e271b13ad2dc5d05f1b9c"
+        },
+        "protocol": {
+          "path": "runs/operator-dev/point-prior-calibration-inputs-v01/finite-protocols/point_prior_015__B.json",
+          "sha256": "21c65a3e59de48487281185ec0a571c1cc73fb8fad88fcef3e0e3a112c2bbd17"
+        }
+      }
+    }
+  },
+  "new_cohort_truth_or_response_values_allowed": false,
+  "inference_or_finite_runs": 0,
+  "limitation": "Approximate fixed joint discrepancy, independent of material/support except target pin projection; needs fresh calibration and reserved evaluation."
+}

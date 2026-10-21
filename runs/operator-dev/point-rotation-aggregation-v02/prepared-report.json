@@ -1,0 +1,142 @@
+{
+  "schema": "point-rotation-aggregation-prepared-v0.2",
+  "completed": true,
+  "source": {
+    "path": "experiments/summarize_point_rotation_analysis.py",
+    "sha256": "0c76db906a96daf02bb1513fba035d9acc70ad13f3f62c3ba9853abe6d67a671",
+    "bytes": 19577
+  },
+  "tests": {
+    "path": "tests/test_summarize_point_rotation_analysis.py",
+    "sha256": "5421ebf5583c45dec52bff0e786470c4b9d51a1368c3bd28be610c1de054a4db",
+    "bytes": 11211
+  },
+  "validation": {
+    "command": "OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 .venv/bin/python -m pytest -q tests/test_summarize_point_rotation_analysis.py",
+    "passed": 14,
+    "elapsed_s": 7.88,
+    "terminal_exit_code": 0
+  },
+  "data_access": {
+    "new_cohort_values": false,
+    "old_cohort_values": false,
+    "raw_responses": false,
+    "synthetic_fixtures_only": true,
+    "source_only_runner_compatibility_inspection": true
+  },
+  "contract": {
+    "execution_schema": "point-rotation-analysis-execution-v0.2",
+    "method_record": "Dynamic execution.method path/sha256, checked through new runner full closure",
+    "calibration_schema": "point-rotation-calibration-freeze-v0.2",
+    "reserved_release_schema": "point-rotation-reserved-release-v0.2",
+    "calibration_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "reserved_indices": [
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47
+    ],
+    "states": 5,
+    "object_id": "From exact new plan objects; no hardcoded directory prefix",
+    "freeze_filename": "posterior-states-frozen.json",
+    "state_marker_keys": [
+      "object_index",
+      "role",
+      "method_sha256",
+      "execution_protocol_sha256",
+      "source_sha256",
+      "active_choice",
+      "states",
+      "state_names",
+      "future_A_or_B_truth_opened",
+      "material_or_support_truth_opened"
+    ],
+    "required_result_keys": [
+      "object_index",
+      "object_id",
+      "role",
+      "completed",
+      "method_sha256",
+      "execution_protocol_sha256",
+      "posterior_frozen_before_future_truth",
+      "posterior_freeze",
+      "states",
+      "joint_band_score",
+      "selected_active_view",
+      "selected_random_view"
+    ]
+  },
+  "statistics": {
+    "alpha": 0.1,
+    "rank": 16,
+    "numerical_floor_m": 1e-09,
+    "minimum_scale": 1,
+    "joint_score": "Maximum over all five potential predictive states; each includes fixed A/B target union",
+    "fixed_camera": "Minimum calibration mean A31..60 MSE; lowest index on ties",
+    "coverage": "32 independent complete objects; exact Clopper-Pearson binomial interval",
+    "comparison": "Common A31..60 and B0..60 for every policy",
+    "bootstrap": {
+      "replicates": 10000,
+      "seed": 2026120600,
+      "unit": "complete paired object"
+    }
+  },
+  "guards": [
+    "Own aggregator source must be pinned before calibration use",
+    "Shared new runner validates complete source/input closure with environment check disabled for CPU-only aggregation",
+    "All selected-role state/choice freeze records verified before reading result values",
+    "No omitted failed/missing cases",
+    "Calibration freeze rechecks hash-bound results, scores, band metadata, fixed-camera decision and source pins at release/evaluation",
+    "Reserved release binds new method, execution and exact 16-object calibration freeze"
+  ],
+  "limitations": [
+    "Calibrated marginal finite-field predictive bands under stipulated exchangeable objects; no conditional physical posterior guarantee",
+    "Approximate rotation-aware mechanics and independently fitted Gaussian discrepancy",
+    "No new cohort execution or validation from these synthetic component tests"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "status": "PURE_UTILITY_FROZEN_SYNTHETIC_PARITY_PASS",
+  "source": {
+    "path": "experiments/campaign_joint_gaussian_discrepancy.py",
+    "sha256": "fbff7ff35e0598ec04597aec14912a4493797ec0a8f9c2f98fdbfd32bb717fac",
+    "bytes": 12969
+  },
+  "tests": {
+    "source": {
+      "path": "tests/test_campaign_joint_gaussian_discrepancy.py",
+      "sha256": "3fd491a95c356e3f1e5d32400283d5ea41cce59b1990262c9c0c3804c877dbd7",
+      "bytes": 8519
+    },
+    "passed": 8,
+    "seconds": 0.28,
+    "log": {
+      "path": "runs/operator-dev/joint-gaussian-discrepancy-v01/tests.log",
+      "sha256": "657efc051bed88e47ad53601a015657c60f950aedd2d4a89cb6b0505d09d2738",
+      "bytes": 98
+    }
+  },
+  "API": {
+    "constructor": "JointGaussianDiscrepancy(mO,BO,mT,BT,*,isotropic_std_m=.0002); observationsloadings[Dobs,r],targetloadings[Dtarget,r],r0..16",
+    "condition": "(CensoredRanges[N,Drows], observation[Drows], globalrows[Drows]) -> LatentConditional",
+    "LatentConditional_fields": [
+      "log_likelihood[N]",
+      "latent_mean[N,r]",
+      "covariance_groups[G,r,r]",
+      "group_index[N]",
+      "observation_rows",
+      "immutablebasepredictions/observation",
+      "model_fingerprint"
+    ],
+    "take": "posterior.take(explicit_indices) selects includingduplicates; no weights/inferredresampling",
+    "condition_extra_view": "(base,predview,obsview,newrows) ->jointposterior,LLjointminusLLbase",
+    "conditional_target_moments": "(Tprediction[N,Dtarget],posterior) -> mean[N,Dtarget],variance_by_group[G,Dtarget],group_index[N],boundary_projection_applied=False",
+    "fantasize_view": "(base,predview,newrows,physicalbaseweights,count,seed)->CensoredRanges[count,Dview],ancestorindices/conditionallatentzmetadata"
+  },
+  "math": {
+    "working_model": "T=Ttheta+mT+BTz,foregroundO=htheta+mO+BOz+epsilon; ONEsharedz~N(0,I)",
+    "foreground": "A=observedvisible AND predictedvisible; background=observedvisible AND predictedmiss. C=(I+BO_A.T BO_A/sigma\u00b2)^\u22121,a=C BO_A.T(y-h\u03b8-mO)/sigma\u00b2.",
+    "marginal": "VisibilityBernoulli overALLselectedchannels +normalizedGaussianforeground with Sigma=sigma\u00b2I+BO_A BO_A.T +independentN(0,.05\u00b2)background. NoGaussianscore for absentranges.",
+    "target": "Conditionalmean=Ttheta+mT+BTa; covariance=BT C BT.T representedthroughgroups/lowrank; no sensornoise added to physicaltarget.",
+    "extra": "Updatephysicalweights by exp(LLjoint\u2212LLbase), not independentviewLL; sharedz posterior also updated.",
+    "fantasy": "Drawphysicalindex fromprovidedbaseposteriorweights, drawsharedz fromitsconditionalGaussian, thenpropervisibility+foregroundsensor/broadbackground. Samecount/seed givescommonrandom draws forequalD actions."
+  },
+  "numerics": {
+    "rank_maximum": 16,
+    "covariance_grouping": "Identicalobservedforegroundmask, keepingall physicalparticles",
+    "LL": "Cholesky/Woodbury+logdet, negativequadratic onlyclipped within64eps roundoff bound; otherwisefail, no jitter",
+    "target_variance": "GroupedconditionalCholeskysquarednorms, no dense targetcovariance or particleGram",
+    "model_mutation": "Modelsettings andfactorarrays immutable; fingerprints guardcross-modelposterioruse",
+    "noise": "Totalindependentisotropic foregroundstd defaults.0002m, optionallylarger independentlyfittednugget; cannot bebelowphysicalsensornoise. Visibility.005/backgroundstd.05m/outlier0 fixed."
+  },
+  "test_coverage": [
+    "RandomdenseGaussianLL/latent/targetconditionalparity underdifferentmissing/visibilitypatterns",
+    "Extra joint/base likelihood equalsconditionalGaussian; independentviewLL intentionallydiffers",
+    "Absentmeasurements andpredictedmissbroadbackground leave zprior",
+    "Rankzero reproduces existingproperCensoredRangeModel",
+    "Conditionalfantasysamplemean/variance/visibility andseedrepeat",
+    "ExactGaussian totalvariance decomposition acrossnewviewconditioning",
+    "Rank/noise/rows/mutation/cross-modelguardfailures",
+    "Callerindexing withduplicates retainsproperlatentconditionalalignment"
+  ],
+  "caller_responsibilities": [
+    "Targetoffset/loadings are genericUNPROJECTED. Rootmustzero/projecttargetdiscrepancy at eachcandidatepointpin usingcandidategeometry, neverthetruth.",
+    "Rootowns physicalweight normalization/integration, mixturemoments/risk andactivepolicy. Per-particlemeanuncertainty +conditionaldiscrepancyvariance BOTHmatter.",
+    "Independentdiscrepancyfitting/source/data splits andfuturefreshcalibration/testing are outside utility.",
+    "Visibility ignoreslatent\u03b4; actualrendering/physicalnonlinearity and theta-dependentdiscrepancy remainworkingmodelapproximations."
+  ],
+  "access": {
+    "cohort_or_prior_artifact_reads": false,
+    "simulator_or_forward_queries": false,
+    "GPU_queries": false,
+    "old_source_edits": false,
+    "fit_or_inference_runs": false
+  }
+}

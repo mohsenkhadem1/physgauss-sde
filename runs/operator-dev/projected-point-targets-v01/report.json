@@ -1,0 +1,60 @@
+{
+  "status": "COMPLETED_PURE_PROJECTED_JOINT_GP_TARGET_STATISTICS_SYNTHETIC_VALIDATION",
+  "source": {
+    "path": "experiments/campaign_projected_point_targets.py",
+    "sha256": "4afe3f1e524d7828f3a0d7ce38c00bcf25af2ec6cfad2e134e1ed374e662fc2e"
+  },
+  "tests": {
+    "path": "tests/test_campaign_projected_point_targets.py",
+    "sha256": "1512df4537369704c9daaceca78299ac6ea9e2a44ff52567f22c4c9d6b5cd57f",
+    "passed": 7,
+    "elapsed_s": 4.81
+  },
+  "API": {
+    "constructor": "ProjectedPointTargets(displacements[P,D], discrepancy_mean[D], factor[D,R], candidate_pins[P], layout=(T,N,3)); explicitfloat64 fields,int64pins",
+    "moments": "moments(weights[P],latent_means[P,R],covariance_groups[G,R,R],group_index[P],feature_chunk=512)",
+    "moments_keys": [
+      "mean_displacement",
+      "std",
+      "total_variance",
+      "between_particle_variance",
+      "within_gp_variance",
+      "roundoff_clamps"
+    ],
+    "risk": "risk(weights[F,P],latent_means[F,P,R],covariance_groups,group_index,conditional_trace=None,feature_chunk=4096); shared/stacked/raggedfantasybanks, ornormalized conditionaltrace[F,P]",
+    "risk_keys": [
+      "risk",
+      "between_particle_risk",
+      "within_gp_risk",
+      "roundoff_clamps"
+    ],
+    "risk_units": "m\u00b2 averaged overD coordinates; conditional_trace must alreadybe Tr(projectedB^TprojectedB*C)/D",
+    "native_fields": "latent_mean, covariance_groups, group_index; unusedcovariancegroupsvalid"
+  },
+  "mathematics": {
+    "projection": "For eachcandidate\u03b8, zero globaldiscrepancymean/factor atitsownpin for alltargettimes; Xpinmustalreadyexactzero. No inputdriftprojection.",
+    "moments": "Totalvariance=weightedvarianceofconditionalmeans +weightedconditionalGPdiagonal; no sensornoise added tophysicaltargets.",
+    "risk": "E||centeredX\u03b8+projectedB\u03b8*a\u03b8||\u00b2/D -||E(centeredX\u03b8+projectedB\u03b8*a\u03b8)||\u00b2/D +sum w*Tr(G\u03b8*C\u03b8), withG\u03b8=projectedB\u03b8^TprojectedB\u03b8/D.",
+    "efficiency": "PersistentcenteredP\u00d7D inputfeatures +P\u00d7Rcrossnorms +uniquePin\u00d7R\u00d7RGrams; fantasymean usesweightedbase/globalBsum minuspernodeweightedlatentpincontribution. GroupedtracecontractsuniquePin\u00d7covarianceGroup, noF\u00d7P\u00d7D allocation. Momentschunkfeatures, neverfulltargetcovariance."
+  },
+  "numerical_controls": "No covariance/Gram nugget or eigenprojection. SymmetricPSD C acceptedonly64eps-scale eigroundoffwindow. Negative computedvariance/risk onlyclampedwithin128eps timesabsoluteoperationbounds (includingGram subtraction), clampcountreturned. Substantive negativesorunnormalizedweightsraise.",
+  "checks": [
+    "independentexplicitdenseperparticleprojectedGaussianmixture parity",
+    "between+within law oftotalvariance andmeanvariance/risk agreement",
+    "ragged/shared/stackedcovariancegroups +optionalnormalizedtrace parity",
+    "hardpinexactzero means/std withnonzero globalGP mean/factors",
+    "pinlocalizedfactorcancellation, exactzero pointwisestats andboundedroundoffrisk",
+    "rejectinputpindrift/negativecovariance/incorrectweights withoutrepair",
+    "CPU/GPU2synthetic parity"
+  ],
+  "GPU2_parity": {
+    "maximum_mean_std_variance_absolute_error_in_own_units": 3.469446951953614e-18,
+    "maximum_risk_absolute_error_m2": 2.710505431213761e-20,
+    "synthetic_only": true
+  },
+  "CPU_threads": 2,
+  "physical_or_inference_jobs": 0,
+  "actualdata_or_currentcohort_or_truth_read": false,
+  "other_sources_modified": false,
+  "no_calibration_or_policy_performance_claim": true
+}

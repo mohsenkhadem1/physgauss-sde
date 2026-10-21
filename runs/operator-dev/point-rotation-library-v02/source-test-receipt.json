@@ -1,0 +1,48 @@
+{
+  "status": "SOURCE_TEST_PLAN_FROZEN_GPU_BUILD_NOT_LAUNCHED",
+  "wrapper_API": "PointRotationForward(packed,public_rest).predict(clock,geometry_ids,physical_coordinates,device,return_uncorrected=False) -> positions_m/times_s; optional uncorrected_positions_m explicitly labelled; no handle orientation/velocity/dynamics relabelling.",
+  "source_sha256": {
+    "experiments/campaign_point_rotation_forward.py": "5800e3c0a786231153b5f58360c90450c37b3dc62a5fcc8530327bae1fb72860",
+    "experiments/prepare_point_rotation_library.py": "93e72e8e154e220255934db24f418c44ed020789a498ca19bade37bd0d0368f4",
+    "tests/test_point_rotation_forward_library.py": "5889c01b073e3bf36d475965e1c6bcf6d53d82b1f0f0d2ab5f5308704d34b138"
+  },
+  "plan": {
+    "path": "runs/operator-dev/point-rotation-library-v02/library-plan.json",
+    "sha256": "f5e9268d33deb4d7b989c852b557635345ba835c4e7cf16aafaea5f5766262e7"
+  },
+  "tests": {
+    "passed": 5,
+    "elapsed_s": 4.13,
+    "cases": [
+      "exactpin and perparticle correction, no correctedhardware outputs, materialparameter autograd",
+      "MaterialGaussians transport/mass/J parity and all61frames finiteinversion retention",
+      "oldarchive NPZ memberallowlist permits only geometry_ids/physical_coordinates",
+      "allstratum prior masses plus nestedprefix consistency, missingdraw rejection without renormalization",
+      "sensorreceivescorrected q before rendering and diagnostics, no truthinputs"
+    ]
+  },
+  "preflight": {
+    "actual_plan_source_public_input_hashes_verified": true,
+    "old_archive_members_parsed_in_preparation": false,
+    "GPU_or_actual_prior_forward_calls": 0
+  },
+  "sampling": "Reuse exactlyall3\u00d755\u00d71024 prior theta/support rows, first256 IN EACHmask nested; no likelihood-dependent selection/redraw. Exactpublicmaskprior p(mask)/N exported for eachcount.",
+  "archive_IO_scope": "Whole compressed archives are SHA256-hashed for provenance; only two allowed array members are decompressed/read at execution. Old predictedsensor/likelihood/weights never used scientifically.",
+  "new_output_schema": [
+    "geometry_ids",
+    "physical_coordinates",
+    "predicted_visible",
+    "predicted_residual_m",
+    "prefix_indices_256",
+    "prior_mass_1024",
+    "prior_mass_256",
+    "minimum_J",
+    "nonpositive_tet_frame_count"
+  ],
+  "diagnostics": "Full61frames/alltets minJ + nonpositive-tet-framecount perparticle retained alongside correctedrays. Finiteinversions never filtered/repaired; source/nonfinite failures stop/preserve status without qualifying incomplete libraries.",
+  "execute_only_after_root_authorization": "CUDA_VISIBLE_DEVICES=0,1,2,3 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 .venv/bin/python experiments/prepare_point_rotation_library.py run --plan runs/operator-dev/point-rotation-library-v02/library-plan.json --plan-sha256 f5e9268d33deb4d7b989c852b557635345ba835c4e7cf16aafaea5f5766262e7",
+  "model_limit": "Candidate geometry correction, unchanged underlying linear mechanics/forward cache, not exact nonlinear dynamics/rigidhandles/native/continuum/calibratedmodel. No currentreserved32 evaluation/refit.",
+  "pinned_sources_modified": false,
+  "cohort_observations_or_truth_opened": false,
+  "libraries_GPU_run_authorized_by_this_report": false
+}
