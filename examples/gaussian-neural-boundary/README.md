@@ -17,6 +17,14 @@ The RGB-D forecast gain has a 95% layout-bootstrap interval spanning zero. Physi
 
 [Watch the actual calibrated probe](isaac-test-calibrated-probe.mp4) · [Orbit video source hashes](isaac-test-scenarios.manifest.json) · [Probe video source hashes](isaac-test-calibrated-probe.manifest.json)
 
+[![Actual versus predicted bending](actual-vs-predicted.z0005.poster.png)](actual-vs-predicted.mp4)
+
+[Watch actual versus predicted bending](actual-vs-predicted.mp4) · [Comparison source hashes](actual-vs-predicted.manifest.json)
+
+In plain language: we made virtual soft blocks, changed their stiffness, holding points and applied forces, and taught a model to predict their bending from a few snapshots. We hid the middle of each test sequence and checked the prediction against the simulator. We also tested whether another camera angle or a poke helped. Filling missing motion improved on average; reliable material identification, uncertainty and smarter probing remain unresolved.
+
+The comparison shows two visibly moving cases from the earlier montage, including a poor prediction. Left is captured Isaac RGB; right renders the frozen RGB-D model's mean prediction as Gaussian splats. Both use the same orbiting camera and crop. Texture and lighting differ between renderers. Playback is half speed with no deformation amplification. Ten input snapshots lie outside the marked 1–2 s missing interval: this is interpolation using earlier and later observations, not future forecasting. Reproduce with `OPENBLAS_NUM_THREADS=2 .venv/bin/python experiments/render_actual_prediction_video.py`.
+
 ## Data, models and reproduction
 
 [The artifact index](artifacts.json) provides immutable commit URLs, checksums and file counts. Large raw files live on the artifact branch; source, protocols, reports and videos live on `main`. To obtain source without downloading the entire artifact history:
