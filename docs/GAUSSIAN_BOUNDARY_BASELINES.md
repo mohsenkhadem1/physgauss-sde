@@ -64,6 +64,46 @@ performed in this audit. A small independently written residual model must be
 called **PIDG-inspired**, with its deviations listed; it is not an official
 PIDG result.
 
+### Official-source recovery refresh, 21 October 2026
+
+The historical assessment above describes the original clean-checkout audit.
+A fresh latest-tree check still resolves to the same commit and missing import,
+but the missing source is now recoverable from the official repository's
+[historical commit `907cd641`](https://github.com/SCAILab-USTC/Physics-Informed-Deformable-Gaussian-Splatting/blob/907cd641ea01bf46a4c03ab509e6d4872c78af6b/motion_utils/time_evolving_material_field.py).
+It was removed in official commit `053ad223`. Compiling that historical file
+with the already-installed CPython 3.8.20 yields the same recursive bytecode,
+constants, names, argument counts and flags as the latest released `.pyc`.
+Debug locations and stacksize/nlocals metadata are excluded from this fingerprint;
+no upstream module was imported or executed. Historical source SHA256 is
+`1b9c97a6602a4831f7f134f5d9c01063cceedf91c51fc8116b17acc3912215cb`.
+This supports restoring the pinned **official** historical file in a separate
+checkout, rather than substituting our inspired implementation. The other
+`VelocityNet` in `pidg.py` differs in its default particle budget and methods.
+
+The build remains untested. A separate Python 3.10 environment with Torch
+2.5/cu121, matching CUDA 12.1 compiler tools, a compatible C++ toolchain and
+Ninja is a proposed starting point, not a solved dependency lock. Explicitly
+pin the external flow rasterizer to gitlink
+`2146a1c0dc3558644af420f20c21a0ad07ffa67a`; latest upstream has no
+`.gitmodules`. The shared project environment still lacks the required compiler
+commands. No installation, official training or new score was produced.
+
+The future official comparison should use the independent dataset only after
+its numerical gate passes, with public observations, validation-only checkpoint
+selection, and flow/depth preprocessing restricted to allowed observations.
+Report per-scene fitting cost and additional supervision. PIDG is an official
+reconstruction/gap-filling comparator; its released coordinate/time network
+has no query force/boundary input or material posterior/probe policy.
+Changed-force forecasting and any corrected-advection extension need separate
+labels. Preserve the released residual result described above.
+
+The compact audit, exact pinned URLs/hashes, full-module fingerprint proof,
+toolchain evidence and proposed evaluation protocol are in
+`runs/operator-dev/pidg-feasibility-refresh-v02/REPORT.md` and `audit.json`.
+Implementation was inspected only in a temporary external quarantine; the
+project retains metadata and our inspection script. Upstream license metadata
+remains absent. No existing sealed test was changed.
+
 The independently written executable baseline is
 `experiments/pidg_style_baseline.py`. It uses a smooth coordinate/time MLP with
 Fourier features and exact rest initial conditions; auxiliary velocity and
@@ -71,8 +111,8 @@ symmetric Cauchy stress; a Lagrangian momentum residual using first Piola stress
 and an optional compressible neo-Hookean constitutive prior. It fits public
 RGB/masks through the shared Gaussian renderer, keeps appearance fixed and saves
 the fixed final iteration. It deliberately omits PIDG's hash encoding, flow
-rasterizer, optical-flow fitting, densification and the unavailable material
-module. Its material prior also differs from the Isaac simulator; this is a
+rasterizer, optical-flow fitting, densification and the official material
+module (originally missing, now recoverable from repository history). Its material prior also differs from the Isaac simulator; this is a
 regularized reconstruction baseline, not a constitutive identification result.
 
 ```sh
