@@ -1,0 +1,1776 @@
+{
+  "role": "Pure TRAIN static-input command compilation; no response loaded or simulation executed",
+  "source_sha256": {
+    "configs/gaussian_independent_diagnostic_inputs_v01.json": "073380f72559c50ccc674d5f69fdff1be7e4d0b30484ad66f0233695a813847f",
+    "experiments/campaign_authored_commands.py": "fdbf333b9531ce11700b6be05ab916fbdb7b30c2fb96cec3762369ae05a3c475",
+    "tests/test_campaign_authored_commands.py": "1602815847267ea2ca5cdbc324fc2c847eb88351089b6a6035594aaaba51d2a7"
+  },
+  "validation": {
+    "command": ".venv/bin/python -m pytest -q tests/test_campaign_authored_commands.py",
+    "passed": 16,
+    "independent_math_check": "Signed impulse, componentwise absolute impulse and first temporal moment checked against independent 200000-bin quadrature of every family."
+  },
+  "cases": [
+    {
+      "episode_id": "t0000",
+      "boundary_kind": "point_pin",
+      "information_role": "known_actuator_command",
+      "original_recipe_force_family": "push_pulse",
+      "requested_force_family": "push_pulse",
+      "force_family_intervention": false,
+      "exact_authored_peak_force_N": 0.030249222859091197,
+      "force_precision": "Original forces_at float32 result promoted exactly to float64; solver precision unchanged.",
+      "force_application": "World force at each rigid handle origin; zero pure torque, no external nodal force.",
+      "midpoint_clock": "(integer_step_index+0.5)/physics_hz; held over [index/hz,(index+1)/hz].",
+      "command_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+      "command_source_file": "isaac_dataset.py",
+      "nominal_interval_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          0.020418225417662524
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_unquantized_impulse_Ns": [
+        [
+          -0.0,
+          -0.0,
+          0.02041822542988656
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          0.02041822542988656
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_first_time_moment_Ns2": [
+        [
+          -0.0,
+          -0.0,
+          0.019907769794139395
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "native_engine_or_trajectory_equivalence": false,
+      "qualification": "Command compilation only; no trajectory, numerical convergence or predictive qualification.",
+      "held_command_shape": [
+        1440,
+        2,
+        3
+      ],
+      "held_command_canonical_sha256": "2340bd8a1f311a7d1924b231f3b25aadaa21a3b187b101332e8cd9e85042d217",
+      "output_frames": 31,
+      "clock_evidence": "Compiled integer grid only; a dynamics runner must separately record and reconcile measured solver-state clocks.",
+      "compiled_endpoint_interval_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          0.020418225417662517
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          0.020418225417662517
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_first_time_moment_Ns2": [
+        [
+          0.0,
+          0.0,
+          0.019907769782220978
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "maximum_compiled_vs_continuous_impulse_error_Ns": 1.2224041223696247e-11,
+      "maximum_compiled_vs_nominal_clock_impulse_error_Ns": 6.938893903907228e-18
+    },
+    {
+      "episode_id": "t0000",
+      "boundary_kind": "point_pin",
+      "information_role": "known_actuator_command",
+      "original_recipe_force_family": "push_pulse",
+      "requested_force_family": "pull_hold",
+      "force_family_intervention": true,
+      "exact_authored_peak_force_N": 0.030249222859091197,
+      "force_precision": "Original forces_at float32 result promoted exactly to float64; solver precision unchanged.",
+      "force_application": "World force at each rigid handle origin; zero pure torque, no external nodal force.",
+      "midpoint_clock": "(integer_step_index+0.5)/physics_hz; held over [index/hz,(index+1)/hz].",
+      "command_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+      "command_source_file": "isaac_dataset.py",
+      "nominal_interval_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          -0.052179909700800456
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_unquantized_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          -0.05217990943193232
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          0.05217990943193231
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_first_time_moment_Ns2": [
+        [
+          0.0,
+          0.0,
+          -0.07645816136729211
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "native_engine_or_trajectory_equivalence": false,
+      "qualification": "Command compilation only; no trajectory, numerical convergence or predictive qualification.",
+      "held_command_shape": [
+        1440,
+        2,
+        3
+      ],
+      "held_command_canonical_sha256": "470d1972e44381d57a1f1bd538b8459d9155fc29393f88b4cbd9623f2d4c2706",
+      "output_frames": 31,
+      "clock_evidence": "Compiled integer grid only; a dynamics runner must separately record and reconcile measured solver-state clocks.",
+      "compiled_endpoint_interval_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          -0.052179909700800324
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          0.052179909700800324
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_first_time_moment_Ns2": [
+        [
+          0.0,
+          0.0,
+          -0.07645816174080891
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "maximum_compiled_vs_continuous_impulse_error_Ns": 2.6886800424952284e-10,
+      "maximum_compiled_vs_nominal_clock_impulse_error_Ns": 1.3183898417423734e-16
+    },
+    {
+      "episode_id": "t0000",
+      "boundary_kind": "point_pin",
+      "information_role": "known_actuator_command",
+      "original_recipe_force_family": "push_pulse",
+      "requested_force_family": "shear_oscillation",
+      "force_family_intervention": true,
+      "exact_authored_peak_force_N": 0.030249222859091197,
+      "force_precision": "Original forces_at float32 result promoted exactly to float64; solver precision unchanged.",
+      "force_application": "World force at each rigid handle origin; zero pure torque, no external nodal force.",
+      "midpoint_clock": "(integer_step_index+0.5)/physics_hz; held over [index/hz,(index+1)/hz].",
+      "command_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+      "command_source_file": "isaac_dataset.py",
+      "nominal_interval_impulse_Ns": [
+        [
+          0.0,
+          -2.312964634635743e-19,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_unquantized_impulse_Ns": [
+        [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.02310870404502106,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_first_time_moment_Ns2": [
+        [
+          0.0,
+          -0.002310870404502106,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "native_engine_or_trajectory_equivalence": false,
+      "qualification": "Command compilation only; no trajectory, numerical convergence or predictive qualification.",
+      "held_command_shape": [
+        1440,
+        2,
+        3
+      ],
+      "held_command_canonical_sha256": "4fec8f174c40b03bdb506392b9a211ad2ebca718674b4342fae33c33fc4388f6",
+      "output_frames": 31,
+      "clock_evidence": "Compiled integer grid only; a dynamics runner must separately record and reconcile measured solver-state clocks.",
+      "compiled_endpoint_interval_impulse_Ns": [
+        [
+          0.0,
+          1.7031474776372067e-18,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.023108818584972154,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_first_time_moment_Ns2": [
+        [
+          0.0,
+          -0.0023108703884909057,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "maximum_compiled_vs_continuous_impulse_error_Ns": 1.7031474776372067e-18,
+      "maximum_compiled_vs_nominal_clock_impulse_error_Ns": 1.934443941100781e-18
+    },
+    {
+      "episode_id": "t0000",
+      "boundary_kind": "point_pin",
+      "information_role": "known_actuator_command",
+      "original_recipe_force_family": "push_pulse",
+      "requested_force_family": "twist_couple",
+      "force_family_intervention": true,
+      "exact_authored_peak_force_N": 0.030249222859091197,
+      "force_precision": "Original forces_at float32 result promoted exactly to float64; solver precision unchanged.",
+      "force_application": "World force at each rigid handle origin; zero pure torque, no external nodal force.",
+      "midpoint_clock": "(integer_step_index+0.5)/physics_hz; held over [index/hz,(index+1)/hz].",
+      "command_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+      "command_source_file": "isaac_dataset.py",
+      "nominal_interval_impulse_Ns": [
+        [
+          0.01097555565649572,
+          -0.013999166902871885,
+          0.010023194737386524
+        ],
+        [
+          -0.01097555565649572,
+          0.013999166902871885,
+          -0.010023194737386524
+        ]
+      ],
+      "continuous_unquantized_impulse_Ns": [
+        [
+          0.010975555655082106,
+          -0.013999166934125137,
+          0.010023194746105597
+        ],
+        [
+          -0.010975555655082106,
+          0.013999166934125137,
+          -0.010023194746105597
+        ]
+      ],
+      "continuous_componentwise_absolute_impulse_Ns": [
+        [
+          0.010975555655082106,
+          0.013999166934125137,
+          0.010023194746105597
+        ],
+        [
+          0.010975555655082106,
+          0.013999166934125137,
+          0.010023194746105597
+        ]
+      ],
+      "continuous_first_time_moment_Ns2": [
+        [
+          0.010701166763705054,
+          -0.013649187760772008,
+          0.009772614877452956
+        ],
+        [
+          -0.010701166763705054,
+          0.013649187760772008,
+          -0.009772614877452956
+        ]
+      ],
+      "native_engine_or_trajectory_equivalence": false,
+      "qualification": "Command compilation only; no trajectory, numerical convergence or predictive qualification.",
+      "held_command_shape": [
+        1440,
+        2,
+        3
+      ],
+      "held_command_canonical_sha256": "53b598a642c0fe0d1c0bd4f73da04474ab1b8195eccdec55ba5d0ad01158b234",
+      "output_frames": 31,
+      "clock_evidence": "Compiled integer grid only; a dynamics runner must separately record and reconcile measured solver-state clocks.",
+      "compiled_endpoint_interval_impulse_Ns": [
+        [
+          0.010975555656495706,
+          -0.013999166902871897,
+          0.010023194737386533
+        ],
+        [
+          -0.010975555656495706,
+          0.013999166902871897,
+          -0.010023194737386533
+        ]
+      ],
+      "compiled_componentwise_absolute_impulse_Ns": [
+        [
+          0.010975555656495706,
+          0.013999166902871897,
+          0.010023194737386533
+        ],
+        [
+          0.010975555656495706,
+          0.013999166902871897,
+          0.010023194737386533
+        ]
+      ],
+      "compiled_first_time_moment_Ns2": [
+        [
+          0.01070116676508331,
+          -0.013649187730300109,
+          0.009772614868951873
+        ],
+        [
+          -0.01070116676508331,
+          0.013649187730300109,
+          -0.009772614868951873
+        ]
+      ],
+      "maximum_compiled_vs_continuous_impulse_error_Ns": 3.1253239579642766e-11,
+      "maximum_compiled_vs_nominal_clock_impulse_error_Ns": 1.3877787807814457e-17
+    },
+    {
+      "episode_id": "t0001",
+      "boundary_kind": "fixed_patch",
+      "information_role": "known_actuator_command",
+      "original_recipe_force_family": "push_pulse",
+      "requested_force_family": "push_pulse",
+      "force_family_intervention": false,
+      "exact_authored_peak_force_N": 0.1862031455981184,
+      "force_precision": "Original forces_at float32 result promoted exactly to float64; solver precision unchanged.",
+      "force_application": "World force at each rigid handle origin; zero pure torque, no external nodal force.",
+      "midpoint_clock": "(integer_step_index+0.5)/physics_hz; held over [index/hz,(index+1)/hz].",
+      "command_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+      "command_source_file": "isaac_dataset.py",
+      "nominal_interval_impulse_Ns": [
+        [
+          -0.12568712308611793,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_unquantized_impulse_Ns": [
+        [
+          -0.12568712327872994,
+          -0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_componentwise_absolute_impulse_Ns": [
+        [
+          0.12568712327872994,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_first_time_moment_Ns2": [
+        [
+          -0.12254494519676169,
+          -0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "native_engine_or_trajectory_equivalence": false,
+      "qualification": "Command compilation only; no trajectory, numerical convergence or predictive qualification.",
+      "held_command_shape": [
+        1440,
+        2,
+        3
+      ],
+      "held_command_canonical_sha256": "7ee3e1661d0e751a389cfcd3e43f558af7f5f8344064f436c4d8ded677bc0e7e",
+      "output_frames": 31,
+      "clock_evidence": "Compiled integer grid only; a dynamics runner must separately record and reconcile measured solver-state clocks.",
+      "compiled_endpoint_interval_impulse_Ns": [
+        [
+          -0.1256871230861179,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_componentwise_absolute_impulse_Ns": [
+        [
+          0.1256871230861179,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_first_time_moment_Ns2": [
+        [
+          -0.12254494500896496,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "maximum_compiled_vs_continuous_impulse_error_Ns": 1.926120374307061e-10,
+      "maximum_compiled_vs_nominal_clock_impulse_error_Ns": 2.7755575615628914e-17
+    },
+    {
+      "episode_id": "t0001",
+      "boundary_kind": "fixed_patch",
+      "information_role": "known_actuator_command",
+      "original_recipe_force_family": "push_pulse",
+      "requested_force_family": "pull_hold",
+      "force_family_intervention": true,
+      "exact_authored_peak_force_N": 0.1862031455981184,
+      "force_precision": "Original forces_at float32 result promoted exactly to float64; solver precision unchanged.",
+      "force_application": "World force at each rigid handle origin; zero pure torque, no external nodal force.",
+      "midpoint_clock": "(integer_step_index+0.5)/physics_hz; held over [index/hz,(index+1)/hz].",
+      "command_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+      "command_source_file": "isaac_dataset.py",
+      "nominal_interval_impulse_Ns": [
+        [
+          0.32120043272412613,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_unquantized_impulse_Ns": [
+        [
+          0.32120042615675426,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_componentwise_absolute_impulse_Ns": [
+        [
+          0.3212004261567542,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_first_time_moment_Ns2": [
+        [
+          0.47064845994744514,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "native_engine_or_trajectory_equivalence": false,
+      "qualification": "Command compilation only; no trajectory, numerical convergence or predictive qualification.",
+      "held_command_shape": [
+        1440,
+        2,
+        3
+      ],
+      "held_command_canonical_sha256": "eb55af5362e9d3670312c34e8c5ac8038417f9c7f39b7460269d850293e478fc",
+      "output_frames": 31,
+      "clock_evidence": "Compiled integer grid only; a dynamics runner must separately record and reconcile measured solver-state clocks.",
+      "compiled_endpoint_interval_impulse_Ns": [
+        [
+          0.32120043272412413,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_componentwise_absolute_impulse_Ns": [
+        [
+          0.32120043272412413,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_first_time_moment_Ns2": [
+        [
+          0.47064846938929833,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "maximum_compiled_vs_continuous_impulse_error_Ns": 6.567369870147388e-09,
+      "maximum_compiled_vs_nominal_clock_impulse_error_Ns": 1.9984014443252818e-15
+    },
+    {
+      "episode_id": "t0001",
+      "boundary_kind": "fixed_patch",
+      "information_role": "known_actuator_command",
+      "original_recipe_force_family": "push_pulse",
+      "requested_force_family": "shear_oscillation",
+      "force_family_intervention": true,
+      "exact_authored_peak_force_N": 0.1862031455981184,
+      "force_precision": "Original forces_at float32 result promoted exactly to float64; solver precision unchanged.",
+      "force_application": "World force at each rigid handle origin; zero pure torque, no external nodal force.",
+      "midpoint_clock": "(integer_step_index+0.5)/physics_hz; held over [index/hz,(index+1)/hz].",
+      "command_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+      "command_source_file": "isaac_dataset.py",
+      "nominal_interval_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          3.23815048849004e-18
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_unquantized_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          0.14224872499776214
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_first_time_moment_Ns2": [
+        [
+          0.0,
+          0.0,
+          0.014224872499776213
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "native_engine_or_trajectory_equivalence": false,
+      "qualification": "Command compilation only; no trajectory, numerical convergence or predictive qualification.",
+      "held_command_shape": [
+        1440,
+        2,
+        3
+      ],
+      "held_command_canonical_sha256": "78ca2aa28c7f63492bac950360625496e93dc9b920e72a247cdac8421e25bf9a",
+      "output_frames": 31,
+      "clock_evidence": "Compiled integer grid only; a dynamics runner must separately record and reconcile measured solver-state clocks.",
+      "compiled_endpoint_interval_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          -1.3181433076047619e-18
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          0.1422494302903623
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_first_time_moment_Ns2": [
+        [
+          0.0,
+          0.0,
+          0.014224872598547987
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "maximum_compiled_vs_continuous_impulse_error_Ns": 1.3181433076047619e-18,
+      "maximum_compiled_vs_nominal_clock_impulse_error_Ns": 4.556293796094802e-18
+    },
+    {
+      "episode_id": "t0001",
+      "boundary_kind": "fixed_patch",
+      "information_role": "known_actuator_command",
+      "original_recipe_force_family": "push_pulse",
+      "requested_force_family": "twist_couple",
+      "force_family_intervention": true,
+      "exact_authored_peak_force_N": 0.1862031455981184,
+      "force_precision": "Original forces_at float32 result promoted exactly to float64; solver precision unchanged.",
+      "force_application": "World force at each rigid handle origin; zero pure torque, no external nodal force.",
+      "midpoint_clock": "(integer_step_index+0.5)/physics_hz; held over [index/hz,(index+1)/hz].",
+      "command_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+      "command_source_file": "isaac_dataset.py",
+      "nominal_interval_impulse_Ns": [
+        [
+          -0.006837116892677224,
+          -0.01595327272935041,
+          0.12448293004111169
+        ],
+        [
+          0.006837116892677224,
+          0.01595327272935041,
+          -0.12448293004111169
+        ]
+      ],
+      "continuous_unquantized_impulse_Ns": [
+        [
+          -0.006837116890766843,
+          -0.01595327274512263,
+          0.12448293007245761
+        ],
+        [
+          0.006837116890766843,
+          0.01595327274512263,
+          -0.12448293007245761
+        ]
+      ],
+      "continuous_componentwise_absolute_impulse_Ns": [
+        [
+          0.006837116890766843,
+          0.01595327274512263,
+          0.12448293007245761
+        ],
+        [
+          0.006837116890766843,
+          0.01595327274512263,
+          0.12448293007245761
+        ]
+      ],
+      "continuous_first_time_moment_Ns2": [
+        [
+          -0.006666188968497672,
+          -0.015554440926494568,
+          0.12137085682064618
+        ],
+        [
+          0.006666188968497672,
+          0.015554440926494568,
+          -0.12137085682064618
+        ]
+      ],
+      "native_engine_or_trajectory_equivalence": false,
+      "qualification": "Command compilation only; no trajectory, numerical convergence or predictive qualification.",
+      "held_command_shape": [
+        1440,
+        2,
+        3
+      ],
+      "held_command_canonical_sha256": "4fd195450838e4a136adb0347e3d947529dd41ce6308af46ed2408b207685f93",
+      "output_frames": 31,
+      "clock_evidence": "Compiled integer grid only; a dynamics runner must separately record and reconcile measured solver-state clocks.",
+      "compiled_endpoint_interval_impulse_Ns": [
+        [
+          -0.006837116892677221,
+          -0.01595327272935041,
+          0.1244829300411115
+        ],
+        [
+          0.006837116892677221,
+          0.01595327272935041,
+          -0.1244829300411115
+        ]
+      ],
+      "compiled_componentwise_absolute_impulse_Ns": [
+        [
+          0.006837116892677221,
+          0.01595327272935041,
+          0.1244829300411115
+        ],
+        [
+          0.006837116892677221,
+          0.01595327272935041,
+          0.1244829300411115
+        ]
+      ],
+      "compiled_first_time_moment_Ns2": [
+        [
+          -0.006666188970360292,
+          -0.015554440911116652,
+          0.12137085679008401
+        ],
+        [
+          0.006666188970360292,
+          0.015554440911116652,
+          -0.12137085679008401
+        ]
+      ],
+      "maximum_compiled_vs_continuous_impulse_error_Ns": 3.1346120143993517e-11,
+      "maximum_compiled_vs_nominal_clock_impulse_error_Ns": 1.942890293094024e-16
+    },
+    {
+      "episode_id": "t0002",
+      "boundary_kind": "two_patches",
+      "information_role": "known_actuator_command",
+      "original_recipe_force_family": "push_pulse",
+      "requested_force_family": "push_pulse",
+      "force_family_intervention": false,
+      "exact_authored_peak_force_N": 0.14946816649260591,
+      "force_precision": "Original forces_at float32 result promoted exactly to float64; solver precision unchanged.",
+      "force_application": "World force at each rigid handle origin; zero pure torque, no external nodal force.",
+      "midpoint_clock": "(integer_step_index+0.5)/physics_hz; held over [index/hz,(index+1)/hz].",
+      "command_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+      "command_source_file": "isaac_dataset.py",
+      "nominal_interval_impulse_Ns": [
+        [
+          0.0,
+          0.10089101242013428,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_unquantized_impulse_Ns": [
+        [
+          -0.0,
+          0.100891012382509,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.100891012382509,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_first_time_moment_Ns2": [
+        [
+          -0.0,
+          0.09836873707294627,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "native_engine_or_trajectory_equivalence": false,
+      "qualification": "Command compilation only; no trajectory, numerical convergence or predictive qualification.",
+      "held_command_shape": [
+        1440,
+        2,
+        3
+      ],
+      "held_command_canonical_sha256": "fc72d027f987d49d1458b8ef5f4aa82253652818e719a4d575bf24452f266e28",
+      "output_frames": 31,
+      "clock_evidence": "Compiled integer grid only; a dynamics runner must separately record and reconcile measured solver-state clocks.",
+      "compiled_endpoint_interval_impulse_Ns": [
+        [
+          0.0,
+          0.10089101242013429,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.10089101242013429,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_first_time_moment_Ns2": [
+        [
+          0.0,
+          0.09836873710963097,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "maximum_compiled_vs_continuous_impulse_error_Ns": 3.762529177109286e-11,
+      "maximum_compiled_vs_nominal_clock_impulse_error_Ns": 1.3877787807814457e-17
+    },
+    {
+      "episode_id": "t0002",
+      "boundary_kind": "two_patches",
+      "information_role": "known_actuator_command",
+      "original_recipe_force_family": "push_pulse",
+      "requested_force_family": "pull_hold",
+      "force_family_intervention": true,
+      "exact_authored_peak_force_N": 0.14946816649260591,
+      "force_precision": "Original forces_at float32 result promoted exactly to float64; solver precision unchanged.",
+      "force_application": "World force at each rigid handle origin; zero pure torque, no external nodal force.",
+      "midpoint_clock": "(integer_step_index+0.5)/physics_hz; held over [index/hz,(index+1)/hz].",
+      "command_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+      "command_source_file": "isaac_dataset.py",
+      "nominal_interval_impulse_Ns": [
+        [
+          0.0,
+          -0.2578325892375953,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_unquantized_impulse_Ns": [
+        [
+          0.0,
+          -0.2578325871997452,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.25783258719974517,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_first_time_moment_Ns2": [
+        [
+          0.0,
+          -0.3777968527059306,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "native_engine_or_trajectory_equivalence": false,
+      "qualification": "Command compilation only; no trajectory, numerical convergence or predictive qualification.",
+      "held_command_shape": [
+        1440,
+        2,
+        3
+      ],
+      "held_command_canonical_sha256": "cfc213204f67ddd58202f20e97b54daa8b3bae26c62d7c77df2a6e7c112c76b0",
+      "output_frames": 31,
+      "clock_evidence": "Compiled integer grid only; a dynamics runner must separately record and reconcile measured solver-state clocks.",
+      "compiled_endpoint_interval_impulse_Ns": [
+        [
+          0.0,
+          -0.2578325892375976,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.2578325892375976,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_first_time_moment_Ns2": [
+        [
+          0.0,
+          -0.37779685580292444,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "maximum_compiled_vs_continuous_impulse_error_Ns": 2.0378523868380682e-09,
+      "maximum_compiled_vs_nominal_clock_impulse_error_Ns": 2.3314683517128287e-15
+    },
+    {
+      "episode_id": "t0002",
+      "boundary_kind": "two_patches",
+      "information_role": "known_actuator_command",
+      "original_recipe_force_family": "push_pulse",
+      "requested_force_family": "shear_oscillation",
+      "force_family_intervention": true,
+      "exact_authored_peak_force_N": 0.14946816649260591,
+      "force_precision": "Original forces_at float32 result promoted exactly to float64; solver precision unchanged.",
+      "force_application": "World force at each rigid handle origin; zero pure torque, no external nodal force.",
+      "midpoint_clock": "(integer_step_index+0.5)/physics_hz; held over [index/hz,(index+1)/hz].",
+      "command_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+      "command_source_file": "isaac_dataset.py",
+      "nominal_interval_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          4.625929269271486e-19
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_unquantized_impulse_Ns": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          0.11418526815446707
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_first_time_moment_Ns2": [
+        [
+          -0.0,
+          0.0,
+          0.011418526815446707
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "native_engine_or_trajectory_equivalence": false,
+      "qualification": "Command compilation only; no trajectory, numerical convergence or predictive qualification.",
+      "held_command_shape": [
+        1440,
+        2,
+        3
+      ],
+      "held_command_canonical_sha256": "92abdd5ee782d8574d16af736af156aa77bca014bdba184fc27d0a42cd807ff4",
+      "output_frames": 31,
+      "clock_evidence": "Compiled integer grid only; a dynamics runner must separately record and reconcile measured solver-state clocks.",
+      "compiled_endpoint_interval_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          3.699814004032021e-18
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          0.11418583401309378
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_first_time_moment_Ns2": [
+        [
+          0.0,
+          0.0,
+          0.011418526729210746
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "maximum_compiled_vs_continuous_impulse_error_Ns": 3.699814004032021e-18,
+      "maximum_compiled_vs_nominal_clock_impulse_error_Ns": 3.2372210771048724e-18
+    },
+    {
+      "episode_id": "t0002",
+      "boundary_kind": "two_patches",
+      "information_role": "known_actuator_command",
+      "original_recipe_force_family": "push_pulse",
+      "requested_force_family": "twist_couple",
+      "force_family_intervention": true,
+      "exact_authored_peak_force_N": 0.14946816649260591,
+      "force_precision": "Original forces_at float32 result promoted exactly to float64; solver precision unchanged.",
+      "force_application": "World force at each rigid handle origin; zero pure torque, no external nodal force.",
+      "midpoint_clock": "(integer_step_index+0.5)/physics_hz; held over [index/hz,(index+1)/hz].",
+      "command_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+      "command_source_file": "isaac_dataset.py",
+      "nominal_interval_impulse_Ns": [
+        [
+          -0.04886833134416051,
+          -0.0877953220141857,
+          -0.00910296781239186
+        ],
+        [
+          0.04886833134416051,
+          0.0877953220141857,
+          0.00910296781239186
+        ]
+      ],
+      "continuous_unquantized_impulse_Ns": [
+        [
+          -0.04886833138880471,
+          -0.08779532188036485,
+          -0.009102967799826342
+        ],
+        [
+          0.04886833138880471,
+          0.08779532188036485,
+          0.009102967799826342
+        ]
+      ],
+      "continuous_componentwise_absolute_impulse_Ns": [
+        [
+          0.04886833138880471,
+          0.08779532188036485,
+          0.009102967799826342
+        ],
+        [
+          0.04886833138880471,
+          0.08779532188036485,
+          0.009102967799826342
+        ]
+      ],
+      "continuous_first_time_moment_Ns2": [
+        [
+          -0.047646623104084594,
+          -0.08560043883335572,
+          -0.008875393604830683
+        ],
+        [
+          0.047646623104084594,
+          0.08560043883335572,
+          0.008875393604830683
+        ]
+      ],
+      "native_engine_or_trajectory_equivalence": false,
+      "qualification": "Command compilation only; no trajectory, numerical convergence or predictive qualification.",
+      "held_command_shape": [
+        1440,
+        2,
+        3
+      ],
+      "held_command_canonical_sha256": "a8d2b7c00f90926c4daa94daf1b627d32cc6ff5551bac8ff8055a4a55f54fdaf",
+      "output_frames": 31,
+      "clock_evidence": "Compiled integer grid only; a dynamics runner must separately record and reconcile measured solver-state clocks.",
+      "compiled_endpoint_interval_impulse_Ns": [
+        [
+          -0.04886833134416047,
+          -0.08779532201418576,
+          -0.009102967812391857
+        ],
+        [
+          0.04886833134416047,
+          0.08779532201418576,
+          0.009102967812391857
+        ]
+      ],
+      "compiled_componentwise_absolute_impulse_Ns": [
+        [
+          0.04886833134416047,
+          0.08779532201418576,
+          0.009102967812391857
+        ],
+        [
+          0.04886833134416047,
+          0.08779532201418576,
+          0.009102967812391857
+        ]
+      ],
+      "compiled_first_time_moment_Ns2": [
+        [
+          -0.04764662306055653,
+          -0.08560043896383106,
+          -0.008875393617082072
+        ],
+        [
+          0.04764662306055653,
+          0.08560043896383106,
+          0.008875393617082072
+        ]
+      ],
+      "maximum_compiled_vs_continuous_impulse_error_Ns": 1.3382091268443475e-10,
+      "maximum_compiled_vs_nominal_clock_impulse_error_Ns": 5.551115123125783e-17
+    },
+    {
+      "episode_id": "t0003",
+      "boundary_kind": "moving_patch",
+      "information_role": "known_actuator_command",
+      "original_recipe_force_family": "push_pulse",
+      "requested_force_family": "push_pulse",
+      "force_family_intervention": false,
+      "exact_authored_peak_force_N": 0.21153619641676252,
+      "force_precision": "Original forces_at float32 result promoted exactly to float64; solver precision unchanged.",
+      "force_application": "World force at each rigid handle origin; zero pure torque, no external nodal force.",
+      "midpoint_clock": "(integer_step_index+0.5)/physics_hz; held over [index/hz,(index+1)/hz].",
+      "command_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+      "command_source_file": "isaac_dataset.py",
+      "nominal_interval_impulse_Ns": [
+        [
+          0.0,
+          0.14278693259873165,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_unquantized_impulse_Ns": [
+        [
+          -0.0,
+          0.14278693258131472,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.14278693258131472,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_first_time_moment_Ns2": [
+        [
+          -0.0,
+          0.13921725926678186,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "native_engine_or_trajectory_equivalence": false,
+      "qualification": "Command compilation only; no trajectory, numerical convergence or predictive qualification.",
+      "held_command_shape": [
+        1440,
+        2,
+        3
+      ],
+      "held_command_canonical_sha256": "b6c253a30735afcdbd96b2d5cde3be3c993ba06628be55d0b3dca7d6a67ef8ef",
+      "output_frames": 31,
+      "clock_evidence": "Compiled integer grid only; a dynamics runner must separately record and reconcile measured solver-state clocks.",
+      "compiled_endpoint_interval_impulse_Ns": [
+        [
+          0.0,
+          0.14278693259873146,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.14278693259873146,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_first_time_moment_Ns2": [
+        [
+          0.0,
+          0.13921725928376338,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "maximum_compiled_vs_continuous_impulse_error_Ns": 1.7416734721109606e-11,
+      "maximum_compiled_vs_nominal_clock_impulse_error_Ns": 1.942890293094024e-16
+    },
+    {
+      "episode_id": "t0003",
+      "boundary_kind": "moving_patch",
+      "information_role": "known_actuator_command",
+      "original_recipe_force_family": "push_pulse",
+      "requested_force_family": "pull_hold",
+      "force_family_intervention": true,
+      "exact_authored_peak_force_N": 0.21153619641676252,
+      "force_precision": "Original forces_at float32 result promoted exactly to float64; solver precision unchanged.",
+      "force_application": "World force at each rigid handle origin; zero pure torque, no external nodal force.",
+      "midpoint_clock": "(integer_step_index+0.5)/physics_hz; held over [index/hz,(index+1)/hz].",
+      "command_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+      "command_source_file": "isaac_dataset.py",
+      "nominal_interval_impulse_Ns": [
+        [
+          0.0,
+          -0.36489994120438235,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_unquantized_impulse_Ns": [
+        [
+          0.0,
+          -0.36489993881891536,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.3648999388189153,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_first_time_moment_Ns2": [
+        [
+          0.0,
+          -0.5346804681891238,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "native_engine_or_trajectory_equivalence": false,
+      "qualification": "Command compilation only; no trajectory, numerical convergence or predictive qualification.",
+      "held_command_shape": [
+        1440,
+        2,
+        3
+      ],
+      "held_command_canonical_sha256": "c3264c35ac2913f4c4e9d40884c09f4e1edafe504d495fc86e5f551a82b1dd3c",
+      "output_frames": 31,
+      "clock_evidence": "Compiled integer grid only; a dynamics runner must separately record and reconcile measured solver-state clocks.",
+      "compiled_endpoint_interval_impulse_Ns": [
+        [
+          0.0,
+          -0.36489994120438357,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.36489994120438357,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_first_time_moment_Ns2": [
+        [
+          0.0,
+          -0.5346804715979266,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "maximum_compiled_vs_continuous_impulse_error_Ns": 2.3854682118518156e-09,
+      "maximum_compiled_vs_nominal_clock_impulse_error_Ns": 1.2212453270876722e-15
+    },
+    {
+      "episode_id": "t0003",
+      "boundary_kind": "moving_patch",
+      "information_role": "known_actuator_command",
+      "original_recipe_force_family": "push_pulse",
+      "requested_force_family": "shear_oscillation",
+      "force_family_intervention": true,
+      "exact_authored_peak_force_N": 0.21153619641676252,
+      "force_precision": "Original forces_at float32 result promoted exactly to float64; solver precision unchanged.",
+      "force_application": "World force at each rigid handle origin; zero pure torque, no external nodal force.",
+      "midpoint_clock": "(integer_step_index+0.5)/physics_hz; held over [index/hz,(index+1)/hz].",
+      "command_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+      "command_source_file": "isaac_dataset.py",
+      "nominal_interval_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          2.3129646346357427e-18
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_unquantized_impulse_Ns": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          0.16160175025241205
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "continuous_first_time_moment_Ns2": [
+        [
+          -0.0,
+          0.0,
+          0.016160175025241204
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "native_engine_or_trajectory_equivalence": false,
+      "qualification": "Command compilation only; no trajectory, numerical convergence or predictive qualification.",
+      "held_command_shape": [
+        1440,
+        2,
+        3
+      ],
+      "held_command_canonical_sha256": "908ae06b52faafe6e4cd49d12a232bee866cece2f843fd27f4534bf38f5f7995",
+      "output_frames": 31,
+      "clock_evidence": "Compiled integer grid only; a dynamics runner must separately record and reconcile measured solver-state clocks.",
+      "compiled_endpoint_interval_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          1.7739783188269118e-17
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_componentwise_absolute_impulse_Ns": [
+        [
+          0.0,
+          0.0,
+          0.16160255153734274
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "compiled_first_time_moment_Ns2": [
+        [
+          0.0,
+          0.0,
+          0.016160175089633324
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "maximum_compiled_vs_continuous_impulse_error_Ns": 1.7739783188269118e-17,
+      "maximum_compiled_vs_nominal_clock_impulse_error_Ns": 1.5426818553633374e-17
+    },
+    {
+      "episode_id": "t0003",
+      "boundary_kind": "moving_patch",
+      "information_role": "known_actuator_command",
+      "original_recipe_force_family": "push_pulse",
+      "requested_force_family": "twist_couple",
+      "force_family_intervention": true,
+      "exact_authored_peak_force_N": 0.21153619641676252,
+      "force_precision": "Original forces_at float32 result promoted exactly to float64; solver precision unchanged.",
+      "force_application": "World force at each rigid handle origin; zero pure torque, no external nodal force.",
+      "midpoint_clock": "(integer_step_index+0.5)/physics_hz; held over [index/hz,(index+1)/hz].",
+      "command_source_sha256": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+      "command_source_file": "isaac_dataset.py",
+      "nominal_interval_impulse_Ns": [
+        [
+          -0.0598697437242502,
+          0.12612543482368654,
+          0.0299348718621251
+        ],
+        [
+          0.0598697437242502,
+          -0.12612543482368654,
+          -0.0299348718621251
+        ]
+      ],
+      "continuous_unquantized_impulse_Ns": [
+        [
+          -0.05986974377785363,
+          0.1261254349485012,
+          0.02993487188892679
+        ],
+        [
+          0.05986974377785363,
+          -0.1261254349485012,
+          -0.02993487188892679
+        ]
+      ],
+      "continuous_componentwise_absolute_impulse_Ns": [
+        [
+          0.05986974377785363,
+          0.1261254349485012,
+          0.02993487188892679
+        ],
+        [
+          0.05986974377785363,
+          0.1261254349485012,
+          0.02993487188892679
+        ]
+      ],
+      "continuous_first_time_moment_Ns2": [
+        [
+          -0.05837300018340729,
+          0.12297229907478868,
+          0.02918650009170362
+        ],
+        [
+          0.05837300018340729,
+          -0.12297229907478868,
+          -0.02918650009170362
+        ]
+      ],
+      "native_engine_or_trajectory_equivalence": false,
+      "qualification": "Command compilation only; no trajectory, numerical convergence or predictive qualification.",
+      "held_command_shape": [
+        1440,
+        2,
+        3
+      ],
+      "held_command_canonical_sha256": "6cd908bff3f1da7dff22c9da3833811851f2c97368a46d53a7fd95be5574e179",
+      "output_frames": 31,
+      "clock_evidence": "Compiled integer grid only; a dynamics runner must separately record and reconcile measured solver-state clocks.",
+      "compiled_endpoint_interval_impulse_Ns": [
+        [
+          -0.05986974372425019,
+          0.12612543482368646,
+          0.029934871862125095
+        ],
+        [
+          0.05986974372425019,
+          -0.12612543482368646,
+          -0.029934871862125095
+        ]
+      ],
+      "compiled_componentwise_absolute_impulse_Ns": [
+        [
+          0.05986974372425019,
+          0.12612543482368646,
+          0.029934871862125095
+        ],
+        [
+          0.05986974372425019,
+          0.12612543482368646,
+          0.029934871862125095
+        ]
+      ],
+      "compiled_first_time_moment_Ns2": [
+        [
+          -0.05837300013114391,
+          0.12297229895309436,
+          0.029186500065571955
+        ],
+        [
+          0.05837300013114391,
+          -0.12297229895309436,
+          -0.029186500065571955
+        ]
+      ],
+      "maximum_compiled_vs_continuous_impulse_error_Ns": 1.2481474187531205e-10,
+      "maximum_compiled_vs_nominal_clock_impulse_error_Ns": 8.326672684688674e-17
+    }
+  ],
+  "qualification": "Sixteen force-family interventions on four unchanged TRAIN layouts; not sixteen original recipes, simulation results, native equivalence or numerical qualification."
+}
