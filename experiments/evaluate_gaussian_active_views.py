@@ -49,16 +49,23 @@ def main():
     p.add_argument('--silhouette-noise-pixels',type=float,default=1.)
     p.add_argument('--target',choices=['future_motion','independent_view'],default='future_motion')
     p.add_argument('--random-expectation',action='store_true',help='Evaluate separate one-view random trials at every candidate; never combine their posteriors')
+    p.add_argument('--split',choices=['validation','test'],default='validation');p.add_argument('--test-protocol',type=Path)
     a=p.parse_args();torch.set_num_threads(2)
     a.output.mkdir(parents=True,exist_ok=False)
     (a.output/'provenance').mkdir()
     for name in ['evaluate_gaussian_active_views.py','gaussian_active_design.py','gaussian_acquisition_sensor.py','gaussian_silhouette_sensor.py']:
         shutil.copy2(Path(__file__).with_name(name),a.output/'provenance'/name)
     plan=json.loads((a.dataset/'plan.json').read_text())
-    allowed={c['episode_id'] for c in plan['episodes'] if c['split']=='validation'}
+    allowed={c['episode_id'] for c in plan['episodes'] if c['split']==a.split}
+    if a.split=='test':
+        if not a.test_protocol:raise ValueError('TEST acquisition requires a frozen checkpoint protocol')
+        from gaussian_final_protocol import load_protocol,require_model,collect_test_cases
+        sealed=load_protocol(a.test_protocol);require_model(sealed,a.inverse_checkpoint,a.forward_checkpoint)
+        collect_test_cases([a.dataset],sealed)
+        allowed&=set(sealed['design']['view_episodes'])
     episodes=sorted(d.name for d in (a.pool/'public').iterdir() if d.is_dir())
     if a.episodes:episodes=[name for name in episodes if name in a.episodes]
-    if not episodes or not set(episodes)<=allowed:raise ValueError('This development runner permits validation cases only')
+    if not episodes or not set(episodes)<=allowed:raise ValueError('Acquisition episodes outside declared split/design')
     bundle=load_model(a.inverse_checkpoint,a.forward_checkpoint,a.device)
     expected_mode='rgbd' if a.sensor=='range' else 'rgb'
     if bundle['checkpoint']['model_kwargs'].get('observation_mode')!=expected_mode:
@@ -71,7 +78,7 @@ def main():
               'policies':['predictive_risk','random','fixed0','max_observation_variance'],
               'sensor_covariance':covariance.tolist(),'sensor_units':'m' if a.sensor=='range' else 'pixels',
               'checkpoint_sha256':{'inverse':file_hash(a.inverse_checkpoint),'forward':file_hash(a.forward_checkpoint)},
-              'qualification':'Validation development; working Gaussian range likelihood; no calibration or test-performance claim',
+              'qualification':a.split+' evaluation; working Gaussian sensor likelihood; calibration unestablished',
               'source_sha256':{n:file_hash(Path(__file__).with_name(n)) for n in ['evaluate_gaussian_active_views.py','gaussian_active_design.py','gaussian_acquisition_sensor.py']}}
     atomic_json(a.output/'protocol.json',protocol);rows=[]
     for index,name in enumerate(episodes):

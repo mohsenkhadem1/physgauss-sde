@@ -1,9 +1,13 @@
 # PhysGauss-SDE
 
-**Neural boundary/material study (in progress):** [direct trajectory operators, posterior flows and acquisition rules](docs/GAUSSIAN_NEURAL_ACTIVE_FORMULATION.md)
-implement the latest research direction. Fresh Isaac training data, held-out
-prediction and actual calibrated probes are being evaluated; the initial pilots
-are not final test results. [Baseline feasibility audit](docs/GAUSSIAN_BOUNDARY_BASELINES.md).
+**Neural boundary/material benchmark:** [sealed test report](reports/gaussian-sealed-study-v01/index.html),
+[formulation](docs/GAUSSIAN_NEURAL_ACTIVE_FORMULATION.md), and
+[actual simulation videos/data](examples/gaussian-neural-boundary/README.md).
+On 64 fresh test layouts, RGB-D missing-interval motion error falls from 0.843 mm
+for a static object to 0.727 mm. Forecasting gains remain statistically uncertain;
+physical parameter posteriors are not calibrated. Actual camera and poke tests
+do not establish an advantage over strong fixed policies. The report preserves
+these limitations and the [PIDG feasibility audit](docs/GAUSSIAN_BOUNDARY_BASELINES.md).
 
 **Orbiting-camera Isaac dataset:** [48 scenarios](examples/isaac-boundary-orbit/README.md)
 vary material properties, force families and support setups/locations. Each has

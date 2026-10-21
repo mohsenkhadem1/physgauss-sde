@@ -1,0 +1,602 @@
+{
+  "design_path": "/home/bayespc2/vscode/guassianSDE/configs/gaussian_final_test_design_v01.json",
+  "design_sha256": "a7fa34cd3fd0324b002ea61aa2fa84546e26bf11a8d8d217354d70bfb3218204",
+  "design": {
+    "protocol": "gaussian-boundary-final-test-design-v0.1",
+    "status": "Design frozen before predictive TEST evaluation; checkpoint hashes must be sealed separately after validation",
+    "primary_dataset": "runs/gaussian-boundary-neural-v01",
+    "secondary_dataset": "runs/isaac-boundary-orbit-v01",
+    "passive_primary_episodes": "All64 declared fresh TEST layouts",
+    "passive_secondary_episodes": "All12 original TEST episodes; four layoutgroups, three material variants each",
+    "passive_models": [
+      "static",
+      "ridge_rgb",
+      "ridge_rgbd",
+      "25d_rgb",
+      "25d_rgbd",
+      "25d_prior",
+      "chart_rgb",
+      "chart_rgbd",
+      "chart_prior"
+    ],
+    "interpolation_inputs": "Ten public timestamps0,.25,.5,.75,1,2,2.25,2.5,2.75,3s",
+    "interpolation_primary_target": "All saved frames strictly1<t<2s, all455nodes, coordinate RMSE",
+    "forecast_inputs": "Public timestamps at or before1s only; never load later input pixels",
+    "forecast_primary_target": "All saved frames2<=t<=3s, all455nodes, coordinate RMSE",
+    "passive_secondary_targets": [
+      "all61frames coordinateRMSE",
+      "pointwise90percentcoverage excluding deterministicframe0",
+      "intervalwidth",
+      "predictiveenergyscore",
+      "BC/force calibration and material uncertainty",
+      "all61meantrajectory positivevolume"
+    ],
+    "posterior_samples": 128,
+    "posterior_seed": 20261102,
+    "view_episodes": [
+      "z0000",
+      "z0001",
+      "z0002",
+      "z0003",
+      "z0004",
+      "z0005",
+      "z0006",
+      "z0007",
+      "z0008",
+      "z0009",
+      "z0010",
+      "z0011",
+      "z0012",
+      "z0013",
+      "z0014",
+      "z0015"
+    ],
+    "view_budget": "One of four actual rendered camera poses at1.5s; same objectstate; public prefix<=1s",
+    "view_primary_target": "Range or silhouette prediction at a fifth independent camera pose; secondaryfuturemotion2to3s",
+    "view_policies": [
+      "passive",
+      "predictive_risk",
+      "random_expected",
+      "fixed0",
+      "nearest_evaluation_camera",
+      "max_observation_variance"
+    ],
+    "probe_episodes": [
+      "z0000",
+      "z0001",
+      "z0002",
+      "z0003",
+      "z0004",
+      "z0005",
+      "z0006",
+      "z0007"
+    ],
+    "probe_budget": "One calibratedresetexperiment; +x,+y,+zpulse or+zoscillation, .02N;31frames, selectedsensorstride2; sharedknownhandles",
+    "probe_primary_target": "Independent diagonal .015N resetresponse, all31frames nodalmotion; no evaluationcontrollabels inteacher or calibration fitting",
+    "probe_policies": [
+      "passive",
+      "predictive_risk",
+      "random_expected",
+      "fixed0",
+      "fixed_last",
+      "max_observation_variance"
+    ],
+    "probe_calibration": "Reserved TRAIN t0012..t0015 candidatecontrols only, after teacher fit on t0000..t0011 candidates; mixed visibility/range likelihood; no trueBC at inference",
+    "matched_image_baseline_episodes": [
+      "z0000",
+      "z0005",
+      "z0010",
+      "z0015"
+    ],
+    "matched_image_baselines": [
+      "static",
+      "PIDG-inspired",
+      "deformation-only",
+      "ridge",
+      "flow",
+      "privilegedtrueq-rendererceiling"
+    ],
+    "image_queries": "Withheld orbitframes25,30,35 and independent fifthcamera at1.5s; same ROI,appearancecalibration andrenderer",
+    "primary_statistics": "Episode macroaverage on independent freshlayouts; pairedlayoutbootstrap95percentCI,10000resamples,seed20261107; oldmatchedmaterials groupedbylayout",
+    "selection_policy": "All six frozenfinalinverse fits reported. Each checkpoint selected only by declared sparseVALmetric. No model or policy tuning after predictiveTEST opening. Fixed-step controlledteacher finalcheckpoint; TRAIN-only frozenlikelihood. Any protocolfailure recorded, not silently repaired by modelselection.",
+    "qualification": "Knowncuboid, simulatedfixeddiscretization, suppliedmasks/cameras/referencegeometry. RGB andRGBD separate. OfficialPIDG unavailable; independent inspiredreproduction explicitlynamed. RealCOLMAP andheterogeneousmaterial transfer untested. Numericalcontinuumconvergence unestablished."
+  },
+  "datasets": [
+    {
+      "root": "/home/bayespc2/vscode/guassianSDE/runs/gaussian-boundary-neural-v01",
+      "plan_sha256": "6c5e8af892afcb364a82e4297920b9c3f907e1a5a674f150276e92cffaca4dd6",
+      "cases": [
+        {
+          "episode_id": "z0000",
+          "split": "test",
+          "group_id": "test-0000",
+          "recipe_sha256": "053713cb938a5d3a45d765952291d32f3df730206e01b1c89509f7949e65d645"
+        },
+        {
+          "episode_id": "z0001",
+          "split": "test",
+          "group_id": "test-0001",
+          "recipe_sha256": "7fa0b4943be63669516839feb9e087d6420eeda4ce1218a69ba8e30583ad547c"
+        },
+        {
+          "episode_id": "z0002",
+          "split": "test",
+          "group_id": "test-0002",
+          "recipe_sha256": "1432eb6005be6528608a31950cb26526612fd7ded9b01eb485017be02ae4c393"
+        },
+        {
+          "episode_id": "z0003",
+          "split": "test",
+          "group_id": "test-0003",
+          "recipe_sha256": "c32ed8568f64d0ec4ec10126ce7c69ccd2d81bfdee72f20c617d5afca4be12fa"
+        },
+        {
+          "episode_id": "z0004",
+          "split": "test",
+          "group_id": "test-0004",
+          "recipe_sha256": "c71a3e14fa6bafb6023f28a12142dbbb0d30683418b00c7aa900a3f2ae36d116"
+        },
+        {
+          "episode_id": "z0005",
+          "split": "test",
+          "group_id": "test-0005",
+          "recipe_sha256": "5bd6fc669d76934926c3c6ea704ce34b2198ec1182a25345fde2fd51a5b5b860"
+        },
+        {
+          "episode_id": "z0006",
+          "split": "test",
+          "group_id": "test-0006",
+          "recipe_sha256": "27679af9992086e756498cf0b87e64257bd39ef9abcdc86cc6c8658fa8bd1779"
+        },
+        {
+          "episode_id": "z0007",
+          "split": "test",
+          "group_id": "test-0007",
+          "recipe_sha256": "425779b94fba02e0fbba1045abf00fec2dbc6ae9d8c7959be95e9a7b4b774d2b"
+        },
+        {
+          "episode_id": "z0008",
+          "split": "test",
+          "group_id": "test-0008",
+          "recipe_sha256": "c7bfbf48707e12005c5f7e5714f860ee9d994e175619f1387a8038911986ca6d"
+        },
+        {
+          "episode_id": "z0009",
+          "split": "test",
+          "group_id": "test-0009",
+          "recipe_sha256": "abd304ef920caeda2d65e7e3719d6b44fd724d4b1a11920a7d6e4945c7027ad5"
+        },
+        {
+          "episode_id": "z0010",
+          "split": "test",
+          "group_id": "test-0010",
+          "recipe_sha256": "0aa16d280f89275fd1553bd5f055c446d703efe5ec05a97a4fe8c22e024d779a"
+        },
+        {
+          "episode_id": "z0011",
+          "split": "test",
+          "group_id": "test-0011",
+          "recipe_sha256": "eaca4fd1753bb341fd607e118b2aa330d930a300841dacfc3e2aa4ed9892e4b2"
+        },
+        {
+          "episode_id": "z0012",
+          "split": "test",
+          "group_id": "test-0012",
+          "recipe_sha256": "3cc52872a3d698a11accc22b8b6bb550a45033762eb0681eada83b11f8be9d3c"
+        },
+        {
+          "episode_id": "z0013",
+          "split": "test",
+          "group_id": "test-0013",
+          "recipe_sha256": "66a499ae19005ef965ef31ef7d0f92605eea4fa1be99445b37152beac3faa635"
+        },
+        {
+          "episode_id": "z0014",
+          "split": "test",
+          "group_id": "test-0014",
+          "recipe_sha256": "53dc8422ddc332d29c21fe9bd52bfb153631b8749cfab3c276f611f46a23cc9e"
+        },
+        {
+          "episode_id": "z0015",
+          "split": "test",
+          "group_id": "test-0015",
+          "recipe_sha256": "5787a6dbe0cfd99805894f59946df8f11a4445c953af912041174320c91cb647"
+        },
+        {
+          "episode_id": "z0016",
+          "split": "test",
+          "group_id": "test-0016",
+          "recipe_sha256": "01b6ca19f933ac6ea6e9fe1b0cc2e1da5a8433c664fd16d455c8620cea4f663a"
+        },
+        {
+          "episode_id": "z0017",
+          "split": "test",
+          "group_id": "test-0017",
+          "recipe_sha256": "0731ed1d96c327aad5cd04fbd5b0f031abbaecff43ae3e7ac420ceee15fa3bfd"
+        },
+        {
+          "episode_id": "z0018",
+          "split": "test",
+          "group_id": "test-0018",
+          "recipe_sha256": "09833f0b79d3b8b9211f66d1364bb15e290e69dbdb499eeba050246e98f1020c"
+        },
+        {
+          "episode_id": "z0019",
+          "split": "test",
+          "group_id": "test-0019",
+          "recipe_sha256": "9701f3303a70207beec7cfd25602fb5569d68076b7083a8ad56a76b7ece8b37a"
+        },
+        {
+          "episode_id": "z0020",
+          "split": "test",
+          "group_id": "test-0020",
+          "recipe_sha256": "265a8cde738efcc19122aca3b4833c28e27738d953cac90e5fa9834f1c6322fa"
+        },
+        {
+          "episode_id": "z0021",
+          "split": "test",
+          "group_id": "test-0021",
+          "recipe_sha256": "fce4d0963cd01e4fa3ef23030a480a44bc5b83d68b4504f29c83f8c113967bfc"
+        },
+        {
+          "episode_id": "z0022",
+          "split": "test",
+          "group_id": "test-0022",
+          "recipe_sha256": "7b8337aa81ece8a868d603eee7198c630b94033f085073ca6cdecb94f1e688e5"
+        },
+        {
+          "episode_id": "z0023",
+          "split": "test",
+          "group_id": "test-0023",
+          "recipe_sha256": "eeae93fd26deaa29290210dc215476b0ad899879cf789e4220fa5d2b29438606"
+        },
+        {
+          "episode_id": "z0024",
+          "split": "test",
+          "group_id": "test-0024",
+          "recipe_sha256": "d0c23a315af32e7efeaf4fcde619c2a13276a2ee5771e6740bcfebfec9901a1f"
+        },
+        {
+          "episode_id": "z0025",
+          "split": "test",
+          "group_id": "test-0025",
+          "recipe_sha256": "1211ec3bc60eae6133e9614a84163ae68c8ed7ba2c6deaa5dca99bb2780f6e4d"
+        },
+        {
+          "episode_id": "z0026",
+          "split": "test",
+          "group_id": "test-0026",
+          "recipe_sha256": "0c7c163a3c33b1382fa78bf75129281705a76b77adc5b61a930865c3047c78b1"
+        },
+        {
+          "episode_id": "z0027",
+          "split": "test",
+          "group_id": "test-0027",
+          "recipe_sha256": "9c742b1e3fb9ca2ab788cd13a7d85d67416785ffac7ebd25fdd1cd0c29f48b04"
+        },
+        {
+          "episode_id": "z0028",
+          "split": "test",
+          "group_id": "test-0028",
+          "recipe_sha256": "ee59b958ff1844dda099820a5d417462ab65add07cc298cb73c5f2e5568ec321"
+        },
+        {
+          "episode_id": "z0029",
+          "split": "test",
+          "group_id": "test-0029",
+          "recipe_sha256": "bcfb3fb8757fcd415c25e965e2e2ad5259debb065b049d509005611e5f3abc3a"
+        },
+        {
+          "episode_id": "z0030",
+          "split": "test",
+          "group_id": "test-0030",
+          "recipe_sha256": "2a984674a1a39d374648af541e85cc7f03da8c2f31362c6fe4a4f9b7000020d8"
+        },
+        {
+          "episode_id": "z0031",
+          "split": "test",
+          "group_id": "test-0031",
+          "recipe_sha256": "32e07044b831df6b528ac7ec392ef2f922fe69f9ef74d0edba65c63517fbebff"
+        },
+        {
+          "episode_id": "z0032",
+          "split": "test",
+          "group_id": "test-0032",
+          "recipe_sha256": "2fb3ed0d0ad5de3ba8d6d09983e7152ed275a76fdf23b85d45fbf33c39ea135b"
+        },
+        {
+          "episode_id": "z0033",
+          "split": "test",
+          "group_id": "test-0033",
+          "recipe_sha256": "03cf72fd94e5fe32af6b624be63de135c7f806f03857fc43b5f4d359c3f3124e"
+        },
+        {
+          "episode_id": "z0034",
+          "split": "test",
+          "group_id": "test-0034",
+          "recipe_sha256": "b09802d6afb3a8a8e5071cf7fc8d2b33ef95b593a73effa86e7212af64d6144c"
+        },
+        {
+          "episode_id": "z0035",
+          "split": "test",
+          "group_id": "test-0035",
+          "recipe_sha256": "21a0133f22efc10402ce7a2be26c298eee67f2df556454168f0a6a9650b822be"
+        },
+        {
+          "episode_id": "z0036",
+          "split": "test",
+          "group_id": "test-0036",
+          "recipe_sha256": "d0f46fa3279ccbc435c24250065384dd415fef3504f25f889dc4ae138d9c688d"
+        },
+        {
+          "episode_id": "z0037",
+          "split": "test",
+          "group_id": "test-0037",
+          "recipe_sha256": "48f2d0217691f4375bd3f6e3d09a2189f646898b9762216b943e51b510a6d5b6"
+        },
+        {
+          "episode_id": "z0038",
+          "split": "test",
+          "group_id": "test-0038",
+          "recipe_sha256": "267737ec4b27065eeb35622c64e536b00672ebeba59500e87f04a83767eb5446"
+        },
+        {
+          "episode_id": "z0039",
+          "split": "test",
+          "group_id": "test-0039",
+          "recipe_sha256": "f9f28bdb69664e452c11ca95e4622f91f56701d343b5dca188e18cf2b9bfee0b"
+        },
+        {
+          "episode_id": "z0040",
+          "split": "test",
+          "group_id": "test-0040",
+          "recipe_sha256": "c2b5413904edf7a835ec26ff4a835ba7c89d561e5fbce6634da65f2eba8352c4"
+        },
+        {
+          "episode_id": "z0041",
+          "split": "test",
+          "group_id": "test-0041",
+          "recipe_sha256": "385f1cbf0b62c7f9b99dbcf2aea6876088b9fb18eaa913a86b45413e89ae9acb"
+        },
+        {
+          "episode_id": "z0042",
+          "split": "test",
+          "group_id": "test-0042",
+          "recipe_sha256": "d9c87790cabecfa6652a9dbe941b7828e5aae7e1d40ff87ce9790e8cb0c518d2"
+        },
+        {
+          "episode_id": "z0043",
+          "split": "test",
+          "group_id": "test-0043",
+          "recipe_sha256": "d3d262acf15efd974b4cfbd88c8b17f3fdcba9d5f5c0f10e797125c8423be58e"
+        },
+        {
+          "episode_id": "z0044",
+          "split": "test",
+          "group_id": "test-0044",
+          "recipe_sha256": "c2325c757e5560d8356702c85e8b92fcd380ea1ae97e8f86ec54b87059a6e7c4"
+        },
+        {
+          "episode_id": "z0045",
+          "split": "test",
+          "group_id": "test-0045",
+          "recipe_sha256": "a23512b4267bc65466aeae8159d80163051cba7e11dd1e8932e5fad0332726d3"
+        },
+        {
+          "episode_id": "z0046",
+          "split": "test",
+          "group_id": "test-0046",
+          "recipe_sha256": "5a6133d8e84ba440d915c736aa9ad2f571d8b99be494f2776a70bc02d4f67176"
+        },
+        {
+          "episode_id": "z0047",
+          "split": "test",
+          "group_id": "test-0047",
+          "recipe_sha256": "4b14371fb59078b661498f965bbaa7f5dc22b258c5f8555934b500c20c1f53d1"
+        },
+        {
+          "episode_id": "z0048",
+          "split": "test",
+          "group_id": "test-0048",
+          "recipe_sha256": "91b0e98a5ec51107d94905c0cfa38f9b0e78d5c9f458e196ab8bfda5ac840151"
+        },
+        {
+          "episode_id": "z0049",
+          "split": "test",
+          "group_id": "test-0049",
+          "recipe_sha256": "779ddd994a76bd33773ea46d3c094682bea1f9a74024d12ca43a2c733eef6e69"
+        },
+        {
+          "episode_id": "z0050",
+          "split": "test",
+          "group_id": "test-0050",
+          "recipe_sha256": "d3684d9d22a3df58382c1892e48460c89e2eb239b46a44d1a47d50dfd95486db"
+        },
+        {
+          "episode_id": "z0051",
+          "split": "test",
+          "group_id": "test-0051",
+          "recipe_sha256": "9cc8a05c89ab9acaf0115c82885a1b9e22eb352e8b308e57fce848ca808ad82f"
+        },
+        {
+          "episode_id": "z0052",
+          "split": "test",
+          "group_id": "test-0052",
+          "recipe_sha256": "6e9410891a32a5469b37974bb799997268d42a722797dda53e175d92b51d29fd"
+        },
+        {
+          "episode_id": "z0053",
+          "split": "test",
+          "group_id": "test-0053",
+          "recipe_sha256": "e973505e6bc642a582ac4d848250658f9431bb42ee63550b337ad2bde3f635ed"
+        },
+        {
+          "episode_id": "z0054",
+          "split": "test",
+          "group_id": "test-0054",
+          "recipe_sha256": "05c09b27e3f57e52377d0a8c06c6c5b6f25211a3fef707cc61f1c1bf3fa087e1"
+        },
+        {
+          "episode_id": "z0055",
+          "split": "test",
+          "group_id": "test-0055",
+          "recipe_sha256": "69c1667dad060cf9dfbcb8e79112b77670bf5fa5c102f3b768f00e4854acd0ba"
+        },
+        {
+          "episode_id": "z0056",
+          "split": "test",
+          "group_id": "test-0056",
+          "recipe_sha256": "da4cfc46a76c05b56471e025c7c206cc72d42e9cd4e03a703553649deddf6d6c"
+        },
+        {
+          "episode_id": "z0057",
+          "split": "test",
+          "group_id": "test-0057",
+          "recipe_sha256": "46ad8fee77e197b31a2e3e2a07e856ed5a8f7decb5082d4df3d46d00feff4518"
+        },
+        {
+          "episode_id": "z0058",
+          "split": "test",
+          "group_id": "test-0058",
+          "recipe_sha256": "ae52e750103496a5399cfce6c46660a3e7738126574404bda147ff22920cfa99"
+        },
+        {
+          "episode_id": "z0059",
+          "split": "test",
+          "group_id": "test-0059",
+          "recipe_sha256": "066e5cc4985b5cbcb016ec377969895b197401522b12fbaec3a94f468e42f2a4"
+        },
+        {
+          "episode_id": "z0060",
+          "split": "test",
+          "group_id": "test-0060",
+          "recipe_sha256": "744e50b4d67e74e7be98e027bfce062a3d9dcc5f00eca4637bb2ec5fbcfe9d9b"
+        },
+        {
+          "episode_id": "z0061",
+          "split": "test",
+          "group_id": "test-0061",
+          "recipe_sha256": "bc957ef134f6647d14d6c1ea09b754b3a64e972dbd51b590ba2b5cd460efb22a"
+        },
+        {
+          "episode_id": "z0062",
+          "split": "test",
+          "group_id": "test-0062",
+          "recipe_sha256": "e6dd8c27459237a1859352af040de3d2ad043b3f0dd9d1b327a8c7962263211f"
+        },
+        {
+          "episode_id": "z0063",
+          "split": "test",
+          "group_id": "test-0063",
+          "recipe_sha256": "2515c31c5b18657fd28e14fb4001ce62bcaddf33a40f11e3dea61df3392d85eb"
+        }
+      ]
+    },
+    {
+      "root": "/home/bayespc2/vscode/guassianSDE/runs/isaac-boundary-orbit-v01",
+      "plan_sha256": "bd5a08661a68d5bb45ea5004cbcc98df4a5b66fb491b4dbe9b6c344600add36b",
+      "cases": [
+        {
+          "episode_id": "e0003",
+          "split": "test",
+          "group_id": "g03",
+          "recipe_sha256": "2295546bfa55c9a34705c9ab9885daa12ecbd3ca6c05b4d3fce346c94d33f2af"
+        },
+        {
+          "episode_id": "e0006",
+          "split": "test",
+          "group_id": "g06",
+          "recipe_sha256": "a5a81c43a4f93831c76e17128170ac4f1282ed46d36e5c6c03c8c327fd3fb6dc"
+        },
+        {
+          "episode_id": "e0009",
+          "split": "test",
+          "group_id": "g09",
+          "recipe_sha256": "2dfb608e94351a582c8a0f8b215aaf47a903db9cc4212dc4ba0be3f435700c37"
+        },
+        {
+          "episode_id": "e0012",
+          "split": "test",
+          "group_id": "g12",
+          "recipe_sha256": "7a8c9807de9444f9d6f2709a389502409591758799a176a2c11aa1cdb748e71e"
+        },
+        {
+          "episode_id": "e0019",
+          "split": "test",
+          "group_id": "g03",
+          "recipe_sha256": "815cc9d7c948295e8f2a7c2e0f602c31208ef5292a2daea721edce353c316247"
+        },
+        {
+          "episode_id": "e0022",
+          "split": "test",
+          "group_id": "g06",
+          "recipe_sha256": "a2175f0e058f90d970061ebb03ca39fe04177c0fb781c1cf19253d14ad125cdc"
+        },
+        {
+          "episode_id": "e0025",
+          "split": "test",
+          "group_id": "g09",
+          "recipe_sha256": "3199a1fcc875b7987e5fa2ea586e272ba345f7c5061ead2ff83d170ab751205b"
+        },
+        {
+          "episode_id": "e0028",
+          "split": "test",
+          "group_id": "g12",
+          "recipe_sha256": "661344c8398141e8c0605c05936021b15a32fed8d5921f45609f2b58082660bc"
+        },
+        {
+          "episode_id": "e0035",
+          "split": "test",
+          "group_id": "g03",
+          "recipe_sha256": "ccff4d14416e48a91b7f9382e14e0c45a36eedf8c22dd8fde8d50fb8e14f429a"
+        },
+        {
+          "episode_id": "e0038",
+          "split": "test",
+          "group_id": "g06",
+          "recipe_sha256": "3050f95dcede0d3010a3f12c8407f1fe58fa67b6fe0ef757c4be9df83579a566"
+        },
+        {
+          "episode_id": "e0041",
+          "split": "test",
+          "group_id": "g09",
+          "recipe_sha256": "89a468714d2f0c41923dd2576a328697c49f5a58e8e88abca353d09b23789e35"
+        },
+        {
+          "episode_id": "e0044",
+          "split": "test",
+          "group_id": "g12",
+          "recipe_sha256": "efe355dfeed9df4800b5dc4b75eb8f761a71c4632d7ab8329d2478625cd023d9"
+        }
+      ]
+    }
+  ],
+  "models": [
+    {
+      "name": "25d-rgbd",
+      "inverse": "runs/gaussian-inverse-final-25d-rgbd-v01/best.pt",
+      "forward": "runs/gaussian-forward-controls-final-v01/final.pt",
+      "query": "Knowncontrol reset trajectory; passive decoder remains sealedbase",
+      "inverse_sha256": "df81462fb3f81d8641634348fd352f544ac45022b229186a12e59e01e06e67ea",
+      "forward_sha256": "57f6edd1de98e4c3cad7c670996076af0ca156cd616fc13b28ee2722394b6bc3"
+    },
+    {
+      "name": "chart-rgbd",
+      "inverse": "runs/gaussian-inverse-final-chart-rgbd-v01/best.pt",
+      "forward": "runs/gaussian-forward-controls-final-v01/final.pt",
+      "query": "Knowncontrol reset trajectory; passive decoder remains sealedbase",
+      "inverse_sha256": "a7bd7e9066e4c72b482b2222adc046e0123dbde5d9caa190da299728187a3367",
+      "forward_sha256": "57f6edd1de98e4c3cad7c670996076af0ca156cd616fc13b28ee2722394b6bc3"
+    },
+    {
+      "name": "chart-prior",
+      "inverse": "runs/gaussian-inverse-final-chart-prior-v01/best.pt",
+      "forward": "runs/gaussian-forward-controls-final-v01/final.pt",
+      "query": "Knowncontrol reset trajectory; passive decoder remains sealedbase",
+      "inverse_sha256": "6e2adbc870a1cc453aa1631084d550f8ef4d81a22dd50a6dcd6f4a22468f0cb5",
+      "forward_sha256": "57f6edd1de98e4c3cad7c670996076af0ca156cd616fc13b28ee2722394b6bc3"
+    }
+  ],
+  "qualification": "Prediction checkpoint identities frozen before predictive TEST evaluation",
+  "protocol_sha256": "35d8791d39e115f7964d950d702bc2e1e26bfbdec0b27b9ff15a365bfa5084e7"
+}

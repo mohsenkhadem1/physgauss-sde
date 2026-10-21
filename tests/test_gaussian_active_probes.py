@@ -4,7 +4,7 @@ import unittest
 import numpy as np
 import torch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'experiments'))
-from evaluate_gaussian_active_probes import predict_control
+from evaluate_gaussian_active_probes import predict_control,weighted_quantiles
 
 
 class CapturingForward:
@@ -15,6 +15,9 @@ class CapturingForward:
 
 
 class ActiveProbeTests(unittest.TestCase):
+    def test_weighted_quantiles_do_not_interpolate_through_zero_mass(self):
+        np.testing.assert_array_equal(weighted_quantiles([1.,4.,9.],[0.,1.,0.],[0.,.05,.5,.95,1.]),[4.]*5)
+        np.testing.assert_array_equal(weighted_quantiles([1.,4.,9.],[.1,.8,.1],[.05,.5,.95]),[1.,4.,9.])
     def test_known_control_replaces_unknown_forces_and_preserves_particles(self):
         operator=CapturingForward();bundle={'device':torch.device('cpu'),'forward':operator}
         physical=torch.zeros(3,25);physical[:,16:22]=.4

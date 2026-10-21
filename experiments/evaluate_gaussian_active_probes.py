@@ -28,15 +28,26 @@ def material_summary(particles,weights,case):
     physical=particles['physical'].cpu().numpy();weights=np.asarray(weights)
     result={}
     for name,index,key in [('youngs_modulus_Pa',0,'youngs_modulus_Pa'),('density_kg_m3',1,'density_kg_m3')]:
-        values=np.exp(physical[:,index]);order=np.argsort(values)
-        cumulative=np.cumsum(weights[order]);cumulative[-1]=1.
-        lower,median,upper=np.interp([.05,.5,.95],cumulative,values[order])
+        values=np.exp(physical[:,index])
+        lower,median,upper=weighted_quantiles(values,weights,[.05,.5,.95])
         truth=case['material'][key]
         result[name]={'lower90':float(lower),'median':float(median),'upper90':float(upper),
                       'width90':float(upper-lower),'covered90':bool(lower<=truth<=upper),'absolute_median_error':float(abs(median-truth))}
     bc=particles['boundary_type'].cpu().numpy()
     result['boundary_probabilities']=[float(weights[bc==i].sum()) for i in range(4)]
     return result
+
+
+def weighted_quantiles(values,weights,probabilities):
+    """Inverse of the weighted empirical CDF, including single-particle mass."""
+    values=np.asarray(values);weights=np.asarray(weights,dtype=float);p=np.asarray(probabilities)
+    if values.ndim!=1 or values.shape!=weights.shape or (weights<0).any() or not np.isfinite(weights).all() or weights.sum()<=0:
+        raise ValueError('Finite nonnegative nonzero matching weights required')
+    if not np.isfinite(values).all() or not np.isfinite(p).all() or ((p<0)|(p>1)).any():
+        raise ValueError('Finite values and probabilities in[0,1] required')
+    order=np.argsort(values);order=order[weights[order]>0]
+    cumulative=np.cumsum(weights[order]/weights.sum());cumulative[-1]=1.
+    return values[order[np.searchsorted(cumulative,p,side='left')]]
 
 
 def predict_control(bundle,particles,reference,menu,action,chunk_size=8):
@@ -69,6 +80,7 @@ def main():
     p.add_argument('--sensor-frame-stride',type=int,default=1)
     p.add_argument('--random-expectation',action='store_true')
     p.add_argument('--censored-calibration',type=Path,help='TRAIN-only frozen mixed visibility/range model')
+    p.add_argument('--split',choices=['validation','test'],default='validation');p.add_argument('--test-protocol',type=Path)
     a=p.parse_args();torch.set_num_threads(2)
     if a.sensor_frame_stride<1:p.error('Positive sensor frame stride required')
     a.output.mkdir(parents=True,exist_ok=False)
@@ -78,9 +90,19 @@ def main():
     for name in source_names:
         shutil.copy2(Path(__file__).with_name(name),a.output/'provenance'/name)
     bundle=load_model(a.inverse_checkpoint,a.forward_checkpoint,a.device)
-    if bundle['checkpoint']['model_kwargs'].get('observation_mode')!='rgbd':raise ValueError('Probe range acquisition requires explicitly RGBD inference')
-    plan=json.loads((a.dataset/'plan.json').read_text());cases={c['episode_id']:c for c in plan['episodes']};allowed={c['episode_id'] for c in plan['episodes'] if c['split']=='validation'}
-    if not set(a.episodes)<=allowed:raise ValueError('Development runner permits validation only')
+    config=bundle['checkpoint']['model_kwargs']
+    if config.get('observation_mode')!='rgbd' and config.get('context_mode')!='prior':
+        raise ValueError('Probe cohort requires RGBD inference or explicitly unconditional prior baseline')
+    plan=json.loads((a.dataset/'plan.json').read_text());cases={c['episode_id']:c for c in plan['episodes']};allowed={c['episode_id'] for c in plan['episodes'] if c['split']==a.split}
+    if a.split=='test':
+        if not a.test_protocol:raise ValueError('TEST probes require a frozen checkpoint protocol')
+        from gaussian_final_protocol import load_protocol,require_model,collect_test_cases
+        sealed=load_protocol(a.test_protocol);require_model(sealed,a.inverse_checkpoint,a.forward_checkpoint)
+        if a.samples!=sealed['design']['posterior_samples']:raise ValueError('Probe particle budget differs from sealed design')
+        collect_test_cases([a.dataset],sealed)
+        allowed&=set(sealed['design']['probe_episodes'])
+        if not a.censored_calibration:raise ValueError('Final TEST probes require TRAIN-frozen censored calibration')
+    if not a.episodes or not set(a.episodes)<=allowed:raise ValueError('Probe episodes outside declared split/design')
     calibration=None
     if a.censored_calibration:
         from censored_range_observation import (CensoredRangeModel,predict_censored_ranges,measure_censored_depth,
@@ -89,8 +111,8 @@ def main():
         calibration=json.loads(a.censored_calibration.read_text())
         if calibration['forward_checkpoint_sha256']!=hashlib.sha256(a.forward_checkpoint.read_bytes()).hexdigest():
             raise ValueError('Frozen discrepancy calibration uses a different controlled teacher')
-        for key,value in [('rays',a.rays),('sensor_frame_stride',a.sensor_frame_stride),('query_seed',a.seed)]:
-            if calibration[key]!=value:raise ValueError('Acquisition query differs from TRAIN calibration: '+key)
+        for key,value in [('rays',a.rays),('frame_stride',a.sensor_frame_stride),('seed',a.seed)]:
+            if calibration['queries'][key]!=value:raise ValueError('Acquisition query differs from TRAIN calibration: '+key)
         if calibration['roles_sha256']!='6d2781a71a24ebfa9cb0691ce0dd7ae889c15eae1b38ca3164618523d5552c84':
             raise ValueError('Unexpected discrepancy calibration roles')
         shutil.copy2(a.censored_calibration,a.output/'frozen-censored-calibration.json')
@@ -100,10 +122,11 @@ def main():
         'sensor_budget':'One action returns its declared RGBDsequence; same fixed frame stride and action count within probe policies',
         'known_hardware':'Both original handle centers are common public side information for all policies',
         'likelihood':'Working Gaussian on range residuals; within-frame common discrepancy; no exact physical-Gaussian claim',
-        'qualifications':['Validation only','Substituting known hardware does not condition the flow on that geometry','Linear Green mechanics is approximate','No claim about equal view/probe time cost']})
+        'qualifications':[a.split+' evaluation','Substituting known hardware does not condition the flow on that geometry','Linear Green mechanics is approximate','No claim about equal view/probe time cost']})
     if calibration:protocol.update(likelihood='TRAIN-frozen mixed visibility and valid-range likelihood; same generative model in design/conditioning',
         calibration_sha256=hashlib.sha256(a.censored_calibration.read_bytes()).hexdigest(),
         max_variance_baseline='Mean variance of zero-filled valid residual/diagonal_sigma plus visibility bits; heuristic only')
+    if a.split=='test':protocol['final_test_protocol_sha256']=sealed['protocol_sha256']
     (a.output/'protocol.json').write_text(json.dumps(protocol,indent=2)+'\n');results=[]
     for index,name in enumerate(a.episodes):
         started=time.monotonic();episode=a.dataset/'episodes'/name

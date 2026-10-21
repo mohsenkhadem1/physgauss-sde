@@ -1,7 +1,8 @@
-"""Validation-only physical-parameter credibility, distinct from motion accuracy.
+"""Physical-parameter credibility, distinct from motion accuracy.
 
-The validation set also selects checkpoints: reported empirical coverage is an
-optimistic development diagnostic, not a held-out calibration guarantee.
+Validation coverage is a development diagnostic because VAL selects checkpoints.
+The separately guarded sealed TEST split never selects or fits checkpoints.
+Empirical coverage is not a general calibration guarantee for either split.
 Inactive nuisance padding is excluded from physical control error summaries.
 """
 import os
@@ -29,14 +30,25 @@ def categorical_summary(probabilities,target):
             'negative_log_probability':float(-np.log(max(p[target],1e-15)))}
 
 
-def evaluate(roots,catalog,inverse_checkpoint,output,samples=512):
+def evaluate(roots,catalog,inverse_checkpoint,output,samples=512,split='validation',test_protocol=None,forward_checkpoint=None,max_time_s=None):
+    sealed=None
+    if split=='test':
+        if not test_protocol or not forward_checkpoint:raise ValueError('TEST parameters require sealed checkpoint pair')
+        from gaussian_final_protocol import load_protocol,require_model,collect_test_cases
+        sealed=load_protocol(test_protocol);require_model(sealed,inverse_checkpoint,forward_checkpoint)
+        if samples!=sealed['design']['posterior_samples']:raise ValueError('TEST sample budget differs from design')
+        if catalog:raise ValueError('TRAIN/VAL catalog cannot select TEST parameters')
+        records=collect_test_cases(roots,sealed)
+    elif split=='validation':
+        if not catalog:raise ValueError('Frozen development catalog required')
+        records=[r for r in apply_catalog(collect_cases(roots),catalog) if r['recipe']['split']=='validation']
+    else:raise ValueError('Expected validation or sealed test split')
     torch.set_num_threads(2);model,checkpoint=load_observation_posterior(inverse_checkpoint,'cpu')
     bundle={'inverse':model,'checkpoint':checkpoint,'device':torch.device('cpu')}
-    records=[r for r in apply_catalog(collect_cases(roots),catalog) if r['recipe']['split']=='validation']
     output=Path(output);output.mkdir(parents=True,exist_ok=False);rows=[]
     (output/'source.py').write_bytes(Path(__file__).read_bytes())
     for index,record in enumerate(records):
-        encoded=encode_episode(bundle,record['path']);draw=posterior_samples(bundle,encoded,samples,20261210+index)
+        encoded=encode_episode(bundle,record['path'],max_time_s);draw=posterior_samples(bundle,encoded,samples,20261210+index)
         with torch.no_grad():
             bc_logits,force_logits=model.posterior.categorical_logits(encoded['context'])
             if hasattr(model.posterior,'joint_head'):
@@ -84,12 +96,16 @@ def evaluate(roots,catalog,inverse_checkpoint,output,samples=512):
         summary['active_control_mean_errors'][name]={'mean_error':float(np.mean(values)),'cases':len(values)}
     result={'summary':summary,'episodes':rows,'samples':samples,'inverse_checkpoint':str(inverse_checkpoint),
             'checkpoint_sha256':hashlib.sha256(Path(inverse_checkpoint).read_bytes()).hexdigest(),
-            'qualification':__doc__,'density_measure':checkpoint.get('density_measure','Raw25D flow including nuisance padding; not physical posterior calibration')}
+            'qualification':('Sealed TEST parameter evaluation; no fitting or checkpoint selection on these cases; empirical coverage is not a general guarantee'
+                             if split=='test' else 'Validation development diagnostic; VAL also selects checkpoints, so coverage may be optimistic'),
+            'split':split,'max_time_s':max_time_s,'final_test_protocol_sha256':sealed['protocol_sha256'] if sealed else None,
+            'density_measure':checkpoint.get('density_measure','Raw25D flow including nuisance padding; not physical posterior calibration')}
     (output/'results.json').write_text(json.dumps(result,indent=2)+'\n');return result
 
 
 if __name__=='__main__':
     import argparse
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--roots',nargs='+',required=True)
-    p.add_argument('--catalog',required=True);p.add_argument('--inverse-checkpoint',required=True);p.add_argument('--output',required=True)
+    p.add_argument('--catalog');p.add_argument('--inverse-checkpoint',required=True);p.add_argument('--output',required=True)
+    p.add_argument('--split',choices=['validation','test'],default='validation');p.add_argument('--test-protocol');p.add_argument('--forward-checkpoint');p.add_argument('--max-time-s',type=float)
     p.add_argument('--samples',type=int,default=512);a=p.parse_args();print(json.dumps(evaluate(**vars(a))['summary'],indent=2))

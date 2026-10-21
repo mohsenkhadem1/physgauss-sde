@@ -110,7 +110,8 @@ and relevant official references are in [GAUSSIAN_BOUNDARY_BASELINES.md](GAUSSIA
 
 Choose checkpoints with validation only. Keep geometry/fixture/load layouts
 grouped so matched materials cannot leak across splits. Original test groups
-and the fresh 64-layout test set remain locked during development. Report
+and the fresh 64-layout test set are locked until checkpoint identities and
+evaluation rules are sealed. Report
 whole-object and temporal-gap coordinate RMSE, withheld-view image/range
 metrics, inversion checks, latency and memory. Foreground metrics accompany
 PSNR because background can conceal a poor deformation model.
@@ -195,8 +196,25 @@ that design. Sensor-freshness audits are infrastructure checks, not model fits.
 
 ## Evidence status
 
-Development pilots and rejected attempts are preserved under `runs/` and will
-be indexed in the final results. Current pilots are not final test results.
+Development pilots and rejected attempts are preserved in the
+[published artifact index](../examples/gaussian-neural-boundary/artifacts.json).
+The [sealed test report](../reports/gaussian-sealed-study-v01/index.html) separates
+64 fresh test layouts from the original four-layout secondary comparison.
+Missing-interval prediction improves, while forecasting gains have confidence
+intervals spanning zero. Physical parameter calibration remains poor; neither
+camera nor probe risk selection establishes superiority over strong fixed
+baselines. Geometry-valid hypotheses and narrower intervals are not evidence
+of recovered physics.
+
+The completed actual acquisitions include 16 independent-view test states and
+eight calibrated-probe test objects, with four candidate actions each. The
+controlled teacher and noise model use disjoint TRAIN intervention roles.
+Probe hardware locations are extra common side information inserted into
+forward queries after passive inference; this is not complete conditioning of
+the flow on that hardware. Both video and probe inputs assume the same known
+cuboid, rest/zero initial velocity and a 3 s horizon. Material uncertainty concerns
+four homogeneous scalars, not a learned heterogeneous constitutive field.
+
 The first raw image inverse encoder overfit and failed its motion-information
 ablation. Explicit geometry features improve validation conditional likelihood,
 but accurate held-out deformation and useful calibrated acquisition remain

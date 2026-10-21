@@ -151,6 +151,34 @@ they are not untouched test estimates. Fits took 51 and 57 seconds on CPU.
 All model coefficients, source snapshots, lambda scores, dense predictions and
 input/label integrity manifests are in `runs/gaussian-ridge-{rgb,rgbd}-stage01`.
 
+### Final passive ridge comparison
+
+The later final passive catalog contains 152 TRAIN and 44 validation episodes.
+Its separately frozen `gaussian-forward-passive-final-v01/best.pt` teacher is
+shared by the final inverse and ridge comparisons. Four deterministic ridge
+checkpoints are fixed under `runs/gaussian-ridge-final-{rgb,rgbd}-{full,prefix}-v01`.
+The prefix variants are independently trained with observations after 1 s
+zeroed **before** TRAIN feature normalization, regression and every prediction.
+The saved clock and cutoff restore that rule automatically at inference. Tests
+verify arbitrary future values and NaNs have no effect. The public loader reads
+the saved batch; the future columns supply no model information. Prefix lambda
+selection uses only the validation 2–3 s forecast targets; full-input selection
+retains the original six-times/64-nodes criterion. Official TEST remains locked.
+
+| Final ridge condition | RGB coordinate RMSE, mm | RGB-D coordinate RMSE, mm | Static reference, mm |
+|---|---:|---:|---:|
+| All 10 observations; withheld 1–2 s gap | 1.208 | 1.033 | 1.229 |
+| Prefix ≤1 s; forecast 2–3 s | 1.372 | 1.351 | 1.372 |
+
+All 176 mean trajectories (44 per checkpoint) are finite and uninverted; minimum
+volume ratios range from 0.856 to 0.997. Full-input ridge selected lambda 100
+for RGB and 10 for RGB-D; prefix models selected 1000 and 100. Forecast gains
+are small and heavy shrinkage is expected under weak identified information.
+These are validation development scores, not test results or uncertainty
+calibration. Exact model/protocol/input hashes, dense predictions and CPU
+runtimes are recorded in `runs/gaussian-ridge-final-validation-summary.json`,
+the four run directories and `runs/gaussian-ridge-final-volume-audit.json`.
+
 ### Matched four-case validation comparison
 
 `experiments/evaluate_gaussian_baseline_predictions.py` evaluates only completed,
@@ -402,3 +430,71 @@ rather than unconstrained video features that bypass them. Calibrated known
 forces or informative dynamics with known mass are needed to distinguish
 material stiffness from arbitrary unknown force scale. Foundation features and
 a flow cannot remove that structural ambiguity.
+
+
+## Sealed final baseline evaluation (2026-10-21)
+
+The final passive protocol is
+`4d6149df81801fab4cddd752b43e0ff251cc66761f0c7e3ee7d2e485955d725d`.
+Four ridge models use 152 TRAIN and 44 VAL episodes and the same frozen final
+forward teacher. TRAIN-only feature/target normalization and VAL-only ridge
+selection precede TEST. The evaluator checks both checkpoint hashes and feature
+source hashes before accessing TEST targets. Prefix inference physically opens
+only the five observed frames at or before 1 s; unavailable later feature rows
+are zero in the frozen training time grid. It never opens later input pixels.
+
+| Deterministic baseline | Fresh64 full-input gap RMSE (mm) | Fresh64 prefix future2–3 RMSE (mm) | Secondary old12 full gap (mm) | Secondary old12 prefix future (mm) |
+|---|---:|---:|---:|---:|
+| Static rest | 0.843148 | 0.717503 | 0.769002 | 0.810286 |
+| Ridge RGB | 0.827456 | 0.719035 | 0.730029 | 0.808625 |
+| Ridge RGB-D (additional depth input) | 0.774425 | 0.702120 | 0.712151 | 0.793674 |
+
+These are arithmetic means of per-episode coordinate RMSE over all 455 nodes;
+full-input gap is strict `1<t<2`, prefix forecast is `2<=t<=3`. The original12
+are four layout groups with three material variants, not 12 independent layouts.
+Do not pool them with the independently sampled fresh64. All 304 ridge mean
+trajectories are finite with positive tetrahedral volumes; the lowest volume
+ratio is 0.756079. Ridge is a deterministic point baseline, with no calibrated
+intervals or class-probability claim. Its point-mass energy score uses the exact
+same six-time/64-node vector and normalization as the flow evaluator.
+
+Reproduction: `experiments/evaluate_ridge_gaussian_inverse.py`; prefix clock and
+future-row rejection tests: `tests/test_ridge_test_evaluation.py`. Complete
+metrics/hashes: `runs/gaussian-ridge-final-test-summary.json` and
+`runs/gaussian-final-test-ridge-{rgb,rgbd}-{full,prefix}-v01/results.json`.
+
+The predeclared four fresh TEST image cases are z0000/z0005/z0010/z0015. The
+independent PIDG-inspired and deformation-only variants each fit exactly 200
+steps from seed1701, the same public RGB/masks, known-rest 192x160 ROI, and frozen
+TRAIN-only appearance calibration. Initial CPU partial runs are preserved with
+an explicit hardware-handoff record; all reported v02 fits restart from that
+same initial seed and complete the full budget on GPU3. No withheld target,
+material label, true deformation, or test score selects a checkpoint.
+
+| Four-case RGB baseline | Full61-frame geometry RMSE (mm) | Strict gap geometry RMSE (mm) | Orbit PSNR (dB) | Actual independent same-state view PSNR (dB) |
+|---|---:|---:|---:|---:|
+| Static rest | 1.106502 | 1.157911 | 28.6540 | 27.6135 |
+| PIDG-inspired independent implementation | 1.859939 | 1.810451 | 29.5288 | 27.6814 |
+| Deformation-only same architecture | 1.944470 | 1.870143 | 29.4921 | 27.6524 |
+| Ridge RGB | 1.105953 | 1.157721 | 28.6546 | 27.6139 |
+| 25-dimensional flow RGB | 1.075891 | 1.157761 | 28.6778 | 27.6584 |
+| Privileged true saved motion (image diagnostic only) | 0 | 0 | 29.1885 | 28.4212 |
+
+Images use kept orbit frames25/30/35 and an actual Isaac camera rendered at the
+same saved state t=1.5 s. All model predictions are saved before targets are
+opened. No evaluated mean trajectory in this subset is inverted. The image
+fitter exceeds the true-motion renderer's orbit PSNR while predicting worse
+mechanics: it can absorb Gaussian/Isaac shader error. This is not evidence of
+material or support recovery. The independent-view shader discrepancy remains
+visible in the contact sheets. The four-case gap result is essentially static
+for ridge and the RGB flow; the better full61 score must not be relabeled as a
+gap improvement. The primary fresh64 aggregate remains the main result.
+
+Artifacts: `runs/gaussian-baseline-images-test-v01/summary.json` and the four
+per-case `results.json`; labeled `*-evaluation00-comparison.png` and
+`*-orbit_00030-comparison.png`; separately privileged
+`runs/gaussian-baseline-images-oracle-test-v01/summary.json`. Image aggregation
+and contact reproduction: `runs/baseline-research/summarize_test_image_baselines.py`.
+The RGB-D comparisons in those files are explicitly additional-input secondary
+results. This independently written baseline is **not** an official PIDG
+reproduction, for the upstream audit reasons above.

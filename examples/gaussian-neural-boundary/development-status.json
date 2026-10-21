@@ -1,6 +1,6 @@
 {
-  "status": "development_in_progress",
-  "test_sets_locked": true,
+  "status": "sealed_tests_completed_publication_in_progress",
+  "test_sets_locked": false,
   "Bird_stopped": true,
   "objective": "Learned Gaussian physical hypotheses, withheld prediction, then actual active measurements; no FEM/runtime trajectory solve",
   "fresh_plan": "configs/gaussian_boundary_training_v01.json",
@@ -27,11 +27,38 @@
   },
   "official_PIDG": "Not run: upstream missing source/incompatible dependencies; independent PIDG-inspired comparator separately implemented",
   "scientific_limits": [
-    "Known metric cuboid and supplied segmentation/cameras",
-    "Static sampled Gaussian asset, not learned real-photo 3DGS",
-    "Uncalibrated posterior intervals",
-    "Actual intervention evaluation underway",
-    "Simulation batching rejected after changed trajectories"
+    "Known metric cuboid, supplied segmentation/cameras/referencegeometry",
+    "Static sampled Gaussian asset, not learned real-photo3DGS/COLMAP",
+    "Homogeneous4-scalar material; fixedrest/zero-v0/3s horizon",
+    "Supervised forward training, no proposed physics-residual loss",
+    "Uncalibrated physical posterior; forecastingCIspanszero",
+    "No novel active-policy advantage over strongfixedbaselines",
+    "OfficialPIDG unavailable; independentinspiredcomparator only"
   ],
-  "verification": "59 targeted numerical/protocol tests pass; numerical continuum convergence not established"
+  "verification": "130 targeted numerical/protocol tests and4subtests pass; numerical continuum convergence unestablished",
+  "checkpoint_seals": {
+    "passive": "4d6149df81801fab4cddd752b43e0ff251cc66761f0c7e3ee7d2e485955d725d",
+    "probe": "35d8791d39e115f7964d950d702bc2e1e26bfbdec0b27b9ff15a365bfa5084e7"
+  },
+  "completed_data": {
+    "total_episodes": 272,
+    "fresh_train": 128,
+    "fresh_validation": 32,
+    "fresh_test": 64,
+    "all_saved_frames_sensor_audited": true,
+    "test_view_states": 16,
+    "test_probe_cases": 8
+  },
+  "fresh64_test": {
+    "static_gap_mm": 0.843148,
+    "rgbd25d_gap_mm": 0.727168,
+    "rgbd25d_future_gain_percent": 5.25,
+    "future_gain95_interval_percent": [
+      -1.58,
+      11.54
+    ],
+    "physical_calibration_established": false,
+    "active_policy_advantage_over_strong_fixed_established": false
+  },
+  "report": "reports/gaussian-sealed-study-v01/index.html"
 }

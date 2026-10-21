@@ -1,0 +1,40 @@
+{
+  "protocol": "sensor-ray-conditioning-v0.3",
+  "created_utc": "2026-10-21T08:05:01.331091+00:00",
+  "original_worker_sha256": "b33d66ac9057885dcb4afeeee419dcc672afe91f888b0f73c1d30f961ca813c0",
+  "worker_file": "isaac_calibrated_probes_v03.py",
+  "worker_sha256": "116d4717bff0c7780925bd4e6d85f5b2f1615d33f4993e356a8284199829a821",
+  "sensor_guard_file": "isaac_probe_sensor_guard.py",
+  "sensor_guard_sha256": "4a68720c50311fb7c8b4d207accd35641a0b0db90cf9d007e4d16490bf0aa8d8",
+  "dataset_plan_sha256": "6c5e8af892afcb364a82e4297920b9c3f907e1a5a674f150276e92cffaca4dd6",
+  "tolerance_m": 2e-06,
+  "minimum_incidence_cosine": 0.2,
+  "selected_rays": 64,
+  "candidate_rays": 256,
+  "offline_ray_audit": "Original32rays/frame and0.2mm bound unchanged; synchronous render barrier unchanged",
+  "reason": "Saved failureq static render exactly reproduces2.244555\u00b5m error oncos.03278ray (30.5x roundoff amplification); conditioning retains2\u00b5m tolerance; new64rays max.219\u00b5m.",
+  "proof": "runs/operator-dev/t0013-sensor-quantization-proof.json",
+  "mechanics": "All function ASTs identical except depth guard/provenance source list; physics recipe/material/support/forces/handles/dt/timestamps unchanged",
+  "case_exceptions": {
+    "t0013": {
+      "worker_file": "isaac_calibrated_probes_v03.py",
+      "worker_sha256": "116d4717bff0c7780925bd4e6d85f5b2f1615d33f4993e356a8284199829a821",
+      "sensor_guard_sha256": "4a68720c50311fb7c8b4d207accd35641a0b0db90cf9d007e4d16490bf0aa8d8",
+      "require_bit_exact_physics_equivalence": true,
+      "equivalence_file": "sensor-amendment-equivalence.json"
+    }
+  },
+  "predeclared_test_ids": [
+    "z0000",
+    "z0001",
+    "z0002",
+    "z0003",
+    "z0004",
+    "z0005",
+    "z0006",
+    "z0007"
+  ],
+  "predeclared_test_output": "/home/bayespc2/vscode/guassianSDE/runs/isaac-calibrated-probes-test-v01",
+  "test_response_used_for_tuning": false,
+  "statistical_calibration_rules_changed": false
+}
