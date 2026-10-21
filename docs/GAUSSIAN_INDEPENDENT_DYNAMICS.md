@@ -310,3 +310,28 @@ or hidden replacement was attempted; private one-step diagnosis is next.
 The user explicitly requested **keeping raw datasets local for now**. Source,
 protocol and compact text reports remain publishable. This is an established
 storage preference, not an unresolved authentication or permission blocker.
+
+
+## Completed one-step diagnosis, with original failure preserved
+
+The [A/B/C/D diagnosis](../examples/gaussian-neural-boundary/campaign-diagnosis/authored-solver-step-diagnosis-v01.json)
+reconstructs only the saved failing step. A exactly reproduces the original
+251-row history and optimizer coordinates at cap250. B uses the same method and
+1e-10N floor with a diagnostic cap1000 and converges at275 iterations. C rebuilds
+the existing preconditioner at the current pose and still fails at250. D changes
+only an instance's optimizer metric by scaling the original Cholesky factor by
+sqrt2, approximately halving its descent direction; it converges at69 iterations
+with residual9.001e-11N. D and accepted B positions agree within1.42e-13m.
+
+The original physical objective, gradient, material, masses, constraints, held
+forces and acceptance rules remain unchanged. B's larger diagnostic cap and D's
+one-step result do not requalify the original failure or establish a full
+trajectory, authored-force envelope, dataset, prediction, calibration or policy.
+A separately declared fresh trajectory is required before broader conclusions.
+
+Local phase12 recovery contains961 files covering terminal C18 evidence and
+completed A/B/C, with all copied-part restore sizes/hashes verified. Its restored
+C18 audit is byte-identical to the original26-verified/1-failed/24-unlaunched
+report. **D is excluded from phase12**; its completed diagnostic evidence is
+retained separately. Phase11 tar, parts and manifest are unchanged. Both archives
+and all raw datasets remain local; only compact source/text evidence is published.

@@ -1,0 +1,73 @@
+{
+  "role": "Completed one-step optimizer diagnosis and LOCAL-only phase12 recovery proof; original trajectory failure stays failed.",
+  "variants": {
+    "A": {
+      "iterations": 250,
+      "completed": false,
+      "final_residual_N": 6.238434241112822e-10,
+      "original_failure_requalified": false
+    },
+    "B": {
+      "iterations": 275,
+      "completed": true,
+      "final_residual_N": 9.643675151636023e-11,
+      "original_failure_requalified": false
+    },
+    "C": {
+      "iterations": 250,
+      "completed": false,
+      "final_residual_N": 1.8900414671674918e-10,
+      "original_failure_requalified": false
+    }
+  },
+  "D": {
+    "iterations": 69,
+    "completed": true,
+    "final_residual_N": 9.001464103788113e-11,
+    "optimizer_change": "Private instance-only sqrt2 scaling of original preconditioner factor; approximately half descent direction. Frozen physical objective/gradient/constraints/forces/line search unchanged.",
+    "B_position_maximum_difference_m": 1.4184486918367156e-13,
+    "B_chord_velocity_maximum_difference_m_s": 1.702055163477212e-11,
+    "original_failure_requalified": false,
+    "full_trajectory_qualified": false
+  },
+  "interpretation": "A exactly reproduces the original251-row history and optimizerq. B crosses the same1e-10N floor at275 iterations; C still fails at250. D passes this one step at69 with9.001e-11N. This diagnoses slow local optimizer convergence; B higher cap and D one-step success do not qualify the original cell or envelope.",
+  "phase12_local_recovery": {
+    "archive_directory": "runs/gaussian-recovery-phase12-archive",
+    "archive_bytes": 76212706,
+    "archive_sha256": "05b34fc14f4758e01db19af30548598b6fcf917769e01182da95c3173c82ebec",
+    "manifest_sha256": "03e0e11c88395681a765f0565e15f2bfd4a721cecdcc4379bc4b031ff966228c",
+    "parts": 2,
+    "files_verified": 961,
+    "source_bytes": 214744443,
+    "C18_states": {
+      "completed": 26,
+      "failed": 1,
+      "queued": 24
+    },
+    "completed_ABC_included": true,
+    "D_explicitly_excluded": true,
+    "phase11_tar_parts_manifest_unchanged": true,
+    "clean_copy_parts_restore_all_file_hashes_verified": true,
+    "restored_C18_audit_byte_identical": true,
+    "restored_audit_sha256": "e1e6879b91f4d740a8b603395c0c0b3aa50fb1042d32fdad9af85584d1644386",
+    "raw_archive_uploaded": false,
+    "raw_dataset_policy": "User explicitly requests keeping raw datasets local for now."
+  },
+  "proof_sha256": {
+    "runs/gaussian-campaign-v01/authored-solver-step-diagnosis-v01/summary.json": "2a532968132a7a262646e3bd23277fa4117a0421eac0e6b2818ee286759f379a",
+    "runs/gaussian-campaign-v01/authored-solver-step-damped-v01/summary.json": "fed802fcae4b1554f1540f9b7f429a0773053f1001b78d8992df1392eb997a89",
+    "runs/operator-dev/phase12-archive-v01/restore-all-files-proof.json": "08ed124cc6bdfc7882db0bdaa5472aadc44584113e58c71018f5890d23a07dea",
+    "runs/operator-dev/phase12-archive-v01/restored-audit-comparison-v01.json": "e92af199b5a9159db6d1a94d5e9f5d0d65f461a731ca33d68852af031bf8fee8",
+    "runs/operator-dev/authored-solver-independent-review-v01/ABC-D-review.json": "b6e6358cba218495e04316f895fe89d0b3627337abcecacdd808a1f65728a792",
+    "runs/operator-dev/authored-solver-step-damped-v01/posthoc-verification.json": "8737f60eb0abffbd48d77e1f5fa6ea589ca7508b7c5266892f151182ae375c77"
+  },
+  "all_original_C18_and_ABC_D_sources_and_raw_failure_unchanged": true,
+  "actual_force_envelope_qualified": false,
+  "production_dataset_admitted": false,
+  "native_reference_qualified": false,
+  "continuum_accuracy_established": false,
+  "prediction_qualified": false,
+  "inference_qualified": false,
+  "uncertainty_calibrated": false,
+  "active_policy_qualified": false
+}
