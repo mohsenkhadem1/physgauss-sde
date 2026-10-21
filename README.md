@@ -1,5 +1,19 @@
 # PhysGauss-SDE
 
+**Unknown point support and material:** [method and evidence](docs/GAUSSIAN_POINT_SUPPORT_ORACLE.md)
+use two sparse depth frames on one fresh object, with the point-pin type known.
+Coordinate RMSE against finite mechanics:
+
+| Prediction | Prior mean | Conditioned mean |
+|---|---:|---:|
+| Future motion after 1 s | 1.2580 mm | 0.06064 mm |
+| Held reset-force program | 0.81935 mm | 0.05437 mm |
+
+The true support node rises from 5.36% to 84.17% probability and ranks first.
+Materials remain ambiguous; true-parameter linear errors of 41.8/19.2 µm show
+that forward approximation also matters. This one-case result does not establish
+coverage calibration, general BC inference or a successful active-probing policy.
+
 **Sparse-depth material oracle:** [method and evidence](docs/GAUSSIAN_MATERIAL_ORACLE.md)
 conditions a numerical material posterior on two sparse depth frames. On one
 fresh known-support object, future-motion error falls from 0.370 to 0.113 mm

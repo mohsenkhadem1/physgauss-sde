@@ -1,0 +1,258 @@
+{
+  "scope": "One fresh H0 object; point-pin type known, mechanical support node and four materials unknown; analytic sparse depth sensor.",
+  "evidence": {
+    "evaluation": {
+      "path": "runs/gaussian-campaign-v01/unknown-point-oracle-v01/joint-reference-v01/evaluation.json",
+      "sha256": "0413ac7d35f628543b5b462c3844d3329876f63939f9163a93d3117416010506"
+    },
+    "numerical_stability": {
+      "path": "runs/gaussian-campaign-v01/unknown-point-oracle-v01/joint-reference-v01/reference-stability.json",
+      "sha256": "f9ce5e187120005c008ab15581fbc250ec97cbd501757821e347d68ed9a15163"
+    },
+    "true_parameter_controls": {
+      "path": "runs/operator-dev/unknown-point-forward-controls-v01/diagnosis.json",
+      "sha256": "15da0e65f7fde0061eef264afa9ab4ef35ec3c264c9be1116cc753b30777c6d9"
+    },
+    "frozen_posterior": {
+      "path": "runs/gaussian-campaign-v01/unknown-point-oracle-v01/joint-reference-v01/posterior-frozen.json",
+      "sha256": "b889a73cda9e157a23d38631173422f92b77492f41ceb48efbe0d7a50fb83be2"
+    }
+  },
+  "observations": {
+    "depth_frames_s": [
+      0.5,
+      1.0
+    ],
+    "rays_per_frame": 36,
+    "total_acquired_rays": 72,
+    "held_frames_s": [
+      1.5,
+      2.5
+    ],
+    "camera_pixel_selection": "Public rest geometry only",
+    "working_depth_noise_std_m": 0.0002,
+    "visibility_error_probability": 0.005,
+    "noise_or_forward_discrepancy_physically_calibrated": false
+  },
+  "reference": {
+    "support_masks": 55,
+    "material_particles_per_mask": [
+      256,
+      1024
+    ],
+    "seeds": [
+      20261112,
+      20261113,
+      20261114
+    ],
+    "total_forward_particles": 168960,
+    "weights": "p(mask)/Nmask times likelihood",
+    "all_masks_retained": true,
+    "all_seeds_frozen_before_truth_evaluation": true,
+    "predictive_reference_seed": 20261112,
+    "prior_and_posterior_predictive_particles_each": 2048,
+    "latent_physical_shape_covariance_is_posterior_uncertainty": false
+  },
+  "held_motion": [
+    {
+      "program": "exciting_world_a_v01",
+      "observation_seed": 20261116,
+      "interpretation": "A future beyond acquired1s prefix",
+      "prior": {
+        "particles": 2048,
+        "position_mean_RMSE_m": 0.0010193754559734171,
+        "after_1s_mean_RMSE_m": 0.0012579997507296769,
+        "latent_standard_deviation_RMS_m": 0.0011421676788035643,
+        "held_noisy_depth_mixture_predictive_log_density": 185.76582143204
+      },
+      "posterior": {
+        "particles": 2048,
+        "position_mean_RMSE_m": 4.9167066130019164e-05,
+        "after_1s_mean_RMSE_m": 6.063964831508221e-05,
+        "latent_standard_deviation_RMS_m": 0.00022069356867314001,
+        "held_noisy_depth_mixture_predictive_log_density": 191.4238191683505
+      },
+      "static_RMSE_m": 0.001292200935403075
+    },
+    {
+      "program": "exciting_world_b_v01",
+      "observation_seed": 20261117,
+      "interpretation": "B reset-force prediction, not a continuing poke",
+      "prior": {
+        "particles": 2048,
+        "position_mean_RMSE_m": 0.0008193522594168031,
+        "after_1s_mean_RMSE_m": 0.0010106707523571347,
+        "latent_standard_deviation_RMS_m": 0.0010449668497282323,
+        "held_noisy_depth_mixture_predictive_log_density": 192.93525899381683
+      },
+      "posterior": {
+        "particles": 2048,
+        "position_mean_RMSE_m": 5.4368238694453876e-05,
+        "after_1s_mean_RMSE_m": 6.70683343832625e-05,
+        "latent_standard_deviation_RMS_m": 0.00020792380587352998,
+        "held_noisy_depth_mixture_predictive_log_density": 197.63180975540732
+      },
+      "static_RMSE_m": 0.0007752472623411333
+    }
+  ],
+  "support": {
+    "true_support_node": 17,
+    "true_support_prior_probability": 0.05358367626886148,
+    "true_support_posterior_probability": 0.8417143420989212,
+    "true_support_posterior_rank": 1
+  },
+  "material": [
+    {
+      "name": "E_Pa",
+      "mean": 9661.736440306058,
+      "std": 4881.246444513481,
+      "quantile05": 2833.7566309300464,
+      "median": 9090.831374156782,
+      "quantile95": 18695.81674619015
+    },
+    {
+      "name": "rho_kg_m3",
+      "mean": 506.3857508191501,
+      "std": 42.427863770185425,
+      "quantile05": 435.31313342841656,
+      "median": 502.7128221812189,
+      "quantile95": 580.3201828806775
+    },
+    {
+      "name": "nu",
+      "mean": 0.34551928572650714,
+      "std": 0.04141610878013368,
+      "quantile05": 0.2866078040325311,
+      "median": 0.34570919536478933,
+      "quantile95": 0.41003717502060677
+    },
+    {
+      "name": "body_drag_s_inverse",
+      "mean": 0.5852207824675226,
+      "std": 0.14120849645704533,
+      "quantile05": 0.36745901399105485,
+      "median": 0.5900279059365567,
+      "quantile95": 0.8151929673730421
+    }
+  ],
+  "one_truth_material_interval_checks": [
+    {
+      "name": "E_Pa",
+      "truth": 7592.61896659598,
+      "in_90_percent_interval": true
+    },
+    {
+      "name": "rho_kg_m3",
+      "truth": 521.8440769361583,
+      "in_90_percent_interval": true
+    },
+    {
+      "name": "nu",
+      "truth": 0.36928310792221236,
+      "in_90_percent_interval": true
+    },
+    {
+      "name": "body_drag_s_inverse",
+      "truth": 0.5147809232530229,
+      "in_90_percent_interval": true
+    }
+  ],
+  "numerical_diagnostics": {
+    "minimum_largest_run_ESS": 257.36923331012946,
+    "largest_run_log_evidence_range": 0.11685315828006537,
+    "maximum_independent_seed_support_total_variation": 0.02411687288952399,
+    "material": [
+      {
+        "name": "E_Pa",
+        "independent_seed_mean_range_in_posterior_std": 0.11742531960544236,
+        "independent_seed_maximum_quantile_range_in_posterior_std": 0.15216788097493936,
+        "maximum_particle_refinement_mean_shift_in_posterior_std": 0.11602998641949518
+      },
+      {
+        "name": "rho_kg_m3",
+        "independent_seed_mean_range_in_posterior_std": 0.06406700857900785,
+        "independent_seed_maximum_quantile_range_in_posterior_std": 0.17335632539689821,
+        "maximum_particle_refinement_mean_shift_in_posterior_std": 0.026635438247260824
+      },
+      {
+        "name": "nu",
+        "independent_seed_mean_range_in_posterior_std": 0.16406652903127228,
+        "independent_seed_maximum_quantile_range_in_posterior_std": 0.15524632279728146,
+        "maximum_particle_refinement_mean_shift_in_posterior_std": 0.08101903400995507
+      },
+      {
+        "name": "body_drag_s_inverse",
+        "independent_seed_mean_range_in_posterior_std": 0.19061818124713034,
+        "independent_seed_maximum_quantile_range_in_posterior_std": 0.133412861374584,
+        "maximum_particle_refinement_mean_shift_in_posterior_std": 0.14756142345217443
+      }
+    ],
+    "qualification": "Monte Carlo integration diagnostics, not a physical-calibration certificate",
+    "particle_refinement_by_seed": [
+      {
+        "seed": 20261112,
+        "support_total_variation": 0.013454349932223436,
+        "absolute_log_evidence_shift": 0.07224979126755215
+      },
+      {
+        "seed": 20261113,
+        "support_total_variation": 0.013449779770627446,
+        "absolute_log_evidence_shift": 0.050662899666718886
+      },
+      {
+        "seed": 20261114,
+        "support_total_variation": 0.02740853171467332,
+        "absolute_log_evidence_shift": 0.13364144527409394
+      }
+    ]
+  },
+  "supplied_true_physics_aligned_controls": [
+    {
+      "program": "exciting_world_a_v01",
+      "subset": "frames21..60, t>1s",
+      "controls": {
+        "full_linear": {
+          "coordinate_RMSE_m": 4.178585477167052e-05,
+          "prediction_sha256": "97a8743f840b570d60724e02e93ac3f554f00c6ff69907f3f2ff2274fa98b846"
+        },
+        "packed_cached_modal": {
+          "coordinate_RMSE_m": 4.1790956267080466e-05,
+          "prediction_sha256": "7ffd39694dd635f39b1fe542497f596f82cbb0ee6d2ca703365fd1841bbc4d02"
+        }
+      }
+    },
+    {
+      "program": "exciting_world_b_v01",
+      "subset": "all61frames, independent reset B",
+      "controls": {
+        "full_linear": {
+          "coordinate_RMSE_m": 1.9200360878004016e-05,
+          "prediction_sha256": "9e2baa95db51f58f275a03222c5e3e06d1627ed9ebcae9f456cc82e6da19a655"
+        },
+        "packed_cached_modal": {
+          "coordinate_RMSE_m": 1.9208982142146185e-05,
+          "prediction_sha256": "68e8d8114896c88508f162fb7240445ca206f8161bcc03d1d637d5a500d37405"
+        }
+      }
+    }
+  ],
+  "modal_vs_full_linear_whole_trajectory_RMSE_m": [
+    5.726840766917127e-07,
+    5.552638768769501e-07
+  ],
+  "interpretation": "Strong motion-prediction improvement on one fresh case despite broad E/nu/drag and residual support ambiguity. Linearization error explains part of remaining finite-target error; modal reduction error is small here. Numerical variation is visible.",
+  "limits": {
+    "BC_type_inferred": false,
+    "continuous_support_center_inferred": false,
+    "general_boundary_families_validated": false,
+    "larger_patch_geometry_extension_validated": false,
+    "SBC_or_population_coverage_established": false,
+    "forward_model_discrepancy_calibrated": false,
+    "active_probe_policy_established": false,
+    "B_is_continuing_state_poke": false,
+    "native_or_continuum_equivalence": false,
+    "image_encoder_or_RGB_renderer": false
+  },
+  "all_raw_cache_truth_observations_particles_predictions_LOCAL": true,
+  "campaign_goal_complete": false
+}

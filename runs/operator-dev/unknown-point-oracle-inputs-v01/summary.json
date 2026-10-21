@@ -1,0 +1,87 @@
+{
+  "status": "INPUTS_FROZEN_NO_RUNS_LAUNCHED",
+  "design": {
+    "path": "runs/operator-dev/unknown-point-oracle-inputs-v01/protocol-design.json",
+    "sha256": "f50c2de50217904b215df5e25d93b6699c19b27e48941f21233a1a1a36be9fe9"
+  },
+  "public_manifest": {
+    "path": "runs/operator-dev/unknown-point-oracle-inputs-v01/public/manifest.json",
+    "sha256": "fb7baaca517871e4eda0af3ff1f564a89f3b0084e56a1d0ecf95fcbafc3b4cc9"
+  },
+  "source": {
+    "path": "experiments/prepare_unknown_point_oracle.py",
+    "sha256": "4c4d72e07c951dfbad7cc48792f3584c6eac385490a83bf2983a5686b257f4bf"
+  },
+  "finite_cases": [
+    {
+      "path": "runs/operator-dev/unknown-point-oracle-inputs-v01/finite-protocols/reference-A-protocol.json",
+      "sha256": "857ab38868717b75bca337332a715c471ad72017b3aac24c3259d8615e5db913"
+    },
+    {
+      "path": "runs/operator-dev/unknown-point-oracle-inputs-v01/finite-protocols/reference-B-protocol.json",
+      "sha256": "d0e5c1c7b963793210e3a47d36412ac7a134d5721545d896c18991a1812c6f46"
+    }
+  ],
+  "reference_plan": {
+    "counts_per_mask": [
+      256,
+      1024
+    ],
+    "seeds": [
+      20261112,
+      20261113,
+      20261114
+    ],
+    "stratified_weight": "exact p(mask)/Nmask for each material-prior sample; no facearea/category renormalization.",
+    "mask_order": "ascending globalnode_id",
+    "material_rng": "ONE material_prior.sample(55*1024,default_rng(seed)); geometry_ids=repeat(sorted_global_node_ids,1024). First256 rows IN EACHmask are nestedrefinementprefix.",
+    "mask_count": 55,
+    "posterior_predictive_particles": 2048,
+    "posterior_predictive_seed": 20261115,
+    "posterior_predictive_reference_seed": 20261112,
+    "count_or_seed_selection_after_likelihood": false,
+    "prior_predictive_particles": 2048,
+    "prior_predictive_seed": 20261118,
+    "held_observation_seeds": {
+      "exciting_world_a_v01": 20261116,
+      "exciting_world_b_v01": 20261117
+    },
+    "held_predictive_evaluation": "Afterposteriorfreeze, compare equalbudget2048prior/posteriorresamples usingproper72-ray heldpredictive logscore underthesame sensorworkingmodel; noGaussiancoverageclaim.",
+    "material_prior": {
+      "parent_prior_sha256": "768e7ab8aed8b08c5a2677bd40ffb1cd4760acfb0eb33c6000075880c342906f",
+      "intrinsic_order": [
+        "log_E_Pa",
+        "log_rho_kg_m3",
+        "nu",
+        "log_body_drag_s_inverse"
+      ],
+      "lower": [
+        7.313220387090301,
+        5.991464547107982,
+        0.28,
+        -1.0498221244986778
+      ],
+      "upper": [
+        9.903487552536127,
+        6.745236349484363,
+        0.42,
+        -0.16251892949777494
+      ],
+      "physical_order": [
+        "E_Pa",
+        "rho_kg_m3",
+        "nu",
+        "body_drag_s_inverse"
+      ],
+      "density": "Normalized intrinsic density including +log_rho +log_drag Jacobians",
+      "scope": "Known-support/hardware oracle only; not an unknown-boundary posterior",
+      "periodic_indices": []
+    },
+    "freeze_before_truth_read": "Reference may access finiteAframes10/20 for acquisition; truth_spec, retainedstate and heldfiniteA/B stay unopened until posterior-frozen marker."
+  },
+  "public_query_hashes_verified": true,
+  "private_truth_generated_but_not_in_public_features": true,
+  "selected_truth_node_or_material_published": false,
+  "truth_raw_files_do_not_publish": true,
+  "reproduction_command": "OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 .venv/bin/python experiments/prepare_unknown_point_oracle.py --output runs/operator-dev/unknown-point-oracle-inputs-v01 --finite-prefix runs/gaussian-campaign-v01/unknown-point-oracle-v01"
+}

@@ -1,0 +1,25 @@
+{
+  "protocol": "one-mixed55-CPU-GPU512-v0.1",
+  "particles": 512,
+  "fallback_particles": 256,
+  "CPU_threads": 2,
+  "physical_GPU": 2,
+  "seed": 20261109,
+  "cache": {
+    "path": "runs/gaussian-campaign-v01/point-support-bases-v01/cache-manifest.json",
+    "sha256": "642f50c696129c0cafda781b87a3342d3effcc25ca5484172afb25b604977664"
+  },
+  "output": "runs/gaussian-campaign-v01/packed-boundary-benchmark-v01",
+  "source_sha256": {
+    "experiments/benchmark_packed_boundary_forward.py": "29383f3bc54a88a1a81a985c4616e830977e5335cd528ed4e0288e6b70e82d95",
+    "experiments/campaign_support_basis_cache.py": "5b5b5bc492b40bd49251b4e0b0f10d3163d14bae70daca31ac24cd11efda5ddb",
+    "experiments/campaign_packed_boundary_forward.py": "240ba6fbcb3f74440171a8bc1b4ddfae82f5a1f34855be90b2352e8c05e3affd"
+  },
+  "parity_max_abs": {
+    "positions_m": 1e-10,
+    "handle_centers_m": 1e-10,
+    "handle_rotation_coordinates_rad": 1e-08
+  },
+  "selection": "512once,CUDA-OOM-only256fallback; geometryIDs cyclingall55,materialindependentpriorrangesseeded; nobservationortruth",
+  "timing": "SinglecoldCPUandGPUquery, geometrypacking/transfersincluded, separateCUDAcontext/returntransfermeasurement"
+}

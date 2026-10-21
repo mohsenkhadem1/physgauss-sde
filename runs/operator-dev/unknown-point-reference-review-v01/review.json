@@ -1,0 +1,58 @@
+{
+  "review": "Independent read-only scientific and runtime-interface review",
+  "source_sha256": {
+    "experiments/campaign_point_material_reference.py": "7816d41d41dab6d012f9ccf390da06991e008a543baa93fe2f357de8163eba63",
+    "experiments/run_campaign_point_material_reference.py": "78b3b7037ec1522b2b3a3b77ffc07fb8cf19d287ad1deb32ef6000ab7ff7eda7",
+    "experiments/evaluate_campaign_point_material_reference.py": "3d82e60e5377d3faa237144fe893c58b10184a4f7757c7cfdde6d45120a91ac9",
+    "tests/test_campaign_point_material_reference.py": "e332ad527704c27e42313417c722f6d2aed7a46ceade74fcad30eab30565ef09"
+  },
+  "blocking_findings": [],
+  "numerical_measure": [
+    "Exact categorical prior masses p(mask)/N_mask multiply material-prior likelihoods.",
+    "All positive-mass categories remain declared, including numerically zero posterior mass.",
+    "Nested256/1024 samples per category and three fixed independent seeds are retained.",
+    "Equal2048-particle prior/posterior predictive approximations use proper joint72-ray mixture likelihoods.",
+    "First reference seed and resampling/held-observation seeds are fixed before evaluation."
+  ],
+  "tests": {
+    "command": "OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 .venv/bin/python -m pytest -q tests/test_campaign_point_material_reference.py",
+    "passed": 5,
+    "elapsed_s": 0.11,
+    "numerical_source_and_test_sha_unchanged_since_test": true
+  },
+  "actual_read_only_cache_checks": {
+    "cache_manifest_path": "runs/gaussian-campaign-v01/point-support-bases-v01/cache-manifest.json",
+    "cache_manifest_sha256": "642f50c696129c0cafda781b87a3342d3effcc25ca5484172afb25b604977664",
+    "design_path": "runs/operator-dev/unknown-point-oracle-inputs-v01/protocol-design.json",
+    "design_sha256": "f50c2de50217904b215df5e25d93b6699c19b27e48941f21233a1a1a36be9fe9",
+    "exact_category_ids_match": 55,
+    "material_parent_prior_sha_matches": true,
+    "loaded_public_hardware_equals_design": true,
+    "material_physical_coordinates_dtype": "float64",
+    "loader_four_return_contract_matches": true,
+    "packed_predict_signature_and_dtypes_match": true
+  },
+  "reviewed_pre_freeze_updates": [
+    "Per-seed support total-variation and log-evidence particle-refinement diagnostics.",
+    "Complete design/cache support-distribution and material-prior equality guards.",
+    "GPU visibility provenance and observation-independent predicted-ray arrays stored locally.",
+    "Gate wording distinguishes logical information flow from NPZ decompression: only acquired frames10/20 enter inference."
+  ],
+  "scope": {
+    "point_pin_type_known": true,
+    "unknown_discrete_support_node_and_material": true,
+    "continuous_support_center_inference_established": false,
+    "physical_model_or_coverage_calibration_established": false,
+    "BC_type_inference_established": false
+  },
+  "review_actions": {
+    "root_source_edits": 0,
+    "forward_prediction_calls": 0,
+    "finite_steps_or_new_physics_jobs": 0,
+    "physical_truth_files_read": false,
+    "finite_response_arrays_read": false,
+    "observation_or_posterior_scoring": false,
+    "new_experiments_or_audit_framework": false
+  },
+  "limitations": "Review verifies the declared working-model integration and interfaces; convergence and physical predictive accuracy must be judged from subsequent frozen results."
+}

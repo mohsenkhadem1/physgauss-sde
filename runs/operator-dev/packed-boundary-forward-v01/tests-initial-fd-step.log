@@ -1,0 +1,35 @@
+..F.                                                                     [100%]
+=================================== FAILURES ===================================
+__ test_packed_geometry_gather_scatter_preserves_all_four_material_gradients ___
+
+    def test_packed_geometry_gather_scatter_preserves_all_four_material_gradients():
+        models=tiny_models(different_modes=True);packed=PackedBoundaryMaterialForward(models)
+        clock=make_exciting_commands('exciting_world_b_v01');ids=torch.tensor([8,4,8],dtype=torch.int64)
+        theta=torch.tensor([[6000.,800.,.33,.6],[3500.,600.,.29,.4],[9500.,700.,.39,.7]],dtype=torch.float64,requires_grad=True)
+        weights=torch.tensor([.7,1.3,2.1],dtype=torch.float64)
+        def objective(values):
+            displacement=packed.predict(clock,ids,values)['positions_m']-models[4].full.points
+            return (displacement.square().sum(dim=(1,2,3))*weights).sum()
+        gradient=torch.autograd.grad(objective(theta),theta)[0]
+        references=[]
+        for i,id in enumerate(ids.tolist()):
+            one=theta.detach()[i:i+1].clone().requires_grad_(True)
+            displacement=BatchedModalMaterialForward(models[id]).predict(clock,one)['positions_m']-models[id].full.points
+            references.append(torch.autograd.grad(displacement.square().sum()*weights[i],one)[0][0])
+        torch.testing.assert_close(gradient,torch.stack(references),atol=2e-15,rtol=2e-9)
+        assert torch.isfinite(gradient).all() and torch.all(gradient.abs()>1e-14)
+        # Central differences include both mode groups and a repeated category.
+        for row,col,step in [(0,0,.06),(1,1,.006),(2,2,3.9e-6),(0,3,6e-6)]:
+            delta=torch.zeros_like(theta);delta[row,col]=step
+            finite=(objective(theta.detach()+delta)-objective(theta.detach()-delta))/(2*step)
+>           torch.testing.assert_close(gradient[row,col],finite,atol=3e-12,rtol=3e-5)
+E           AssertionError: Scalars are not close!
+E           
+E           Expected -3.5440545174495835e-07 but got -3.543415238403932e-07.
+E           Absolute difference: 6.392790456513862e-11 (up to 3e-12 allowed)
+E           Relative difference: 0.00018038070309128092 (up to 3e-05 allowed)
+
+tests/test_campaign_packed_boundary_forward.py:75: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_campaign_packed_boundary_forward.py::test_packed_geometry_gather_scatter_preserves_all_four_material_gradients
+1 failed, 3 passed in 5.84s

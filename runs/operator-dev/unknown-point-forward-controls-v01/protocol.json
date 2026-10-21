@@ -1,0 +1,58 @@
+{
+  "status": "PROSPECTIVE_FOUR_TRUE_PARAMETER_CONTROLS_WAITING_FOR_POSTERIOR_FREEZE_AND_ROOT_NOTIFICATION",
+  "source_sha256": {
+    "experiments/campaign_unknown_point_forward_controls.py": "7848b46a0b399887d60e990a9834c2328120a8c8d9bc77be77e9bb3e06b58b72",
+    "tests/test_campaign_unknown_point_forward_controls.py": "9717de09fba03fedb5f4dffe2d8968a4119b43b1730c3a886f15d68ed66cd0d2"
+  },
+  "design_path": "runs/operator-dev/unknown-point-oracle-inputs-v01/protocol-design.json",
+  "design_sha256": "f50c2de50217904b215df5e25d93b6699c19b27e48941f21233a1a1a36be9fe9",
+  "required_marker": "runs/gaussian-campaign-v01/unknown-point-oracle-v01/joint-reference-v01/posterior-frozen.json",
+  "checks_before_truth_reads": [
+    "held_motion_used_for_inference=false",
+    "held_motion_evaluated=false",
+    "physical_truth_opened=false",
+    "reference summary SHA256",
+    "all3 fixed seed reference NPZ SHA256",
+    "frozen inference source SHA256 map",
+    "exact prospective design/cache pins"
+  ],
+  "predictions": [
+    {
+      "model": "full_linear",
+      "program": "exciting_world_a_v01",
+      "count": 1
+    },
+    {
+      "model": "full_linear",
+      "program": "exciting_world_b_v01",
+      "count": 1
+    },
+    {
+      "model": "packed_cached_modal",
+      "program": "exciting_world_a_v01",
+      "count": 1
+    },
+    {
+      "model": "packed_cached_modal",
+      "program": "exciting_world_b_v01",
+      "count": 1
+    }
+  ],
+  "device": "cpu",
+  "threads": 2,
+  "new_finite_runs": 0,
+  "reference_reruns": 0,
+  "cache_rebuild": false,
+  "fit_or_tuning": false,
+  "output": "runs/gaussian-campaign-v01/unknown-point-forward-controls-v01",
+  "comparison": "Supplied true node/material: compare both with finite reference and modal with full linear; velocity only where frozen interface supplies private120Hz chords. Packed q/pose interface has no velocity.",
+  "inference_io_scope": "Reference NPZ access decompresses full positions array internally; only selected frames10/20 used by sensor/likelihood. No literal file-I/O isolation claim.",
+  "validation": {
+    "tests": 3,
+    "result": "passed",
+    "elapsed_s": 1.59
+  },
+  "reproduce_after_root_notification": "OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 .venv/bin/python experiments/campaign_unknown_point_forward_controls.py --output runs/gaussian-campaign-v01/unknown-point-forward-controls-v01",
+  "raw_predictions_LOCAL": true,
+  "calibration_claim": false
+}

@@ -1,0 +1,208 @@
+{
+  "status": "COMPLETED_55_CATEGORY_CACHE_AND_512_GPU_PARITY",
+  "role": "Forward acceleration for explicit support/material hypotheses; no observations, likelihood, posterior or nonlinear finite response consumed",
+  "sources": [
+    {
+      "path": "experiments/campaign_packed_boundary_forward.py",
+      "sha256": "240ba6fbcb3f74440171a8bc1b4ddfae82f5a1f34855be90b2352e8c05e3affd",
+      "bytes": 14861
+    },
+    {
+      "path": "experiments/campaign_support_basis_cache.py",
+      "sha256": "5b5b5bc492b40bd49251b4e0b0f10d3163d14bae70daca31ac24cd11efda5ddb",
+      "bytes": 12942
+    },
+    {
+      "path": "experiments/benchmark_packed_boundary_forward.py",
+      "sha256": "29383f3bc54a88a1a81a985c4616e830977e5335cd528ed4e0288e6b70e82d95",
+      "bytes": 5630
+    },
+    {
+      "path": "tests/test_campaign_packed_boundary_forward.py",
+      "sha256": "16791305d8e9699fcce9712a4df8a162cb469e40276cf60ce16165f0ba9e60cb",
+      "bytes": 8217
+    }
+  ],
+  "tests": {
+    "passed": 5,
+    "log": {
+      "path": "runs/operator-dev/packed-boundary-forward-v01/tests.log",
+      "sha256": "95115a47a0c55de0acef0d97967dc44900d3f76e2d2d377f7fcc174d2776c771",
+      "bytes": 98
+    },
+    "initial_finite_difference_failure_preserved": {
+      "path": "runs/operator-dev/packed-boundary-forward-v01/tests-initial-fd-step.log",
+      "sha256": "1042e79eee69312ae179287dfab6033d30c9a08ff24abe689f6228f0abc6fa10",
+      "bytes": 2511
+    },
+    "coverage": [
+      "Mixed/repeated category parity against frozen singlegeometry forward",
+      "Different actual mode counts grouped without padding",
+      "Material autograd equality and central finite differences",
+      "Unknown category and incompatible hardware/clock rejection",
+      "Slim tensor cache roundtrip without dense systems/live clock caches"
+    ]
+  },
+  "construction": {
+    "completed": true,
+    "categories": 55,
+    "failures": [],
+    "elapsed_s": 18.721720355097204,
+    "workers": 4,
+    "threads_each": 2,
+    "nominal_material": {
+      "E_Pa": 5000,
+      "rho_kg_m3": 625,
+      "nu": 0.35,
+      "drag_s_inverse": 0.6
+    },
+    "actual_mode_counts": [
+      99
+    ],
+    "raw_cache_bytes": 137521739,
+    "manifest": {
+      "path": "runs/gaussian-campaign-v01/point-support-bases-v01/cache-manifest.json",
+      "sha256": "642f50c696129c0cafda781b87a3342d3effcc25ca5484172afb25b604977664",
+      "bytes": 135106
+    },
+    "protocol": {
+      "path": "runs/gaussian-campaign-v01/point-support-bases-v01/construction-protocol.json",
+      "sha256": "f0370edd8efe6b3808b6b6ae97e968fea1ba4c4eda7cae701794ca43364c3977",
+      "bytes": 55624
+    },
+    "probabilities": "Exact prior probabilities retained; no support category dropped or weights renormalized",
+    "representative": "Largest exact rational joint-mass conditional region, face/cell tie break, exact polygon centroid; actual decoder fixture equality required. Geometry query, not prior truth sample."
+  },
+  "benchmark": {
+    "completed": true,
+    "parity_passed": true,
+    "particles_used": 512,
+    "geometries_preserved": 55,
+    "mode_groups": [
+      {
+        "mode_count": 99,
+        "geometry_ids": [
+          11,
+          12,
+          13,
+          16,
+          17,
+          18,
+          21,
+          22,
+          23,
+          141,
+          142,
+          143,
+          154,
+          159,
+          160,
+          164,
+          171,
+          172,
+          173,
+          176,
+          177,
+          178,
+          189,
+          194,
+          199,
+          206,
+          207,
+          208,
+          211,
+          212,
+          213,
+          224,
+          229,
+          234,
+          246,
+          247,
+          248,
+          259,
+          264,
+          269,
+          281,
+          282,
+          283,
+          294,
+          299,
+          304,
+          431,
+          432,
+          433,
+          436,
+          437,
+          438,
+          441,
+          442,
+          443
+        ]
+      }
+    ],
+    "cache_load_hash_validation_seconds": 0.5673569929786026,
+    "CPU512_cold_query_seconds": 10.991792891174555,
+    "GPU_context_seconds": 0.3613460026681423,
+    "GPU_cold_query_seconds": 0.8684490043669939,
+    "GPU_to_CPU_transfer_and_compare_seconds": 0.4919423586688936,
+    "timings_include_geometry_packing_and_input_transfers": true,
+    "timing_repetitions": 1,
+    "CPU_GPU_same_particle_count": true,
+    "differences_max_abs": {
+      "positions_m": 2.3453461395206432e-14,
+      "handle_centers_m": 1.501750113153122e-14,
+      "handle_rotation_coordinates_rad": 1.917077607771489e-13
+    },
+    "attempts": [
+      {
+        "particles": 512,
+        "completed": true
+      }
+    ],
+    "peak_GPU_allocated_bytes": 1783245824,
+    "peak_GPU_reserved_bytes": 2246049792,
+    "GPU_free_total_before_bytes": [
+      11173363712,
+      11347623936
+    ],
+    "GPU_free_total_after_bytes": [
+      8879079424,
+      11347623936
+    ],
+    "GPU_device_name": "NVIDIA GeForce RTX 2080 Ti",
+    "torch_version": "2.14.1+cu130",
+    "CUDA_version": "13.0",
+    "CPU_threads": 2,
+    "physical_GPU": 2,
+    "support_prior_sampling_performed": false,
+    "observations_truth_or_likelihood_used": false,
+    "posterior_performed": false,
+    "scope": "One fixed mixed-category query; not large-scale scaling or posterior accuracy evidence",
+    "protocol": {
+      "path": "runs/operator-dev/packed-boundary-benchmark-v01/protocol.json",
+      "sha256": "50f84e75650f6a19c9c02e1715d0ac56da60e52b8e5e2ad0a90b73a3c72dbecd",
+      "bytes": 1192
+    },
+    "summary": {
+      "path": "runs/gaussian-campaign-v01/packed-boundary-benchmark-v01/summary.json",
+      "sha256": "3e0564eb336ca367e242b7b9b27eedf8804f0a9da6841ba37ccd1a8df43d68b6",
+      "bytes": 2172
+    },
+    "execution": {
+      "pid": 2120249,
+      "terminal": true,
+      "completed": true,
+      "posterior_or_truth_inputs": false
+    },
+    "terminal_reaped_exit": 0,
+    "worker_pid_absent": true,
+    "GPU2_released": "nvidia-smi after terminal: 8MiB,0% utilization"
+  },
+  "limitations": [
+    "Parity is with the same enriched linear modal solver, not the nonlinear independent FEM or a posterior accuracy result.",
+    "All current exact point-support models have 99 modes; differing mode counts are covered by tiny tests, never padded.",
+    "Returned rotation coordinates are infinitesimal coordinates, not finite SO(3) rotations. No velocity output is provided.",
+    "One cold CPU and GPU timing each; large-scale throughput and posterior accuracy have not been tested.",
+    "Raw .pt/NPZ files remain local. Publication includes source, protocol and compact metadata only."
+  ]
+}
