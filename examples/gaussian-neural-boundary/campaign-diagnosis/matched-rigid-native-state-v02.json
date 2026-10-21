@@ -1,0 +1,337 @@
+{
+  "role": "Privileged TRAIN t0001/960Hz four-cell numerical diagnostic only.",
+  "conclusion": "Matching rigid/deformable solver counts leaves all zero/diagonal/reset positions bitwise unchanged relative to rigid16 baselines. Native E/nu/rest match in all12 branches.",
+  "native_numerical_gate_passed": false,
+  "reserved_control_gate_opened_predictively": false,
+  "calibration_audit_opened": false,
+  "fresh_confirmation_opened": false,
+  "raw_artifact_archive_published": false,
+  "native_verified_branch_count": 12,
+  "native_material": {
+    "youngs_modulus_Pa": {
+      "native": 4249.36767578125,
+      "authored_float32": 4249.36767578125,
+      "absolute_tolerance": 0.0009765625
+    },
+    "poissons_ratio": {
+      "native": 0.34071844816207886,
+      "authored_float32": 0.34071844816207886,
+      "absolute_tolerance": 5.960464477539063e-08
+    }
+  },
+  "native_rest_checks": {
+    "points_bitwise_match_authored_float32": true,
+    "oriented_tet_multiset_matches": true,
+    "native_nodal_mass_available": false,
+    "native_mass_qualification": "No mass/density getter is exposed by this installed DeformableBodyView."
+  },
+  "rigid_native_masses_kg": [
+    [
+      0.0010000000474974513
+    ],
+    [
+      0.0010000000474974513
+    ]
+  ],
+  "rigid_native_inertias_kg_m2": [
+    [
+      6.222222168617009e-07,
+      0.0,
+      0.0,
+      0.0,
+      4.0000000467443897e-07,
+      0.0,
+      0.0,
+      0.0,
+      2.2222222639811662e-07
+    ],
+    [
+      4.0000000467443897e-07,
+      0.0,
+      0.0,
+      0.0,
+      6.222222168617009e-07,
+      0.0,
+      0.0,
+      0.0,
+      2.2222222639811662e-07
+    ]
+  ],
+  "native_read_semantics": "Native tensor backend getters; high-level USD material getters and recomputed stresses are not used.",
+  "cells": [
+    {
+      "condition": "original",
+      "iterations": 32,
+      "state": "completed_verified",
+      "native_state_verified": true,
+      "actions": [
+        {
+          "action_id": "zero_force",
+          "coordinate_rms_from_rest_m": 4.172223087234589e-09,
+          "strain": {
+            "minimum_volume_ratio": 0.9999987687942684,
+            "maximum_absolute_principal_stretch_minus_one": 9.538957707055928e-07,
+            "green_strain_frobenius_p95": 9.679157158468703e-07,
+            "green_strain_frobenius_max": 9.787917399981416e-07,
+            "qualification": "Kinematic strain, not a bound on nonlinear force-response error"
+          },
+          "trajectory_sha256": "08d497dfdf03fd8144db828d0546d7129b2abc48eb69bcf1dd7da2463eafcfec",
+          "difference_from_frozen_rigid16_same_deform_count_rmse_m": 0.0
+        },
+        {
+          "action_id": "evaluation",
+          "coordinate_rms_from_rest_m": 0.0002365557452375995,
+          "strain": {
+            "minimum_volume_ratio": 0.9406030444599045,
+            "maximum_absolute_principal_stretch_minus_one": 0.09990240149794927,
+            "green_strain_frobenius_p95": 0.04123579560220321,
+            "green_strain_frobenius_max": 0.12563503499841133,
+            "qualification": "Kinematic strain, not a bound on nonlinear force-response error"
+          },
+          "trajectory_sha256": "7a47fff7f580b24b41b0fef6e6fab5daa660c8763a5c5cd6265040b33d1aaf8c",
+          "difference_from_frozen_rigid16_same_deform_count_rmse_m": 0.0
+        }
+      ],
+      "positions_bitwise_identical_to_rigid16_by_branch": {
+        "zero_force": true,
+        "evaluation": true,
+        "reset_replay": true
+      }
+    },
+    {
+      "condition": "recentered",
+      "iterations": 32,
+      "state": "completed_verified",
+      "native_state_verified": true,
+      "actions": [
+        {
+          "action_id": "zero_force",
+          "coordinate_rms_from_rest_m": 1.0985817669208024e-09,
+          "strain": {
+            "minimum_volume_ratio": 0.9999997001156575,
+            "maximum_absolute_principal_stretch_minus_one": 2.093961903870678e-07,
+            "green_strain_frobenius_p95": 2.1140509218575572e-07,
+            "green_strain_frobenius_max": 2.2083885233665857e-07,
+            "qualification": "Kinematic strain, not a bound on nonlinear force-response error"
+          },
+          "trajectory_sha256": "c3e2ef284c71074419c3e2d10ea768b065a61d232ecca10d8c85624ac3c10189",
+          "difference_from_frozen_rigid16_same_deform_count_rmse_m": 0.0
+        },
+        {
+          "action_id": "evaluation",
+          "coordinate_rms_from_rest_m": 3.9693778651444545e-05,
+          "strain": {
+            "minimum_volume_ratio": 0.9890280351438397,
+            "maximum_absolute_principal_stretch_minus_one": 0.028641196039048467,
+            "green_strain_frobenius_p95": 0.0074043078231315765,
+            "green_strain_frobenius_max": 0.031189328174276578,
+            "qualification": "Kinematic strain, not a bound on nonlinear force-response error"
+          },
+          "trajectory_sha256": "bf4c5127593c0eaba5947a4027e06cf49b69a5c4427dd20a572b4382199d3eef",
+          "difference_from_frozen_rigid16_same_deform_count_rmse_m": 0.0
+        }
+      ],
+      "positions_bitwise_identical_to_rigid16_by_branch": {
+        "zero_force": true,
+        "evaluation": true,
+        "reset_replay": true
+      }
+    },
+    {
+      "condition": "original",
+      "iterations": 64,
+      "state": "completed_verified",
+      "native_state_verified": true,
+      "actions": [
+        {
+          "action_id": "zero_force",
+          "coordinate_rms_from_rest_m": 4.172387653598788e-09,
+          "strain": {
+            "minimum_volume_ratio": 0.9999987687925587,
+            "maximum_absolute_principal_stretch_minus_one": 9.53902021483266e-07,
+            "green_strain_frobenius_p95": 9.679157158468703e-07,
+            "green_strain_frobenius_max": 9.787906221586382e-07,
+            "qualification": "Kinematic strain, not a bound on nonlinear force-response error"
+          },
+          "trajectory_sha256": "425f134b796b63b98316d4fd6d5b30dfcf4d0e6f1b8f903d1ee0154cb997b64a",
+          "difference_from_frozen_rigid16_same_deform_count_rmse_m": 0.0
+        },
+        {
+          "action_id": "evaluation",
+          "coordinate_rms_from_rest_m": 0.000682998032584922,
+          "strain": {
+            "minimum_volume_ratio": 0.7826177425085128,
+            "maximum_absolute_principal_stretch_minus_one": 0.37459079446592614,
+            "green_strain_frobenius_p95": 0.11480298833730604,
+            "green_strain_frobenius_max": 0.48351788630177345,
+            "qualification": "Kinematic strain, not a bound on nonlinear force-response error"
+          },
+          "trajectory_sha256": "583206c7b13ec2418c74232e31f0561ae5c9d727b1a8a67394b56ca7409f1573",
+          "difference_from_frozen_rigid16_same_deform_count_rmse_m": 0.0
+        }
+      ],
+      "positions_bitwise_identical_to_rigid16_by_branch": {
+        "zero_force": true,
+        "evaluation": true,
+        "reset_replay": true
+      }
+    },
+    {
+      "condition": "recentered",
+      "iterations": 64,
+      "state": "completed_verified",
+      "native_state_verified": true,
+      "actions": [
+        {
+          "action_id": "zero_force",
+          "coordinate_rms_from_rest_m": 1.1002224038599323e-09,
+          "strain": {
+            "minimum_volume_ratio": 0.9999996970692229,
+            "maximum_absolute_principal_stretch_minus_one": 2.0937488953709504e-07,
+            "green_strain_frobenius_p95": 2.1180089441464014e-07,
+            "green_strain_frobenius_max": 2.2083920399939134e-07,
+            "qualification": "Kinematic strain, not a bound on nonlinear force-response error"
+          },
+          "trajectory_sha256": "5cb4ff93db60214a3a332ad97e38fbdd9c423bd05a90db0383ee375e35c2fefa",
+          "difference_from_frozen_rigid16_same_deform_count_rmse_m": 0.0
+        },
+        {
+          "action_id": "evaluation",
+          "coordinate_rms_from_rest_m": 0.0001527966416045887,
+          "strain": {
+            "minimum_volume_ratio": 0.9081820742114239,
+            "maximum_absolute_principal_stretch_minus_one": 0.12251865452480826,
+            "green_strain_frobenius_p95": 0.036646142897100324,
+            "green_strain_frobenius_max": 0.12766045760065953,
+            "qualification": "Kinematic strain, not a bound on nonlinear force-response error"
+          },
+          "trajectory_sha256": "ea37b75f6c2e274c3c71085b5fe64b6283ba69f35e29916bfad1d6055079d43d",
+          "difference_from_frozen_rigid16_same_deform_count_rmse_m": 0.0
+        }
+      ],
+      "positions_bitwise_identical_to_rigid16_by_branch": {
+        "zero_force": true,
+        "evaluation": true,
+        "reset_replay": true
+      }
+    }
+  ],
+  "translation_pairs": [
+    {
+      "iterations": 32,
+      "action_id": "zero_force",
+      "coordinate_rmse_m": 4.083752148201361e-09
+    },
+    {
+      "iterations": 32,
+      "action_id": "evaluation",
+      "coordinate_rmse_m": 0.00023321444186523514
+    },
+    {
+      "iterations": 64,
+      "action_id": "zero_force",
+      "coordinate_rmse_m": 4.08425945227475e-09
+    },
+    {
+      "iterations": 64,
+      "action_id": "evaluation",
+      "coordinate_rmse_m": 0.0006626795835315625
+    }
+  ],
+  "iteration_pairs": [
+    {
+      "condition": "original",
+      "iterations": [
+        32,
+        64
+      ],
+      "action_id": "zero_force",
+      "coordinate_rmse_m": 1.773503919489346e-11
+    },
+    {
+      "condition": "original",
+      "iterations": [
+        32,
+        64
+      ],
+      "action_id": "evaluation",
+      "coordinate_rmse_m": 0.0005317755644099923
+    },
+    {
+      "condition": "recentered",
+      "iterations": [
+        32,
+        64
+      ],
+      "action_id": "zero_force",
+      "coordinate_rmse_m": 3.101878125190916e-11
+    },
+    {
+      "condition": "recentered",
+      "iterations": [
+        32,
+        64
+      ],
+      "action_id": "evaluation",
+      "coordinate_rmse_m": 0.00013677621131394154
+    }
+  ],
+  "source_and_config_sha256": {
+    "experiments/campaign_numerical_matched_rigid.py": "c0ce2f232e3ee899f3679c1c1ed345baa54e7e95506622ba12d72f384506b993",
+    "experiments/campaign_numerical_matched_rigid_config.json": "4200949f68344de43232036b1102375e5d3ceeb3eabbb349ee869039a5cdc296",
+    "experiments/isaac_calibrated_probes_v03.py": "116d4717bff0c7780925bd4e6d85f5b2f1615d33f4993e356a8284199829a821",
+    "experiments/campaign_numerical_solver_coordinates.py": "a49c9168f7aa0deccf5db7108eeef87b94875f5b01e8f2521fe7e0a528aa1ee7"
+  },
+  "original_input_sha256": {
+    "runs/gaussian-boundary-neural-v01/episodes/t0001/reference.npz": "caf02bed9a53f39466dbaad50d8dedd4ac7f39d421701215a38efd7105106e91",
+    "runs/gaussian-boundary-neural-v01/episodes/t0001/truth/recipe.json": "73151396c5481e5eff40e7178bf0c1e9379053c962ba08de8cc7f18b7ddd41e4",
+    "runs/gaussian-boundary-neural-v01/episodes/t0001/truth/boundaries.json": "fb0cdbaa5445e1b178a2b602722fb541c21c446ca9b53d6c3b442325f6aa8c03",
+    "runs/gaussian-boundary-neural-v01/episodes/t0001/observations/cameras.npz": "1c857cd7bdd9787d30cdd7bb3d9dc03da2e8d23ecc27959a9eff24d6aa0b83a4"
+  },
+  "native_state_sha256": {
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/original/i32/captures/private/t0001/native-runtime-state.json": "65a4e3bc1fac0bba0bc446fc96871e2344f79c182fe4d26135438a2c174869a9",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/recentered/i32/captures/private/t0001/native-runtime-state.json": "65a4e3bc1fac0bba0bc446fc96871e2344f79c182fe4d26135438a2c174869a9",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/original/i64/captures/private/t0001/native-runtime-state.json": "65a4e3bc1fac0bba0bc446fc96871e2344f79c182fe4d26135438a2c174869a9",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/recentered/i64/captures/private/t0001/native-runtime-state.json": "65a4e3bc1fac0bba0bc446fc96871e2344f79c182fe4d26135438a2c174869a9"
+  },
+  "trajectory_input_sha256": {
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/original/i32/captures/private/t0001/zero_force/trajectory.npz": "08d497dfdf03fd8144db828d0546d7129b2abc48eb69bcf1dd7da2463eafcfec",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/original/i32/captures/private/t0001/evaluation/trajectory.npz": "7a47fff7f580b24b41b0fef6e6fab5daa660c8763a5c5cd6265040b33d1aaf8c",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/original/i32/captures/private/t0001/reset_replay/trajectory.npz": "08d497dfdf03fd8144db828d0546d7129b2abc48eb69bcf1dd7da2463eafcfec",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/recentered/i32/captures/private/t0001/zero_force/trajectory.npz": "c3e2ef284c71074419c3e2d10ea768b065a61d232ecca10d8c85624ac3c10189",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/recentered/i32/captures/private/t0001/evaluation/trajectory.npz": "bf4c5127593c0eaba5947a4027e06cf49b69a5c4427dd20a572b4382199d3eef",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/recentered/i32/captures/private/t0001/reset_replay/trajectory.npz": "c3e2ef284c71074419c3e2d10ea768b065a61d232ecca10d8c85624ac3c10189",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/original/i64/captures/private/t0001/zero_force/trajectory.npz": "425f134b796b63b98316d4fd6d5b30dfcf4d0e6f1b8f903d1ee0154cb997b64a",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/original/i64/captures/private/t0001/evaluation/trajectory.npz": "583206c7b13ec2418c74232e31f0561ae5c9d727b1a8a67394b56ca7409f1573",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/original/i64/captures/private/t0001/reset_replay/trajectory.npz": "425f134b796b63b98316d4fd6d5b30dfcf4d0e6f1b8f903d1ee0154cb997b64a",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/recentered/i64/captures/private/t0001/zero_force/trajectory.npz": "5cb4ff93db60214a3a332ad97e38fbdd9c423bd05a90db0383ee375e35c2fefa",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/recentered/i64/captures/private/t0001/evaluation/trajectory.npz": "ea37b75f6c2e274c3c71085b5fe64b6283ba69f35e29916bfad1d6055079d43d",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/recentered/i64/captures/private/t0001/reset_replay/trajectory.npz": "5cb4ff93db60214a3a332ad97e38fbdd9c423bd05a90db0383ee375e35c2fefa"
+  },
+  "baseline_trajectory_input_sha256": {
+    "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/original/i32/captures/private/t0001/zero_force/trajectory.npz": "08d497dfdf03fd8144db828d0546d7129b2abc48eb69bcf1dd7da2463eafcfec",
+    "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/original/i32/captures/private/t0001/evaluation/trajectory.npz": "7a47fff7f580b24b41b0fef6e6fab5daa660c8763a5c5cd6265040b33d1aaf8c",
+    "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/original/i32/captures/private/t0001/reset_replay/trajectory.npz": "08d497dfdf03fd8144db828d0546d7129b2abc48eb69bcf1dd7da2463eafcfec",
+    "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/recentered/i32/captures/private/t0001/zero_force/trajectory.npz": "c3e2ef284c71074419c3e2d10ea768b065a61d232ecca10d8c85624ac3c10189",
+    "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/recentered/i32/captures/private/t0001/evaluation/trajectory.npz": "bf4c5127593c0eaba5947a4027e06cf49b69a5c4427dd20a572b4382199d3eef",
+    "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/recentered/i32/captures/private/t0001/reset_replay/trajectory.npz": "c3e2ef284c71074419c3e2d10ea768b065a61d232ecca10d8c85624ac3c10189",
+    "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/original/i64/captures/private/t0001/zero_force/trajectory.npz": "425f134b796b63b98316d4fd6d5b30dfcf4d0e6f1b8f903d1ee0154cb997b64a",
+    "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/original/i64/captures/private/t0001/evaluation/trajectory.npz": "583206c7b13ec2418c74232e31f0561ae5c9d727b1a8a67394b56ca7409f1573",
+    "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/original/i64/captures/private/t0001/reset_replay/trajectory.npz": "425f134b796b63b98316d4fd6d5b30dfcf4d0e6f1b8f903d1ee0154cb997b64a",
+    "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/recentered/i64/captures/private/t0001/zero_force/trajectory.npz": "5cb4ff93db60214a3a332ad97e38fbdd9c423bd05a90db0383ee375e35c2fefa",
+    "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/recentered/i64/captures/private/t0001/evaluation/trajectory.npz": "ea37b75f6c2e274c3c71085b5fe64b6283ba69f35e29916bfad1d6055079d43d",
+    "runs/gaussian-campaign-v01/numerical-solver-coordinates-v02/recentered/i64/captures/private/t0001/reset_replay/trajectory.npz": "5cb4ff93db60214a3a332ad97e38fbdd9c423bd05a90db0383ee375e35c2fefa"
+  },
+  "validation_input_sha256": {
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/original/i32/captures/private/t0001/validation.json": "288a005473402bb29620c8e5a686d66d12eff75687f49b34e1e5c4771c9cf525",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/recentered/i32/captures/private/t0001/validation.json": "cd3851c4e0186357caa06f4bd4c5248ba0c599d5e7e499236a7b93867caba0b7",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/original/i64/captures/private/t0001/validation.json": "01eb37cbbc01a07090546a928d54e4436667c072bb60978ea4ee58d062361b7f",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/recentered/i64/captures/private/t0001/validation.json": "e6362424bfb19272558bc445c187aeeb69813a7c7da3f6a10e124805f5195c57"
+  },
+  "evidence_sha256": {
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/analysis.json": "04f003848825bb604284728300685d925630619072c07d26fb0617b093d03252",
+    "runs/gaussian-campaign-v01/numerical-matched-rigid-v02/protocol.json": "c53264b3515ef0b501e01bb2092140ffe6fb0413241e10cfb23545360fd30ea6"
+  },
+  "qualification": "Predeclared fourcells TRAINt1 at960Hz, both original/recentered coordinates, deformable positioncount32/64 matched by both rigidhandlepositioncounts32/64, rigidvelocitycount1. Native backend materialE/nu must matchauthoredfloat32, restpoints/orientedtetmultiset must matchauthored; runtimeverificationfailure abortsfurthercells. Full zero/diagonal/reset sensorQC and paused-state guards retained. Compare existing rigid16 baselines. No native nodalmass claim, four-BC/timestep convergence or physicalcalibration claim.",
+  "preliminary_v01_preserved": true
+}

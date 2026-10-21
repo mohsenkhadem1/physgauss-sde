@@ -1,7 +1,7 @@
 {
   "campaign": "gaussian-known-force-recovery-v0.1",
   "status": "active",
-  "updated_utc": "2026-10-21T15:21:37.602252+00:00",
+  "updated_utc": "2026-10-21T15:36:40.657994+00:00",
   "campaign_sha256": "04bd467f559dcad3057b50a2832561e882bb9a7d7bab6d426ca3325724d8b510",
   "heldout_plan_sha256": "2dcb00635d60cae69719c03b539582287b4a51d9a11872f565c4938368259ea4",
   "milestone": "Numerical reliability diagnosis before further fitting or calibration",
@@ -561,6 +561,54 @@
         }
       ]
     },
+    "numerical-matched-rigid-v02": {
+      "completed": true,
+      "driver_live_at_snapshot": false,
+      "cells": [
+        {
+          "condition": "original",
+          "iterations": 32,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 1,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "condition": "recentered",
+          "iterations": 32,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 2,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "condition": "original",
+          "iterations": 64,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 1,
+          "worker_live_at_snapshot": false
+        },
+        {
+          "condition": "recentered",
+          "iterations": 64,
+          "state": "completed_verified",
+          "exit_code": 0,
+          "gpu": 2,
+          "worker_live_at_snapshot": false
+        }
+      ]
+    },
+    "numerical-pgs-attempt-v01": {
+      "completed": null,
+      "driver_live_at_snapshot": false,
+      "cells": []
+    },
+    "numerical-pgs-recenter-v01": {
+      "completed": null,
+      "driver_live_at_snapshot": false,
+      "cells": []
+    },
     "numerical-solver-coordinates-v02": {
       "completed": false,
       "driver_live_at_snapshot": false,
@@ -661,6 +709,145 @@
         }
       ]
     }
+  },
+  "matched_rigid_iteration_audit": {
+    "case": "TRAIN t0001",
+    "physics_hz": 960,
+    "native_numerical_gate_passed": false,
+    "native_material": {
+      "youngs_modulus_Pa": {
+        "native": 4249.36767578125,
+        "authored_float32": 4249.36767578125,
+        "absolute_tolerance": 0.0009765625
+      },
+      "poissons_ratio": {
+        "native": 0.34071844816207886,
+        "authored_float32": 0.34071844816207886,
+        "absolute_tolerance": 5.960464477539063e-08
+      }
+    },
+    "cells": [
+      {
+        "condition": "original",
+        "iterations": 32,
+        "state": "completed_verified",
+        "native_state_verified": true
+      },
+      {
+        "condition": "recentered",
+        "iterations": 32,
+        "state": "completed_verified",
+        "native_state_verified": true
+      },
+      {
+        "condition": "original",
+        "iterations": 64,
+        "state": "completed_verified",
+        "native_state_verified": true
+      },
+      {
+        "condition": "recentered",
+        "iterations": 64,
+        "state": "completed_verified",
+        "native_state_verified": true
+      }
+    ],
+    "translation_pairs": [
+      {
+        "iterations": 32,
+        "action_id": "evaluation",
+        "coordinate_rmse_m": 0.00023321444186523514
+      },
+      {
+        "iterations": 64,
+        "action_id": "evaluation",
+        "coordinate_rmse_m": 0.0006626795835315625
+      }
+    ],
+    "qualification": "Matching both rigid-handle solver counts to the deformable count leaves trajectories unchanged. Native material/rest verification does not establish numerical convergence or effective nodal masses.",
+    "evidence": "campaign-diagnosis/matched-rigid-native-state-v02.json"
+  },
+  "original_scene_pgs_request": {
+    "case": "TRAIN t0001",
+    "physics_hz": 960,
+    "state": "completed_verified",
+    "authored_scene_solver_type": "PGS",
+    "native_solver_identity_verified": false,
+    "native_numerical_gate_passed": false,
+    "native_material_and_rest_verified_all_branches": true,
+    "actions": [
+      {
+        "action_id": "zero_force",
+        "coordinate_rms_from_rest_m": 4.1852870780196675e-09,
+        "difference_from_TGS_reference_rmse_m": 3.35709462717127e-10,
+        "positions_bitwise_identical_to_TGS_reference": false,
+        "trajectory_sha256": "28ebb4a3652efe655f83aa717540b335a8fca4a802077462a75671ec34b338a3"
+      },
+      {
+        "action_id": "evaluation",
+        "coordinate_rms_from_rest_m": 0.000309057822625161,
+        "difference_from_TGS_reference_rmse_m": 0.0003712999190382269,
+        "positions_bitwise_identical_to_TGS_reference": false,
+        "trajectory_sha256": "43241db71c6f72a4fe529f17822343e5a3130bbc65a86598702251ee0d6fb585"
+      }
+    ],
+    "qualification": "One original-coordinate scene-PGS request passed full QC and changes the trajectory. Actual internal deformable solver identity and numerical convergence remain unverified; no energy-conservation verdict.",
+    "evidence": "campaign-diagnosis/original-pgs-request-v01.json"
+  },
+  "free_rigid_force_api_control": {
+    "all_four_momentum_controls_passed": true,
+    "relative_momentum_tolerance": 0.0001,
+    "cells": [
+      {
+        "cell": {
+          "id": "hz120-false",
+          "hz": 120,
+          "enabled": false
+        },
+        "maximum_relative_cumulative_momentum_error": 2.929716653127965e-07,
+        "fitted_step_impulse_gain": 1.0000001468235522,
+        "fitted_position_integration_theta": 1.000003321398865,
+        "passed": true
+      },
+      {
+        "cell": {
+          "id": "hz120-true",
+          "hz": 120,
+          "enabled": true
+        },
+        "maximum_relative_cumulative_momentum_error": 5.8505901675885515e-06,
+        "fitted_step_impulse_gain": 1.0000036447071734,
+        "fitted_position_integration_theta": 0.5156225297083197,
+        "passed": true
+      },
+      {
+        "cell": {
+          "id": "hz960-false",
+          "hz": 960,
+          "enabled": false
+        },
+        "maximum_relative_cumulative_momentum_error": 7.103379355899603e-07,
+        "fitted_step_impulse_gain": 1.0000005377679255,
+        "fitted_position_integration_theta": 0.9997660908267753,
+        "passed": true
+      },
+      {
+        "cell": {
+          "id": "hz960-true",
+          "hz": 960,
+          "enabled": true
+        },
+        "maximum_relative_cumulative_momentum_error": 2.1078073808107453e-05,
+        "fitted_step_impulse_gain": 0.9999875461695688,
+        "fitted_position_integration_theta": 0.5156749944423201,
+        "passed": true
+      }
+    ],
+    "original_clock_failures_preserved": true,
+    "clock_adapter_reran_simulation": false,
+    "rigid_deformable_coupling_validated": false,
+    "qualification": "Free native rigid handle only: no deformable or attachments. Explicit adapter verifies recorded native clock intervals against float32-rounded nominal getters; predeclared momentum and rotation gates are unchanged.",
+    "evidence": "campaign-diagnosis/free-rigid-force-api-v01.json"
   },
   "external_force_iteration_flag": {
     "case": "TRAIN t0001",

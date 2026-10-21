@@ -88,6 +88,79 @@ the diagonal and reset replay. It produces **no images and no sensor-QC
 certificates**. This intervention did not change that trajectory; startup
 effects and other hidden mechanisms remain untested.
 
+## Matching rigid iterations and verifying native material/rest: negative result
+
+A four-cell TRAIN t0001/960 Hz audit matches both rigid handles' position
+iteration counts to the deformable count, 32 or 64, in original and recentered
+coordinates; rigid velocity count is 1. All cells pass full QC. Positions for
+zero force, the diagonal and reset replay are bitwise identical to their
+earlier same-condition rigid-16 baselines. Matching those counts therefore
+does not fix the response. Translation disagreements remain 233.214 µm at 32
+iterations and 662.680 µm at 64 iterations.
+
+Native tensor getters verify material and rest geometry separately in all
+three branches of all four cells: E = 4249.36767578125 Pa and
+nu = 0.34071844816207886 equal the authored float32 values; rest points match
+bitwise and the oriented tetrahedral multiset matches. Native rigid masses
+and inertias are also recorded. No native deformable nodal mass/density getter
+is available. These observations rule out a material/rest mismatch in those
+12 checks; they do not establish the integration/coupling law's accuracy.
+The [matched-count summary](../examples/gaussian-neural-boundary/campaign-diagnosis/matched-rigid-native-state-v02.json)
+retains native-state, validation, source/protocol and trajectory hashes.
+The preliminary v01 runtime-verification failure remains preserved.
+
+## Original-coordinate scene-PGS request: changed response, unqualified
+
+One completed TRAIN t0001/960 Hz original-coordinate cell requests scene PGS
+with matched rigid/deformable position count 32. Full sensor/physics QC and
+native material/rest checks pass for zero, diagonal and reset branches. The
+diagonal coordinate RMS is 309.058 µm, and its difference from the matched
+scene-TGS reference is 371.300 µm. Runtime minimum volume ratio is 0.993445
+versus approximately 0.939887 in the earlier scene-TGS diagonal branch.
+This changes the response and avoids the same compression level in this cell;
+it does not demonstrate physical correctness or numerical convergence.
+
+The authored scene option and successful execution do not reveal which
+internal solver handled the deformable: no direct native solver-identity
+getter is exposed. The
+[PGS-request summary](../examples/gaussian-neural-boundary/campaign-diagnosis/original-pgs-request-v01.json)
+preserves that limitation and includes metadata for the associated
+`native-energy-proxy-pgs-v01.json`. Those elastic/kinetic quantities remain
+independent declared continuum proxies, without a native energy-conservation
+verdict. No result from a pending translated PGS experiment is used here.
+
+## Free rigid force-API controls and explicit clock adaptation
+
+Four controls isolate one free rigid handle with the same authored mass and
+inertia, at 120/960 Hz and with the external-forces-every-iteration option
+false/true. There is no deformable, attachment, gravity, collision or damping,
+and no sensor-dataset claim. All four pass the predeclared 100 ppm cumulative
+momentum gate and zero-torque rotation gate:
+
+| Rate | Force option | Maximum cumulative momentum error | Fitted step impulse gain |
+|---|---|---:|---:|
+| 120 Hz | False | 0.293 ppm | 1.00000015 |
+| 120 Hz | True | 5.851 ppm | 1.00000364 |
+| 960 Hz | False | 0.710 ppm | 1.00000054 |
+| 960 Hz | True | 21.078 ppm | 0.99998755 |
+
+The original analyses failed after completing captures because they compared
+the accumulated clock to nominal double-precision dt. A separately saved
+exact clock/reference adapter verifies measured native intervals against
+float32-rounded nominal World/manager getters, retaining the measured
+intervals for the impulse reference. It changes no simulation, force, mass,
+hardware, momentum tolerance or rotation guard. All original failures remain
+saved; **no simulation was rerun** for the adapter.
+
+Fitted position-convention theta is approximately 1 for the false option and
+0.516 for true (constant-force exact integration would give 0.5). Position
+conventions are diagnostic, not an additional force-accuracy pass. The
+[free-control summary](../examples/gaussian-neural-boundary/campaign-diagnosis/free-rigid-force-api-v01.json)
+includes frozen capture/adapter sources, input/trajectory/native-state hashes
+and original failure hashes. The isolated force API has no large multiplicative
+gain error in these controls; rigid-deformable coupling remains unvalidated.
+All prediction, material-calibration and active-policy gates remain unpassed.
+
 ## External-force iteration option: negative result
 
 A separate frozen four-cell TRAIN t0001 audit explicitly authors
@@ -283,6 +356,13 @@ be described as the exact Isaac conditional prior.
 - `numerical-external-forces-v01/`: four predeclared scene-option/iteration
   cells, exact baseline replay, native rigid property records and preserved
   128-iteration failure.
+- `numerical-matched-rigid-v02/`: four matched-count cells, native E/nu/rest
+  checks across 12 branches and bitwise old-baseline positions; v01 preserved.
+- `numerical-pgs-attempt-v01/`, `native-energy-proxy-pgs-v01.json`: one
+  original-coordinate scene-PGS request, full QC, changed trajectory and
+  qualified continuum proxy metadata, without native solver-identity proof.
+- `native-free-handle-v01/clock-analysis-v01/`: four free rigid momentum
+  controls, explicit measured-clock adapter and preserved original errors.
 - `numerical-lowrate-v01/`: six completed and independently verified cells,
   failed rate/translation gates and retained higher-rate negative evidence.
 - `native-energy-proxy-v01.json`: independently declared continuum proxies
@@ -299,6 +379,7 @@ be described as the exact Isaac conditional prior.
   manifest; generated by `experiments/campaign_numerical_report.py`.
 
 The native audit implementation lives in `experiments/campaign_numerical_*`;
+the free-handle controls and clock adapter are `experiments/campaign_free_handle_*`;
 the independent references are `experiments/campaign_linear_fem.py` and
 `experiments/campaign_nonlinear_fem.py`, and the proxy audit is
 `experiments/campaign_native_energy_audit.py`.

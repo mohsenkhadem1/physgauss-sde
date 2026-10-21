@@ -115,6 +115,45 @@ def snapshot(campaign, root):
             status['numerical_jobs'][directory.name] = {'completed':execution.get('completed'),
                 'driver_live_at_snapshot': process_live(execution['driver_pid']) if 'driver_pid' in execution else False,
                 'cells':rows}
+    matched_rigid = read(root/'numerical-matched-rigid-v02/analysis.json')
+    if matched_rigid:
+        native = read(root/'numerical-matched-rigid-v02/original/i32/captures/private/t0001/native-runtime-state.json')
+        status['matched_rigid_iteration_audit'] = {
+            'case': 'TRAIN t0001', 'physics_hz': 960,
+            'native_numerical_gate_passed': False,
+            'native_material': native['zero_force']['material'] if native else None,
+            'cells': [{key: cell[key] for key in [
+                'condition', 'iterations', 'state', 'native_state_verified']}
+                for cell in matched_rigid['cells']],
+            'translation_pairs': [row for row in matched_rigid['translation_pairs']
+                if row['action_id'] == 'evaluation'],
+            'qualification': 'Matching both rigid-handle solver counts to the deformable count leaves trajectories unchanged. Native material/rest verification does not establish numerical convergence or effective nodal masses.',
+            'evidence': 'campaign-diagnosis/matched-rigid-native-state-v02.json'}
+    pgs = read(root/'numerical-pgs-attempt-v01/analysis.json')
+    if pgs:
+        status['original_scene_pgs_request'] = {
+            'case': 'TRAIN t0001', 'physics_hz': 960,
+            'state': pgs['state'], 'authored_scene_solver_type': pgs['authored_scene_solver_type'],
+            'native_solver_identity_verified': False,
+            'native_numerical_gate_passed': False,
+            'native_material_and_rest_verified_all_branches': pgs['native_material_and_rest_verified_all_branches'],
+            'actions': pgs['actions'],
+            'qualification': 'One original-coordinate scene-PGS request passed full QC and changes the trajectory. Actual internal deformable solver identity and numerical convergence remain unverified; no energy-conservation verdict.',
+            'evidence': 'campaign-diagnosis/original-pgs-request-v01.json'}
+    free_clock = read(root/'native-free-handle-v01/clock-analysis-v01/analysis.json')
+    if free_clock:
+        status['free_rigid_force_api_control'] = {
+            'all_four_momentum_controls_passed': free_clock['all_cells_passed'],
+            'relative_momentum_tolerance': 1e-4,
+            'cells': [{key: cell[key] for key in [
+                'cell', 'maximum_relative_cumulative_momentum_error',
+                'fitted_step_impulse_gain', 'fitted_position_integration_theta', 'passed']}
+                for cell in free_clock['cells']],
+            'original_clock_failures_preserved': True,
+            'clock_adapter_reran_simulation': False,
+            'rigid_deformable_coupling_validated': False,
+            'qualification': 'Free native rigid handle only: no deformable or attachments. Explicit adapter verifies recorded native clock intervals against float32-rounded nominal getters; predeclared momentum and rotation gates are unchanged.',
+            'evidence': 'campaign-diagnosis/free-rigid-force-api-v01.json'}
     force_flag = read(root/'numerical-external-forces-v01/analysis.json')
     if force_flag:
         status['external_force_iteration_flag'] = {
