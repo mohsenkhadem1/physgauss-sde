@@ -1,0 +1,72 @@
+{
+  "comparison": "new-hypothesis-point-pin-fixed-command-temporal-v0.1",
+  "predeclared_protocol": {
+    "path": "runs/operator-dev/hypothesis-dynamics-refinement-v01/predeclared-comparison.json",
+    "sha256": "209515ed5e86fbf4a0539b334083b5ee10b7b2a4b231333f1c0cd624078d830f"
+  },
+  "all_four_cell_audits_passed": true,
+  "audit_records": [
+    {
+      "path": "runs/operator-dev/hypothesis-smoke-independent-audit-v01/completed-audit.json",
+      "sha256": "5134ebd9fcf0273856d3196a09bfb48f601aaea739f97c0ffb983242fff34cd2"
+    },
+    {
+      "path": "runs/operator-dev/hypothesis-smoke-independent-audit-v01/pointpin240-audit.json",
+      "sha256": "c6cfc9284356ef2d3be292bb23ee421ddb00bdde212e594c0e284768c168d6ee"
+    },
+    {
+      "path": "runs/operator-dev/hypothesis-smoke-independent-audit-v01/pointpin480-audit.json",
+      "sha256": "9447d29a93e213238ac1ba522f9333b907630eeba3afe1e215502eeb5e473023"
+    },
+    {
+      "path": "runs/operator-dev/hypothesis-smoke-independent-audit-v01/moving120-audit.json",
+      "sha256": "1f887d1198b0711b63dc4c659d5e48cd9f53083eefde4e4280621827e3ed0e2b"
+    }
+  ],
+  "trajectory_records": [
+    {
+      "path": "runs/gaussian-campaign-v01/hypothesis-dynamics-smoke-v01/trajectory.npz",
+      "sha256": "093d47f3ba77f9c683411427170f55efc427a98a2fccb0405fe48e595e7c9cf9"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/hypothesis-dynamics-refinement-v01/pointpin240/trajectory.npz",
+      "sha256": "f00d33bfa8dba6c036f67e75bfa8c08a35bd9d55dae2bc2f369a7c75afe1d4dc"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/hypothesis-dynamics-refinement-v01/pointpin480/trajectory.npz",
+      "sha256": "280677dd6f88c3b6281d344165d55e5e202a57ce6ed37287b2e84c7e314113cf"
+    }
+  ],
+  "private_integration_rates_hz": [
+    120,
+    240,
+    480
+  ],
+  "same_public_actuator_hz": 120,
+  "same_public_command_manifest_sha256": "150131a425c2c1e9b3caf1105932d82d9d0c7ed95d580345140635aa8fd747dd",
+  "metric": "sqrt(mean full61 x455 x3 squared coordinate differences))",
+  "adjacent_full_coordinate_RMSE_m": [
+    1.3850960639876096e-05,
+    8.190637133040758e-06
+  ],
+  "contraction_ratio": 0.5913407268995047,
+  "finest_motion_RMS_from_analytic_static_zero_m": 0.0008851545356100674,
+  "analytic_static_zero_is_captured_reset": false,
+  "finest_maximum_nodal_displacement_m": 0.00632106971517371,
+  "declared_tolerance_m": 4.4257726780503374e-05,
+  "finest_adjacent_passed": true,
+  "adjacent_error_contracts": true,
+  "both_adjacent_below_tolerance": true,
+  "point120_to480_coordinate_RMSE_m": 2.201309524756418e-05,
+  "proposed_common_private_rate_hz": 120,
+  "proposal_scope": "Economical common120Hz engineering prediction cohort, with120Hz known commands and20Hz outputs for every BC/material/H. This exact point-pin smoke contracts and120vs480 is below the5% motion criterion; all4smokes pass mechanics. Not a temporal-accuracy qualification of the crossed96-capture cohort.",
+  "rate_caveats": [
+    "Moving120 has mechanics/analyticfixture checks but no moving temporal refinement in this new distribution.",
+    "Only H0/m0/programA has temporal evidence. Other hardware/material/support/action combinations are not temporally certified.",
+    "Keep one declared private rate common across the engineering cohort; preserve every guard/solver failure and do not silently change rate by true BC/material. Later rate refinement is a separately declared engineering study."
+  ],
+  "production_dataset_qualified": false,
+  "all96_temporal_accuracy_qualified": false,
+  "native_equivalence": false,
+  "continuum_accuracy": false
+}

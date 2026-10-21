@@ -1,0 +1,80 @@
+{
+  "protocol": "prospective-three-cell-hypothesis-refinement-v0.1",
+  "status": "FROZEN_ROOT_AUTHORIZED_CONDITIONAL_ON_FIRST_SMOKE_INDEPENDENT_PASS",
+  "source_sha256": {
+    "experiments/campaign_hypothesis_dynamics.py": "c721ef432a05f5d66fa7a5d8edf4f3c854690b7fbe9459c1c55dbf20293a1f3f",
+    "experiments/campaign_hypothesis_inputs.py": "bdae8dda6902a62b1a9fcfa401c7d17b53ecc27fce169b7a3c90b4c143e904f5",
+    "experiments/campaign_physical_prior.py": "755281cf028e64daad88828a2cdf89dce11a5a7cc4b1e635c50767090b3e80e4",
+    "experiments/campaign_fixed_actuator_clock.py": "1b1361696a3822e608687620b39363ef6667060ed4c313932daac3151e000c5f",
+    "experiments/campaign_authored_force_case.py": "97ba4630866772b3399ce68c4dad48d0317486515120de616900784def1af405",
+    "experiments/campaign_nonlinear_dynamics_case.py": "e7b6b785c262f43d4b1acc503b14feaf1cad659c171024346fc9e70a4dffc342",
+    "experiments/campaign_full_hardware_context.py": "47cc0047f2cce6e88c4b76650c9358773eaa233fd670ce2223e4b1f29d7bb958",
+    "experiments/campaign_nonlinear_dynamics.py": "da0db7018b4913020bb228c2fc4df3c240e7dd872f17db4868de147eaaf78fa2",
+    "experiments/campaign_nonlinear_fem.py": "468daaafa9d02c9db27553e2cfb154190248500677c212d9dde25bffdf14e1ff",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "experiments/campaign_rigid_inertia.py": "e420d9cadaa97d1b1648227b7b28af1803952caa87432f819baf0827deecabf7",
+    "experiments/campaign_authored_commands.py": "fdbf333b9531ce11700b6be05ab916fbdb7b30c2fb96cec3762369ae05a3c475",
+    "experiments/campaign_exciting_commands.py": "724cb9b4ddf845cc99ac74f44b82dbebf832423c152f11f6c325bd414cd063fc",
+    "experiments/isaac_dataset.py": "197174b0ddc85c67ed5179ab07a6e48d6c24b8bfa587495bb249c8a19e2f2f0c",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97"
+  },
+  "existing_point120": {
+    "output": "runs/gaussian-campaign-v01/hypothesis-dynamics-smoke-v01",
+    "protocol_sha256": "366792612886fdd7a7285bb0a72651758e4206e31f9fe7498f4b44e25b6dfe28"
+  },
+  "cells": [
+    {
+      "id": "pointpin240",
+      "protocol_path": "runs/operator-dev/hypothesis-dynamics-refinement-v01/pointpin240-protocol.json",
+      "protocol_sha256": "f5f1b776244323efed167a9247fc7e8eedb95215856e46619b29286d16f7faa2",
+      "output": "runs/gaussian-campaign-v01/hypothesis-dynamics-refinement-v01/pointpin240",
+      "private_hz": 240,
+      "boundary_kind": "point_pin"
+    },
+    {
+      "id": "pointpin480",
+      "protocol_path": "runs/operator-dev/hypothesis-dynamics-refinement-v01/pointpin480-protocol.json",
+      "protocol_sha256": "0208488257d31bc83e32ea2f4c61faa47bbc2a9eb6d9f6093dd9b5e5da26a4b4",
+      "output": "runs/gaussian-campaign-v01/hypothesis-dynamics-refinement-v01/pointpin480",
+      "private_hz": 480,
+      "boundary_kind": "point_pin"
+    },
+    {
+      "id": "moving120",
+      "protocol_path": "runs/operator-dev/hypothesis-dynamics-refinement-v01/moving120-protocol.json",
+      "protocol_sha256": "799f236a2a82e685e74995e9bf761c914da490ff472a8168090b4cbf09ac4dff",
+      "output": "runs/gaussian-campaign-v01/hypothesis-dynamics-refinement-v01/moving120",
+      "private_hz": 120,
+      "boundary_kind": "moving_patch"
+    }
+  ],
+  "resources": {
+    "maximum_CPU_workers": 3,
+    "threads_per_worker": 2,
+    "GPU_used": false
+  },
+  "common_public_clock_sha256": "150131a425c2c1e9b3caf1105932d82d9d0c7ed95d580345140635aa8fd747dd",
+  "temporal_comparison": {
+    "positions": "all61frames,455nodes,3coords; saved actualclocks alignnominal20Hzwithin1e-12",
+    "coordinate_RMSE_definition": "sqrt(mean((q_h-q_finer)^2))",
+    "adjacent_pairs_Hz": [
+      [
+        120,
+        240
+      ],
+      [
+        240,
+        480
+      ]
+    ],
+    "signal": "sqrt(mean((q480-rest)^2)); finest reference is discretizedsolution,notcontinuumtruth",
+    "tolerance": "max(2e-6m,0.05*signal)",
+    "absolute_floor_m": 2e-06,
+    "relative_signal_fraction": 0.05,
+    "contraction": "report secondadjacent/firstadjacent; noqualifieddataset/oldgateclaim",
+    "zero_reference": "STATICANALYTIC restpositions forpointpinzeroexternalforce; notanexecutedzeroreset",
+    "moving_support": "analyticendpointtranslation fromprivatehypothesis checkedagainstactualstateclocks; noforceclockresampling"
+  },
+  "failure_policy": "Stopnewlaunchesafteranyobservedfailure; alreadyrunningworkersdrain, preserveallfailures; no retry/cap/tolerance/ratechanges.",
+  "production_dataset_qualified": false
+}

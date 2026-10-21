@@ -1,0 +1,328 @@
+{
+  "scope": "Completed TRAIN engineering diagnostics before any96-slot corpus expansion; raw data LOCAL_ONLY",
+  "command_design": {
+    "public_actuator_hz": 120,
+    "seconds": 3,
+    "output_frames": 61,
+    "output_hz": 20,
+    "programs": [
+      {
+        "program_id": "exciting_world_a_v01",
+        "seed": 2026102101,
+        "carrier_frequencies_Hz": [
+          0.3,
+          0.61,
+          0.92,
+          1.23,
+          1.54,
+          1.85
+        ],
+        "analytic_per_handle_force_norm_bound_N": 0.02,
+        "maximum_held_force_norm_per_handle_N": [
+          0.01882785238243505,
+          0.016320445498417047
+        ],
+        "physical_force_gram_eigenvalues_N2s": [
+          2.279593111617766e-06,
+          1.4458359656874731e-05,
+          4.523314794737348e-05,
+          8.342169418519349e-05,
+          9.857900329670951e-05,
+          0.00014035506713514835
+        ],
+        "force_gram_rank": 6,
+        "force_gram_condition": 61.57022778312491,
+        "held_force_values_sha256": "8c2ac76b3b5dac14fd19c4ae46b1b9f66c7f757ad9ee31736ad27df027d4281a",
+        "held_force_impulse_Ns": [
+          [
+            -0.009702206603007163,
+            0.0025641803658648164,
+            -0.00018949298527239054
+          ],
+          [
+            -1.0598871441828665e-05,
+            7.677580855428953e-05,
+            4.123115756782185e-05
+          ]
+        ],
+        "held_force_first_time_moment_Ns2": [
+          [
+            -0.013626509382206862,
+            0.0028776400999367684,
+            -0.0004951659453853921
+          ],
+          [
+            -0.00023972823029844652,
+            0.00010967651127017652,
+            5.443723569762922e-05
+          ]
+        ]
+      },
+      {
+        "program_id": "exciting_world_b_v01",
+        "seed": 2026102102,
+        "carrier_frequencies_Hz": [
+          0.3,
+          0.61,
+          0.92,
+          1.23,
+          1.54,
+          1.85
+        ],
+        "analytic_per_handle_force_norm_bound_N": 0.02,
+        "maximum_held_force_norm_per_handle_N": [
+          0.015378331008832456,
+          0.01778235220376726
+        ],
+        "physical_force_gram_eigenvalues_N2s": [
+          5.9860159305215494e-06,
+          3.3396409370877186e-05,
+          4.152327369021858e-05,
+          5.9648244413202834e-05,
+          0.00010319531294346567,
+          0.00011697050705210996
+        ],
+        "force_gram_rank": 6,
+        "force_gram_condition": 19.54062742394315,
+        "held_force_values_sha256": "d0360cfbc4d3c81ff18050668b88123f61726c6835391127d2981400807a02e2",
+        "held_force_impulse_Ns": [
+          [
+            0.0070455063103702815,
+            0.001456858201789946,
+            -3.486660143579603e-05
+          ],
+          [
+            2.3905135340422523e-05,
+            -7.39318241992497e-05,
+            -3.360293315428086e-05
+          ]
+        ],
+        "held_force_first_time_moment_Ns2": [
+          [
+            0.006914774091144367,
+            0.004366053903649581,
+            0.0002515840442114051
+          ],
+          [
+            -0.00010571303142629399,
+            -0.0001248776730551699,
+            -4.3834028728406346e-05
+          ]
+        ]
+      }
+    ],
+    "all_six_force_directions_excited": true,
+    "commands_identical_across_physical_hypotheses": true,
+    "compact_window_spectral_sidebands_acknowledged": true
+  },
+  "factorized_design": {
+    "public_hardware_contexts": 4,
+    "BCs_per_context": 4,
+    "shared_material_tuples": 3,
+    "hypotheses": 48,
+    "fixed_programs": 2,
+    "capture_slots": 96,
+    "fit_slots": 32,
+    "development_force_transfer_slots": 32,
+    "unseen_middle_material_slots": 32,
+    "equal_log_E_stratum_density_factor": 3,
+    "support_states_reused_across_materials": 16,
+    "dependent_counterfactual_cohort_not_iid": true,
+    "four_material_effects_separately_identified": false,
+    "unique_capture_slots_tested": 2,
+    "completed_finite_engineering_trajectories": 4,
+    "all96_executed_or_qualified": false
+  },
+  "solver_diagnostic": {
+    "private_optimizer_metric_scale": 1.25,
+    "preserved_hard_step_iterations": 39,
+    "residual_N": 7.626118187662529e-11,
+    "old_failed250_cap_matrix_requalified": false,
+    "physical_objective_or_forces_changed": false
+  },
+  "finite_checks": {
+    "all_four_independent_audits_passed": true,
+    "pointpin_private_hz": [
+      120,
+      240,
+      480
+    ],
+    "moving_private_hz": [
+      120
+    ],
+    "temporal_comparison_path": "runs/operator-dev/hypothesis-smoke-independent-audit-v01/refinement-comparison.json",
+    "temporal_comparison_sha256": "2af4e5b85f710ef7f1be5cf82a2adfdf3e61631417eae6919fe64da60761813d",
+    "adjacent_full_coordinate_RMSE_m": [
+      1.3850960639876096e-05,
+      8.190637133040758e-06
+    ],
+    "contraction_ratio": 0.5913407268995047,
+    "declared_tolerance_m": 4.4257726780503374e-05,
+    "point120_to480_coordinate_RMSE_m": 2.201309524756418e-05,
+    "proposed_common_private_rate_hz": 120,
+    "all96_temporal_accuracy_qualified": false
+  },
+  "linear_physics_baseline": [
+    {
+      "id": "pointpin120",
+      "path": "runs/gaussian-campaign-v01/linear-hypothesis-smoke-comparison-v01/comparison.json",
+      "sha256": "97fb0e70d6aef63652b77eea39a1b41cbe7e6a279793267b42146e56b865cdba",
+      "frames_compared": 61,
+      "integration_hz": 120,
+      "position_coordinate_RMSE_m": 1.3093422653832964e-05,
+      "position_maximum_node_vector_error_m": 8.660109878488649e-05,
+      "velocity_coordinate_RMSE_m_s": 2.3662243745330744e-05,
+      "finite_motion_coordinate_RMS_m": 0.0008830663129400389,
+      "error_to_finite_motion_RMS_ratio": 0.014827224707780267,
+      "linear_to_finite_motion_RMS_ratio": 1.0022699509398025,
+      "finite_J": {
+        "minimum": 0.9864240676681356,
+        "maximum": 1.0071311111070254,
+        "inverted_tetrahedron_frames": 0
+      },
+      "linear_J": {
+        "minimum": 0.9861993093276692,
+        "maximum": 1.0078056585004886,
+        "inverted_tetrahedron_frames": 0
+      },
+      "linear_patch_distance": {
+        "maximum_pair_distance_defect_m": 4.2233966640929654e-05,
+        "each_handle_maximum_m": [
+          3.638624556537989e-05,
+          4.2233966640929654e-05
+        ]
+      },
+      "runtime": {
+        "baseline_construction_s": 0.2156292381696403,
+        "baseline_predict_s": 4.197646756656468,
+        "baseline_construction_plus_prediction_s": 4.413275994826108,
+        "finite_logged_elapsed_s": 95.23308679834008,
+        "comparison_is_controlled_benchmark": false
+      }
+    },
+    {
+      "id": "pointpin240",
+      "path": "runs/gaussian-campaign-v01/linear-hypothesis-refinement-comparison-v01/pointpin240/comparison.json",
+      "sha256": "c43c45f59f20039e21d20c38032dc22107c4fa1546be47e5b37c64b74578f026",
+      "frames_compared": 61,
+      "integration_hz": 240,
+      "position_coordinate_RMSE_m": 1.3190706691605925e-05,
+      "position_maximum_node_vector_error_m": 8.998100046231957e-05,
+      "velocity_coordinate_RMSE_m_s": 2.6488628978119267e-05,
+      "finite_motion_coordinate_RMS_m": 0.0008843227408300476,
+      "error_to_finite_motion_RMS_ratio": 0.014916168139275482,
+      "linear_to_finite_motion_RMS_ratio": 1.0023821054924562,
+      "finite_J": {
+        "minimum": 0.9861203806681688,
+        "maximum": 1.0077515226502791,
+        "inverted_tetrahedron_frames": 0
+      },
+      "linear_J": {
+        "minimum": 0.9858826293917184,
+        "maximum": 1.0084444039881173,
+        "inverted_tetrahedron_frames": 0
+      },
+      "linear_patch_distance": {
+        "maximum_pair_distance_defect_m": 4.2208748651170747e-05,
+        "each_handle_maximum_m": [
+          3.660543404606503e-05,
+          4.2208748651170747e-05
+        ]
+      },
+      "runtime": {
+        "baseline_construction_s": 0.4555738680064678,
+        "baseline_predict_s": 7.6616380121558905,
+        "baseline_construction_plus_prediction_s": 8.117211880162358,
+        "finite_logged_elapsed_s": 244.722179770004,
+        "comparison_is_controlled_benchmark": false
+      }
+    },
+    {
+      "id": "pointpin480",
+      "path": "runs/gaussian-campaign-v01/linear-hypothesis-refinement-comparison-v01/pointpin480/comparison.json",
+      "sha256": "a3b8b7e1ad0b39b9a4f83e1679f0d311291f54632e81c41a6fdbfca73150d4b1",
+      "frames_compared": 61,
+      "integration_hz": 480,
+      "position_coordinate_RMSE_m": 1.3254878139618679e-05,
+      "position_maximum_node_vector_error_m": 9.255366366312457e-05,
+      "velocity_coordinate_RMSE_m_s": 2.8424703260370468e-05,
+      "finite_motion_coordinate_RMS_m": 0.0008851545356100674,
+      "error_to_finite_motion_RMS_ratio": 0.014974648613739672,
+      "linear_to_finite_motion_RMS_ratio": 1.002437905029323,
+      "finite_J": {
+        "minimum": 0.9859535847294447,
+        "maximum": 1.0080806588558888,
+        "inverted_tetrahedron_frames": 0
+      },
+      "linear_J": {
+        "minimum": 0.9857192471343892,
+        "maximum": 1.0087863919897042,
+        "inverted_tetrahedron_frames": 0
+      },
+      "linear_patch_distance": {
+        "maximum_pair_distance_defect_m": 4.215281749257033e-05,
+        "each_handle_maximum_m": [
+          3.6820420752738114e-05,
+          4.215281749257033e-05
+        ]
+      },
+      "runtime": {
+        "baseline_construction_s": 0.22714938083663583,
+        "baseline_predict_s": 14.661618357989937,
+        "baseline_construction_plus_prediction_s": 14.888767738826573,
+        "finite_logged_elapsed_s": 485.992031281814,
+        "comparison_is_controlled_benchmark": false
+      }
+    },
+    {
+      "id": "moving120",
+      "path": "runs/gaussian-campaign-v01/linear-hypothesis-refinement-comparison-v01/moving120/comparison.json",
+      "sha256": "8ccac53bbd16ab041abff647ebe44e7f9c8dbc9344c079174504fd477e28fa55",
+      "frames_compared": 61,
+      "integration_hz": 120,
+      "position_coordinate_RMSE_m": 2.265317713342656e-05,
+      "position_maximum_node_vector_error_m": 0.0001594196751825872,
+      "velocity_coordinate_RMSE_m_s": 5.764677549559445e-05,
+      "finite_motion_coordinate_RMS_m": 0.002772886086974464,
+      "error_to_finite_motion_RMS_ratio": 0.00816953038202293,
+      "linear_to_finite_motion_RMS_ratio": 1.0026997684187382,
+      "finite_J": {
+        "minimum": 0.9839315511569696,
+        "maximum": 1.0166978776107312,
+        "inverted_tetrahedron_frames": 0
+      },
+      "linear_J": {
+        "minimum": 0.9839678775967661,
+        "maximum": 1.0168329785583623,
+        "inverted_tetrahedron_frames": 0
+      },
+      "linear_patch_distance": {
+        "maximum_pair_distance_defect_m": 3.8469947724092957e-05,
+        "each_handle_maximum_m": [
+          3.501630614395623e-05,
+          3.8469947724092957e-05
+        ]
+      },
+      "runtime": {
+        "baseline_construction_s": 0.2493257219903171,
+        "baseline_predict_s": 4.854912606999278,
+        "baseline_construction_plus_prediction_s": 5.104238328989595,
+        "finite_logged_elapsed_s": 133.82232523104176,
+        "comparison_is_controlled_benchmark": false
+      }
+    }
+  ],
+  "conclusion": "Small linear errors make the physical baseline mandatory; no evidence from these two unique cases yet that a learned residual adds practical value. Next crossed-data prediction remains prospective.",
+  "limits": [
+    "Temporal evidence covers only H0/m0/point-pin/programA; moving120 has mechanics checks, not temporal refinement.",
+    "Linear infinitesimal rotations do not maintain finite rigid-patch distances.",
+    "Runtime comparisons are not controlled benchmarks.",
+    "Prior neural pilot negative exchange/strong linear-baseline results remain preserved in C21.",
+    "No production admission, native/continuum equivalence, sparse-view inference, uncertainty calibration or probing-policy success."
+  ],
+  "source_pins": {
+    "experiments/campaign_hypothesis_dynamics.py": "c721ef432a05f5d66fa7a5d8edf4f3c854690b7fbe9459c1c55dbf20293a1f3f",
+    "experiments/campaign_linear_hypothesis.py": "eff2ab0e18d4da1a3c62d2565dc03f23ab06de197190f00accdcf26f144b98df",
+    "experiments/prepare_campaign_hypothesis_dataset.py": "1e734df0ba2abf598483f4fdae0cf7f9da518ef5c1e9fcf67a581550d3efd906"
+  }
+}

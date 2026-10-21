@@ -1,0 +1,114 @@
+{
+  "protocol": "prospective-three-cell-hypothesis-refinement-v0.1",
+  "predeclared_plan_sha256": "209515ed5e86fbf4a0539b334083b5ee10b7b2a4b231333f1c0cd624078d830f",
+  "pointpin": {
+    "trajectory_sources": {
+      "120": {
+        "path": "runs/gaussian-campaign-v01/hypothesis-dynamics-smoke-v01/trajectory.npz",
+        "sha256": "093d47f3ba77f9c683411427170f55efc427a98a2fccb0405fe48e595e7c9cf9"
+      },
+      "240": {
+        "path": "runs/gaussian-campaign-v01/hypothesis-dynamics-refinement-v01/pointpin240/trajectory.npz",
+        "sha256": "f00d33bfa8dba6c036f67e75bfa8c08a35bd9d55dae2bc2f369a7c75afe1d4dc"
+      },
+      "480": {
+        "path": "runs/gaussian-campaign-v01/hypothesis-dynamics-refinement-v01/pointpin480/trajectory.npz",
+        "sha256": "280677dd6f88c3b6281d344165d55e5e202a57ce6ed37287b2e84c7e314113cf"
+      }
+    },
+    "frames": 61,
+    "nodes": 455,
+    "coordinates": 3,
+    "fixed_public_command_hz": 120,
+    "private_hz": [
+      120,
+      240,
+      480
+    ],
+    "finest_signal_coordinate_RMS_m": 0.0008851545356100674,
+    "tolerance_m": 4.4257726780503374e-05,
+    "absolute_floor_m": 2e-06,
+    "relative_signal_fraction": 0.05,
+    "adjacent_coordinate_RMSE_m": {
+      "120_vs240": 1.3850960639876096e-05,
+      "240_vs480": 8.190637133040758e-06
+    },
+    "coordinate_RMSE_to_finest_m": {
+      "120": 2.201309524756418e-05,
+      "240": 8.190637133040758e-06,
+      "480": 0.0
+    },
+    "adjacent_contraction_ratio": 0.5913407268995047,
+    "both_adjacent_within_declared_tolerance": true,
+    "zero_reference": "STATIC_ANALYTIC_rest_at_alltimes_for_zeroexternalforces_and_staticpointpin; no executedzeroreset",
+    "finest_is_continuum_truth": false
+  },
+  "production_dataset_qualified": false,
+  "allBC_temporal_qualification": false,
+  "qualification": "One point-pin/hardware/material/program refinement control; moving case only one private rate. No oldgate adoption or allhypothesis convergence claim.",
+  "additional_cells": [
+    {
+      "id": "pointpin240",
+      "output": "runs/gaussian-campaign-v01/hypothesis-dynamics-refinement-v01/pointpin240",
+      "completed": true,
+      "PID": 2107585,
+      "PID_missing": true,
+      "reaped_exit_code": 0,
+      "steps": 720,
+      "frames": 61,
+      "elapsed_s": 244.722179770004,
+      "mean_iterations": 11.144444444444444,
+      "maximum_iterations": 13,
+      "minimum_J": 0.9859472032218658,
+      "maximum_displacement_m": 0.006333756062825243,
+      "maximum_residual_N": 1.9444655449669028e-09,
+      "maximum_residual_to_tolerance": 0.9992538405241637,
+      "maximum_fixture_error_m": 0.0,
+      "maximum_rigid_map_error_m": 0.0,
+      "exact_public_force_byte_repeats": true
+    },
+    {
+      "id": "pointpin480",
+      "output": "runs/gaussian-campaign-v01/hypothesis-dynamics-refinement-v01/pointpin480",
+      "completed": true,
+      "PID": 2107596,
+      "PID_missing": true,
+      "reaped_exit_code": 0,
+      "steps": 1440,
+      "frames": 61,
+      "elapsed_s": 485.992031281814,
+      "mean_iterations": 11.442361111111111,
+      "maximum_iterations": 14,
+      "minimum_J": 0.9857733104118593,
+      "maximum_displacement_m": 0.00632106971517371,
+      "maximum_residual_N": 2.026050707340531e-09,
+      "maximum_residual_to_tolerance": 0.9979529749338901,
+      "maximum_fixture_error_m": 0.0,
+      "maximum_rigid_map_error_m": 0.0,
+      "exact_public_force_byte_repeats": true
+    },
+    {
+      "id": "moving120",
+      "output": "runs/gaussian-campaign-v01/hypothesis-dynamics-refinement-v01/moving120",
+      "completed": true,
+      "PID": 2107609,
+      "PID_missing": true,
+      "reaped_exit_code": 0,
+      "steps": 360,
+      "frames": 61,
+      "elapsed_s": 133.82232523104176,
+      "mean_iterations": 12.080555555555556,
+      "maximum_iterations": 14,
+      "minimum_J": 0.9839283928606499,
+      "maximum_displacement_m": 0.010742433707361597,
+      "maximum_residual_N": 1.9620573027576573e-09,
+      "maximum_residual_to_tolerance": 0.9933512747969986,
+      "maximum_fixture_error_m": 0.0,
+      "maximum_rigid_map_error_m": 0.0,
+      "exact_public_force_byte_repeats": true
+    }
+  ],
+  "independent_comparison_path": "runs/operator-dev/hypothesis-smoke-independent-audit-v01/refinement-comparison.json",
+  "independent_comparison_sha256": "2af4e5b85f710ef7f1be5cf82a2adfdf3e61631417eae6919fe64da60761813d",
+  "all3_independent_mechanics_audits_passed": true
+}
