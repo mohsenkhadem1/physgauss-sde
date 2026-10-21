@@ -37,13 +37,20 @@ def write_json(path, value):
     Path(path).write_text(json.dumps(value,indent=2,allow_nan=False)+'\n')
 
 
-def validate_request(gate, episode, hz, response, relative_tolerance, translation):
+def validate_request(gate, episode, hz, response, relative_tolerance, translation,
+                     temporal_extension_metadata=None):
     if gate['protocol'] != 'independent-finite-strain-dynamic-reference-v0.1':
         raise ValueError('Frozen independent dynamic gate required')
     if episode not in CASE_BOUNDARIES or episode not in gate['diagnostic_cases']:
         raise ValueError('Only the four declared TRAIN cases are allowed')
     if hz not in gate['temporal_refinement_hz']:
-        raise ValueError('Only the three predeclared initial rates are allowed')
+        if (temporal_extension_metadata is None
+                or hz != 960 or episode != 't0003'
+                or temporal_extension_metadata.get('physics_hz') != hz
+                or temporal_extension_metadata.get('episode_id') != episode
+                or temporal_extension_metadata.get('response') != response
+                or temporal_extension_metadata.get('initial_temporal_failure_preserved') is not True):
+            raise ValueError('Initial rates or the exactly validated conditional 960 Hz study required')
     if response not in gate['responses'] or relative_tolerance not in gate['nonlinear_relative_residual_tolerances']:
         raise ValueError('Predeclared response and nonlinear tolerance required')
     translation = np.asarray(translation,dtype=float)
@@ -185,15 +192,48 @@ def save_state(path, state):
 
 def run(output, *, episode='t0001', hz=120, response='diagonal_pulse_handle0',
         relative_tolerance=1e-7, translation=(0.,0.,0.), dataset='runs/gaussian-boundary-neural-v01',
-        absolute_tolerance_N=1e-10, maximum_iterations=250, gate_path=GATE_PATH,inputs_json=None):
+        absolute_tolerance_N=1e-10, maximum_iterations=250, gate_path=GATE_PATH,inputs_json=None,
+        supplemental_floor_protocol=None,temporal_extension_protocol=None):
     torch.set_num_threads(2)
     gate_path = Path(gate_path)
     if sha(gate_path) != GATE_SHA256:
         raise ValueError('Predeclared gate hash changed; no implicit protocol replacement')
     gate = json.loads(gate_path.read_text())
-    translation = validate_request(gate,episode,hz,response,relative_tolerance,translation)
-    if not math.isfinite(absolute_tolerance_N) or absolute_tolerance_N != 1e-10 or maximum_iterations != 250:
-        raise ValueError('Frozen smoke solver requires 1e-10 N absolute floor and 250-iteration cap')
+    if supplemental_floor_protocol is not None and temporal_extension_protocol is not None:
+        raise ValueError('Floor and temporal studies are separately declared; no combined request')
+    temporal_metadata = None
+    temporal_dependencies = []
+    if temporal_extension_protocol is not None:
+        try:
+            from campaign_dynamic_temporal_protocol import validate_temporal_extension
+        except ImportError:
+            from experiments.campaign_dynamic_temporal_protocol import validate_temporal_extension
+        temporal_metadata = validate_temporal_extension(temporal_extension_protocol,
+            episode=episode,hz=hz,response=response,relative_tolerance=relative_tolerance,
+            absolute_tolerance_N=absolute_tolerance_N,maximum_iterations=maximum_iterations,
+            translation=translation,inputs_json=inputs_json,
+            core_path=Path(__file__).with_name('campaign_nonlinear_dynamics.py'),gate_path=gate_path)
+        temporal_dependencies = [Path(temporal_extension_protocol),
+            Path(__file__).with_name('campaign_dynamic_temporal_protocol.py'),
+            Path(temporal_metadata['trigger_audit_path'])]
+    translation = validate_request(gate,episode,hz,response,relative_tolerance,translation,temporal_metadata)
+    supplemental_metadata = None
+    supplemental_dependencies = []
+    if supplemental_floor_protocol is None:
+        if not math.isfinite(absolute_tolerance_N) or absolute_tolerance_N != 1e-10 or maximum_iterations != 250:
+            raise ValueError('Frozen baseline requires 1e-10 N absolute floor and 250-iteration cap')
+    else:
+        try:
+            from campaign_dynamic_floor_protocol import validate_supplemental_floor
+        except ImportError:
+            from experiments.campaign_dynamic_floor_protocol import validate_supplemental_floor
+        supplemental_metadata = validate_supplemental_floor(supplemental_floor_protocol,
+            episode=episode,hz=hz,response=response,relative_tolerance=relative_tolerance,
+            absolute_tolerance_N=absolute_tolerance_N,maximum_iterations=maximum_iterations,
+            translation=translation,inputs_json=inputs_json,
+            core_path=Path(__file__).with_name('campaign_nonlinear_dynamics.py'),gate_path=gate_path)
+        supplemental_dependencies = [Path(supplemental_floor_protocol),
+            Path(__file__).with_name('campaign_dynamic_floor_protocol.py')]
     case,spec,arrays,inputs,input_lineage=load_case_inputs(episode,dataset,inputs_json)
     if case['split'] != 'train' or case['episode_id'] != episode or case['boundary_type'] != CASE_BOUNDARIES[episode]:
         raise ValueError('TRAIN role, identity or known boundary family mismatch')
@@ -206,7 +246,7 @@ def run(output, *, episode='t0001', hz=120, response='diagonal_pulse_handle0',
     folder.mkdir(parents=True,exist_ok=False)
     dependencies = [Path(__file__),Path(__file__).with_name('campaign_nonlinear_dynamics.py'),
         Path(__file__).with_name('campaign_nonlinear_fem.py'),Path(__file__).with_name('campaign_linear_fem.py'),
-        Path(__file__).with_name('campaign_rigid_inertia.py')]
+        Path(__file__).with_name('campaign_rigid_inertia.py'),*supplemental_dependencies,*temporal_dependencies]
     hashes = {str(p):sha(p) for p in [*dependencies,*inputs,gate_path]}
     for p in [*dependencies,*inputs,gate_path]:
         target = folder/'provenance'/p.name;target.parent.mkdir(exist_ok=True)
@@ -223,6 +263,8 @@ def run(output, *, episode='t0001', hz=120, response='diagonal_pulse_handle0',
         'body_only_viscous_damping_s_inverse':case['material']['linear_damping_s_inverse'],
         'native_elasticity_damping_reproduced':False,'hardware':hardware,
         'relative_nonlinear_residual_tolerance':relative_tolerance,'absolute_residual_floor_N':absolute_tolerance_N,
+        'supplemental_accuracy_protocol':supplemental_metadata,
+        'conditional_temporal_protocol':temporal_metadata,
         'nonlinear_iteration_cap':maximum_iterations,'velocity_semantics':'Unprojected finite pose-map point chords, not instantaneous rigid tangent velocity.',
         'boundary_law':'amplitude*sin(pi*clip(t/seconds,0,1))^2*known_world_direction; exact initial velocity zero.',
         'force_semantics':'Every actual float64 world force is midpoint-evaluated and held through its logged step. Zero applied handle torque and zero external nodal force.',
@@ -254,13 +296,18 @@ def run(output, *, episode='t0001', hz=120, response='diagonal_pulse_handle0',
             for index in range(status['planned_steps']):
                 h = 1./hz;midpoint = state.time_s+h/2
                 force = force_command(gate,response,midpoint)
+                old_centers = state.handle_centers.numpy().copy()
+                old_coordinates = model.coordinates(state)
                 wall = time.monotonic(); state,row = model.step(state,h,handle_forces=force,
                     relative_tolerance=relative_tolerance,absolute_tolerance_N=absolute_tolerance_N,maximum_iterations=maximum_iterations)
                 seconds = time.monotonic()-wall; step_wall.append(seconds)
                 count = len(row['nonlinear_history'])-1;iterations.append(count)
                 actual_intervals.append([row['start_time_s'],row['end_time_s']]);midpoints.append(midpoint);commands.append(force)
                 row.pop('held_nodal_forces_N');row.update(step_index=index,nonlinear_iterations=count,step_wall_seconds=seconds,
-                    nodal_force_command='all_zero',geometry=geometry_metrics(model,state))
+                    nodal_force_command='all_zero',geometry=geometry_metrics(model,state),
+                    handle_centers_start_m=old_centers.tolist(),handle_centers_end_m=state.handle_centers.tolist(),
+                    handle_center_step_increment_m=[(state.reduced_position_coordinates[dofs[:3]]-
+                        old_coordinates[dofs[:3]]).tolist() for dofs in model.handle_dofs])
                 stream.write(json.dumps(row,allow_nan=False)+'\n');stream.flush()
                 completed_steps = index+1
                 if completed_steps % (hz//gate['output_hz']) == 0:
@@ -314,13 +361,20 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output',required=True)
     parser.add_argument('--episode',choices=list(CASE_BOUNDARIES),default='t0001')
-    parser.add_argument('--hz',type=int,choices=[120,240,480],default=120)
+    parser.add_argument('--hz',type=int,choices=[120,240,480,960],default=120)
     parser.add_argument('--response',choices=['zero_external_force','diagonal_pulse_handle0'],default='diagonal_pulse_handle0')
     parser.add_argument('--relative-tolerance',type=float,choices=[1e-5,1e-7,1e-9],default=1e-7)
     parser.add_argument('--translation',nargs=3,type=float,default=[0.,0.,0.])
     parser.add_argument('--dataset',default='runs/gaussian-boundary-neural-v01')
+    parser.add_argument('--absolute-tolerance-N',type=float,default=1e-10)
+    parser.add_argument('--supplemental-floor-protocol',type=Path,
+        help='Exact separately predeclared moving-zero absolute-floor study only.')
+    parser.add_argument('--temporal-extension-protocol',type=Path,
+        help='Exact conditional t0003 zero/diagonal 960 Hz temporal study only.')
     parser.add_argument('--inputs-json',type=Path,help='Public privileged static fixture; verifies regenerated arrays and needs no bulk dataset.')
     args=parser.parse_args()
     result=run(args.output,episode=args.episode,hz=args.hz,response=args.response,
-        relative_tolerance=args.relative_tolerance,translation=args.translation,dataset=args.dataset,inputs_json=args.inputs_json)
+        relative_tolerance=args.relative_tolerance,translation=args.translation,dataset=args.dataset,inputs_json=args.inputs_json,
+        absolute_tolerance_N=args.absolute_tolerance_N,supplemental_floor_protocol=args.supplemental_floor_protocol,
+        temporal_extension_protocol=args.temporal_extension_protocol)
     print(json.dumps({key:result[key] for key in ['completed','case','physics_hz','response','frames','elapsed_s','nonlinear_iterations','maximum_impulse_error_Ns','dynamic_reference_gate_passed']}),flush=True)

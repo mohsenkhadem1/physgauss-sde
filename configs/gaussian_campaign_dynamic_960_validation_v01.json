@@ -1,0 +1,54 @@
+{
+  "protocol": "independent-dynamic-moving960-matched-validation-proposal-v0.1",
+  "status": "PROPOSED_ONLY_NOT_EXECUTION_AUTHORIZATION",
+  "role": "TRAIN engineering diagnosis only",
+  "parent_gate_path": "configs/gaussian_campaign_independent_dynamic_gate_v01.json",
+  "parent_gate_sha256": "962457955d72a97dd0d8e48a41aff0c6ead821931031343e081cf837c561b2a0",
+  "conditional_temporal_protocol": "configs/gaussian_campaign_dynamic_temporal_extension_v01.json",
+  "conditional_temporal_protocol_sha256": "e6c9efb31c34ea1b6ffe476da192edecad3da5697c0cebaf185ddc5d8813df6f",
+  "core_sha256": "da0db7018b4913020bb228c2fc4df3c240e7dd872f17db4868de147eaaf78fa2",
+  "static_fixture_sha256": "073380f72559c50ccc674d5f69fdff1be7e4d0b30484ad66f0233695a813847f",
+  "prerequisites": [
+    "Both exact conditional960 temporal cells completed and independently audited against all four actual120/240/480/960 rates, with initial failed480 comparisons preserved.",
+    "Both960 finest-adjacent full-response comparisons pass original max(2micrometres,5percent finest diagonal-minus-zero coordinateRMS) and contraction criterion.",
+    "Parent prospectively approves and publishes this matched960 declaration plus a reviewed exact-request guard before any of the eight new cells.",
+    "All prior baseline and separate480 moving-zero absolute-floor evidence retained; no failed evidence replaced and no published physical core changed."
+  ],
+  "episode_id": "t0003",
+  "physics_hz": 960,
+  "seconds": 3.0,
+  "output_hz": 10,
+  "baseline_relative_tolerance": 1e-7,
+  "baseline_absolute_floor_N": 1e-10,
+  "nonlinear_iteration_cap": 250,
+  "reused_temporal_cells": [
+    {"response": "zero_external_force", "relative_tolerance": 1e-7, "absolute_tolerance_N": 1e-10, "translation_m": [0, 0, 0]},
+    {"response": "diagonal_pulse_handle0", "relative_tolerance": 1e-7, "absolute_tolerance_N": 1e-10, "translation_m": [0, 0, 0]}
+  ],
+  "new_cells": [
+    {"id": "moving960-diagonal-rtol1e-5", "kind": "nonlinear_tolerance", "response": "diagonal_pulse_handle0", "relative_tolerance": 1e-5, "absolute_tolerance_N": 1e-10, "translation_m": [0, 0, 0]},
+    {"id": "moving960-diagonal-rtol1e-9", "kind": "nonlinear_tolerance", "response": "diagonal_pulse_handle0", "relative_tolerance": 1e-9, "absolute_tolerance_N": 1e-10, "translation_m": [0, 0, 0]},
+    {"id": "moving960-zero-floor1e-8", "kind": "absolute_floor", "response": "zero_external_force", "relative_tolerance": 1e-7, "absolute_tolerance_N": 1e-8, "translation_m": [0, 0, 0]},
+    {"id": "moving960-zero-floor1e-12", "kind": "absolute_floor", "response": "zero_external_force", "relative_tolerance": 1e-7, "absolute_tolerance_N": 1e-12, "translation_m": [0, 0, 0]},
+    {"id": "moving960-zero-translated", "kind": "translated", "response": "zero_external_force", "relative_tolerance": 1e-7, "absolute_tolerance_N": 1e-10, "translation_m": [0, 0, -0.25]},
+    {"id": "moving960-diagonal-translated", "kind": "translated", "response": "diagonal_pulse_handle0", "relative_tolerance": 1e-7, "absolute_tolerance_N": 1e-10, "translation_m": [0, 0, -0.25]},
+    {"id": "moving960-zero-fresh-reset", "kind": "reset_replay", "response": "zero_external_force", "relative_tolerance": 1e-7, "absolute_tolerance_N": 1e-10, "translation_m": [0, 0, 0]},
+    {"id": "moving960-diagonal-fresh-reset", "kind": "reset_replay", "response": "diagonal_pulse_handle0", "relative_tolerance": 1e-7, "absolute_tolerance_N": 1e-10, "translation_m": [0, 0, 0]}
+  ],
+  "analysis": {
+    "full_trajectory_coordinate_RMSE": "Compare complete zero and diagonal responses separately, not differences after zero cancellation.",
+    "force_signal": "960Hz diagonal positions minus960Hz zero positions, solely for the common tolerance denominator.",
+    "trajectory_tolerance_m": "max(2e-6,0.05*960Hz force-induced coordinateRMS)",
+    "relative_accuracy": "Report both adjacent1e-5/1e-7/1e-9 differences; tightest pair must agree within the common tolerance. Report effective floors and residual distributions; no duplicate nominal-zero-rtol accuracy claim.",
+    "absolute_accuracy": "Report both adjacent1e-8/1e-10/1e-12N moving-zero differences; tightest pair must agree within the common tolerance.",
+    "translation": "Full original and recentered trajectory RMSE after subtracting the exact world shift must be below the common tolerance for both responses.",
+    "reset_replay": "Fresh process and output per response; compare all saved q/v/rigid poses/commands with absolute1e-12 numeric tolerance and report bitwise equality.",
+    "per_cell": "Frozen physical source/input/helper/protocol hashes, all2880 clocks/held commands/analytic impulse,31fullframes, finite accepted residuals, positiveJ, exact fixture/rigid-patch geometry, all nonlinear histories, step-work/momentum bookkeeping and independent handle-force work from saved stable center increments."
+  },
+  "prior480_absolute_floor_study_remains_required": true,
+  "minimum_new_runs": 8,
+  "total960_operating_point_cells_with_reuse": 10,
+  "failure_policy": "Preserve every failure. No hidden restart, changed tolerance, fewer steps, softened material, altered damping, force substitution or physical-core replacement.",
+  "scope": "Factorized fixed-discretization qualification only for declared t0003 zero/0.01N diagonal envelope; no exhaustive cross-interaction, continuum/native equivalence or original0.12–0.24N dataset qualification.",
+  "not_authorized": ["Execution under this proposal before approval/publication/exact guard", "1920Hz", "Original-amplitude capture", "Inference or active policy claims"]
+}

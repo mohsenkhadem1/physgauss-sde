@@ -178,3 +178,27 @@ ongoing. The whole independent reference gate remains **false**.
 and the [strict audit implementation](../experiments/campaign_independent_dynamic_audit.py)
 retain missing/failed cells rather than converting them into success. The
 initial trigger audit is frozen; later results use new reports.
+
+## Completed baseline and guarded refinement activation
+
+All 48 initial factorized baseline cells completed. A separate final audit
+verifies every cell, all eight coordinate translations, all four diagonal
+nonlinear-tolerance comparisons and eight fresh reset replays. Positions,
+velocities, rigid poses and commands replay bit for bit. Coordinate translation
+RMSE is at most 4.35e-17 m. The moving-support temporal failure remains; the
+two separately declared absolute-floor controls were not part of these48cells.
+
+All worker and supervisor PIDs were verified absent before the live runner was
+extended. The physical core remains unchanged. The reviewed runner now permits
+only the exact two conditional960Hz requests and the separate two480Hz
+absolute-floor requests, with published protocol/core/input/trigger hashes.
+It also records per-step handle centers and stable increments so handle work
+can be independently reconstructed.90targeted guard/audit/runner tests pass.
+
+[The extension auditor](../experiments/campaign_dynamic_extension_audit.py)
+retains the failed initial comparison and reports all four actual rates. A
+passing960Hz response is only a temporal candidate. The separate
+[matched960Hz plan](../configs/gaussian_campaign_dynamic_960_validation_v01.json)
+is a proposal for the remaining accuracy, translation and replay checks; it
+is not yet an execution authorization or an adopted operating point. Neither
+this source activation nor any one run establishes full reference reliability.
