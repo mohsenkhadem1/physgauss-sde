@@ -1,0 +1,50 @@
+{
+  "protocol": "modal-proper-material-largebatch-throughput-v0.1",
+  "seed": 2026102104,
+  "draws": 512,
+  "draw_law": "MaterialMarginalPrior(make_prior(publicH0)); freshproper draws, no observation or response conditioning.",
+  "calls": [
+    {
+      "batch": 256,
+      "device": "cpu",
+      "indices": [
+        0,
+        256
+      ]
+    },
+    {
+      "batch": 256,
+      "device": "cuda:0",
+      "indices": [
+        0,
+        256
+      ]
+    },
+    {
+      "batch": 512,
+      "device": "cuda:0",
+      "indices": [
+        0,
+        512
+      ]
+    }
+  ],
+  "parity": "CPU256 vsGPU256 andCPU256 vsGPU512 first256; latter256GPU512 have finite/domain checks only.",
+  "cpu_threads": 2,
+  "GPU_used_only": 0,
+  "template": "H0__m0__bc0",
+  "known_program": "exciting_world_a_v01",
+  "fixed_basis": "96nominal modes plus3canonical static-lift shapes; no dimension adaptation.",
+  "source_sha256": {
+    "experiments/campaign_modal_material_forward.py": "29b00b8f3980431ab79e08caf2ce316ddca57f3bc61407bbe89b683370b38b04",
+    "experiments/campaign_modal_static_lift.py": "cb4025e448b935cc2eeb362a7cbe774aa619b84fa32b30ecdaf224d2c50c1c50",
+    "experiments/campaign_modal_hypothesis.py": "0a5af443d76410e5a44067beabbd5891c9234df6321002e4073b71daffb5b936",
+    "experiments/campaign_material_marginal.py": "8f768961feaa6e4debbf8d98ce2a797bc3d53006eb4d558b6eb55898465e86ce",
+    "experiments/campaign_linear_hypothesis.py": "eff2ab0e18d4da1a3c62d2565dc03f23ab06de197190f00accdcf26f144b98df"
+  },
+  "benchmark_source_sha256": "88447908836df4d082b8d478ee93823aa613c2a993aa3fd5484e1049472302fb",
+  "input_manifest_sha256": "2acaac9a9bf6438c6bc4677cce7cb77f8b56bfe9a3a3e8d56d6298f81e208a98",
+  "B32_negative_preserved": true,
+  "finite_truth_used": false,
+  "posterior_launched": false
+}

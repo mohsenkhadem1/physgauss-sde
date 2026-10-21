@@ -1,0 +1,70 @@
+{
+  "protocol": "posthoc-unconditioned-material-prior-predictive-v0.1",
+  "selection_status": "EXPLICITLY_POSTHOC_AFTER_POSTERIOR_RESULTS",
+  "draws": 8192,
+  "seed": 20261105,
+  "chunk": 512,
+  "GPU": 0,
+  "CPU_threads": 2,
+  "programs": [
+    "exciting_world_a_v01",
+    "exciting_world_b_v01"
+  ],
+  "known_support_template": {
+    "path": "runs/gaussian-campaign-v01/hypothesis-cohort-v01/inputs/H0__m0__bc0.json",
+    "sha256": "837df769871d43bfe71d93874ddca292c2f925c902eabf3a958ac9d69764adbf"
+  },
+  "public_hardware": {
+    "path": "runs/gaussian-campaign-v01/hypothesis-cohort-v01/inputs/H0.json",
+    "sha256": "c31667d7bf368e0b7fe3ac8ae20b64176500db6fc3cdbda8f335ef5de393df1b"
+  },
+  "proper_prior": {
+    "parent_prior_sha256": "768e7ab8aed8b08c5a2677bd40ffb1cd4760acfb0eb33c6000075880c342906f",
+    "intrinsic_order": [
+      "log_E_Pa",
+      "log_rho_kg_m3",
+      "nu",
+      "log_body_drag_s_inverse"
+    ],
+    "lower": [
+      7.313220387090301,
+      5.991464547107982,
+      0.28,
+      -1.0498221244986778
+    ],
+    "upper": [
+      9.903487552536127,
+      6.745236349484363,
+      0.42,
+      -0.16251892949777494
+    ],
+    "physical_order": [
+      "E_Pa",
+      "rho_kg_m3",
+      "nu",
+      "body_drag_s_inverse"
+    ],
+    "density": "Normalized intrinsic density including +log_rho +log_drag Jacobians",
+    "scope": "Known-support/hardware oracle only; not an unknown-boundary posterior",
+    "periodic_indices": []
+  },
+  "source_sha256": {
+    "experiments/campaign_material_prior_predictive.py": "4213ae0a3443caed9ae3c37c51ff1875c382b5912720a02ef7629be328050001",
+    "experiments/campaign_material_forward_controls.py": "65a883956c7071c4c17867f4f961f8afbc8d4a33e11ed9f9f9afa2bc082c411c",
+    "experiments/campaign_material_marginal.py": "8f768961feaa6e4debbf8d98ce2a797bc3d53006eb4d558b6eb55898465e86ce",
+    "experiments/campaign_modal_hypothesis.py": "0a5af443d76410e5a44067beabbd5891c9234df6321002e4073b71daffb5b936",
+    "experiments/campaign_modal_static_lift.py": "cb4025e448b935cc2eeb362a7cbe774aa619b84fa32b30ecdaf224d2c50c1c50",
+    "experiments/campaign_modal_material_forward.py": "29b00b8f3980431ab79e08caf2ce316ddca57f3bc61407bbe89b683370b38b04",
+    "experiments/campaign_linear_hypothesis.py": "eff2ab0e18d4da1a3c62d2565dc03f23ab06de197190f00accdcf26f144b98df"
+  },
+  "design_sha256": "5a37656704b1cbd4a18477126be0f295d036a582eaa0130d6e0484e9da8e2e46",
+  "frozen_marker_sha256": "3210ded24c4a0c223806649bdb335d970f06b1f54a760e2367f6ce4373d7229e",
+  "variance_estimator": "Online centered-displacement Chan merge, unbiasedsampleM2/(N-1). MeanMCSE=sqrt(samplevariance/N).",
+  "conditioned_variance_scope": "Frozenroot2048systematicposteriorpredictive-resample populationvariance; no newposteriorquery.",
+  "no_8192_full_trajectory_storage": true,
+  "no_fit_or_inference_rerun": true,
+  "new_finite_runs": 0,
+  "coverage_claim": false,
+  "future_A_selection": "times>1s",
+  "held_B": "freshresetprogramB, not acontinuingpoke"
+}

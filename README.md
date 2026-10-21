@@ -1,5 +1,11 @@
 # PhysGauss-SDE
 
+**Sparse-depth material oracle:** [method and evidence](docs/GAUSSIAN_MATERIAL_ORACLE.md)
+conditions a numerical material posterior on two sparse depth frames. On one
+fresh known-support object, future-motion error falls from 0.370 to 0.113 mm
+against an unconditional prior; held reset-force error falls from 0.216 to
+0.080 mm. Unknown-boundary inference and coverage calibration remain next steps.
+
 **Known-physics diagnosis:** [fixed excitation and engineering checks](runs/operator-dev/hypothesis-campaign-v01/REPORT.md)
 now use identical force programs across materials and supports. An unfitted,
 linearized physical model matches the first soft point-pin and moving-support

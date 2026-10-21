@@ -1,0 +1,99 @@
+{
+  "status": "COMPLETED_AUTHORIZED_LARGEBATCH_ONLY",
+  "protocol": {
+    "path": "runs/operator-dev/hypothesis-modal-material-largebatch-v01/protocol.json",
+    "sha256": "bc99931a2db0549969e9593aa65cfc423e511ce76841b971ef7f7954b7d4a122"
+  },
+  "construction_s": 1.5905283568426967,
+  "timings": [
+    {
+      "batch": 256,
+      "device": "cpu",
+      "theta_independent_prepare_s": 0.08444969775155187,
+      "forward_s": 7.024738797917962,
+      "queries_per_second": 36.44263614127189,
+      "per_query_s": 0.02744038592936704,
+      "process_peak_RSS_bytes_cumulative_includes_construction": 1398734848,
+      "GPU_peak_allocated_bytes": null,
+      "GPU_peak_reserved_bytes": null
+    },
+    {
+      "batch": 256,
+      "device": "cuda:0",
+      "theta_independent_prepare_s": 0.05858541466295719,
+      "forward_s": 0.4888308956287801,
+      "queries_per_second": 523.6984861006152,
+      "per_query_s": 0.0019094956860499224,
+      "process_peak_RSS_bytes_cumulative_includes_construction": 1398734848,
+      "GPU_peak_allocated_bytes": 461124608,
+      "GPU_peak_reserved_bytes": 492830720
+    },
+    {
+      "batch": 512,
+      "device": "cuda:0",
+      "theta_independent_prepare_s": 0.0004276623949408531,
+      "forward_s": 0.4577903337776661,
+      "queries_per_second": 1118.4159258562715,
+      "per_query_s": 0.0008941217456595041,
+      "process_peak_RSS_bytes_cumulative_includes_construction": 1759420416,
+      "GPU_peak_allocated_bytes": 902855680,
+      "GPU_peak_reserved_bytes": 1000341504
+    }
+  ],
+  "parity": [
+    {
+      "GPU_batch": 256,
+      "compared_candidates": 256,
+      "CPU_reference_batch": 256,
+      "maximum_absolute_coordinate_difference_m": 1.1823875212257917e-14,
+      "coordinate_RMSE_m": 4.564667528951625e-16,
+      "passed": true
+    },
+    {
+      "GPU_batch": 512,
+      "compared_candidates": 256,
+      "CPU_reference_batch": 256,
+      "maximum_absolute_coordinate_difference_m": 1.1823875212257917e-14,
+      "coordinate_RMSE_m": 4.564667528951625e-16,
+      "passed": true
+    }
+  ],
+  "GPU_name": "NVIDIA GeForce RTX 2080 Ti",
+  "fresh_material_draw_intrinsic_coordinates_sha256": "68c10d9e52e6c29ff50cace369e08cc67ba07a6722513af9c434ec4d3bbbb573",
+  "fresh_material_draw_physical_coordinates_sha256": "cd58427028856a247e09bc81f04fef98d6f2cc88acb1197e83a0daa27a581a10",
+  "proper_material_prior": {
+    "parent_prior_sha256": "768e7ab8aed8b08c5a2677bd40ffb1cd4760acfb0eb33c6000075880c342906f",
+    "intrinsic_order": [
+      "log_E_Pa",
+      "log_rho_kg_m3",
+      "nu",
+      "log_body_drag_s_inverse"
+    ],
+    "lower": [
+      7.313220387090301,
+      5.991464547107982,
+      0.28,
+      -1.0498221244986778
+    ],
+    "upper": [
+      9.903487552536127,
+      6.745236349484363,
+      0.42,
+      -0.16251892949777494
+    ],
+    "physical_order": [
+      "E_Pa",
+      "rho_kg_m3",
+      "nu",
+      "body_drag_s_inverse"
+    ],
+    "density": "Normalized intrinsic density including +log_rho +log_drag Jacobians",
+    "scope": "Known-support/hardware oracle only; not an unknown-boundary posterior",
+    "periodic_indices": []
+  },
+  "all512_domain_and_finite_checks_passed": true,
+  "B512_independent_CPU_parity_scope": "First256only; noCPU512forward executed.",
+  "finite_truth_or_posterior_used": false,
+  "memory_note": "GPU peaks include cachedgeometry buffers and outputstorage. CPUpeakRSS cumulative includes construction and cachedCPU256reference.",
+  "importance_reference_launched": false
+}

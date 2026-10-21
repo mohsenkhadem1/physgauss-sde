@@ -1,0 +1,111 @@
+{
+  "schema": "known-support-material-sparse-depth-oracle-design-v0.1",
+  "status": "FROZEN_BEFORE_FRESH_FINITE_RESPONSE_OR_POSTERIOR",
+  "scope": "One fresh material draw, known H0 point support and hardware; not unknown-boundary inference or calibration cohort",
+  "material_prior": {
+    "parent_prior_sha256": "768e7ab8aed8b08c5a2677bd40ffb1cd4760acfb0eb33c6000075880c342906f",
+    "intrinsic_order": [
+      "log_E_Pa",
+      "log_rho_kg_m3",
+      "nu",
+      "log_body_drag_s_inverse"
+    ],
+    "lower": [
+      7.313220387090301,
+      5.991464547107982,
+      0.28,
+      -1.0498221244986778
+    ],
+    "upper": [
+      9.903487552536127,
+      6.745236349484363,
+      0.42,
+      -0.16251892949777494
+    ],
+    "physical_order": [
+      "E_Pa",
+      "rho_kg_m3",
+      "nu",
+      "body_drag_s_inverse"
+    ],
+    "density": "Normalized intrinsic density including +log_rho +log_drag Jacobians",
+    "scope": "Known-support/hardware oracle only; not an unknown-boundary posterior",
+    "periodic_indices": []
+  },
+  "truth_seed": 20261029,
+  "truth_spec": {
+    "path": "runs/operator-dev/material-oracle-depth-v01/private-inputs/fresh-material-known-point-support.json",
+    "sha256": "ed9d0d5beb78b2c9611321f121af349441cbaf6f81bbd8f3eefe534ab4378457"
+  },
+  "nominal_support_template": {
+    "path": "runs/gaussian-campaign-v01/hypothesis-cohort-v01/inputs/H0__m0__bc0.json",
+    "sha256": "837df769871d43bfe71d93874ddca292c2f925c902eabf3a958ac9d69764adbf"
+  },
+  "public_hardware": {
+    "path": "runs/gaussian-campaign-v01/hypothesis-cohort-v01/inputs/H0.json",
+    "sha256": "c31667d7bf368e0b7fe3ac8ae20b64176500db6fc3cdbda8f335ef5de393df1b"
+  },
+  "physics_cases": [
+    {
+      "path": "runs/operator-dev/material-oracle-depth-v01/reference-A-protocol.json",
+      "sha256": "f253b6121baca928557b652d080532e47899a412d5ef522d14091a1c7004babe"
+    },
+    {
+      "path": "runs/operator-dev/material-oracle-depth-v01/reference-B-protocol.json",
+      "sha256": "3bb4dd6573ee3681777d4c752d01959fc324668ed80da788b12970aeb5139342"
+    }
+  ],
+  "public_acquired_queries": {
+    "path": "runs/operator-dev/material-oracle-depth-v01/acquired-queries.json",
+    "sha256": "9699169b51e02184f6eb41372d4c00dcc8261eda844f8d712b2b2452f2b677e1"
+  },
+  "public_held_queries": {
+    "path": "runs/operator-dev/material-oracle-depth-v01/held-queries.json",
+    "sha256": "e6bc8b2c146c9de1abcb12eb4b6972fbec4ab25fbccab44b651cc6621fac6897"
+  },
+  "likelihood": {
+    "range_std_m": 0.0002,
+    "visibility_error_probability": 0.005,
+    "background_std_m": 0.05,
+    "outlier_probability": 0.0,
+    "covariance": "Independent range noise; absent ranges censored",
+    "observation_seed": 20261031
+  },
+  "reference_plan": {
+    "method": "Independent prior importance reference, prefix refinement of same samples",
+    "particles_per_seed": [
+      16384,
+      65536
+    ],
+    "seeds": [
+      20261101,
+      20261102,
+      20261103
+    ],
+    "minimum_ESS_for_stability_assessment": 200,
+    "stability": "Report independent-seed and particle-count shifts in marginal means/quantiles/log evidence; no weight-ESS-only mixing claim",
+    "hardware_batch_size": "Choose by source-pinned throughput/parity benchmark before any likelihood evaluation"
+  },
+  "information_roles": {
+    "A_prefix_depth": "Only acquired likelihood input",
+    "B_motion_and_A_held_views": "Evaluation only after posterior frozen",
+    "physical_material_truth": "Evaluation only after posterior frozen",
+    "support_hardware": "Known oracle information"
+  },
+  "source_sha256": {
+    "experiments/campaign_material_marginal.py": "8f768961feaa6e4debbf8d98ce2a797bc3d53006eb4d558b6eb55898465e86ce",
+    "experiments/campaign_sparse_depth_queries.py": "8f13226db5dd6cbb2dc352195641a2da71331e15f0c9102d7704c5f783f8019f",
+    "experiments/campaign_modal_hypothesis.py": "0a5af443d76410e5a44067beabbd5891c9234df6321002e4073b71daffb5b936",
+    "experiments/campaign_modal_static_lift.py": "cb4025e448b935cc2eeb362a7cbe774aa619b84fa32b30ecdaf224d2c50c1c50",
+    "experiments/campaign_modal_material_forward.py": "29b00b8f3980431ab79e08caf2ce316ddca57f3bc61407bbe89b683370b38b04",
+    "experiments/campaign_tempered_reference.py": "e878ef5d973c99bcee0fbb62024c4b4a86733bd323537b2927ed391ba5a1589b",
+    "experiments/campaign_ray_sensor.py": "24612aeec38d121d022a5054e93b18e06842d11311fc8c8dcb73fe243e072751",
+    "experiments/censored_range_observation.py": "afc7eeaa8fc3f1f8543701e5ffe9d97f165255f16e5061347875d4df57a9ef11"
+  },
+  "uncertainty_claim": false,
+  "raw_artifacts_LOCAL": true,
+  "new_physics_workers": 2,
+  "threads_per_worker": 2,
+  "new_physics_GPU_used": false,
+  "failure_policy": "Preserve failed fresh captures; no redraw/retry; no posterior if observations unavailable"
+}
