@@ -1,0 +1,219 @@
+{
+  "schema": "C38-controlled-static-ideal-inverse-DESIGN-v01",
+  "status": "PROSPECTIVE_DESIGN_NOT_EXECUTION_NOT_OBSERVATION_DRAW",
+  "sensor": {
+    "kind": "IDEAL_TRACKED_MATERIAL_POINTS_NOT_RGBD",
+    "qualified_point_ids": [
+      11,
+      14,
+      17,
+      29,
+      32,
+      35,
+      47,
+      50,
+      53
+    ],
+    "reference_points_m": [
+      [
+        0.04,
+        -0.04,
+        0.04
+      ],
+      [
+        0.04,
+        0.0,
+        0.04
+      ],
+      [
+        0.04,
+        0.04,
+        0.04
+      ],
+      [
+        0.12,
+        -0.04,
+        0.04
+      ],
+      [
+        0.12,
+        0.0,
+        0.04
+      ],
+      [
+        0.12,
+        0.04,
+        0.04
+      ],
+      [
+        0.2,
+        -0.04,
+        0.04
+      ],
+      [
+        0.2,
+        0.0,
+        0.04
+      ],
+      [
+        0.2,
+        0.04,
+        0.04
+      ]
+    ],
+    "noise": {
+      "distribution": "independent_zero_mean_Gaussian_per_Cartesian_coordinate_per_acquisition",
+      "sigma_m": 0.0002,
+      "known_stipulated_not_sensor_calibrated": true
+    }
+  },
+  "prior": {
+    "material": "Uniform logE over75000to150000Pa",
+    "boundary_categories": [
+      "both_ends",
+      "separated_bottom_patches"
+    ],
+    "boundary_prior": [
+      0.5,
+      0.5
+    ],
+    "other_physics_known": true
+  },
+  "physical_configurations": {
+    "materials": "Two prospectively withheld log-quarter materials from40statecatalog",
+    "support_categories": 2,
+    "count": 4,
+    "public_object_id_does_not_encode_material_or_support": true,
+    "independent_population_objects": false
+  },
+  "noise_repeats_per_configuration": 16,
+  "independent_noise_seeds": {
+    "root_seed": 2026102301,
+    "recipe": "SeedSequence([root_seed, private_configuration_index, repeat_index, channel_index]); channel0gravity,1down2,2up2",
+    "actual_observation_stream_independent_of_policy_design_stream": true
+  },
+  "acquisition": {
+    "prefix_Fz_N": 0.0,
+    "candidate_probe_Fz_N": [
+      -2.0,
+      2.0
+    ],
+    "target_Fz_N": 1.0,
+    "same_latent_across_resets": true,
+    "each_probe_reset_from_common_rest": true,
+    "budget_per_action": "One vector of9idealtracked3Dpoints, equalstipulatedcovariance",
+    "physical_time_or_camera_visibility_not_invented": true
+  },
+  "policies": [
+    "fixed_downward",
+    "fixed_upward",
+    "random",
+    "expected_information_gain",
+    "expected_canonical_predictive_risk"
+  ],
+  "policy_design": {
+    "prospective_fantasy_counts": [
+      64,
+      128,
+      256
+    ],
+    "fantasy_root_seed": 2026102302,
+    "random_policy_seed": 2026102303,
+    "no_adaptive_budget_or_posthoc_policy_tuning": true,
+    "common_random_numbers_between_actions": true,
+    "separate_numerical_convergence_gate_required": true
+  },
+  "evaluation": {
+    "canonical_target_point_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62
+    ],
+    "material_interval_probabilities": [
+      0.025,
+      0.5,
+      0.975
+    ],
+    "predictive_interval_probabilities": [
+      0.025,
+      0.5,
+      0.975
+    ],
+    "report_per_configuration_and_repeat": true,
+    "do_not_treat_noise_repeats_as_independent_physical_objects": true,
+    "initial_and_chosen_action_predictions_sealed_before_private_target_access": true,
+    "future_counterfactual_action_arrays_private_to_evaluator": true
+  },
+  "execution_prerequisites": [
+    "All40states/80directfieldscompletewithoriginalmechanicsandfiniteq63spatialchecks",
+    "Source-pinnedfiniteinterpolationvalidationbothmeshes/allforces/materials/sensors1umgate",
+    "Specialisedlikelihoodstationarypoints/narrowmodecontrols andindependentreferenceposteriorchecks",
+    "Freezeexecutableprotocolsource/runtimepins/resourcecaps/inputarchivesBEFOREdraws",
+    "Directnonlineartruthkeptseparatefrominterpolatedcandidateforwardtable",
+    "PublicprefixexportvalidationrestrictssensorpointIDs/noEorBCtruth/privatefuturearrays"
+  ],
+  "observations_drawn": false,
+  "posterior_computed": false,
+  "actual_actions_selected": false,
+  "continuous_physical_calibration_established": false
+}

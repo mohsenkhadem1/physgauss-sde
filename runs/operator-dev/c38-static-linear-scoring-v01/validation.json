@@ -1,0 +1,44 @@
+{
+  "schema": "C38-static-linear-scoring-preparation-controls-v01",
+  "source_sha256": {
+    "experiments/score_campaign_c38_static_linear.py": "e3590690802d03612f99c5f9d94718f5624a1c9c0de875823a503ff7b6e54d46",
+    "tests/test_score_campaign_c38_static_linear.py": "8f5a886ea201abfb49259dc5cac448008cb0ff719e923e7e6dbb4d877987e008",
+    "runs/operator-dev/c38-static-linear-scoring-v01/protocol-v01.json": "5e3345e5a8f671dec35c97c01348d9c4a9745eb30b2883009ce73d64e7af1b10"
+  },
+  "protocol_sha256": "5e3345e5a8f671dec35c97c01348d9c4a9745eb30b2883009ce73d64e7af1b10",
+  "tests": {
+    "passed": 8,
+    "seconds": 2.28,
+    "command": "env CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 .venv/bin/python -m pytest -q tests/test_score_campaign_c38_static_linear.py"
+  },
+  "controls": [
+    "Independent weighted rigid motion/affine strain analytic moments and common-frame invariance",
+    "Strictly positive reference-volume Keast24 weights; no signed P2 nodal metric masses",
+    "Exact physical case ID/E/support/F and resolution joins; historical kind ignored; duplicate cases/tampered captures rejected",
+    "Common63 query and exact geometry/mask bindings",
+    "Prepare isolated under temporaryROOT with write guard and np.load prohibited; only completed metadata is read",
+    "Exact terminal capture proof binds all28 targets and32 baseline archives; no target arrays opened in preparation"
+  ],
+  "status": "UNEXECUTED pending root source/protocol review",
+  "limits": {
+    "wall_cap_s": 300,
+    "RSS_cap_bytes": 12884901888,
+    "disk_free_reserve_bytes": 32212254720,
+    "projected_output_bytes": 10485760,
+    "CPU_affinity_cores": [
+      34,
+      35
+    ],
+    "CPU_threads": 2
+  },
+  "scopes": {
+    "q63": "Qualified finite engineering pointwise coordinate RMSE/max/per-point Euclidean errors",
+    "bulk": "Descriptive positive-volume rigid/deformation metrics; not spatially qualified all-field accuracy",
+    "linear_rigid": "Rigid fit to linear prediction, no target dependence",
+    "target_rigid": "PRIVILEGED target-fitted descriptive rigid lower bound, not deployable public predictor"
+  },
+  "no_physical_solves_or_GPU": true,
+  "no_real_nonlinear_target_arrays_loaded": true,
+  "no_dataset_or_observations_generated": true,
+  "source40_pins_frozen": 40
+}
