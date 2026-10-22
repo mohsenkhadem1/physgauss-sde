@@ -1,0 +1,32 @@
+{
+  "schema": "Newton-BDF2-independent-source-review-v0.1",
+  "review_kind": "READ_ONLY;NO_GPU_OR_DATA_OR_TEST_CALLS",
+  "source_sha256": {
+    "experiments/campaign_newton_vbd_transient.py": "6bc15bf3adbf760a2aa8c582389eb12aa5a9109595499f57f49c902167e0d114",
+    "experiments/run_newton_vbd_transient.py": "3403f167bda1b00d5973baa6ef9a90f5808ccfb8a4bfe796fae56b3b13d634c3",
+    "tests/test_campaign_newton_vbd_transient.py": "c139b9597a6f777af490f955482e2753a7844cf21e13fa9770b92c0a44539757"
+  },
+  "blocking_issue_found": false,
+  "mathematical_checks": [
+    "EliminatingD2q=v andMD2v=f givesheff=2h/3 andhelper=(qn-qprev)/(2h)+(4vn-vprev)/3; source implements bothcorrectly.",
+    "OneBEstartupstep suppliesconsistentsecondorder-startingvalues for smoothone-sidedconstantloadproblem; notclaimedBDF2fromstepone.",
+    "Physicalvnew=(3(qnew-qn)-(qn-qprev))/(2h) isstoredseparately from nativealgorithmhelper/chord; oldq/oldv areindependentNumPysnapshots andcannotaliasmutatedGPUbuffers.",
+    "LiteralimplicitR=M(q-inertia)/heff\u00b2-internal iscorrect: externalF isalreadyencodedonceininertia. SeparatephysicalR=MD2v-internal64-actualF iscorrect andusesquantizedposes/Lam\u00e9/readbackmass.",
+    "Accepted-startcorrectionpreservesinertialobjectiveandpreviousacceptedstate; zeroelementdamping/contact/selfcontact/norigidrequiredbyitsdeclaredscope.",
+    "Float32helper/velocitywritebackanddt arithmeticremainapproximations; hostphysicalD2qhistoryisfloat64fromnativefloat32q, notidenticallynativeqdrounding. Velocityandforceareexplicitdiagnosticsratherthanqualifiedmetrics.",
+    "OneULP inertialforcescaleisnominaldiagnostic, notglobalerrorbound orpermissiontorelaxphysicalgates."
+  ],
+  "implementation_checks": [
+    "ManualexactP1mass andstandardLam\u00e9builderinputs, explicitradius0, zero damping, leftinactiveflagsretainingmass; material/topology/mass/knownforcecheckedagainstpinned96tetCPUmodel.",
+    "ActualownPIDphysicalGPU0UUIDandNewton1.7/Warp1.18versionassert precedeacceptingtrajectories; CVD0 isolatesotherGPUs.",
+    "Wrapperhard600s withownednewsessionTERM/KILL/reapandfreshoutput/completionreceipt.",
+    "Sourceclosurecoversactualimportedprojecthelpers andcriticalinstalledbuilder/solver/kernel files; allpairedCPUreferenceNPZ/JSONandCPUprotocol pluspriorAPIcontrolsarehashbound.",
+    "NineGPUjobs=8BE/BDF2ratecombinationsplusoneBDF2960Hz512iterationcontrol; everycasefreshfromREST. CPUapproximationandCPUtemporalaccuracyaredeclaredseparate, withnocomposite20umboundclaim."
+  ],
+  "nonblocking_hardening": [
+    "ExplicitlyassertCPUsaved/querytimelines andposition/velocityshapes againstcomputedstep/sampleindices beforecomparison.",
+    "Optionallyrecordnativefloat32physicalqdreadbackrounding againsthostD2qvelocity.",
+    "Iterationcontrolcurrentlyusesfixedphysicalqueriesonly, asitsresultfieldstates; notanallnodeiterationgate."
+  ],
+  "conclusion": "No blocking mechanics, BDF2-history, force-accounting or owned-device/deadline defect found in reviewed draft. Qualification remains paired96tetpositionapproximation only; neither force/velocity nor continuum/contact accuracy follows."
+}

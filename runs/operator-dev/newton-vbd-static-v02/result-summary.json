@@ -1,0 +1,225 @@
+{
+  "schema": "standalone-Newton-static-initial-iterate-repair-v0.2",
+  "completed": true,
+  "passed": true,
+  "source_result": {
+    "path": "runs/gaussian-campaign-v01/newton-vbd-static-v02/static/summary.json",
+    "sha256": "7ef33f719fd952daa6adb2a82dbf3176bf5e011a6cfeb6bee14521ce02286564"
+  },
+  "source_protocol": {
+    "path": "runs/operator-dev/newton-vbd-static-v02/static-protocol.json",
+    "sha256": "d23531b4f278e749e760138e58a4df74a61a03c5883694a2276759b977efe21b"
+  },
+  "versions": {
+    "newton": "1.7.0",
+    "warp-lang": "1.18.0",
+    "numpy": "2.5.4"
+  },
+  "device": "NVIDIA GeForce RTX 2080 Ti",
+  "actual_owned_compute": [
+    "2205828, GPU-5b432ce5-a24a-68ba-150f-682265260a9b, 204 MiB"
+  ],
+  "elapsed_s": 8.673137041274458,
+  "physical_problem": {
+    "size_m": [
+      0.24,
+      0.08,
+      0.08
+    ],
+    "cells": [
+      4,
+      2,
+      2
+    ],
+    "tetrahedra": 96,
+    "nodes": 45,
+    "E_Pa": 5000.0,
+    "nu": 0.35,
+    "rho_kg_m3": 625.0,
+    "nominal_mass_kg": 0.96,
+    "load": "1Nuniformrightreferencetraction",
+    "support": "Exactallaxisleftface,ACTIVEflag0retainingphysicalmass",
+    "material": "PinnedNewton1.7stableSmithNeoHookean,notCPUlogJlaw",
+    "damping": 0.0
+  },
+  "method": "NumericalSTATICproximalrelaxation:stockBEpseudo_dt1s,resetalgorithmvelocityeachouterstep;NEWinitializerrestoresacceptedqandzerositerate-displacementafterstockinitializationwithoutchanginginertialtarget/objective.",
+  "initialization_controls": [
+    {
+      "inertial_target_unchanged_bitwise": true,
+      "accepted_iterate_restored_bitwise": true,
+      "collision_reference_unchanged_bitwise": true,
+      "displacements_zero": true,
+      "predictor_max_jump_m": 0.0,
+      "predictor_minimum_J": 0.9999997085333066
+    },
+    {
+      "inertial_target_unchanged_bitwise": true,
+      "accepted_iterate_restored_bitwise": true,
+      "collision_reference_unchanged_bitwise": true,
+      "displacements_zero": true,
+      "predictor_max_jump_m": 16.666667938232422,
+      "predictor_minimum_J": 0.999999894797806
+    }
+  ],
+  "variants": [
+    {
+      "iterations": 32,
+      "from_REST": true,
+      "outer_steps": 30,
+      "capped": false,
+      "rest_literal_free_elastic_force_N": 9.444492946199965e-06,
+      "rest_readback_float64_free_elastic_force_N": 1.1421387424704498e-05,
+      "actual_applied_force_sum_N": [
+        1.0000000074505806,
+        0.0,
+        0.0
+      ],
+      "original_literal_free_R_N": 1.8554905261682218e-05,
+      "readback_float64_free_R_N": 1.682967040679059e-05,
+      "q_drift_max_m": 4.6756474560909863e-07,
+      "algorithm_velocity_max_m_per_pseudosecond": 4.675647460317123e-07,
+      "maximum_CPU_query_error_m": 2.5658519122681354e-06,
+      "maximum_CPU_node_error_m": 2.5658519122681354e-06,
+      "minimum_J": 1.0043142680978598,
+      "gates": {
+        "algorithm_velocity_passed": true,
+        "original_force_passed": true,
+        "stationary_passed": true,
+        "matched_query_passed": true,
+        "fixed_passed": true,
+        "positive_J_passed": true,
+        "passed": true
+      }
+    },
+    {
+      "iterations": 128,
+      "from_REST": true,
+      "outer_steps": 10,
+      "capped": false,
+      "rest_literal_free_elastic_force_N": 9.444492946199965e-06,
+      "rest_readback_float64_free_elastic_force_N": 1.1421387424704498e-05,
+      "actual_applied_force_sum_N": [
+        1.0000000074505806,
+        0.0,
+        0.0
+      ],
+      "original_literal_free_R_N": 1.3010488829006788e-05,
+      "readback_float64_free_R_N": 1.2483975210576664e-05,
+      "q_drift_max_m": 4.5326236409709244e-07,
+      "algorithm_velocity_max_m_per_pseudosecond": 4.5326237341214437e-07,
+      "maximum_CPU_query_error_m": 4.394994854745347e-07,
+      "maximum_CPU_node_error_m": 4.394994854745347e-07,
+      "minimum_J": 1.0043134889292151,
+      "gates": {
+        "algorithm_velocity_passed": true,
+        "original_force_passed": true,
+        "stationary_passed": true,
+        "matched_query_passed": true,
+        "fixed_passed": true,
+        "positive_J_passed": true,
+        "passed": true
+      }
+    },
+    {
+      "iterations": 512,
+      "from_REST": true,
+      "outer_steps": 3,
+      "capped": false,
+      "rest_literal_free_elastic_force_N": 9.444492946199965e-06,
+      "rest_readback_float64_free_elastic_force_N": 1.1421387424704498e-05,
+      "actual_applied_force_sum_N": [
+        1.0000000074505806,
+        0.0,
+        0.0
+      ],
+      "original_literal_free_R_N": 1.6805077488480567e-05,
+      "readback_float64_free_R_N": 1.6643405429240876e-05,
+      "q_drift_max_m": 1.983170457811082e-07,
+      "algorithm_velocity_max_m_per_pseudosecond": 1.9831703923500754e-07,
+      "maximum_CPU_query_error_m": 1.4712495550498869e-08,
+      "maximum_CPU_node_error_m": 1.944099478897395e-08,
+      "minimum_J": 1.0043132882441148,
+      "gates": {
+        "algorithm_velocity_passed": true,
+        "original_force_passed": true,
+        "stationary_passed": true,
+        "matched_query_passed": true,
+        "fixed_passed": true,
+        "positive_J_passed": true,
+        "passed": true
+      }
+    }
+  ],
+  "nearzero_kernel_parity_status": "UNRESOLVED_AT2uN;notrelabelledPASS;doesnotblockindependentstaticgates",
+  "preserved_negatives": [
+    "V01idealrotation2.102uNerror>frozen2uNgate",
+    "V02actualquantizedrotation2.301uNerror>frozen2uNgate",
+    "StaticV01first32iterationvariantfailedpositiveJ/fixed/nonfiniteguard;failedqnotcaptured,soexactlocalcausecannotbereconstructed."
+  ],
+  "causality": "Pinnedstockforwardpredictorformulacomputes16.667mjumpon0.24mblockatpseudo_dt1;NEWruntimeobserved16.66666794mpredictorjumpwithminimumJabout1. Initializationrepairchangesonlyiterate;doesnotclaimpredictoritselfinvertedoldstate. Oldfailedqwasnotavailable.",
+  "qualifications": [
+    "All3fromRESTpasspredeclared96tetdiscretestaticequilibrium+matchedCPU122querygates.",
+    "No physicaltransient/dynamic/time/spatial/contact/inversequalification.",
+    "NoE/nu/rho/force/damping/h/cap/gateschangedbetweenthefailedstaticv01andinitial-iterate-repairedv02.",
+    "Originalelasticforceauditusesliteralinstalledkernelatactualq/restposes/Lamewithindependentfloat64readbackaudit;noBE/inertialresidualsubstitution.",
+    "Nearzerofloat32kernelparityat2uNremainsunresolved,notrelabelledPASS."
+  ],
+  "terminal_proofs": [
+    {
+      "path": "runs/operator-dev/newton-vbd-probe-v01/execution.json",
+      "sha256": "33cc2b18c31a41372625e5868b2b03d9974c7c2c1a060f6671add355f5ea0b93",
+      "terminal": true,
+      "completed": false,
+      "pids": [
+        2199966,
+        2199972
+      ],
+      "all_pids_absent": true
+    },
+    {
+      "path": "runs/operator-dev/newton-vbd-probe-v02/execution.json",
+      "sha256": "562d713cfa7b81f484889f12b8b469eaac1f79d057b902b6b78de4e74865f1ec",
+      "terminal": true,
+      "completed": false,
+      "pids": [
+        2202473,
+        2202483
+      ],
+      "all_pids_absent": true
+    },
+    {
+      "path": "runs/operator-dev/newton-vbd-static-v01/controls/execution.json",
+      "sha256": "4441064547bdb6730f964bb89ebb2ec0d5552969d372eaa41e56cc8096f484bb",
+      "terminal": true,
+      "completed": true,
+      "pids": [
+        2203936,
+        2203942
+      ],
+      "all_pids_absent": true
+    },
+    {
+      "path": "runs/operator-dev/newton-vbd-static-v01/static/execution.json",
+      "sha256": "7467067ebe4f29e002ecfc6bf0246d5db813b8ca5a6ab5d26e185f342f082a6b",
+      "terminal": true,
+      "completed": false,
+      "pids": [
+        2204224,
+        2204238
+      ],
+      "all_pids_absent": true
+    },
+    {
+      "path": "runs/operator-dev/newton-vbd-static-v02/static/execution.json",
+      "sha256": "002158811e5fb8f2cec09efd02c70885b5dc8c380ce2390ae5a8070d08f583cf",
+      "terminal": true,
+      "completed": true,
+      "pids": [
+        2205822,
+        2205828
+      ],
+      "all_pids_absent": true
+    }
+  ],
+  "raw_arrays_and_Warp_cache_LOCAL": true
+}

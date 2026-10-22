@@ -1,0 +1,96 @@
+{
+  "schema": "newton-VBD-original-force-static-v0.1",
+  "status": "FROZEN_BEFORE_STAGE_CALLS",
+  "mode": "controls",
+  "source_sha256": {
+    "experiments/campaign_newton_vbd_static.py": "5f6bf315c675bb6154453b6ff33e87b6959aa2a700be2d44cfa1e10437ca354d",
+    "experiments/campaign_newton_vbd_static_kernels.py": "1b79196077593ec42fdc28d150f2af541d4fb978687a0f14ad046f2abcc2e068",
+    "experiments/campaign_newton_vbd_probe_v02.py": "4807d36de6dba2023cad04dab478246c8a4a6295b5481ff490a001bac7417fe9",
+    "experiments/campaign_newton_vbd_kernels.py": "1d4160f45169f4557549201c0e6c38625e9e7cd7b39bd00568c717b254d9a7bd",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "tests/test_campaign_newton_vbd_static.py": "f8ec004298fa6578da76f723a96e28586057a578925af1f898169b2c40376cad",
+    "experiments/run_newton_vbd_static.py": "98e877c2341b055e33394d31c1c940a0c5c6064165e7ee9d8d355e2ea9036a45"
+  },
+  "external_source_sha256": {
+    "newton/_src/solvers/vbd/particle_vbd_kernels.py": "79a5075c62d53b2888858c3380bdae4a1b4f5c9a284a09206c88e37918c1241e",
+    "newton/_src/solvers/vbd/solver_vbd.py": "52d9de6f8cc662a95b4c55eaa657c3eedf5f6a6da699109dd9c2de36e36b932f",
+    "newton/_src/sim/builder.py": "baa975f5c90a3fb1e906829c5a7748649729d842e88f2ae7015b2f15c6c03f60"
+  },
+  "CPU_threads": 2,
+  "GPU": 0,
+  "hard_cap_s": 600,
+  "matched_CPU_reference": {
+    "path": "runs/gaussian-campaign-v01/newton-material-alignment-v01/P1-tets96.npz",
+    "sha256": "2302bfbb630bb2d92f74f8b41b0df590dbc90e46c6effbcfdd8ba07f387b1c5b"
+  },
+  "matched_CPU_metadata": {
+    "path": "runs/gaussian-campaign-v01/newton-material-alignment-v01/P1-tets96.json",
+    "sha256": "d1e101f097b548c36da91e07d321d875d443307144d376f4e8cecfda9cd3285b"
+  },
+  "previous_kernel_controls": [
+    {
+      "path": "runs/gaussian-campaign-v01/newton-vbd-probe-v01/summary.json",
+      "sha256": "e34f4ae4ba89f1782e57d162e7f7ef545facc2c47aa80e00ac23a091084e2dd3"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/newton-vbd-probe-v02/summary.json",
+      "sha256": "e367affc72f3ab4ec22972e2be360df7865c374d4065b63667d1af525004e56a"
+    }
+  ],
+  "nearzero_kernel_parity_status": "UNRESOLVED_AT2uN;notrelabelledPASS;doesnotblockindependentstaticgates",
+  "material": {
+    "E_Pa": 5000.0,
+    "nu": 0.35,
+    "rho_kg_m3": 625.0,
+    "damping": 0.0,
+    "law": "Newton1.7stableNH,kappa=lambdaL+muLinternally"
+  },
+  "mesh": {
+    "cells": [
+      4,
+      2,
+      2
+    ],
+    "size_m": [
+      0.24,
+      0.08,
+      0.08
+    ],
+    "mass": "ExactP1physicaltetlumping;retainedfixednodemass"
+  },
+  "controls": {
+    "freefall_steps": 12,
+    "physics_hz": 240,
+    "iterations": 16,
+    "gravity_m_s2": [
+      0,
+      0,
+      -9.81
+    ],
+    "force_one_step_N": 1.0,
+    "velocity_max_error_m_s": 0.0002,
+    "translation_nonuniformity_m": 2e-05
+  },
+  "static": {
+    "iterations": [
+      32,
+      128,
+      512
+    ],
+    "all_from_REST": true,
+    "maximum_outer_steps": 200,
+    "pseudo_dt_s": 1.0,
+    "reset_algorithm_velocity_each_outerstep": true,
+    "physical_damping": 0.0,
+    "stop_using_only_original_R_and_drift": true,
+    "gates": {
+      "original_literal_free_force_residual_N": 0.001,
+      "maximum_consecutive_q_drift_m": 5e-07,
+      "maximum_algorithm_velocity_m_per_pseudosecond": 5e-07,
+      "matched122fixedquery_maxerror_m": 2e-05,
+      "fixed_clamp_error_m": 0.0,
+      "minimum_J": 0.1
+    }
+  },
+  "qualification": "96tetdiscreteSTATICequilibriumcomparisononly;notspatial/physicaltransient/time/contactqualification;nearzerokernelfloorreportedexplicitly"
+}

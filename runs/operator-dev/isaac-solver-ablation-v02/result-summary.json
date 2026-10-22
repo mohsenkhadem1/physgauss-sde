@@ -1,0 +1,384 @@
+{
+  "schema": "isaac-pgs-iteration-time-completed-v02",
+  "completed": true,
+  "physics_accuracy_qualified": false,
+  "comparison": {
+    "completed": true,
+    "threshold_m": 2e-05,
+    "comparisons": [
+      {
+        "a": [
+          240,
+          32
+        ],
+        "b": [
+          240,
+          128
+        ],
+        "kind": "iterations_at_fixed_dt",
+        "maximum_material_query_difference_m": 0.014573196313624423,
+        "coordinate_RMS_m": 0.0020292962818725183,
+        "maximum_at_time_s": 0.6,
+        "maximum_at_node": 324,
+        "passed": false
+      },
+      {
+        "a": [
+          480,
+          32
+        ],
+        "b": [
+          480,
+          128
+        ],
+        "kind": "iterations_at_fixed_dt",
+        "maximum_material_query_difference_m": 0.00043653198416224897,
+        "coordinate_RMS_m": 5.840465518882702e-05,
+        "maximum_at_time_s": 0.6,
+        "maximum_at_node": 304,
+        "passed": false
+      },
+      {
+        "a": [
+          240,
+          32
+        ],
+        "b": [
+          480,
+          32
+        ],
+        "kind": "dt_at_fixed_iterations",
+        "maximum_material_query_difference_m": 0.015514256011105641,
+        "coordinate_RMS_m": 0.0022981583926906194,
+        "maximum_at_time_s": 0.6,
+        "maximum_at_node": 324,
+        "passed": false
+      },
+      {
+        "a": [
+          240,
+          128
+        ],
+        "b": [
+          480,
+          128
+        ],
+        "kind": "dt_at_fixed_iterations",
+        "maximum_material_query_difference_m": 0.005367495936179667,
+        "coordinate_RMS_m": 0.0008818865120652047,
+        "maximum_at_time_s": 0.5,
+        "maximum_at_node": 324,
+        "passed": false
+      }
+    ],
+    "all_pairs_pass": false,
+    "no_solver_residual_available": true,
+    "no_continuum_or_constitutive_equivalence_claim": true,
+    "iteration_improvement_not_assumed": true,
+    "old_GPU0_reproduction": [
+      {
+        "hz": 240,
+        "old_gpu0_archive_sha256": "c9aa44c43641900b4b0854b321a1193b8119e9fcee8121767856185690c0f083",
+        "maximum_difference_m": 0.0,
+        "coordinate_RMS_m": 0.0
+      },
+      {
+        "hz": 480,
+        "old_gpu0_archive_sha256": "addc6f2d812592be09fe6e83d1f14f0e307210b05978761c7950cb0ad752119f",
+        "maximum_difference_m": 0.0,
+        "coordinate_RMS_m": 0.0
+      }
+    ]
+  },
+  "cells": [
+    {
+      "id": "gravity_left_hz240_it32",
+      "pid": 2201095,
+      "exit_code": 0,
+      "completed": true,
+      "frames": 19,
+      "steps": 144,
+      "minimum_J": 0.8244876743664062,
+      "maximum_J": 1.1613489900763123,
+      "fixed_drift_m": 0.0,
+      "clock": {
+        "float32_dt_s": 0.004166666883975267,
+        "actual_dt_min_s": 0.004166666883975267,
+        "actual_dt_max_s": 0.004166666883975267,
+        "max_step_error_s": 0.0,
+        "final_actual_time_s": 0.6000000312924385
+      },
+      "native_verification": {
+        "material": {
+          "E_Pa": 300000.0,
+          "nu": 0.3499999940395355
+        },
+        "geometry": {
+          "points_bitwise_float32_match": true,
+          "oriented_tet_multiset_matches": true
+        },
+        "flags": {
+          "enabled_fixed_count": 25,
+          "raw_fourth_unique": [
+            0.0,
+            1.0
+          ],
+          "raw_semantics": "0=enabled target,1=free; not invMass readback"
+        },
+        "gravity_readback_m_s2": [
+          0.0,
+          0.0,
+          -9.8100004196167
+        ],
+        "density_authored_kg_m3": 625.0,
+        "floor": null,
+        "own_compute_records": [
+          "2201095, GPU-c49707f6-24fd-38e4-3973-3543ec644ceb, 2180 MiB"
+        ],
+        "gpu_enumeration": "0, GPU-5b432ce5-a24a-68ba-150f-682265260a9b\n1, GPU-c49707f6-24fd-38e4-3973-3543ec644ceb\n2, GPU-571378aa-c44e-ffb8-b346-1e409f9821f9\n3, GPU-9dbe9939-379d-9560-2028-462a2f8b3ac1\n",
+        "CUDA_VISIBLE_DEVICES": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+        "solver_authored": "PGS",
+        "deform_iterations_authored": 32,
+        "gravity_disabled_authored": false
+      },
+      "own_GPU_identity": {
+        "allowed_physical_GPU1_uuid": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+        "own_compute_records": [
+          "2201095, GPU-c49707f6-24fd-38e4-3973-3543ec644ceb, 2180 MiB"
+        ],
+        "CUDA_VISIBLE_DEVICES": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb"
+      },
+      "Kit_TBB_CPU_threads2_verified": true,
+      "trajectory": {
+        "path": "runs/gaussian-campaign-v01/isaac-solver-ablation-v02/gravity_left_hz240_it32/trajectory.npz",
+        "sha256": "c9aa44c43641900b4b0854b321a1193b8119e9fcee8121767856185690c0f083",
+        "bytes": 140298
+      },
+      "summary": {
+        "path": "runs/gaussian-campaign-v01/isaac-solver-ablation-v02/gravity_left_hz240_it32/summary.json",
+        "sha256": "3674300570afbfeed830154bf6f283ce8ef648544d5fb7fd8751d9e0e30a8e53",
+        "bytes": 2597
+      }
+    },
+    {
+      "id": "gravity_left_hz240_it128",
+      "pid": 2201489,
+      "exit_code": 0,
+      "completed": true,
+      "frames": 19,
+      "steps": 144,
+      "minimum_J": 0.8447683337509883,
+      "maximum_J": 1.151199074035716,
+      "fixed_drift_m": 0.0,
+      "clock": {
+        "float32_dt_s": 0.004166666883975267,
+        "actual_dt_min_s": 0.004166666883975267,
+        "actual_dt_max_s": 0.004166666883975267,
+        "max_step_error_s": 0.0,
+        "final_actual_time_s": 0.6000000312924385
+      },
+      "native_verification": {
+        "material": {
+          "E_Pa": 300000.0,
+          "nu": 0.3499999940395355
+        },
+        "geometry": {
+          "points_bitwise_float32_match": true,
+          "oriented_tet_multiset_matches": true
+        },
+        "flags": {
+          "enabled_fixed_count": 25,
+          "raw_fourth_unique": [
+            0.0,
+            1.0
+          ],
+          "raw_semantics": "0=enabled target,1=free; not invMass readback"
+        },
+        "gravity_readback_m_s2": [
+          0.0,
+          0.0,
+          -9.8100004196167
+        ],
+        "density_authored_kg_m3": 625.0,
+        "floor": null,
+        "own_compute_records": [
+          "2201489, GPU-c49707f6-24fd-38e4-3973-3543ec644ceb, 2180 MiB"
+        ],
+        "gpu_enumeration": "0, GPU-5b432ce5-a24a-68ba-150f-682265260a9b\n1, GPU-c49707f6-24fd-38e4-3973-3543ec644ceb\n2, GPU-571378aa-c44e-ffb8-b346-1e409f9821f9\n3, GPU-9dbe9939-379d-9560-2028-462a2f8b3ac1\n",
+        "CUDA_VISIBLE_DEVICES": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+        "solver_authored": "PGS",
+        "deform_iterations_authored": 128,
+        "gravity_disabled_authored": false
+      },
+      "own_GPU_identity": {
+        "allowed_physical_GPU1_uuid": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+        "own_compute_records": [
+          "2201489, GPU-c49707f6-24fd-38e4-3973-3543ec644ceb, 2180 MiB"
+        ],
+        "CUDA_VISIBLE_DEVICES": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb"
+      },
+      "Kit_TBB_CPU_threads2_verified": true,
+      "trajectory": {
+        "path": "runs/gaussian-campaign-v01/isaac-solver-ablation-v02/gravity_left_hz240_it128/trajectory.npz",
+        "sha256": "6e80a2b7e93c1e5226e378ad270eca9729d75996ddc7540305b25ec27fbda7c5",
+        "bytes": 140231
+      },
+      "summary": {
+        "path": "runs/gaussian-campaign-v01/isaac-solver-ablation-v02/gravity_left_hz240_it128/summary.json",
+        "sha256": "4ea8b54529faffbd6a59c43c256733e34c7e4225a673b249538a145e9b23858e",
+        "bytes": 2599
+      }
+    },
+    {
+      "id": "gravity_left_hz480_it32",
+      "pid": 2201802,
+      "exit_code": 0,
+      "completed": true,
+      "frames": 19,
+      "steps": 288,
+      "minimum_J": 0.8460288271033195,
+      "maximum_J": 1.1571915701609838,
+      "fixed_drift_m": 0.0,
+      "clock": {
+        "float32_dt_s": 0.0020833334419876337,
+        "actual_dt_min_s": 0.0020833334419876337,
+        "actual_dt_max_s": 0.0020833334419876337,
+        "max_step_error_s": 0.0,
+        "final_actual_time_s": 0.6000000312924385
+      },
+      "native_verification": {
+        "material": {
+          "E_Pa": 300000.0,
+          "nu": 0.3499999940395355
+        },
+        "geometry": {
+          "points_bitwise_float32_match": true,
+          "oriented_tet_multiset_matches": true
+        },
+        "flags": {
+          "enabled_fixed_count": 25,
+          "raw_fourth_unique": [
+            0.0,
+            1.0
+          ],
+          "raw_semantics": "0=enabled target,1=free; not invMass readback"
+        },
+        "gravity_readback_m_s2": [
+          0.0,
+          0.0,
+          -9.8100004196167
+        ],
+        "density_authored_kg_m3": 625.0,
+        "floor": null,
+        "own_compute_records": [
+          "2201802, GPU-c49707f6-24fd-38e4-3973-3543ec644ceb, 2180 MiB"
+        ],
+        "gpu_enumeration": "0, GPU-5b432ce5-a24a-68ba-150f-682265260a9b\n1, GPU-c49707f6-24fd-38e4-3973-3543ec644ceb\n2, GPU-571378aa-c44e-ffb8-b346-1e409f9821f9\n3, GPU-9dbe9939-379d-9560-2028-462a2f8b3ac1\n",
+        "CUDA_VISIBLE_DEVICES": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+        "solver_authored": "PGS",
+        "deform_iterations_authored": 32,
+        "gravity_disabled_authored": false
+      },
+      "own_GPU_identity": {
+        "allowed_physical_GPU1_uuid": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+        "own_compute_records": [
+          "2201802, GPU-c49707f6-24fd-38e4-3973-3543ec644ceb, 2180 MiB"
+        ],
+        "CUDA_VISIBLE_DEVICES": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb"
+      },
+      "Kit_TBB_CPU_threads2_verified": true,
+      "trajectory": {
+        "path": "runs/gaussian-campaign-v01/isaac-solver-ablation-v02/gravity_left_hz480_it32/trajectory.npz",
+        "sha256": "addc6f2d812592be09fe6e83d1f14f0e307210b05978761c7950cb0ad752119f",
+        "bytes": 149440
+      },
+      "summary": {
+        "path": "runs/gaussian-campaign-v01/isaac-solver-ablation-v02/gravity_left_hz480_it32/summary.json",
+        "sha256": "95ad66b3d4851c8b8bf9b8b852ba16a36a548b1e0fc24e2de2163837ecae087b",
+        "bytes": 2599
+      }
+    },
+    {
+      "id": "gravity_left_hz480_it128",
+      "pid": 2202127,
+      "exit_code": 0,
+      "completed": true,
+      "frames": 19,
+      "steps": 288,
+      "minimum_J": 0.845563532513371,
+      "maximum_J": 1.1571462147958687,
+      "fixed_drift_m": 0.0,
+      "clock": {
+        "float32_dt_s": 0.0020833334419876337,
+        "actual_dt_min_s": 0.0020833334419876337,
+        "actual_dt_max_s": 0.0020833334419876337,
+        "max_step_error_s": 0.0,
+        "final_actual_time_s": 0.6000000312924385
+      },
+      "native_verification": {
+        "material": {
+          "E_Pa": 300000.0,
+          "nu": 0.3499999940395355
+        },
+        "geometry": {
+          "points_bitwise_float32_match": true,
+          "oriented_tet_multiset_matches": true
+        },
+        "flags": {
+          "enabled_fixed_count": 25,
+          "raw_fourth_unique": [
+            0.0,
+            1.0
+          ],
+          "raw_semantics": "0=enabled target,1=free; not invMass readback"
+        },
+        "gravity_readback_m_s2": [
+          0.0,
+          0.0,
+          -9.8100004196167
+        ],
+        "density_authored_kg_m3": 625.0,
+        "floor": null,
+        "own_compute_records": [
+          "2202127, GPU-c49707f6-24fd-38e4-3973-3543ec644ceb, 2180 MiB"
+        ],
+        "gpu_enumeration": "0, GPU-5b432ce5-a24a-68ba-150f-682265260a9b\n1, GPU-c49707f6-24fd-38e4-3973-3543ec644ceb\n2, GPU-571378aa-c44e-ffb8-b346-1e409f9821f9\n3, GPU-9dbe9939-379d-9560-2028-462a2f8b3ac1\n",
+        "CUDA_VISIBLE_DEVICES": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+        "solver_authored": "PGS",
+        "deform_iterations_authored": 128,
+        "gravity_disabled_authored": false
+      },
+      "own_GPU_identity": {
+        "allowed_physical_GPU1_uuid": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+        "own_compute_records": [
+          "2202127, GPU-c49707f6-24fd-38e4-3973-3543ec644ceb, 2180 MiB"
+        ],
+        "CUDA_VISIBLE_DEVICES": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb"
+      },
+      "Kit_TBB_CPU_threads2_verified": true,
+      "trajectory": {
+        "path": "runs/gaussian-campaign-v01/isaac-solver-ablation-v02/gravity_left_hz480_it128/trajectory.npz",
+        "sha256": "c1abb112c1146c87f513a35c2f4dfa553a3ad4bd0ff39e1e0da01737a457b004",
+        "bytes": 149301
+      },
+      "summary": {
+        "path": "runs/gaussian-campaign-v01/isaac-solver-ablation-v02/gravity_left_hz480_it128/summary.json",
+        "sha256": "18828c0d35b9968c75cb9304ff7ed11249d5573ed495ad571c1464e43bb3ebbf",
+        "bytes": 2603
+      }
+    }
+  ],
+  "elapsed_s": 73.53129955520853,
+  "protocol": {
+    "path": "runs/operator-dev/isaac-solver-ablation-v02/protocol.json",
+    "sha256": "1734d6e42692ea81318ba102cb9cbf935db3934fb394f020d68b6b7b054b77ac",
+    "bytes": 4043
+  },
+  "raw_local": true,
+  "conclusion": "Finiteiterationerror substantially affects oldtimestepcomparison;128reduces temporaldiscrepancy65.4% but all20umchecks stillFAIL. No constitutive/continuum equivalence claim.",
+  "maximum_temporal_error_reduction_fraction": 0.6540281446730396,
+  "all4_fresh": true,
+  "oldGPU0_reproduced_bitexact": true,
+  "no_physics_or_material_retuning": true,
+  "no_extra_jobs": true
+}

@@ -1,0 +1,103 @@
+{
+  "schema": "isaac-pgs-iteration-time-ablation-v01",
+  "status": "FROZEN_BEFORE_GPU_CALLS",
+  "cases": [
+    {
+      "id": "gravity_left_hz240_it32",
+      "kind": "gravity",
+      "boundary": "left",
+      "young_Pa": 300000.0,
+      "duration_s": 0.6,
+      "hz": 240,
+      "iterations": 32
+    },
+    {
+      "id": "gravity_left_hz240_it128",
+      "kind": "gravity",
+      "boundary": "left",
+      "young_Pa": 300000.0,
+      "duration_s": 0.6,
+      "hz": 240,
+      "iterations": 128
+    },
+    {
+      "id": "gravity_left_hz480_it32",
+      "kind": "gravity",
+      "boundary": "left",
+      "young_Pa": 300000.0,
+      "duration_s": 0.6,
+      "hz": 480,
+      "iterations": 32
+    },
+    {
+      "id": "gravity_left_hz480_it128",
+      "kind": "gravity",
+      "boundary": "left",
+      "young_Pa": 300000.0,
+      "duration_s": 0.6,
+      "hz": 480,
+      "iterations": 128
+    }
+  ],
+  "gpu": 1,
+  "CUDA_VISIBLE_DEVICES": "0,1,2,3",
+  "CPU_threads": 2,
+  "wall_cap_s": 300,
+  "app_cap_s": 100,
+  "threshold_m": 2e-05,
+  "source_sha256": {
+    "experiments/isaac_block_gravity_suite.py": "06d94ac0712a7161d0a6a2a087ab8581e0d7bcd1f7a4e7b0b02cf28f3652fd01",
+    "experiments/isaac_block_gravity_worker.py": "a0426e938d809e6a18aacc681f1f68a3f4ad3d03d20bca41a9f58d0bd71692e9",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "tests/test_isaac_block_gravity_suite.py": "30312af7e76ab910806ced4791f61b6e11f58c3cbbfc1d818d542eb912428950",
+    "experiments/isaac_block_gravity_refinement_v02.py": "8ea88c9018f9b8c8af47fa7670d3a919f185efd43814ff729141f40f5a692928",
+    "experiments/isaac_block_gravity_refinement_worker_v02.py": "ebfaeab015ac7260da5b9f98198b2415712d0b6113e4055ad3d288e08a9cb9ad",
+    "tests/test_isaac_block_gravity_refinement_v02.py": "ad766abb01f818b4ef15e4d70ffe386b5415790b53bb9ec45f621a052b97f5fc",
+    "experiments/isaac_solver_ablation.py": "1d6b2153a0aba7e000fa6330803e38137b1a302c0370b95f932bc277baa11a41",
+    "experiments/isaac_solver_ablation_worker.py": "9b5c17d607064b6c9df1759405605c22c16eafc3653bbbe99563780ec68f28fd",
+    "tests/test_isaac_solver_ablation.py": "d06adb5c3c26579dbdd6aae101eb1ecc956404e88b2c36348b07413bce535fcd"
+  },
+  "original_protocol": {
+    "path": "runs/operator-dev/isaac-block-gravity-v01/protocol.json",
+    "sha256": "26eab19141decdedb3098b7348d8a5c489cc4ec2ba0f92927760a65b3f268f67"
+  },
+  "old_stage": {
+    "path": "runs/operator-dev/isaac-block-gravity-refinement-v02/protocol.json",
+    "sha256": "d370b9c46098084cb05de9cabea8bf86a014995bccebe4a1fbe12c98bea7d6d6"
+  },
+  "output": "runs/gaussian-campaign-v01/isaac-solver-ablation-v01",
+  "same_physics": {
+    "size_m": [
+      0.24,
+      0.08,
+      0.08
+    ],
+    "cells": [
+      12,
+      4,
+      4
+    ],
+    "rho_kg_m3": 625.0,
+    "E_Pa": 300000.0,
+    "poisson": 0.35,
+    "gravity_m_s2": [
+      0,
+      0,
+      -9.81
+    ],
+    "boundary": "Exactfixedleftface",
+    "solver": "PGS",
+    "linear_damping": 0,
+    "elasticity_damping": 0,
+    "settling_damping": 0,
+    "sleep_and_settling_thresholds": 0,
+    "self_collision": false,
+    "no_floor_no_handles_no_force_callbacks": true,
+    "external_forces_every_iteration": false
+  },
+  "native_verification": "Preserve C36 rest/tet/E/nu/flags/gravity/clock/initialstate/Jpositive/fixeddrift guards; OWN PID solelyphysicalGPU1",
+  "interpretation": "Iteration32to128 and240to480 at fixedphysics. Any improvement diagnostic only;128 not automatically converged.",
+  "old_GPU0_32_reproduction": "Compare atmatchingHz separately, not reused asGPU1control",
+  "all_four_fresh": true,
+  "no_retries_or_extra_cells": true
+}

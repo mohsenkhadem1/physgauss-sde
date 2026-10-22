@@ -1,0 +1,64 @@
+{
+  "completed": false,
+  "passed": false,
+  "protocol": {
+    "path": "runs/operator-dev/newton-vbd-probe-v01/protocol.json",
+    "sha256": "a60173c2386b23ba7901005972e738a0ec7627398a56afd43d5c7104c0bb6e36"
+  },
+  "pid": 2199972,
+  "qualification": "PRELIMINARY API/constitutivecontrol; no convergenceclaim",
+  "runtime": {
+    "versions": {
+      "newton": "1.7.0",
+      "warp-lang": "1.18.0",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1"
+    },
+    "device": "cuda:0",
+    "device_name": "NVIDIA GeForce RTX 2080 Ti",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "external_source_sha256": {
+      "newton/_src/solvers/vbd/particle_vbd_kernels.py": "79a5075c62d53b2888858c3380bdae4a1b4f5c9a284a09206c88e37918c1241e",
+      "newton/_src/solvers/vbd/solver_vbd.py": "52d9de6f8cc662a95b4c55eaa657c3eedf5f6a6da699109dd9c2de36e36b932f",
+      "newton/_src/sim/builder.py": "baa975f5c90a3fb1e906829c5a7748649729d842e88f2ae7015b2f15c6c03f60"
+    }
+  },
+  "kernel_parity": [
+    {
+      "case": "rest",
+      "force_max_error_N": 2.9543301104535185e-07,
+      "H_max_error_N_m": 1.0203922698792667e-05,
+      "force_tolerance_N": 2.000000000000017e-06,
+      "H_tolerance_N_m": 0.010073662551440333,
+      "passed": true
+    },
+    {
+      "case": "finiteaffinediagonal",
+      "force_max_error_N": 2.2064209471636675e-07,
+      "H_max_error_N_m": 1.8134223054744325e-05,
+      "force_tolerance_N": 9.800911805555653e-06,
+      "H_tolerance_N_m": 0.010228096759259262,
+      "passed": true
+    },
+    {
+      "case": "finiteshear",
+      "force_max_error_N": 3.96398482711835e-07,
+      "H_max_error_N_m": 1.3469177986280556e-05,
+      "force_tolerance_N": 7.401234567901265e-06,
+      "H_tolerance_N_m": 0.010076234889403296,
+      "passed": true
+    },
+    {
+      "case": "properrotation",
+      "force_max_error_N": 2.101839748735772e-06,
+      "H_max_error_N_m": 2.304516696938208e-05,
+      "force_tolerance_N": 2.0000000000003087e-06,
+      "H_tolerance_N_m": 0.013763765899688906,
+      "passed": false
+    }
+  ],
+  "error_type": "RuntimeError",
+  "error": "InstalledVBDkernelparityfailed",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/bayespc2/vscode/guassianSDE/experiments/campaign_newton_vbd_probe.py\", line 86, in run\n    if not all(r['passed'] for r in rows):raise RuntimeError('InstalledVBDkernelparityfailed')\n                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: InstalledVBDkernelparityfailed\n",
+  "elapsed_s": 3.6385031938552856
+}

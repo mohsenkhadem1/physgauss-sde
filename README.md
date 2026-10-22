@@ -1,6 +1,16 @@
 # PhysGauss-SDE
 
-**Latest physics campaign: [block supports, gravity and dropping](docs/GAUSSIAN_BLOCK_GRAVITY_CAMPAIGN.md).**
+**Latest solver repair: [checked Newton static and motion controls](docs/GAUSSIAN_NEWTON_SOLVER_REPAIR.md).**
+A corrected initial iterate and mixed-precision BDF2 momentum update preserve
+material, mass and force while improving numerical accuracy. Static GPU/CPU
+query differences are 2.57 µm or smaller; four short-motion comparisons are
+within 0.49 µm. The independent fixed-mesh time-refinement difference reaches
+1.82 µm. This validates one known-material, known-clamp discrete setup;
+spatial convergence, new boundary/load cases and contact remain unresolved.
+Isaac's finer iteration check passes, but its tested gravity timestep error
+remains 0.993 mm, so those captures remain development demonstrations.
+
+**Support, gravity and dropping campaign: [block supports, gravity and dropping](docs/GAUSSIAN_BLOCK_GRAVITY_CAMPAIGN.md).**
 Eight Isaac scenarios now include five fixed-support layouts, free fall and two
 impact stiffnesses, with true-scale orbit videos and rigid-motion removal.
 Native timestep differences remain millimetres and impacts penetrate the floor

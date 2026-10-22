@@ -1,0 +1,79 @@
+{
+  "schema": "checked-fixed-mesh-forward-configuration-v0.1",
+  "status": "CHECKED_FOR_DECLARED_CONTROLLED_CASE_ONLY",
+  "runtime": "newton1.7.0/warp1.18.0",
+  "method": "BDF2;oneBEstartup;VBDaccepted-start;literalGPUforce/float64hostmomentum",
+  "physics_hz": 3840,
+  "VBD_iterations": 128,
+  "duration_s": 0.1,
+  "size_m": [
+    0.24,
+    0.08,
+    0.08
+  ],
+  "cells": [
+    4,
+    2,
+    2
+  ],
+  "E_Pa": 5000,
+  "nu": 0.35,
+  "density_kg_m3": 625,
+  "physical_mass_kg": 0.96,
+  "gravity_m_s2": [
+    0,
+    0,
+    0
+  ],
+  "physical_damping": 0,
+  "force": "1Nreference-right-facesteptraction",
+  "boundary": "exactfullleftfaceclamp",
+  "contact": false,
+  "qualified_dimensions": [
+    "same-meshstaticoriginalequilibrium",
+    "fixed-meshshortphysical-timefieldcomparison",
+    "CPUtemporalrefinement"
+  ],
+  "unqualified": [
+    "spatialcontinuumconvergence",
+    "newmaterials/loads/supports",
+    "contact/drop",
+    "parametercalibration",
+    "activeprobing"
+  ],
+  "GPU_protocol": {
+    "path": "runs/operator-dev/newton-vbd-transient-v02/protocol.json",
+    "sha256": "d3ac61a35bb94e3d7d5f07b1a9a88b9ddf8846edec375784c1792d5b3813aa77"
+  },
+  "selected_local_capture": {
+    "path": "runs/gaussian-campaign-v01/newton-vbd-transient-v02/BDF2-hz3840-it128.npz",
+    "sha256": "29b0e7a1432372a55faf0e52172ff94f9e84ee07833ae9efd42706a5884c891f"
+  },
+  "CPU_refinement_reference": {
+    "path": "runs/gaussian-campaign-v01/stable-transient-relative-v03/BDF2-hz7680.npz",
+    "sha256": "d1ed79b888af35ce1454ad10978f9f0c3381b413eae4ccc3e206f55a579a6bde"
+  },
+  "posthoc_diagnostics": {
+    "formula": "max(norm(query_positions_A-query_positions_B,axis=2));common240Hzsavedqueries",
+    "GPU_capture_records": [
+      {
+        "path": "runs/gaussian-campaign-v01/newton-vbd-transient-v02/BDF2-hz1920-it128.npz",
+        "sha256": "f0d2ce000a6a3a9bb59853947757f4c59380a247820e99c5833a4272216b5369"
+      },
+      {
+        "path": "runs/gaussian-campaign-v01/newton-vbd-transient-v02/BDF2-hz3840-it128.npz",
+        "sha256": "29b0e7a1432372a55faf0e52172ff94f9e84ee07833ae9efd42706a5884c891f"
+      },
+      {
+        "path": "runs/gaussian-campaign-v01/newton-vbd-transient-v02/BDF2-hz7680-it128.npz",
+        "sha256": "3cc2baf05131f762e2f3ca82f411f1eaf298dc2b556045934c375bf96a926244"
+      }
+    ],
+    "temporal_differences_m": [
+      7.286199290623128e-06,
+      2.1201091517384705e-06
+    ],
+    "GPU3840_vs_CPU7680_query_difference_m": 1.7659027775483112e-06,
+    "not_a_continuum_error_bound": true
+  }
+}

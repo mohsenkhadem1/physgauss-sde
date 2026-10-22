@@ -1,0 +1,115 @@
+{
+  "schema": "Newton-physical-time-BDF2-momentum-protocol-v0.2",
+  "status": "FROZEN_BEFORE_GPU_TRAJECTORIES",
+  "source_sha256": {
+    "experiments/campaign_newton_vbd_transient_v02.py": "9cf90eae34dcf4c2107bcfa359cb6ed5f6c12531cfd5dd6b7a4eff4ad0e0ea61",
+    "experiments/run_newton_vbd_transient_v02.py": "6709e9fb0ec32a738e99b678e813b53942f8823df7bacd721b99c7b3df4290b8",
+    "tests/test_campaign_newton_vbd_transient_v02.py": "175263e69da1efd26750c0b91abc291285bf2147cb9d7b221ae5d6f898d1fca2",
+    "experiments/campaign_newton_static_initialization.py": "163006ad93c46253aa35632b8bc2c1c61ff879dc5d716eb4319385c98ecd32f6",
+    "experiments/campaign_newton_vbd_static_kernels.py": "1b79196077593ec42fdc28d150f2af541d4fb978687a0f14ad046f2abcc2e068",
+    "experiments/campaign_newton_vbd_static_v02.py": "5e7d990f69ae7fcc090891c8f933aeac9669fb9aa7b57abb0616d79a3b3dafa4",
+    "experiments/campaign_newton_vbd_probe_v02.py": "4807d36de6dba2023cad04dab478246c8a4a6295b5481ff490a001bac7417fe9",
+    "experiments/campaign_newton_vbd_kernels.py": "1d4160f45169f4557549201c0e6c38625e9e7cd7b39bd00568c717b254d9a7bd",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_newton_vbd_momentum.py": "812d90f58d4634f90d3388d7d0b80b160cf57e829c143268a9d887c3e0c52456",
+    "tests/test_campaign_newton_vbd_momentum.py": "90d95fcff20cd94ae5eab2d7d3f1296eb54d101083329713a7f7f380343ad0a4"
+  },
+  "external_source_sha256": {
+    "newton/_src/solvers/vbd/particle_vbd_kernels.py": "79a5075c62d53b2888858c3380bdae4a1b4f5c9a284a09206c88e37918c1241e",
+    "newton/_src/solvers/vbd/solver_vbd.py": "52d9de6f8cc662a95b4c55eaa657c3eedf5f6a6da699109dd9c2de36e36b932f",
+    "newton/_src/sim/builder.py": "baa975f5c90a3fb1e906829c5a7748649729d842e88f2ae7015b2f15c6c03f60"
+  },
+  "CPU_reference_sha256": {
+    "runs/gaussian-campaign-v01/stable-transient-v01/BDF2-hz1920.npz": "6721f30d8b77b729687e7ff807dfb31d65d105b77d7e46ca8b76bccf6fcab59a",
+    "runs/gaussian-campaign-v01/stable-transient-v01/BDF2-hz1920.json": "5ab66ae3863f3daac5d98d2b8be85bc705750bc229a8f547d96fd4999d657dfc",
+    "runs/gaussian-campaign-v01/stable-transient-relative-v03/BDF2-hz3840.npz": "1910b0770082e40d278aabdcae45e08e37774aeec95f7f5997a62785e965edc1",
+    "runs/gaussian-campaign-v01/stable-transient-relative-v03/BDF2-hz3840.json": "2d02e7eee64ecbf95883af119a6a359fb079f4969717fae810515977fc20edd0",
+    "runs/gaussian-campaign-v01/stable-transient-relative-v03/BDF2-hz7680.npz": "d1ed79b888af35ce1454ad10978f9f0c3381b413eae4ccc3e206f55a579a6bde",
+    "runs/gaussian-campaign-v01/stable-transient-relative-v03/BDF2-hz7680.json": "af505e7a895ffe9f670a5a9f0ccb26930b4f38a583f4786b43a944c8762d7646"
+  },
+  "CPU_protocol_sha256": {
+    "runs/operator-dev/stable-transient-v01/protocol.json": "1d60ae24722c1cf7ca7c8e3b17a740ff097dac304f848ce67459e525e344a979",
+    "runs/operator-dev/stable-transient-relative-v03/protocol.json": "422b49d083e9019e3501eb3dc3e96d6657a1aa11b5588027892f4920e57db52f"
+  },
+  "previous_GPU_result": {
+    "path": "runs/gaussian-campaign-v01/newton-vbd-transient-v01/summary.json",
+    "sha256": "08595d6fed348c9f3a09f8d4c536e27b63a015387cefc6e171a66194158bc81a"
+  },
+  "controls": {
+    "path": "runs/gaussian-campaign-v01/newton-vbd-static-v01/controls/summary.json",
+    "sha256": "30131f164a2c1ed3ab488893a4a3fc55d7cdd5343cee2b8fbcdcad483f5f4381"
+  },
+  "CPU_threads": 2,
+  "GPU": 0,
+  "wall_cap_s": 600,
+  "jobs": [
+    {
+      "method": "BDF2",
+      "hz": 1920,
+      "iterations": 128
+    },
+    {
+      "method": "BDF2",
+      "hz": 3840,
+      "iterations": 128
+    },
+    {
+      "method": "BDF2",
+      "hz": 7680,
+      "iterations": 128
+    },
+    {
+      "method": "BDF2",
+      "hz": 3840,
+      "iterations": 512
+    }
+  ],
+  "duration_s": 0.1,
+  "physics": {
+    "size_m": [
+      0.24,
+      0.08,
+      0.08
+    ],
+    "cells": [
+      4,
+      2,
+      2
+    ],
+    "tetrahedra": 96,
+    "young_Pa": 5000.0,
+    "poisson": 0.35,
+    "density": 625.0,
+    "traction_N": 1.0,
+    "gravity": 0.0,
+    "physical_damping": 0.0,
+    "fixed": "exact fullleftface",
+    "contacts": false
+  },
+  "BDF2": {
+    "startup": "one BE step",
+    "effective_dt": "2h/3",
+    "helper_velocity": "(qn-qprev)/(2h)+(4vn-vprev)/3",
+    "physical_velocity": "Momentum:(4vn-vprev)/3+heff*(literalGPUinternal+actualF)/nativeMass;startupv=vold+h*force/nativeMass;fixedv0",
+    "chord_velocity_saved_separately": "(3*(qnew-qn)-(qn-qprev))/(2h)",
+    "native_q_not_projected": true,
+    "momentum_residual_is_by_construction_NOT_independent_proof": true,
+    "objective": "Sameelastic+M/(2heff\u00b2)||q-y||\u00b2-F.q; y=qn+heff*helperv"
+  },
+  "gates": {
+    "maximum_allnode_CPU_position_error_m": 2e-05,
+    "maximum_fixedquery_CPU_position_error_m": 2e-05,
+    "maximum_128_to_512_iteration_position_difference_m": 2e-05,
+    "minimum_J": 0.1,
+    "fixed_drift_m": 0.0,
+    "maximum_perstep_kinematic_defect_m": 1e-07
+  },
+  "nonclaims": [
+    "NativepositionsareNEVERoverwrittenbyvelocityintegration;qkinisdiagnosticonly",
+    "MomentumRbyconstructionisnotindependentproof;kinematicdefectandCPUcomparisonsareprimary",
+    "96tet discrete model only; no continuum qualification",
+    "No contact/rate-dependent damping support",
+    "GPU force residual and velocity discrepancy are diagnostics, not separately qualified",
+    "CPU temporal criterion and GPU approximation criterion are separate; no combined20um bound"
+  ]
+}

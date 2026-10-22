@@ -1,0 +1,72 @@
+{
+  "completed": false,
+  "passed": false,
+  "protocol": {
+    "path": "runs/operator-dev/newton-vbd-probe-v02/protocol.json",
+    "sha256": "dabd0411af249b90a397c474b5b95a7cb189477867c52fd1e8b04cd48d0f60df"
+  },
+  "pid": 2202483,
+  "qualification": "PRELIMINARY API/constitutivecontrol; no convergenceclaim",
+  "runtime": {
+    "versions": {
+      "newton": "1.7.0",
+      "warp-lang": "1.18.0",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1"
+    },
+    "device": "cuda:0",
+    "device_name": "NVIDIA GeForce RTX 2080 Ti",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "external_source_sha256": {
+      "newton/_src/solvers/vbd/particle_vbd_kernels.py": "79a5075c62d53b2888858c3380bdae4a1b4f5c9a284a09206c88e37918c1241e",
+      "newton/_src/solvers/vbd/solver_vbd.py": "52d9de6f8cc662a95b4c55eaa657c3eedf5f6a6da699109dd9c2de36e36b932f",
+      "newton/_src/sim/builder.py": "baa975f5c90a3fb1e906829c5a7748649729d842e88f2ae7015b2f15c6c03f60"
+    }
+  },
+  "kernel_parity": [
+    {
+      "case": "rest",
+      "ideal_authored_force_max_error_N": 2.9543301104535185e-07,
+      "quantized_vs_ideal_reference_force_max_difference_N": 4.1392117240632303e-07,
+      "force_max_error_N": 3.024531248267216e-07,
+      "H_max_error_N_m": 5.1149126250038535e-06,
+      "force_tolerance_N": 2.0000206960586033e-06,
+      "H_tolerance_N_m": 0.010073662822884301,
+      "passed": true
+    },
+    {
+      "case": "finiteaffinediagonal",
+      "ideal_authored_force_max_error_N": 2.2064209471636675e-07,
+      "quantized_vs_ideal_reference_force_max_difference_N": 2.556824888477749e-07,
+      "force_max_error_N": 3.944447272696827e-07,
+      "H_max_error_N_m": 1.8072173801897407e-05,
+      "force_tolerance_N": 9.800899021431211e-06,
+      "H_tolerance_N_m": 0.010228096579059296,
+      "passed": true
+    },
+    {
+      "case": "finiteshear",
+      "ideal_authored_force_max_error_N": 3.96398482711835e-07,
+      "quantized_vs_ideal_reference_force_max_difference_N": 4.667027914059818e-07,
+      "force_max_error_N": 3.174563036056899e-07,
+      "H_max_error_N_m": 8.284177056339104e-06,
+      "force_tolerance_N": 7.401254601757275e-06,
+      "H_tolerance_N_m": 0.010076235161027545,
+      "passed": true
+    },
+    {
+      "case": "properrotation",
+      "ideal_authored_force_max_error_N": 2.101839748735772e-06,
+      "quantized_vs_ideal_reference_force_max_difference_N": 6.044065992227838e-07,
+      "force_max_error_N": 2.301128164011364e-06,
+      "H_max_error_N_m": 2.202191956257593e-05,
+      "force_tolerance_N": 2.000030220329781e-06,
+      "H_tolerance_N_m": 0.013763765770736519,
+      "passed": false
+    }
+  ],
+  "error_type": "RuntimeError",
+  "error": "InstalledVBDkernelparityfailed",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/bayespc2/vscode/guassianSDE/experiments/campaign_newton_vbd_probe_v02.py\", line 97, in run\n    if not all(r['passed'] for r in rows):raise RuntimeError('InstalledVBDkernelparityfailed')\n                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: InstalledVBDkernelparityfailed\n",
+  "elapsed_s": 2.96473980974406
+}

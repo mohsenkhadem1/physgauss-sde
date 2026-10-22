@@ -1,0 +1,92 @@
+{
+  "schema": "newton-VBD-preliminary-probe-v0.2",
+  "status": "FROZEN_BEFORE_GPU_CALLS",
+  "CPU_threads": 2,
+  "GPU": 0,
+  "CUDA_VISIBLE_DEVICES": "0",
+  "hard_cap_s": 600,
+  "source_sha256": {
+    "experiments/campaign_newton_vbd_probe_v02.py": "4807d36de6dba2023cad04dab478246c8a4a6295b5481ff490a001bac7417fe9",
+    "experiments/campaign_newton_vbd_kernels.py": "1d4160f45169f4557549201c0e6c38625e9e7cd7b39bd00568c717b254d9a7bd",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "tests/test_campaign_newton_vbd_probe_v02.py": "22e50d773bf4cbf18424d19f730ad4270091f8d3dcb10f5332e53b16a5f699bb"
+  },
+  "external_source_sha256": {
+    "newton/_src/solvers/vbd/particle_vbd_kernels.py": "79a5075c62d53b2888858c3380bdae4a1b4f5c9a284a09206c88e37918c1241e",
+    "newton/_src/solvers/vbd/solver_vbd.py": "52d9de6f8cc662a95b4c55eaa657c3eedf5f6a6da699109dd9c2de36e36b932f",
+    "newton/_src/sim/builder.py": "baa975f5c90a3fb1e906829c5a7748649729d842e88f2ae7015b2f15c6c03f60"
+  },
+  "requested_versions": {
+    "newton": "1.7.0",
+    "warp": "1.18.0"
+  },
+  "materials": {
+    "E_Pa": 5000.0,
+    "nu": 0.35,
+    "rho_kg_m3": 625.0,
+    "damping": 0.0,
+    "builder_mu_lambda": "StandardLame;kernelinternallykappa=lambda+mu"
+  },
+  "parity_reference": "Actualreadbackfloat32q,poses,andLam\u00e9values evaluatedindependentfloat64;idealrotationreportedseparately",
+  "preserved_v01_failure": {
+    "path": "runs/gaussian-campaign-v01/newton-vbd-probe-v01/summary.json",
+    "sha256": "e34f4ae4ba89f1782e57d162e7f7ef545facc2c47aa80e00ac23a091084e2dd3"
+  },
+  "kernel_cases": [
+    "rest",
+    "finiteaffinediagonal",
+    "finiteshear",
+    "properrotation"
+  ],
+  "kernel_force_absolute_tolerance_N": 2e-06,
+  "kernel_H_absolute_tolerance_N_m": 0.0003,
+  "kernel_relative_tolerance": 5e-05,
+  "model": {
+    "size_m": [
+      0.24,
+      0.08,
+      0.08
+    ],
+    "cells": [
+      4,
+      2,
+      2
+    ],
+    "tet_count": 96,
+    "particle_mass": "ExactreferenceP1tetvolumelumping;positiveevenatfixednodes",
+    "fixed": "clearACTIVEflagretainsphysicalmass",
+    "surface_skin_stiffness": 0.0,
+    "particle_radius": 0.0
+  },
+  "tests": {
+    "freefall": {
+      "steps": 12,
+      "hz": 240,
+      "iterations": 16,
+      "gravity_m_s2": [
+        0,
+        0,
+        -9.81
+      ],
+      "maximum_velocity_error_m_s": 0.0002,
+      "maximum_translation_nonuniformity_m": 2e-05
+    },
+    "fixed_one_step": {
+      "steps": 1,
+      "hz": 240,
+      "iterations": 16,
+      "gravity_m_s2": [
+        0,
+        0,
+        0
+      ],
+      "right_reference_traction_total_N": 1.0,
+      "implicit_residual": "Measureonly;noiteration/time/spatialqualificationfromthissmoke"
+    }
+  },
+  "qualifications": [
+    "StableSmithNeoHookeanlawNOTCPUlogJlaw;smallstrainE/numatchonly.",
+    "InstalledkernelpervertexHcomparisonisnotafullglobalHapproximation.",
+    "PreliminaryAPI/force/constitutivecontrolonly,noconvergence/contact/staticqualification."
+  ]
+}

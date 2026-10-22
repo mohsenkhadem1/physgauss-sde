@@ -1,0 +1,789 @@
+{
+  "schema": "Newton-stable-law-CPU-alignment-v0.1",
+  "status": "FROZEN_BEFORE_MATCHED_BLOCK_SOLVES",
+  "CPU_threads": 2,
+  "wall_cap_s": 600,
+  "jobs": [
+    {
+      "basis": "P1",
+      "cells": [
+        4,
+        2,
+        2
+      ],
+      "order": null
+    },
+    {
+      "basis": "P1",
+      "cells": [
+        8,
+        4,
+        4
+      ],
+      "order": null
+    },
+    {
+      "basis": "P1",
+      "cells": [
+        16,
+        8,
+        8
+      ],
+      "order": null
+    },
+    {
+      "basis": "P2",
+      "cells": [
+        8,
+        4,
+        4
+      ],
+      "order": 3
+    },
+    {
+      "basis": "P2",
+      "cells": [
+        16,
+        8,
+        8
+      ],
+      "order": 3
+    },
+    {
+      "basis": "P2",
+      "cells": [
+        16,
+        8,
+        8
+      ],
+      "order": 4
+    }
+  ],
+  "physics": {
+    "size_m": [
+      0.24,
+      0.08,
+      0.08
+    ],
+    "young_Pa": 5000.0,
+    "poisson": 0.35,
+    "density": 625.0,
+    "traction_N": 1.0,
+    "gravity": 0.0,
+    "boundary": "exactleftfaceall3axes",
+    "initial": "RESTforeverysolve",
+    "damping": 0.0,
+    "force_tolerance_N": 1e-11
+  },
+  "constitutive": {
+    "authored_mu": "E/(2*(1+nu))",
+    "authored_lambda": "E*nu/((1+nu)*(1-2nu))",
+    "kappa": "lambda+mu",
+    "W": "mu/2*(||F||\u00b2-3)-mu*(J-1)+kappa/2*(J-1)\u00b2",
+    "P": "mu*F+(kappa*(J-1)-mu)*cof(F)",
+    "H": "FullmuI+kappacofouter+s*d\u00b2J;selfP1vertexlasttermcancels",
+    "positive_J_branch_guard": 0.1,
+    "native_stable_law_permits_inversion": "Referenceguarddoesnotclaimnativebarrier"
+  },
+  "query_groups": {
+    "volume": [
+      [
+        0.03,
+        -0.02,
+        -0.02
+      ],
+      [
+        0.03,
+        -0.02,
+        0.0
+      ],
+      [
+        0.03,
+        -0.02,
+        0.02
+      ],
+      [
+        0.03,
+        0.0,
+        -0.02
+      ],
+      [
+        0.03,
+        0.0,
+        0.0
+      ],
+      [
+        0.03,
+        0.0,
+        0.02
+      ],
+      [
+        0.03,
+        0.02,
+        -0.02
+      ],
+      [
+        0.03,
+        0.02,
+        0.0
+      ],
+      [
+        0.03,
+        0.02,
+        0.02
+      ],
+      [
+        0.09,
+        -0.02,
+        -0.02
+      ],
+      [
+        0.09,
+        -0.02,
+        0.0
+      ],
+      [
+        0.09,
+        -0.02,
+        0.02
+      ],
+      [
+        0.09,
+        0.0,
+        -0.02
+      ],
+      [
+        0.09,
+        0.0,
+        0.0
+      ],
+      [
+        0.09,
+        0.0,
+        0.02
+      ],
+      [
+        0.09,
+        0.02,
+        -0.02
+      ],
+      [
+        0.09,
+        0.02,
+        0.0
+      ],
+      [
+        0.09,
+        0.02,
+        0.02
+      ],
+      [
+        0.15,
+        -0.02,
+        -0.02
+      ],
+      [
+        0.15,
+        -0.02,
+        0.0
+      ],
+      [
+        0.15,
+        -0.02,
+        0.02
+      ],
+      [
+        0.15,
+        0.0,
+        -0.02
+      ],
+      [
+        0.15,
+        0.0,
+        0.0
+      ],
+      [
+        0.15,
+        0.0,
+        0.02
+      ],
+      [
+        0.15,
+        0.02,
+        -0.02
+      ],
+      [
+        0.15,
+        0.02,
+        0.0
+      ],
+      [
+        0.15,
+        0.02,
+        0.02
+      ],
+      [
+        0.21,
+        -0.02,
+        -0.02
+      ],
+      [
+        0.21,
+        -0.02,
+        0.0
+      ],
+      [
+        0.21,
+        -0.02,
+        0.02
+      ],
+      [
+        0.21,
+        0.0,
+        -0.02
+      ],
+      [
+        0.21,
+        0.0,
+        0.0
+      ],
+      [
+        0.21,
+        0.0,
+        0.02
+      ],
+      [
+        0.21,
+        0.02,
+        -0.02
+      ],
+      [
+        0.21,
+        0.02,
+        0.0
+      ],
+      [
+        0.21,
+        0.02,
+        0.02
+      ]
+    ],
+    "surface_face_interior": [
+      [
+        0.0,
+        -0.02,
+        -0.02
+      ],
+      [
+        0.0,
+        -0.02,
+        0.0
+      ],
+      [
+        0.0,
+        -0.02,
+        0.02
+      ],
+      [
+        0.0,
+        0.0,
+        -0.02
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.02
+      ],
+      [
+        0.0,
+        0.02,
+        -0.02
+      ],
+      [
+        0.0,
+        0.02,
+        0.0
+      ],
+      [
+        0.0,
+        0.02,
+        0.02
+      ],
+      [
+        0.24,
+        -0.02,
+        -0.02
+      ],
+      [
+        0.24,
+        -0.02,
+        0.0
+      ],
+      [
+        0.24,
+        -0.02,
+        0.02
+      ],
+      [
+        0.24,
+        0.0,
+        -0.02
+      ],
+      [
+        0.24,
+        0.0,
+        0.0
+      ],
+      [
+        0.24,
+        0.0,
+        0.02
+      ],
+      [
+        0.24,
+        0.02,
+        -0.02
+      ],
+      [
+        0.24,
+        0.02,
+        0.0
+      ],
+      [
+        0.24,
+        0.02,
+        0.02
+      ],
+      [
+        0.03,
+        -0.02,
+        -0.04
+      ],
+      [
+        0.03,
+        0.0,
+        -0.04
+      ],
+      [
+        0.03,
+        0.02,
+        -0.04
+      ],
+      [
+        0.09,
+        -0.02,
+        -0.04
+      ],
+      [
+        0.09,
+        0.0,
+        -0.04
+      ],
+      [
+        0.09,
+        0.02,
+        -0.04
+      ],
+      [
+        0.15,
+        -0.02,
+        -0.04
+      ],
+      [
+        0.15,
+        0.0,
+        -0.04
+      ],
+      [
+        0.15,
+        0.02,
+        -0.04
+      ],
+      [
+        0.21,
+        -0.02,
+        -0.04
+      ],
+      [
+        0.21,
+        0.0,
+        -0.04
+      ],
+      [
+        0.21,
+        0.02,
+        -0.04
+      ],
+      [
+        0.03,
+        -0.02,
+        0.04
+      ],
+      [
+        0.03,
+        0.0,
+        0.04
+      ],
+      [
+        0.03,
+        0.02,
+        0.04
+      ],
+      [
+        0.09,
+        -0.02,
+        0.04
+      ],
+      [
+        0.09,
+        0.0,
+        0.04
+      ],
+      [
+        0.09,
+        0.02,
+        0.04
+      ],
+      [
+        0.15,
+        -0.02,
+        0.04
+      ],
+      [
+        0.15,
+        0.0,
+        0.04
+      ],
+      [
+        0.15,
+        0.02,
+        0.04
+      ],
+      [
+        0.21,
+        -0.02,
+        0.04
+      ],
+      [
+        0.21,
+        0.0,
+        0.04
+      ],
+      [
+        0.21,
+        0.02,
+        0.04
+      ],
+      [
+        0.03,
+        -0.04,
+        -0.02
+      ],
+      [
+        0.03,
+        -0.04,
+        0.0
+      ],
+      [
+        0.03,
+        -0.04,
+        0.02
+      ],
+      [
+        0.09,
+        -0.04,
+        -0.02
+      ],
+      [
+        0.09,
+        -0.04,
+        0.0
+      ],
+      [
+        0.09,
+        -0.04,
+        0.02
+      ],
+      [
+        0.15,
+        -0.04,
+        -0.02
+      ],
+      [
+        0.15,
+        -0.04,
+        0.0
+      ],
+      [
+        0.15,
+        -0.04,
+        0.02
+      ],
+      [
+        0.21,
+        -0.04,
+        -0.02
+      ],
+      [
+        0.21,
+        -0.04,
+        0.0
+      ],
+      [
+        0.21,
+        -0.04,
+        0.02
+      ],
+      [
+        0.03,
+        0.04,
+        -0.02
+      ],
+      [
+        0.03,
+        0.04,
+        0.0
+      ],
+      [
+        0.03,
+        0.04,
+        0.02
+      ],
+      [
+        0.09,
+        0.04,
+        -0.02
+      ],
+      [
+        0.09,
+        0.04,
+        0.0
+      ],
+      [
+        0.09,
+        0.04,
+        0.02
+      ],
+      [
+        0.15,
+        0.04,
+        -0.02
+      ],
+      [
+        0.15,
+        0.04,
+        0.0
+      ],
+      [
+        0.15,
+        0.04,
+        0.02
+      ],
+      [
+        0.21,
+        0.04,
+        -0.02
+      ],
+      [
+        0.21,
+        0.04,
+        0.0
+      ],
+      [
+        0.21,
+        0.04,
+        0.02
+      ]
+    ],
+    "edge_midpoints": [
+      [
+        0.12,
+        -0.04,
+        -0.04
+      ],
+      [
+        0.12,
+        -0.04,
+        0.04
+      ],
+      [
+        0.12,
+        0.04,
+        -0.04
+      ],
+      [
+        0.12,
+        0.04,
+        0.04
+      ],
+      [
+        0.0,
+        0.0,
+        -0.04
+      ],
+      [
+        0.0,
+        0.0,
+        0.04
+      ],
+      [
+        0.24,
+        0.0,
+        -0.04
+      ],
+      [
+        0.24,
+        0.0,
+        0.04
+      ],
+      [
+        0.0,
+        -0.04,
+        0.0
+      ],
+      [
+        0.0,
+        0.04,
+        0.0
+      ],
+      [
+        0.24,
+        -0.04,
+        0.0
+      ],
+      [
+        0.24,
+        0.04,
+        0.0
+      ]
+    ],
+    "corners": [
+      [
+        0.0,
+        -0.04,
+        -0.04
+      ],
+      [
+        0.0,
+        -0.04,
+        0.04
+      ],
+      [
+        0.0,
+        0.04,
+        -0.04
+      ],
+      [
+        0.0,
+        0.04,
+        0.04
+      ],
+      [
+        0.24,
+        -0.04,
+        -0.04
+      ],
+      [
+        0.24,
+        -0.04,
+        0.04
+      ],
+      [
+        0.24,
+        0.04,
+        -0.04
+      ],
+      [
+        0.24,
+        0.04,
+        0.04
+      ]
+    ]
+  },
+  "gates": {
+    "all_fixed_query_max_Euclidean_m": 2e-05,
+    "force_balance_N": 1e-08,
+    "moment_balance_Nm": 1e-08,
+    "constraint_m": 0.0,
+    "excitation": [
+      0.02,
+      0.08,
+      0.001
+    ]
+  },
+  "source_sha256": {
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/run_newton_material_alignment.py": "02acb0c52c704f6b430344a33dea35b012b910666f8e4c104231c0bd9404624d",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/run_static_supported_block.py": "d90511922c32430ce3b2eb10f80d4ecf70686a5ce18644bd7db4234922243359",
+    "experiments/run_static_p2_axial_continuation.py": "c12200e9a70764e637960ee5bd99909627a83309294459aaf845d995cfcbd86c",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "runs/operator-dev/newton-runtime-v01/env/lib/python3.12/site-packages/newton/_src/solvers/vbd/particle_vbd_kernels.py": "79a5075c62d53b2888858c3380bdae4a1b4f5c9a284a09206c88e37918c1241e",
+    "runs/operator-dev/newton-runtime-v01/env/lib/python3.12/site-packages/newton/_src/sim/builder.py": "baa975f5c90a3fb1e906829c5a7748649729d842e88f2ae7015b2f15c6c03f60"
+  },
+  "old_logJ_captures": [
+    {
+      "basis": "P1",
+      "tetrahedra": 96,
+      "order": null,
+      "path": "runs/gaussian-campaign-v01/static-supported-block-v01/left_broad_axial-cells4x2x2.npz",
+      "sha256": "ea7134ef4b16558b1f934dfbeb4027074a8b97cabad8b946fa8ae9078978fb46"
+    },
+    {
+      "basis": "P1",
+      "tetrahedra": 768,
+      "order": null,
+      "path": "runs/gaussian-campaign-v01/static-supported-block-v01/left_broad_axial-cells8x4x4.npz",
+      "sha256": "581a54f34659d38f3b0442d8dc8285dcf5148b632b4f84bd35b8e9a97223cd67"
+    },
+    {
+      "basis": "P1",
+      "tetrahedra": 6144,
+      "order": null,
+      "path": "runs/gaussian-campaign-v01/static-supported-block-v01/left_broad_axial-cells16x8x8.npz",
+      "sha256": "e2e7620a2c87d46305bddfdcf85a6a226c6c2fc04dc1a47c8e9a993a4770bee5"
+    },
+    {
+      "basis": "P2",
+      "tetrahedra": 96,
+      "order": 3,
+      "path": "runs/gaussian-campaign-v01/static-p2-block-v01/left_broad_axial-tets96-order3.npz",
+      "sha256": "4356ab8879d2d6a3713177d89aa586fa81e5312fc829d9e8273c125f1b00fd6d"
+    },
+    {
+      "basis": "P2",
+      "tetrahedra": 768,
+      "order": 3,
+      "path": "runs/gaussian-campaign-v01/static-p2-block-v01/left_broad_axial-tets768-order3.npz",
+      "sha256": "b50c2edf0713ee67f183a00f2810a65b97f7e920b66ebda5498f4af2546b8afb"
+    },
+    {
+      "basis": "P2",
+      "tetrahedra": 6144,
+      "order": 3,
+      "path": "runs/gaussian-campaign-v01/static-p2-block-v01/left_broad_axial-tets6144-order3.npz",
+      "sha256": "e9ef072a9ad35a158ad91b6a43a2ab536936a8465254ba32efb685cbd9ffb860"
+    },
+    {
+      "basis": "P2",
+      "tetrahedra": 6144,
+      "order": 4,
+      "path": "runs/gaussian-campaign-v01/static-p2-block-v01/left_broad_axial-tets6144-order4.npz",
+      "sha256": "3bcd7cc0fe2e50bdd5a4e59f6c93c6b01f50f438fcabf0e1307b0ee7b9230386"
+    }
+  ],
+  "nonclaims": [
+    "EquilibriumCPUreferenceisnottransientVBDstep",
+    "P1samemeshsolvercomparisonNOTcontinuumqualification",
+    "OldC36lawandfailuresunchanged",
+    "NoGPU/nativeaccuracy/speed/inferenceclaim"
+  ]
+}

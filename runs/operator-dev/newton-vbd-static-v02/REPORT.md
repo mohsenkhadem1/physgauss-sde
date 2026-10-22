@@ -1,0 +1,11 @@
+# Standalone Newton VBD static initial-iterate repair
+
+The new standalone Newton1.7.0/Warp1.18.0 GPU0 runtime passes the declared same-discretization static comparison. It uses the same0.24×0.08×0.08m block,96 P1 tetrahedra, E=5000Pa, nu=.35, rho625kg/m³, exactleftface clamp and1Nuniformrightreference traction as the independent stable-Neo-Hookean CPU reference. This law matches small-strain E/nu but differs from the earlier logarithmic-J Neo-Hookean model.
+
+The correction changes the optimizer's initial iterate. StockVBD's one-second pseudo-step predicts up to16.667m external-force motion before coordinate iterations. For static numerical relaxation, the adapter keeps the stock inertial target/objective unchanged, restores the last accepted positions, and clears only the iterate displacement. Actual zero-load and1N runtime checks confirm bitwise unchanged inertial target, acceptedq/collisionreference and zero iterate displacement. The1N predictor's measured minimumJ was about1, so this report does not claim the predictor itself inverted the old failed simulation; that earlier failure did not save its failedq.
+
+All three fresh-from-rest variants passed:32/128/512 inner iterations required30/10/3 outer steps. Maximum error over122 matched CPU material queries was2.566/0.4395/0.01471µm, below20µm. Literal installed-kernel free-force residual was18.55/13.01/16.81µN, below1mN. Fixed nodes remained exact, minimumJ exceeded1.0043, and the final drift/algorithmic-velocity gates passed. The complete three-variant stage took8.67s including startup/compilation; this is not a controlled speed benchmark.
+
+Physical damping stayed zero. The one-second steps and resetting algorithm velocity are STATIC numerical relaxation, not physical time evolution. Positive particle masses are retained even at fixed nodes; no accidental default10cm contact radius is present. Independent free-fall/API controls passed beforehand.
+
+The two preliminary near-zero rotational kernel comparisons still fail their frozen2µN thresholds (2.102/2.301µN), and are explicitly unresolved. The failed original static attempt and all old results remain preserved. These do not constitute dynamic, continuum/spatial, gravity/contact, inverse, or learned-model qualification. Raw NPZ files and Warp caches remain local.

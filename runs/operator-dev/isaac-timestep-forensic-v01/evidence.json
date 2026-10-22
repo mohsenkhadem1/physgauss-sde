@@ -1,0 +1,124 @@
+{
+  "schema": "isaac-timestep-readonly-forensic-v01",
+  "physics_jobs_in_this_forensic_analysis": 0,
+  "sdk": {
+    "package": "isaacsim6.2.0.0",
+    "primary_sources": [
+      {
+        "path": "exts/isaacsim.simulation_app/isaacsim/simulation_app/simulation_app.py",
+        "sha256": "c2a2173be57abac20ef97f81b80d58319c94c9a4017c98709f8d13489ad0b746",
+        "bytes": 51884
+      },
+      {
+        "path": "exts/isaacsim.simulation_app/docs/Overview.md",
+        "sha256": "23fb61bf56b8d34059d1182d58382a6cbd782c8e5b4187acf23ab4619dd29b0a",
+        "bytes": 3422
+      },
+      {
+        "path": "extscache/omni.usd.schema.physx-110.4.4+110.4.0.lx64.r.cp312.u7f4/plugins/PhysxSchemaAddition/resources/schema.usda",
+        "sha256": "52a534a65e4d36cfe3d018099003767045864813410760c6db3da4ba279b0ec6",
+        "bytes": 25142
+      },
+      {
+        "path": "extscache/omni.usd.schema.physx-110.4.4+110.4.0.lx64.r.cp312.u7f4/plugins/PhysxSchema/resources/schema.usda",
+        "sha256": "eaef57fc794f6114d3641c00bbc3f3141abc9f8bfe8480d61d4bafc4a33a1904",
+        "bytes": 231988
+      },
+      {
+        "path": "extscache/omni.usd.schema.physx-110.4.4+110.4.0.lx64.r.cp312.u7f4/plugins/OmniUsdPhysicsDeformableSchema/resources/schema.usda",
+        "sha256": "b2988399ee987207a969d168ee0096742619014c1fd159629e22406ddbc515ab",
+        "bytes": 37086
+      },
+      {
+        "path": "exts/isaacsim.core.experimental.prims/isaacsim/core/experimental/prims/impl/deformable_prim.py",
+        "sha256": "bef03b29b1164adaa9ea9935957e3b4cb82c155b1376c61e088e3807ae117412",
+        "bytes": 76867
+      },
+      {
+        "path": "extsDeprecated/isaacsim.core.api/isaacsim/core/api/world/world.py",
+        "sha256": "fac1308f85c07f8f0d29e79b37e68e77a21584cee6194720d789228b0bf695e5",
+        "bytes": 21987
+      },
+      {
+        "path": "extscache/omni.physics.tensors-110.4.4+110.4.0.lx64.r.cp312.u7f4/omni/physics/tensors/api.py",
+        "sha256": "f881469dff4723167fa84046472ca923210c02774dda43dfe0b0809f12211f05",
+        "bytes": 388207
+      }
+    ]
+  },
+  "campaign_evidence": [
+    {
+      "path": "experiments/isaac_block_gravity_refinement_worker_v02.py",
+      "sha256": "ebfaeab015ac7260da5b9f98198b2415712d0b6113e4055ad3d288e08a9cb9ad",
+      "bytes": 14253
+    },
+    {
+      "path": "runs/operator-dev/isaac-block-gravity-refinement-v02/protocol.json",
+      "sha256": "d370b9c46098084cb05de9cabea8bf86a014995bccebe4a1fbe12c98bea7d6d6",
+      "bytes": 2105
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/isaac-block-gravity-refinement-v02/comparison.json",
+      "sha256": "6d1f81d3ea31031b60a46f9dd229cb5680701198e09a10884d2899863ac16238",
+      "bytes": 946
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/isaac-block-gravity-v01/freefall_300k/summary.json",
+      "sha256": "1fd329c737b06778982b0ff784335b04bf46fd351a1fce6035ddce36db4a6739",
+      "bytes": 2582
+    }
+  ],
+  "observations": {
+    "cantilever_max_pair_difference_m": [
+      0.015514256011105641,
+      0.005645058934731738
+    ],
+    "rates_hz": [
+      [
+        240,
+        480
+      ],
+      [
+        480,
+        960
+      ]
+    ],
+    "maximum_at_time_s": 0.6,
+    "common_actual_final_time_s": 0.6000000312924385,
+    "fixed_drift_m": 0,
+    "final_tip_mean_displacement_z_m": [
+      -0.07274104237556454,
+      -0.05879949748516079,
+      -0.05374861836433407
+    ],
+    "final_tip_mean_velocity_z_m_s": [
+      0.38860669136047366,
+      0.5799640798568726,
+      0.6561599993705749
+    ],
+    "freefall_velocity_error_m_s": 1.7075262173024734e-06,
+    "freefall_position_coordinate_RMS_exact_m": 0.001383765457610001,
+    "freefall_position_coordinate_RMS_kickdrift_m": 9.525137622681182e-09
+  },
+  "conclusions": {
+    "force_replay_bug_supported": false,
+    "clock_mismatch_supported": false,
+    "material_update_bug_supported": false,
+    "fixed_flag_or_rest_mismatch_supported": false,
+    "integration_and_iteration_errors_not_yet_separated": true,
+    "solver_residual_not_available": true,
+    "native_constitutive_law_unidentified": true,
+    "initial_hidden_warmstart_not_observed": true,
+    "native_mass_not_directly_observed": true
+  },
+  "controlled_test": "New GPU1 240/480Hz x32/128iteration factorial, SAMEphysics; first resource-only attempt rejectedbeforesteps, preserved separately",
+  "controlled_ablation_completed": {
+    "fresh_physical_apps": 4,
+    "prestep_resource_failure_preserved": true,
+    "result": {
+      "path": "runs/operator-dev/isaac-solver-ablation-v02/result-summary.json",
+      "sha256": "296fc7a0436562ffec0ac66552832ee156717717fa5eb5b91b282e009388ed39"
+    },
+    "all4_accuracy_gates_FAIL": true
+  }
+}

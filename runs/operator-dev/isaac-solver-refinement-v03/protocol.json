@@ -1,0 +1,92 @@
+{
+  "schema": "isaac-pgs-highrate-refinement-v03",
+  "status": "FROZEN_BEFORE_FOUR_NEW_APPS",
+  "cases": [
+    {
+      "id": "gravity_left_hz960_it128",
+      "kind": "gravity",
+      "boundary": "left",
+      "young_Pa": 300000.0,
+      "duration_s": 0.6,
+      "hz": 960,
+      "iterations": 128
+    },
+    {
+      "id": "gravity_left_hz1920_it128",
+      "kind": "gravity",
+      "boundary": "left",
+      "young_Pa": 300000.0,
+      "duration_s": 0.6,
+      "hz": 1920,
+      "iterations": 128
+    },
+    {
+      "id": "gravity_left_hz3840_it128",
+      "kind": "gravity",
+      "boundary": "left",
+      "young_Pa": 300000.0,
+      "duration_s": 0.6,
+      "hz": 3840,
+      "iterations": 128
+    },
+    {
+      "id": "gravity_left_hz3840_it255",
+      "kind": "gravity",
+      "boundary": "left",
+      "young_Pa": 300000.0,
+      "duration_s": 0.6,
+      "hz": 3840,
+      "iterations": 255
+    }
+  ],
+  "previous": {
+    "protocol": {
+      "path": "runs/operator-dev/isaac-solver-ablation-v02/protocol.json",
+      "sha256": "1734d6e42692ea81318ba102cb9cbf935db3934fb394f020d68b6b7b054b77ac"
+    },
+    "execution": {
+      "path": "runs/gaussian-campaign-v01/isaac-solver-ablation-v02/execution.json",
+      "sha256": "443d6a6491bbd0b3d8543e3d315ef9b5be4928cc6ad51904562fadba3827902a"
+    },
+    "trajectory": {
+      "path": "runs/gaussian-campaign-v01/isaac-solver-ablation-v02/gravity_left_hz480_it128/trajectory.npz",
+      "sha256": "c1abb112c1146c87f513a35c2f4dfa553a3ad4bd0ff39e1e0da01737a457b004"
+    },
+    "summary": {
+      "path": "runs/gaussian-campaign-v01/isaac-solver-ablation-v02/gravity_left_hz480_it128/summary.json",
+      "sha256": "18828c0d35b9968c75cb9304ff7ed11249d5573ed495ad571c1464e43bb3ebbf"
+    }
+  },
+  "source_sha256": {
+    "experiments/isaac_block_gravity_suite.py": "06d94ac0712a7161d0a6a2a087ab8581e0d7bcd1f7a4e7b0b02cf28f3652fd01",
+    "experiments/isaac_block_gravity_worker.py": "a0426e938d809e6a18aacc681f1f68a3f4ad3d03d20bca41a9f58d0bd71692e9",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "tests/test_isaac_block_gravity_suite.py": "30312af7e76ab910806ced4791f61b6e11f58c3cbbfc1d818d542eb912428950",
+    "experiments/isaac_block_gravity_refinement_v02.py": "8ea88c9018f9b8c8af47fa7670d3a919f185efd43814ff729141f40f5a692928",
+    "experiments/isaac_block_gravity_refinement_worker_v02.py": "ebfaeab015ac7260da5b9f98198b2415712d0b6113e4055ad3d288e08a9cb9ad",
+    "tests/test_isaac_block_gravity_refinement_v02.py": "ad766abb01f818b4ef15e4d70ffe386b5415790b53bb9ec45f621a052b97f5fc",
+    "experiments/isaac_solver_ablation_v02.py": "2b5c701bed6adccdf233dafcde9255d5528ff54f167ef38e2048b8751a853d40",
+    "experiments/isaac_solver_ablation_worker_v02.py": "590156e7637db8963ce37e5067fb64ef86a3722cae27689e56e03b9559ac892d",
+    "tests/test_isaac_solver_ablation_v02.py": "92277a26e51bea572ac8b6b3aed7901113f37526792d891af577c79646cf5ed9",
+    "experiments/isaac_solver_refinement_v03.py": "2e90e20b00f6e4a1dfb4bbfed9dfe5c6c2c2afcbc988c0dc2454a9d38b19d681",
+    "experiments/isaac_solver_refinement_worker_v03.py": "6f797f825347550f157562c97ab5cae20cb50ebb889bb2b89c3a5319a7c1897d",
+    "tests/test_isaac_solver_refinement_v03.py": "03d46d3b8792843deaea5a99ffaf5b7c6a76b3831a34a6b222159945ddd92cfd"
+  },
+  "gpu": 1,
+  "gpu_uuid": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+  "CPU_threads": 2,
+  "wall_cap_s": 600,
+  "app_cap_s": 180,
+  "threshold_m": 2e-05,
+  "exact_same_physics": "Original C36 leftface gravity,E300000/nu.35/rho625/mesh12x4x4/duration.6s/PGS/allphysicaldampingzero/nohandles/nocontact",
+  "settings": "UUID CVD,active_cuda_gpus[0],physics0,Worldcuda0,limit_cpu_threads2; samev02 resourceguard",
+  "gates": "Full19commonframes/all325fixedmaterialqueries:960-1920 AND1920-3840 at128iterations;3840/128-255 separateiterationcontrol;eachmax<=20um",
+  "no_extrapolated_error_bound": true,
+  "no_retry_no_unlisted_cases": true,
+  "prior_accuracy_failures_preserved": true,
+  "runtime_estimate_s": [
+    210,
+    250
+  ],
+  "budget": "600sglobal/180sperapp,processgroupcleanup;abortnonfinite/inversion/nativeguardfailure"
+}

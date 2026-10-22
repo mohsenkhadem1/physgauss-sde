@@ -1,0 +1,62 @@
+{
+  "schema": "StableBDF2-numeric-relative-protocol-v0.2",
+  "status": "FROZEN_BEFORE_NEW_TRAJECTORIES",
+  "old_summary": {
+    "path": "runs/gaussian-campaign-v01/stable-transient-refinement-v01/summary.json",
+    "sha256": "1897cab66688af83f3d8dc52200955c9d9338c66d7374cae2a598c216439083e"
+  },
+  "old_protocol": {
+    "path": "runs/operator-dev/stable-transient-refinement-v01/protocol.json",
+    "sha256": "65ff436901a5b86e3cf40d68ff5f9a6f1421412d7e3e67b27a65e8ff05f4c497"
+  },
+  "old3840": {
+    "path": "runs/gaussian-campaign-v01/stable-transient-refinement-v01/BDF2-hz3840.npz",
+    "sha256": "1fdf2d0b07b988274572dbcf6b05c27b68ea740df03b0969e270ad92700b6c98"
+  },
+  "old1920": {
+    "path": "runs/gaussian-campaign-v01/stable-transient-v01/BDF2-hz1920.npz",
+    "sha256": "6721f30d8b77b729687e7ff807dfb31d65d105b77d7e46ca8b76bccf6fcab59a"
+  },
+  "source_sha256": {
+    "experiments/campaign_stable_transient.py": "198c69875bb0672f9966a2eae3706fee34c6af03e4ba41ac7f552c26652175d6",
+    "experiments/run_campaign_stable_transient.py": "93b7f86d605e7785e15439db167ced37cb8e6d491890a1c67f79157d49dcc076",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/run_static_supported_block.py": "d90511922c32430ce3b2eb10f80d4ecf70686a5ce18644bd7db4234922243359",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "experiments/run_static_p2_axial_continuation.py": "c12200e9a70764e637960ee5bd99909627a83309294459aaf845d995cfcbd86c",
+    "experiments/run_stable_transient_refinement.py": "d7ab530e6a19190696b14ce500e2fcdf80dd6ee23533898527c4bdeffc19b0c1",
+    "experiments/campaign_stable_transient_relative.py": "0fe9c25c40f0d90af8461b482f8f35f8a8f2b25fc05fcced93737ae4bde26be4",
+    "experiments/run_stable_transient_relative.py": "571a8fbc7d35f4c8bbb5545c0e85efd2b32a09d750e3eb42574330f62ba5b6cb"
+  },
+  "rates_hz": [
+    3840,
+    7680
+  ],
+  "CPU_threads": 2,
+  "hard_wall_cap_s": 120,
+  "numeric_change": "Retainu/v/stepdelta; solvez=qnew-qn withtargetdelta; EEXACTfrozenelastic(rest+u),sameNewton/gates/material/force/h/initialstate",
+  "unchanged_gates": {
+    "objective_free_R_N": 1e-10,
+    "physical_original_free_R_N": 1e-09,
+    "minimum_J": 0.1,
+    "constraint_m": 0.0,
+    "finest_adjacent_query_error_m": 2e-05,
+    "all5_adjacent_nonincreasing": true
+  },
+  "new_parity_guard": {
+    "3840_same_frozen_completed_query_max_m": 1e-08,
+    "world_displacement_roundtrip_m": 1e-14
+  },
+  "world_chord_R": "Reportindependentlyfromsavedglobalq,NOTaninternalstationaritygate;globalqroundoffisexplicitandboundedbyparity/roundtripguards",
+  "methods": "BDF2physicalfirstordersystem;firststepBE;forcelawclocktolerancesunchanged",
+  "duration_s": 0.1,
+  "no_retry_or_extra_rates": true,
+  "limits": [
+    "Old7680failurepreserved",
+    "Fixed96tettemporalonly,notspatial/native/inferencequalification"
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "schema": "recorded-Newton-vs-independent-CPU-video-v01",
+  "completed": true,
+  "checked_matching_step_case": true,
+  "failed_case_explicitly_titled": false,
+  "method": "BDF2",
+  "hz": 3840,
+  "iterations": 128,
+  "panels": [
+    "Newton GPU simulation",
+    "independent CPU reference"
+  ],
+  "fps": 30,
+  "decoded_frames": 115,
+  "frames": 115,
+  "playback_slow_factor": 32.0,
+  "final_hold_frames": 15,
+  "source_query_hz": 240,
+  "saved_frame_indices": [
+    0,
+    16,
+    32,
+    48,
+    64,
+    80,
+    96,
+    112,
+    128,
+    144,
+    160,
+    176,
+    192,
+    208,
+    224,
+    240,
+    256,
+    272,
+    288,
+    304,
+    320,
+    336,
+    352,
+    368,
+    384
+  ],
+  "times_s": [
+    0.0,
+    0.004166666666666667,
+    0.008333333333333333,
+    0.0125,
+    0.016666666666666666,
+    0.020833333333333332,
+    0.025,
+    0.029166666666666667,
+    0.03333333333333333,
+    0.0375,
+    0.041666666666666664,
+    0.04583333333333333,
+    0.05,
+    0.05416666666666667,
+    0.058333333333333334,
+    0.0625,
+    0.06666666666666667,
+    0.07083333333333333,
+    0.075,
+    0.07916666666666666,
+    0.08333333333333333,
+    0.0875,
+    0.09166666666666666,
+    0.09583333333333334,
+    0.1
+  ],
+  "geometric_scale": 1,
+  "camera_orbit_degrees": 45,
+  "shared_camera_target": "common midpoint of nominal mass centers",
+  "camera_clipped": false,
+  "interpolated_states": false,
+  "rigid_alignment": false,
+  "is_learned_prediction": false,
+  "is_physical_ground_truth": false,
+  "maximum_saved_node_error_m": 4.158369452520504e-07,
+  "maximum_fixedquery_error_m": 4.158369452520504e-07,
+  "references": {
+    "gpu_capture": {
+      "path": "runs/gaussian-campaign-v01/newton-vbd-transient-v02/BDF2-hz3840-it128.npz",
+      "sha256": "29b0e7a1432372a55faf0e52172ff94f9e84ee07833ae9efd42706a5884c891f"
+    },
+    "cpu_capture": {
+      "path": "runs/gaussian-campaign-v01/stable-transient-relative-v03/BDF2-hz3840.npz",
+      "sha256": "1910b0770082e40d278aabdcae45e08e37774aeec95f7f5997a62785e965edc1"
+    },
+    "gpu_summary": {
+      "path": "runs/gaussian-campaign-v01/newton-vbd-transient-v02/summary.json",
+      "sha256": "a99e8a3669ea904d9933abd543ce43419fde580b7d297b64e4a61f68f40ec5c7"
+    },
+    "cpu_summary": {
+      "path": "runs/gaussian-campaign-v01/stable-transient-relative-v03/summary.json",
+      "sha256": "82dd83e902ce102ebd50329b67b74ebe631835d8e7209378186da515c2eea54e"
+    },
+    "gpu_protocol_record": {
+      "path": "runs/operator-dev/newton-vbd-transient-v02/protocol.json",
+      "sha256": "d3ac61a35bb94e3d7d5f07b1a9a88b9ddf8846edec375784c1792d5b3813aa77"
+    },
+    "cpu_protocol_record": {
+      "path": "runs/operator-dev/stable-transient-relative-v03/protocol.json",
+      "sha256": "422b49d083e9019e3501eb3dc3e96d6657a1aa11b5588027892f4920e57db52f"
+    },
+    "gpu_case_record": {
+      "path": "runs/gaussian-campaign-v01/newton-vbd-transient-v02/BDF2-hz3840-it128.json",
+      "sha256": "668d12012a4b2681e8c21b1cd472cef0a812933c3b77356c06fda4d52065f8b1"
+    },
+    "cpu_case_record": {
+      "path": "runs/gaussian-campaign-v01/stable-transient-relative-v03/BDF2-hz3840.json",
+      "sha256": "2d02e7eee64ecbf95883af119a6a359fb079f4969717fae810515977fc20edd0"
+    }
+  },
+  "renderer": {
+    "path": "experiments/video_newton_reference.py",
+    "sha256": "056517eb82f6a656ee4c77abd4ecc96dbb6b3945d21d2936080ed54e7b2f1dbb"
+  },
+  "camera_primitives": {
+    "path": "experiments/video_block_gravity_suite.py",
+    "sha256": "f50bec63d22ce5a1a9d1e8601fc6abd083e61460569b852b1a6f3caeb80e5f94"
+  },
+  "raw_media_local": true,
+  "mp4_sha256": "d625cc8b82b044ca467cd54181741261a73c21b323f9bf318a78a4d4a36fb409",
+  "nonclaims": [
+    "NativepositionsareNEVERoverwrittenbyvelocityintegration;qkinisdiagnosticonly",
+    "MomentumRbyconstructionisnotindependentproof;kinematicdefectandCPUcomparisonsareprimary",
+    "96tet discrete model only; no continuum qualification",
+    "No contact/rate-dependent damping support",
+    "GPU force residual and velocity discrepancy are diagnostics, not separately qualified",
+    "CPU temporal criterion and GPU approximation criterion are separate; no combined20um bound"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "Newton-static-independent-source-review-v0.1",
+  "read_only": true,
+  "no_GPU_or_physics_calls": true,
+  "source_sha256": {
+    "experiments/campaign_newton_vbd_static.py": "5f6bf315c675bb6154453b6ff33e87b6959aa2a700be2d44cfa1e10437ca354d",
+    "experiments/campaign_newton_vbd_static_kernels.py": "1b79196077593ec42fdc28d150f2af541d4fb978687a0f14ad046f2abcc2e068",
+    "experiments/run_newton_vbd_static.py": "98e877c2341b055e33394d31c1c940a0c5c6064165e7ee9d8d355e2ea9036a45",
+    "tests/test_campaign_newton_vbd_static.py": "f8ec004298fa6578da76f723a96e28586057a578925af1f898169b2c40376cad",
+    "runs/operator-dev/newton-vbd-static-v01/controls-protocol.json": "b796298c02832f4990a53259368f3c341aaed84d06cf149d961de84bd0b7d27c",
+    "runs/operator-dev/newton-vbd-static-v01/static-protocol.json": "63d57b8b706c71b3a8cfe1c704c33a177b71aca01e52137d646d1f0d346b1d46"
+  },
+  "verdict": "NO_BLOCKER_FOR_FROZEN_CONTROLS_THEN_STATIC_LAUNCH",
+  "confirmed": [
+    "Original native elastic force plus actualquantizedknownforce audited independently ofBE inertia",
+    "Actualq/poses/materialreadbacks retained;float64auditandnativeRESTforcefloorrecorded",
+    "All32/128/512variantsfreshREST,pseudo1s,zeroinputalgorithmvelocity,damp0,knownforceunchanged",
+    "CPUqueryevaluationonlyafterR/drift/velocitystoporcap",
+    "Explicitfinitealgorithmvelocityfinalgatefixverifiedincludingcappedcase",
+    "Externalowned-session600sdeadlineTERM/KILL/reapcontrollerverified;staticrequirescompletedpassedcontrols",
+    "NoC36material/geometry/sourcechanges;matchingstableP1referencehasheschecked"
+  ],
+  "limitations": [
+    "Pseudoiterationnotphysicaltime/damping/dynamicvalidation",
+    "LiteralFP32originalRthreshold1mN;earlier2uNparityissuepreservedunresolved",
+    "Only96tetdiscreteequilibriumcomparison,nocontinuumcontactclaim",
+    "ExactNewton1.7.0/Warp1.18.0 versionassertmustcompleteinisolatedenvbeforelaunchasrootrequested"
+  ],
+  "tests_not_rerun": "Native reports3focusedpuretestsPASS.13s;independentreviewreadsthetestsandfinalsourceonly"
+}
