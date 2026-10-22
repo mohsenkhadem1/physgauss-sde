@@ -1,0 +1,70 @@
+{
+  "schema": "nonlinear-excitation-development-review-v0.1",
+  "completed": true,
+  "physical_captures": 39,
+  "solver_failures": 0,
+  "tests": "4 passed in 2.99s CPU2",
+  "elapsed_s": 108.20056478306651,
+  "declared_wall_cap_s": 600,
+  "summary": {
+    "path": "runs/gaussian-campaign-v01/nonlinear-excitation-v01/summary.json",
+    "sha256": "15cfa16d8fc09ad054aaefa1dd5073784dc420a84624fdbf8beccce7ea1e7207"
+  },
+  "gates": {
+    "constitutive_affine_patch": {
+      "energies_J": [
+        0.007568198741244177,
+        0.007568198741244184,
+        0.0075681987412442
+      ],
+      "maximum_energy_mesh_spread_J": 2.2551405187698492e-17,
+      "maximum_analytic_P_gradient_error_N": 4.926614671774132e-15,
+      "passed": true,
+      "scope": "Affine patch identity, not dynamic mesh convergence"
+    },
+    "nominal_design_excitation": {
+      "legacy_single": true,
+      "balanced_axial": true,
+      "transverse_couple_1": false,
+      "transverse_couple_2": true
+    },
+    "all_three_nominal_temporal_gates": false,
+    "mesh_2_to_16": false,
+    "mesh_16_to_128": false,
+    "validated_nonlinear_reference_for_inverse_or_network": false
+  },
+  "aggregate_mechanics": {
+    "minimum_J_all_cases": 0.911856117389228,
+    "maximum_original_residual_N": 4.682789462860587e-08,
+    "maximum_balance_minus_residual_work_J": 8.22496554242786e-17,
+    "maximum_gaussian_mass_error_kg": 2.7755575615628914e-17
+  },
+  "factorial_excitation_targets": {
+    "legacy_single": {
+      "target_passed": 2,
+      "total": 6
+    },
+    "balanced_axial": {
+      "target_passed": 4,
+      "total": 6
+    },
+    "transverse_couple_2": {
+      "target_passed": 3,
+      "total": 6
+    }
+  },
+  "main_findings": [
+    "Visible nonrigid finite strain was obtained on coarse design mesh, not just rigid displacement",
+    "Balanced axial load gives stronger material sensitivity than legacy at selected public queries, and combined commands yield less ill-conditioned logE/logK tangent columns",
+    "All temporal and both mesh accuracy gates fail; mechanical equilibrium and affine identities do not substitute for forward accuracy",
+    "128tet response misses target:8.294%peakabsoluteprincipalstrain and0.967mmnonrigidRMS; no amplitude retuning or failed-label overwrite",
+    "Sensitivity results describe unqualified coarse discrete model only, not continuum identifiability or successful inference"
+  ],
+  "limits": [
+    "Fixed Gaussian fixture/load physical patches, homogeneousNeoHookeanmaterial,gravityoff,contactunsupported",
+    "Transverse pairs are worldforces, notconstantpuretorques; actualdeformed-coordinate moments retained",
+    "Temporal comparison is nominalonly, notcomplete3E2Kresolutionqualification",
+    "No currentcohort/reserveddata, networks, inverse inference or newGPU use"
+  ],
+  "next_scope": "Mesh accuracy must be addressed before inversion; extra time rates alone cannot qualify the coarse model. A finer-mesh sparse/batched-tangent solver parity check may be needed before affordable1024tet dynamic refinement."
+}

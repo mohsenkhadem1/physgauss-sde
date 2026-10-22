@@ -1,0 +1,154 @@
+{
+  "schema": "compliant-continuous-reference-v0.1",
+  "status": "FROZEN_BEFORE_PHYSICAL_POSTERIOR_CALLS",
+  "original_design": {
+    "path": "runs/operator-dev/compliant-patch-inverse-v01/design.json",
+    "sha256": "928a6ccabfb460fcf5d8295a9600fa71d15210563c08843353d2e9e6a6034081"
+  },
+  "observation_archive": {
+    "path": "runs/gaussian-campaign-v01/compliant-patch-inverse-v01/posterior-order5.npz",
+    "sha256": "73de389e2931c8bd908334c81266dde0317886dad8a74000bc12a48e24d8cef9"
+  },
+  "source_sha256": {
+    "experiments/campaign_compliant_patch_inverse.py": "57c6833e7b9e318e5af726e50faee128b96eabbed2cd6e0e4ddfd844449722c1",
+    "experiments/campaign_compliant_gaussian_linear.py": "5937a41fe8058e8ba8f6d3388591ab18a78989ad72f18f9af1a39c7ff85bf383",
+    "experiments/campaign_boundary_gaussians.py": "d58b849f4c4399049e64182acb3fa84dc34fe040768c3b88a48d84fd55950362",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "experiments/campaign_compliant_continuous_reference.py": "51354e607961d333016812601dcae4917c61127331035b99368678128f126611",
+    "experiments/run_compliant_continuous_reference.py": "220ca8b8b2a08e99a2017c0c391ab48224a3bf48914d1e08550b9c33aa511a95",
+    "tests/test_campaign_compliant_continuous_reference.py": "a4792505d3eb82010928da2b6a539e0958341682022e8b1d3011070c5c0bd865",
+    "experiments/campaign_tempered_reference.py": "e878ef5d973c99bcee0fbb62024c4b4a86733bd323537b2927ed391ba5a1589b",
+    "src/physgauss/chain_diagnostics.py": "094fe3f7c5eee9c0c387613238a2320917d7af20fcbee35310dbf6e744b50f39"
+  },
+  "CPU_threads": 2,
+  "phase_caps_s": {
+    "conditional2D": 180,
+    "full4D": 360
+  },
+  "seeds": [
+    2026121101,
+    2026121102,
+    2026121103
+  ],
+  "particles": [
+    512,
+    2048
+  ],
+  "prior": "UNCHANGED uniform intrinsic(logE,center,logwidth,logfixtureK); unit-box transform includes exact original law",
+  "conditional_slice": {
+    "dimensions": [
+      0,
+      3
+    ],
+    "fixed_center_width": [
+      0.029,
+      0.031
+    ],
+    "interpretation": "Conditional diagnostic only, not the 4D marginal or changed 4D prior"
+  },
+  "adaptive_reference": {
+    "algorithm": "Independent adaptive2D Gauss-Kronrod21 product cubature",
+    "tolerances": [
+      [
+        1e-05,
+        1e-10
+      ],
+      [
+        1e-07,
+        1e-12
+      ]
+    ],
+    "max_subdivisions": 256,
+    "marginal_CDF_unit_knots": [
+      0.0,
+      0.03125,
+      0.0625,
+      0.09375,
+      0.125,
+      0.15625,
+      0.1875,
+      0.21875,
+      0.25,
+      0.28125,
+      0.3125,
+      0.34375,
+      0.375,
+      0.40625,
+      0.4375,
+      0.46875,
+      0.5,
+      0.53125,
+      0.5625,
+      0.59375,
+      0.625,
+      0.65625,
+      0.6875,
+      0.71875,
+      0.75,
+      0.78125,
+      0.8125,
+      0.84375,
+      0.875,
+      0.90625,
+      0.9375,
+      0.96875,
+      1.0
+    ],
+    "quantiles": [
+      0.05,
+      0.5,
+      0.95
+    ],
+    "quantile_bisections": 18,
+    "CDF_tolerance_agreement": 0.0002,
+    "unit_quantile_tolerance_agreement": 0.0001,
+    "predictive_field_agreement_m": 1e-07
+  },
+  "SMC": {
+    "ess_fraction": 0.8,
+    "rejuvenation_steps": 8,
+    "proposal_scale": 0.08,
+    "independence_probability": 0.25,
+    "max_stages": 64,
+    "fixed_3seeds_2counts": true,
+    "ESS_alone_never_sufficient": true
+  },
+  "MCMC": {
+    "chains": 8,
+    "all_chains_independent_prior_initialization": true,
+    "conditional_warmup": 500,
+    "conditional_draws": 2000,
+    "full_warmup": 1000,
+    "full_draws": 4000,
+    "proposal": "Frozen SMC pilot normal independence(.5) + symmetric diagonal reflected RW(.45) + prior(.05), exact MH correction",
+    "prior_chains_start_seed": 2026121110,
+    "full_start_seed": 2026121120,
+    "no_adaptation_extension_or_thinning": true
+  },
+  "validation": {
+    "SMC_and_MCMC_CDF_vs_2D_reference_max": 0.05,
+    "SMC_and_MCMC_unit_quantile_max": 0.02,
+    "between_seed_count_CDF_max": 0.05,
+    "between_seed_count_unit_quantile_max": 0.02,
+    "forecast_RMS_absolute_m": 2e-06,
+    "forecast_fraction_finer_latent_std": 0.03,
+    "rank_folded_split_Rhat_max": 1.01,
+    "bulk_tail_ESS_min": 400,
+    "no_frozen_chains": true,
+    "analytic_truncatedGaussian_SMC_2048_CDF_max": 0.04,
+    "analytic_unit_quantile_max": 0.02,
+    "gate": "All2D adaptive/analytic/SMC/MCMC checks pass BEFORE full4D executes. Every independent seed and both counts included."
+  },
+  "parity_validation": "4 synthetic tests passed before freeze: randomPRIOR/boundary/posterior-scale full-field and likelihood parity, prior slice, analytic cubature, MH prior recovery",
+  "same_saved_observation_prior_noise_physics_controls": true,
+  "old_GL_CC_failures_preserved": true,
+  "no_current_cohort_access": true,
+  "preserve_every_attempt_no_retry": true,
+  "scope": "Numerical manufactured posterior validation, NOT physical calibration or Isaac/generalization",
+  "versions": {
+    "numpy": "2.5.4",
+    "torch": "2.14.1+cu130",
+    "scipy": "1.18.1"
+  }
+}

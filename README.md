@@ -1,6 +1,16 @@
 # PhysGauss-SDE
 
-**Latest: [sealed rotation-aware 32-object study](runs/gaussian-campaign-v01/point-rotation-analysis-v02/REPORT.md).**
+**Current priority: [deformation and resolved mechanics before networks](docs/GAUSSIAN_MECHANICS_PRIORITY.md).**
+The fresh 32-object population has **24.75 µm** mean mass-weighted nonrigid RMS and a
+**3.19%** mean objectwise nonrigid/total RMS ratio. Actual acquired-depth
+elastic contrast averages **32.64 µm**, versus 200 µm sensor noise; this is weak
+contrast, not zero information. Stronger nonlinear excitation remains mesh
+unresolved despite sparse-solver parity. A separate conditional E/K numerical
+posterior passes independent integration/MCMC/high-particle checks with fixture
+center/width fixed; the original 4D marginal remains unvalidated.
+[Integrated current report](runs/gaussian-campaign-v01/mechanics-priority-v01/REPORT.md).
+
+**Latest prediction study: [sealed rotation-aware 32-object study](runs/gaussian-campaign-v01/point-rotation-analysis-v02/REPORT.md).**
 Extra depth views reduce future RMSE from **0.756 to 0.373 mm**; random views
 score 0.375 mm and the calibration-selected fixed view 0.308 mm. Active selection
 has no established advantage. Joint predictive bands cover 31/32 objects
@@ -12,9 +22,11 @@ only a small forecast change; [method and limits](docs/GAUSSIAN_ROTATION_UNCERTA
 Compatible material Gaussians are separate from uncertain fixture/load laws.
 New linear and nonlinear tiny mechanics checks validate implementation pieces;
 they do not replace this study's approximate forward model.
-Manufactured [uncertain compliant-fixture inference](docs/GAUSSIAN_COMPLIANT_PATCH_INVERSE.md)
-remains numerically unresolved: the 625-point material interval collapses, and
-the 83,521-point refinement fails its declared criteria. The
+The manufactured [conditional compliant-fixture reference](docs/GAUSSIAN_COMPLIANT_CONTINUOUS_REFERENCE.md)
+now passes independent adaptive integration, continuous MCMC and higher-particle
+SMC checks with fixture center/width fixed. The original 4D
+[uncertain-fixture inference](docs/GAUSSIAN_COMPLIANT_PATCH_INVERSE.md) retains
+its 625/83,521-point grid failures and remains unvalidated. The
 [previous point-support study](runs/gaussian-campaign-v01/point-prior-analysis-v01/REPORT.md)
 remains historical evidence. Raw datasets, particles and videos remain local;
 GitHub Actions stay disabled.

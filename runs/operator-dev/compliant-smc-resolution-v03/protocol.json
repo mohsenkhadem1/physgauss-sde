@@ -1,0 +1,72 @@
+{
+  "schema": "compliant-SMC-resolution-v0.3",
+  "status": "FROZEN_BEFORE_HIGH_COUNT_CALLS",
+  "prior_protocol": {
+    "path": "runs/operator-dev/compliant-continuous-reference-v02/protocol.json",
+    "sha256": "a0c8aa89466d1a0b0cb488af5c8fa1ee580f50003f6e93672b6e0f7680a81349"
+  },
+  "retained_inputs": [
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-reference-v01/conditional2D/summary.json",
+      "sha256": "35c8f9e3c74fb3530a2855036d0cdd7e04f72cb06f4420ce99282129fdfee8a3"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-reference-v01/conditional2D/adaptive0-moments.npz",
+      "sha256": "84c5abbfa5a4b222121554d5b276f724b39c9a0b604980a0f68e74499ad49fd9"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-reference-v01/conditional2D/adaptive1-moments.npz",
+      "sha256": "697a721977edaafcc693be151fca8634e9947f0326978c467ce15e2b25e2406b"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-reference-v01/conditional2D/smc-512-2026121101.npz",
+      "sha256": "aa18107ed154efe12f77035b4d64c22471b613b9cb9f41652c25e8784012c343"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-reference-v01/conditional2D/smc-512-2026121101-moments.npz",
+      "sha256": "6fa2a6cbcc471765e817328e0b01bee983bac538c379c8497a0a755238655476"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-reference-v02/conditional2D/summary.json",
+      "sha256": "db410d3a966409ac9045f80be06dd65644bdb9b8b81033833a09f0a48e45e5a4"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-reference-v02/conditional2D/MCMC-moments.npz",
+      "sha256": "67813ee4cb825604ce1e89c86cacc638472f8fd9c5f90cdc0cd0449cbed9531b"
+    }
+  ],
+  "source_sha256": {
+    "experiments/campaign_compliant_patch_inverse.py": "57c6833e7b9e318e5af726e50faee128b96eabbed2cd6e0e4ddfd844449722c1",
+    "experiments/campaign_compliant_gaussian_linear.py": "5937a41fe8058e8ba8f6d3388591ab18a78989ad72f18f9af1a39c7ff85bf383",
+    "experiments/campaign_boundary_gaussians.py": "d58b849f4c4399049e64182acb3fa84dc34fe040768c3b88a48d84fd55950362",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "experiments/campaign_compliant_continuous_reference.py": "51354e607961d333016812601dcae4917c61127331035b99368678128f126611",
+    "experiments/run_compliant_continuous_reference.py": "220ca8b8b2a08e99a2017c0c391ab48224a3bf48914d1e08550b9c33aa511a95",
+    "tests/test_campaign_compliant_continuous_reference.py": "a4792505d3eb82010928da2b6a539e0958341682022e8b1d3011070c5c0bd865",
+    "experiments/campaign_tempered_reference.py": "e878ef5d973c99bcee0fbb62024c4b4a86733bd323537b2927ed391ba5a1589b",
+    "src/physgauss/chain_diagnostics.py": "094fe3f7c5eee9c0c387613238a2320917d7af20fcbee35310dbf6e744b50f39",
+    "experiments/validate_compliant_continuous_reference_v02.py": "cf3f7f2944dbc0bdcb91d824356091fa90a7d28d44122c17446114636135a949",
+    "tests/test_validate_compliant_continuous_reference_v02.py": "7f907302752a7e43dbe9dfeae4a5fc644446e48d6adc01b39744c335a31f8a17",
+    "experiments/diagnose_compliant_smc_resolution_v03.py": "241383da8391800e472e08edc22501ee6e7aa53e07f55c8bb13b50594b87da21"
+  },
+  "counts": [
+    8192,
+    32768
+  ],
+  "seeds": [
+    2026121101,
+    2026121102,
+    2026121103
+  ],
+  "CPU_threads": 2,
+  "wall_cap_s": 180,
+  "same_exact_forward_observation_prior_noise_controls": true,
+  "same_CDF_quantile_forecast_criteria": true,
+  "reference_reuse": "Independent two-tolerance adaptive2D + eight-prior-started-chain MCMC; no quadrature or MCMC reruns",
+  "all_lower_count_and_serialization_failures_preserved": true,
+  "qualification": "Every new seed/count vs adaptive and MCMC plus all15pair comparisons must pass original criteria",
+  "no_4D_calls_in_this_diagnosis": true,
+  "no_retry_seed_or_outcome_selection": true,
+  "scope": "Conditional2D numerical resolution only, not physical calibration"
+}

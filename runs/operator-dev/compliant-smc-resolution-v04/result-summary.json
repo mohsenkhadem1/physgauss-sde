@@ -1,0 +1,158 @@
+{
+  "schema": "conditional-compliant-inverse-compact-result-v0.4",
+  "completed": true,
+  "declared_conditional2D_numerical_validation_passed": true,
+  "target": "Exact SAME manufactured finite linear likelihood and saved observation; conditional unknown logE/logfixtureK",
+  "known_fixed_center_x_m": 0.029,
+  "known_fixed_width_m": 0.031,
+  "observation_noise_std_m": 2e-05,
+  "exact_same_prior_observation_load_controls": true,
+  "conditional_slice_is_NOT_full4D_marginal": true,
+  "full4D_started": false,
+  "adaptive_reference": {
+    "tolerances": [
+      1e-05,
+      1e-07
+    ],
+    "max_CDF_tolerance_difference": 1.8129941992128806e-12,
+    "max_quantile_tolerance_difference": 0.0,
+    "physical_quantiles_05_50_95": {
+      "E_Pa": [
+        3365.0534604528398,
+        3891.718224226385,
+        4668.297733864082
+      ],
+      "fixture_stiffness_N_m": [
+        5.58997707147279,
+        12.773815956319996,
+        26.72264281524585
+      ]
+    }
+  },
+  "MCMC": {
+    "prior_started_chains": 8,
+    "warmup": 500,
+    "draws_per_chain": 2000,
+    "no_thinning": true,
+    "max_rank_folded_split_Rhat": 1.0022008736893235,
+    "minimum_bulk_ESS": 2763.4591198988696,
+    "minimum_tail_ESS": 3094.6085972383057,
+    "all_monitored_pass": true,
+    "vs_adaptive": {
+      "kind": "MCMC",
+      "max_CDF_difference": 0.01683645496797992,
+      "max_unit_quantile_difference": 0.004731372575668358,
+      "fields": {
+        "A": {
+          "mean_RMS_m": 2.55434562107615e-06,
+          "std_RMS_m": 2.274469751804679e-06,
+          "tolerance_m": 4.7161027985101e-06,
+          "passed": true
+        },
+        "B": {
+          "mean_RMS_m": 2.031600472837812e-06,
+          "std_RMS_m": 1.8064256439598414e-06,
+          "tolerance_m": 3.7528428711840544e-06,
+          "passed": true
+        }
+      },
+      "passed": true
+    }
+  },
+  "analytic_limit": {
+    "max_CDF_difference": 0.015478849834521025,
+    "max_unit_quantile_difference": 0.004982246019881509,
+    "passed": true
+  },
+  "high_SMC": {
+    "counts": [
+      8192,
+      32768
+    ],
+    "seeds": [
+      2026121101,
+      2026121102,
+      2026121103
+    ],
+    "completed_slots": 6,
+    "vs_adaptive_passed": 6,
+    "vs_MCMC_passed": 6,
+    "pairwise_passed": 15,
+    "pairwise_total": 15,
+    "max_CDF_vs_adaptive": 0.01426133344964331,
+    "max_unit_quantile_vs_adaptive": 0.0047146940215511135,
+    "max_pair_CDF_difference": 0.017333984375,
+    "max_pair_unit_quantile_difference": 0.008357173622065228,
+    "all_6_compared_not_best_seed_selection": true
+  },
+  "preserved_failures": [
+    "Original4D GL625/CC83521 numerical posterior failures unchanged",
+    "v01 NumPy-boolean report serialization failure, exit1",
+    "v02 low512/2048 SMC combined seed/count gate failure, full4D closed",
+    "v03 180s wallcap, four completed highcount slots and interrupted fifth preserved"
+  ],
+  "continuation": "Only remaining2same32768seeds run with parity-tested float64 observation-only helper; four completed highcount slots and adaptive/MCMC reused byhash",
+  "execution": [
+    {
+      "stage": "v01",
+      "session": 20449,
+      "exit_code": 1
+    },
+    {
+      "stage": "v02",
+      "session": 74692,
+      "exit_code": 0,
+      "elapsed_s": 23.93863518210128
+    },
+    {
+      "stage": "v03",
+      "session": 58306,
+      "exit_code": 0,
+      "diagnostic_status": "DECLARED_WALL_CAP",
+      "elapsed_s": 180.04501034598798
+    },
+    {
+      "stage": "v04",
+      "session": 21867,
+      "exit_code": 0,
+      "elapsed_s": 44.509861615952104
+    }
+  ],
+  "tests": {
+    "core_and_analytic": 4,
+    "serialization_and_failure_save": 2,
+    "observation_only_parity_causality": 2
+  },
+  "final_sources_and_input_pins_verified": 51,
+  "raw_arrays_LOCAL": true,
+  "no_current_cohort_data_access": true,
+  "physics_calibration_claim": false,
+  "rigorous_continuous_accuracy_proof": false,
+  "scope": "Small conditional manufactured numerical reference; no4D, nonlinear, Isaac, population coverage, contact or probing claim",
+  "evidence": [
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-reference-v01/conditional2D/summary.json",
+      "bytes": 49941,
+      "sha256": "35c8f9e3c74fb3530a2855036d0cdd7e04f72cb06f4420ce99282129fdfee8a3",
+      "git_blob_sha1": "5b7360bd8c7ffaf19db32e0dd3ee02a9ab679484"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-reference-v02/conditional2D/summary.json",
+      "bytes": 108986,
+      "sha256": "db410d3a966409ac9045f80be06dd65644bdb9b8b81033833a09f0a48e45e5a4",
+      "git_blob_sha1": "902ad1929b558922eabedd482201ff8689cd7515"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-smc-resolution-v03/summary.json",
+      "bytes": 33596,
+      "sha256": "2dd33508d3141ec89ef62796cf917123bf902197b6251a0060a4cf410b404e70",
+      "git_blob_sha1": "2e7d04f4520638a4b18caacb41ae143e4ed79b50"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-smc-resolution-v04/summary.json",
+      "bytes": 59731,
+      "sha256": "4bfa8aabee4545e7f203a9709ce29bc795c77bf63ec0adf7e8f7b0b110fba4f9",
+      "git_blob_sha1": "53969b6b89d94470db68f2b9d0816c3a747da5c2"
+    }
+  ]
+}

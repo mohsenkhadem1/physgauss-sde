@@ -1,0 +1,111 @@
+{
+  "schema": "nonlinear-sparse-resolution-development-v0.2",
+  "status": "FROZEN_BEFORE_RESOLUTION_CALLS",
+  "CPU_threads": 2,
+  "wall_cap_s": 900,
+  "physical_parameters": {
+    "young_Pa": 5000.0,
+    "poisson": 0.35,
+    "density_kg_m3": 625.0,
+    "fixture_scale": 2.0,
+    "damping": "Unscaled original candidateD",
+    "force_pattern": "balanced_axial",
+    "amplitude_N_per_patch": 1.0,
+    "duration_s": 0.2,
+    "minimum_J": 0.1,
+    "contact": "Unsupported",
+    "gravity": [
+      0,
+      0,
+      0
+    ]
+  },
+  "mesh": {
+    "levels": [
+      2,
+      3,
+      4
+    ],
+    "tet_counts": [
+      128,
+      1024,
+      8192
+    ],
+    "hz": 240,
+    "stop_after_first_adjacent_pass": true,
+    "selected_mesh": "Fine mesh of first passing adjacent comparison",
+    "held_nodes": [
+      1,
+      4
+    ],
+    "relative_full_trajectory_RMSE_tolerance": 0.1,
+    "absolute_floor_m": 2e-06
+  },
+  "temporal": {
+    "rates_hz": [
+      240,
+      480,
+      960
+    ],
+    "conditional_final_rate_hz": 1920,
+    "conditional_trigger": "Finest960 adjacent comparison fails originalgate or contraction",
+    "qualified_mesh_only": true,
+    "relative_full_trajectory_RMSE_tolerance_to_peak_nonrigid": 0.05,
+    "absolute_floor_m": 2e-06
+  },
+  "sparse_query_numerical_accuracy": {
+    "nodes": [
+      1,
+      4
+    ],
+    "times_s": [
+      0.05,
+      0.1,
+      0.15,
+      0.2
+    ],
+    "noise_scales_m": {
+      "displacement_diagnostic": 2e-05,
+      "existing_depth_scale_coordinate_proxy": 0.0002
+    },
+    "fraction_of_sigma_limit": 0.1,
+    "gate_uses_maximum_absolute_coordinate_error": true,
+    "depth_note": "Coordinate discrepancy at depthnoise scale, NOT renderedrangeerror"
+  },
+  "excitation_target": {
+    "absolute_principal_stretch_strain": [
+      0.02,
+      0.08
+    ],
+    "peak_best_rigid_removed_coordinate_RMS_m_at_least": 0.001,
+    "no_amplitude_retuning": true
+  },
+  "torch128_parity": {
+    "prior_protocol": {
+      "path": "runs/operator-dev/nonlinear-excitation-v01/protocol.json",
+      "sha256": "2c458912e441d69db8b44c6133591038b1ea75e8ee175e8b314e2bf49986f250"
+    },
+    "trajectory": {
+      "path": "runs/gaussian-campaign-v01/nonlinear-excitation-v01/mesh128-balanced_axial.npz",
+      "sha256": "3ea95d8280de4202d493a1c3421b3669a5f84698a9c8d0ec67a8787ee23b34ed"
+    },
+    "maximum_absolute_position_error_m": 2e-09
+  },
+  "source_sha256": {
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/run_campaign_nonlinear_resolution.py": "dda4342d2cd527a5eee522e6869efa5055bc24f33d8cfeeac7b12eaac681a469",
+    "experiments/campaign_nonlinear_excitation.py": "fbee8a3590887e05547106d035216d70e9b86b1ba2d264a5b805be039c472a3d",
+    "experiments/campaign_nonlinear_gaussian_reference.py": "af86fbe7fc7c2cc6c827441835e647750068b27167afb0d9337135e385294c74",
+    "experiments/campaign_nonlinear_fem.py": "468daaafa9d02c9db27553e2cfb154190248500677c212d9dde25bffdf14e1ff",
+    "experiments/campaign_boundary_gaussians.py": "d58b849f4c4399049e64182acb3fa84dc34fe040768c3b88a48d84fd55950362",
+    "experiments/campaign_compliant_gaussian_linear.py": "5937a41fe8058e8ba8f6d3388591ab18a78989ad72f18f9af1a39c7ff85bf383",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55"
+  },
+  "limits": [
+    "Allfailedresolutionattemptsretained",
+    "Passing10%developmentgate DOESNOTqualify20um-noiseinference",
+    "No inverse, networks, cohortdata or GPU",
+    "Initialphase1failuresimmutable"
+  ]
+}

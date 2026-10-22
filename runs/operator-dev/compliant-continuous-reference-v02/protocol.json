@@ -1,0 +1,63 @@
+{
+  "schema": "compliant-continuous-validation-continuation-v0.2",
+  "status": "FROZEN_BEFORE_REMAINING_SAMPLER_CALLS",
+  "original_protocol": {
+    "path": "runs/operator-dev/compliant-continuous-reference-v01/protocol.json",
+    "sha256": "5cba482bf792a7423099613fa05e89611bbe085548db840d11dc9246ba6961a8"
+  },
+  "original_failed_terminal": {
+    "path": "runs/operator-dev/compliant-continuous-reference-v01/failed-terminal.json",
+    "sha256": "d3419e0826e298ad0ce1bf7d3ec2cfc892136a03670b442988341abf6a720287"
+  },
+  "retained_inputs": [
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-reference-v01/conditional2D/summary.json",
+      "sha256": "35c8f9e3c74fb3530a2855036d0cdd7e04f72cb06f4420ce99282129fdfee8a3"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-reference-v01/conditional2D/adaptive0-moments.npz",
+      "sha256": "84c5abbfa5a4b222121554d5b276f724b39c9a0b604980a0f68e74499ad49fd9"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-reference-v01/conditional2D/adaptive1-moments.npz",
+      "sha256": "697a721977edaafcc693be151fca8634e9947f0326978c467ce15e2b25e2406b"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-reference-v01/conditional2D/smc-512-2026121101.npz",
+      "sha256": "aa18107ed154efe12f77035b4d64c22471b613b9cb9f41652c25e8784012c343"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-reference-v01/conditional2D/smc-512-2026121101-moments.npz",
+      "sha256": "6fa2a6cbcc471765e817328e0b01bee983bac538c379c8497a0a755238655476"
+    }
+  ],
+  "source_sha256": {
+    "experiments/campaign_compliant_patch_inverse.py": "57c6833e7b9e318e5af726e50faee128b96eabbed2cd6e0e4ddfd844449722c1",
+    "experiments/campaign_compliant_gaussian_linear.py": "5937a41fe8058e8ba8f6d3388591ab18a78989ad72f18f9af1a39c7ff85bf383",
+    "experiments/campaign_boundary_gaussians.py": "d58b849f4c4399049e64182acb3fa84dc34fe040768c3b88a48d84fd55950362",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "experiments/campaign_compliant_continuous_reference.py": "51354e607961d333016812601dcae4917c61127331035b99368678128f126611",
+    "experiments/run_compliant_continuous_reference.py": "220ca8b8b2a08e99a2017c0c391ab48224a3bf48914d1e08550b9c33aa511a95",
+    "tests/test_campaign_compliant_continuous_reference.py": "a4792505d3eb82010928da2b6a539e0958341682022e8b1d3011070c5c0bd865",
+    "experiments/campaign_tempered_reference.py": "e878ef5d973c99bcee0fbb62024c4b4a86733bd323537b2927ed391ba5a1589b",
+    "src/physgauss/chain_diagnostics.py": "094fe3f7c5eee9c0c387613238a2320917d7af20fcbee35310dbf6e744b50f39",
+    "experiments/validate_compliant_continuous_reference_v02.py": "cf3f7f2944dbc0bdcb91d824356091fa90a7d28d44122c17446114636135a949",
+    "tests/test_validate_compliant_continuous_reference_v02.py": "7f907302752a7e43dbe9dfeae4a5fc644446e48d6adc01b39744c335a31f8a17"
+  },
+  "same_prior_noise_observation_control_seeds_counts_criteria": true,
+  "CPU_threads": 2,
+  "phase_caps_s": {
+    "conditional2D": 180,
+    "full4D": 360
+  },
+  "completed_reference_reuse": "Both hash-bound adaptive references and moments; zero new quadrature calls",
+  "completed_first_SMC_reuse": "Restore first512/2026121101 particle+loglikelihood and A/B moments; no redraw. Its stage-level genealogy metadata was not saved by v01.",
+  "failure_policy": "Preserve terminal metadata/partial outputs, no retries or seed selection",
+  "full4D_gate": "All original2D reference, analytic, eachseed/count, MCMC and stability criteria must pass",
+  "versions": {
+    "numpy": "2.5.4",
+    "torch": "2.14.1+cu130",
+    "scipy": "1.18.1"
+  }
+}
