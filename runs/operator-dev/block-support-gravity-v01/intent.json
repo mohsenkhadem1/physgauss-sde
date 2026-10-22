@@ -1,0 +1,42 @@
+{
+  "schema": "block-support-gravity-stage-intent-v0.1",
+  "base_commit": "29411b0f4d59a2fda18883c794016f93c6a5455f",
+  "geometry_m": [
+    0.24,
+    0.08,
+    0.08
+  ],
+  "density_kg_m3": 625,
+  "poisson": 0.35,
+  "gravity_m_s2": [
+    0,
+    0,
+    -9.81
+  ],
+  "branches": {
+    "static_CPU": "six prescribed broadtraction/gravity support cases; exactconstraints; fixedphysicalprobes; spatialaccuracy20um; CPU2 hard600s",
+    "Isaac_GPU0": "fivegravityBCs plusfreefallcontrol plus2dropstiffnesses; nativeguards; bounded8cells; controllerglobal600s; demosnotqualifieddynamicreference",
+    "bar_noise_calibration": "independent bounded prospective repeatednoise numericalcoverage diagnostic; knownsupportlaw; no calibrationclaimfromsingletruth"
+  },
+  "boundary_variants": [
+    "left_face",
+    "right_face",
+    "both_end_faces",
+    "bottom_face",
+    "two_finite_bottom_patches"
+  ],
+  "drop_stiffness_Pa": [
+    300000,
+    600000
+  ],
+  "drop_initial_floor_gap_m": 0.05,
+  "media": "actualIsaacnodalstates; cameraorbit; truegeometricdeformationscale; explicitslowplayback; rigidremovedpanel",
+  "invariants": [
+    "Oldsourcesfailuresandsealedpredictioncomparisonunchanged",
+    "RawarraysandmediaLOCAL",
+    "NoNNoractiveprobingcomparisonwithoutforwardqualification",
+    "GPU3unrelatedjobuntouched",
+    "Contactimpactdemoisnotcontactconvergenceproof",
+    "Freefallisexpectedtorigidtranslate;restrictedsupportsarelowmotioncontrols"
+  ]
+}

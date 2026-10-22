@@ -1,0 +1,133 @@
+{
+  "schema": "nonlinear-bar-fixed-truth-noise-v01",
+  "status": "FROZEN_BEFORE_NEW_NOISE",
+  "cases": 64,
+  "noise_seed": 2026121400,
+  "independent_noise": true,
+  "old_single_case_excluded": true,
+  "truth_E_K": [
+    6000.0,
+    220.0
+  ],
+  "prior": "UNCHANGED loguniform E[4500,9000], K[100,400]",
+  "sigma_m": 0.0002,
+  "known_forces_N": [
+    1.0,
+    3.0
+  ],
+  "held_force_N": 2.0,
+  "held_role": "STATIC FORCE INTERPOLATION",
+  "CPU_threads": 2,
+  "hard_wall_cap_s": 300,
+  "algorithm": {
+    "conditional": "c=1/K: prior1/c times Gaussian(mean=m(E),std=sigma/sqrt20); centered residualD(E) retains all4 raw channels",
+    "conditional_order": 20,
+    "conditional_z_limit": 10,
+    "maximum_uniform_inverse_power_series_and_tail_relative_bound": 1e-14,
+    "whole_E_prior_and_ALL_noise_cases_required": true,
+    "no_clamping_redraw_or_case_drop": true,
+    "outer": "Continuous adaptive1D quad_vec, maxnorm, limit256; per-case constant normalization shift only",
+    "outer_tolerances": [
+      [
+        1e-06,
+        1e-12
+      ],
+      [
+        1e-08,
+        1e-14
+      ]
+    ],
+    "quantile_probabilities": [
+      0.05,
+      0.95
+    ],
+    "quantile_bisections": 23,
+    "moments": "Centered and scaled, same fixed centers both passes; heuristic outer error estimates, not rigorous certificates"
+  },
+  "independent_checks": {
+    "indices": [
+      0,
+      9,
+      18,
+      27,
+      36,
+      45,
+      54,
+      63
+    ],
+    "algorithm": "Direct2D GK21 cubature on ORIGINAL raw4-channel likelihood, loguniform unit coordinates",
+    "normalization_and_CDF_truth": [
+      "E",
+      "K",
+      "held-right"
+    ],
+    "centered_all4_moments": true,
+    "rtol": 1e-08,
+    "atol": 1e-14,
+    "max_subdivisions": 512
+  },
+  "numerical_gates": {
+    "maximum_CDF_difference": 0.0002,
+    "maximum_parameter_quantile_unit_difference": 0.0001,
+    "maximum_held_quantile_mean_std_difference_m": 1e-07,
+    "maximum_parameter_mean_std_difference_in_prior_log_range": 1e-05,
+    "maximum_independent_normalizer_relative_difference": 5e-06,
+    "all64_coverage_classifications_identical": true,
+    "truth_CDF_cutoff_distance_minimum": 0.0002,
+    "all64_and_fixed8_checks_required": true
+  },
+  "coverage": {
+    "interval": "equal-tailed latent90%",
+    "confidence_interval": "Exact Clopper-Pearson95% for64 iid fixedtruth noise draws",
+    "quantities": [
+      "E",
+      "K",
+      "held-left",
+      "held-right"
+    ],
+    "metrics": [
+      "coverage",
+      "width",
+      "posterior-mean bias",
+      "RMSE"
+    ],
+    "no_forced90percent_pass_threshold": true,
+    "no_Bayesian_calibration_or_SBC_claim": true,
+    "near_edge": "Report this truth's prior distances; no separate near-edge truth claim"
+  },
+  "reference_protocol": {
+    "path": "runs/operator-dev/nonlinear-bar-inverse-v02/protocol.json",
+    "sha256": "04e9baeb0116f2007536f83c3befb2dd920a71d7a48b2fc11fc1d749feb14d74"
+  },
+  "source_sha256": {
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/run_static_uniaxial_bar.py": "b4560ee2acc85182ebf7947aadc236c5b6d236385f43555575d20a09596e5a0a",
+    "tests/test_campaign_static_uniaxial_bar.py": "ada1f2ecf4efec78344a827d8385e357aa336398ef1b91f667c544c6c25a187d",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_nonlinear_excitation.py": "fbee8a3590887e05547106d035216d70e9b86b1ba2d264a5b805be039c472a3d",
+    "experiments/campaign_nonlinear_gaussian_reference.py": "af86fbe7fc7c2cc6c827441835e647750068b27167afb0d9337135e385294c74",
+    "experiments/campaign_boundary_gaussians.py": "d58b849f4c4399049e64182acb3fa84dc34fe040768c3b88a48d84fd55950362",
+    "experiments/campaign_compliant_gaussian_linear.py": "5937a41fe8058e8ba8f6d3388591ab18a78989ad72f18f9af1a39c7ff85bf383",
+    "experiments/campaign_nonlinear_fem.py": "468daaafa9d02c9db27553e2cfb154190248500677c212d9dde25bffdf14e1ff",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7",
+    "experiments/campaign_static_uniaxial_consistent.py": "ca4b5d7a291bb5c376e2675e61f22be7f41678439b49618682e770ebc2839537",
+    "experiments/run_static_uniaxial_consistent.py": "ffdae7a7afa7b4cb946a9d08000bc7eea9cc6672c464b00843ccfac87a58b346",
+    "tests/test_campaign_static_uniaxial_consistent.py": "71d69e76c36716310a4629fe461e4abda11b77b176e7477e8bdc7e0db3e8365c",
+    "experiments/campaign_nonlinear_bar_inverse.py": "21187d0a8e4c5fd2692d46e51083bcee7efd96eb947ca9d6014806ff9fbda495",
+    "experiments/run_nonlinear_bar_inverse.py": "4d1d6365537ba4e68252078b381f31525a39b0595ebae738f75293395cf09441",
+    "tests/test_campaign_nonlinear_bar_inverse.py": "212207dbc73352a25533c71d5a6c527eddbeb67193c611a9900a69c83a1724fe",
+    "experiments/campaign_tempered_reference.py": "e878ef5d973c99bcee0fbb62024c4b4a86733bd323537b2927ed391ba5a1589b",
+    "experiments/campaign_compliant_continuous_reference.py": "51354e607961d333016812601dcae4917c61127331035b99368678128f126611",
+    "src/physgauss/chain_diagnostics.py": "094fe3f7c5eee9c0c387613238a2320917d7af20fcbee35310dbf6e744b50f39",
+    "experiments/campaign_centered_cubature.py": "b4766eda8a8d0c0c4f35cdd521ae88b7d2c81c1d99c664bd8bc84bcbb9213516",
+    "tests/test_campaign_centered_cubature.py": "3f65559f1d6d6f26672227c3e8e2c7cc0bb8b202486486e90538b46b41b84ec0",
+    "experiments/continue_nonlinear_bar_inverse_v02.py": "2ddfdc3d722f62fa3a08c2f4d373dcae83f545ccf895cdc5c253886098cf36f1",
+    "experiments/campaign_bar_noise_population.py": "01a8d3f418f05a76d09f28cc28e692af822e35b35717a5f497be48e6388faae7",
+    "experiments/run_bar_noise_population.py": "4dea201f9d45af9eb129874363779ac701d4cc4d4f20bb7945b2191d23452a61",
+    "tests/test_campaign_bar_noise_population.py": "12949bb6c31d33e50e730bd33c1f4fae0fba8bb539289ce727cd59854c35e06d"
+  },
+  "no_new_forward_physics_or_sampler": true,
+  "all_attempts_preserved": true
+}

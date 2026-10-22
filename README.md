@@ -1,5 +1,16 @@
 # PhysGauss-SDE
 
+**Latest physics campaign: [block supports, gravity and dropping](docs/GAUSSIAN_BLOCK_GRAVITY_CAMPAIGN.md).**
+Eight Isaac scenarios now include five fixed-support layouts, free fall and two
+impact stiffnesses, with true-scale orbit videos and rigid-motion removal.
+Native timestep differences remain millimetres and impacts penetrate the floor
+by up to 3.53 mm, so these are demonstrations. A higher-order static axial reference now passes the fixed-query 20 µm
+checks and deformation goal, with a conditional 14.1 µm fine-error estimate;
+gravity and contact remain unresolved. A new
+[64-noise bar study](docs/GAUSSIAN_BAR_NOISE_COVERAGE.md) passes numerical checks;
+90% interval coverage is 84–88% with wide confidence intervals including 90%.
+This remains one known-support synthetic truth, not physical calibration.
+
 **Current priority: [deformation and resolved mechanics before networks](docs/GAUSSIAN_MECHANICS_PRIORITY.md).**
 The fresh 32-object population has **24.75 µm** mean mass-weighted nonrigid RMS and a
 **3.19%** mean objectwise nonrigid/total RMS ratio. Actual acquired-depth

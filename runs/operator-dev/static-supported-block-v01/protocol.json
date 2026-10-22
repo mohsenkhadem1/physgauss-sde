@@ -1,0 +1,770 @@
+{
+  "schema": "static-supported-block-forward-qualification-v0.1",
+  "status": "FROZEN_BEFORE_BENCHMARK_CASES",
+  "CPU_threads": 2,
+  "hard_wall_cap_s": 600,
+  "domain_size_m": [
+    0.24,
+    0.08,
+    0.08
+  ],
+  "density_kg_m3": 625.0,
+  "poisson": 0.35,
+  "meshes_cells": [
+    [
+      4,
+      2,
+      2
+    ],
+    [
+      8,
+      4,
+      4
+    ],
+    [
+      16,
+      8,
+      8
+    ]
+  ],
+  "tetrahedra": [
+    96,
+    768,
+    6144
+  ],
+  "cases": [
+    {
+      "id": "left_broad_axial",
+      "boundary": "left_face",
+      "young_Pa": 5000.0,
+      "gravity": 0.0,
+      "traction_N": 1.0,
+      "expected_deformation": true
+    },
+    {
+      "id": "left_gravity_cantilever",
+      "boundary": "left_face",
+      "young_Pa": 300000.0,
+      "gravity": 9.81,
+      "traction_N": 0.0,
+      "expected_deformation": true
+    },
+    {
+      "id": "right_gravity_cantilever",
+      "boundary": "right_face",
+      "young_Pa": 300000.0,
+      "gravity": 9.81,
+      "traction_N": 0.0,
+      "expected_deformation": true
+    },
+    {
+      "id": "both_ends_gravity",
+      "boundary": "both_ends",
+      "young_Pa": 300000.0,
+      "gravity": 9.81,
+      "traction_N": 0.0,
+      "expected_deformation": false
+    },
+    {
+      "id": "bottom_face_gravity",
+      "boundary": "bottom_face",
+      "young_Pa": 300000.0,
+      "gravity": 9.81,
+      "traction_N": 0.0,
+      "expected_deformation": false
+    },
+    {
+      "id": "separated_patches_gravity",
+      "boundary": "separated_bottom_patches",
+      "young_Pa": 300000.0,
+      "gravity": 9.81,
+      "traction_N": 0.0,
+      "expected_deformation": false
+    }
+  ],
+  "boundary_definition": "Exactall-axisnodalconstraints,physicalcoordinatesindependentmesh;no springs/handles",
+  "separated_bottom_patches": {
+    "z_m": -0.04,
+    "x_intervals_m": [
+      [
+        0,
+        0.06
+      ],
+      [
+        0.18,
+        0.24
+      ]
+    ],
+    "y_interval_m": [
+      -0.04,
+      0.04
+    ],
+    "edges_conform_every_mesh": true
+  },
+  "loads": "Bodygravityrho0*V/4nodeweights;uniformknownreference-rightfaceP1tractionintegralsexact;nosurfacepointload",
+  "initialization": "EverycasefromREST;originalstaticNewtoncap40,no warmstart/retry,positiveJ>.1,unmodifiedtangent/objective",
+  "pre_design_beam_estimate_NOT_validation": {
+    "leftgravity_tip_sag_m": 0.0158922,
+    "root_axial_strain": 0.044145000000000004,
+    "note": "EulerBernoullismallstrainestimateonly;full3DclampcornerstrainsmaydifferandrigidremovedbulkRMSmaymissgoal"
+  },
+  "deformation_goal": {
+    "applies_only_expected_deformation_cases": true,
+    "maximum_absolute_principal_stretch_strain": [
+      0.02,
+      0.08
+    ],
+    "bulk_material_volume_proper_rigid_removed_coordinate_RMS_min_m": 0.001,
+    "controls": "Bothend/bottom/separatedpatchesexpectedrestrictmotion;recordstrain/RMSbutdonotrequire1mm",
+    "auxiliary_strain": "Volumeweighted99thpercentileoftetmaximumabsoluteprincipalstrain,andvolumeweightedprincipalstrainRMS;NEVERreplacemaxstrainadmission"
+  },
+  "probe_groups_material_m": {
+    "volume": [
+      [
+        0.03,
+        -0.02,
+        -0.02
+      ],
+      [
+        0.03,
+        -0.02,
+        0.0
+      ],
+      [
+        0.03,
+        -0.02,
+        0.02
+      ],
+      [
+        0.03,
+        0.0,
+        -0.02
+      ],
+      [
+        0.03,
+        0.0,
+        0.0
+      ],
+      [
+        0.03,
+        0.0,
+        0.02
+      ],
+      [
+        0.03,
+        0.02,
+        -0.02
+      ],
+      [
+        0.03,
+        0.02,
+        0.0
+      ],
+      [
+        0.03,
+        0.02,
+        0.02
+      ],
+      [
+        0.09,
+        -0.02,
+        -0.02
+      ],
+      [
+        0.09,
+        -0.02,
+        0.0
+      ],
+      [
+        0.09,
+        -0.02,
+        0.02
+      ],
+      [
+        0.09,
+        0.0,
+        -0.02
+      ],
+      [
+        0.09,
+        0.0,
+        0.0
+      ],
+      [
+        0.09,
+        0.0,
+        0.02
+      ],
+      [
+        0.09,
+        0.02,
+        -0.02
+      ],
+      [
+        0.09,
+        0.02,
+        0.0
+      ],
+      [
+        0.09,
+        0.02,
+        0.02
+      ],
+      [
+        0.15,
+        -0.02,
+        -0.02
+      ],
+      [
+        0.15,
+        -0.02,
+        0.0
+      ],
+      [
+        0.15,
+        -0.02,
+        0.02
+      ],
+      [
+        0.15,
+        0.0,
+        -0.02
+      ],
+      [
+        0.15,
+        0.0,
+        0.0
+      ],
+      [
+        0.15,
+        0.0,
+        0.02
+      ],
+      [
+        0.15,
+        0.02,
+        -0.02
+      ],
+      [
+        0.15,
+        0.02,
+        0.0
+      ],
+      [
+        0.15,
+        0.02,
+        0.02
+      ],
+      [
+        0.21,
+        -0.02,
+        -0.02
+      ],
+      [
+        0.21,
+        -0.02,
+        0.0
+      ],
+      [
+        0.21,
+        -0.02,
+        0.02
+      ],
+      [
+        0.21,
+        0.0,
+        -0.02
+      ],
+      [
+        0.21,
+        0.0,
+        0.0
+      ],
+      [
+        0.21,
+        0.0,
+        0.02
+      ],
+      [
+        0.21,
+        0.02,
+        -0.02
+      ],
+      [
+        0.21,
+        0.02,
+        0.0
+      ],
+      [
+        0.21,
+        0.02,
+        0.02
+      ]
+    ],
+    "surface_face_interior": [
+      [
+        0.0,
+        -0.02,
+        -0.02
+      ],
+      [
+        0.0,
+        -0.02,
+        0.0
+      ],
+      [
+        0.0,
+        -0.02,
+        0.02
+      ],
+      [
+        0.0,
+        0.0,
+        -0.02
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.02
+      ],
+      [
+        0.0,
+        0.02,
+        -0.02
+      ],
+      [
+        0.0,
+        0.02,
+        0.0
+      ],
+      [
+        0.0,
+        0.02,
+        0.02
+      ],
+      [
+        0.24,
+        -0.02,
+        -0.02
+      ],
+      [
+        0.24,
+        -0.02,
+        0.0
+      ],
+      [
+        0.24,
+        -0.02,
+        0.02
+      ],
+      [
+        0.24,
+        0.0,
+        -0.02
+      ],
+      [
+        0.24,
+        0.0,
+        0.0
+      ],
+      [
+        0.24,
+        0.0,
+        0.02
+      ],
+      [
+        0.24,
+        0.02,
+        -0.02
+      ],
+      [
+        0.24,
+        0.02,
+        0.0
+      ],
+      [
+        0.24,
+        0.02,
+        0.02
+      ],
+      [
+        0.03,
+        -0.02,
+        -0.04
+      ],
+      [
+        0.03,
+        0.0,
+        -0.04
+      ],
+      [
+        0.03,
+        0.02,
+        -0.04
+      ],
+      [
+        0.09,
+        -0.02,
+        -0.04
+      ],
+      [
+        0.09,
+        0.0,
+        -0.04
+      ],
+      [
+        0.09,
+        0.02,
+        -0.04
+      ],
+      [
+        0.15,
+        -0.02,
+        -0.04
+      ],
+      [
+        0.15,
+        0.0,
+        -0.04
+      ],
+      [
+        0.15,
+        0.02,
+        -0.04
+      ],
+      [
+        0.21,
+        -0.02,
+        -0.04
+      ],
+      [
+        0.21,
+        0.0,
+        -0.04
+      ],
+      [
+        0.21,
+        0.02,
+        -0.04
+      ],
+      [
+        0.03,
+        -0.02,
+        0.04
+      ],
+      [
+        0.03,
+        0.0,
+        0.04
+      ],
+      [
+        0.03,
+        0.02,
+        0.04
+      ],
+      [
+        0.09,
+        -0.02,
+        0.04
+      ],
+      [
+        0.09,
+        0.0,
+        0.04
+      ],
+      [
+        0.09,
+        0.02,
+        0.04
+      ],
+      [
+        0.15,
+        -0.02,
+        0.04
+      ],
+      [
+        0.15,
+        0.0,
+        0.04
+      ],
+      [
+        0.15,
+        0.02,
+        0.04
+      ],
+      [
+        0.21,
+        -0.02,
+        0.04
+      ],
+      [
+        0.21,
+        0.0,
+        0.04
+      ],
+      [
+        0.21,
+        0.02,
+        0.04
+      ],
+      [
+        0.03,
+        -0.04,
+        -0.02
+      ],
+      [
+        0.03,
+        -0.04,
+        0.0
+      ],
+      [
+        0.03,
+        -0.04,
+        0.02
+      ],
+      [
+        0.09,
+        -0.04,
+        -0.02
+      ],
+      [
+        0.09,
+        -0.04,
+        0.0
+      ],
+      [
+        0.09,
+        -0.04,
+        0.02
+      ],
+      [
+        0.15,
+        -0.04,
+        -0.02
+      ],
+      [
+        0.15,
+        -0.04,
+        0.0
+      ],
+      [
+        0.15,
+        -0.04,
+        0.02
+      ],
+      [
+        0.21,
+        -0.04,
+        -0.02
+      ],
+      [
+        0.21,
+        -0.04,
+        0.0
+      ],
+      [
+        0.21,
+        -0.04,
+        0.02
+      ],
+      [
+        0.03,
+        0.04,
+        -0.02
+      ],
+      [
+        0.03,
+        0.04,
+        0.0
+      ],
+      [
+        0.03,
+        0.04,
+        0.02
+      ],
+      [
+        0.09,
+        0.04,
+        -0.02
+      ],
+      [
+        0.09,
+        0.04,
+        0.0
+      ],
+      [
+        0.09,
+        0.04,
+        0.02
+      ],
+      [
+        0.15,
+        0.04,
+        -0.02
+      ],
+      [
+        0.15,
+        0.04,
+        0.0
+      ],
+      [
+        0.15,
+        0.04,
+        0.02
+      ],
+      [
+        0.21,
+        0.04,
+        -0.02
+      ],
+      [
+        0.21,
+        0.04,
+        0.0
+      ],
+      [
+        0.21,
+        0.04,
+        0.02
+      ]
+    ],
+    "edge_midpoints": [
+      [
+        0.12,
+        -0.04,
+        -0.04
+      ],
+      [
+        0.12,
+        -0.04,
+        0.04
+      ],
+      [
+        0.12,
+        0.04,
+        -0.04
+      ],
+      [
+        0.12,
+        0.04,
+        0.04
+      ],
+      [
+        0.0,
+        0.0,
+        -0.04
+      ],
+      [
+        0.0,
+        0.0,
+        0.04
+      ],
+      [
+        0.24,
+        0.0,
+        -0.04
+      ],
+      [
+        0.24,
+        0.0,
+        0.04
+      ],
+      [
+        0.0,
+        -0.04,
+        0.0
+      ],
+      [
+        0.0,
+        0.04,
+        0.0
+      ],
+      [
+        0.24,
+        -0.04,
+        0.0
+      ],
+      [
+        0.24,
+        0.04,
+        0.0
+      ]
+    ],
+    "corners": [
+      [
+        0.0,
+        -0.04,
+        -0.04
+      ],
+      [
+        0.0,
+        -0.04,
+        0.04
+      ],
+      [
+        0.0,
+        0.04,
+        -0.04
+      ],
+      [
+        0.0,
+        0.04,
+        0.04
+      ],
+      [
+        0.24,
+        -0.04,
+        -0.04
+      ],
+      [
+        0.24,
+        -0.04,
+        0.04
+      ],
+      [
+        0.24,
+        0.04,
+        -0.04
+      ],
+      [
+        0.24,
+        0.04,
+        0.04
+      ]
+    ]
+  },
+  "spatial_accuracy": {
+    "maximum_Euclidean_position_error_m": 2e-05,
+    "all_volume_surface_edge_corner_groups_retained": true,
+    "maximum_strain_NOT_spatial_gate": true,
+    "noise_sigma_reference_m": 0.0002,
+    "interpretation": "0.1sigmafixedphysicalsurfacepointcoordinateerror;notrendereddepthorallcontinuumpositions",
+    "qualifies_only_finest_adjacent_case_comparison": true
+  },
+  "physics_gates": {
+    "minimum_J": 0.1,
+    "original_free_force_residual": "FrozenstaticNewtonmax(1e-10,1e-10*resultantloadnorm)N",
+    "exact_constraint_error_m": 0.0,
+    "force_balance_N": 1e-08,
+    "actual_moment_balance_Nm": 1e-08
+  },
+  "source_sha256": {
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/run_static_supported_block.py": "d90511922c32430ce3b2eb10f80d4ecf70686a5ce18644bd7db4234922243359",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b"
+  },
+  "limits": [
+    "StaticBC/gravityandtractiononly;freefall/dropseparateIsaacexperiment",
+    "Boundaryedgesingularities/mesh/strainfailuresretained",
+    "No inverseorneuraltraininginthisstage",
+    "AlloldGaussianforwardfailuresunchanged"
+  ]
+}

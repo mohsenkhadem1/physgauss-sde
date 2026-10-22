@@ -1,0 +1,136 @@
+{
+  "schema": "isaac-block-gravity-drop-engineering-v0.1",
+  "status": "FROZEN_BEFORE_NATIVE_CALLS",
+  "cases": [
+    {
+      "id": "gravity_left",
+      "kind": "gravity",
+      "boundary": "left",
+      "young_Pa": 300000.0,
+      "duration_s": 0.6
+    },
+    {
+      "id": "gravity_right",
+      "kind": "gravity",
+      "boundary": "right",
+      "young_Pa": 300000.0,
+      "duration_s": 0.6
+    },
+    {
+      "id": "gravity_bothends",
+      "kind": "gravity",
+      "boundary": "bothends",
+      "young_Pa": 300000.0,
+      "duration_s": 0.6
+    },
+    {
+      "id": "gravity_bottom",
+      "kind": "gravity",
+      "boundary": "bottom",
+      "young_Pa": 300000.0,
+      "duration_s": 0.6
+    },
+    {
+      "id": "gravity_two_bottom_patches",
+      "kind": "gravity",
+      "boundary": "two_bottom_patches",
+      "young_Pa": 300000.0,
+      "duration_s": 0.6
+    },
+    {
+      "id": "freefall_300k",
+      "kind": "freefall",
+      "boundary": "none",
+      "young_Pa": 300000.0,
+      "duration_s": 0.2
+    },
+    {
+      "id": "drop_300k",
+      "kind": "drop",
+      "boundary": "none",
+      "young_Pa": 300000.0,
+      "duration_s": 0.6
+    },
+    {
+      "id": "drop_600k",
+      "kind": "drop",
+      "boundary": "none",
+      "young_Pa": 600000.0,
+      "duration_s": 0.6
+    }
+  ],
+  "gpu": 0,
+  "CUDA_VISIBLE_DEVICES": "0",
+  "cpu_threads": 2,
+  "physics_hz": 240,
+  "fps": 30,
+  "solver": "PGS",
+  "deform_iterations": 32,
+  "gravity_m_s2": [
+    0.0,
+    0.0,
+    -9.81
+  ],
+  "size_m": [
+    0.24,
+    0.08,
+    0.08
+  ],
+  "cells": [
+    12,
+    4,
+    4
+  ],
+  "rho_kg_m3": 625.0,
+  "poisson": 0.35,
+  "linear_damping": 0.0,
+  "elasticity_damping": 0.0,
+  "self_collision": false,
+  "contact_offset_m": 0.001,
+  "rest_offset_m": 0.0,
+  "floor_top_z_m": 0.0,
+  "floor_half_extents_m": [
+    1.0,
+    1.0,
+    0.01
+  ],
+  "friction": 0.5,
+  "restitution": 0.0,
+  "drop_initial_bottom_gap_m": 0.05,
+  "global_wall_cap_s": 600,
+  "app_wall_cap_s": 120,
+  "isaac_python": "/home/bayespc2/vscode/deformable worldmodel/.venv/bin/python",
+  "output": "runs/gaussian-campaign-v01/isaac-block-gravity-v01",
+  "source_sha256": {
+    "experiments/isaac_block_gravity_suite.py": "06d94ac0712a7161d0a6a2a087ab8581e0d7bcd1f7a4e7b0b02cf28f3652fd01",
+    "experiments/isaac_block_gravity_worker.py": "a0426e938d809e6a18aacc681f1f68a3f4ad3d03d20bca41a9f58d0bd71692e9",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "tests/test_isaac_block_gravity_suite.py": "30312af7e76ab910806ced4791f61b6e11f58c3cbbfc1d818d542eb912428950"
+  },
+  "ballistics": {
+    "velocity_max_abs_tolerance": "max(2e-5m/s,.001*peak_speed)",
+    "maximum_node_nonuniformity_coordinate_rms_m": 2e-05,
+    "maximum_abs_J_minus1": 0.001,
+    "position_references": "Both exactheld andkickdrift reported, no fittedconvention chosen"
+  },
+  "execution_failure_guards": [
+    "finite q/v",
+    "Jpositive",
+    "native material E/nu match",
+    "native rest/tet match",
+    "native flag match",
+    "initial q/rest andvzero",
+    "actual dt float32match",
+    "fixedpointdrift<=2um",
+    "nativegravitymatch",
+    "onlyGPU0compute",
+    "floor authoredstaticcollision"
+  ],
+  "qualifications": [
+    "Engineering demos, not continuum/time/contact qualification.",
+    "Nonzero drop penetration is measured, not repaired; no exact nonpenetration or contact-accuracy claim.",
+    "Freefall ballistic validation separate from drop deformation; no extra forces/handles/attachments.",
+    "All eight cases retained, no redraw/retry; stop first execution failure.",
+    "Native density/nodal masses not exposed; rho authored and total nominal solid mass reported."
+  ]
+}

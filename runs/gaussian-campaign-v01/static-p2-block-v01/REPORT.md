@@ -1,0 +1,24 @@
+# Quadratic tetrahedral static block
+
+Quadratic tetrahedra substantially improve the same supported rectangular-block calculations. Both load cases converge to the original force equilibrium and pass the quadrature check, but their initial spatial comparisons still fail the unchanged 20 µm gate. All eight predeclared solves completed in 378.16 s on two CPU threads; no physical parameters or failed results were changed.
+
+The geometry, material, exact left-face clamp, and continuum dead loads match the previous P1 cases: a 240 × 80 × 80 mm block, density 625 kg/m³, Poisson ratio 0.35; either 1 N broad right-face traction with E = 5 kPa, or gravity 9.81 m/s² with E = 300 kPa. Shared global edge midpoints give ten-node tetrahedra with affine rest geometry. The finest mesh has 6,144 base tetrahedra, 9,537 quadratic nodes, and 27,744 free displacement components. Consistent P2 body-force coefficients can be negative at vertex basis functions; density remains positive. Uniform face-traction integrals are evaluated exactly, with zero vertex coefficients and area/3 at each triangular edge basis function. They are not point-force or mass lumping.
+
+| Initial 768→6,144 comparison | P1 largest fixed-query error | P2 largest fixed-query error | P2 spatial gate |
+|---|---:|---:|---|
+| Axial traction | 365.27 µm | 22.353 µm | Fail, threshold 20 µm |
+| Gravity cantilever | 3,144.83 µm | 163.344 µm | Fail, threshold 20 µm |
+
+The axial interior queries still differ by 22.353 µm; surface-interior, edge, and corner maxima are 17.260, 15.857, and 15.562 µm. Gravity interior/surface/edge/corner maxima are 142.101/160.720/161.414/163.344 µm. No query group is omitted. The improvement relative to P1 supports the diagnosis that P1 bending approximation was a substantial contributor; it does not prove the remaining error's cause or rescue either initial failed gate.
+
+Independent positive Duffy volume rules with 27 and 64 points are compared on the finest mesh. Both cases start from rest at both quadrature orders. Maximum query changes are 0.000123 µm for axial loading and 0.000957 µm for gravity, below the same 20 µm parity threshold. Thus quadrature error is much smaller than the observed spatial discrepancy at these operating conditions.
+
+At the finest 27-point solution, axial loading produces 5.907% sampled peak principal stretch strain, a 3.327% volume-weighted 99th percentile, 2.032% volume strain RMS, and 1.295 mm nonrigid volume coordinate RMS after best proper rigid registration. Gravity produces 6.448%, 3.365%, 0.775%, and 0.496 mm respectively, with 17.406 mm maximum displacement. Axial excitation meets the frozen 2–8% peak and 1 mm bulk target; gravity misses the bulk target. Maximum strain includes all ten reference element nodes plus volume quadrature points, while the volume metrics use positive quadrature weights. They remain separate measures, especially near sharp clamp edges.
+
+All cases meet fixed 10⁻¹¹ N original free-force residual, exact support constraints, 10⁻⁸ N global force balance, and 10⁻⁸ Nm actual-position moment balance. No diagonal regularization, energy modification, invalid-J clipping, hidden retry, or unconverged-state acceptance is used. The sampled J > 0.1 guard covers volume quadrature and the ten element nodes. A separate sufficient global determinant bound uses the affine-in-material-coordinate displacement gradient: if the largest vertex spectral norm of F−I is below one, convexity bounds it throughout the tetrahedron and gives J ≥ (1−max||F−I||₂)³. Both finest cases satisfy this sufficient condition, with bounds about 0.778 axial and 0.752 gravity.
+
+Three tests passed in 2.01 s: partition/gradient identities and affine compatible F with exact load resultant/moment; finite rigid-rotation energy, force-energy gradient, full tangent finite differences, and invalid-J rejection; and the independent homogeneous uniaxial oracle plus 27/64-point parity and quadratic query interpolation. The observed live process high-water RSS was about 1.43 GiB. The 749 MB algebraic estimate excludes process/framework overhead and is not a hard upper bound.
+
+These results establish meaningful numerical improvement, not a qualified continuum or dynamic reference. The original P1 and P2 failures remain frozen. A separately declared bounded axial continuation investigates an intermediate mesh and a conservative minimum-first-order fine-error estimate; it does not change these initial comparisons. Gravity refinement remains unresolved. No neural training, inverse inference, native Isaac/contact/drop qualification, or general boundary-condition claim follows from this stage.
+
+See the [compact summary](compact-summary.json), [frozen protocol](../../operator-dev/static-p2-block-v01/protocol.json), and [terminal receipt](../../operator-dev/static-p2-block-v01/terminal.json). Raw nodal fields and detailed per-solve histories remain local.

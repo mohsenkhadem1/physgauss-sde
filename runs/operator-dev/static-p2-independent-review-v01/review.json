@@ -1,0 +1,55 @@
+{
+  "schema": "P2-static-independent-source-review-v0.1",
+  "review_kind": "READ_ONLY_SOURCE_AND_EXISTING_TEST_SOURCE",
+  "new_solver_calls": 0,
+  "new_tests_run": 0,
+  "live_or_raw_fields_read": false,
+  "source_sha256": {
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/run_static_p2_block.py": "90b79e0ed528ee35a2e89851bb8248961ddf414bf020ff405f842aba946454b0",
+    "experiments/run_static_p2_axial_continuation.py": "c12200e9a70764e637960ee5bd99909627a83309294459aaf845d995cfcbd86c",
+    "experiments/run_static_p2_axial_fine.py": "44503537d735718547bec056a9bd8729c20cd8ab11ec6894e67016dcee491e5f",
+    "tests/test_campaign_static_p2_block.py": "04b3012f8fb4f5a53136fc2a532724e884f94a1c1471c401455ef77cd45a107b",
+    "tests/test_static_p2_axial_continuation.py": "0badf7650e78185f6a71f0efe5639d541d857c81a7561415c31cf5288e58caf6",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b"
+  },
+  "blocking_mechanics_error_found": false,
+  "findings": [
+    {
+      "topic": "CompatibleP2geometry",
+      "assessment": "Fourvertexlambda(2lambda-1)andsix4lambda_i lambda_j functions and their material gradients agree; globallydeduplicated edgemidpoints give sharedtraces and affine restmap. Query helper uses linear restbarycentrics thenP2shapes, so fixedphysicalqueries retain quadraticdisplacement."
+    },
+    {
+      "topic": "Positivequadrature",
+      "assessment": "Duffy map r=a,s=(1-a)c,t=(1-a)(1-c)d and6(1-a)^2(1-c) normalizedvolumeJacobian are correct; positive3/4pointproductrules integrateP2constantdensityloads exactly. NonlinearNHintegrals are approximate and Q3/Q4 solutionparity is an empiricalcheck, not an exactenergyintegral."
+    },
+    {
+      "topic": "Bodyandfaceloads",
+      "assessment": "Gravity uses reference densitytimes signed P2 integrals; negativevertex coefficients are consistent nodal loadcoefficients, not negativephysicalmasses. Uniform rightreference traction has zeroP2trianglevertexintegral andarea/3 peredge; normalization yields prescribed1Ntotal. Supports constrain allP2DOFs on the completeleftface trace."
+    },
+    {
+      "topic": "NeoHookeanandconstraints",
+      "assessment": "Cancellation-resistant NHenergy, firstPiola and analytic tangent are mutuallyconsistent. FullNewton freeDOFelimination preserves exactmask and originalobjective; fallback acceptance only handlesfloat64energyroundoff while requiring smalleroriginalresidual. Objectivity tested by existingfiniteproperrotationtestsource. No generalrotated-load/frame constructor isclaimed by P2 API."
+    },
+    {
+      "topic": "GlobalJacobianbound",
+      "assessment": "P2displacementgradient is affine over eachlinearresttet. Convexity bounds spectralnorm throughout by itsmaximumat4vertices. If maximumGnorm<1, I+tG remainsnonsingular along0<=t<=1 and detF>=(1-maxGnorm)^3 is valid positive sufficientbound. Samplednode/quadratureJ>.1 alone is not aglobal>.1certificate; source reports bound separately andNonewhenunavailable."
+    },
+    {
+      "topic": "Richardsonindicator",
+      "assessment": "Multipliers3forh12/h16=4/3 and4forh16/h20=5/4 equal1/(r-1). They are conservative only inside an asymptotic leadingerror model with p>=1; sharedbias, cancellation, singularcorner regularity or nonasymptoticbehavior can defeat theinference. They are NOT rigorous continuumerror bounds. Fineprotocol limits explicitly retain finitequery/static/conditional scope."
+    },
+    {
+      "topic": "Scientificqualificationlabel",
+      "assessment": "static_fixed_probe_qualified combines spatialindicator,Qparity,physics; excitation_goal_met is storedseparately. A scientific deliverable requiringbothnumericalchecksand2-8%strain/1mmnonrigidRMS must explicitlyAND excitation_goal_met in reporting. This is a reportingrequirement; no immutablelivecodeeditrequested."
+    },
+    {
+      "topic": "Exportedsurface",
+      "assessment": "Capturefaces reference original3corner triangles; midpointDOFs/elements are also saved. Any future P2visualization must evaluate/subdivideP2surface ratherthan assume cornertriangles include allquadraticdeformation."
+    }
+  ],
+  "scope_conclusion": "No blocking mechanics implementation error identified for the declared canonical static dead-load problem. Even a passing12000result supports only declaredfixedquery spatial/quadrature indicators under statedorderassumption, withphysics/excitation flags separatelyrequired; no dynamics/native/contact/inverse/populationqualification.",
+  "resources_and_provenance": "900samendment is pinned separately before12000fields; finaldriver usesexact12000Q3/Q4fromREST, samephysicalobjective/gates, processRSS8GiB/timewatchdog, noextra levels/forcechanges. Source-onlyreview doesnot assess liveterminaloutcome."
+}

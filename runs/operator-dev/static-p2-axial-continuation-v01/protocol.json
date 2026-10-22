@@ -1,0 +1,84 @@
+{
+  "schema": "P2-axial-continuation-protocol-v0.1",
+  "status": "FROZEN_BEFORE_NEW_SOLVE",
+  "old_summary": {
+    "path": "runs/gaussian-campaign-v01/static-p2-block-v01/summary.json",
+    "sha256": "ddbe5ff714b93d2cf60f194313e6f89957828711b903dc41651dceec233573ab"
+  },
+  "old_protocol": {
+    "path": "runs/operator-dev/static-p2-block-v01/protocol.json",
+    "sha256": "756c3eedbf87c743bb4c5c3ba70498128f835bca073b70b1666191500fcf87fe"
+  },
+  "old_axial_captures": [
+    {
+      "path": "runs/gaussian-campaign-v01/static-p2-block-v01/left_broad_axial-tets96-order3.npz",
+      "sha256": "4356ab8879d2d6a3713177d89aa586fa81e5312fc829d9e8273c125f1b00fd6d"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/static-p2-block-v01/left_broad_axial-tets768-order3.npz",
+      "sha256": "b50c2edf0713ee67f183a00f2810a65b97f7e920b66ebda5498f4af2546b8afb"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/static-p2-block-v01/left_broad_axial-tets6144-order3.npz",
+      "sha256": "e9ef072a9ad35a158ad91b6a43a2ab536936a8465254ba32efb685cbd9ffb860"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/static-p2-block-v01/left_broad_axial-tets6144-order4.npz",
+      "sha256": "3bcd7cc0fe2e50bdd5a4e59f6c93c6b01f50f438fcabf0e1307b0ee7b9230386"
+    }
+  ],
+  "source_sha256": {
+    "experiments/run_static_p2_axial_continuation.py": "c12200e9a70764e637960ee5bd99909627a83309294459aaf845d995cfcbd86c",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b"
+  },
+  "CPU_threads": 2,
+  "hard_wall_cap_s": 600,
+  "actual_RSS_guard_bytes": 8589934592,
+  "cases": [
+    {
+      "cells": [
+        12,
+        6,
+        6
+      ],
+      "order": 3,
+      "physics": "unchanged leftclamp E5000 nu.35 rho625,1Nuniformrighttraction,gravity0",
+      "initial": "REST"
+    }
+  ],
+  "gate": {
+    "fixed_query_threshold_m": 2e-05,
+    "12_to16_fine_error_multiplier": 3,
+    "16_to20_fine_error_multiplier": 4,
+    "physical_force_and_constraint_gates": "unchanged P2v01",
+    "excitation": "unchanged 2\u20138%maxstrain and1mm nonrigidvolumeRMS",
+    "quadrature": "6144Q3/Q4 reused;12000Q3/Q4 if required and budget-feasible"
+  },
+  "conditional_single_finer_level": {
+    "cells": [
+      20,
+      10,
+      10
+    ],
+    "orders": [
+      3,
+      4
+    ],
+    "only_if_2592_to6144_gate_fails": true,
+    "only_if_forecast_plus_elapsed_and_10percent_safety_within600s": true,
+    "no_more_levels": true
+  },
+  "runtime_forecast": {
+    "measured6144_Q3_s": 85.96678948728368,
+    "measured6144_Q4_s": 99.69389412691817,
+    "power": 1.7,
+    "2592_s": 19.821802800427154,
+    "optional12000_pair_s": 579.3766810145082,
+    "interpretation": "Prospective cost guard; retain unlaunched optional work if infeasible"
+  },
+  "preserve": "Original22.353umfailed comparison and gravityfailure immutable; no loads/supports/gates tuned"
+}
