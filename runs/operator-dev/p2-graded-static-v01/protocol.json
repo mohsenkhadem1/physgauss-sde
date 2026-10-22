@@ -1,0 +1,90 @@
+{
+  "schema": "P2-graded-static-refinement-v0.1",
+  "status": "FROZEN_BEFORE_SOLVES",
+  "GPU": 0,
+  "CPU_threads": 2,
+  "wall_cap_s": 900,
+  "GPU_allocated_limit_bytes": 8589934592,
+  "RSS_limit_bytes": 12884901888,
+  "meshes": [
+    {
+      "cells": [
+        20,
+        10,
+        10
+      ],
+      "hmax_m": 0.02920843729130477,
+      "hmin_m": 0.0005999999999999997,
+      "volume_ratio": 1554.6748693733946
+    },
+    {
+      "cells": [
+        24,
+        12,
+        12
+      ],
+      "hmax_m": 0.024451304635731443,
+      "hmin_m": 0.0004166666666666663,
+      "volume_ratio": 2711.6875854260898
+    },
+    {
+      "cells": [
+        32,
+        16,
+        16
+      ],
+      "hmax_m": 0.01843411049176407,
+      "hmin_m": 0.0002343750000000004,
+      "volume_ratio": 6494.472741948502
+    }
+  ],
+  "source_sha256": {
+    "experiments/run_p2_graded_static.py": "f6a84b8c3179f1e0fe704ecde4ab969999b31bf0659eddbafdb151a3eb35637a",
+    "experiments/campaign_p2_geometry.py": "fdae2efcbf0c0abff1d4bb11ccaca8182479c423b80805014b781a510ffa77da",
+    "experiments/campaign_p2_coarse_preconditioner.py": "463cba181d9c6a97de0c31a77cfe1f655adc72999d5f1f6bbe5f82567df39628",
+    "experiments/campaign_p2_block_preconditioner.py": "39c44377a3f5fdb9207106cc828e655d6c005c617459ae1c67c4110475cc47bb",
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/campaign_block_surface_controls.py": "c0ffbd4dd2ecd1cba6b8e293fddc264dcb2c9a07c81304b9b6c4a0313539064e",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/run_static_p2_axial_continuation.py": "c12200e9a70764e637960ee5bd99909627a83309294459aaf845d995cfcbd86c",
+    "tests/test_campaign_p2_geometry.py": "b3c1ccb3de70b5d6d98183821218b27d39c706446873640f36669b8820209be3"
+  },
+  "physics": {
+    "E_Pa": 4500,
+    "nu": 0.35,
+    "rho": 625,
+    "force_pattern": "transverse_end",
+    "known_force_N": [
+      0,
+      0,
+      -0.12
+    ],
+    "BC": "fullleft",
+    "gravity": 0,
+    "physical_domain_m": [
+      0.24,
+      0.08,
+      0.08
+    ]
+  },
+  "mapping": "x=L*(x/L)^2,y/z=halfwidth*sin(pi*coordinate/width);cornersonlythenstraightP2edgeenrichment",
+  "gates": {
+    "original_free_R_N": 1e-09,
+    "global_force_N": 1e-08,
+    "actual_moment_Nm": 1e-08,
+    "exact_clamp_m": 0,
+    "positive_global_J_certificate": true,
+    "conditional_spatial_indicator_m": 2e-05
+  },
+  "indicator": "delta24to32/(actual_hmax24/actual_hmax32-1), assumedp>=1 in this gradedfamily; engineeringindicatorNOTprovenbound",
+  "limitations": [
+    "Allolduniformmeshfailurespreserved",
+    "Gradingmayworsenaspectratios; originalphysics/operatorunchanged",
+    "Q4/time/contact/inferencequalificationseparate",
+    "Basegeometrybytesarenotpeakworkingmemory;actualguardsauthoritative",
+    "Fixed63queriesunchanged;nopointtrimming"
+  ]
+}

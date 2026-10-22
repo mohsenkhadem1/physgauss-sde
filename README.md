@@ -7,7 +7,14 @@ Fine smooth-load time refinement reaches 0.596 µm, with a combined conditional
 space/time indicator of 12.920 µm. Broader bending and drop tests still fail;
 qualified varied datasets and learned prediction remain pending.
 
-**Latest solver repair: [checked Newton static and motion controls](docs/GAUSSIAN_NEWTON_SOLVER_REPAIR.md).**
+**Checked uncertainty reference: [small 3D material/support study](docs/GAUSSIAN_C38_BAR_REFERENCE.md).**
+All 64 objects and 32 independent integration checks pass. An extra endpoint
+measurement reduces static prediction RMSE from 0.393 to 0.155 mm under the
+strong opposite-endpoint rule. Uncertainty-guided policies beat fixed/random
+choices but do not beat that rule. This is an idealized known-layout log-NH
+reference, separate from the GPU block and from image-based forecasting.
+
+**Earlier Newton controls: [checked static and motion controls](docs/GAUSSIAN_NEWTON_SOLVER_REPAIR.md).**
 A corrected initial iterate and mixed-precision BDF2 momentum update preserve
 material, mass and force while improving numerical accuracy. Static GPU/CPU
 query differences are 2.57 µm or smaller; four short-motion comparisons are

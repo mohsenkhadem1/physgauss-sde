@@ -1,0 +1,468 @@
+{
+  "schema": "c38-bar-active-reference-v01",
+  "status": "FROZEN_NUMERICAL_CONTINUATION_SAME_OBSERVATIONS",
+  "objects": 64,
+  "source_sha256": {
+    "experiments/continue_campaign_c38_bar_active_v04.py": "35f35400c056f5890b08c0d6af4906271ff348806bad5cc53e394c0f9beca9cb",
+    "experiments/campaign_c38_bar_posterior_z.py": "a0750ed44e446a97917156ab94211fccc89328230e1ed191808a149ef31e3ea8",
+    "experiments/continue_campaign_c38_bar_active_v03.py": "c362b0e7ff3872612db37318d5eaa6bf28c60d8bad00113fc6dc1b69e6ab4cb4",
+    "experiments/campaign_c38_bar_posterior_cached.py": "23fe9602a74302c89fda6c3ff089865a3e8e98a08d47e62c3c86bec0bfdcf3e9",
+    "experiments/run_campaign_c38_bar_active.py": "b711cca6c883639daad47f1c4a722596f193a42317c2de627c853265019c5fd1",
+    "experiments/campaign_c38_bar_reference.py": "e6d1c4d0fd67a2f232f2f1a3f4055a5ac073f8eb39525b1059bb5977c351da63",
+    "experiments/campaign_c38_bar_posterior.py": "6d91ada4fe840ac1c05a8539ffad43c46165a80e4ed0c68932fffd696bba865d",
+    "experiments/campaign_c38_actions.py": "139064cccdb31c9ad0973ac39a1b70f0bfce964957f0da881318ac9a63807fbe",
+    "experiments/campaign_c38_study.py": "ba793a34f25d4a5543351867762cbb6253544d023815ad57af2b369884d9ee4e",
+    "experiments/campaign_point_active_views.py": "af03ee5556dbec64ad7253ffbd688a0e01757a153938395850dd1691d7e32890",
+    "experiments/censored_range_observation.py": "afc7eeaa8fc3f1f8543701e5ffe9d97f165255f16e5061347875d4df57a9ef11",
+    "experiments/campaign_nonlinear_bar_inverse.py": "21187d0a8e4c5fd2692d46e51083bcee7efd96eb947ca9d6014806ff9fbda495",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b"
+  },
+  "output": "runs/gaussian-campaign-v01/c38-bar-active-reference-v04",
+  "cpu_threads": 2,
+  "wall_cap_seconds": 1800,
+  "observations_generated": false,
+  "saved_observations_already_exist": true,
+  "constitutive_law": "Compressible logarithmic Neo-Hookean: mu/2*(tr(F.T F)-3)-mu*log(J)+lambda/2*log(J)^2; NOT polynomial stable-NH GPU model",
+  "size_m": [
+    0.24,
+    0.12,
+    0.08
+  ],
+  "poisson": 0.35,
+  "density_kg_m3": 625.0,
+  "static_density_does_not_enter_equilibrium": true,
+  "support": "Known uniform normal left spring with total K; y=0/z=0 symmetry rollers; consistent P2 face Gram",
+  "prior": "Independent uniform log E[4500,9000] Pa and log K[100,400] N/m",
+  "sensor": {
+    "kind": "Idealized measured endpoint x displacement, NOT rendered camera depth",
+    "sigma_m": 0.0002,
+    "measurements_per_frame": 1,
+    "frames_per_acquisition": 1,
+    "independent_measurement_noise": true
+  },
+  "prefix": {
+    "force_N": 1.0,
+    "camera": "Prospectively random left/right endpoint, independent of physical latents"
+  },
+  "actions": [
+    "left_endpoint_at_F1",
+    "right_endpoint_at_F1",
+    "F2_reset_probe_at_prefix_endpoint"
+  ],
+  "acquisition_duration_s": 0.2,
+  "one_action_per_policy": true,
+  "canonical_target": {
+    "force_N": 1.5,
+    "kind": "Static held-force INTERPOLATION from common rest, no temporal forecasting",
+    "mass_average": "Exact 2x2x2 positive material volume quadrature"
+  },
+  "policies": [
+    "fixed_left",
+    "fixed_right",
+    "random",
+    "opposite_endpoint",
+    "information_gain",
+    "predictive_risk"
+  ],
+  "choice_before_all_action_outcomes_and_target_labels": true,
+  "common_noise_per_object_action": true,
+  "physical_reset_assumed": true,
+  "acquisition_budget_scope": "0.2s is idealized equal-cost accounting, NOT demonstrated dynamic settling or action feasibility",
+  "decision_scope": "64-fantasy Monte Carlo score/paired-advantage SE reported; integration agreement does NOT prove selected-action ranking convergence",
+  "integration": {
+    "lower": {
+      "rtol": 1e-06,
+      "atol": 1e-12,
+      "conditional_order": 64
+    },
+    "higher": {
+      "rtol": 1e-08,
+      "atol": 1e-13,
+      "conditional_order": 128
+    },
+    "conditional": "Standardized Gaussian GL,50-log-density cutoff from constrained mode; exact full truncated Gaussian mass; omitted prior-weighted mass<=1e-14 checked on every call",
+    "outer": "Adaptive intrinsic log-E integration",
+    "quantile_bisections": 23,
+    "independent": "Direct adaptive 2D Gauss-Kronrod cubature, rtol1e-8/atol1e-13, all 4 posterior states on fixed 8 objects",
+    "independent_indices": [
+      0,
+      9,
+      18,
+      27,
+      36,
+      45,
+      54,
+      63
+    ],
+    "design_cloud": {
+      "outer_order": 16,
+      "conditional_order": 128
+    },
+    "fantasies": 64,
+    "criteria": {
+      "relative_normalizer": 5e-05,
+      "marginal_CDF": 0.0005,
+      "E_quantile_Pa": 1.0,
+      "K_quantile_N_m": 0.05,
+      "held_quantile_m": 1e-06,
+      "field_mean_m": 1e-07,
+      "field_std_m": 2e-07,
+      "quadrature_cloud_normalizer": 5e-05,
+      "quadrature_cloud_field_moment_m": 2e-06,
+      "independent_relative_normalizer": 5e-05,
+      "independent_field_mean_m": 2e-07
+    }
+  },
+  "seeds": {
+    "prior": 2026122300,
+    "prefix_camera": 2026122301,
+    "prefix_noise": 2026122302,
+    "action_noise": 2026122303,
+    "fantasies": 2026122304,
+    "random_policy": 2026122305,
+    "bootstrap": 2026122306
+  },
+  "coverage": "Prior-predictive Bayesian-model population check (64 fresh prior objects); exact binomial CIs, ranks and widths, no forced90percent pass threshold/no claim real-physics or perception calibration",
+  "raw_local": true,
+  "preserved_failures_no_retries": true,
+  "reused_observations": {
+    "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/private-objects-and-prefix.npz",
+    "sha256": "74a520452437df6777bcac3a5a6c496cf9cf3825645a4801800c1827be131f2a"
+  },
+  "original_failed_numerical_attempt": {
+    "protocol": {
+      "path": "runs/operator-dev/c38-bar-active-reference-v01/protocol-v02.json",
+      "sha256": "159232d3f2a6fcd7bf7ae43275795695b973e7abe707d2c0619f84a11683c9e0"
+    },
+    "summary": {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v02/summary.json",
+      "sha256": "9d1c43f7a91d594bc4801108623514a6b592c35f88c28f9b052136efed27339f"
+    }
+  },
+  "numerical_continuation": "SAME saved64 objects/prefix; no redraw. Conditional32/64 failure preserved; refine64/128 with unchanged criteria. Exact source-checked reuse; new standardized-Gaussian quadrature only for remaining integrals; cap1800s.",
+  "reused_records": [
+    {
+      "path": "runs/operator-dev/c38-bar-active-reference-v01/protocol-v03.json",
+      "sha256": "a302e0a03d53af34d365fcd20ef083628d8e672d921ed11307c8ba4aa581702f"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/summary.json",
+      "sha256": "f8f90d217192c96a0018138896ce36138415a2230c1e53d4dd2d3edd7f2a6241"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choices-frozen.json",
+      "sha256": "a06a301782f010448d852ec97a5714080dbcacc432db33759e41754823d4431c"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/action-observations.npz",
+      "sha256": "a0ebc20933e346063e1cca264f929d8a0b135b64ebdb48cfbbcb8b6bcec77524"
+    },
+    {
+      "path": "runs/operator-dev/c38-bar-active-reference-v01/handoff-terminal-v03.json",
+      "sha256": "dcf8988fd110ddb4ffb1abafdc04829f308fd2d27395db7dde55f56d211ee787"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-000.json",
+      "sha256": "b69203b912381f23b73727c908257c658afef873579249410886c1b6be2b6125"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-001.json",
+      "sha256": "0811322e6d4e0080bd772bc8cdd0477c19381e222b1ac216c77a2bfcdc69f873"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-002.json",
+      "sha256": "60af283f75b85673fd7b12fa69146e30c8e2d4da0914c943705116f3096f885b"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-003.json",
+      "sha256": "3ce45011e1de6da107a2db40c6ac56537c63309a8ec3128ab5b2edd1a6e16b66"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-004.json",
+      "sha256": "3967df9bf70edcb95529f3126cb5266ec001ab5194456ebb3fe18b6d32d69f1c"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-005.json",
+      "sha256": "5ca8503ed78580f160bbad231fe22d77a1136508d744f602b0d98bebd31ecea6"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-006.json",
+      "sha256": "72cc0aad94495859d5d1bd21c97d09e4992e5296edba68bd53b6a5873b29ed84"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-007.json",
+      "sha256": "a78fa2b64bdd7cec850365aae589c8c87ef800b45b16fa4b2d4886b612593820"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-008.json",
+      "sha256": "f71d8acd553c3283ca05bb02669d368a6e6d848dfaa669eaa29fb553612e6f9a"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-009.json",
+      "sha256": "3d5d98e9dc4e49d05d5614dcfcbc46911d908d458a14528a5aae162b4221a671"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-010.json",
+      "sha256": "402827843fe5b5fa076cea3dec0eac0bd545bd090307b26c84b3e2c63859d9d1"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-011.json",
+      "sha256": "58a99523b9822ed7fba73fe3a6ba3e29cb78df86f37af74e3ae756073cd2d717"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-012.json",
+      "sha256": "fa070f6bbdd2d1ba628964076286aad5d80ff199174e4e8a12a2548f7a44583c"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-013.json",
+      "sha256": "732bd74f88ff6d102d13383c3da2e80083fd4d52267991ebf369907b02a4f98c"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-014.json",
+      "sha256": "317dfa800c9adcc41cf846ead428a526b467eb2e2b2f2bf69c4c8a18cccf6fa5"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-015.json",
+      "sha256": "9ee06371a3ff0079ee6c53127d434bd4bfbebee2555e14ed552778813b8a4765"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-016.json",
+      "sha256": "073691f3be652479b4cc920346d3be8fcb4089abefa3daad9aeb07b2f4af1863"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-017.json",
+      "sha256": "69a44abec1030adb4dcd37abe3e8f3606c5cf5d337e5889554bbbbfa04a88b83"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-018.json",
+      "sha256": "a852a6bd784592266f42ebe2619cf8755213dd35de6f38ffc9f256884e6101d4"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-019.json",
+      "sha256": "1d187d807b0c143689c5dc9f8ff207be6e2186edfbaef31f9f2502aae4cc727f"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-020.json",
+      "sha256": "d6bd2d5557d15c25a175c10fe87c06a2d7b4bccb4859a51ea7f908fe28a4cec0"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-021.json",
+      "sha256": "975523e491d0803f98330ff49ff25936acc74204b95180ecac9f2ba71b120943"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-022.json",
+      "sha256": "651491cff807d9ed4d514a43a15149e355883c2f3b5713c4807f2c80f4ff42a3"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-023.json",
+      "sha256": "18046121e9255391b55f8d39d14bd13056b0e121d4d83fdd76e775b3eb749e78"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-024.json",
+      "sha256": "6323e6e7ca4b3a70d656ed3d374e45287ac5872033c744da61366e4086294826"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-025.json",
+      "sha256": "97a490bc95555f4b8f621cd9afe5425b77fc6d9d138184b634e95026bf4cf69b"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-026.json",
+      "sha256": "7334b2057ebefa64b14dc6d9a0993a49ed4e3ae6b36b69ef45ce79226265ca1b"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-027.json",
+      "sha256": "54067633cdde48e06b65b5dd6f0802fe4e1403a459f7f35055ff88b3b1fa954b"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-028.json",
+      "sha256": "36b4d2f6223ff27d963a28a86e5c09e805e782950a7c2d5d48e1ce8cddec05aa"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-029.json",
+      "sha256": "6fa580124edea4b144318926fe0fe4a98936b70cd7c059b9ea18f3d17978d796"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-030.json",
+      "sha256": "f907a0b7287b4f40b80bca651060e2302960f734dbf4c0f00252a077380282e7"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-031.json",
+      "sha256": "4da4ffda8171b45a253c04cd15f2ab0db2828e386bcd4ef2b6dfc0a45266bb5d"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-032.json",
+      "sha256": "e16f315e1b421c582326171309461cb09e347218fa6a971ac369545a260f47b8"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-033.json",
+      "sha256": "64a8ed48417d00c318027e80e8b5f13327197321e6c78f70eaa2e5d16688a359"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-034.json",
+      "sha256": "bda1603940bdaaabd64b8aa580e9237f8439802258f26df8d87d09bfedd41d57"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-035.json",
+      "sha256": "71e363dca19501aaecec6b6325db0d707d50a12b9f4611486d3518fa17e751db"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-036.json",
+      "sha256": "16bfafde591ec635c72946c701bfab9d586fe6bd1bc03d355c4f190a30e4eca5"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-037.json",
+      "sha256": "bed01547744924054d93c2071e7723f746caeee841825245b5875c371bac866a"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-038.json",
+      "sha256": "2b28896cc08efbca82b8426482b972c5859a6e39428916b85f64febc598757bd"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-039.json",
+      "sha256": "8ead67f730f75e2004a86460e0e07129ecbe9af1a9262a32b98391624dbd6e8e"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-040.json",
+      "sha256": "53739d57094c91d546d8f81f1173dd23c3251158e4612b34d76305d78a7f2eac"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-041.json",
+      "sha256": "304b0595156bef3b13762ae22704ba3c18b0bb46c011c21ef2c0559a88aae457"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-042.json",
+      "sha256": "72e1c9f1d3ac80801dcbd19f0a779845321ecb60d746e3de6cbcf9d3f073cf36"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-043.json",
+      "sha256": "1493661e93ec17bd9dfa482abcbbe9fe1e1924d82d31b4ee9b29a59d1f78c29f"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-044.json",
+      "sha256": "1d6a19df33ec144e3abe41807b0deed7181f6baa5eed908b6182bad36ed2cc06"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-045.json",
+      "sha256": "e050555799f5728bca7320933291fad99ca40dc1e22488a1a001e9abed5d4c46"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-046.json",
+      "sha256": "4cf791a597781a087d5329cb8bf7c4070ac9a51be7f4ce5496f35e99dc1a6650"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-047.json",
+      "sha256": "375e9170df1de0e1fb1ecff9c80eeb71acc9e2e8655d914cd0a292b5bb7bdda9"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-048.json",
+      "sha256": "4f7f4791b9d33ac2857f79ccb51f42580f453a72d5315851160028b87a5cd957"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-049.json",
+      "sha256": "e1aec116b74fcb8a1469fe9e960ef01df8eef531cf729215700dbbb2f0ebb137"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-050.json",
+      "sha256": "670bd698a65cb63111a643eaa8520f86461edace40ae9effd43457568150bd37"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-051.json",
+      "sha256": "58e06a15757a521564d88f555f3c7eb2127f0a8a0b1e515a256583942770ba5e"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-052.json",
+      "sha256": "5360dbf033fb7cdc33bc62f65e6f870be8a1cad6250aaa1be6b42926fa68c4c5"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-053.json",
+      "sha256": "124605c355fddda37c00aa7f658e726ae90ffe101829b3556dd9141a8d907b60"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-054.json",
+      "sha256": "3f330c9442149889b9e3a16d8b299645990998af25f62e4bd6dfb0abc6dde6a3"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-055.json",
+      "sha256": "3c41d31ffda03979b4747a912fad2e252b4f70f624597341542f23a636c9d4a3"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-056.json",
+      "sha256": "6bdde7594ff6960acbb7d515f13e2b67069e36b9953aec60f4603beebea88a07"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-057.json",
+      "sha256": "af4f5ed4733a269512548edbc28483fb4da5ac6f76a3fead14d4e74edbcea202"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-058.json",
+      "sha256": "ad4216a533710d11b83387ad484b986498b6ea3f7fdf4d9197e00f7fb65f12c6"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-059.json",
+      "sha256": "5d69465df9d764de3e3ca4f9f94973e731a744961bd96d25548c380ad20e1475"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-060.json",
+      "sha256": "c82abc15348f13ae598d8476e8aa5daa9fa532d31f6cd6a89a663efb0aa33515"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-061.json",
+      "sha256": "4d93b2af59508602d0d480277335dea2528191b7eefa2ec588a3e50d69ddd16b"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-062.json",
+      "sha256": "7a5fa9f37b5379939c6c957e38a7f94a713658989b8a47057a2449f338b16fc3"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/choice-063.json",
+      "sha256": "dab54dba5e4db745fff18423270043a602028d81d818493e4f2edee617555e8b"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/post-side0-action0-lower.json",
+      "sha256": "1ce25a7d0a183c51cb65379e27d1486b89cb248d77b0c7680ff774e429ab0095"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/post-side0-action1-lower.json",
+      "sha256": "aef97a7e4e0010acdaaf594be094bd8d03951b46779bbb4baed32fc85a274f15"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/post-side0-action2-lower.json",
+      "sha256": "d6750d3b15691d1a8581089a534214774ce260ba7b2fb1d20ca11e18f8f620dc"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/prefix-side0-lower.json",
+      "sha256": "6481d539060d582e91abc4e360c7d0ddbc58ba2ab60247300cfd7a0e767abc33"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/prefix-side1-lower.json",
+      "sha256": "3ccd59dc1489b2325a2280709d62c1895aa046f3d4a3097e59dd8bbccf467d2b"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/post-side0-action0-higher.json",
+      "sha256": "4cf0904f820f541da670de2f3001743ddfaa693ba6bd79144feed615dc590e9a"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/post-side0-action1-higher.json",
+      "sha256": "a31a4e35ab8ec5aca6adafd2e63908aac501998d446d3d6b0661658ee14e03c1"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/post-side0-action2-higher.json",
+      "sha256": "99ffbf2a48afa05de5537bc94839e830a0dda3e65175c3b3d54fb7c5ab388ef4"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/prefix-side0-higher.json",
+      "sha256": "3bbd83cfcf4f46c7911b49fc8311749beee6e46e5d4f027fdbbd2e58146bc330"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03/prefix-side1-higher.json",
+      "sha256": "f753dd29ba6e26ec6d2bddfb1d534d0d0f956600a43cf68887fa5c749a32ff7f"
+    }
+  ],
+  "resume_output": "runs/gaussian-campaign-v01/c38-bar-active-reference-v03",
+  "source_activation_scope": "Only remaining post-action integrations use new z helper; reuse original completed summaries/independent checks and ALL64 choices, no reranking"
+}

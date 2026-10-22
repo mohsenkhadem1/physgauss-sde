@@ -53,6 +53,15 @@ further. Peak clamp strain increases with refinement; no converged peak-stress
 claim is made. Failed cases are retained and do not become qualified training
 data because their visual deformation looks plausible.
 
+A two-level compatible preconditioner reduces the fine 49,152-tet solve to
+49.23 s while retaining the full original FP64 operator and force checks. The
+uniform-mesh spatial indicator still fails at 97.34 µm. A straight-reference
+mesh graded toward the clamp and edges improves the tested indicator to
+46.56 µm, which also remains a failure. Its physical geometry, force and support
+are unchanged. Larger graded meshes are in progress. Clamp strain peaks grow
+to about 44% on the graded mesh, while volume-weighted nonrigid motion stays
+near 1.48 mm; a local clamp singularity is not a converged bulk strain estimate.
+
 An optional mixed-precision linear correction also passes three independent
 fine-solution comparisons (pulling, bending and twisting), with nodal differences
 below 7e-13 m and original FP64 force residuals below 6.6e-12 N. It uses FP64
@@ -93,6 +102,13 @@ not remove resolution error. Even analytic-freefall-initialized BDF2 rates up
 to 15,360 Hz fail the 20 µm refinement target. A separate high-order adaptive
 ODE check is underway with the same mass, material and floor stiffness.
 
+Its first accuracy setting completes with energy drift below the prospective
+limit. The tighter setting hits the declared 900 s resource limit before the
+physical interval ends. A separate tight-only continuation keeps the same
+tolerances and imports the completed first case. No temporal qualification is
+claimed until both settings complete and agree. The new driver checks every
+accepted state and checkpoints the committed trajectory prefix.
+
 ## Evidence and limits
 
 - [Independent fine CPU spatial report](../runs/gaussian-campaign-v01/newton-stable-p2-spatial-v01/REPORT.md)
@@ -116,3 +132,9 @@ then admit qualified data for strictly causal prediction.
 The small material/support posterior study is a separate reference problem;
 neither numerical parity nor that reference alone establishes general learned
 boundary conditions or useful uncertainty-guided probing.
+
+The [completed small reference](GAUSSIAN_C38_BAR_REFERENCE.md) now passes all
+64 objects and 32 independent integration checks. Its acquisition results match
+the simple opposite-endpoint heuristic rather than showing an advantage over it.
+A fresh learned-posterior control is being prepared; no broad physical RGB-D
+training dataset has been admitted.

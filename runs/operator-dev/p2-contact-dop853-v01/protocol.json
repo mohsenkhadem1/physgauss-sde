@@ -1,0 +1,110 @@
+{
+  "schema": "AdaptiveDOP853-fullmass-P2-compliant-contact-v0.1",
+  "status": "FROZEN_BEFORE_GPU_PHYSICS",
+  "gpu_uuid": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+  "CPU_threads": 2,
+  "wall_cap_s": 900,
+  "source_sha256": {
+    "experiments/run_p2_contact_validation.py": "12b9f3e8740f3ccd8e292b9da6a50cb028d67ee6dee8b9605f42d5207cf17b1b",
+    "experiments/campaign_p2_torch_contact.py": "5fd6e6e5fabdc4b53a9aed3a8a81efb135eb2063ebf4134f1f5c79c7a7e38d59",
+    "experiments/campaign_p2_transient.py": "a83952d076fb9920ab88a12e90f820e748de654d008d51802ff0fc411c4fca6e",
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_newton_contact_bdf2.py": "5c14c6bdc537e46cdd11423f9e50d25b21c923fb77f35a571df1a64c8722c519",
+    "tests/test_run_p2_contact_validation.py": "bfe150a08dcb79b8007c5e797aaa5d0fe99be755e3d230096cfcb7563369042c",
+    "experiments/run_p2_contact_dop853.py": "3b0fc331257581dc9f2fdf107e533de9d6adbba655ccfa08414e2947b7c3650c",
+    "experiments/run_p2_contact_refinement.py": "7b0bf1ca388956e60a8924ddf23824981bb0b49a57525945b3a96ccdf796e55c",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336",
+    "experiments/campaign_stable_transient.py": "198c69875bb0672f9966a2eae3706fee34c6af03e4ba41ac7f552c26652175d6",
+    "tests/test_run_p2_contact_dop853.py": "da7c371943c50233f023593778a534b16b05c8ece4c55f9e24d5eb8bf24dff79"
+  },
+  "scipy_source_sha256": {
+    "integrate/_ivp/ivp.py": "b952d024de4bfe1aefd4702e934b773a27679772ce3c27b60b2917aaf8b39f1e",
+    "integrate/_ivp/common.py": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+    "integrate/_ivp/rk.py": "2a6b9eec1914e8b1dd57d2214f0f6f17900319dac9ae94a47577879211f0250b",
+    "integrate/_ivp/dop853_coefficients.py": "3ab62f5b41eee97eec3a1dfb154e7c80d9200bbeca56961c95ec2ffc04463001"
+  },
+  "configs": [
+    {
+      "name": "accuracy1",
+      "rtol": 1e-07,
+      "displacement_atol_m": 1e-10,
+      "velocity_atol_m_s": 1e-08,
+      "impulse_atol_Ns": 1e-10
+    },
+    {
+      "name": "accuracy2",
+      "rtol": 1e-09,
+      "displacement_atol_m": 1e-12,
+      "velocity_atol_m_s": 1e-10,
+      "impulse_atol_Ns": 1e-12
+    }
+  ],
+  "cells": [
+    4,
+    2,
+    2
+  ],
+  "physics": {
+    "size_m": [
+      0.24,
+      0.08,
+      0.08
+    ],
+    "E_Pa": 300000.0,
+    "nu": 0.35,
+    "rho_kg_m3": 625.0,
+    "gravity_m_s2": [
+      0.0,
+      0.0,
+      -9.81
+    ],
+    "initial_bottom_gap_m": 0.05,
+    "kappa_N_m3": 1000000000.0,
+    "surface_Q": 8,
+    "friction": 0.0,
+    "damping": 0.0,
+    "plane_z_m": 0.0,
+    "BC": "allfree",
+    "mass": "ExactfullconsistentT10constantSPDscalarMreused3coords",
+    "law": "SamefixedstableNH+finitecompliantreferenceareaP2surfacepenalty"
+  },
+  "interval_s": [
+    0.08333333333333333,
+    0.15
+  ],
+  "initializer": "Exactfreefallu=.5gt0\u00b2,v=gt0; no numericalhistoryneeded",
+  "maximum_step_s": 3.3333333333333335e-05,
+  "outputs_s": [
+    0.08333333333333333,
+    0.09166666666666666,
+    0.09999999999999999,
+    0.10833333333333334,
+    0.11666666666666667,
+    0.125,
+    0.13333333333333333,
+    0.14166666666666666,
+    0.15
+  ],
+  "RHS": "[v,Cholesky(M)solve(Fgravity-gradU),sum_i(Fgravity-gradU)_i]",
+  "gates": {
+    "masssolve_R_N": 1e-08,
+    "minimum_J": 0.1,
+    "maximum_accuracy_pair_fixedfield_q_m": 2e-05,
+    "maximum_accuracy_pair_velocity_m_s": 0.0001,
+    "energy_balance_J": "max(1e-9,1e-6*initialdropenergy)",
+    "momentum_balance_Ns": 1e-08
+  },
+  "accepted_state_checks": "Evaluateallresult.sol.ts endpointstates AND9densecommonoutputs; RHSstageenergyNOTusedasacceptedenergy",
+  "checkpoints": "Constant+1nonterminatingevent observesacceptedstates; checkpoint every64acceptedsteps; neverchangesRHS/stepacceptance",
+  "nonclaims": [
+    "AuxiliarymomentumusesidenticalRKquadrature;consistencychecknotindependenttimeaccuracy",
+    "Semidiscretefixedmesh/fixedQ/fixedkappa referenceonly",
+    "No hard-floor, friction, continuum spatial or Q qualificationfromtoleranceagreement",
+    "Two adaptive tolerances are numericalchecks, notrigorouserrorbounds"
+  ]
+}

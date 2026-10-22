@@ -1,0 +1,11 @@
+# Adaptive P2 contact reference: one accuracy run passes, tighter run timed out
+
+The fixed 96-tetrahedron/full-consistent-mass model uses E300 kPa, ν=.35, ρ625 kg/m³, g=−9.81z, Q8 reference-area contact and κ=10⁹ N/m³. Initial state at1/12s is exact analytic freefall, before contact; final target is.15s. The physical ODE u′=v, Mv′=Fg−∇U is integrated with SciPy DOP853 and GPU float64 forces. No material, floor stiffness, damping or coordinate repair is introduced.
+
+The first fixed setting (rtol1e-7, displacement atol1e-10m, velocity atol1e-8m/s, maxstep1/30000s) completed in184.12s with76115RHS calls and4471 accepted steps. It passed energy and physical momentum consistency checks on every accepted state and nine common outputs: maximum accepted energy error4.47767e-7J is below the predeclared4.7088e-7J criterion; momentum balance error2.67e-15Ns; maximum mass-solve residual1.89e-13N.
+
+The second, independently declared tighter setting (rtol1e-9, displacement atol1e-12m, velocity atol1e-10m/s) required many small steps at contact-force activation kinks. The owned900s stage guard terminated and reaped the worker before that trajectory finished. Last accepted state and progress metadata remain local. There was no reported Jacobian or mass-solve failure. The partial run is not a full time reference and has not undergone the mandatory all-accepted-state energy/output comparison.
+
+**No temporal-reference or drop-data qualification is claimed.** Both accuracy runs and their q/v/energy agreement are required; one completed tolerance is insufficient. The auxiliary integrated-force momentum check shares the Runge–Kutta quadrature and is a consistency identity, not independent time-accuracy evidence. The separate oscillator/freefall tests and exact-force controls address implementation; energy and two-tolerance agreement address temporal error.
+
+All earlier BE/BDF2 failures remain unchanged. A future resource-only continuation must retain the completed loose result and freeze an explicit new budget before rerunning the same tighter setting. Raw dense accepted states, trajectories, compilation environment and checkpoints stay local. GPU1 was released and both owned processes are absent.

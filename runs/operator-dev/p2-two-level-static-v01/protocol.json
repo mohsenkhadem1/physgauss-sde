@@ -1,0 +1,110 @@
+{
+  "schema": "C38-P2-two-level-static-v0.1",
+  "status": "FROZEN_BEFORE_GPUCONTROLS_AND_PHYSICS",
+  "source_sha256": {
+    "experiments/run_p2_two_level_static.py": "98452d2aa4bfc5fc8a11c7a8afaf3f5185dd27704cee3f257a250d98d7f04605",
+    "experiments/campaign_p2_coarse_preconditioner.py": "463cba181d9c6a97de0c31a77cfe1f655adc72999d5f1f6bbe5f82567df39628",
+    "experiments/campaign_p2_block_preconditioner.py": "39c44377a3f5fdb9207106cc828e655d6c005c617459ae1c67c4110475cc47bb",
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336",
+    "experiments/campaign_block_surface_controls.py": "c0ffbd4dd2ecd1cba6b8e293fddc264dcb2c9a07c81304b9b6c4a0313539064e",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "experiments/run_static_p2_axial_continuation.py": "c12200e9a70764e637960ee5bd99909627a83309294459aaf845d995cfcbd86c"
+  },
+  "old_case0": {
+    "path": "runs/gaussian-campaign-v01/p2-varied-static-v01/case0.json",
+    "sha256": "20ff2079d0c1e6203abb23d5425cc2c418e475b68ac7b7b0af5559a9245c6624"
+  },
+  "reference12": {
+    "path": "runs/gaussian-campaign-v01/p2-varied-static-v01/case0-tets12000.npz",
+    "sha256": "4b74253e6133ac56bde6866cb20f8d3a2d06d6f845cb0815dc8fad7c57d3c586"
+  },
+  "reference24_result": {
+    "path": "runs/gaussian-campaign-v01/p2-transverse-spatial-v01/tets20736.json",
+    "sha256": "8476f436615464b70f90e9ff3506da287967aea3dabab1e5228aef0dc41cf515"
+  },
+  "reference24": {
+    "path": "runs/gaussian-campaign-v01/p2-transverse-spatial-v01/transverse-tets20736.npz",
+    "sha256": "fc6ae88c086f9344c570634932e1eac54543922dd7db0ca815f9d398a9c8938c"
+  },
+  "old_fields": [
+    {
+      "path": "runs/gaussian-campaign-v01/p2-varied-static-v01/case0-tets6144.npz",
+      "sha256": "3737f522008be68d5337c996a2eb335c48e7ef9291e1375fa13160a04726a771"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/p2-varied-static-v01/case0-tets12000.npz",
+      "sha256": "4b74253e6133ac56bde6866cb20f8d3a2d06d6f845cb0815dc8fad7c57d3c586"
+    }
+  ],
+  "jobs": [
+    {
+      "cells": [
+        20,
+        10,
+        10
+      ],
+      "tets": 12000,
+      "role": "SAME_DISCRETE_MODEL_PARITY"
+    },
+    {
+      "cells": [
+        32,
+        16,
+        16
+      ],
+      "tets": 49152,
+      "role": "NEW_FINE_SPATIAL_FIELD"
+    }
+  ],
+  "all_from_REST": true,
+  "physics": {
+    "E_Pa": 4500,
+    "nu": 0.35,
+    "rho": 625,
+    "gravity": 0,
+    "full_left_clamp": true,
+    "force_pattern": "transverse_end",
+    "force_N": [
+      0,
+      0,
+      -0.12
+    ],
+    "quadrature": 3
+  },
+  "preconditioner": "FP64 additiveexactnodalblock+coarse4x2x2restP2(K0+mfMc); originalfullFP64operator",
+  "CG_cap": 4000,
+  "nonlinear_cap": 25,
+  "GPU": 0,
+  "CPU_threads": 2,
+  "hard_cap_s": 900,
+  "GPU_allocated_guard_bytes": 8589934592,
+  "actual_RSS_guard_bytes": 12884901888,
+  "minimum_disk_free_bytes": 32212254720,
+  "gates": {
+    "original_R_N": 1e-09,
+    "global_force_N": 1e-08,
+    "actual_moment_Nm": 1e-08,
+    "clamp_m": 0,
+    "minimum_J": 0.1,
+    "positive_global_J": true,
+    "parity12k_max_allnode_q_m": 1e-08,
+    "coarse_P_affine_max_m": 1e-12,
+    "coarse_P_constant_max": 1e-11,
+    "adjoint_and_Bsymmetry_relative": 1e-10,
+    "conditional_fine_indicator_m": 2e-05
+  },
+  "conditional_fine_error": "3*max63point(delta24to32), derived1/(32/24-1) underassumedp>=1;notrigorousbound",
+  "conditional_resource_preemption": "Afternew49152physicalgatespass, rootauthorizedresourcepreemptONLYoldincomplete49152; separateoperatorreceipt; nooldcompletedfieldsremoved",
+  "limits": [
+    "No change to old runtime or failed gates",
+    "No physicalretuning or FP32 arithmetic",
+    "Q4/time/contact/training qualification separate",
+    "Peakstrain and auxiliarybulkmetrics reportedwithoutdiscardingedgepoints"
+  ]
+}

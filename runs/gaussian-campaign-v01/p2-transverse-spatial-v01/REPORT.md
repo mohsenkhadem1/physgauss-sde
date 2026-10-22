@@ -1,0 +1,9 @@
+# Preserved original-block spatial continuation
+
+The original 20736-tet transverse case completed from rest in 265.58 s with strict free residual 9.74e-13 N, exact clamp, force/moment balance and positive global J certificate. Its peak principal strain is 12.206%, volume-weighted 99th percentile 6.116%, and volume nonrigid RMS 1.47654 mm. The peak exceeds the original 2-8% excitation goal; these corner values remain in all diagnostics.
+
+The following 49152-tet original-block-Jacobi solve was still incomplete when a separately frozen FP64 two-level solver completed the exact same physical fine problem. The new solver first reproduced the old 12000-tet field from rest to 6.56e-13 m, then solved 49152 from rest with the original force, balance, clamp and global-J gates. Root explicitly authorized stopping only the older incomplete duplicate to avoid wasting resources. The completed 20736 field and all old failed gates remain unchanged.
+
+This is a resource supersession, not a wall/memory or demonstrated mechanics failure. The old generic SIGTERM handler calls every termination a frozen resource guard; the separate intent and completion receipts record the actual authorized reason. The old worker stopped at 1064.44 s, below its 1800 s cap, with 1,777,909,760 bytes observed RSS and guard reason null. Controller/session16623 was reaped with exit1 and all owned processes are absent.
+
+The original stage remains incomplete. Its fine result is not overwritten. The separate new fine result gives a conditional 24-to-32 indicator of 97.335 um, failing 20 um; no spatial success is claimed by preemption. [Original protocol](../../operator-dev/p2-transverse-spatial-v01/protocol.json), [preserved summary](summary.json), [terminal receipt](../../operator-dev/p2-transverse-spatial-v01/terminal.json), [resource supersession receipt](../../operator-dev/p2-two-level-static-v01/resource-preemption-complete.json).

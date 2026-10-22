@@ -1,0 +1,81 @@
+{
+  "schema": "Compact-DOP853-P2-contact-resource-failure-v0.1",
+  "completed": false,
+  "time_reference_qualified": false,
+  "terminal_status": "OWNED_900_SECOND_WALL_CAP",
+  "protocol": {
+    "path": "runs/operator-dev/p2-contact-dop853-v01/protocol.json",
+    "sha256": "311db10f4d12c55aeac121905fa16bf02e1d703dfe75c17ac34ef840657b70dd"
+  },
+  "source_summary": {
+    "path": "runs/gaussian-campaign-v01/p2-contact-dop853-v01/summary.json",
+    "sha256": "c0ae69fc04d4e5cd12cce332957ca217ee489fde8448f754ab2d205a6a0de857"
+  },
+  "cases": [
+    {
+      "name": "accuracy1",
+      "rtol": 1e-07,
+      "displacement_atol_m": 1e-10,
+      "velocity_atol_m_s": 1e-08,
+      "impulse_atol_Ns": 1e-10,
+      "completed": true,
+      "passed": true,
+      "elapsed_s": 184.122458439786,
+      "nfev": 76115,
+      "accepted_steps": 4471,
+      "rhs_calls": 76115,
+      "maximum_masssolve_R_N": 1.8851683291205942e-13,
+      "minimum_RHS_J": 0.9253221063499273,
+      "minimum_accepted_J": 0.9253221064814992,
+      "maximum_accepted_analytic_face_penetration_m": 0.00016553742809705902,
+      "maximum_output_momentum_balance_error_Ns": 2.2277723105464565e-15,
+      "maximum_output_energy_balance_error_J": 4.376360662750045e-07,
+      "maximum_accepted_energy_balance_error_J": 4.4776727403661454e-07,
+      "maximum_accepted_momentum_balance_error_Ns": 2.671773842274211e-15,
+      "maximum_output_analytic_face_penetration_m": 3.126371638454515e-05,
+      "output_energy_J": [
+        -1.1102230246251565e-16,
+        -2.220446049250313e-16,
+        0.0,
+        -4.313773790398656e-07,
+        -4.376357051194546e-07,
+        -4.3763579510303074e-07,
+        -4.376358890834098e-07,
+        -4.3763597940005283e-07,
+        -4.376360663860268e-07
+      ],
+      "capture": {
+        "path": "runs/gaussian-campaign-v01/p2-contact-dop853-v01/accuracy1.npz",
+        "sha256": "b20723fa8e4be34caf6a0b62c68b319c304b21fa3837553c49089be3caf49973"
+      }
+    }
+  ],
+  "partial_accuracy2": {
+    "accepted_steps": 12223,
+    "accepted_time_s": 0.10797799332182449,
+    "rhs_calls": 318359,
+    "maximum_masssolve_R_N": 2.209176124633442e-13,
+    "minimum_RHS_J": 0.9253218274216128
+  },
+  "terminal": {
+    "controller_pid": 2220361,
+    "terminal": true,
+    "completed": false,
+    "wall_cap_s": 900,
+    "protocol_sha256": "311db10f4d12c55aeac121905fa16bf02e1d703dfe75c17ac34ef840657b70dd",
+    "worker_pid": 2220379,
+    "timeout": true,
+    "time_reference_qualified": false,
+    "exit_code": -15,
+    "elapsed_s": 900.3176414556801,
+    "both_pids_absent": true
+  },
+  "initial_drop_energy_J": 0.47088000000000013,
+  "energy_tolerance_J": 4.708800000000001e-07,
+  "nonclaims": [
+    "AuxiliarymomentumusesidenticalRKquadrature;consistencychecknotindependenttimeaccuracy",
+    "Semidiscretefixedmesh/fixedQ/fixedkappa referenceonly",
+    "No hard-floor, friction, continuum spatial or Q qualificationfromtoleranceagreement",
+    "Two adaptive tolerances are numericalchecks, notrigorouserrorbounds"
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "schema": "c38-bar-active-reference-v01",
+  "status": "PROSPECTIVELY_FROZEN_BEFORE_NOISE",
+  "objects": 64,
+  "source_sha256": {
+    "experiments/run_campaign_c38_bar_active.py": "b711cca6c883639daad47f1c4a722596f193a42317c2de627c853265019c5fd1",
+    "experiments/campaign_c38_bar_reference.py": "e6d1c4d0fd67a2f232f2f1a3f4055a5ac073f8eb39525b1059bb5977c351da63",
+    "experiments/campaign_c38_bar_posterior.py": "6d91ada4fe840ac1c05a8539ffad43c46165a80e4ed0c68932fffd696bba865d",
+    "experiments/campaign_c38_actions.py": "139064cccdb31c9ad0973ac39a1b70f0bfce964957f0da881318ac9a63807fbe",
+    "experiments/campaign_c38_study.py": "ba793a34f25d4a5543351867762cbb6253544d023815ad57af2b369884d9ee4e",
+    "experiments/campaign_point_active_views.py": "af03ee5556dbec64ad7253ffbd688a0e01757a153938395850dd1691d7e32890",
+    "experiments/censored_range_observation.py": "afc7eeaa8fc3f1f8543701e5ffe9d97f165255f16e5061347875d4df57a9ef11",
+    "experiments/campaign_nonlinear_bar_inverse.py": "21187d0a8e4c5fd2692d46e51083bcee7efd96eb947ca9d6014806ff9fbda495",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b"
+  },
+  "output": "runs/gaussian-campaign-v01/c38-bar-active-reference-v01",
+  "cpu_threads": 2,
+  "wall_cap_seconds": 300,
+  "observations_generated": false,
+  "constitutive_law": "Compressible logarithmic Neo-Hookean: mu/2*(tr(F.T F)-3)-mu*log(J)+lambda/2*log(J)^2; NOT polynomial stable-NH GPU model",
+  "size_m": [
+    0.24,
+    0.12,
+    0.08
+  ],
+  "poisson": 0.35,
+  "density_kg_m3": 625.0,
+  "static_density_does_not_enter_equilibrium": true,
+  "support": "Known uniform normal left spring with total K; y=0/z=0 symmetry rollers; consistent P2 face Gram",
+  "prior": "Independent uniform log E[4500,9000] Pa and log K[100,400] N/m",
+  "sensor": {
+    "kind": "Idealized measured endpoint x displacement, NOT rendered camera depth",
+    "sigma_m": 0.0002,
+    "measurements_per_frame": 1,
+    "frames_per_acquisition": 1,
+    "independent_measurement_noise": true
+  },
+  "prefix": {
+    "force_N": 1.0,
+    "camera": "Prospectively random left/right endpoint, independent of physical latents"
+  },
+  "actions": [
+    "left_endpoint_at_F1",
+    "right_endpoint_at_F1",
+    "F2_reset_probe_at_prefix_endpoint"
+  ],
+  "acquisition_duration_s": 0.2,
+  "one_action_per_policy": true,
+  "canonical_target": {
+    "force_N": 1.5,
+    "kind": "Static held-force INTERPOLATION from common rest, no temporal forecasting",
+    "mass_average": "Exact 2x2x2 positive material volume quadrature"
+  },
+  "policies": [
+    "fixed_left",
+    "fixed_right",
+    "random",
+    "opposite_endpoint",
+    "information_gain",
+    "predictive_risk"
+  ],
+  "choice_before_all_action_outcomes_and_target_labels": true,
+  "common_noise_per_object_action": true,
+  "physical_reset_assumed": true,
+  "acquisition_budget_scope": "0.2s is idealized equal-cost accounting, NOT demonstrated dynamic settling or action feasibility",
+  "decision_scope": "64-fantasy Monte Carlo score/paired-advantage SE reported; integration agreement does NOT prove selected-action ranking convergence",
+  "integration": {
+    "lower": {
+      "rtol": 1e-06,
+      "atol": 1e-12,
+      "conditional_order": 32
+    },
+    "higher": {
+      "rtol": 1e-08,
+      "atol": 1e-13,
+      "conditional_order": 64
+    },
+    "conditional": "Truncated Gaussian probability-coordinate quadrature with exact full finite prior boundaries and 1/c prior",
+    "outer": "Adaptive intrinsic log-E integration",
+    "quantile_bisections": 23,
+    "independent": "Direct adaptive 2D Gauss-Kronrod cubature, rtol1e-8/atol1e-13, all 4 posterior states on fixed 8 objects",
+    "independent_indices": [
+      0,
+      9,
+      18,
+      27,
+      36,
+      45,
+      54,
+      63
+    ],
+    "design_cloud": {
+      "outer_order": 16,
+      "conditional_order": 64
+    },
+    "fantasies": 64,
+    "criteria": {
+      "relative_normalizer": 5e-05,
+      "marginal_CDF": 0.0005,
+      "E_quantile_Pa": 1.0,
+      "K_quantile_N_m": 0.05,
+      "held_quantile_m": 1e-06,
+      "field_mean_m": 1e-07,
+      "field_std_m": 2e-07,
+      "quadrature_cloud_normalizer": 5e-05,
+      "quadrature_cloud_field_moment_m": 2e-06,
+      "independent_relative_normalizer": 5e-05,
+      "independent_field_mean_m": 2e-07
+    }
+  },
+  "seeds": {
+    "prior": 2026122300,
+    "prefix_camera": 2026122301,
+    "prefix_noise": 2026122302,
+    "action_noise": 2026122303,
+    "fantasies": 2026122304,
+    "random_policy": 2026122305,
+    "bootstrap": 2026122306
+  },
+  "coverage": "Prior-predictive Bayesian-model population check (64 fresh prior objects); exact binomial CIs, ranks and widths, no forced90percent pass threshold/no claim real-physics or perception calibration",
+  "raw_local": true,
+  "preserved_failures_no_retries": true
+}
