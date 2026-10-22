@@ -1,0 +1,46 @@
+{
+  "schema": "WarpCPU-rootcontact64-forceenergy-controls-v1",
+  "status": "FROZEN_BEFORE_SAVED_FIELD_VALUES",
+  "source_sha256": {
+    "experiments/campaign_p2_warp_root_contact.py": "756e024da4d445620d6c986a41e8269216e43e8d2221f220a23bdae96083dc99",
+    "tests/test_campaign_p2_warp_root_contact.py": "c7742682f66d0184366f53a5c7f47efc1eb4b47d777ce54cec3b4179e233ad16",
+    "experiments/diagnose_p2_warp_root_contact_cpu.py": "718a6232b5c4b2c33b38382705a4738caca1de9884ac44ef2018feb6241df233",
+    "experiments/campaign_p2_contact_root_integration.py": "1c0fb1d90c2c0f17af10f6c4529517b59bae4a7687d558c4747259e0f918b5c8",
+    "experiments/campaign_p2_contact_root_fixed.py": "e8f71a3a3e2868b63d3e591abae889de28eedf80f4e3e5ad10743309669e5ad2"
+  },
+  "capture": {
+    "path": "runs/gaussian-campaign-v01/p2-warp-surface-q16-v01/surface_Q16.npz",
+    "sha256": "ac850acac4f8906c0b046b813952d07e198736569418f6edc04823b8cbe7f408"
+  },
+  "evidence_sha256": {
+    "runs/operator-dev/p2-contact-root-fixed-v02/protocol.json": "735e317398fe69bdd44993ddb9153af0602951298f68c6155abe64af0f0c4f30",
+    "runs/operator-dev/p2-contact-root-fixed-v02/result-summary.json": "89ba8bb4d816918b54883be49154dcc57118ae6a1ddb8571257560e359501ed0"
+  },
+  "selection": {
+    "common_output_indices": [
+      2,
+      3,
+      6
+    ],
+    "accepted_nearest_time_s": 0.102
+  },
+  "physics": {
+    "kappa_N_m3": 1000000000.0,
+    "floor_z_m": 0.0,
+    "reference_metric": "2*physicalresttrianglearea",
+    "outer_order": 64
+  },
+  "gates": {
+    "energy_J": 1e-12,
+    "gradient_L2_N": 1e-10
+  },
+  "CPU_threads": 2,
+  "hard_cap_s": 120,
+  "interface": "E/gONLY:noHessianclaim;inputu=q-rest, compareatACTUALbinary64rest+u forbothimplementations",
+  "limits": [
+    "NoGPUornewtrajectory",
+    "StandaloneNEWsurfaceoperator; oldDuffy/bulk/fullM/integratorunchanged",
+    "Force/Eimplementationparityonly; no temporal/spatial/datasetadmission",
+    "Fixed32to64HFAILpreserved; no productionHessianclaim"
+  ]
+}

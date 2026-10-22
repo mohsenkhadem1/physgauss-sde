@@ -1,0 +1,9 @@
+# Root-split plane-contact integration: CPU reference
+
+The unchanged reference-area penalty law is integrated on each quadratic six-node face. For fixed outer coordinate r, roots of the quadratic height split active s intervals; three-point Gauss integrates the quartic energy, gradient and stiffness polynomials exactly in real arithmetic. Outer adaptive integration splits at edge-crossing and discriminant events. Its metric is twice the physical rest-triangle area. Componentwise energy/gradient/Hessian/area tolerances are explicit, with estimated errors rather than interval guarantees.
+
+Three manufactured CPU tests passed (1.17 s): inactive/full contact, constant and near-linear height, tangencies, edge clipping, affine normalization/resultant/torque, finite-difference energy gradient/full Hessian, symmetry and positive semidefiniteness. At a whole face exactly on the plane, only energy/gradient are classically unambiguous; the helper explicitly selects the inactive-side zero Hessian.
+
+A separate 2.584 s diagnostic bound the completed Q16 capture hash before reading four predeclared saved states. No new dynamics or GPU calls occurred. At t=0.108333 s, Q8 and Q16 contact gradients differ from the adaptive reference by 0.236229 N and 0.035281 N in nodal L2; their energy errors are 1.193 µJ and 0.124805 µJ. At the accepted state nearest 0.102 s, force errors are 0.231995 N and 0.090637 N; energy errors are 1.924 µJ and 2.909 µJ. Force error decreases but energy error is not monotone at that state. Before impact and at the inactive later saved state all rules give zero contact.
+
+These same-state comparisons identify contact integration bias without changing material, mass, force law or trajectory. Adaptive error estimates alone do not certify truth; separate tighter adaptive and independent fixed outer controls are being prepared. No contact trajectory, hard-floor limit or data admission is claimed. Raw saved fields remain local.

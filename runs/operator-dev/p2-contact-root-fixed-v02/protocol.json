@@ -1,0 +1,68 @@
+{
+  "schema": "CPU-rootcontact-fixedouter32to64-originalreference-controls-v2",
+  "status": "FROZEN_BEFORE_SELECTED_SAVED_STATE_VALUES",
+  "source_sha256": {
+    "experiments/campaign_p2_contact_root_integration.py": "1c0fb1d90c2c0f17af10f6c4529517b59bae4a7687d558c4747259e0f918b5c8",
+    "experiments/campaign_p2_contact_root_fixed.py": "e8f71a3a3e2868b63d3e591abae889de28eedf80f4e3e5ad10743309669e5ad2",
+    "tests/test_campaign_p2_contact_root_fixed_v02.py": "5288fee66c61126961a36ca25a731a3acbbae3562118ee1e1333e9bd231ead4b",
+    "experiments/diagnose_p2_contact_root_fixed_v02.py": "618eb0256658cc546ae3be3059ffa5667ef7bce843e2c9a2538f921b415f565e"
+  },
+  "capture": {
+    "path": "runs/gaussian-campaign-v01/p2-warp-surface-q16-v01/surface_Q16.npz",
+    "sha256": "ac850acac4f8906c0b046b813952d07e198736569418f6edc04823b8cbe7f408"
+  },
+  "previous_reference_sha256": {
+    "runs/operator-dev/p2-contact-root-integration-v01/diagnostic-protocol.json": "d12081c2e14f9afaf535634601c7d4d6b55a515f947339495ccef5d0e34cc7d6",
+    "runs/operator-dev/p2-contact-root-integration-v01/fixed-state-result.json": "284d6190727b1df6d8545ce24adbb385e068d357c6b668b853fdf9b64066d977"
+  },
+  "preserved_negative_sha256": {
+    "runs/operator-dev/p2-contact-root-fixed-v01/protocol.json": "2743d331c658d41330efc58fa4a0277bfc7b6e0ef396326d670fa38cfd4913a3",
+    "runs/operator-dev/p2-contact-root-fixed-v01/result-summary.json": "6785d70ba954af61fd4dfed4b5a787bf6a93908f1bb88dd41793a8c146a057ed",
+    "runs/operator-dev/p2-contact-root-fixed-v01/terminal-receipt.json": "c3dce755d3387b093c9dc8fb5edbbc70bbda33bc1cb6b0835fc0ec3bcdd4ca23"
+  },
+  "selection": {
+    "common_output_indices": [
+      2,
+      3,
+      6
+    ],
+    "accepted_nearest_time_s": 0.102
+  },
+  "physics": {
+    "kappa_N_m3": 1000000000.0,
+    "floor_z_m": 0.0,
+    "reference_metric": "2*restarea"
+  },
+  "fixed_outer_orders": [
+    32,
+    64
+  ],
+  "mapping": "lo+(hi-lo)*sin\u00b2(pi*t/2);Jac=(hi-lo)*pi/2*sin(pi*t)",
+  "adaptive_base": {
+    "energy_atol_J": 1e-12,
+    "gradient_atol_N": 1e-10,
+    "hessian_atol_N_m": 1e-07,
+    "area_atol_m2": 1e-13,
+    "rtol": 1e-10
+  },
+  "adaptive_tight": {
+    "energy_atol_J": 1e-13,
+    "gradient_atol_N": 1e-11,
+    "hessian_atol_N_m": 1e-08,
+    "area_atol_m2": 1e-14,
+    "rtol": 1e-11
+  },
+  "comparison_gates": {
+    "absolute_energy_J": 1e-12,
+    "global_gradient_L2_N": 1e-10,
+    "maximum_global_H_N_m": 1e-07
+  },
+  "CPU_threads": 2,
+  "hard_cap_s": 120,
+  "limits": [
+    "NoGPU/physicalcalls/dynamics or modifiedplane law",
+    "Compareactualrefinementchanges notonlyheuristicestimates",
+    "Noautorelax/autohigherorderif32/64fail; tighteradaptivefailurepreserved;noquad_vecstatus2waiver",
+    "Fixedouterandadaptiveouterindependentnumericalrules; sharedexactinnerpolynomial/rootalgebra disclosed"
+  ]
+}

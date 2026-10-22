@@ -1,0 +1,1621 @@
+{
+  "schema": "C38-coarse4-array-identity-v01",
+  "completed": true,
+  "passed": true,
+  "original_summary": {
+    "path": "runs/operator-dev/c38-static-prequalification-v01/completed-summary.json",
+    "sha256": "6f6de58bf0ac6cbbb1a9f23ceb8ad2ca62a2300c4e7a0458d6ae211aa0658fbf"
+  },
+  "equality": "Exact shape/dtype/bytes, no tolerance",
+  "rows": [
+    {
+      "case": {
+        "id": "interior-gravity__both_ends",
+        "young_Pa": 106066.01717798212,
+        "support": "both_ends",
+        "Fz_N": 0.0,
+        "kind": "interior_gravity"
+      },
+      "original_control_report": {
+        "path": "runs/gaussian-campaign-v01/c38-static-prequalification-v01/interior-gravity__both_ends/result.json",
+        "sha256": "b38224b3852aeed021978782ab87a6bfe34f06f6b4c5fc804e04d47fcd7a49e8"
+      },
+      "original_control": {
+        "allnode_difference_m": 6.083316848677269e-16,
+        "passed": true,
+        "CPU_original_free_R_N": 3.2504260672397385e-12,
+        "GPU_original_free_R_N": 3.730830195068541e-13,
+        "CPU_history": [
+          {
+            "iteration": 0,
+            "residual_N": 0.9559592070794658,
+            "potential_J": 0.0,
+            "minimum_J": 1.0,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 1,
+            "residual_N": 0.19899711740255543,
+            "potential_J": -0.005691442792680207,
+            "minimum_J": 0.9842105260703699,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 2,
+            "residual_N": 3.1498694481343095e-05,
+            "potential_J": -0.005693935713504411,
+            "minimum_J": 0.9842108846273767,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 3,
+            "residual_N": 3.2504260672397385e-12,
+            "potential_J": -0.005693935713616388,
+            "minimum_J": 0.9842109181555657
+          }
+        ],
+        "CPU_uses_independent_sparse_exact80": true
+      },
+      "rules": [
+        {
+          "rule": "keast24",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": true,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        },
+        {
+          "rule": "exact80",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": false,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        }
+      ],
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "interior-gravity__separated_bottom_patches",
+        "young_Pa": 106066.01717798212,
+        "support": "separated_bottom_patches",
+        "Fz_N": 0.0,
+        "kind": "interior_gravity"
+      },
+      "original_control_report": {
+        "path": "runs/gaussian-campaign-v01/c38-static-prequalification-v01/interior-gravity__separated_bottom_patches/result.json",
+        "sha256": "ac69c4b4653e12f9de8be2b7e1f7090b26cfeff6153389c5c20929a80e78104d"
+      },
+      "original_control": {
+        "allnode_difference_m": 1.5265566588595902e-16,
+        "passed": true,
+        "CPU_original_free_R_N": 1.1763318462502745e-12,
+        "GPU_original_free_R_N": 2.19620713236035e-12,
+        "CPU_history": [
+          {
+            "iteration": 0,
+            "residual_N": 0.9683617910677812,
+            "potential_J": 0.0,
+            "minimum_J": 1.0,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 1,
+            "residual_N": 0.0305490660360574,
+            "potential_J": -0.0015151912705311113,
+            "minimum_J": 0.9903167276338608,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 2,
+            "residual_N": 2.4260437923632422e-06,
+            "potential_J": -0.0015152698990277462,
+            "minimum_J": 0.9902485579378346,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 3,
+            "residual_N": 1.1763318462502745e-12,
+            "potential_J": -0.001515269899028797,
+            "minimum_J": 0.9902485481152166
+          }
+        ],
+        "CPU_uses_independent_sparse_exact80": true
+      },
+      "rules": [
+        {
+          "rule": "keast24",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": true,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        },
+        {
+          "rule": "exact80",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": false,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        }
+      ],
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "Elo__both_ends__down2",
+        "young_Pa": 75000.0,
+        "support": "both_ends",
+        "Fz_N": -2.0,
+        "kind": "domain_corner"
+      },
+      "original_control_report": {
+        "path": "runs/gaussian-campaign-v01/c38-static-prequalification-v01/Elo__both_ends__down2/result.json",
+        "sha256": "878c0645abbf82364c377822b77e7d59b6301c079ea6ce61b7f0b51a1150b1c0"
+      },
+      "original_control": {
+        "allnode_difference_m": 1.0245154072492241e-16,
+        "passed": true,
+        "CPU_original_free_R_N": 7.439712041530541e-13,
+        "GPU_original_free_R_N": 4.958490165545839e-13,
+        "CPU_history": [
+          {
+            "iteration": 0,
+            "residual_N": 1.1752854050730737,
+            "potential_J": 0.0,
+            "minimum_J": 1.0,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 1,
+            "residual_N": 0.5034753714292058,
+            "potential_J": -0.013821284604598881,
+            "minimum_J": 0.9709185692056829,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 2,
+            "residual_N": 0.0002880255828002378,
+            "potential_J": -0.013843917286538245,
+            "minimum_J": 0.9708914699766434,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 3,
+            "residual_N": 4.316934031346976e-10,
+            "potential_J": -0.013843917300680195,
+            "minimum_J": 0.9708915448559401,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 4,
+            "residual_N": 7.439712041530541e-13,
+            "potential_J": -0.013843917300680186,
+            "minimum_J": 0.9708915448553638
+          }
+        ],
+        "CPU_uses_independent_sparse_exact80": true
+      },
+      "rules": [
+        {
+          "rule": "keast24",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": true,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        },
+        {
+          "rule": "exact80",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": false,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        }
+      ],
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "Elo__both_ends__gravity",
+        "young_Pa": 75000.0,
+        "support": "both_ends",
+        "Fz_N": 0.0,
+        "kind": "domain_corner"
+      },
+      "original_control_report": {
+        "path": "runs/gaussian-campaign-v01/c38-static-prequalification-v01/Elo__both_ends__gravity/result.json",
+        "sha256": "424b76f77b2bf249115e1c4fac5aabfcb5fb30cbb6f662fbcc7c7305f415d13c"
+      },
+      "original_control": {
+        "allnode_difference_m": 9.662458968661424e-15,
+        "passed": true,
+        "CPU_original_free_R_N": 3.536859539944426e-11,
+        "GPU_original_free_R_N": 5.744307481689671e-13,
+        "CPU_history": [
+          {
+            "iteration": 0,
+            "residual_N": 0.9559592070794658,
+            "potential_J": 0.0,
+            "minimum_J": 1.0,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 1,
+            "residual_N": 0.28147175713763806,
+            "potential_J": -0.008044913014036545,
+            "minimum_J": 0.9776703118259789,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 2,
+            "residual_N": 8.906771234459547e-05,
+            "potential_J": -0.00805196434995683,
+            "minimum_J": 0.9776746863252926,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 3,
+            "residual_N": 3.536859539944426e-11,
+            "potential_J": -0.008051964351224386,
+            "minimum_J": 0.9776748256192255
+          }
+        ],
+        "CPU_uses_independent_sparse_exact80": true
+      },
+      "rules": [
+        {
+          "rule": "keast24",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": true,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        },
+        {
+          "rule": "exact80",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": false,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        }
+      ],
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "Elo__both_ends__up2",
+        "young_Pa": 75000.0,
+        "support": "both_ends",
+        "Fz_N": 2.0,
+        "kind": "domain_corner"
+      },
+      "original_control_report": {
+        "path": "runs/gaussian-campaign-v01/c38-static-prequalification-v01/Elo__both_ends__up2/result.json",
+        "sha256": "c0dff039ed107c71c3d974142e66662244f32b9b456b3cfa04994b70fcbc32b0"
+      },
+      "original_control": {
+        "allnode_difference_m": 5.457734498318004e-15,
+        "passed": true,
+        "CPU_original_free_R_N": 2.7968793923501672e-12,
+        "GPU_original_free_R_N": 3.4755534731391384e-11,
+        "CPU_history": [
+          {
+            "iteration": 0,
+            "residual_N": 1.0009874042053568,
+            "potential_J": 0.0,
+            "minimum_J": 1.0,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 1,
+            "residual_N": 0.12558811621192562,
+            "potential_J": -0.003963671702226402,
+            "minimum_J": 0.984422054446275,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 2,
+            "residual_N": 1.8733921787006705e-05,
+            "potential_J": -0.003965077952325588,
+            "minimum_J": 0.9844408024499471,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 3,
+            "residual_N": 2.7968793923501672e-12,
+            "potential_J": -0.003965077952396708,
+            "minimum_J": 0.9844408725408798
+          }
+        ],
+        "CPU_uses_independent_sparse_exact80": true
+      },
+      "rules": [
+        {
+          "rule": "keast24",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": true,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        },
+        {
+          "rule": "exact80",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": false,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        }
+      ],
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "Elo__separated_bottom_patches__down2",
+        "young_Pa": 75000.0,
+        "support": "separated_bottom_patches",
+        "Fz_N": -2.0,
+        "kind": "domain_corner"
+      },
+      "original_control_report": {
+        "path": "runs/gaussian-campaign-v01/c38-static-prequalification-v01/Elo__separated_bottom_patches__down2/result.json",
+        "sha256": "49602b214d19e12660ceefe7a8bd002f6f3d8b733dc48cb63df9e51a97c21fbb"
+      },
+      "original_control": {
+        "allnode_difference_m": 2.6343499511469137e-15,
+        "passed": true,
+        "CPU_original_free_R_N": 1.0654027528577239e-11,
+        "GPU_original_free_R_N": 7.099849326303775e-12,
+        "CPU_history": [
+          {
+            "iteration": 0,
+            "residual_N": 1.1853954345187006,
+            "potential_J": 0.0,
+            "minimum_J": 1.0,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 1,
+            "residual_N": 0.08224482093952648,
+            "potential_J": -0.003935933353330412,
+            "minimum_J": 0.9817806607169696,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 2,
+            "residual_N": 2.619436624675664e-05,
+            "potential_J": -0.003936786209572431,
+            "minimum_J": 0.9814966930047792,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 3,
+            "residual_N": 1.0654027528577239e-11,
+            "potential_J": -0.0039367862097615045,
+            "minimum_J": 0.9814965296244137
+          }
+        ],
+        "CPU_uses_independent_sparse_exact80": true
+      },
+      "rules": [
+        {
+          "rule": "keast24",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": true,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        },
+        {
+          "rule": "exact80",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": false,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        }
+      ],
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "Elo__separated_bottom_patches__gravity",
+        "young_Pa": 75000.0,
+        "support": "separated_bottom_patches",
+        "Fz_N": 0.0,
+        "kind": "domain_corner"
+      },
+      "original_control_report": {
+        "path": "runs/gaussian-campaign-v01/c38-static-prequalification-v01/Elo__separated_bottom_patches__gravity/result.json",
+        "sha256": "c6fae0393af1816e96754743cd614b4e362b08d927bef15465681440a2b7dcec"
+      },
+      "original_control": {
+        "allnode_difference_m": 3.0499576441961206e-16,
+        "passed": true,
+        "CPU_original_free_R_N": 1.0872350884499718e-12,
+        "GPU_original_free_R_N": 3.1738784000949304e-12,
+        "CPU_history": [
+          {
+            "iteration": 0,
+            "residual_N": 0.9683617910677812,
+            "potential_J": 0.0,
+            "minimum_J": 1.0,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 1,
+            "residual_N": 0.043140012479723135,
+            "potential_J": -0.0021438743908859252,
+            "minimum_J": 0.9863320695534532,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 2,
+            "residual_N": 6.893251666984467e-06,
+            "potential_J": -0.0021440972511909823,
+            "minimum_J": 0.9861961533136772,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 3,
+            "residual_N": 1.0872350884499718e-12,
+            "potential_J": -0.0021440972512030286,
+            "minimum_J": 0.986196113636998
+          }
+        ],
+        "CPU_uses_independent_sparse_exact80": true
+      },
+      "rules": [
+        {
+          "rule": "keast24",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": true,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        },
+        {
+          "rule": "exact80",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": false,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        }
+      ],
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "Elo__separated_bottom_patches__up2",
+        "young_Pa": 75000.0,
+        "support": "separated_bottom_patches",
+        "Fz_N": 2.0,
+        "kind": "domain_corner"
+      },
+      "original_control_report": {
+        "path": "runs/gaussian-campaign-v01/c38-static-prequalification-v01/Elo__separated_bottom_patches__up2/result.json",
+        "sha256": "a9eabe0ce8e122303d9c83bf441c906a062a7ec2107441eea9ab28aa89f4ddf2"
+      },
+      "original_control": {
+        "allnode_difference_m": 1.1316993474494503e-16,
+        "passed": true,
+        "CPU_original_free_R_N": 6.739827409058307e-13,
+        "GPU_original_free_R_N": 1.3898766639137836e-12,
+        "CPU_history": [
+          {
+            "iteration": 0,
+            "residual_N": 1.0128387513211463,
+            "potential_J": 0.0,
+            "minimum_J": 1.0,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 1,
+            "residual_N": 0.01852921310054804,
+            "potential_J": -0.0010289180821682108,
+            "minimum_J": 0.9908017954880394,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 2,
+            "residual_N": 1.1703135560664102e-06,
+            "potential_J": -0.001028956644434909,
+            "minimum_J": 0.9907404121654904,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 3,
+            "residual_N": 6.739827409058307e-13,
+            "potential_J": -0.0010289566444352074,
+            "minimum_J": 0.9907404057840989
+          }
+        ],
+        "CPU_uses_independent_sparse_exact80": true
+      },
+      "rules": [
+        {
+          "rule": "keast24",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": true,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        },
+        {
+          "rule": "exact80",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": false,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        }
+      ],
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "Ehi__both_ends__down2",
+        "young_Pa": 150000.0,
+        "support": "both_ends",
+        "Fz_N": -2.0,
+        "kind": "domain_corner"
+      },
+      "original_control_report": {
+        "path": "runs/gaussian-campaign-v01/c38-static-prequalification-v01/Ehi__both_ends__down2/result.json",
+        "sha256": "0553fc05fc14b0038d866ae46f04e117496ed887572c19ea48c06dc5e259e294"
+      },
+      "original_control": {
+        "allnode_difference_m": 5.246556368719826e-16,
+        "passed": true,
+        "CPU_original_free_R_N": 3.8411155835548505e-12,
+        "GPU_original_free_R_N": 4.931336851078659e-13,
+        "CPU_history": [
+          {
+            "iteration": 0,
+            "residual_N": 1.1752854050730737,
+            "potential_J": 0.0,
+            "minimum_J": 1.0,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 1,
+            "residual_N": 0.2516037978914671,
+            "potential_J": -0.0069145554685860295,
+            "minimum_J": 0.9854592846028424,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 2,
+            "residual_N": 3.616660220434258e-05,
+            "potential_J": -0.006917385440506637,
+            "minimum_J": 0.9854488049553394,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 3,
+            "residual_N": 3.8411155835548505e-12,
+            "potential_J": -0.006917385440619796,
+            "minimum_J": 0.9854488070256694
+          }
+        ],
+        "CPU_uses_independent_sparse_exact80": true
+      },
+      "rules": [
+        {
+          "rule": "keast24",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": true,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        },
+        {
+          "rule": "exact80",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": false,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        }
+      ],
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "Ehi__both_ends__gravity",
+        "young_Pa": 150000.0,
+        "support": "both_ends",
+        "Fz_N": 0.0,
+        "kind": "domain_corner"
+      },
+      "original_control_report": {
+        "path": "runs/gaussian-campaign-v01/c38-static-prequalification-v01/Ehi__both_ends__gravity/result.json",
+        "sha256": "e942b04259b842f8833838ccd960e1093514f5f83c6d25060f9049d9cce969c4"
+      },
+      "original_control": {
+        "allnode_difference_m": 2.9060631111760165e-16,
+        "passed": true,
+        "CPU_original_free_R_N": 1.3812901446767914e-12,
+        "GPU_original_free_R_N": 6.990379379326933e-12,
+        "CPU_history": [
+          {
+            "iteration": 0,
+            "residual_N": 0.9559592070794658,
+            "potential_J": 0.0,
+            "minimum_J": 1.0,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 1,
+            "residual_N": 0.14070037679939243,
+            "potential_J": -0.004025458435200127,
+            "minimum_J": 0.9888351559129894,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 2,
+            "residual_N": 1.1137968229624457e-05,
+            "potential_J": -0.004026339797578248,
+            "minimum_J": 0.9888346843923655,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 3,
+            "residual_N": 1.3812901446767914e-12,
+            "potential_J": -0.004026339797588143,
+            "minimum_J": 0.9888346925425627
+          }
+        ],
+        "CPU_uses_independent_sparse_exact80": true
+      },
+      "rules": [
+        {
+          "rule": "keast24",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": true,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        },
+        {
+          "rule": "exact80",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": false,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        }
+      ],
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "Ehi__both_ends__up2",
+        "young_Pa": 150000.0,
+        "support": "both_ends",
+        "Fz_N": 2.0,
+        "kind": "domain_corner"
+      },
+      "original_control_report": {
+        "path": "runs/gaussian-campaign-v01/c38-static-prequalification-v01/Ehi__both_ends__up2/result.json",
+        "sha256": "2ccf61d78f5ae82dec321541ca390d57ae4f00fc512e9f97b798ca172cfd6c4b"
+      },
+      "original_control": {
+        "allnode_difference_m": 9.19135011902746e-16,
+        "passed": true,
+        "CPU_original_free_R_N": 1.2946651200499606e-12,
+        "GPU_original_free_R_N": 1.779721514065991e-11,
+        "CPU_history": [
+          {
+            "iteration": 0,
+            "residual_N": 1.0009874042053568,
+            "potential_J": 0.0,
+            "minimum_J": 1.0,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 1,
+            "residual_N": 0.06279326579696531,
+            "potential_J": -0.001983615542801801,
+            "minimum_J": 0.9922110272231366,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 2,
+            "residual_N": 2.3368977553006777e-06,
+            "potential_J": -0.0019837912636159333,
+            "minimum_J": 0.9922152465005912,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 3,
+            "residual_N": 1.2946651200499606e-12,
+            "potential_J": -0.0019837912636164867,
+            "minimum_J": 0.9922152508263231
+          }
+        ],
+        "CPU_uses_independent_sparse_exact80": true
+      },
+      "rules": [
+        {
+          "rule": "keast24",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": true,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        },
+        {
+          "rule": "exact80",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": false,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        }
+      ],
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "Ehi__separated_bottom_patches__down2",
+        "young_Pa": 150000.0,
+        "support": "separated_bottom_patches",
+        "Fz_N": -2.0,
+        "kind": "domain_corner"
+      },
+      "original_control_report": {
+        "path": "runs/gaussian-campaign-v01/c38-static-prequalification-v01/Ehi__separated_bottom_patches__down2/result.json",
+        "sha256": "183420ba4dd5c2d6414c1e3c8503f1c66547353474240bb848216e5b27886327"
+      },
+      "original_control": {
+        "allnode_difference_m": 1.4898437035160061e-16,
+        "passed": true,
+        "CPU_original_free_R_N": 1.40411028059241e-12,
+        "GPU_original_free_R_N": 3.0137590572457348e-12,
+        "CPU_history": [
+          {
+            "iteration": 0,
+            "residual_N": 1.1853954345187006,
+            "potential_J": 0.0,
+            "minimum_J": 1.0,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 1,
+            "residual_N": 0.0412380094658206,
+            "potential_J": -0.0019650735031279433,
+            "minimum_J": 0.9908331028861055,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 2,
+            "residual_N": 3.233121487465026e-06,
+            "potential_J": -0.001965179475589614,
+            "minimum_J": 0.990761541000169,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 3,
+            "residual_N": 1.40411028059241e-12,
+            "potential_J": -0.001965179475591038,
+            "minimum_J": 0.9907615309919849
+          }
+        ],
+        "CPU_uses_independent_sparse_exact80": true
+      },
+      "rules": [
+        {
+          "rule": "keast24",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": true,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        },
+        {
+          "rule": "exact80",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": false,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        }
+      ],
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "Ehi__separated_bottom_patches__gravity",
+        "young_Pa": 150000.0,
+        "support": "separated_bottom_patches",
+        "Fz_N": 0.0,
+        "kind": "domain_corner"
+      },
+      "original_control_report": {
+        "path": "runs/gaussian-campaign-v01/c38-static-prequalification-v01/Ehi__separated_bottom_patches__gravity/result.json",
+        "sha256": "07a943eda8e4bcfd70ff8c66d81f533479d19e88e46a3ac30d1f78ecf32c8185"
+      },
+      "original_control": {
+        "allnode_difference_m": 6.727507242144006e-17,
+        "passed": true,
+        "CPU_original_free_R_N": 1.728143526977802e-12,
+        "GPU_original_free_R_N": 1.4720368934963783e-12,
+        "CPU_history": [
+          {
+            "iteration": 0,
+            "residual_N": 0.9683617910677812,
+            "potential_J": 0.0,
+            "minimum_J": 1.0,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 1,
+            "residual_N": 0.021623942654697893,
+            "potential_J": -0.0010710176670251325,
+            "minimum_J": 0.993143599414527,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 2,
+            "residual_N": 8.549338584257423e-07,
+            "potential_J": -0.0010710454255512065,
+            "minimum_J": 0.9931094416814298,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 3,
+            "residual_N": 1.728143526977802e-12,
+            "potential_J": -0.0010710454255512991,
+            "minimum_J": 0.9931094392428758
+          }
+        ],
+        "CPU_uses_independent_sparse_exact80": true
+      },
+      "rules": [
+        {
+          "rule": "keast24",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": true,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        },
+        {
+          "rule": "exact80",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": false,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        }
+      ],
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "Ehi__separated_bottom_patches__up2",
+        "young_Pa": 150000.0,
+        "support": "separated_bottom_patches",
+        "Fz_N": 2.0,
+        "kind": "domain_corner"
+      },
+      "original_control_report": {
+        "path": "runs/gaussian-campaign-v01/c38-static-prequalification-v01/Ehi__separated_bottom_patches__up2/result.json",
+        "sha256": "5e9019a0208ba928a4f44d4410f1b877a34e900913f7aba69ac2005d2ebfd398"
+      },
+      "original_control": {
+        "allnode_difference_m": 3.0924206236865305e-17,
+        "passed": true,
+        "CPU_original_free_R_N": 1.3934914305801755e-12,
+        "GPU_original_free_R_N": 7.258152935687831e-13,
+        "CPU_history": [
+          {
+            "iteration": 0,
+            "residual_N": 1.0128387513211463,
+            "potential_J": 0.0,
+            "minimum_J": 1.0,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 1,
+            "residual_N": 0.009281798178640475,
+            "potential_J": -0.0005142851124931613,
+            "minimum_J": 0.9953869900142391,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 2,
+            "residual_N": 1.4572861516088504e-07,
+            "potential_J": -0.0005142899258229148,
+            "minimum_J": 0.9953715700591197,
+            "alpha": 1.0
+          },
+          {
+            "iteration": 3,
+            "residual_N": 1.3934914305801755e-12,
+            "potential_J": -0.0005142899258229173,
+            "minimum_J": 0.9953715696637473
+          }
+        ],
+        "CPU_uses_independent_sparse_exact80": true
+      },
+      "rules": [
+        {
+          "rule": "keast24",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": true,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        },
+        {
+          "rule": "exact80",
+          "required_array_checks": {
+            "rest": true,
+            "tets": true,
+            "elements": true,
+            "faces": true,
+            "mask": true,
+            "free": true,
+            "linear_gradients": true,
+            "volumes": true,
+            "bary": true,
+            "weights": true,
+            "N": true,
+            "load": true,
+            "support_masks": true,
+            "support_active": true,
+            "compiled_body_N": true,
+            "compiled_surface_N": true,
+            "compiled_total_N": true,
+            "compiled_body_integral_weights_m3": true,
+            "full_mass_CSR_data": true,
+            "full_mass_CSR_indices": true,
+            "full_mass_CSR_indptr": true,
+            "effective_J_guard_locations": true
+          },
+          "all_required_bytes_identical": true,
+          "raw_check_bary_storage_identical": false,
+          "raw_body_integral_storage_identical": false,
+          "auxiliary_storage_caveat": "Exact80 adds duplicate checking locations in graded implementation; legacy body-integral cache uses quadrature arithmetic while actual compiled bodyforce and full mass are identical. No whole-object identity claim."
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "solver_calls": 0,
+  "GPU_calls": 0,
+  "observations_drawn": false,
+  "all14_original_independent_controls_hash_bound": true,
+  "entire_object_array_storage_identical": false,
+  "scope": "Same physical geometry, quadrature, constraints, full forces/mass and effective guard locations. Auxiliary cache/duplicate-guard storage differences explicitly retained; root decides reuse. No solver/backend validation from this check alone."
+}

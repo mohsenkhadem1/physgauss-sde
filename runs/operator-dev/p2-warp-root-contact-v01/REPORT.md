@@ -1,0 +1,9 @@
+# Standalone Warp root64 plane force/energy: CPU controls
+
+The new FP64 surface kernel implements the same finite reference-area compliant plane law using quadratic roots, edge/discriminant topology splits, endpoint-sin² outer64 integration including its Jacobian, and exact quartic inner integration. It is independent of the frozen old Duffy surface module. No bulk, mass or solver code changed. Its API returns contact energy and nodal gradient only; no production Hessian is supplied.
+
+Two manufactured CPU tests passed (22.62 s, including first CPU JIT 21.459 s), covering inactive/full contact, near-linear heights, tangencies, narrow patches, edge clipping, torque and directional energy-gradient finite-difference sweeps. The generic partial-contact sweep over 10⁻⁵…10⁻⁸ m reached a minimum derivative mismatch 1.49×10⁻¹² N; the smallest-step tail shows roundoff (up to 1.47×10⁻¹⁰ N). Quadrature nodes/weights depend on geometry, so E/g agreement is a numerical control, not an automatic exact discrete-conservativity claim.
+
+The hash-bound four-state CPU phase completed in 3.859 s. WarpCPU agreed with fixed64 to 7.62×10⁻¹⁴ N L2 and with the original successful adaptive reference to 1.82×10⁻¹³ N; maximum energy difference was 1.74×10⁻¹⁷ J. Binary64 input/world round trips were exact for these states. Resultant and torque differences stayed below 6.59×10⁻¹³ N and 8.63×10⁻¹⁴ N m. Original strict 10⁻¹⁰ N / 10⁻¹² J gates passed.
+
+Development failures remain local: a Warp type-name collision and premature float32 evaluation of Gauss weight divisions were fixed before source/protocol freezing. No physical setting or numerical acceptance threshold changed. This CPU-only result motivates a separately reviewed GPU same-state interface test; it does not qualify a trajectory, contact spatial/time convergence, or a hard floor. Earlier Q8→Q16 and fixed32→64 stiffness failures remain unchanged.

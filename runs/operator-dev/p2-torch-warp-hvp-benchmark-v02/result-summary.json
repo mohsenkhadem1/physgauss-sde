@@ -1,0 +1,94 @@
+{
+  "completed": true,
+  "passed": true,
+  "protocol": {
+    "path": "runs/operator-dev/p2-torch-warp-hvp-benchmark-v02/protocol.json",
+    "sha256": "b2217bf9e71dfdb79657a0f3aab4089e39333edc25285e2b77064037031fc2ca"
+  },
+  "summary": {
+    "path": "runs/gaussian-campaign-v01/p2-torch-warp-hvp-benchmark-v02/summary.json",
+    "sha256": "06aa268dd52308e5cb345385de7988c5fcb305e4ea2603c2a2469b49c893e238"
+  },
+  "role": "SAME165888tetKeast24/Q3initialfield/uniform4preconditioner; ONLYelasticHVPimplementation; TWOlinearCGcorrections/NOnewphysicalmodel/NO Newtontrajectory",
+  "source_kernel_sha256": "7e812664f2d6b6cd29993776509fd7cfadec8798cd4b6b01de33226be088fd42",
+  "source_mixin_sha256": "ddc731c39d5926867efcb5dd3772dd9bb8829efb2041c517bafb5c4a5b687d48",
+  "cases": [
+    {
+      "name": "original_TorchHVP_uniform4",
+      "completed": true,
+      "CG_iterations": 277,
+      "linear_s": 150.72709756623954,
+      "old_HVP_true_R_N": 1.0587795661729447e-12,
+      "original_candidate_free_R_N": 1.065955084018604e-12,
+      "maximum_constraint_m": 0.0,
+      "minimum_J": 0.4511184538551391,
+      "positive_Bernstein": true,
+      "Bernstein_minimum_lower_bound": 0.45111845374674825,
+      "maximum_candidate_vs_exact80_m": 7.376145397762941e-17,
+      "coarse_free_dofs": 600,
+      "linear_records": [
+        {
+          "iterations": 277,
+          "original_true_residual_N": 1.0587795661729523e-12,
+          "requested_tolerance_N": 1.0616013228578195e-12,
+          "residual_restarts": 0,
+          "maximum_iterations": 4000,
+          "preconditioner": "additive_exactnodeblock_plus_coarse4x2x2_restP2",
+          "regularization": 0.0,
+          "coarse_free_dofs": 600
+        }
+      ],
+      "passed": true,
+      "capture": {
+        "path": "runs/gaussian-campaign-v01/p2-torch-warp-hvp-benchmark-v02/original_TorchHVP_uniform4-correction.npz",
+        "sha256": "8d61c0daf7fefb23057624bb2d9a184a6582ab01f5033603b5fd97ed50535073"
+      }
+    },
+    {
+      "name": "WarpInteropHVP_uniform4",
+      "completed": true,
+      "CG_iterations": 270,
+      "linear_s": 9.810678995214403,
+      "old_HVP_true_R_N": 9.292554612968555e-13,
+      "original_candidate_free_R_N": 9.364503957167685e-13,
+      "maximum_constraint_m": 0.0,
+      "minimum_J": 0.4511184537621387,
+      "positive_Bernstein": true,
+      "Bernstein_minimum_lower_bound": 0.45111845365376224,
+      "maximum_candidate_vs_exact80_m": 2.189713573634441e-14,
+      "coarse_free_dofs": 600,
+      "linear_records": [
+        {
+          "iterations": 270,
+          "original_true_residual_N": 9.292554612964722e-13,
+          "requested_tolerance_N": 1.0616013228578195e-12,
+          "residual_restarts": 0,
+          "maximum_iterations": 4000,
+          "preconditioner": "additive_exactnodeblock_plus_coarse4x2x2_restP2",
+          "regularization": 0.0,
+          "coarse_free_dofs": 600
+        }
+      ],
+      "passed": true,
+      "capture": {
+        "path": "runs/gaussian-campaign-v01/p2-torch-warp-hvp-benchmark-v02/WarpInteropHVP_uniform4-correction.npz",
+        "sha256": "25ae6ffd28c2ab319a59faaaa96dba6a962a24f3c22dc13005c46427fe081ea5"
+      }
+    }
+  ],
+  "initial_free_R_N": 4.8303021795027086e-08,
+  "same_system_direction_difference_m": 2.1890258943372184e-14,
+  "new_to_old_linear_time_ratio": 0.06508901951689833,
+  "old_to_new_speed_ratio": 15.363574492628228,
+  "warm_initial_new_HVP_including_JIT_s": 7.861377614084631,
+  "Warp_first_JIT_s": 7.80821,
+  "worker_elapsed_s": 195.3740921211429,
+  "controller_elapsed_s": 196.41967539396137,
+  "limitations": [
+    "Onepairedsequentialoriginalthennewbenchmark,no repeatedorder/hardwarewide or nonlinear/trajectory speedguarantee.",
+    "AlloldE/gradient/J/mass/blocks/preconditioner/CG/finalR unchanged. IndependentoriginalTorchHVPchecksBOTHdirections.",
+    "FP64atomics change CG roundoff paths:277vs270iterations, same requestedtol.",
+    "V01 exact-repeatgradientbitwiseassertfailure preserved, not an HVP/physical failure. V02sharesONEoriginalcache/R without changing tolerances.",
+    "No quadrature/continuum/contact/dataset admission from this implementation control."
+  ]
+}

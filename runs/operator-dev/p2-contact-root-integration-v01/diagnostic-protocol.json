@@ -1,0 +1,49 @@
+{
+  "schema": "CPU-fixedfield-rootcontact-diagnostic-v1",
+  "status": "FROZEN_BEFORE_SAVED_FIELD_VALUES",
+  "source_sha256": {
+    "experiments/campaign_p2_contact_root_integration.py": "1c0fb1d90c2c0f17af10f6c4529517b59bae4a7687d558c4747259e0f918b5c8",
+    "tests/test_campaign_p2_contact_root_integration.py": "f24180f0d5601f94eec1a218a88e55a943207b145c037924c0e1222ef15490bf",
+    "experiments/diagnose_p2_contact_root_integration.py": "2a875c29b43bc00baae148cd70e45f5ac28a4c2857a23a7c50e66ba328e0efa6"
+  },
+  "capture": {
+    "path": "runs/gaussian-campaign-v01/p2-warp-surface-q16-v01/surface_Q16.npz",
+    "sha256": "ac850acac4f8906c0b046b813952d07e198736569418f6edc04823b8cbe7f408"
+  },
+  "selection": {
+    "common_output_indices": [
+      2,
+      3,
+      6
+    ],
+    "accepted_nearest_time_s": 0.102,
+    "no_response_dependent_selection": true
+  },
+  "physics": {
+    "kappa_N_m3": 1000000000.0,
+    "floor_z_m": 0.0,
+    "reference_metric": "2*physicalresttrianglearea",
+    "bulk_mass_state_unchanged": true
+  },
+  "integration": {
+    "inner": "quadraticroots splitnegatives intervals;3pointGauss exactly integratesquartic on eachactiveinterval",
+    "outer": "adaptiveGaussKronrodquad_vec, edge/discriminanttopologybreakpoints",
+    "energy_atol_J": 1e-12,
+    "gradient_atol_N": 1e-10,
+    "hessian_atol_N_m": 1e-07,
+    "area_atol_m2": 1e-13,
+    "rtol": 1e-10
+  },
+  "comparison_Q": [
+    8,
+    16
+  ],
+  "CPU_threads": 2,
+  "hard_cap_s": 120,
+  "limits": [
+    "SAMEsavedfields only; no dynamic/sensor/likelihood/GPU queries",
+    "Adaptiveerror estimates are not rigorousbounds",
+    "NoQ32/newcontacttrajectory or admission",
+    "SavedQ16 itselffailedsurfaceconvergence, nottruth"
+  ]
+}
