@@ -1,0 +1,238 @@
+{
+  "schema": "c38-beta-density-control-v01",
+  "status": "FROZEN_BEFORE_FRESH_ROLE_DRAWS",
+  "output": "runs/gaussian-campaign-v01/c38-beta-control-v01",
+  "source_sha256": {
+    "experiments/run_campaign_c38_beta_control.py": "821d3d786f8844f3a0e3eff31b1ea6c68edd9ed8aaf6f0a7437a2a12056e9e6d",
+    "experiments/campaign_c38_beta_posterior.py": "d4298fbba3feee3b74db08112006073115f0a1b9f8abc481f9250f260908bdaa",
+    "experiments/campaign_c38_beta_data.py": "451d66b3c49d1ea7cf1bdfc4b32977b48098b95682ede96566b4fab988032504",
+    "experiments/campaign_c38_beta_metrics.py": "0eb9cc26b27536d73a29e9238c83621a940251e24b485d3ef3bd24c5854aefe4",
+    "experiments/campaign_c38_bar_reference.py": "e6d1c4d0fd67a2f232f2f1a3f4055a5ac073f8eb39525b1059bb5977c351da63",
+    "experiments/campaign_c38_bar_posterior_z.py": "a0750ed44e446a97917156ab94211fccc89328230e1ed191808a149ef31e3ea8",
+    "experiments/campaign_nonlinear_bar_inverse.py": "21187d0a8e4c5fd2692d46e51083bcee7efd96eb947ca9d6014806ff9fbda495",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "experiments/campaign_c38_actions.py": "139064cccdb31c9ad0973ac39a1b70f0bfce964957f0da881318ac9a63807fbe",
+    "experiments/campaign_c38_study.py": "ba793a34f25d4a5543351867762cbb6253544d023815ad57af2b369884d9ee4e",
+    "experiments/campaign_point_active_views.py": "af03ee5556dbec64ad7253ffbd688a0e01757a153938395850dd1691d7e32890",
+    "experiments/censored_range_observation.py": "afc7eeaa8fc3f1f8543701e5ffe9d97f165255f16e5061347875d4df57a9ef11",
+    "experiments/campaign_boundary_gaussians.py": "d58b849f4c4399049e64182acb3fa84dc34fe040768c3b88a48d84fd55950362",
+    "experiments/campaign_compliant_gaussian_linear.py": "5937a41fe8058e8ba8f6d3388591ab18a78989ad72f18f9af1a39c7ff85bf383",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7",
+    "experiments/campaign_nonlinear_excitation.py": "fbee8a3590887e05547106d035216d70e9b86b1ba2d264a5b805be039c472a3d",
+    "experiments/campaign_nonlinear_fem.py": "468daaafa9d02c9db27553e2cfb154190248500677c212d9dde25bffdf14e1ff",
+    "experiments/campaign_nonlinear_gaussian_reference.py": "af86fbe7fc7c2cc6c827441835e647750068b27167afb0d9337135e385294c74",
+    "experiments/validate_isaac_dataset.py": "f42b92872eb54217f66249f4a4c0547fc27c40ac705493ba1cf66483ab5939f7"
+  },
+  "teacher": {
+    "path": "runs/gaussian-campaign-v01/c38-bar-active-reference-v04/summary.json",
+    "sha256": "77091e3889f75aa908c36173c9e39380099cc7d6a2e42c42d576179e39903894"
+  },
+  "roles": {
+    "TRAIN": 4096,
+    "DEV": 256,
+    "CAL": 128,
+    "TEST": 128
+  },
+  "data_seeds": {
+    "TRAIN": 2026122400,
+    "DEV": 2026122401,
+    "CAL": 2026122402,
+    "TEST": 2026122403
+  },
+  "fit_seeds": [
+    2026122410,
+    2026122411,
+    2026122412
+  ],
+  "contexts": [
+    "prefix_left",
+    "prefix_right",
+    "left_then_left",
+    "left_then_right",
+    "left_then_poke_left",
+    "right_then_left",
+    "right_then_right",
+    "right_then_poke_right"
+  ],
+  "gates": {
+    "reference_relative_Z": 5e-05,
+    "reference_CDF": 0.0005,
+    "reference_field_mean_m": 1e-07,
+    "reference_field_std_m": 2e-07,
+    "reference_cloud_Z": 5e-05,
+    "KL_order_difference_nat": 0.005,
+    "KL_mean_nat": 0.1,
+    "KL_max_nat": 0.5,
+    "CDF_mean_sup_grid_error": 0.05,
+    "CDF_max_sup_grid_error": 0.2,
+    "field_mean_m": 2e-05,
+    "field_std_m": 2e-05,
+    "Beta_12_24_field_moment_m": 2e-07
+  },
+  "physical_scope": "Known homogeneous logarithmic NH prism, known uniform spring location/law, ideal endpoint displacement sensor; not RGBD/general BC/dynamic forecasting",
+  "prior": "Independent uniform unit(log E[4500,9000]Pa, log K[100,400]N/m)",
+  "sensor_sigma_m": 0.0002,
+  "prefix_force_N": 1.0,
+  "poke_force_N": 2.0,
+  "target_force_N": 1.5,
+  "target_scope": "Static force interpolation from common reset state",
+  "acquisition_budget": "One frame/one measured scalar, nominal0.2s equal-cost ACCOUNTING ONLY; dynamic settling feasibility not demonstrated",
+  "architecture": {
+    "components": 16,
+    "hidden": [
+      64,
+      64
+    ],
+    "activation": "SiLU",
+    "output": "Product-Beta mixture; sigmoid means and exp(log concentration[-6,12]), positive .001 floors",
+    "input": "Only sorted acquired known forces/sides/displacements/masks,10 features; no theta/role/ID/targets"
+  },
+  "fit": {
+    "steps_per_seed": 8000,
+    "batch": 256,
+    "learning_rate": 0.001,
+    "gradient_clip_norm": 5.0,
+    "optimizer": "Adam",
+    "checkpoint": "FINAL ONLY, no DEV selection",
+    "wall_cap_seconds_total": 600,
+    "cpu_threads": 2,
+    "physical_gpu_uuid": "GPU-571378aa-c44e-ffb8-b346-1e409f9821f9",
+    "max_jobs_on_gpu": 1,
+    "device": "cuda:0 under exactly frozen physical UUID CVD"
+  },
+  "resources": {
+    "GPU_allocated_cap_bytes": 8589934592,
+    "process_RSS_cap_bytes": 12884901888,
+    "disk_free_reserve_bytes": 32212254720
+  },
+  "validation": {
+    "roles": [
+      "DEV",
+      "CAL"
+    ],
+    "reference_object_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "reference_context_assignment": "object index modulo8: exactly2 percontext perrole",
+    "reference_lower": {
+      "rtol": 1e-06,
+      "atol": 1e-12,
+      "conditional_order": 64
+    },
+    "reference_higher": {
+      "rtol": 1e-08,
+      "atol": 1e-13,
+      "conditional_order": 128
+    },
+    "CDF_grid": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.3,
+      0.35,
+      0.39999999999999997,
+      0.44999999999999996,
+      0.49999999999999994,
+      0.5499999999999999,
+      0.6,
+      0.65,
+      0.7,
+      0.75,
+      0.7999999999999999,
+      0.85,
+      0.9,
+      0.95
+    ],
+    "KL_cloud_orders": [
+      [
+        16,
+        64
+      ],
+      [
+        32,
+        128
+      ]
+    ],
+    "Beta_moment_orders": [
+      12,
+      24
+    ],
+    "PIT": "Percontext independent-object KS with simultaneous DKW alpha.05/48; exact90%coverage CP interval alpha.05/48 must include.9; not a calibration proof",
+    "reference_wall_cap_seconds": 1800,
+    "eval_wall_cap_seconds": 1800
+  },
+  "test": {
+    "objects": 128,
+    "closed_until_all3_DEV_CAL_pass": true,
+    "prefix_only_file": true,
+    "choice_freeze_before_counterfactual_outcomes": true,
+    "posterior_freeze_before_labels_and_targets": true,
+    "reference_object_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "no_best_seed_selection": true,
+    "cluster_bootstrap_unit": "Whole object across all8contexts",
+    "bootstrap_draws": 4000,
+    "seed": 2026122420
+  },
+  "policy": {
+    "policies": [
+      "fixed_left",
+      "fixed_right",
+      "random",
+      "opposite_endpoint",
+      "information_gain",
+      "predictive_risk"
+    ],
+    "one_action": true,
+    "independent_probe_RESET": true,
+    "common_target_all_policies": true,
+    "common_random_numbers": true,
+    "fantasies": 64,
+    "quadrature_order": 12,
+    "choice_seed": 2026122421,
+    "bootstrap_seed": 2026122422,
+    "scope": "Working neural-prefix posterior utility; finite fantasy ranking uncertainty; two-observation map coherence must be reported"
+  },
+  "raw_local": true,
+  "no_architecture_or_hyperparameter_search": true,
+  "preserve_all_failures": true
+}

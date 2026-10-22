@@ -6,6 +6,9 @@ FP64 quadratic GPU solver matches CPU static and full-mass motion controls.
 Fine smooth-load time refinement reaches 0.596 µm, with a combined conditional
 space/time indicator of 12.920 µm. Broader bending and drop tests still fail;
 qualified varied datasets and learned prediction remain pending.
+The latest graded bending indicator is 25.591 µm against the unchanged 20 µm
+gate. The high-order impact position comparison passes, but its velocity
+comparison still fails; both refinements continue. Raw datasets remain local.
 
 **Checked uncertainty reference: [small 3D material/support study](docs/GAUSSIAN_C38_BAR_REFERENCE.md).**
 All 64 objects and 32 independent integration checks pass. An extra endpoint

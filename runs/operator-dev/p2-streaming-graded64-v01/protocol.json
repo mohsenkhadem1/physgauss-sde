@@ -1,0 +1,248 @@
+{
+  "schema": "C38-P2-streaming-graded64-v0.1",
+  "status": "FROZEN_BEFORE_NEW_PHYSICS",
+  "source_sha256": {
+    "experiments/campaign_p2_streaming.py": "9ac365a4661688e6a328ec2f28dcc9f64cc77d5ef41148a327ff06a11c6c09f4",
+    "experiments/campaign_p2_coarse_preconditioner.py": "463cba181d9c6a97de0c31a77cfe1f655adc72999d5f1f6bbe5f82567df39628",
+    "experiments/campaign_p2_block_preconditioner.py": "39c44377a3f5fdb9207106cc828e655d6c005c617459ae1c67c4110475cc47bb",
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/run_p2_streaming_gpu_parity.py": "5eb9fbd21c9a7deff049b7beaa5fe3fc91daab9cf56b66a559ac2126837d541e",
+    "experiments/campaign_p2_geometry.py": "fdae2efcbf0c0abff1d4bb11ccaca8182479c423b80805014b781a510ffa77da",
+    "experiments/campaign_block_surface_controls.py": "c0ffbd4dd2ecd1cba6b8e293fddc264dcb2c9a07c81304b9b6c4a0313539064e",
+    "experiments/run_p2_torch_benchmark.py": "ca84447e4e6c0f4469d4cbb44522be96525b69a44f3b6f1443cb18b9ceb116e4",
+    "experiments/run_static_p2_axial_continuation.py": "c12200e9a70764e637960ee5bd99909627a83309294459aaf845d995cfcbd86c",
+    "experiments/run_p2_streaming_graded64.py": "8d421f2cad89ffe07df615f884ea179252c05c4a5c8e8f4fcaeb15d1be7ce17b",
+    "experiments/campaign_p2_jacobian_certificate.py": "ca63e9b1c11c0125ca2171e8d3572807de00d143b66657f5b9f02ae2b510b8cc"
+  },
+  "evidence_sha256": {
+    "runs/gaussian-campaign-v01/p2-graded-static-v02/summary.json": "6469d396a35f60bd930d95fc5c7878e54098aed653e824509aac8865fac62e3c",
+    "runs/operator-dev/p2-graded-static-v02/execution.json": "c55808ca52857fb805b59f0d37680f74aeed7670e174aa3e2c2fd922bdab9bcf",
+    "runs/gaussian-campaign-v01/p2-streaming-gpu-parity-v01/summary.json": "835d23c2914afc5841e2b27ddf8fbc28e5fd55c8e07ba763923f1bc35133e47f"
+  },
+  "reference48": {
+    "cells": [
+      48,
+      24,
+      24
+    ],
+    "hmax_m": 0.012346910354359959,
+    "hmin_m": 0.00010416666666666686,
+    "volume_ratio": 22113.874490748705,
+    "completed": true,
+    "physics_passed": true,
+    "diagnostics": {
+      "global_affine_F_positive_J_sufficient_lower_bound": 0.009173321229444508,
+      "maximum_vertex_displacement_gradient_spectral_norm": 0.7906648294449153,
+      "minimum_J": 0.45111974701180074,
+      "maximum_absolute_principal_stretch_strain": 0.6160589055294083,
+      "volume_weighted99th_percentile_max_abs_principal_strain": 0.061351275965926266,
+      "volume_weighted_principal_strain_RMS": 0.01623572683079009,
+      "bulk_nonrigid_coordinate_RMS_m": 0.0014765637409405877,
+      "maximum_displacement_m": 0.03887619962370245,
+      "original_free_residual_N": 9.035543810099761e-13,
+      "residual_tolerance_N": 1e-10,
+      "force_balance_defect_N": 2.6557720485482525e-12,
+      "actual_moment_balance_defect_Nm": 2.1890596125541844e-14,
+      "maximum_constraint_error_m": 0.0,
+      "iterations": 7,
+      "estimated_peak_memory_bytes": null,
+      "physical_solid_mass_kg": 0.9600000000000002
+    },
+    "elapsed_s": 359.40177995478734,
+    "base_geometry_array_bytes": 47056763,
+    "peak_GPU_allocated_bytes": 6209808384,
+    "history": [
+      {
+        "iteration": 0,
+        "residual_N": 0.0035514415222948673,
+        "potential_J": 0.0,
+        "minimum_J": 1.0,
+        "cg_iterations": 290,
+        "alpha": 0.5
+      },
+      {
+        "iteration": 1,
+        "residual_N": 0.04156629528723214,
+        "potential_J": -0.0014225681459917256,
+        "minimum_J": 0.8149275631977807,
+        "cg_iterations": 116,
+        "alpha": 1.0
+      },
+      {
+        "iteration": 2,
+        "residual_N": 0.009537621657326125,
+        "potential_J": -0.0021130996344395766,
+        "minimum_J": 0.6052601057083619,
+        "cg_iterations": 156,
+        "alpha": 1.0
+      },
+      {
+        "iteration": 3,
+        "residual_N": 0.007035929791609322,
+        "potential_J": -0.002251901107669973,
+        "minimum_J": 0.4836968809124167,
+        "cg_iterations": 109,
+        "alpha": 1.0
+      },
+      {
+        "iteration": 4,
+        "residual_N": 0.0003251719668688363,
+        "potential_J": -0.002264863883064519,
+        "minimum_J": 0.45547691212518465,
+        "cg_iterations": 264,
+        "alpha": 1.0
+      },
+      {
+        "iteration": 5,
+        "residual_N": 9.418226391465143e-06,
+        "potential_J": -0.0022649982678652494,
+        "minimum_J": 0.451159246623562,
+        "cg_iterations": 273,
+        "alpha": 1.0
+      },
+      {
+        "iteration": 6,
+        "residual_N": 2.912797872415838e-09,
+        "potential_J": -0.0022649982888929077,
+        "minimum_J": 0.4511197396114545,
+        "cg_iterations": 374,
+        "alpha": 1.0
+      },
+      {
+        "iteration": 7,
+        "residual_N": 9.035543810099777e-13,
+        "potential_J": -0.0022649982888929094,
+        "minimum_J": 0.45111974701180074
+      }
+    ],
+    "linear_records": [
+      {
+        "iterations": 290,
+        "original_true_residual_N": 2.1119905077019033e-05,
+        "requested_tolerance_N": 2.116445073412376e-05,
+        "residual_restarts": 0,
+        "maximum_iterations": 4000,
+        "preconditioner": "additive_exactnodeblock_plus_coarse4x2x2_restP2",
+        "regularization": 0.0,
+        "coarse_free_dofs": 600
+      },
+      {
+        "iterations": 116,
+        "original_true_residual_N": 0.0004048299269391965,
+        "requested_tolerance_N": 0.0004156629528723214,
+        "residual_restarts": 0,
+        "maximum_iterations": 4000,
+        "preconditioner": "additive_exactnodeblock_plus_coarse4x2x2_restP2",
+        "regularization": 0.0,
+        "coarse_free_dofs": 600
+      },
+      {
+        "iterations": 156,
+        "original_true_residual_N": 9.186192995974404e-05,
+        "requested_tolerance_N": 9.314512631156185e-05,
+        "residual_restarts": 0,
+        "maximum_iterations": 4000,
+        "preconditioner": "additive_exactnodeblock_plus_coarse4x2x2_restP2",
+        "regularization": 0.0,
+        "coarse_free_dofs": 600
+      },
+      {
+        "iterations": 109,
+        "original_true_residual_N": 5.4080424162434096e-05,
+        "requested_tolerance_N": 5.901769528696957e-05,
+        "residual_restarts": 0,
+        "maximum_iterations": 4000,
+        "preconditioner": "additive_exactnodeblock_plus_coarse4x2x2_restP2",
+        "regularization": 0.0,
+        "coarse_free_dofs": 600
+      },
+      {
+        "iterations": 264,
+        "original_true_residual_N": 5.827245632508836e-07,
+        "requested_tolerance_N": 5.863671702946618e-07,
+        "residual_restarts": 0,
+        "maximum_iterations": 4000,
+        "preconditioner": "additive_exactnodeblock_plus_coarse4x2x2_restP2",
+        "regularization": 0.0,
+        "coarse_free_dofs": 600
+      },
+      {
+        "iterations": 273,
+        "original_true_residual_N": 2.7906559440930932e-09,
+        "requested_tolerance_N": 2.890371647353269e-09,
+        "residual_restarts": 0,
+        "maximum_iterations": 4000,
+        "preconditioner": "additive_exactnodeblock_plus_coarse4x2x2_restP2",
+        "regularization": 0.0,
+        "coarse_free_dofs": 600
+      },
+      {
+        "iterations": 374,
+        "original_true_residual_N": 8.967723339754943e-13,
+        "requested_tolerance_N": 1e-12,
+        "residual_restarts": 0,
+        "maximum_iterations": 4000,
+        "preconditioner": "additive_exactnodeblock_plus_coarse4x2x2_restP2",
+        "regularization": 0.0,
+        "coarse_free_dofs": 600
+      }
+    ],
+    "capture": {
+      "path": "runs/gaussian-campaign-v01/p2-graded-static-v02/tets165888.npz",
+      "sha256": "24e918947ce1dcdbaefe6df5e45c95f49943d81b4e8a4dee5905204dc91824e0"
+    }
+  },
+  "cells": [
+    64,
+    32,
+    32
+  ],
+  "all_from_REST": true,
+  "physics": {
+    "E_Pa": 4500,
+    "nu": 0.35,
+    "rho": 625,
+    "gravity": 0,
+    "pattern": "transverse_end",
+    "force_N": [
+      0,
+      0,
+      -0.12
+    ],
+    "support": "left_face",
+    "mapping": "clamp_graded",
+    "quadrature": 3
+  },
+  "chunk_size": 8,
+  "CG_cap": 4000,
+  "GPU": 0,
+  "CPU_threads": 2,
+  "hard_cap_s": 2400,
+  "GPU_allocated_guard_bytes": 8589934592,
+  "RSS_guard_bytes": 12884901888,
+  "minimum_disk_free_bytes": 32212254720,
+  "gates": {
+    "original_free_R_N": 1e-09,
+    "global_force_N": 1e-08,
+    "actual_moment_Nm": 1e-08,
+    "clamp_m": 0,
+    "minimum_J": 0.1,
+    "positive_whole_element_J": true,
+    "conditional_spatial_indicator_m": 2e-05
+  },
+  "whole_J": "Positiveoldnormsufficientbound OR positiveNEWdegree3Bernsteinlowerbound; bothreported. NonpositiveBernstein isINCONCLUSIVE notinversion; no clipping.",
+  "indicator": "delta48to64/(actualhmax48/actualhmax64-1), assumedp>=1engineeringindicator NOT rigorousbound",
+  "limits": [
+    "Samephysics/control/fullleftclamp; no otherBC guardbypass",
+    "AlloldQ3spatialfailures retained",
+    "Q80quadrature/time/contact/inference/dataset qualification separate",
+    "All63originalfixedprobes includingedges retained; reportpeak/99th/RMSstrain andmotion; 2to8percentpeakgoalnotrelaxed"
+  ]
+}

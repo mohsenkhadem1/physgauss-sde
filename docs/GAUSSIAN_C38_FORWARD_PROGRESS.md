@@ -6,6 +6,46 @@ independent CPU results. Broader supports and loads, contact, dataset admission
 and prediction remain in progress. No learned prediction or probing superiority
 is established by this milestone.
 
+## Subsequent bending and impact checks
+
+The same informative bending case (E=4,500 Pa, 0.12 N transverse end force,
+full left clamp) has now completed graded 96,000- and 165,888-tet solves.
+Both pass the original residual, force/moment balance and fixed-node checks.
+Their 63-query difference is 5.063 µm, giving a conditional spatial indicator
+of **25.591 µm: still above the unchanged 20 µm gate**. Earlier uniform and
+graded failures remain published. Clamp-edge peak strain grows under refinement;
+it is not a converged peak-stress result or a qualified moderate-strain dataset.
+
+A separate whole-element Jacobian diagnostic evaluates the 20 cubic Bernstein
+coefficients of det(F) for straight-reference quadratic elements. It gives
+positive lower bounds of 0.5563 and 0.4511 on these saved fields, compared with
+the earlier, more pessimistic norm bounds of 0.02965 and 0.00917. This checks the
+whole computed affine-F polynomial with FP64 arithmetic margins and supplied
+reference gradients; reference-geometry inversion is not interval enclosed.
+A nonpositive Bernstein bound would be inconclusive, not proof of inversion.
+No physical solution or old diagnostic was changed.
+
+The streamed quadrature implementation matches the frozen 12,000-tet GPU field
+to 3.90e-15 m from rest, with a free residual of 9.28e-13 N. It reduces memory
+by recomputing quadrature chunks and preserves the full original operator and
+consistent mass. A new 393,216-tet Q3 bending solve is in progress; exact bulk
+quadrature qualification remains separate.
+
+The high-order impact integrator completes two accuracy settings on the same
+96-tet model and finite compliant plane. Their position difference is only
+0.154 µm, and both energy checks pass. Their maximum nodal velocity difference
+is **0.516 mm/s, failing the unchanged 0.1 mm/s gate**. A third accuracy setting
+is running. These contact trajectories remain unqualified; surface-quadrature
+and spatial refinement must follow a successful temporal comparison.
+
+Separately, a fixed learned-posterior control has been frozen for the validated
+small logarithmic-NH spring-bar family: 4,096 training objects, 256 development,
+128 calibration and 128 test objects, with three fixed training seeds. Test
+decisions and predictions must freeze before test labels; development and
+calibration gates must pass before any test release. This is an ideal endpoint
+sensor experiment, not RGB-D inference or dynamic forecasting. Training and
+validation are ongoing; no learned-model result is claimed here.
+
 ## Checked forward results
 
 | Check | Result | Meaning |

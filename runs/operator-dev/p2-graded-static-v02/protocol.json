@@ -1,0 +1,257 @@
+{
+  "schema": "P2-graded-static-refinement-v0.1",
+  "status": "FROZEN_BEFORE_SOLVES",
+  "GPU": 0,
+  "CPU_threads": 2,
+  "wall_cap_s": 900,
+  "GPU_allocated_limit_bytes": 8589934592,
+  "RSS_limit_bytes": 12884901888,
+  "meshes": [
+    {
+      "cells": [
+        40,
+        20,
+        20
+      ],
+      "hmax_m": 0.014789593433484014,
+      "hmin_m": 0.00015000000000000026,
+      "volume_ratio": 12754.3634650095
+    },
+    {
+      "cells": [
+        48,
+        24,
+        24
+      ],
+      "hmax_m": 0.012346910354359959,
+      "hmin_m": 0.00010416666666666686,
+      "volume_ratio": 22113.874490748705
+    }
+  ],
+  "source_sha256": {
+    "experiments/run_p2_graded_static_v02.py": "f351fdce73fb9743f6d38e0dccc122b30190f5ea756d2e47cd87f311d68a5273",
+    "experiments/campaign_p2_geometry.py": "fdae2efcbf0c0abff1d4bb11ccaca8182479c423b80805014b781a510ffa77da",
+    "experiments/campaign_p2_coarse_preconditioner.py": "463cba181d9c6a97de0c31a77cfe1f655adc72999d5f1f6bbe5f82567df39628",
+    "experiments/campaign_p2_block_preconditioner.py": "39c44377a3f5fdb9207106cc828e655d6c005c617459ae1c67c4110475cc47bb",
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/campaign_block_surface_controls.py": "c0ffbd4dd2ecd1cba6b8e293fddc264dcb2c9a07c81304b9b6c4a0313539064e",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/run_static_p2_axial_continuation.py": "c12200e9a70764e637960ee5bd99909627a83309294459aaf845d995cfcbd86c",
+    "tests/test_campaign_p2_geometry.py": "b3c1ccb3de70b5d6d98183821218b27d39c706446873640f36669b8820209be3"
+  },
+  "physics": {
+    "E_Pa": 4500,
+    "nu": 0.35,
+    "rho": 625,
+    "force_pattern": "transverse_end",
+    "known_force_N": [
+      0,
+      0,
+      -0.12
+    ],
+    "BC": "fullleft",
+    "gravity": 0,
+    "physical_domain_m": [
+      0.24,
+      0.08,
+      0.08
+    ]
+  },
+  "mapping": "x=L*(x/L)^2,y/z=halfwidth*sin(pi*coordinate/width);cornersonlythenstraightP2edgeenrichment",
+  "gates": {
+    "original_free_R_N": 1e-09,
+    "global_force_N": 1e-08,
+    "actual_moment_Nm": 1e-08,
+    "exact_clamp_m": 0,
+    "positive_global_J_certificate": true,
+    "conditional_spatial_indicator_m": 2e-05
+  },
+  "indicator": "delta40to48/(actual_hmax40/actual_hmax48-1), assumedp>=1 in this gradedfamily; engineeringindicatorNOTprovenbound",
+  "limitations": [
+    "Allolduniformmeshfailurespreserved",
+    "Gradingmayworsenaspectratios; originalphysics/operatorunchanged",
+    "Q4/time/contact/inferencequalificationseparate",
+    "Basegeometrybytesarenotpeakworkingmemory;actualguardsauthoritative",
+    "Fixed63queriesunchanged;nopointtrimming"
+  ],
+  "reused_mesh": {
+    "cells": [
+      32,
+      16,
+      16
+    ],
+    "hmax_m": 0.01843411049176407,
+    "hmin_m": 0.0002343750000000004,
+    "volume_ratio": 6494.472741948502,
+    "completed": true,
+    "physics_passed": true,
+    "diagnostics": {
+      "global_affine_F_positive_J_sufficient_lower_bound": 0.07225891324515632,
+      "maximum_vertex_displacement_gradient_spectral_norm": 0.583485164111006,
+      "minimum_J": 0.6536304317298856,
+      "maximum_absolute_principal_stretch_strain": 0.43680249697021445,
+      "volume_weighted99th_percentile_max_abs_principal_strain": 0.061342521512080084,
+      "volume_weighted_principal_strain_RMS": 0.016234506784488838,
+      "bulk_nonrigid_coordinate_RMS_m": 0.0014765330869260952,
+      "maximum_displacement_m": 0.038865157448155885,
+      "original_free_residual_N": 9.756008949652954e-13,
+      "residual_tolerance_N": 1e-10,
+      "force_balance_defect_N": 9.66589753795698e-13,
+      "actual_moment_balance_defect_Nm": 5.478485553493675e-14,
+      "maximum_constraint_error_m": 0.0,
+      "iterations": 7,
+      "estimated_peak_memory_bytes": null,
+      "physical_solid_mass_kg": 0.9600000000000002
+    },
+    "elapsed_s": 73.20770918624476,
+    "base_geometry_array_bytes": 14068155,
+    "peak_GPU_allocated_bytes": 1857579520,
+    "history": [
+      {
+        "iteration": 0,
+        "residual_N": 0.005308928158951021,
+        "potential_J": 0.0,
+        "minimum_J": 1.0,
+        "cg_iterations": 179,
+        "alpha": 0.5
+      },
+      {
+        "iteration": 1,
+        "residual_N": 0.06207617073756568,
+        "potential_J": -0.0014225396334464125,
+        "minimum_J": 0.8673041264554134,
+        "cg_iterations": 74,
+        "alpha": 1.0
+      },
+      {
+        "iteration": 2,
+        "residual_N": 0.014276139742139156,
+        "potential_J": -0.002112954206520386,
+        "minimum_J": 0.7409293104466206,
+        "cg_iterations": 96,
+        "alpha": 1.0
+      },
+      {
+        "iteration": 3,
+        "residual_N": 0.010474871008336856,
+        "potential_J": -0.002251734369839176,
+        "minimum_J": 0.6714775882665318,
+        "cg_iterations": 71,
+        "alpha": 1.0
+      },
+      {
+        "iteration": 4,
+        "residual_N": 0.0004789314407461908,
+        "potential_J": -0.0022646704736814533,
+        "minimum_J": 0.6558471580545745,
+        "cg_iterations": 161,
+        "alpha": 1.0
+      },
+      {
+        "iteration": 5,
+        "residual_N": 1.3960746172166566e-05,
+        "potential_J": -0.002264804464176733,
+        "minimum_J": 0.6536474920637128,
+        "cg_iterations": 174,
+        "alpha": 1.0
+      },
+      {
+        "iteration": 6,
+        "residual_N": 5.061666628339854e-09,
+        "potential_J": -0.002264804484866401,
+        "minimum_J": 0.6536304244847,
+        "cg_iterations": 252,
+        "alpha": 1.0
+      },
+      {
+        "iteration": 7,
+        "residual_N": 9.756008949652963e-13,
+        "potential_J": -0.0022648044848664036,
+        "minimum_J": 0.6536304317298856
+      }
+    ],
+    "linear_records": [
+      {
+        "iterations": 179,
+        "original_true_residual_N": 3.7474895880349764e-05,
+        "requested_tolerance_N": 3.868212042890591e-05,
+        "residual_restarts": 0,
+        "maximum_iterations": 4000,
+        "preconditioner": "additive_exactnodeblock_plus_coarse4x2x2_restP2",
+        "regularization": 0.0,
+        "coarse_free_dofs": 600
+      },
+      {
+        "iterations": 74,
+        "original_true_residual_N": 0.000613141026792275,
+        "requested_tolerance_N": 0.0006207617073756568,
+        "residual_restarts": 0,
+        "maximum_iterations": 4000,
+        "preconditioner": "additive_exactnodeblock_plus_coarse4x2x2_restP2",
+        "regularization": 0.0,
+        "coarse_free_dofs": 600
+      },
+      {
+        "iterations": 96,
+        "original_true_residual_N": 0.00012155965826310497,
+        "requested_tolerance_N": 0.00014276139742139157,
+        "residual_restarts": 0,
+        "maximum_iterations": 4000,
+        "preconditioner": "additive_exactnodeblock_plus_coarse4x2x2_restP2",
+        "regularization": 0.0,
+        "coarse_free_dofs": 600
+      },
+      {
+        "iterations": 71,
+        "original_true_residual_N": 0.00010404378080730649,
+        "requested_tolerance_N": 0.00010474871008336856,
+        "residual_restarts": 0,
+        "maximum_iterations": 4000,
+        "preconditioner": "additive_exactnodeblock_plus_coarse4x2x2_restP2",
+        "regularization": 0.0,
+        "coarse_free_dofs": 600
+      },
+      {
+        "iterations": 161,
+        "original_true_residual_N": 1.0275199656611622e-06,
+        "requested_tolerance_N": 1.0481176214664628e-06,
+        "residual_restarts": 0,
+        "maximum_iterations": 4000,
+        "preconditioner": "additive_exactnodeblock_plus_coarse4x2x2_restP2",
+        "regularization": 0.0,
+        "coarse_free_dofs": 600
+      },
+      {
+        "iterations": 174,
+        "original_true_residual_N": 4.95201272509489e-09,
+        "requested_tolerance_N": 5.2163046354628795e-09,
+        "residual_restarts": 0,
+        "maximum_iterations": 4000,
+        "preconditioner": "additive_exactnodeblock_plus_coarse4x2x2_restP2",
+        "regularization": 0.0,
+        "coarse_free_dofs": 600
+      },
+      {
+        "iterations": 252,
+        "original_true_residual_N": 9.72007449452642e-13,
+        "requested_tolerance_N": 1e-12,
+        "residual_restarts": 0,
+        "maximum_iterations": 4000,
+        "preconditioner": "additive_exactnodeblock_plus_coarse4x2x2_restP2",
+        "regularization": 0.0,
+        "coarse_free_dofs": 600
+      }
+    ],
+    "capture": {
+      "path": "runs/gaussian-campaign-v01/p2-graded-static-v01/tets49152.npz",
+      "sha256": "423a40dde3bb2e8f26df5b65b427491afc0991600ea0a7dba936ffd4b0fc1212"
+    }
+  },
+  "reuse_sha256": {
+    "runs/gaussian-campaign-v01/p2-graded-static-v01/tets49152.npz": "423a40dde3bb2e8f26df5b65b427491afc0991600ea0a7dba936ffd4b0fc1212",
+    "runs/gaussian-campaign-v01/p2-graded-static-v01/summary.json": "084b1f0f450b686e32f89e577212c68d266ffbbfc38af067bea3ac44a55c95ce"
+  }
+}
