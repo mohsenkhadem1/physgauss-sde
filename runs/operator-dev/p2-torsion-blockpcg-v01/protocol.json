@@ -1,0 +1,65 @@
+{
+  "schema": "C38-P2-torsion-blockPCG-v0.1",
+  "status": "FROZEN_BEFORE_RETRY",
+  "source_sha256": {
+    "experiments/run_p2_torsion_blockpcg.py": "12a6d8d2c78453910a5ce284ca360bb7dd50c0da92d58c34672e0a42c92f20d2",
+    "experiments/campaign_p2_block_preconditioner.py": "39c44377a3f5fdb9207106cc828e655d6c005c617459ae1c67c4110475cc47bb",
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/campaign_block_surface_controls.py": "c0ffbd4dd2ecd1cba6b8e293fddc264dcb2c9a07c81304b9b6c4a0313539064e",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97"
+  },
+  "original_failure": {
+    "path": "runs/gaussian-campaign-v01/p2-varied-static-v01/case2.json",
+    "sha256": "464a40132e370625cecea86dc6608aa583f3d326096430d0fbef814883072dc0"
+  },
+  "coarse6144": {
+    "path": "runs/gaussian-campaign-v01/p2-varied-static-v01/case2-tets6144.npz",
+    "sha256": "358c755bf3084fa3062661e5ac817c40d4cf6044edab7e57320d56cecda61cff"
+  },
+  "cells": [
+    20,
+    10,
+    10
+  ],
+  "order": 3,
+  "physics": {
+    "E_Pa": 6000,
+    "nu": 0.35,
+    "rho": 625,
+    "gravity": 0,
+    "support": "left_face",
+    "force_pattern": "torsion_couple",
+    "torque_Nm": 0.02,
+    "initial": "REST"
+  },
+  "numerical_change": "Exact nodal3x3 block-Jacobi only; explicit4000CG cap; original operator/objective/fullH/stationarity/line-search untouched",
+  "solver": {
+    "CG_cap": 4000,
+    "nonlinear_cap": 25,
+    "original_solve_tolerance_N": 1e-10
+  },
+  "gates": {
+    "original_R_N": 1e-09,
+    "balance_N": 1e-08,
+    "actual_moment_balance_Nm": 1e-08,
+    "clamp_m": 0,
+    "minimum_J": 0.1,
+    "global_J_certificate_positive": true,
+    "conditional4delta_probe_m": 2e-05
+  },
+  "GPU": 2,
+  "CPU_threads": 2,
+  "hard_cap_s": 600,
+  "cost_forecast_s": [
+    30,
+    180
+  ],
+  "nonclaims": [
+    "Original failed run retained",
+    "No changed physical forces/material/BC or numerical-error threshold",
+    "4delta conditional p>=1 indicator, not rigorous continuum bound",
+    "Quadrature and dynamics remain separately unqualified"
+  ]
+}

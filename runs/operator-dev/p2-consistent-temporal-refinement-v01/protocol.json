@@ -1,0 +1,98 @@
+{
+  "schema": "C38-P2-smooth-temporal-refinement-protocol-v0.1",
+  "status": "FROZEN_BEFORE_REFINED_TIME_FIELDS",
+  "source_sha256": {
+    "experiments/run_p2_consistent_temporal_refinement.py": "7e3b31b5638afa3ba473b749cac4800414b27ac3c153019ab39f7f07d36ab466",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336",
+    "experiments/run_p2_consistent_transient.py": "9393b8f7cc1120637db4e61ecef6b09008062ff67aee0ecb2d47888155eec46e",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/campaign_stable_transient.py": "198c69875bb0672f9966a2eae3706fee34c6af03e4ba41ac7f552c26652175d6",
+    "experiments/run_static_supported_block.py": "d90511922c32430ce3b2eb10f80d4ecf70686a5ce18644bd7db4234922243359",
+    "experiments/run_static_p2_axial_continuation.py": "c12200e9a70764e637960ee5bd99909627a83309294459aaf845d995cfcbd86c",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b"
+  },
+  "prior_protocol": {
+    "path": "runs/operator-dev/p2-consistent-transient-v01/protocol.json",
+    "sha256": "24166724c91c6c78d9f346e86e6d92abbe9316e322abe36dee7979bcbd39160d"
+  },
+  "prior_summary": {
+    "path": "runs/gaussian-campaign-v01/p2-consistent-transient-v01/summary.json",
+    "sha256": "665eb188e958476d80d6feedb2218f457bf73a39db06ac9b26087c3b3b417f38"
+  },
+  "six_tet_references": {
+    "240": {
+      "path": "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets6-smooth_ramp-hz240.npz",
+      "sha256": "ae4f79e60f0cbcc3721188c2169a15d206418723354eae78d4cf21555d7c6d24"
+    },
+    "480": {
+      "path": "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets6-smooth_ramp-hz480.npz",
+      "sha256": "fbeb27557229265fc67f597a3b221c4231d33f49f232fb1ef1908074e8120eec"
+    },
+    "960": {
+      "path": "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets6-smooth_ramp-hz960.npz",
+      "sha256": "3a080aaa98cccab44407a228e72d278e12e63a2b4d8faf03c31c3129d78686d8"
+    }
+  },
+  "larger_reference480": {
+    "path": "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets96-smooth_ramp-hz480.npz",
+    "sha256": "458fb063e70a19be80ba4fef62e9c8f287b6ddf7657ee65c35e37d612e30550e"
+  },
+  "larger_cost_basis_s": 52.99703334737569,
+  "larger_runtime_forecast_with10percent_safety_s": 233.18694672845305,
+  "CPU_threads": 2,
+  "hard_wall_cap_s": 300,
+  "actual_RSS_guard_bytes": 8589934592,
+  "required_jobs": [
+    {
+      "id": "tets6-smooth_ramp-hz1920",
+      "cells": [
+        1,
+        1,
+        1
+      ],
+      "hz": 1920,
+      "tetrahedra": 6
+    },
+    {
+      "id": "tets6-smooth_ramp-hz3840",
+      "cells": [
+        1,
+        1,
+        1
+      ],
+      "hz": 3840,
+      "tetrahedra": 6
+    }
+  ],
+  "conditional_job": {
+    "id": "tets96-smooth_ramp-hz1920",
+    "cells": [
+      4,
+      2,
+      2
+    ],
+    "hz": 1920,
+    "tetrahedra": 96
+  },
+  "conditional_rule": "6tet finest1920-to3840<=20um AND contracts, AND forecast233.19s+5s fits remaining300s; otherwise preserve SKIPPED",
+  "physics_and_scheme": "EXACT prior protocol; unchanged stableNH/full consistent T10 M/exactleftclamp/E5000/nu.35/rho625/gravity0/damp0/1Nrightface;BE-startBDF2",
+  "program": "smooth_ramp coefficient sin\u00b2((pi/2)*min(t/0.05,1)), endpointtime(n+1)/Hz, duration0.1s",
+  "gates": {
+    "objective_R_N": 1e-10,
+    "physical_R_N": 1e-09,
+    "minimum_sampled_J": 0.1,
+    "clamp_position_and_velocity": 0.0,
+    "full25times122probes_finest_adjacent_max_m": 2e-05,
+    "positive_contraction": true
+  },
+  "limits": [
+    "All original coarse failures and wall timeout immutable",
+    "No retry unchanged missing960 larger run",
+    "96tet480-to1920 is a coarse/fine comparison with no successive-level contraction proof",
+    "No spatial/native/training/inference qualification"
+  ]
+}

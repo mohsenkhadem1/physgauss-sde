@@ -1,0 +1,45 @@
+{
+  "schema": "C38-two-level-P2-preconditioner-validation-v0.1",
+  "status": "CPU_VALIDATED_NO_GPU_BENCHMARK_OR_PHYSICAL_CASE_LAUNCHED",
+  "source_sha256": {
+    "experiments/campaign_p2_coarse_preconditioner.py": "463cba181d9c6a97de0c31a77cfe1f655adc72999d5f1f6bbe5f82567df39628",
+    "experiments/campaign_p2_block_preconditioner.py": "39c44377a3f5fdb9207106cc828e655d6c005c617459ae1c67c4110475cc47bb",
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b"
+  },
+  "class": "TwoLevelP2(BlockJacobiP2)",
+  "scope": "Canonicalblock/fullleftfixedclamp only; no contact",
+  "coarse_cells": [
+    4,
+    2,
+    2
+  ],
+  "coarse_quadrature": 3,
+  "coarse_physics": "Same E/nu/rho as supplied fine model; rest tangent and analytic full consistent T10 mass",
+  "prolongation": "Exact P2 authored-tet barycentrics and10shapeweights;4096pointboundedchunks; no weight clipping/normalization",
+  "restriction": "Exact transpose of projected prolongation; fine and coarse fixed DOFs eliminated",
+  "preconditioner": "Exact nodal3x3 inverse + P*(Kcoarse_rest+mass_factor*Mcoarse)^-1*P^T",
+  "coarse_factor": "FP64Cholesky exactfreeblock; no diagonal shift/eigenprojection; only <=256eps-scale roundoff symmetry averaged in preconditioner",
+  "coarse_free_dofs": 600,
+  "CG_cap": 4000,
+  "acceptance": "Unchanged fullFP64 original HVP/true linear residual/negative curvature/nonlinear force/descent/J/constraints",
+  "CPU_tests": 4,
+  "test_receipt": {
+    "path": "runs/operator-dev/p2-coarse-preconditioner-v01/tests.txt",
+    "sha256": "bf8297773e20ccfac88f56b8f03b8a2e50dc4c8c58cd5984e499800c66dbe3b5",
+    "size_bytes": 98
+  },
+  "GPU_cases": 0,
+  "physical_trajectories_or_equilibria_generated": 0,
+  "limits": [
+    "No acceleration measured yet",
+    "No changes to any ongoing24/32 protocol/source",
+    "Future actualGPUbenchmark requires separately frozen scoped protocol after GPU release"
+  ]
+}

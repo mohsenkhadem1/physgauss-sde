@@ -1,10 +1,10 @@
 # C38: forward mechanics milestone, campaign continuing
 
-The higher-order static reference now passes the declared spatial indicator,
-and a new FP64 GPU implementation reproduces independent CPU results. Dynamic
-mesh qualification, broader supports and loads, contact, dataset admission and
-prediction remain in progress. No learned prediction or probing superiority is
-established by this milestone.
+The controlled smooth pulling motion now passes the declared conditional
+space/time indicator at 12.920 µm. A new FP64 GPU implementation reproduces
+independent CPU results. Broader supports and loads, contact, dataset admission
+and prediction remain in progress. No learned prediction or probing superiority
+is established by this milestone.
 
 ## Checked forward results
 
@@ -16,12 +16,49 @@ established by this milestone.
 | Seven full consistent-mass transient CPU/GPU comparisons | Maximum all-state nodal difference below 3.6e-13 m | Same discrete BDF2 equations agree, including velocities and mass action |
 | Smooth load, 96-tet GPU temporal refinement | 960→1,920 Hz: 8.173 µm; 1,920→3,840 Hz: 2.262 µm | Passes the direct temporal-difference target on this mesh and history |
 | Same smooth load, 96→768 tets at 3,840 Hz | 87.391 µm | Fails the spatial target; these trajectories are not admitted as resolved truth |
+| Same smooth load, 6,144→12,000 tets at 3,840 Hz | 3.081 µm | Conditional four-times spatial indicator 12.324 µm |
+| Same smooth load, 12,000 tets, 3,840→7,680 Hz | 0.596 µm | Direct temporal-difference target passes |
+| Combined conditional indicator | 12.920 µm | Four times spatial difference plus temporal difference; passes 20 µm for this case only |
 
 The static block has E=5,000 Pa, Poisson ratio 0.35, a full left clamp and a
 known 1 N right-face pull. Its fine CPU solution has about 6.45% peak strain
 and 1.293 mm volume-weighted nonrigid coordinate RMS. Thus this particular
 experiment contains substantial deformation after rigid motion is removed.
 These figures do not describe a population of objects.
+
+The dynamic test lasts 0.1 s with a sin-squared force ramp over its first
+0.05 s, then a 1 N hold. Comparisons use 63 fixed material queries at 25 shared
+times. Captured fine states have a sufficient whole-element positive-J lower
+bound of at least 0.882. This certificate applies at recorded frames; unsaved
+integration states and continuous time are not certified. The combined
+indicator assumes spatial order at least one; it is not a rigorous error bound.
+
+The final 7,680 Hz case received its own declared resource phase. The previous
+phase was explicitly stopped during that incomplete case after the two completed
+mesh captures were saved; those captures were reused without rerunning them.
+Both the resource preemption and the successful continuation remain recorded.
+
+## New materials, forces and supports
+
+Seven prospective static combinations include bending, twisting, a top load,
+four material stiffnesses and supports at several locations. Four restrictive
+or weak-motion controls pass the displacement indicator. The informative
+cantilever bending cases fail it at 185 and 87.7 µm. A twisting solve initially
+hits the linear iteration cap; an exact nodal-block preconditioner repairs that
+numerical failure while preserving the force law. The resulting 1.93 mm
+nonrigid twisting solution still fails the spatial indicator at 167.8 µm.
+
+The stronger transverse case has 1.48 mm nonrigid RMS and is being refined
+further. Peak clamp strain increases with refinement; no converged peak-stress
+claim is made. Failed cases are retained and do not become qualified training
+data because their visual deformation looks plausible.
+
+An optional mixed-precision linear correction also passes three independent
+fine-solution comparisons (pulling, bending and twisting), with nodal differences
+below 7e-13 m and original FP64 force residuals below 6.6e-12 N. It uses FP64
+residual refinement and a full FP64 fallback. This changes numerical work, not
+material, mass, damping or boundary conditions. These static checks do not
+qualify it for arbitrary dynamic/contact cases.
 
 The GPU code uses the same polynomial stable Neo-Hookean law as the pinned
 Newton 1.7 comparison, including the complete determinant Hessian. It uses
@@ -50,12 +87,21 @@ not a demonstrated rigid floor: temporal, spatial, surface-quadrature and
 stiffness refinement remain necessary before dropping data can be admitted.
 Earlier failed captures and resource-limited runs remain recorded.
 
+An independently assembled CPU contact trajectory agrees with the GPU at all
+73 recorded times to 2.11e-14 m. Thus matching the same discrete equations does
+not remove resolution error. Even analytic-freefall-initialized BDF2 rates up
+to 15,360 Hz fail the 20 µm refinement target. A separate high-order adaptive
+ODE check is underway with the same mass, material and floor stiffness.
+
 ## Evidence and limits
 
 - [Independent fine CPU spatial report](../runs/gaussian-campaign-v01/newton-stable-p2-spatial-v01/REPORT.md)
 - [GPU fine static comparisons](../runs/gaussian-campaign-v01/p2-torch-spatial-v01/publication-summary.json)
 - [GPU full-mass transient parity](../runs/gaussian-campaign-v01/p2-torch-time-v01/publication-summary.json)
 - [GPU coarse temporal/spatial refinement](../runs/gaussian-campaign-v01/p2-gpu-refinement-v01/publication-summary.json)
+- [Fine dynamic space/time continuation](../runs/gaussian-campaign-v01/p2-gpu-refinement-v03/publication-summary.json)
+- [Varied static controls](../runs/gaussian-campaign-v01/p2-varied-static-v01/publication-summary.json)
+- [Optional mixed-solver comparisons](../runs/gaussian-campaign-v01/p2-mixed-benchmark-v01/publication-summary.json)
 - [Contact diagnostic inventory](../runs/operator-dev/newton-contact-validation-v01/publication-inventory.json)
 - [CPU transient terminal report](../runs/gaussian-campaign-v01/p2-consistent-transient-v01/REPORT.md)
 
@@ -65,8 +111,8 @@ incomplete stage, not a numerical pass. The seven GPU parity cases used the
 first available completed CPU prefix selected before their GPU outcomes.
 
 Raw fields and media stay local. Only source and compact reports are pushed.
-The next stages refine the dynamic mesh and test new force, material and
-support combinations, then admit qualified data for strictly causal prediction.
+The next stages resolve the broader force/support combinations and drops,
+then admit qualified data for strictly causal prediction.
 The small material/support posterior study is a separate reference problem;
 neither numerical parity nor that reference alone establishes general learned
 boundary conditions or useful uncertainty-guided probing.

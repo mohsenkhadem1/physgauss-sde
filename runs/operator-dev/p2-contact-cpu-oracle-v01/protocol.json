@@ -1,0 +1,83 @@
+{
+  "schema": "C38-independent-CPU-P2-contact-oracle-v0.1",
+  "status": "FROZEN_BEFORE_CPU_DROP",
+  "source_sha256": {
+    "experiments/campaign_p2_contact_cpu_oracle.py": "399aa8d2213c552c6e7d262014f7957c7414a75d68acaa732f844273e5843a01",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/campaign_stable_transient.py": "198c69875bb0672f9966a2eae3706fee34c6af03e4ba41ac7f552c26652175d6",
+    "experiments/run_static_p2_axial_continuation.py": "c12200e9a70764e637960ee5bd99909627a83309294459aaf845d995cfcbd86c",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97"
+  },
+  "GPU_target_json": {
+    "path": "runs/gaussian-campaign-v01/p2-contact-validation-v01/drop6_hz480.json",
+    "sha256": "369b17ae5c52540a6632c8fc88a81688c2e970c037b7454c11049ec1605f4267"
+  },
+  "GPU_target_capture": {
+    "path": "runs/gaussian-campaign-v01/p2-contact-validation-v01/drop6_hz480.npz",
+    "sha256": "b70d7352d62f0bf2d68001bbb8b24bde22ac162f095a20319002c388a5bbe620"
+  },
+  "GPU_protocol": {
+    "path": "runs/operator-dev/p2-contact-validation-v01/protocol.json",
+    "sha256": "fd9fbb656050d148c1f3e6aa8920852a97b63b28cab53bbf930566c72e0c017c"
+  },
+  "CPU_threads": 2,
+  "hard_wall_cap_s": 120,
+  "actual_RSS_guard_bytes": 8589934592,
+  "forecast_s": [
+    10,
+    30
+  ],
+  "physics": {
+    "cells": [
+      1,
+      1,
+      1
+    ],
+    "E_Pa": 300000.0,
+    "nu": 0.35,
+    "rho": 625,
+    "gravity_world_m_s2": [
+      0,
+      0,
+      -9.81
+    ],
+    "bottom_gap_m": 0.05,
+    "initial": "REST and v0",
+    "duration_s": 0.15,
+    "hz": 480,
+    "all_nodes_free": true,
+    "kappa_N_m3": 1000000000.0,
+    "plane_z": 0.0,
+    "surface_Q": 8,
+    "friction": 0,
+    "damping": 0,
+    "law": "Finite reference-area wholeboundary P2 plane penalty"
+  },
+  "scheme": "Unchanged full-consistent-T10 BE-start BDF2 and exact directu stableNH sparse Newton",
+  "gates": {
+    "original_objective_R_N": 1e-10,
+    "physical_R_N": 1e-09,
+    "minimum_J": 0.1,
+    "allnode_CPU_GPU_max_position_m": 1e-08,
+    "allnode_CPU_GPU_max_velocity_m_s": 1e-05
+  },
+  "shared_components": [
+    "Frozen stableNH constitutive function and P2 reference geometry",
+    "Frozen analytic full consistent mass and BDF2 advance",
+    "Same mathematical positive8x8 Gauss-Duffy triangle rule, independently generated/assembled here"
+  ],
+  "independent_components": [
+    "NumPy/SciPy contact gradient/full sparseH; no Torch contact plugin calls",
+    "Direct sparse original Newton linear solves vsGPU PCG",
+    "Separate surface connectivity and reference-area construction"
+  ],
+  "nonclaims": [
+    "Same discrete contact-law/time validation only; not time/space/penalty/nonpenetration qualification",
+    "All original native drop-refinement and kappa failures retained",
+    "No new E/kappa/force/time tuning or retry"
+  ]
+}

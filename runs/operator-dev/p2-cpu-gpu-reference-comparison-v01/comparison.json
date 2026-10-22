@@ -1,0 +1,59 @@
+{
+  "schema": "C38-independent-CPU-GPU-P2-reference-comparison-v0.1",
+  "completed": true,
+  "comparison_kind": "POSTHOC descriptive same-discretization/same1920Hz/sameforce-law comparison; no new admission threshold",
+  "source": {
+    "path": "experiments/compare_p2_cpu_gpu_reference.py",
+    "sha256": "7e3c18f575ac8bb784a4bc1dc6ff954b707fc4570aa43f19740c7ef1b2d1d342"
+  },
+  "evidence": [
+    {
+      "path": "runs/gaussian-campaign-v01/p2-consistent-temporal-refinement-v02/tets96-smooth_ramp-hz1920.npz",
+      "sha256": "5deef7bbd39282cef0fb0f4833d6545746d352df7276117013f94fe3671c8444"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/p2-gpu-refinement-v01/tets96-hz1920.npz",
+      "sha256": "76a23c476607c6586c6855e18ce9a052188311b19a6eb6ca771dc1f25eb0e64f"
+    },
+    {
+      "path": "runs/operator-dev/p2-consistent-temporal-refinement-v02/protocol.json",
+      "sha256": "bca3673d1ec7516cf7d1b44c216f35e8dfb191f28150a7c946fd6b4bef4eed47"
+    },
+    {
+      "path": "runs/operator-dev/p2-gpu-refinement-v01/protocol.json",
+      "sha256": "99aeb2fe3ff363dd460ab4b1182e0cdadca61a35f06d03223fccf486c5665646"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/p2-consistent-temporal-refinement-v02/tets96-smooth_ramp-hz1920.json",
+      "sha256": "94225b968b0514b01178920cc321c579810ce1caf156ff45342f3f2d995ea5bb"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/p2-gpu-refinement-v01/tets96-hz1920.json",
+      "sha256": "cedfe81f4b3cd71ee97422306f99aca3f6c7c81960fb43dd31bf042bb6bde24b"
+    }
+  ],
+  "physics": "E5000/nu.35/rho625,96P2tetsQ3,fullconsistentT10mass,fullleftclamp,1Nsin\u00b2ramp.05s,BE-startBDF2,.1s",
+  "nodes": 225,
+  "common_frames": 25,
+  "geometry_connectivity_and_clamp_bitwise_identical": true,
+  "common_clock_max_difference_s": 1.3877787807814457e-17,
+  "all_actual_ledger_clock_max_difference_s": 2.0816681711721685e-16,
+  "allnode_max_Euclidean_position_difference_m": 1.0896808277716935e-13,
+  "allnode_position_coordinate_RMS_m": 8.210565918685716e-15,
+  "allnode_max_Euclidean_velocity_difference_m_s": 2.634290553398981e-11,
+  "allnode_velocity_coordinate_RMS_m_s": 1.784005745970916e-12,
+  "GPU63probe_max_Euclidean_position_difference_m": 1.0896808277716935e-13,
+  "mass_CSR_max_entry_difference_kg": 8.673617379884035e-19,
+  "CPU_total_mass_kg": 0.9600000000000002,
+  "GPU_reconstructed_total_mass_kg": 0.9600000000000005,
+  "GPU_pinned_recipe_vs_CPU_saved_force_max_component_difference_N": 2.7755575615628914e-17,
+  "force_evidence_limit": "GPU force array is reconstructed from pinned source recipe and actual model force, not a stored per-step GPU command getter",
+  "CPU_max_original_physical_R_N": 8.632020015789688e-11,
+  "GPU_max_original_physical_R_N": 6.538650223945397e-11,
+  "spatial_time_or_training_qualification": false,
+  "limits": [
+    "CPU1920 does not supply a96tet successive-refinement temporal pass",
+    "Current meshes are not spatially qualified dynamic data",
+    "No physics calls, fitting, GPU calls or response-based selection occurred"
+  ]
+}

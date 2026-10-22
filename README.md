@@ -3,8 +3,9 @@
 **C38 campaign underway: [higher-order mechanics and remaining gates](docs/GAUSSIAN_C38_FORWARD_PROGRESS.md).**
 The independent fine static spatial indicator passes at 14.568 µm, and the new
 FP64 quadratic GPU solver matches CPU static and full-mass motion controls.
-Smooth-load time refinement reaches 2.262 µm, but the coarse dynamic mesh and
-stock drop tests still fail; qualified datasets and prediction remain pending.
+Fine smooth-load time refinement reaches 0.596 µm, with a combined conditional
+space/time indicator of 12.920 µm. Broader bending and drop tests still fail;
+qualified varied datasets and learned prediction remain pending.
 
 **Latest solver repair: [checked Newton static and motion controls](docs/GAUSSIAN_NEWTON_SOLVER_REPAIR.md).**
 A corrected initial iterate and mixed-precision BDF2 momentum update preserve

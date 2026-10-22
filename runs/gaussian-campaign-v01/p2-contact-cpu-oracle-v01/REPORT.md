@@ -1,0 +1,11 @@
+# Independent CPU contact implementation oracle
+
+One fresh six-tet, 480 Hz, 0.15 s compliant drop passes the prospective CPU/GPU parity checks. Across all 73 physical times and 27 nodes, the maximum Euclidean CPU/GPU position difference is **2.1023e-14 m** and velocity difference **1.3988e-11 m/s**, with identical saved clocks. Original CPU objective and physical momentum residuals are below 2.46e-11 N; minimum sampled J is 0.972268. The run completed in 4.92 s and session 52641 was reaped with exit 0.
+
+The fixed problem uses a 0.24 x 0.08 x 0.08 m block, E=300 kPa, nu=0.35, rho=625 kg/m3, full consistent T10 mass, all nodes free, gravity -9.81 m/s², initial bottom gap 0.05 m and zero initial velocity. The static floor is z=0. Its finite penalty is 0.5*kappa*integral_boundary max(-z,0)^2 dA_reference with kappa=1e9 N/m3, surface order 8, zero friction/damping, and BE-started BDF2. It is not hard nonpenetration or continuous collision detection.
+
+The CPU surface connectivity, shape evaluation and sparse contact gradient/Hessian are independently written in NumPy/SciPy and solved by direct sparse Newton. The GPU uses a separate Torch contact plugin and PCG. Shared pieces are the frozen stable Neo-Hookean constitutive function, affine P2 geometry, analytic full consistent mass and BDF2 equations. The same mathematical positive 8x8 Gauss-Duffy quadrature rule is independently generated; this comparison is not an independent quadrature-convergence proof. Two tests passed in 1.66 s: independent all-active analytic resultant plus contact energy/gradient/Hessian finite differences and PSD; exact full-mass/gravity uniform-translation identity.
+
+These results validate the implemented equations at this exact discretization and time scheme. They do not resolve the native stage's large temporal/spatial drop differences or qualify penalty stiffness, continuum contact, other materials, training or inference. All earlier refinement failures remain. No physical parameter, force, stiffness or tolerance was tuned after the CPU result.
+
+[Protocol](../../operator-dev/p2-contact-cpu-oracle-v01/protocol.json), [summary](summary.json), [terminal receipt](../../operator-dev/p2-contact-cpu-oracle-v01/terminal.json). Raw fields and per-step ledger remain local.

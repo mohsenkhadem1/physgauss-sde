@@ -1,0 +1,61 @@
+{
+  "schema": "P2-mixed-correction-benchmark-v0.1",
+  "status": "FROZEN_BEFORE_GPU_CALLS",
+  "GPU": 0,
+  "CPU_threads": 2,
+  "wall_cap_s": 600,
+  "cases": [
+    {
+      "name": "axial",
+      "E": 5000,
+      "force": "axial_pull",
+      "reference": "runs/gaussian-campaign-v01/p2-torch-spatial-v01/order3.npz"
+    },
+    {
+      "name": "bend",
+      "E": 4500,
+      "force": "transverse_end",
+      "reference": "runs/gaussian-campaign-v01/p2-varied-static-v01/case0-tets12000.npz"
+    },
+    {
+      "name": "torsion",
+      "E": 6000,
+      "force": "torsion_couple",
+      "reference": "runs/gaussian-campaign-v01/p2-torsion-blockpcg-v01/torsion-tets12000.npz"
+    }
+  ],
+  "source_sha256": {
+    "experiments/run_p2_mixed_benchmark.py": "a9cf87f057cfa7d4ed1e2227b34457e91f4a99c23805e8b2f83e74e3bb6f9efd",
+    "experiments/campaign_p2_mixed_cg.py": "37d300c835b0bfd2478f35d4aedcf4250ab0081d3bd9a996b0d924414bb1df6b",
+    "experiments/campaign_p2_block_preconditioner.py": "39c44377a3f5fdb9207106cc828e655d6c005c617459ae1c67c4110475cc47bb",
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/campaign_block_surface_controls.py": "c0ffbd4dd2ecd1cba6b8e293fddc264dcb2c9a07c81304b9b6c4a0313539064e",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "tests/test_campaign_p2_mixed_cg.py": "a1eb80fc9855de5a660096f05a7393aac5de720673cce3affdf2b3185ad3f86a"
+  },
+  "reference_sha256": {
+    "runs/gaussian-campaign-v01/p2-torch-spatial-v01/order3.npz": "dda5544b21a8e7ec9274ed7f9fd470ded90a4b0e8c9defa39b0ce782b32fb0f1",
+    "runs/gaussian-campaign-v01/p2-varied-static-v01/case0-tets12000.npz": "4b74253e6133ac56bde6866cb20f8d3a2d06d6f845cb0815dc8fad7c57d3c586",
+    "runs/gaussian-campaign-v01/p2-torsion-blockpcg-v01/torsion-tets12000.npz": "e9b6da02c72fb7ffc1df220bb0738343569afee326241fac0b415f38a982bac5"
+  },
+  "gates": {
+    "original_FP64_force_R_N": 1e-10,
+    "reference_node_difference_m": 1e-08,
+    "reference_query_difference_m": 1e-08,
+    "force_balance_N": 1e-08,
+    "moment_balance_Nm": 1e-08
+  },
+  "linear_resources": {
+    "maximum_total_FP32_iterations": 4000,
+    "maximum_FP64_fallback_iterations": 4000,
+    "maximum_refinement_rounds": 8
+  },
+  "selection": "All3 frozen cases; no speed-based case filtering",
+  "nonclaims": [
+    "Mixedsolverbenchmarknotspatial/dynamic/materialqualification",
+    "FP32searchcurvaturesarenotFP64curvaturecertificates",
+    "FinalFP64originalresidual/nonlineardescent/Jguardsunchanged",
+    "Historicalwalltimesarenotpairedspeedupmeasurements"
+  ]
+}

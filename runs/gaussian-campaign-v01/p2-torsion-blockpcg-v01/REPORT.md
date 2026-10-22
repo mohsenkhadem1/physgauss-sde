@@ -1,0 +1,11 @@
+# Exact block preconditioner: torsion numerical repair
+
+The unchanged 12,000-tet torsion equilibrium now solves from rest in 78.35 s with 8 Newton iterations. Its original free residual is 9.94e-13 N, force and actual moment balance defects are about 1e-12, sampled J is 0.968153, the sufficient global J lower bound is 0.215035 and the left clamp is exact. The numerical repair succeeds; the spatial gate still fails.
+
+The new solver uses exact 3x3 nodal diagonal blocks as a Jacobi preconditioner, with an explicit 4000-CG cap. The physical full tangent, energy, mass, constraints, original nonlinear residual, line search and positive-J guard are unchanged. Each block integrates mu*|gradN|² I + kappa*(cofF gradN)(cofF gradN)^T. Same-node determinant second derivatives vanish identically under rank-one nodal perturbations; cross-node terms remain in the full operator. No eigenvalue projection, regularization or physical stiffness change occurs. Maximum observed block-CG count is 996; the previous scalar-Jacobi 1000-iteration failure remains frozen.
+
+Three CPU tests passed in 1.83 s: exact blocks against the fully assembled finite-strain Hessian, original coupled mass/Hessian solve against independent direct sparse solve, and nonlinear equilibrium agreement with the original CPU energy/force solver. Negative-curvature and original true-residual checks remain in the new CG implementation.
+
+Physical conditions remain E=6000 Pa, nu=0.35, rho=625 kg/m3, the full left clamp, fixed right-face pure rest torsion 0.02 Nm, gravity zero and quadrature order 3. Peak principal strain is 6.2007% and volume nonrigid RMS is 1.9330 mm. The 6144-to-12000 maximum fixed-query difference is 41.9427 um, giving the unchanged conditional p>=1 indicator **4*delta=167.7710 um**, exceeding 20 um. The model is not spatially qualified by solving its equations more accurately. Quadrature/dynamics/training remain separate and unqualified.
+
+The controller and worker are absent and session 79804 was reaped with exit 0; GPU2 was released before the next separately declared stage. No other torsion case or physical force/material was retried or retuned. [Protocol](../../operator-dev/p2-torsion-blockpcg-v01/protocol.json), [summary](summary.json), [terminal receipt](../../operator-dev/p2-block-preconditioner-v01/terminal.json).

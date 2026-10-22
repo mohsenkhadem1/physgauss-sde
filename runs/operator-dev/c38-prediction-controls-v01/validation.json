@@ -1,0 +1,31 @@
+{
+  "completed": true,
+  "scope": "Synthetic controls only; no C38 data/fit/action evaluation",
+  "distinct_tests": 17,
+  "commands": [
+    {
+      "command": "env OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 .venv/bin/python -m pytest -q tests/test_campaign_c38_predictor.py tests/test_campaign_c38_study.py tests/test_campaign_c38_gaussians.py tests/test_campaign_c38_actions.py",
+      "passed": 17,
+      "elapsed_s": 2.73
+    },
+    {
+      "command": "Same thread environment: pytest tests/test_campaign_c38_bar_reference.py tests/test_campaign_c38_bar_posterior.py tests/test_run_campaign_c38_bar_active.py tests/test_campaign_c38_actions.py",
+      "passed": 10,
+      "elapsed_s": 7.97,
+      "overlap_with_controls": "3 action tests; remaining7 belong to separate microbenchmark"
+    }
+  ],
+  "source_sha256": {
+    "experiments/campaign_c38_gaussians.py": "d704342aac63a6718c2e03d046b1ccc050eb422205c47b6c05195ae735574a1a",
+    "experiments/campaign_c38_predictor.py": "c8698bc7e08d384f7904aebced4fa444704b6adf8b10dabe4d05c4afba822859",
+    "experiments/campaign_c38_study.py": "ba793a34f25d4a5543351867762cbb6253544d023815ad57af2b369884d9ee4e",
+    "experiments/campaign_c38_actions.py": "139064cccdb31c9ad0973ac39a1b70f0bfce964957f0da881318ac9a63807fbe",
+    "tests/test_campaign_c38_gaussians.py": "70ba7a79758e95ba8cefa7a713b7a26460b2638e5c33131bef7e10e86ac2734e",
+    "tests/test_campaign_c38_predictor.py": "3569eefc15f009d4de293a05e31923f25c18ddaef7d74ebea4264d7f88a9c37e",
+    "tests/test_campaign_c38_study.py": "3417315a74ef22898e340c1378cc3d665dc3df8c5d9db05df194eb9cd8a8c313",
+    "tests/test_campaign_c38_actions.py": "f631968aa9093dcbc678df4d33efc501058b238dd2c0ad9cdfaade391a2dd75f",
+    "docs/GAUSSIAN_C38_PREDICTION_PLAN.md": "698310c6a48818726a878a64d4a57e13f5adb0ae59a1af05f7a969f87c633555",
+    "runs/operator-dev/c38-prediction-controls-v01/design-stage.json": "a3b3d06b4cadcfbe3c98059fb1ab4a1badffec9a434718617833a6c2cccc7439"
+  },
+  "development_fixes_preserved_in_description": "Initial rigid-control truth rotated about origin instead of material COM; corrected manufactured truth to the declared constant-COM-velocity model. No actual dataset was read."
+}

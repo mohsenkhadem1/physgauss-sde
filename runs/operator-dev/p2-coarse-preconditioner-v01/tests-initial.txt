@@ -1,0 +1,8 @@
+....                                                                     [100%]
+=============================== warnings summary ===============================
+tests/test_campaign_p2_coarse_preconditioner.py::test_exact_nontrivial_prolongation_constant_affine_and_fixed_compatible_fields
+  /home/bayespc2/vscode/guassianSDE/experiments/campaign_p2_coarse_preconditioner.py:35: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/Context.cpp:848.)
+    self.P=torch.sparse_coo_tensor(indices,torch.tensor(coo.data,dtype=self.dtype,device=self.device),P.shape).coalesce();self.PT=self.P.transpose(0,1).coalesce()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+4 passed, 1 warning in 2.42s
