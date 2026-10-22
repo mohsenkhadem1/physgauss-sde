@@ -1,0 +1,17 @@
+# Prospective block load and support suite
+
+This is a frozen engineering design and pure control compiler; none of its suite mechanics trajectories have been generated. It preserves the 0.24 x 0.08 x 0.08 m public block geometry and compatible P1/P2 interpolation. Forces have no material or boundary-condition input.
+
+Five physical reference-surface fields are defined: a 1 N right-face axial pull, a 0.12 N downward right-face load, a pure 0.02 Nm right-face bending couple, a pure 0.02 Nm right-face torsional couple, and a 0.12 N downward top-middle-band load. The last patch occupies x in [0.06,0.18], z=0.04 and the full y width; it has area 0.0096 m2 and zero rest moment about the block center. Quadrature normalizes the exact resultant and rest wrench. These are fixed world force vectors on material-attached reference patches; actual moments must be recomputed at deformed coordinates.
+
+Each field is crossed with the same five exact support geometries: full left face, full right face, both end faces, full bottom face, and two separated full-width bottom patches x in [0,0.06] and [0.18,0.24]. Two fixed support slots are preserved. A right-face action on a full right clamp is an explicit zero-motion reaction control, not an informative strain experiment. The top-middle-band action supplies a common nontrivial control across the end-support hypotheses.
+
+The nominal 25 static contexts use E=5000 Pa, nu=0.35 and rho=625 kg/m3. Two prospective known 3 s histories are fixed for every context: a half-second sine-squared ramp followed by a hold, and equal-duration positive/negative sine-squared pulses. Commands use a common 120 Hz actuator grid and midpoint-held coefficients. Private integration rates and solver/provenance fields are not neural public features. The design declares 8 development, 2 force-geometry-transfer and 15 support-transfer static contexts, corresponding to 50 prospective dynamic captures. A separate ten-context gravity regression crosses E=300/600 kPa with the five supports; the physical acceleration is identical across E and support hypotheses.
+
+The 2-8% sampled maximum principal strain and >=1 mm volume nonrigid motion goals apply only to contexts prospectively labeled informative. Restrictive supports and zero-motion controls report their responses without that excitation requirement. Simple beam estimates are design estimates, not simulated evidence. Corner strains and query errors must be retained. No amplitude may be rescaled after observing a response and no failure may be dropped to form a training cohort.
+
+Every actual load/support context still requires its own strict original residual, J/clamp/reaction checks and fixed-query 20 um spatial/quadrature qualification. Dynamic captures additionally require temporal qualification over the full 3 s histories. The completed axial static reference and earlier 0.1 s axial temporal checks do not qualify this suite. The engineering grid is not independent population calibration or an SBC cohort.
+
+Two meaningful pure tests passed in 1.93 s: independent analytic resultants/rest moments across P1/P2 and two meshes; physical support masks, fixed common clock, and a changed moment at deformed coordinates. No solver trajectories or held-out response arrays were opened for this design.
+
+See [the frozen design](prospective-suite.json), [test receipt](tests-final.txt), and [source](../../../experiments/campaign_block_surface_controls.py).

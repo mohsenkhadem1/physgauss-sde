@@ -1,0 +1,639 @@
+{
+  "schema": "C38-block-heldout-suite-design-v0.1",
+  "status": "PROSPECTIVE_DESIGN_NO_SUITE_DYNAMICS_LAUNCHED",
+  "geometry": {
+    "size_m": [
+      0.24,
+      0.08,
+      0.08
+    ],
+    "rest_coordinate_ranges": [
+      [
+        0,
+        0.24
+      ],
+      [
+        -0.04,
+        0.04
+      ],
+      [
+        -0.04,
+        0.04
+      ]
+    ],
+    "basis": "CompatibleP2fixedreferencegeometry",
+    "fixed_capacity": {
+      "support_slots": 2,
+      "load_field_slots": 2,
+      "handles": 0
+    }
+  },
+  "forcing_definition": {
+    "source": "experiments/campaign_block_surface_controls.py",
+    "source_sha256": "c0ffbd4dd2ecd1cba6b8e293fddc264dcb2c9a07c81304b9b6c4a0313539064e",
+    "patterns": {
+      "axial_pull": {
+        "force_N": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "torsion_Nm": 0.0,
+        "bending_Nm": 0.0
+      },
+      "transverse_end": {
+        "force_N": [
+          0.0,
+          0.0,
+          -0.12
+        ],
+        "torsion_Nm": 0.0,
+        "bending_Nm": 0.0
+      },
+      "bending_couple": {
+        "force_N": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "torsion_Nm": 0.0,
+        "bending_Nm": 0.02
+      },
+      "torsion_couple": {
+        "force_N": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "torsion_Nm": 0.02,
+        "bending_Nm": 0.0
+      },
+      "top_middle_down": {
+        "force_N": [
+          0.0,
+          0.0,
+          -0.12
+        ],
+        "torsion_Nm": 0.0,
+        "bending_Nm": 0.0,
+        "patch": "top_middle_band"
+      }
+    },
+    "traction": "ConsistentP1/P2reference-surfaceintegralsbypositive9pointtriangleDuffy;affinetractiondegree3Ni*t exactforP2",
+    "right_face": "x=.24,fully0.08x0.08m",
+    "top_middle_band": {
+      "x_m": [
+        0.06,
+        0.18
+      ],
+      "y_m": [
+        -0.04,
+        0.04
+      ],
+      "z_m": 0.04,
+      "resultant_N": [
+        0,
+        0,
+        -0.12
+      ],
+      "reference_area_m2": 0.0096
+    },
+    "normalization": "Actualphysicalarea/resultant/restmoment;zeroresultantcouplesnotnormalizedbynorm0",
+    "dead_world_vectors": "Reference-materialfieldattachedtonodes;computeactualdeformedmomentq\u00d7f,notfollower/constanttorqueclaim",
+    "origin_m": [
+      0.12,
+      0,
+      0
+    ],
+    "no_material_or_support_argument": true
+  },
+  "time_programs": {
+    "known_actuator_clock_hz": 120,
+    "duration_s": 3.0,
+    "held_samples": "Analyticcoefficientatmidpointofeachof360fixedintervals;heldconstantuntilnextboundary",
+    "ramp_hold": "sin(pi*t)^2for0<=t<.5,then1",
+    "bipolar_pulse": "sin\u00b2(pi*t/1.5)for0..1.5;negative sin\u00b2(pi*(t-1.5)/1.5)for1.5..3",
+    "fitting_program": "ramp_hold",
+    "held_force_history_program": "bipolar_pulse",
+    "same_menus_all_latent_hypotheses": true,
+    "private_solver_substeps": "Neverpublicneuralconditioningfeatures;fixedactuatorclockindependentofBC/material"
+  },
+  "hard_supports": {
+    "left_face": "x=0allaxes",
+    "right_face": "x=.24allaxes",
+    "both_ends": "Bothplanesas2ordereddisjointgroups",
+    "bottom_face": "z=-.04allaxes",
+    "separated_bottom_patches": "z=-.04,full-y,xin[0,.06]or[.18,.24],2ordereddisjointgroups",
+    "labels_and_membership_role": "LatentBCforwardhypothesisunlessexplicitlyknownbyexperiment;notimageencoderoraclefeatures"
+  },
+  "static_nominal_contexts": [
+    {
+      "id": "engineering-00",
+      "private_forward_hypothesis": {
+        "hard_support": "left_face",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "axial_pull",
+      "evaluation_role": "DEVELOPMENT",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": true,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-01",
+      "private_forward_hypothesis": {
+        "hard_support": "left_face",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "transverse_end",
+      "evaluation_role": "DEVELOPMENT",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": true,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-02",
+      "private_forward_hypothesis": {
+        "hard_support": "left_face",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "bending_couple",
+      "evaluation_role": "FORCE_GEOMETRY_TRANSFER",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": true,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-03",
+      "private_forward_hypothesis": {
+        "hard_support": "left_face",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "torsion_couple",
+      "evaluation_role": "DEVELOPMENT",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": true,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-04",
+      "private_forward_hypothesis": {
+        "hard_support": "left_face",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "top_middle_down",
+      "evaluation_role": "DEVELOPMENT",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": true,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-05",
+      "private_forward_hypothesis": {
+        "hard_support": "right_face",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "axial_pull",
+      "evaluation_role": "SUPPORT_TRANSFER",
+      "expected_exact_zero_motion_control": true,
+      "excitation_goal_applicable": false,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-06",
+      "private_forward_hypothesis": {
+        "hard_support": "right_face",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "transverse_end",
+      "evaluation_role": "SUPPORT_TRANSFER",
+      "expected_exact_zero_motion_control": true,
+      "excitation_goal_applicable": false,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-07",
+      "private_forward_hypothesis": {
+        "hard_support": "right_face",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "bending_couple",
+      "evaluation_role": "SUPPORT_TRANSFER",
+      "expected_exact_zero_motion_control": true,
+      "excitation_goal_applicable": false,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-08",
+      "private_forward_hypothesis": {
+        "hard_support": "right_face",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "torsion_couple",
+      "evaluation_role": "SUPPORT_TRANSFER",
+      "expected_exact_zero_motion_control": true,
+      "excitation_goal_applicable": false,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-09",
+      "private_forward_hypothesis": {
+        "hard_support": "right_face",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "top_middle_down",
+      "evaluation_role": "SUPPORT_TRANSFER",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": true,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-10",
+      "private_forward_hypothesis": {
+        "hard_support": "both_ends",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "axial_pull",
+      "evaluation_role": "SUPPORT_TRANSFER",
+      "expected_exact_zero_motion_control": true,
+      "excitation_goal_applicable": false,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-11",
+      "private_forward_hypothesis": {
+        "hard_support": "both_ends",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "transverse_end",
+      "evaluation_role": "SUPPORT_TRANSFER",
+      "expected_exact_zero_motion_control": true,
+      "excitation_goal_applicable": false,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-12",
+      "private_forward_hypothesis": {
+        "hard_support": "both_ends",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "bending_couple",
+      "evaluation_role": "SUPPORT_TRANSFER",
+      "expected_exact_zero_motion_control": true,
+      "excitation_goal_applicable": false,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-13",
+      "private_forward_hypothesis": {
+        "hard_support": "both_ends",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "torsion_couple",
+      "evaluation_role": "SUPPORT_TRANSFER",
+      "expected_exact_zero_motion_control": true,
+      "excitation_goal_applicable": false,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-14",
+      "private_forward_hypothesis": {
+        "hard_support": "both_ends",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "top_middle_down",
+      "evaluation_role": "SUPPORT_TRANSFER",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": true,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-15",
+      "private_forward_hypothesis": {
+        "hard_support": "bottom_face",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "axial_pull",
+      "evaluation_role": "DEVELOPMENT",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": false,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-16",
+      "private_forward_hypothesis": {
+        "hard_support": "bottom_face",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "transverse_end",
+      "evaluation_role": "DEVELOPMENT",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": false,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-17",
+      "private_forward_hypothesis": {
+        "hard_support": "bottom_face",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "bending_couple",
+      "evaluation_role": "FORCE_GEOMETRY_TRANSFER",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": false,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-18",
+      "private_forward_hypothesis": {
+        "hard_support": "bottom_face",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "torsion_couple",
+      "evaluation_role": "DEVELOPMENT",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": false,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-19",
+      "private_forward_hypothesis": {
+        "hard_support": "bottom_face",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "top_middle_down",
+      "evaluation_role": "DEVELOPMENT",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": false,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-20",
+      "private_forward_hypothesis": {
+        "hard_support": "separated_bottom_patches",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "axial_pull",
+      "evaluation_role": "SUPPORT_TRANSFER",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": true,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-21",
+      "private_forward_hypothesis": {
+        "hard_support": "separated_bottom_patches",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "transverse_end",
+      "evaluation_role": "SUPPORT_TRANSFER",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": true,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-22",
+      "private_forward_hypothesis": {
+        "hard_support": "separated_bottom_patches",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "bending_couple",
+      "evaluation_role": "SUPPORT_TRANSFER",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": true,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-23",
+      "private_forward_hypothesis": {
+        "hard_support": "separated_bottom_patches",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "torsion_couple",
+      "evaluation_role": "SUPPORT_TRANSFER",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": true,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    },
+    {
+      "id": "engineering-24",
+      "private_forward_hypothesis": {
+        "hard_support": "separated_bottom_patches",
+        "E_Pa": 5000.0,
+        "nu": 0.35,
+        "rho": 625.0
+      },
+      "public_known_control": "top_middle_down",
+      "evaluation_role": "SUPPORT_TRANSFER",
+      "expected_exact_zero_motion_control": false,
+      "excitation_goal_applicable": true,
+      "goal_status": "Prospectivecandidate,notguaranteed;under/overexcitationretained"
+    }
+  ],
+  "prospective_static_context_count": 25,
+  "future_dynamic_capture_count": 50,
+  "gravity_regression_contexts": [
+    {
+      "E_Pa": 300000.0,
+      "rho": 625.0,
+      "nu": 0.35,
+      "gravity_world_m_s2": [
+        0,
+        0,
+        -9.81
+      ],
+      "hard_support": "left_face",
+      "excitation_goal_applicable": true
+    },
+    {
+      "E_Pa": 300000.0,
+      "rho": 625.0,
+      "nu": 0.35,
+      "gravity_world_m_s2": [
+        0,
+        0,
+        -9.81
+      ],
+      "hard_support": "right_face",
+      "excitation_goal_applicable": true
+    },
+    {
+      "E_Pa": 300000.0,
+      "rho": 625.0,
+      "nu": 0.35,
+      "gravity_world_m_s2": [
+        0,
+        0,
+        -9.81
+      ],
+      "hard_support": "both_ends",
+      "excitation_goal_applicable": false
+    },
+    {
+      "E_Pa": 300000.0,
+      "rho": 625.0,
+      "nu": 0.35,
+      "gravity_world_m_s2": [
+        0,
+        0,
+        -9.81
+      ],
+      "hard_support": "bottom_face",
+      "excitation_goal_applicable": false
+    },
+    {
+      "E_Pa": 300000.0,
+      "rho": 625.0,
+      "nu": 0.35,
+      "gravity_world_m_s2": [
+        0,
+        0,
+        -9.81
+      ],
+      "hard_support": "separated_bottom_patches",
+      "excitation_goal_applicable": false
+    },
+    {
+      "E_Pa": 600000.0,
+      "rho": 625.0,
+      "nu": 0.35,
+      "gravity_world_m_s2": [
+        0,
+        0,
+        -9.81
+      ],
+      "hard_support": "left_face",
+      "excitation_goal_applicable": true
+    },
+    {
+      "E_Pa": 600000.0,
+      "rho": 625.0,
+      "nu": 0.35,
+      "gravity_world_m_s2": [
+        0,
+        0,
+        -9.81
+      ],
+      "hard_support": "right_face",
+      "excitation_goal_applicable": true
+    },
+    {
+      "E_Pa": 600000.0,
+      "rho": 625.0,
+      "nu": 0.35,
+      "gravity_world_m_s2": [
+        0,
+        0,
+        -9.81
+      ],
+      "hard_support": "both_ends",
+      "excitation_goal_applicable": false
+    },
+    {
+      "E_Pa": 600000.0,
+      "rho": 625.0,
+      "nu": 0.35,
+      "gravity_world_m_s2": [
+        0,
+        0,
+        -9.81
+      ],
+      "hard_support": "bottom_face",
+      "excitation_goal_applicable": false
+    },
+    {
+      "E_Pa": 600000.0,
+      "rho": 625.0,
+      "nu": 0.35,
+      "gravity_world_m_s2": [
+        0,
+        0,
+        -9.81
+      ],
+      "hard_support": "separated_bottom_patches",
+      "excitation_goal_applicable": false
+    }
+  ],
+  "gravity_limits": "CommonrealgravitynotrescaledbyE;gravityfamilyexplicitengineeringregression,notmatching-priorpopulationclaim",
+  "development_beam_estimates_NOT_validation": {
+    "axial1N_strain": 0.03125,
+    "transverse_end_point12N_rootstrain": 0.0675,
+    "transverse_end_point12N_tip_m": 0.0324,
+    "pure_bending_point02Nm_strain": 0.046875,
+    "pure_bending_point02Nm_tip_m": 0.03375,
+    "torsion_point02Nm_rough_principalstrain": 0.0507,
+    "warnings": "Aspectratio3/fullclampedgeconcentrationsandfinitegeometrycaninvalidatebeamestimate;actualmax+volume99th/RMSrecordedseparately"
+  },
+  "admission": {
+    "actual_fields_before_any_training": true,
+    "no_transfer_axial_qualification_to_other_fields": true,
+    "spatial": "Peractualcontextsame20umqueries/conditionalp>=1indicator+quadrature+originalR/J/globalbalance/exactBC",
+    "time": "Peractualphysicalprogram/mass/BC/duration;current0.1saxialstepBDF2proofnot3spulseproof",
+    "excitation": "2\u20138%sampledpeakabsoluteprincipalstrain+nonrigidvolumeRMS>=1mmwhereapplicable",
+    "zero_or_restrictive_controls": "No1mmrequirement;stillmustpassphysics/numericalaccuracy",
+    "all_failures_retained_no_resampling_no_amplitude_search": true,
+    "incomplete_cohort": "NoaggregateNNtrainingadmissionfromselectedsuccesses"
+  },
+  "information_roles": {
+    "public": "Restgeometry/knownactuatorprograms/observedimagesorqueriesonly",
+    "private_hypotheses": "Material/BCparameters,nodegroups,forwardrealizations,opaqueengineeringcaseIDs",
+    "no_unknown_force_truth_leak": "Onlycontrolledcommandsarepublic;passiveloadsifunknownwouldbelatent",
+    "population_calibration": "Requiresseparateindependentproper-priorcalibration/evaluation,notthisengineeringgrid"
+  },
+  "resource_scope": "Suiteproposal/compileronly;futurephysicalstagesneedboundedpredeclaredCPU/GPUprotocolsandreferencequalification;noadditionalresponsesread",
+  "tests": {
+    "path": "tests/test_campaign_block_surface_controls.py",
+    "sha256": "aaff39fbc68ebd67138e04194a75ce684d616218bd8f13da22c38cec6740678c",
+    "passed": 2,
+    "elapsed_s": 1.93
+  },
+  "old_sources_unchanged": true
+}

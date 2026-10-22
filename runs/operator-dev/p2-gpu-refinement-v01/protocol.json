@@ -1,0 +1,96 @@
+{
+  "schema": "P2-BDF2-refinement-v0.1",
+  "status": "FROZEN_BEFORE_RUN",
+  "source_sha256": {
+    "experiments/run_p2_gpu_refinement.py": "b57337e96f92e9803ddd0d5df2027ff875fb240d9430060046566dbd24e86f1b",
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/campaign_p2_transient.py": "a83952d076fb9920ab88a12e90f820e748de654d008d51802ff0fc411c4fca6e",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97"
+  },
+  "jobs": [
+    {
+      "cells": [
+        4,
+        2,
+        2
+      ],
+      "hz": 960
+    },
+    {
+      "cells": [
+        4,
+        2,
+        2
+      ],
+      "hz": 1920
+    },
+    {
+      "cells": [
+        4,
+        2,
+        2
+      ],
+      "hz": 3840
+    },
+    {
+      "cells": [
+        8,
+        4,
+        4
+      ],
+      "hz": 3840
+    }
+  ],
+  "wall_cap_s": 600,
+  "GPU": 0,
+  "CPU_threads": 2,
+  "physics": {
+    "E_Pa": 5000,
+    "nu": 0.35,
+    "rho": 625,
+    "traction_N": 1,
+    "gravity": 0,
+    "BC": "full_left_face",
+    "duration_s": 0.1,
+    "force": "sin^2(pi/2*min(t/.05,1)), evaluated at step end"
+  },
+  "common_times_s": [
+    0.0,
+    0.004166666666666667,
+    0.008333333333333333,
+    0.0125,
+    0.016666666666666666,
+    0.020833333333333332,
+    0.025,
+    0.029166666666666667,
+    0.03333333333333333,
+    0.0375,
+    0.041666666666666664,
+    0.04583333333333333,
+    0.05,
+    0.05416666666666667,
+    0.058333333333333334,
+    0.0625,
+    0.06666666666666667,
+    0.07083333333333333,
+    0.075,
+    0.07916666666666666,
+    0.08333333333333333,
+    0.0875,
+    0.09166666666666666,
+    0.09583333333333333,
+    0.1
+  ],
+  "gates": {
+    "original_physical_R_N": 1e-09,
+    "field_refinement_m": 2e-05,
+    "minimum_J": 0.1
+  },
+  "selection": "All four predeclared cases retained; no inference/data admission from solve residual alone",
+  "nonclaims": [
+    "Two-mesh difference is not a rigorous continuum error bound",
+    "No contact, material generalization or predictive inference claim"
+  ]
+}

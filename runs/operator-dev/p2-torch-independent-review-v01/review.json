@@ -1,0 +1,24 @@
+{
+  "schema": "C38-P2-backend-read-only-mechanics-review-v0.1",
+  "source": {
+    "path": "experiments/campaign_p2_torch.py",
+    "sha256": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303"
+  },
+  "scope": "Source review for fixed-zero-clamp static stable-NH CPU/GPU comparison; no simulations or tests performed by reviewer",
+  "blocking_issues": [],
+  "checks": [
+    "Exact T10 consistent mass is rho*V*B/420 with signed off-diagonal coefficients; no row-sum mass lumping",
+    "Material energy and first Piola use the same stable Neo-Hookean continuum law and standard Lam\u00e9 conversion",
+    "Full tangent action includes all cofactor derivatives, including cross-node determinant terms",
+    "Jacobi diagonal is exact: determinant second derivative vanishes for same-node same-component rank-one perturbation",
+    "PCG acts on the original constrained Hessian plus consistent mass, reports nonpositive search curvature and checks true residual",
+    "Positive-J line search and original nonlinear stationarity remain final acceptance gates; roundoff energy branch requires strict residual decrease",
+    "No stiffness projection or constitutive repair is present"
+  ],
+  "limits": [
+    "Current solve enforces zero fixed displacement; future moving fixtures require explicit lift and full consistent M_fc coupling",
+    "Static CPU/GPU parity does not establish dynamics, contact, other load/support or continuum accuracy",
+    "CPU conditional p>=1 engineering indicator transfers only with an explicit measured GPU/CPU query-error triangle; it is not a rigorous continuum error bound"
+  ],
+  "data_access": "Only source code read; no current cohort responses or GPU physical states opened"
+}

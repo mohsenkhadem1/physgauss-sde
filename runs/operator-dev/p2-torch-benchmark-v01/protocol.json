@@ -1,0 +1,63 @@
+{
+  "schema": "compatible-P2-float64-GPU-parity-v0.1",
+  "status": "FROZEN_BEFORE_GPU_SCREEN",
+  "source_sha256": {
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/run_p2_torch_benchmark.py": "ca84447e4e6c0f4469d4cbb44522be96525b69a44f3b6f1443cb18b9ceb116e4",
+    "tests/test_campaign_p2_torch.py": "145fd9fd6dda1f462b664e3d888b36136f42d248b4451de3ab8350407e32ec86",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97"
+  },
+  "cells": [
+    [
+      1,
+      1,
+      1
+    ],
+    [
+      4,
+      2,
+      2
+    ],
+    [
+      8,
+      4,
+      4
+    ]
+  ],
+  "GPU": 0,
+  "CPU_threads": 2,
+  "hard_cap_s": 600,
+  "physics": {
+    "E_Pa": 5000.0,
+    "nu": 0.35,
+    "density": 625.0,
+    "traction_N": 1.0,
+    "gravity": 0.0,
+    "boundary": "fullleftface",
+    "physical_damping": 0.0
+  },
+  "gates": {
+    "energy_abs_J": 1e-12,
+    "gradient_abs_N": 1e-09,
+    "HVP_abs_N": 1e-08,
+    "static_original_R_N": 1e-10,
+    "same_mesh_CPU_node_error_m": 1e-08,
+    "exact_fixed_displacement": 0.0
+  },
+  "algorithm": {
+    "precision": "float64",
+    "mass": "exactconsistentT10notrowlumped",
+    "matrix_free_full_tangent": true,
+    "maximum_Newton": 25,
+    "maximum_CG": 1000,
+    "no_constitutive_changes": true
+  },
+  "nonclaims": [
+    "Same-meshparityonly;continuumqualificationrequiresseparateP2finecapture",
+    "No data/training admission from benchmark alone"
+  ]
+}

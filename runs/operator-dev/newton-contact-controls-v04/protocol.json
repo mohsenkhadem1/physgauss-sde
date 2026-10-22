@@ -1,0 +1,74 @@
+{
+  "schema": "Newton-stock-BE-canonical-contact-v0.1",
+  "status": "FROZEN_BEFORE_GPU_CALLS",
+  "gpu_uuid": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+  "CPU_threads": 2,
+  "wall_cap_s": 600,
+  "jobs": [
+    {
+      "name": "equilibrium960",
+      "hz": 960,
+      "floor": true,
+      "z": 0.00099019,
+      "vx": 0.0,
+      "duration": 0.1
+    },
+    {
+      "name": "area_equivalent960",
+      "hz": 960,
+      "floor": true,
+      "z": 0.00099019,
+      "vx": 0.0,
+      "duration": 0.1
+    }
+  ],
+  "source_sha256": {
+    "experiments/campaign_newton_contact_controls_v04.py": "b547999dc990e09cf4810649b9cfbd70b232b93b43d88726553a0214143310cd",
+    "experiments/run_newton_contact_controls_v04.py": "8e0775e6496f6d2d904e7cd6832834a5e314b5ea6dfe40b8d42f23b7f420b54d",
+    "tests/test_campaign_newton_contact_controls_v04.py": "e8469f5b940a19d5edeaad81f0809b0ebe8529794a253b9ed4493800382003cc",
+    "experiments/campaign_newton_surface_contact.py": "16dab901c1b157ddf59e6f58d1691fac754ce8c425f3922d2569f215700bc299"
+  },
+  "external_source_sha256": {
+    "newton/_src/solvers/vbd/solver_vbd.py": "52d9de6f8cc662a95b4c55eaa657c3eedf5f6a6da699109dd9c2de36e36b932f",
+    "newton/_src/solvers/vbd/rigid_vbd_kernels.py": "8f0dc0fd50477025f461a9398f4a51f7dd8a499ae806230be82bc7e00fd1a412",
+    "newton/_src/solvers/vbd/particle_vbd_kernels.py": "79a5075c62d53b2888858c3380bdae4a1b4f5c9a284a09206c88e37918c1241e",
+    "newton/_src/sim/builder.py": "baa975f5c90a3fb1e906829c5a7748649729d842e88f2ae7015b2f15c6c03f60"
+  },
+  "physics": {
+    "mass_kg": 0.01,
+    "radius_m": 0.001,
+    "plane_height_m": 0.0,
+    "plane_margin_m": 0.0,
+    "gravity_m_s2": [
+      0,
+      0,
+      -9.81
+    ],
+    "contact_stiffness_N_m": 10000.0,
+    "contact_damping_Ns_m": 0.0,
+    "friction": 0.0,
+    "soft_contact_gap_m": 0.02,
+    "iterations": 32,
+    "rigid_contact_k_start": 10000.0,
+    "rigid_avbd_beta": 0.0,
+    "rigid_compliant_alm": false,
+    "rigid_soft_enable_dat": false
+  },
+  "gates": {
+    "position_oracle_error_m": 2e-05,
+    "velocity_oracle_error_m_s": 0.0005,
+    "impulse_balance_Ns": 2e-05,
+    "maximum_energy_increase_J": 1e-07,
+    "tangential_velocity_error_m_s": 5e-05,
+    "equilibrium_force_error_N": 5e-06
+  },
+  "prior_failures_retained": [
+    "v01constructor rejects documented negative contactk seed",
+    "v02freefall960 fails1um gate11.524um; v03prospective20um project physical-field target, not v02relabel"
+  ],
+  "nonclaims": [
+    "Specified compliant quadratic contact only, not exact nonpenetration",
+    "Single particle controls do not qualify block surface/mesh/time accuracy",
+    "Stock physical-time BE; no contact-free momentum or accepted-iterate wrappers"
+  ]
+}

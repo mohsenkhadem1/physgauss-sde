@@ -1,0 +1,78 @@
+{
+  "schema": "C38-stableNH-P2-spatial-protocol-v0.1",
+  "status": "FROZEN_BEFORE_FINE_STABLELAW_FIELDS",
+  "old_stable_summary": {
+    "path": "runs/gaussian-campaign-v01/newton-material-alignment-v01/summary.json",
+    "sha256": "374692d4ed33168be915d9def738f08c2c07727a0ba8d12a9329c19e503c9f73"
+  },
+  "old_stable_protocol": {
+    "path": "runs/operator-dev/newton-material-alignment-v01/protocol.json",
+    "sha256": "58c3679ed909df64b5b4a28ce3a4ef97c79b2a89329625e8f4d5d6d0c2828218"
+  },
+  "reference6144": {
+    "path": "runs/gaussian-campaign-v01/newton-material-alignment-v01/P2-tets6144-order3.npz",
+    "sha256": "56d1116d3995202fd88dc1d3cf3a00d6b016208ad73ad28f4c4477f1969fa590"
+  },
+  "source_sha256": {
+    "experiments/run_newton_stable_p2_spatial.py": "ca4e8f8ceed9b6424c7481304777c2aec9f3657ecabf20a9960d8b57acbc2d74",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/run_static_p2_axial_continuation.py": "c12200e9a70764e637960ee5bd99909627a83309294459aaf845d995cfcbd86c",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b"
+  },
+  "CPU_threads": 2,
+  "hard_wall_cap_s": 900,
+  "actual_RSS_guard_bytes": 8589934592,
+  "runtime_forecast_s": 645.8389408061546,
+  "forecast_with_safety_s": 710.4228348867701,
+  "exact_cells": [
+    20,
+    10,
+    10
+  ],
+  "tetrahedra": 12000,
+  "quadrature_orders": [
+    3,
+    4
+  ],
+  "all_from_REST": true,
+  "physics": {
+    "E_Pa": 5000.0,
+    "nu": 0.35,
+    "rho_kg_m3": 625.0,
+    "size_m": [
+      0.24,
+      0.08,
+      0.08
+    ],
+    "traction_N": 1.0,
+    "gravity": 0.0,
+    "boundary": "Fullleftfaceall3axes",
+    "law": "Newton1.7stableNHkappa=lambdaL+muL"
+  },
+  "gates": {
+    "original_free_R_N": 1e-11,
+    "max_query_delta_m": 2e-05,
+    "conditional_p_ge1_fine_error_indicator": "4*delta6144_to12000<=20um",
+    "quadrature_delta_m": 2e-05,
+    "minimum_sampled_J": 0.1,
+    "positive_global_J_certificate": true,
+    "exact_clamp_m": 0.0,
+    "force_balance_N": 1e-08,
+    "actual_moment_balance_Nm": 1e-08,
+    "sampled_max_absolute_principal_strain": [
+      0.02,
+      0.08
+    ],
+    "nonrigid_volume_coordinate_RMS_min_m": 0.001
+  },
+  "limits": [
+    "Conditionalp>=1engineeringindicatorNOTprovencontinuumerrorbound",
+    "NochangeoldlogJorstablelawfailures",
+    "Staticexactcaseonly;nodynamic/training/inference/nativeadmission",
+    "BothquadraturesfromREST;nonewlevelsorforcechanges"
+  ]
+}

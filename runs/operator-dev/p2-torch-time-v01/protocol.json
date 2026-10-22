@@ -1,0 +1,58 @@
+{
+  "schema": "P2-fullmass-GPU-time-parity-v0.1",
+  "status": "FROZEN_BEFORE_GPU_TIME_CALLS",
+  "jobs": [
+    "tets6-step-hz240",
+    "tets6-step-hz480",
+    "tets6-step-hz960",
+    "tets6-smooth_ramp-hz240",
+    "tets6-smooth_ramp-hz480",
+    "tets6-smooth_ramp-hz960",
+    "tets96-step-hz480"
+  ],
+  "source_sha256": {
+    "experiments/run_p2_torch_time.py": "884bcc8d23e1cd9eb8959904f94eb0227eda1d0d9a729f6b3509a22bc60762c4",
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/campaign_p2_transient.py": "a83952d076fb9920ab88a12e90f820e748de654d008d51802ff0fc411c4fca6e",
+    "tests/test_campaign_p2_transient.py": "f954d78bdf8d223954168b33c550848f40bea5008f724aa4cae5a0bc0a25f5bb",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/run_p2_consistent_transient.py": "9393b8f7cc1120637db4e61ecef6b09008062ff67aee0ecb2d47888155eec46e"
+  },
+  "CPU_refs_sha256": {
+    "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets6-step-hz240.npz": "9f8804387fc0bfa37cb5940853b775a6d20a32c99348be880f25822f28452795",
+    "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets6-step-hz240.json": "843b6cb66acc47a13dd64e6510186b2f4a036183b38a592d2b477cba14fbc444",
+    "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets6-step-hz480.npz": "7442d0a50c6145c58bd1590d15254a40fc855d5ff1b05842aa17bfc83a45f5ff",
+    "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets6-step-hz480.json": "47af04b95d71337b135d6c57fffdcfb8ee4331ed97a2864d196ba27ccebac450",
+    "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets6-step-hz960.npz": "e7e05a809875b9499981edcc6e0dc23c9b6d954167fb86874ea0e81cde187f5c",
+    "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets6-step-hz960.json": "351f8537ca736dfc58969d617096dafc9b8ae9c7a7e2dca07b70acf44e61717d",
+    "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets6-smooth_ramp-hz240.npz": "ae4f79e60f0cbcc3721188c2169a15d206418723354eae78d4cf21555d7c6d24",
+    "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets6-smooth_ramp-hz240.json": "18eed32f93f9be64af7e34c327b39be4f1a8ae32c67808222e61023499cd6a2d",
+    "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets6-smooth_ramp-hz480.npz": "fbeb27557229265fc67f597a3b221c4231d33f49f232fb1ef1908074e8120eec",
+    "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets6-smooth_ramp-hz480.json": "160a94591d2404511c3eb0990c7e196420f5d4b55b3a499726f71d340b097c1a",
+    "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets6-smooth_ramp-hz960.npz": "3a080aaa98cccab44407a228e72d278e12e63a2b4d8faf03c31c3129d78686d8",
+    "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets6-smooth_ramp-hz960.json": "2ab65cb50da39bb630d440be17c13ccefde07742dcb3923aba13b083be67ae31",
+    "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets96-step-hz480.npz": "bc8d07f43aa37b6e738af9d19e21fa65bba6096ed72d729c74b4fabe40e36aee",
+    "runs/gaussian-campaign-v01/p2-consistent-transient-v01/tets96-step-hz480.json": "a15cae8f1babc81cac71d6ee35521aad77d6cbfd5905013e518b2b1879f9b3cc"
+  },
+  "CPU_protocol": {
+    "path": "runs/operator-dev/p2-consistent-transient-v01/protocol.json",
+    "sha256": "24166724c91c6c78d9f346e86e6d92abbe9316e322abe36dee7979bcbd39160d"
+  },
+  "CPU_threads": 2,
+  "GPU": 0,
+  "wall_cap_s": 600,
+  "selection": "FirstsevenavailablecompletedCPUcaseprefix; remainingCPUcasesnotinthisscreen,notselectedbyGPUerror",
+  "gates": {
+    "objective_R_N": 1e-10,
+    "physical_R_N": 1e-09,
+    "CPU_allstate_node_error_m": 1e-08,
+    "CPU_velocity_error_m_s": 1e-06,
+    "consistent_mass_action_error_kg": 1e-13,
+    "fixed_displacement_m": 0.0
+  },
+  "nonclaims": [
+    "DiscreteGPUCPUtimeparityonly;notspatial/futuregeneralization/contactqualification"
+  ]
+}

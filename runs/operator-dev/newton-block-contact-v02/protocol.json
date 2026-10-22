@@ -1,0 +1,112 @@
+{
+  "prior_import_sha256": {
+    "runs/gaussian-campaign-v01/newton-block-contact-v01/summary.json": "ca5e76eed10f27cb8101b02dfc1953881a755eb6eaf8bfc5db48f125ccff2dbb",
+    "runs/gaussian-campaign-v01/newton-block-contact-v01/freefall.npz": "8ef124124b9c4ed49ff959241604d0f22e6c43fe26dac5baf6969875370715c1",
+    "runs/gaussian-campaign-v01/newton-block-contact-v01/floor_gravity.npz": "8f777004f10d6800e16d306059fc64f69335211b4397eea3c6a9e94dcb6268ac",
+    "runs/gaussian-campaign-v01/newton-block-contact-v01/drop300.npz": "e0b10cfb0c8a33b8c77342deaae6091265077fa4bc76699830d92bb28c6cffdc",
+    "runs/gaussian-campaign-v01/newton-block-contact-v01/drop300_time.npz": "f59c6ecb28299312acf00cd830514f7d71a4c664913667e13fbc73319fad06d5",
+    "runs/gaussian-campaign-v01/newton-block-contact-v01/drop300_iteration.npz": "2c1d85c9e381fd22752c524629f90d442d431ca77cfdbf7cdcefcae7fd74c358",
+    "runs/gaussian-campaign-v01/newton-block-contact-v01/drop600.npz": "437fb47d9eb6f18a4aec46d3d60c5c6acc8c716c90907972f1bac78768b6b3e3"
+  },
+  "prior_import_role": "Import exact6completedv01cells; preserve originalinteriorbroadphaseguardfailure; run remaining2only",
+  "schema": "Newton-stock-BE-area-compliant-block-v0.1",
+  "status": "FROZEN_BEFORE_BLOCK_CALLS",
+  "gpu_uuid": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+  "CPU_threads": 2,
+  "wall_cap_s": 600,
+  "jobs": [
+    {
+      "name": "drop300_mesh",
+      "cells": [
+        8,
+        4,
+        4
+      ],
+      "E": 300000.0,
+      "hz": 480,
+      "iterations": 128,
+      "floor": true,
+      "gap": 0.05,
+      "kappa": 1000000000.0,
+      "duration": 0.3
+    },
+    {
+      "name": "drop300_penalty",
+      "cells": [
+        4,
+        2,
+        2
+      ],
+      "E": 300000.0,
+      "hz": 480,
+      "iterations": 128,
+      "floor": true,
+      "gap": 0.05,
+      "kappa": 10000000000.0,
+      "duration": 0.3
+    }
+  ],
+  "source_sha256": {
+    "experiments/campaign_newton_block_contact_v02.py": "d6ef0da306fc9588a0252f5b2f3dd59f4e1b02999dff8cc31ab926bd43a8c628",
+    "experiments/run_newton_block_contact_v02.py": "453dd794ade03d627c9033c0eb0dd1a48b0933ae9eb7d69d3386fcbc384fa698",
+    "tests/test_campaign_newton_block_contact_v02.py": "9c024a1e3ca65943c02a1542cddcb914c6f7af107526eb9a496cec9acacd439f",
+    "experiments/campaign_newton_surface_contact_v02.py": "6bdb0754c15cb2ffd980c26622f79fac22039dad535360b957346a698a37b5e8",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_newton_contact_controls_v04.py": "b547999dc990e09cf4810649b9cfbd70b232b93b43d88726553a0214143310cd",
+    "experiments/campaign_newton_vbd_probe_v02.py": "4807d36de6dba2023cad04dab478246c8a4a6295b5481ff490a001bac7417fe9",
+    "experiments/campaign_newton_vbd_static_v02.py": "5e7d990f69ae7fcc090891c8f933aeac9669fb9aa7b57abb0616d79a3b3dafa4",
+    "experiments/campaign_newton_vbd_static_kernels.py": "1b79196077593ec42fdc28d150f2af541d4fb978687a0f14ad046f2abcc2e068",
+    "experiments/campaign_newton_vbd_kernels.py": "1d4160f45169f4557549201c0e6c38625e9e7cd7b39bd00568c717b254d9a7bd",
+    "experiments/campaign_newton_static_initialization.py": "163006ad93c46253aa35632b8bc2c1c61ff879dc5d716eb4319385c98ecd32f6",
+    "experiments/campaign_newton_block_contact.py": "02f29e21d886b2c571d0e1bb2f3ed63c2217c0635c3799b2a9bd01a95f686b80"
+  },
+  "external_source_sha256": {
+    "newton/_src/solvers/vbd/solver_vbd.py": "52d9de6f8cc662a95b4c55eaa657c3eedf5f6a6da699109dd9c2de36e36b932f",
+    "newton/_src/solvers/vbd/particle_vbd_kernels.py": "79a5075c62d53b2888858c3380bdae4a1b4f5c9a284a09206c88e37918c1241e",
+    "newton/_src/solvers/vbd/rigid_vbd_kernels.py": "8f0dc0fd50477025f461a9398f4a51f7dd8a499ae806230be82bc7e00fd1a412",
+    "newton/_src/sim/builder.py": "baa975f5c90a3fb1e906829c5a7748649729d842e88f2ae7015b2f15c6c03f60"
+  },
+  "controls": {
+    "path": "runs/gaussian-campaign-v01/newton-contact-controls-v04/summary.json",
+    "sha256": "807b260bae8ef37b70180d9a3e982d68621d87157022385f4893ebc74d67f6e0"
+  },
+  "physics": {
+    "size_m": [
+      0.24,
+      0.08,
+      0.08
+    ],
+    "density_kg_m3": 625.0,
+    "poisson": 0.35,
+    "gravity_m_s2": [
+      0,
+      0,
+      -9.81
+    ],
+    "particle_radius_m": 0.0,
+    "plane_height_m": 0.0,
+    "plane_margin_m": 0.0,
+    "friction": 0.0,
+    "contact_damping": 0.0,
+    "material_damping": 0.0,
+    "soft_contact_gap_m": 0.02,
+    "penalty": "U=.5*kappa_A*sum(reference_surface_lumped_area_i*max(-z_i,0)^2)",
+    "kappa_units": "N/m^3",
+    "force": "stock backward Euler, no momentum/predictor repairs"
+  },
+  "gates": {
+    "minimum_J": 0.1,
+    "maximum_freefall_nonuniform_displacement_m": 2e-05,
+    "maximum_freefall_COM_BE_error_m": 2e-05,
+    "maximum_fixed_material_query_difference_m": 2e-05,
+    "maximum_iteration_query_difference_m": 2e-05,
+    "maximum_penalty_query_difference_m": 2e-05
+  },
+  "query_times": "common60Hz endpoints through.3s; fixed81materialqueries; allnativeq also saved",
+  "nonclaims": [
+    "Finitecompliant penalty not rigid nonpenetration",
+    "Surfacevertex quadrature is refinement-tested, notexactcontinuouscollision",
+    "Physicalvelocity/force/energy are diagnostics, no artificialvelocityrepair",
+    "No continuum/dynamicqualification if any mesh/time/iteration/penalty gate fails"
+  ]
+}

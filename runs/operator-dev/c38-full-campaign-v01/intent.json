@@ -1,0 +1,66 @@
+{
+  "schema": "C38-full-physics-prediction-probing-intent-v0.1",
+  "authorization": "User: do it all (mesh resolution; new loads/supports; contact; prediction; uncertainty+active probing)",
+  "base_commit": "7a5ab7a74a77e1006eb8ec32fdefa78dde5e8ef1",
+  "stages": [
+    {
+      "id": 1,
+      "name": "spatial+temporal forward qualification",
+      "gates": "20umfixedqueries;originalequations/J/constraints;independentCPU;physicalsignalsseparate"
+    },
+    {
+      "id": 2,
+      "name": "held-out loads/material/supports",
+      "requires": [
+        1
+      ],
+      "gates": "samefieldaccuracyforcases;noamplitudeposthocsweeps;recordun/overexcitation"
+    },
+    {
+      "id": 3,
+      "name": "gravity/drop/contact",
+      "requires": "independentcanonicalcontrols+mesh/time/penaltychecks;parallelto1",
+      "gates": "20umfield/penetrationcriteria withdefinedfloorlaw;impulse/energy/normalforcesaudited"
+    },
+    {
+      "id": 4,
+      "name": "causal future prediction dataset+baselines",
+      "requires": [
+        1,
+        2
+      ],
+      "gates": "qualifiedtruth;wholeobject/force/layout/materialdisjointroles;past-onlyobservations"
+    },
+    {
+      "id": 5,
+      "name": "calibrated uncertainty+active experiments",
+      "requires": [
+        4
+      ],
+      "gates": "numericalreferenceandcalibration;fixed/random/equalbudget;frozenchoices;resetassumptionexplicit;reservedoutcomes"
+    }
+  ],
+  "resource_map": {
+    "GPU0": "rootforwardDP-P2+data",
+    "GPU1": "nativecontact/gravity",
+    "GPU2": "predictiononlyafterdataadmission",
+    "GPU3": "UNRELATED_DO_NOT_TOUCH"
+  },
+  "raw_arrays_media": "LOCAL",
+  "disk_budget": "geometrycompressed;reserveatleast30GBavailable;recordcostbeforelargedataset",
+  "tentative_objects": {
+    "train": 64,
+    "dev": 16,
+    "calibration": 16,
+    "reserved": 32,
+    "freeze_before_generation": true
+  },
+  "constraints": [
+    "No edits oldfrozenexperiments;failedresultsretained",
+    "CPU/GPUjobsboundedownedgroups;checkpointPIDs/terminals",
+    "No unqualifiedtruthtraining/comparison",
+    "NoBirdrestart/noGitHubActions",
+    "Pushsource+compactreportsatcompletedmilestones",
+    "Nooverallcalibration/activeadvantageclaimwithoutheldevidence"
+  ]
+}

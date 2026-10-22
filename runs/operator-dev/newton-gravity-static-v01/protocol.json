@@ -1,0 +1,104 @@
+{
+  "schema": "Newton-static-gravity-proximal-v0.1",
+  "status": "FROZEN_BEFORE_GPU_CALLS",
+  "gpu_uuid": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+  "CPU_threads": 2,
+  "wall_cap_s": 600,
+  "jobs": [
+    {
+      "E": 300000,
+      "tets": 96,
+      "iterations": 512
+    },
+    {
+      "E": 300000,
+      "tets": 768,
+      "iterations": 512
+    },
+    {
+      "E": 600000,
+      "tets": 96,
+      "iterations": 512
+    },
+    {
+      "E": 600000,
+      "tets": 768,
+      "iterations": 512
+    },
+    {
+      "E": 300000,
+      "tets": 96,
+      "iterations": 128
+    }
+  ],
+  "source_sha256": {
+    "experiments/campaign_newton_gravity_static.py": "4f828ac6b069269c5ddbf41144e6f8595d24ce392577fc77c9233ed1b4e33a3d",
+    "experiments/run_newton_gravity_static.py": "06e87c02397c978438a2e74219b724be17d8180c287836f85c5709e5dd4aa9e8",
+    "tests/test_campaign_newton_gravity_static.py": "62fcd63a1a375ca82b9f243aedbe26b59050ad0f298ca7d0561d33b9457e8b15",
+    "experiments/campaign_newton_contact_controls_v04.py": "b547999dc990e09cf4810649b9cfbd70b232b93b43d88726553a0214143310cd",
+    "experiments/campaign_newton_vbd_probe_v02.py": "4807d36de6dba2023cad04dab478246c8a4a6295b5481ff490a001bac7417fe9",
+    "experiments/campaign_newton_vbd_static_v02.py": "5e7d990f69ae7fcc090891c8f933aeac9669fb9aa7b57abb0616d79a3b3dafa4",
+    "experiments/campaign_newton_vbd_static_kernels.py": "1b79196077593ec42fdc28d150f2af541d4fb978687a0f14ad046f2abcc2e068",
+    "experiments/campaign_newton_static_initialization.py": "163006ad93c46253aa35632b8bc2c1c61ff879dc5d716eb4319385c98ecd32f6",
+    "experiments/campaign_newton_vbd_kernels.py": "1d4160f45169f4557549201c0e6c38625e9e7cd7b39bd00568c717b254d9a7bd",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97"
+  },
+  "external_source_sha256": {
+    "newton/_src/solvers/vbd/solver_vbd.py": "52d9de6f8cc662a95b4c55eaa657c3eedf5f6a6da699109dd9c2de36e36b932f",
+    "newton/_src/solvers/vbd/particle_vbd_kernels.py": "79a5075c62d53b2888858c3380bdae4a1b4f5c9a284a09206c88e37918c1241e",
+    "newton/_src/sim/builder.py": "baa975f5c90a3fb1e906829c5a7748649729d842e88f2ae7015b2f15c6c03f60"
+  },
+  "CPU_reference_sha256": {
+    "runs/gaussian-campaign-v01/newton-gravity-reference-v01/E300000-tets96.json": "3902d84cde4da3eca2552b0164b4c1e47d9b77d6b2fe33808345f0687a2bf07a",
+    "runs/gaussian-campaign-v01/newton-gravity-reference-v01/E300000-tets96.npz": "a35d6db833baf39f7f2582d20a6db882e8e5fd4c41675578e3a30deefb3d6309",
+    "runs/gaussian-campaign-v01/newton-gravity-reference-v01/E300000-tets768.json": "80c694d68d40f5e0184f00e219e8da02ffd966ff218244233258ee79e2a23d04",
+    "runs/gaussian-campaign-v01/newton-gravity-reference-v01/E300000-tets768.npz": "00488b1167e6be1a95a496e4b021847b815de4a1fdec55797515b346a6c43165",
+    "runs/gaussian-campaign-v01/newton-gravity-reference-v01/E600000-tets96.json": "1a34a4305b5259af7c69da7f36ae492844fdcfa053051710b02c4fdbaf3fc7d9",
+    "runs/gaussian-campaign-v01/newton-gravity-reference-v01/E600000-tets96.npz": "37b71d19680ef926138bc69e8b75d91063c314112391f8c4ccf1b724b9563dea",
+    "runs/gaussian-campaign-v01/newton-gravity-reference-v01/E600000-tets768.json": "c7b647d03c93f87476a018673cd03302512663e23218b992e320b8f7eb13a79e",
+    "runs/gaussian-campaign-v01/newton-gravity-reference-v01/E600000-tets768.npz": "5caf83b6e66a8e15de725b6f68762b376396f4f6abee279bfdb877a1d188069e"
+  },
+  "CPU_protocol": {
+    "path": "runs/operator-dev/newton-gravity-reference-v01/protocol.json",
+    "sha256": "e46d71f1612f93186166d29a6fe4275dbd8d469890df41a851e741c9afa8ef83"
+  },
+  "physics": {
+    "size_m": [
+      0.24,
+      0.08,
+      0.08
+    ],
+    "rho_kg_m3": 625.0,
+    "nu": 0.35,
+    "gravity_m_s2": [
+      0,
+      0,
+      -9.81
+    ],
+    "boundary": "exactfullleftface",
+    "physical_damping": 0.0,
+    "contacts": false
+  },
+  "algorithm": {
+    "h_pseudo_s": 1.0,
+    "zero_velocity_before_each_outer": true,
+    "accepted_start_only": true,
+    "max_outer": 200,
+    "fresh_rest_per_job": true
+  },
+  "gates": {
+    "original_native_free_elastic_plus_gravity_R_N": 0.01,
+    "maximum_outer_drift_m": 5e-07,
+    "maximum_algorithm_velocity_m_s": 5e-07,
+    "minimum_J": 0.1,
+    "fixed_drift_m": 0.0,
+    "maximum_CPU_allnode_position_error_m": 2e-05,
+    "maximum_CPU_fixedquery_position_error_m": 2e-05,
+    "maximum_iteration_query_difference_m": 2e-05
+  },
+  "nonclaims": [
+    "Staticnumericalmethod, notphysicaltrajectory",
+    "Same-discretizationstableNHcomparison, notcontinuumqualification",
+    "FP32restpose/Lame/massforcefloorsreported; CPU1e-11N isnotimposedonnative"
+  ]
+}
