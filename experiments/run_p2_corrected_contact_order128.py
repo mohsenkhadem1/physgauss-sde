@@ -1,0 +1,112 @@
+"""One fresh root128 trajectory vs imported completed root64; all other physics unchanged."""
+import argparse,json,os,signal,subprocess,time,traceback
+from pathlib import Path
+import numpy as np
+from experiments.run_p2_contact_dop853 import ROOT,GPU,sha,write,SCIPY_ROOT
+from experiments.run_p2_contact_refinement import T0,END,GRAVITY,initial_vectors
+from experiments.continue_p2_contact_dop853_v03 import manual_dop853
+from experiments.run_p2_warp_surface_q16 import estimate_prefix_bytes
+from experiments.campaign_owned_gpu_budget_v02 import LIMITS,collect_resources,validate_budget,validate_cpu,run_owned_command
+from experiments.benchmark_p2_warp_rhs import ENV_SITE
+from experiments.run_p2_corrected_contact_reference import pair_metrics
+OP=ROOT/'runs/operator-dev/p2-corrected-contact-order128-trajectory-v01'
+OUT=ROOT/'runs/gaussian-campaign-v01/p2-corrected-contact-order128-trajectory-v01'
+BASE=ROOT/'runs/operator-dev/p2-corrected-contact-reference-v01'
+CONTROL_CAPTURE=ROOT/'runs/gaussian-campaign-v01/p2-corrected-contact-reference-v01/accuracy_1e10/trajectory.npz'
+EXPECTED='633ba220edf8f4d5cfb87adb7e6e7db54a74a6bd321270b4e2e454801c314d1c'
+CONFIG=dict(name='outer128_accuracy_1e10',rtol=1e-10,displacement_atol_m=1e-13,velocity_atol_m_s=1e-11,impulse_atol_Ns=1e-13)
+
+def prepare():
+ if (OP/'protocol.json').exists():raise FileExistsError('Preserveprotocol')
+ prior=json.loads((BASE/'protocol.json').read_text());done=json.loads((BASE/'result-summary.json').read_text())
+ proof=ROOT/'runs/operator-dev/p2-corrected-contact-order128-v01/result-summary.json';positive=json.loads(proof.read_text())
+ if not done['completed'] or not done['time_reference_qualified'] or not positive['completed'] or not positive['passed'] or len(positive['states'])!=26 or sha(CONTROL_CAPTURE)!=EXPECTED:raise ValueError('Exactcompleted64and26stateproofrequired')
+ sources=list(prior['source_sha256'])+['experiments/campaign_p2_warp_reference_order128.py','experiments/run_p2_corrected_contact_order128.py','tests/test_campaign_p2_warp_reference_order128.py']
+ sources=list(dict.fromkeys(sources));records=[BASE/'protocol.json',BASE/'result-summary.json',BASE/'terminal-verification.json',proof,proof.parent/'protocol.json',ROOT/'runs/operator-dev/p2-corrected-contact-order32-v01/CPU-protocol.json',ROOT/'runs/operator-dev/p2-corrected-contact-order32-v01/CPU-result.json']
+ p={**prior,'schema':'correctedbulk24-root128-vs-import64-fixed96-v1','status':'FROZEN_PENDING_ROOT_REVIEW_NO_GPU_LAUNCH','source_sha256':{f:sha(ROOT/f) for f in sources},'evidence_sha256':{str(f.relative_to(ROOT)):sha(f) for f in records},'control_capture':dict(path=str(CONTROL_CAPTURE.relative_to(ROOT)),sha256=EXPECTED),'configs':[CONFIG],'case_cap_s':600,'phase_cap_s':600,'physics':{**prior['physics'],'surface':'root128forceE finitecompliantreferencearea'},'corrections':'ONLY root64->root128 outer order relative to completed imported corrected64; SAME frozen root_surface kernel, Keast24 bulk, all141J, fullM, law, forcing, DOP accuracy/clock. OldQ3/Duffy and strict32 negatives retained.','forecast':dict(imported_tight64_worker_s=done['cases'][1]['elapsed_s'],surface_outer_work_ratio=2.,conservative_total_worker_s=2*done['cases'][1]['elapsed_s']+120.,phase_cap_s=600,estimate_not_bound=True),'pretrajectory_controls':'Eachworker exactsame4imported64fields CPU128vsGPU128 E1e-12/g1e-10/J2e-14/fullMR1e-8 beforetrajectory; independentCPU128 construction tested;26stateCPU64/128/adaptiveproof retained','execution':'ONE FRESH worker; importcompleted64 only, no rerun. Stop/preserveonerror; hard600s ownedPGTERM/KILL/reap.','nonclaims':['Finite compliant frictionless plane only, no rigid floor','Surface-order comparison at fixed96mesh; no spatial/cohort admission','Fixed26state proof does not itself bound trajectory error','AuxP shares RK quadrature; not independent time proof','No production Hessian; old32 force/Hessian failures retained']}
+ write(OP/'protocol.json',p);return sha(OP/'protocol.json')
+
+def validate(digest):
+ if sha(OP/'protocol.json')!=digest:raise ValueError('Changedprotocol')
+ p=json.loads((OP/'protocol.json').read_text())
+ for group,base in [('source_sha256',ROOT),('scipy_source_sha256',SCIPY_ROOT),('installed_warp_source_sha256',ENV_SITE),('CPU_evidence_sha256',ROOT),('evidence_sha256',ROOT)]:
+  if any(sha(base/f)!=h for f,h in p[group].items()):raise ValueError('Changedpin:'+group)
+ if sha(CONTROL_CAPTURE)!=EXPECTED or p['configs']!=[CONFIG] or p['phase_cap_s']!=600 or p['case_cap_s']!=600 or p['physics']['surface']!='root128forceE finitecompliantreferencearea':raise ValueError('Exactscopeonly')
+ return p
+
+def run(digest,label):
+ p=validate(digest)
+ if os.environ.get('CUDA_VISIBLE_DEVICES')!=GPU:raise ValueError('WrongGPU')
+ matches=[c for c in p['configs'] if c['name']==label]
+ if len(matches)!=1:raise ValueError('Exactdeclaredcaseonly')
+ config=matches[0];dest=OUT/label;dest.mkdir(parents=True,exist_ok=False);begin=time.monotonic();s=dict(completed=False,passed=False,pid=os.getpid(),protocol_sha256=digest,config=config)
+ try:
+  import torch,scipy,sys
+  from scipy.linalg import cho_factor,cho_solve
+  sys.path.append(str(ENV_SITE));import warp as wp
+  from experiments.campaign_p2_warp_reference_order128 import WarpReferenceForce128
+  from experiments.run_p2_contact_validation import build
+  from experiments.campaign_p2_consistent_transient import scalar_mass
+  from experiments.campaign_p2_torch_contact import quadratic_face_minimum
+  if wp.__version__!='1.18.0':raise ValueError('PinnedWarp1.18required')
+  torch.set_num_threads(2);torch.set_num_interop_threads(2);validate_cpu(p['CPU_affinity_cores'],os.sched_getaffinity(0),os.environ,torch.get_num_threads(),torch.get_num_interop_threads());device='cuda:0';torch.cuda.set_per_process_memory_fraction(p['resource_limits']['gpu_bytes']/torch.cuda.get_device_properties(0).total_memory);torch.ones(1,device=device).sum().item();wp.config.kernel_cache_dir=str(OP/'warp-cache')
+  def guard(tag,reserve_write_bytes=0,reserve_memory_bytes=0):
+   r=dict(tag=label+':'+tag,unix_time_s=time.time(),**collect_resources(gpu_uuid=GPU,pid=os.getpid(),roots=[OP,OUT],torch=torch),reserve_write_bytes=reserve_write_bytes,reserve_memory_bytes=reserve_memory_bytes);validate_budget(r,reserve_write_bytes=reserve_write_bytes,reserve_memory_bytes=reserve_memory_bytes,limits=p['resource_limits']);write(OP/(label+'-resource-latest.json'),r)
+   with (OP/(label+'-resource-history.jsonl')).open('a') as f:f.write(json.dumps(r)+'\n')
+  guard('startup_ownGPU');m=build([4,2,2],300000.,9.81);w=WarpReferenceForce128(m,device=device);n=len(m.rest);size=3*n;Mt=scalar_mass(m).toarray();M=torch.tensor(Mt,dtype=torch.float64,device=device);L=torch.linalg.cholesky(M);force=torch.tensor(m.load,dtype=torch.float64,device=device);torch.testing.assert_close(M@torch.ones((n,3),dtype=torch.float64,device=device)*torch.tensor(GRAVITY,dtype=torch.float64,device=device),force,atol=1e-13,rtol=1e-13)
+  # Fresh pretrajectory GPU implementation check against CPUcombined backend;
+  # the latter is already independently checked against NumPy+adaptiveplane.
+  cpu=WarpReferenceForce128(m,device='cpu');Lc=cho_factor(Mt)
+  with np.load(CONTROL_CAPTURE,allow_pickle=False) as z:
+   np.testing.assert_array_equal(z['rest_m'],m.rest);qs=z['positions_m'];states=[np.ascontiguousarray(qs[i]-m.rest) for i in [2,3,6]];tt=z['accepted_times_s'];j=int(np.argmin(abs(tt-.102)));states.append(np.ascontiguousarray(z['accepted_states'][:size,j].reshape(n,3)))
+  controls=[]
+  for u in states:
+   a=w.evaluate(u);b=cpu.evaluate(u);net=force-torch.tensor(a['gradient'],dtype=torch.float64,device=device);acc=torch.cholesky_solve(net,L);row=dict(E_J=abs(a['energy']-b['energy']),g_L2_N=float(np.linalg.norm(a['gradient']-b['gradient'])),J_difference=abs(a['minimum_J']-b['minimum_J']),mass_R_N=float(torch.linalg.vector_norm(M@acc-net)),acceleration_L2_difference_m_s2=float(np.linalg.norm(acc.cpu().numpy()-cho_solve(Lc,m.load-b['gradient']))));row['passed']=row['E_J']<=1e-12 and row['g_L2_N']<=1e-10 and row['J_difference']<=2e-14 and row['mass_R_N']<=1e-8;controls.append(row)
+  write(OP/(label+'-GPU-controls.json'),dict(completed=True,passed=all(r['passed'] for r in controls),controls=controls,protocol_sha256=digest))
+  if not all(r['passed'] for r in controls):raise ValueError('CombinedGPUparityfailedBEFOREtrajectory')
+  del cpu,states;guard('pretrajectory_parity_passed');s.update(versions=dict(torch=torch.__version__,scipy=scipy.__version__,warp=wp.__version__,numpy=np.__version__),pretrajectory_controls_passed=True);write(dest/'summary.json',s)
+  uv=lambda a:torch.tensor(a,dtype=torch.float64,device=device);u0,v0,_,_=initial_vectors(m.rest,1/1920);y0=np.r_[u0.ravel(),v0.ravel(),np.zeros(3)];initialP=(M@uv(v0)).sum(0).cpu().numpy();c=w.evaluate(u0);initialE=float(c['energy']+.5*(uv(v0)*(M@uv(v0))).sum()-(force*uv(u0)).sum());energytol=p['gates']['energy_J'];faces=w.surface.faces.numpy();probe=np.array([[x,y,z] for x in np.linspace(0,.24,9) for y in [-.04,0,.04] for z in [-.04,0,.04]])+np.array([0,0,.09]);stats=dict(rhs_calls=0,maximum_masssolve_R_N=0.,minimum_RHS_J=float('inf'));Et=[];Pt=[];outE=[];outP=[];outpen=[];checked=0;Jmin=float('inf');penmax=0.;clock=time.monotonic()
+  def rhs(t,y):
+   c=w.evaluate(y[:size].reshape(n,3));net=force-uv(c['gradient']);a=torch.cholesky_solve(net,L);R=float(torch.linalg.vector_norm(M@a-net));stats['rhs_calls']+=1;stats['maximum_masssolve_R_N']=max(stats['maximum_masssolve_R_N'],R);stats['minimum_RHS_J']=min(stats['minimum_RHS_J'],c['minimum_J'])
+   if not np.isfinite(R) or R>1e-8:raise ValueError('OriginalfullMsolvefailed')
+   return np.r_[y[size:2*size],a.cpu().numpy().ravel(),net.sum(0).cpu().numpy()]
+  def balance(y):
+   u=y[:size].reshape(n,3);v=uv(y[size:2*size].reshape(n,3));c=w.evaluate(u);E=float(c['energy']+.5*(v*(M@v)).sum()-(force*uv(u)).sum());P=float(np.linalg.norm((M@v).sum(0).cpu().numpy()-initialP-y[2*size:]));minimum,_=quadratic_face_minimum((m.rest+u)[faces,2]);return E,P,c['minimum_J'],max(0.,-float(minimum.min()))
+  def after(info):
+   nonlocal checked,Jmin,penmax
+   E,P,J,pen=balance(info['accepted_states'][-1]);Et.append(E);Pt.append(P);Jmin=min(Jmin,J);penmax=max(penmax,pen)
+   while checked<len(info['output_states']):
+    E,P,J,pen=balance(info['output_states'][checked]);outE.append(E);outP.append(P);outpen.append(pen);checked+=1
+   count=len(info['accepted_times'])-1;solver=info['solver']
+   if count%512==0 or solver.status=='finished':
+    estimate=estimate_prefix_bytes(len(info['accepted_times']),len(info['output_times']),len(solver.y));guard('prefix_'+str(count),estimate,estimate);f=dest/'accepted-prefix.npz';tmp=dest/'accepted-prefix.tmp.npz';np.savez(tmp,accepted_times_s=np.asarray(info['accepted_times']),accepted_states=np.asarray(info['accepted_states']).T,accepted_energy_J=np.asarray(Et),accepted_momentum_errors_Ns=np.asarray(Pt),common_times_s=np.asarray(info['output_times']),common_states=np.asarray(info['output_states']).T,common_energy_J=np.asarray(outE),common_momentum_errors_Ns=np.asarray(outP),common_penetration_m=np.asarray(outpen),current_y=solver.y,current_f=solver.f,next_h_abs_s=solver.h_abs,accepted_steps=count,nfev=solver.nfev,protocol_sha256=digest,minimum_accepted_J=Jmin,maximum_accepted_penetration_m=penmax);tmp.replace(f);write(dest/'progress.json',dict(accepted_steps=count,accepted_time_s=solver.t,**stats,maximum_accepted_energy_error_J=float(abs(np.asarray(Et)-initialE).max()),maximum_accepted_P_error_Ns=max(Pt),prefix_sha256=sha(f)))
+  atol=np.r_[np.full(size,config['displacement_atol_m']),np.full(size,config['velocity_atol_m_s']),np.full(3,config['impulse_atol_Ns'])];answer=manual_dop853(rhs,y0,[T0,END],p['outputs_s'],config,atol,after);y=answer['output_states'];q=y[:size].T.reshape(-1,n,3)+m.rest;v=y[size:2*size].T.reshape(-1,n,3);pred=np.array([m.query(x,probe) for x in q]);Eerror=max(float(abs(np.asarray(Et)-initialE).max()),float(abs(np.asarray(outE)-initialE).max()));Perror=max(Pt+outP);passed=Eerror<=energytol and Perror<=1e-8 and stats['maximum_masssolve_R_N']<=1e-8;guard('final_capture',answer['accepted_states'].nbytes+estimate_prefix_bytes(len(answer['accepted_times']),9,len(y0)),answer['accepted_states'].nbytes);f=dest/'trajectory.npz';np.savez(f,times_s=answer['output_times'],positions_m=q,velocities_m_s=v,rest_m=m.rest,tets=m.tets,elements=m.elements,faces=m.faces,surface_elements=faces,fixed_node_ids=np.array([],int),floor_z_m=0.,query_positions_m=pred,material_probes_m=probe,accepted_times_s=answer['accepted_times'],accepted_states=answer['accepted_states'],accepted_mechanical_energies_J=np.asarray(Et),accepted_momentum_balance_errors_Ns=np.asarray(Pt),output_mechanical_energies_J=np.asarray(outE),output_momentum_balance_errors_Ns=np.asarray(outP),output_analytic_face_penetrations_m=np.asarray(outpen));guard('after_final_capture');s.update(completed=True,passed=passed,integration_elapsed_s=time.monotonic()-clock,accepted_steps=answer['accepted_steps'],nfev=answer['nfev'],**stats,maximum_accepted_energy_error_J=float(abs(np.asarray(Et)-initialE).max()),maximum_output_energy_error_J=float(abs(np.asarray(outE)-initialE).max()),maximum_accepted_momentum_error_Ns=max(Pt),maximum_output_momentum_error_Ns=max(outP),minimum_accepted_J=Jmin,maximum_analytic_face_penetration_m=penmax,initial_energy_J=initialE,energy_tolerance_J=energytol,capture=dict(path=str(f.relative_to(ROOT)),sha256=sha(f)))
+ except Exception as error:s.update(error=repr(error),traceback=traceback.format_exc());traceback.print_exc()
+ finally:s['elapsed_s']=time.monotonic()-begin;write(dest/'summary.json',s)
+ return s
+
+def launch(digest):
+ p=validate(digest);begin=time.monotonic()
+ def cap(*a):raise TimeoutError('Frozen600sphasecap')
+ signal.signal(signal.SIGALRM,cap);signal.alarm(600)
+ if (OP/'execution.json').exists():raise FileExistsError('Preserveexecution')
+ OUT.mkdir(parents=True,exist_ok=False);e=dict(controller_pid=os.getpid(),terminal=False,completed=False,surface_order_passed=False,protocol_sha256=digest,workers=[]);write(OP/'execution.json',e);r={}
+ try:
+  if sha(Path(p['taskset']['path']))!=p['taskset']['sha256']:raise ValueError('Changedtaskset')
+  apps=subprocess.check_output(['nvidia-smi','--query-compute-apps=pid,gpu_uuid','--format=csv,noheader'],text=True)
+  if any(GPU in line for line in apps.splitlines()):raise ValueError('GPU1notidle')
+  record=dict(case=CONFIG['name'],terminal=False);e['workers'].append(record)
+  def started(pid):record['worker_pid']=pid;write(OP/'execution.json',e)
+  with (OP/'worker.log').open('x') as log:record.update(run_owned_command([p['taskset']['path'],'--cpu-list','30,31',str(ROOT/'.venv/bin/python'),'-u','-m','experiments.run_p2_corrected_contact_order128','run','--sha',digest,'--case',CONFIG['name']],environment={**os.environ,'CUDA_VISIBLE_DEVICES':GPU,'OMP_NUM_THREADS':'2','OPENBLAS_NUM_THREADS':'2','MKL_NUM_THREADS':'2'},log=log,timeout=max(1.,600-(time.monotonic()-begin)),on_child=started))
+  record['terminal']=True;f=OUT/CONFIG['name']/'summary.json';r=json.loads(f.read_text()) if f.exists() else {};record['completed']=record.get('exit_code')==0 and r.get('completed') is True
+  if not record['completed']:raise RuntimeError('Incompleteworker;preserveandstop')
+  if sha(ROOT/r['capture']['path'])!=r['capture']['sha256']:raise ValueError('Changednewcapture')
+  arrays=[]
+  for f in [CONTROL_CAPTURE,ROOT/r['capture']['path']]:
+   with np.load(f,allow_pickle=False) as z:arrays.append([z[k].copy() for k in ['times_s','positions_m','velocities_m_s','output_mechanical_energies_J','query_positions_m']])
+  a,b=arrays;np.testing.assert_array_equal(a[0],b[0]);pair=pair_metrics(a[1],a[2],a[3],b[1],b[2],b[3],p['gates']['energy_J'],a[4],b[4]);e.update(completed=True,surface_order_passed=bool(r['passed'] and pair['passed']),surface_order_pair=pair)
+ except BaseException as error:e['error']=repr(error)
+ finally:signal.alarm(0);e.update(terminal=True,elapsed_s=time.monotonic()-begin);write(OP/'execution.json',e);write(OUT/'summary.json',dict(**e,cases=[r],imported64=p['control_capture'],nonclaims=p['nonclaims']))
+ return e
+if __name__=='__main__':
+ p=argparse.ArgumentParser();p.add_argument('action',choices=['prepare','run','launch']);p.add_argument('--sha');p.add_argument('--case');a=p.parse_args();r=prepare() if a.action=='prepare' else run(a.sha,a.case) if a.action=='run' else launch(a.sha);print(json.dumps(r if isinstance(r,str) else {k:r.get(k) for k in ['completed','passed','surface_order_passed','elapsed_s','error']}));raise SystemExit(0 if a.action=='prepare' or r.get('completed') else 1)
