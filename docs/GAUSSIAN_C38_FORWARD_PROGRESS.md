@@ -6,6 +6,11 @@ independent CPU results. Broader supports and loads, contact, dataset admission
 and prediction remain in progress. No learned prediction or probing superiority
 is established by this milestone.
 
+The subsequent [mechanics-control report](GAUSSIAN_C38_MECHANICS_CONTROLS.md)
+records the strict Warp/Torch trajectory pass, the capped larger cantilever,
+and the preconditioner timing tradeoff. Varied supported-block qualification
+continues separately; its preparation artifacts do not admit a dataset.
+
 ## Subsequent bending and impact checks
 
 The same informative bending case (E=4,500 Pa, 0.12 N transverse end force,
@@ -28,8 +33,13 @@ No physical solution or old diagnostic was changed.
 The streamed quadrature implementation matches the frozen 12,000-tet GPU field
 to 3.90e-15 m from rest, with a free residual of 9.28e-13 N. It reduces memory
 by recomputing quadrature chunks and preserves the full original operator and
-consistent mass. A new 393,216-tet Q3 bending solve is in progress; exact bulk
-quadrature qualification remains separate.
+consistent mass. The subsequent 393,216-tet Q3 bending solve reached its
+40-minute wall limit during a linear solve without a usable converged field.
+It provides no finer spatial comparison. A stronger preconditioner is being
+benchmarked on the same smaller linear system before another large solve.
+The separately checked positive 24-point degree-six rule preserves the exact
+constant-material polynomial bulk operator and the original 80-point Jacobian
+guards; this does not qualify contact surface quadrature or spatial error.
 
 The high-order impact integrator completes two accuracy settings on the same
 96-tet model and finite compliant plane. Their position difference is only

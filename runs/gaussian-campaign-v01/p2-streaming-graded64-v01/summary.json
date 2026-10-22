@@ -1,0 +1,10 @@
+{
+  "completed": false,
+  "passed": false,
+  "protocol_sha256": "39ddcd7076bcdac56d852b723111541777f1f073efe7eb1d4d449e0b3c976c67",
+  "old_failed_gates_preserved": true,
+  "quadrature_or_dynamic_or_inference_qualified": false,
+  "error": "TimeoutError('Frozen2400s/RSS guard')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/bayespc2/vscode/guassianSDE/experiments/run_p2_streaming_graded64.py\", line 44, in run\n    check();m=P2Geometry(tuple(p['cells']),mapping='clamp_graded');t=Budget(m,'cuda:0',4000,8);answer=t.solve();q=answer['positions'].cpu().numpy();res=(answer['cache']['gradient']-t.force).cpu().numpy()\n                                                                                                      ^^^^^^^^^\n  File \"/home/bayespc2/vscode/guassianSDE/experiments/campaign_p2_torch.py\", line 122, in solve\n    direction,cg_steps=self.cg(cache,-r,factor,rtol=min(.01,max(1e-8,.1*norm**.5)));row['cg_iterations']=cg_steps\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/bayespc2/vscode/guassianSDE/experiments/campaign_p2_coarse_preconditioner.py\", line 82, in cg\n    if not bool(torch.isfinite(curvature)) or float(curvature)<=0:raise LinearFailure('Original FP64 tangent has nonpositive search curvature')\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/bayespc2/vscode/guassianSDE/experiments/run_p2_streaming_graded64.py\", line 28, in interrupt\n    def interrupt(*_):raise TimeoutError('Frozen2400s/RSS guard')\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTimeoutError: Frozen2400s/RSS guard\n",
+  "elapsed_s": 2399.719093350228
+}

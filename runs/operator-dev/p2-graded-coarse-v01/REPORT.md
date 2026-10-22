@@ -1,0 +1,5 @@
+# Graded coarse correction: CPU controls
+
+The new preconditioner uses a fixed graded 8×4×4-cell rest P2 model, with 3888 free coarse degrees of freedom and first x coordinate 0.00375 m. The original uniform 4×2×2 coarse implementation remains untouched. Compatible nodal prolongation and its projected transpose transfer the correction; exact fine-node blocks remain the other additive SPD term. No fine energy, Hessian, mass, force, clamp, CG acceptance or nonlinear acceptance is changed.
+
+Three CPU tests passed in 16.23 s: coarse rest K/M positive Cholesky factors, constant/affine reproduction, projected adjoint and additive SPD checks, exact fine energy/gradient/HVP equality, full-mass shifted linear residual acceptance and static solution parity, and unchanged full-left support scope. Coarse K/M/L dense storage is approximately 363 MB before auxiliary buffers. A separately frozen GPU benchmark is required before any larger nonlinear retry. This is an approximate positive preconditioner, not an exact Galerkin projection or a physical stiffness repair.

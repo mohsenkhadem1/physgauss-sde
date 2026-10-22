@@ -1,0 +1,85 @@
+{
+  "completed": true,
+  "passed": false,
+  "pid": 2230243,
+  "protocol_sha256": "b391418f5c2243c62c4274422b2b09688cff5e6c8a0454cd148ec52e9e1e94ee",
+  "cases": [
+    {
+      "backend": "torch",
+      "completed": true,
+      "passed": true,
+      "elapsed_s": 275.68852641107515,
+      "maximum_energy_error_J": 8.714176252810901e-08,
+      "energy_tolerance_J": 4.708799999999999e-07,
+      "maximum_momentum_error_Ns": 6.4590213290947264e-15,
+      "minimum_J": 0.9280347733819204,
+      "maximum_masssolve_R_N": 3.459324403770754e-13,
+      "rhs_calls": 130199,
+      "accepted_steps": 5360,
+      "capture": {
+        "path": "runs/gaussian-campaign-v01/p2-warp-trajectory-v01/torch.npz",
+        "sha256": "13a73627cac725284199da0041f15e9c2dd46a06d4b5920a734f113b399d73f9"
+      },
+      "imported": true
+    },
+    {
+      "backend": "warp",
+      "completed": true,
+      "passed": true,
+      "elapsed_s": 111.23602340137586,
+      "maximum_energy_error_J": 3.294732087155694e-08,
+      "energy_tolerance_J": 4.708799999999999e-07,
+      "maximum_momentum_error_Ns": 3.902507781398165e-15,
+      "minimum_J": 0.9280349231083541,
+      "maximum_masssolve_R_N": 4.045780065983399e-13,
+      "rhs_calls": 129119,
+      "accepted_steps": 5313,
+      "capture": {
+        "path": "runs/gaussian-campaign-v01/p2-warp-trajectory-v02/warp.npz",
+        "sha256": "4aa3f5d556e62418704415ec4f772834e020beb8f965fa8c9d95ff29f157c771"
+      }
+    }
+  ],
+  "nonclaims": [
+    "Paired same-discretization backend implementation only",
+    "No temporal/spatial/Q or hardcontact qualification",
+    "No existing trajectory/backend changed"
+  ],
+  "versions": {
+    "torch": "2.14.1+cu130",
+    "warp": "1.18.0",
+    "numpy": "2.5.4"
+  },
+  "own_GPU_records": [
+    "2230243, GPU-c49707f6-24fd-38e4-3973-3543ec644ceb, 182 MiB"
+  ],
+  "recomputed_prefix": {
+    "prior_committed_rhs": 21116,
+    "prior_committed_steps": 1024,
+    "reason": "Missingnext_h_abs/fprecludesexactaccepted-partitionresume; freshWarp-onlyfallbackauthorized"
+  },
+  "backend_pair": {
+    "maximum_allnode_q_difference_m": 2.195651104655737e-08,
+    "maximum_allnode_v_difference_m_s": 2.9024685451661202e-05,
+    "passed": false
+  },
+  "elapsed_s": 114.85641427896917,
+  "source_summary": {
+    "path": "runs/gaussian-campaign-v01/p2-warp-trajectory-v02/summary.json",
+    "bytes": 2235,
+    "sha256": "0c9d1fd6718e9b0ee11edf58bf5a571be0a6160d1ac224ec1f5bf5d18e684d6e"
+  },
+  "terminal": {
+    "terminal": true,
+    "completed": true,
+    "controller_pid": 2230236,
+    "protocol_sha256": "b391418f5c2243c62c4274422b2b09688cff5e6c8a0454cd148ec52e9e1e94ee",
+    "wall_cap_s": 300,
+    "worker_pid": 2230243,
+    "passed": false,
+    "exit_code": 0,
+    "elapsed_s": 115.93274798477069,
+    "both_pids_absent": true
+  },
+  "interpretation": "Bothadaptive1e-9trajectoriesconserveenergy/momentum butstrictbackendgatesFAIL. Differentadaptivepartitions can contribute numericaltrajectoryerror; no attributiontoforcebias orqualificationwithoutfurthercontrolledaccuracycheck."
+}

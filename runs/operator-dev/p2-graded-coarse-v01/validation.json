@@ -1,0 +1,43 @@
+{
+  "schema": "C38-graded8coarse-CPU-validation-v0.1",
+  "status": "CPU_VALIDATED_GPU_BENCHMARK_SEPARATE",
+  "source": {
+    "path": "experiments/campaign_p2_graded_coarse.py",
+    "sha256": "55fbf89c59b4bb80a11790b73a2e9750762216993f915d039d133a67c7c1cb46",
+    "size_bytes": 4144
+  },
+  "tests": {
+    "path": "tests/test_campaign_p2_graded_coarse.py",
+    "sha256": "99846ad06df655d9f31a3a08231122a94429cd115bfd4f8e008c6dfc03bd7b55",
+    "size_bytes": 2639
+  },
+  "receipt": {
+    "path": "runs/operator-dev/p2-graded-coarse-v01/tests.txt",
+    "sha256": "3ae966a78e809de53fcd3eee3eb1da3c4663603819e42498ac8cc8ad9fb97470",
+    "size_bytes": 99
+  },
+  "tests_passed": 3,
+  "coarse_cells": [
+    8,
+    4,
+    4
+  ],
+  "coarse_mapping": "clamp_graded",
+  "coarse_free_DOF": 3888,
+  "coarse_first_x_m": 0.00375,
+  "dense_K_M_L_total_bytes_estimate": 362797056,
+  "physical_operator_changed": false,
+  "old_classes_modified": false,
+  "scope": "Canonicalfullleftclamp only",
+  "controls": [
+    "OriginalStableP2Block.elastic restK andfullconsistentM HPD",
+    "Pconstant/affinereproduction, projectedP/PTadjoint, additiveSPD",
+    "SamefineE/g/fullHVP exactCPUparity, mass-shiftlineartrueR andnonlinearstaticfieldparity",
+    "Fullleftscope guard unchanged"
+  ],
+  "limits": [
+    "NoCPUtestestablishesfinemeshthroughput or spatialqualification",
+    "PreconditionerisapproximateSPD, notexactGalerkinclaim",
+    "ActualGPUallocated/RSSguard authoritative"
+  ]
+}
