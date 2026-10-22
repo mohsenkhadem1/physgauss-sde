@@ -1,0 +1,135 @@
+{
+  "schema": "Compact-FP64-Warp-P2-same-state-RHS-result-v0.1",
+  "completed": true,
+  "passed": true,
+  "source_result": {
+    "path": "runs/operator-dev/p2-warp-rhs-v01/gpu-result.json",
+    "bytes": 21988,
+    "sha256": "8ff1ea88ad8cdfc901d9f1e7617d5594e6b31f06f7c1989526f034da2e7ff3f8"
+  },
+  "GPU_protocol": {
+    "path": "runs/operator-dev/p2-warp-rhs-v01/gpu-protocol.json",
+    "bytes": 5104,
+    "sha256": "0f9dc5a30c1ccacda3c4a14c90fa037e133375d37559b8a769f3499d4754852e"
+  },
+  "versions": {
+    "torch": "2.14.1+cu130",
+    "warp": "1.18.0",
+    "numpy": "2.5.4"
+  },
+  "own_GPU_records": [
+    "2229322, GPU-c49707f6-24fd-38e4-3973-3543ec644ceb, 182 MiB"
+  ],
+  "states_times_s": [
+    0.08333333333333333,
+    0.09166666666666666,
+    0.09999999999999999,
+    0.10833333333333334,
+    0.11666666666666667,
+    0.125,
+    0.13333333333333333,
+    0.14166666666666666,
+    0.15,
+    0.10199996477547452
+  ],
+  "active_quadrature_counts": [
+    0,
+    0,
+    0,
+    51,
+    0,
+    0,
+    0,
+    0,
+    0,
+    689
+  ],
+  "maximum_parity_errors": {
+    "force_difference_N": 2.0745707535297758e-13,
+    "energy_difference_J": 2.7755575615628914e-17,
+    "minimum_J_difference": 6.661338147750939e-16,
+    "mass_weighted_acceleration_difference_N": 2.094299243891057e-13,
+    "maximum_acceleration_difference_m_s2": 6.167529282957141e-11,
+    "maximum_masssolve_R_N": 1.3851323158206998e-13
+  },
+  "maximum_repeat_errors": {
+    "force_difference_N": 3.1798176353552464e-14,
+    "energy_difference_J": 0.0,
+    "minimum_J_difference": 0.0,
+    "mass_weighted_acceleration_difference_N": 4.8718542715143845e-14,
+    "maximum_acceleration_difference_m_s2": 2.190618811099723e-11,
+    "maximum_masssolve_R_N": 1.3851323158206998e-13
+  },
+  "warp_initial_JIT_and_first_evaluation_s": 6.806813427712768,
+  "timings": [
+    {
+      "round": 0,
+      "order": [
+        "torch",
+        "warp"
+      ],
+      "torch_seconds_per_evaluation": 0.0022360606235451996,
+      "warp_seconds_per_evaluation": 0.0009937843540683388
+    },
+    {
+      "round": 1,
+      "order": [
+        "warp",
+        "torch"
+      ],
+      "warp_seconds_per_evaluation": 0.000992824404966086,
+      "torch_seconds_per_evaluation": 0.0022635611006990076
+    },
+    {
+      "round": 2,
+      "order": [
+        "torch",
+        "warp"
+      ],
+      "torch_seconds_per_evaluation": 0.0022260254714637994,
+      "warp_seconds_per_evaluation": 0.0009873947477899493
+    },
+    {
+      "round": 3,
+      "order": [
+        "warp",
+        "torch"
+      ],
+      "warp_seconds_per_evaluation": 0.0009716009488329291,
+      "torch_seconds_per_evaluation": 0.0022414430975914003
+    },
+    {
+      "round": 4,
+      "order": [
+        "torch",
+        "warp"
+      ],
+      "torch_seconds_per_evaluation": 0.0022120775771327316,
+      "warp_seconds_per_evaluation": 0.0009768052957952022
+    }
+  ],
+  "median_seconds_per_evaluation": {
+    "torch": 0.0022360606235451996,
+    "warp": 0.0009873947477899493
+  },
+  "inclusive_speed_ratio": 2.2646065603955208,
+  "terminal": {
+    "terminal": true,
+    "completed": true,
+    "controller_pid": 2229317,
+    "protocol_sha256": "0f9dc5a30c1ccacda3c4a14c90fa037e133375d37559b8a769f3499d4754852e",
+    "wall_cap_s": 180,
+    "worker_pid": 2229322,
+    "passed": true,
+    "elapsed_s": 11.40567529387772,
+    "exit_code": 0,
+    "both_pids_absent": true
+  },
+  "trajectory_backend_qualified": false,
+  "nonclaims": [
+    "No integration/backend switch or new physical trajectory",
+    "Same-state timing only, including transfers/fullMsolve/telemetry; not fulltrajectory speed",
+    "Source/parameters and physical/contactlaw identical; GPU atomics have measured roundoff",
+    "Existing contact temporalQ8reference does not qualify surfaceQ/spatial/rigidcontact"
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "schema": "C38-Keast24-exact80-operator-parity-v0.1",
+  "status": "FROZEN_BEFORE_OPERATOR_CALLS",
+  "source_sha256": {
+    "experiments/campaign_p2_streaming.py": "9ac365a4661688e6a328ec2f28dcc9f64cc77d5ef41148a327ff06a11c6c09f4",
+    "experiments/campaign_p2_coarse_preconditioner.py": "463cba181d9c6a97de0c31a77cfe1f655adc72999d5f1f6bbe5f82567df39628",
+    "experiments/campaign_p2_block_preconditioner.py": "39c44377a3f5fdb9207106cc828e655d6c005c617459ae1c67c4110475cc47bb",
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/run_p2_streaming_gpu_parity.py": "5eb9fbd21c9a7deff049b7beaa5fe3fc91daab9cf56b66a559ac2126837d541e",
+    "experiments/campaign_p2_geometry.py": "fdae2efcbf0c0abff1d4bb11ccaca8182479c423b80805014b781a510ffa77da",
+    "experiments/campaign_block_surface_controls.py": "c0ffbd4dd2ecd1cba6b8e293fddc264dcb2c9a07c81304b9b6c4a0313539064e",
+    "experiments/run_p2_torch_benchmark.py": "ca84447e4e6c0f4469d4cbb44522be96525b69a44f3b6f1443cb18b9ceb116e4",
+    "experiments/run_static_p2_axial_continuation.py": "c12200e9a70764e637960ee5bd99909627a83309294459aaf845d995cfcbd86c",
+    "experiments/run_p2_exact80_operator_assessment.py": "fda315d270a48acc68a3a3321a57e771b0f2ee847e81cf1cd09a436033e1f6b0",
+    "experiments/campaign_p2_exact_quadrature.py": "6ae75c317b99d2f4ae657442b0c1bfc03c84f1a8a63b069dbd86f5743d9a849a",
+    "experiments/run_p2_warm_exact80.py": "28313743a0277e345e0985c76c7f101a6e6026f03977ab0ba4d712eb14f1ee09",
+    "experiments/campaign_p2_jacobian_certificate.py": "ca63e9b1c11c0125ca2171e8d3572807de00d143b66657f5b9f02ae2b510b8cc",
+    "tests/test_p2_warm_exact80.py": "4254e8b6ce190779fa779d36563e2a985058b763aaa5e35b1737486d680a7eb3",
+    "experiments/run_p2_keast_operator_parity.py": "8bd8cef1dc87967f166b8e04badf83c3943001f6822c356f45d6bb8fee0cf570",
+    "experiments/campaign_p2_keast_quadrature.py": "4ddf8e6dd5bf7203885f6aa179def256f6c3d20a730958ac150ba546a6a8ed7f",
+    "tests/test_campaign_p2_keast_quadrature.py": "ee749736b333f2edf37264eca522061c46815f8285563324cb976a32222dd56b"
+  },
+  "evidence_sha256": {
+    "runs/gaussian-campaign-v01/p2-warm-exact80-48-v01/summary.json": "f8938454cee37f8c05caefb7c22201e14612eaf9e8fc9134606857fd1aefa940",
+    "runs/operator-dev/p2-warm-exact80-48-v01/terminal-receipt.json": "42c30c02b362267e3374cfc86d2aece9ae71b24c96582804a05677be8c1812ac"
+  },
+  "reference": {
+    "cells": [
+      48,
+      24,
+      24
+    ],
+    "capture": {
+      "path": "runs/gaussian-campaign-v01/p2-warm-exact80-48-v01/tets165888-exact80.npz",
+      "sha256": "ec3275c642b17efd37208cfd7d9a6ecee1f8927361e226bbc0cec38b5b795316"
+    }
+  },
+  "physical_changes": 0,
+  "nonlinear_solves": 0,
+  "CG_solves": 0,
+  "operators": [
+    "energy",
+    "gradient",
+    "onefullHVP",
+    "node3x3blocks",
+    "fullconsistentmass"
+  ],
+  "HVP_direction": "publicrestv=[0,0,.001*(x/.24)^2];exactclampzero; notresponsefitted",
+  "quadrature": [
+    80,
+    24
+  ],
+  "chunk_size": 8,
+  "GPU": 2,
+  "CPU_threads": 2,
+  "hard_cap_s": 180,
+  "GPU_allocated_guard_bytes": 8589934592,
+  "RSS_guard_bytes": 12884901888,
+  "minimum_disk_free_bytes": 32212254720,
+  "operator_absolute_tolerance": 1e-11,
+  "operator_relative_tolerance": 1e-10,
+  "original_free_R_tolerance_N": 1e-10,
+  "decision": "Require operator parity and both originalfreeR<=1e-10 at sameexact80equilibrium. No newequilibrium or displacement/spatialqualification.",
+  "CPU_evidence": "Root reported both exhaustive degree6moments and independent80operator controls PASS2.20s before this protocol",
+  "limits": [
+    "SameconstantmaterialstableNH/fullleft/graded48/.12Ntransverse",
+    "Alloldspatialfailures unchanged",
+    "Exact24 retains old80 and10corner/edge guardpoints",
+    "Published decimalrule is numerically degree6exact at FP64 precision",
+    "NoNewton/CG/newtrajectory or inferenceadmission"
+  ]
+}

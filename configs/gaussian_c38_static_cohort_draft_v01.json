@@ -1,0 +1,136 @@
+{
+  "schema": "c38-static-cohort-DRAFT-v01",
+  "status": "DRAFT_NOT_ADMITTED_NO_OBJECT_DRAWS",
+  "simulations_authorized_by_this_file": false,
+  "training_authorized_by_this_file": false,
+  "scenario_kind": "quasistatic_equilibrium_load_queries",
+  "not_temporal_forecasting": true,
+  "geometry_m": [
+    0.24,
+    0.08,
+    0.08
+  ],
+  "constitutive_law": "Polynomial stable-NH: mu/2*(tr(F.T F)-3)-mu*(J-1)+(lambda+mu)/2*(J-1)^2; NOT logarithmic-NH bar",
+  "known_physics": {
+    "poisson": 0.35,
+    "density_kg_m3": 625.0,
+    "gravity_vector_m_s2": [
+      0.0,
+      0.0,
+      -9.81
+    ]
+  },
+  "candidate_material_prior": {
+    "kind": "uniform_log_E",
+    "E_Pa": [
+      50000.0,
+      150000.0
+    ]
+  },
+  "candidate_supports": [
+    {
+      "id": "both_ends",
+      "law": "exact fixed xyz on x=0 and x=0.24 faces"
+    },
+    {
+      "id": "separated_bottom_patches",
+      "law": "exact fixed xyz at z=-0.04 and (x<=0.06 or x>=0.18)"
+    }
+  ],
+  "uniform_x_divisions_multiple_of": 4,
+  "unseen_layout_generalization_claim": false,
+  "candidate_surface_force": {
+    "patch": "Free material-frame midspan top surface; exact center/width/kernel NOT YET FROZEN",
+    "resultant_axis": [
+      0.0,
+      0.0,
+      1.0
+    ],
+    "candidate_signed_resultant_bounds_N": [
+      -2.0,
+      2.0
+    ],
+    "normalized_consistent_reference_surface_quadrature": true,
+    "identical_commands_for_every_material_and_support": true,
+    "no_truth_conditioned_scaling_or_selection": true,
+    "fixed_end_face_load_does_not_qualify_this_patch": true
+  },
+  "qualification_required_before_draws": {
+    "corners": "Both E endpoints x both supports x both signed force extremes; gravity-only controls",
+    "interior_checks": "Prospectively fixed set, not yet drawn",
+    "original_free_residual_N": 1e-10,
+    "force_balance_N": 1e-08,
+    "moment_balance_Nm": 1e-08,
+    "exact_constraint_error_m": 0.0,
+    "minimum_J": 0.1,
+    "whole_element_positive_J_certificate": true,
+    "conditional_spatial_indicator_m": 2e-05,
+    "independent_CPU_GPU_controls": true,
+    "campaign_shape_depth_visibility_refinement": true,
+    "corners_are_not_a_uniform_rigorous_domain_bound": true,
+    "all_later_captures_need_physical_checks": true
+  },
+  "tentative_roles_NOT_FROZEN": {
+    "TRAIN": 64,
+    "DEV": 16,
+    "CAL": 16,
+    "TEST": 32
+  },
+  "object_role_unit": "Whole physical object: all controls/views/actions in one role",
+  "material_and_entire_control_sequence_overlap_across_roles": false,
+  "public_B": [
+    "rest P2 geometry/material Gaussians",
+    "known camera calibration",
+    "acquired prefix RGBD",
+    "known past/planned surface controls and gravity"
+  ],
+  "private_oracle_A_only": [
+    "true E",
+    "support type/geometry/mask",
+    "full-state positions",
+    "future target depth",
+    "truth labels"
+  ],
+  "input_geometry_covariance_is_not_posterior_uncertainty": true,
+  "separate_observation_tracks": [
+    "dense rendered RGBD",
+    "sparse censored depth rays",
+    "privileged tracked/full-state controls"
+  ],
+  "release_order": [
+    "domain freeze",
+    "forward qualification",
+    "object/force/sensor role freeze",
+    "captures",
+    "DEV/CAL validation",
+    "TEST-prefix-only action choice freeze",
+    "acquired-action observations",
+    "all predictions freeze",
+    "TEST target/label release"
+  ],
+  "baselines": [
+    "rest/persistence",
+    "past-only rigid registration",
+    "same-model linear FEM",
+    "proper material/support prior predictive",
+    "privileged true-parameter nonlinear FEM oracle"
+  ],
+  "active_reset_common_target_required": true,
+  "new_architecture_or_foundation_model_selected": false,
+  "dynamic_or_contact_domain_admitted": false,
+  "raw_data_local": true,
+  "remaining_before_execution": [
+    "exact patch and load catalog",
+    "qualified material/support/control matrix",
+    "object/force seeds and role plans",
+    "sensor/view designs",
+    "runtime/resource budgets",
+    "prospective numerical reference and calibration criteria"
+  ],
+  "existing_single_case_evidence": {
+    "path": "runs/gaussian-campaign-v01/p2-gravity-refinement-v01/summary.json",
+    "sha256": "2ca9db553b957e89deead19054884529f1a893c31802d4e9230e24ac7ab29bb9",
+    "scope": "E100kPa/both_ends/gravity ONLY; NOT family admission",
+    "conditional_indicator_m": 1.423761590593321e-05
+  }
+}

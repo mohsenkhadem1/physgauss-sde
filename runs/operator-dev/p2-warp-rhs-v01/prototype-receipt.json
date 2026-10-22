@@ -1,0 +1,52 @@
+{
+  "schema": "Prospective-fused-FP64-P2-RHS-kernel-v0.1",
+  "status": "CPU_MANUFACTURED_PARITY_COMPLETE_GPU_NOT_EXECUTED",
+  "scope": "Force-only separate backend; no solver/time/mass/law change; no cohort or actual trajectory inputs",
+  "source_sha256": {
+    "experiments/campaign_p2_warp_rhs.py": "4b61488a1ad75edfcc2596b6eaaf79d7aa24b237e91ed79b0cc24c518f0d2bd6",
+    "tests/test_campaign_p2_warp_rhs.py": "e075576c57e265638f869ad5729d99ad4e61b00392291f06c40b1846e56a5ccf"
+  },
+  "runtime": {
+    "python_prefix": "runs/operator-dev/newton-runtime-v01/env",
+    "warp": "1.18.0",
+    "numpy": "2.5.4",
+    "CPU_device_only": true,
+    "CUDA_VISIBLE_DEVICES": ""
+  },
+  "CPU_parity": [
+    {
+      "energy_J": 9.215718466126788e-19,
+      "maximum_gradient_component_N": 1.942890293094024e-16,
+      "minimum_J": 0.0
+    },
+    {
+      "energy_J": 6.256027033528298e-18,
+      "maximum_gradient_component_N": 2.4751410084979663e-15,
+      "minimum_J": 3.3306690738754696e-16
+    },
+    {
+      "energy_J": 4.85722573273506e-17,
+      "maximum_gradient_component_N": 3.497202527569243e-15,
+      "minimum_J": 0.0
+    },
+    {
+      "energy_J": 1.5265566588595902e-16,
+      "maximum_gradient_component_N": 4.440892098500626e-15,
+      "minimum_J": 0.0
+    }
+  ],
+  "gates": {
+    "absolute_force_component_N": 1e-10,
+    "absolute_energy_J": 1e-12,
+    "minimum_J_absolute": 2e-14
+  },
+  "tests": "3 tests PASS .464s process; strict energy/force/J independent standard-form NH and contact; derivativeH; all checkpoint-only inversion guard; FP64 type enforcement",
+  "preserved_failure": "Initial CPU return buffer alias detected by derivative test, fixed by copying returned gradient. Initial transitive Torch import closure removed from manufactured test only; production prototype never imports Torch.",
+  "GPU_plan": "After review and GPU1 release only: same-state manufactured+saved model-array parity against frozenTorch; freeze exact tolerances/sample states; then paired evaluation timing including transfers. No speed or trajectory-equivalence claim yet.",
+  "limitations": [
+    "FP64 atomics reorder sums; GPU strict parity required",
+    "Only energy/gradient/J; no HVP or dynamics implemented",
+    "Exactfullconsistent mass solver remains external unchanged",
+    "Same all-boundary finite compliant area law; no hard-contact claim"
+  ]
+}

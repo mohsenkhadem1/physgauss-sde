@@ -1,0 +1,14 @@
+{
+  "schema": "Third-accuracy-manual-DOP853-prelaunch-receipt-v0.3",
+  "source_sha256": "dacac3f44c463fca43b2465a07af4d369356721662578f7ebd7135f1cf575638",
+  "protocol_sha256": "978fbd6e1793ddab75d59f6baa4647dcc0b6c588842dabe2affb329e45aa6d59",
+  "tests": {
+    "command": "OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 .venv/bin/python -m pytest -q tests/test_continue_p2_contact_dop853_v03.py",
+    "result": "3 passed in0.62s",
+    "scope": "Same-accepted-partition oscillator, freefall/aux momentum and exact declared1e-10 configuration"
+  },
+  "changes": "Numerical tolerances and resource-only fresh phase; same manual DOP853 stepping, fullM, physical force, positiveJ, accepted energy/P and output/pair gates; no previous run repeated.",
+  "checkpoint_limit": "Entire committed prefix; up to511 uncommitted tail states may be lost by hard termination.",
+  "old_failure_retained": "runs/operator-dev/p2-contact-dop853-v02/result-summary.json",
+  "manual_step_AST_identical_to_v02": true
+}

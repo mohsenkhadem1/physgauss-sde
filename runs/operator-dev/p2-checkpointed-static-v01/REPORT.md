@@ -1,0 +1,7 @@
+# Accepted static Newton checkpoints
+
+Three focused CPU controls passed in 8.08 s. The new mixin follows the frozen static solve arithmetic, original FP64 operator, CG tolerance, strict residual, positive-J guard and line search. Its sole numerical-path addition is an accepted-state callback at the start of each Newton iteration, before the next CG solve. The callback receives a detached clone of displacement and a deep copy of history; mutating either does not alter the solver.
+
+The writer hashes actual rest/connectivity/gradients/volumes/masks/quadrature, material and nodal force, plus the caller's complete frozen source closure and protocol. It commits numbered uncompressed arrays and metadata before atomically replacing the latest pointer. A process interruption can leave an unreferenced partial file, while the previous committed pointer remains usable. This is not a power-loss or reference-geometry interval guarantee.
+
+CPU output, history and CG records match the original solve exactly. A control interrupted after accepted iteration 1 resumes with the original budget reduced from 25 to 24 and matches the uninterrupted solution bitwise. Changed physical identity, solver tolerance and array bytes are rejected. A checkpoint can be unconverged: loading it never declares equilibrium or authorizes a physical resume. Future drivers must bind the complete source closure, declare the resume and budget, and use a fresh checkpoint directory. No dynamic solver support or GPU parity is claimed. No old backend or live job was edited.

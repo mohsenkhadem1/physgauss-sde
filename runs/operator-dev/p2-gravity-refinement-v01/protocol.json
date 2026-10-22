@@ -1,0 +1,97 @@
+{
+  "schema": "C38-bothends-gravity-exactbulk-v01",
+  "status": "FROZEN_BEFORE_NEW_SOLVES",
+  "source_sha256": {
+    "experiments/run_p2_supported_gravity_controls.py": "0f2d641d5634ea257419fc841378c5d2c712f7d1d5c82928e3d9e42d45d9a2dd",
+    "experiments/campaign_p2_supported_preconditioner.py": "70d293dc8fb4c92891c83561df26280876fca2409349524a600f405fe33acb46",
+    "tests/test_campaign_p2_supported_preconditioner.py": "9b36e52e0cbb9ff6456232187d6b4c487c37b3a8a68620209223d7ac057c76da",
+    "experiments/campaign_p2_geometry.py": "fdae2efcbf0c0abff1d4bb11ccaca8182479c423b80805014b781a510ffa77da",
+    "experiments/campaign_p2_streaming.py": "9ac365a4661688e6a328ec2f28dcc9f64cc77d5ef41148a327ff06a11c6c09f4",
+    "experiments/campaign_p2_coarse_preconditioner.py": "463cba181d9c6a97de0c31a77cfe1f655adc72999d5f1f6bbe5f82567df39628",
+    "experiments/campaign_p2_block_preconditioner.py": "39c44377a3f5fdb9207106cc828e655d6c005c617459ae1c67c4110475cc47bb",
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336",
+    "experiments/campaign_p2_jacobian_certificate.py": "ca63e9b1c11c0125ca2171e8d3572807de00d143b66657f5b9f02ae2b510b8cc",
+    "experiments/campaign_block_surface_controls.py": "c0ffbd4dd2ecd1cba6b8e293fddc264dcb2c9a07c81304b9b6c4a0313539064e",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "experiments/run_p2_gravity_refinement.py": "6ee75e3ce9b8b69a1bd78971dbad82aa3b3e7f4e2f2bb55f9e2e906264f61c6b",
+    "experiments/campaign_p2_exact_quadrature.py": "6ae75c317b99d2f4ae657442b0c1bfc03c84f1a8a63b069dbd86f5743d9a849a",
+    "experiments/run_p2_torch_benchmark.py": "ca84447e4e6c0f4469d4cbb44522be96525b69a44f3b6f1443cb18b9ceb116e4",
+    "experiments/run_static_p2_axial_continuation.py": "c12200e9a70764e637960ee5bd99909627a83309294459aaf845d995cfcbd86c"
+  },
+  "CPU_control": {
+    "path": "runs/gaussian-campaign-v01/p2-supported-gravity-v01/summary.json",
+    "sha256": "8b4749b9cd61eacbf638a8c1a4fa004fd907ca17542c0502fbecde8b1d40b886"
+  },
+  "cells": [
+    [
+      12,
+      6,
+      6
+    ],
+    [
+      16,
+      8,
+      8
+    ],
+    [
+      20,
+      10,
+      10
+    ],
+    [
+      24,
+      12,
+      12
+    ]
+  ],
+  "coarse_CPU_GPU_parity_cells": [
+    4,
+    2,
+    2
+  ],
+  "physics": {
+    "E_Pa": 100000.0,
+    "nu": 0.35,
+    "density_kg_m3": 625.0,
+    "gravity_m_s2": 9.81,
+    "support": "both_ends",
+    "pattern": "transverse_end",
+    "surface_force_N": [
+      0,
+      0,
+      -0.12
+    ],
+    "mapping": "uniform",
+    "note": "Right-face surface force acts on fixed nodes; deformation in this check is driven by gravity"
+  },
+  "quadrature": "Positive80pointdegree6exact polynomial bulk rule; constant stableNH material",
+  "all_from_REST": true,
+  "GPU": 2,
+  "CPU_threads": 2,
+  "hard_cap_s": 900,
+  "GPU_allocated_limit_bytes": 8589934592,
+  "RSS_limit_bytes": 12884901888,
+  "disk_reserve_bytes": 32212254720,
+  "gates": {
+    "original_free_R_N": 1e-10,
+    "force_balance_N": 1e-08,
+    "moment_balance_Nm": 1e-08,
+    "exact_clamp_m": 0,
+    "minimum_J": 0.1,
+    "positive_whole_element_Bernstein": true,
+    "coarse_allnode_CPU_GPU_parity_m": 1e-08,
+    "conditional_fine_spatial_indicator_m": 2e-05
+  },
+  "indicator": "Max63fixedquerydelta/(actualhmaxratio-1), assumedorder>=1engineeringindicator NOT rigorousbound",
+  "limits": [
+    "DifferentphysicalexperimentfromE4500transversecantilever; oldfailurespreserved",
+    "No dynamics/materialpopulation/posterior/imagecohort admission",
+    "Peakstrain and bulk nonrigid motion reported; no convergedpeakstress claim"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "schema": "C38-supported-gravity-controls-v01",
+  "status": "FROZEN_BEFORE_CONTROL_SOLVES",
+  "source_sha256": {
+    "experiments/run_p2_supported_gravity_controls.py": "0f2d641d5634ea257419fc841378c5d2c712f7d1d5c82928e3d9e42d45d9a2dd",
+    "experiments/campaign_p2_supported_preconditioner.py": "70d293dc8fb4c92891c83561df26280876fca2409349524a600f405fe33acb46",
+    "tests/test_campaign_p2_supported_preconditioner.py": "9b36e52e0cbb9ff6456232187d6b4c487c37b3a8a68620209223d7ac057c76da",
+    "experiments/campaign_p2_geometry.py": "fdae2efcbf0c0abff1d4bb11ccaca8182479c423b80805014b781a510ffa77da",
+    "experiments/campaign_p2_streaming.py": "9ac365a4661688e6a328ec2f28dcc9f64cc77d5ef41148a327ff06a11c6c09f4",
+    "experiments/campaign_p2_coarse_preconditioner.py": "463cba181d9c6a97de0c31a77cfe1f655adc72999d5f1f6bbe5f82567df39628",
+    "experiments/campaign_p2_block_preconditioner.py": "39c44377a3f5fdb9207106cc828e655d6c005c617459ae1c67c4110475cc47bb",
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336",
+    "experiments/campaign_p2_jacobian_certificate.py": "ca63e9b1c11c0125ca2171e8d3572807de00d143b66657f5b9f02ae2b510b8cc",
+    "experiments/campaign_block_surface_controls.py": "c0ffbd4dd2ecd1cba6b8e293fddc264dcb2c9a07c81304b9b6c4a0313539064e",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b"
+  },
+  "cells": [
+    4,
+    2,
+    2
+  ],
+  "supports": [
+    "right_face",
+    "both_ends",
+    "bottom_face",
+    "separated_bottom_patches"
+  ],
+  "material": {
+    "E_Pa": 100000.0,
+    "nu": 0.35,
+    "rho_kg_m3": 625.0
+  },
+  "gravity_m_s2": 9.81,
+  "known_surface_pattern": "transverse_end",
+  "constant_reference_force_N": [
+    0,
+    0,
+    -0.12
+  ],
+  "solvers": [
+    "Independent NumPy/SciPy sparse full Newton",
+    "Torch FP64 streamed P2/support-matched coarse preconditioner on CPU"
+  ],
+  "original_force_tolerance_N": 1e-10,
+  "allnode_parity_tolerance_m": 1e-08,
+  "CPU_threads": 2,
+  "wall_cap_s": 300,
+  "limits": [
+    "96 tetrahedra implementation parity ONLY, not spatially resolved truth",
+    "Same original stable polynomial NH/full consistent body loading",
+    "No GPU allocations and no learned model or cohort admission",
+    "Hard support patches remain as geometrically declared; no support inference"
+  ]
+}

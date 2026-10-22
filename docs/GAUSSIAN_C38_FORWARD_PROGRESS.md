@@ -34,9 +34,12 @@ quadrature qualification remains separate.
 The high-order impact integrator completes two accuracy settings on the same
 96-tet model and finite compliant plane. Their position difference is only
 0.154 µm, and both energy checks pass. Their maximum nodal velocity difference
-is **0.516 mm/s, failing the unchanged 0.1 mm/s gate**. A third accuracy setting
-is running. These contact trajectories remain unqualified; surface-quadrature
-and spatial refinement must follow a successful temporal comparison.
+is **0.516 mm/s, failing the unchanged 0.1 mm/s gate**. A subsequent third
+accuracy setting completes the next comparison: position difference 4.292 nm,
+maximum nodal velocity difference 0.02475 mm/s, and pair energy difference
+13.20 nJ. All unchanged temporal gates pass for this fixed mesh, Q8 surface
+rule and finite compliant plane. The earlier failed pair remains. Contact
+surface-quadrature and spatial refinement are still required.
 
 Separately, a fixed learned-posterior control has been frozen for the validated
 small logarithmic-NH spring-bar family: 4,096 training objects, 256 development,
@@ -44,7 +47,37 @@ small logarithmic-NH spring-bar family: 4,096 training objects, 256 development,
 decisions and predictions must freeze before test labels; development and
 calibration gates must pass before any test release. This is an ideal endpoint
 sensor experiment, not RGB-D inference or dynamic forecasting. Training and
-validation are ongoing; no learned-model result is claimed here.
+validation were subsequently completed: all three learned posteriors failed
+the joint and field-prediction gates in both development and calibration.
+All 32 continuous reference cases passed numerical checks, identifying a
+learned approximation error. The test set remains closed. The [complete learned
+control report](GAUSSIAN_C38_LEARNED_POSTERIOR.md) retains every seed.
+
+The exact80 bulk rule has also been used to correct the 165,888-tet bending
+equilibrium from its frozen Q3 field. One Newton step reduces the exact80 free
+residual from 4.83e-8 to 1.06e-12 N. The maximum all-node change is 1.20e-9 m;
+the maximum change at the 63 comparison queries is 1.03e-10 m. This is a
+quadrature-continuation check, not an independent basin test. The previous
+spatial failure and unconverged clamp-edge peak strain of 61.6% remain.
+
+Four new 96-tet gravity controls use right-face, both-end, bottom-face and two
+separated bottom-patch supports. Independent sparse CPU and streamed CPU
+solutions agree to 1.22e-15 m, with original residuals below 2.4e-12 N and
+positive whole-element Jacobian bounds. They use E=100,000 Pa, density 625 kg/m³
+and gravity 9.81 m/s². The both-end case has 0.404 mm nonrigid coordinate RMS and
+2.32% peak strain on the coarse mesh. Subsequent exact80 refinement through
+2,592, 6,144, 12,000 and 20,736 tetrahedra passes the conditional spatial
+indicator at **14.238 µm**. The fine field has 0.436 mm nonrigid coordinate RMS,
+4.53% peak strain and whole-element Jacobian lower bound 0.9690. Its separate
+96-tet independent sparse CPU/GPU exact80 comparison differs by 9.63e-16 m.
+This qualifies the declared static displacement indicator for one gravity
+case; it does not admit a varied or dynamic training cohort.
+
+An additional geometry control rejects a node mask when triangles cross the
+declared edges of finite support patches. It checks the complete fixed area
+and straight quadratic reference edges. It preserves the supplied mesh and
+mask; a plausible set of fixed nodes alone does not prove the intended
+continuous boundary condition.
 
 ## Checked forward results
 
