@@ -1,0 +1,65 @@
+{
+  "schema": "geometry-only-surface-quadrature-diagnostic-protocol-v0.1",
+  "status": "FROZEN_BEFORE_REFERENCE_AND_FAMILY_ASSEMBLY",
+  "source_sha256": {
+    "experiments/campaign_nonlinear_excitation.py": "fbee8a3590887e05547106d035216d70e9b86b1ba2d264a5b805be039c472a3d",
+    "experiments/campaign_nonlinear_gaussian_reference.py": "af86fbe7fc7c2cc6c827441835e647750068b27167afb0d9337135e385294c74",
+    "experiments/campaign_nonlinear_fem.py": "468daaafa9d02c9db27553e2cfb154190248500677c212d9dde25bffdf14e1ff",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "experiments/campaign_boundary_gaussians.py": "d58b849f4c4399049e64182acb3fa84dc34fe040768c3b88a48d84fd55950362",
+    "experiments/campaign_compliant_gaussian_linear.py": "5937a41fe8058e8ba8f6d3388591ab18a78989ad72f18f9af1a39c7ff85bf383",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7",
+    "experiments/campaign_quality_tet_refinement.py": "84fe93cceaf9528e3d3981fb685055069781c09484613f1617d28bbbd9bd8bc5",
+    "experiments/campaign_consistent_surface_gaussians.py": "d391b7c36c56dd405fed80631f50aa8603fb630e4b9170317ac8285f601d63cc",
+    "experiments/diagnose_nonlinear_surface_quadrature.py": "a83dcc1e99e00410d3a815c504feca4a0a2564267242cb6ea41b05e142b6160b"
+  },
+  "choices": {
+    "families": [
+      "old_fixed_diagonal",
+      "new_shortest_diagonal"
+    ],
+    "levels": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "tetrahedra": [
+      2,
+      16,
+      128,
+      1024,
+      8192
+    ],
+    "independent_reference": "AdaptiveGaussKronrod21 cubature ofunnormalizedGaussian[1,X,XXT] on original6boundarytriangles",
+    "reference_rtol": 1e-11,
+    "reference_atol": 1e-15,
+    "consistent_assembly_orders": [
+      8,
+      16
+    ],
+    "positive_Duffy_product_rule": true,
+    "old_rule": "Frozen vertexareaGaussian weights and diagonalfixture",
+    "topology": [
+      "Positivevolumes",
+      "Multiplicity1boundary/2interior",
+      "Opposite-side sharedfaces",
+      "Originalboundaryplanesandareas",
+      "Closededgeincidence2/Euler2/onecomponent",
+      "No duplicatecoordinatevertices"
+    ],
+    "quality": [
+      "hmaxand5/50/95percentiles",
+      "RestDmcondition",
+      "Permutationinvariantmeanratio",
+      "3inradius/circumradius"
+    ],
+    "force": "Same1N balancedpair along prescribedGaussian-center axis; restcentroidmomentcomparison only",
+    "new_dynamics": 0
+  },
+  "CPU_threads": 2,
+  "GPU_used": false,
+  "wall_cap_s": 120,
+  "cohort_or_response_reads": false
+}

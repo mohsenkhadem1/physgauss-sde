@@ -9,6 +9,15 @@ unresolved despite sparse-solver parity. A separate conditional E/K numerical
 posterior passes independent integration/MCMC/high-particle checks with fixture
 center/width fixed; the original 4D marginal remains unvalidated.
 [Integrated current report](runs/gaussian-campaign-v01/mechanics-priority-v01/REPORT.md).
+The [load/mesh repair follow-up](docs/GAUSSIAN_LOAD_MESH_REPAIR.md) corrects
+surface integration and rest-force alignment. Central tension reaches about
+5.3–5.4% strain but misses the unchanged 1 mm bulk-deformation target, so finer
+runs stop. Better-shaped meshes alone also fail. An independent nonlinear
+bar benchmark passes analytical/static finite-element checks. Its [nonlinear
+E/K posterior](docs/GAUSSIAN_NONLINEAR_BAR_INVERSE.md) passes independent integration,
+eight-chain and six-SMC-run checks after a preserved numerical repair; both
+90% parameter intervals miss this one noisy truth. This does not establish
+calibration or qualify localized Gaussian dynamics.
 
 **Latest prediction study: [sealed rotation-aware 32-object study](runs/gaussian-campaign-v01/point-rotation-analysis-v02/REPORT.md).**
 Extra depth views reduce future RMSE from **0.756 to 0.373 mm**; random views

@@ -1,0 +1,75 @@
+{
+  "schema": "fixed-physical-probe-interpretation-v0.1",
+  "completed": true,
+  "new_physics_calls": 0,
+  "source": {
+    "path": "experiments/diagnose_nonlinear_physical_probes.py",
+    "sha256": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b"
+  },
+  "protocol": {
+    "path": "runs/operator-dev/nonlinear-physical-probes-v01/protocol.json",
+    "sha256": "b42cca22108d0c9f187769f5a8a6952b0ed1386553e4771a49df81b7146c164f"
+  },
+  "summary": {
+    "path": "runs/gaussian-campaign-v01/nonlinear-physical-probes-v01/summary.json",
+    "sha256": "953122936bb884fbd96b0fd31516a46ab1bc04fa70ab451418aaafa9d9a1a139"
+  },
+  "tests": "3 passed in1.42s;affine/rigidinterpolation,weightedproperregistration,knownuniformtetinertia",
+  "findings": [
+    "Oldcornerfailedgateexactlyreproducedandunchanged",
+    "Fixedinteriorandsurfaceprobescontractasmeshresolutionincreases;global380umplateauisnotarepresentativewholevolumenorm",
+    "Mostfinestinterior/surfaceweightederrorisrigidremovable,whereascornererrorisnot",
+    "MassCOMandexactconsistenttetinertiaaremesh-invariant;nodelumpedinertiapriorhasquantifiedmeshdependenterror",
+    "ProbequadratureandrigidregistrationarePOSTHOCdiagnostics,notnewaccuracyadmissionmetrics",
+    "Thesecontributionscannotbesummedintoacausalerrorattributionwithoutmatchedcontrols"
+  ],
+  "quantitative": {
+    "oldcorner_RMS_um": [
+      381.1690403545919,
+      380.34170613381156
+    ],
+    "volume_RMS_um": [
+      115.35823046412241,
+      49.50793366271588
+    ],
+    "volume_registered_RMS_um": [
+      30.42898765888361,
+      18.267972427557137
+    ],
+    "surface_RMS_um": [
+      107.67722333663443,
+      45.38145245113213
+    ],
+    "surface_registered_RMS_um": [
+      30.4272149129591,
+      13.349652178507942
+    ],
+    "finest_corner_registered_RMS_um": 377.6647877546,
+    "finest_registered_volume_max_error_um": 163.25198063767144,
+    "lumped_inertia_relative_Frobenius_error": [
+      0.23387782535921645,
+      0.06665823147289716,
+      0.019121076229511157
+    ]
+  },
+  "next_matched_control": "Newqualityrefinementat128/1024/8192usingSAMEOLDlumpedGaussianlaws/1Ncompression/240Hz;onlymeshfamilychanges,alloldfailedgatesretained",
+  "subsequent_load_design_proposal_NOT_EXECUTED": {
+    "ordering": "Onlyafterqualitymeshmatchedcontrol;separateprospectiveprotocol",
+    "known_rest_geometry_only_centroid_alignment": "Useaccuratepublicsurfacequadratureforactualnormalizedloadcentroids,fixtheworldforceaxisbetweenthembeforephysics;axisdoesnotdependonmaterial/support/responses",
+    "signs": {
+      "compression": "(+axis,-axis),theoriginalsign",
+      "tension": "(-axis,+axis)"
+    },
+    "possible_bounded_menu": "2signs x2knownloadwidthfactors{1,1.5} x2pulse durations{.2,.8}s =8fixed1Ndesigncandidates;notauthorizedhere",
+    "fixture": "Keepfixturegeometry/complianceunchangedwhilebroadeningKNOWNloadfootprintonly",
+    "moments": "Restcentroidalignmentdoesnotmakeactualdeformedworldmomentzero;recordallendpoints",
+    "admission": "Do notrelax2\u20138%/1mmorcircumventmesh/time/noisegates;retainallfailures;noinverse/networkuntilqualified"
+  },
+  "limits": [
+    "64volumeprobesarefinitevolume-stratifiedMonteCarloquadrature,sixsurfacepointsarefacecentroidquadrature",
+    "Best-rigidregisterederrorsareNOTthephysicalforecastgate",
+    "No rendereddepthorBayesianinferenceperformed",
+    "No revisedloadlawhasbeensimulated",
+    "Nativeagentindependentmeshquality/Gaussianquadratureauditmustbeconsideredseparately"
+  ]
+}

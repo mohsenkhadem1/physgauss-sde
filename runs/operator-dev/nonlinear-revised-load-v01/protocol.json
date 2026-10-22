@@ -1,0 +1,175 @@
+{
+  "schema": "prospective-consistent-central-tension-v0.1",
+  "status": "FROZEN_BEFORE_ANY_SCREEN_DYNAMICS",
+  "CPU_threads": 2,
+  "physical_parameters": {
+    "young_Pa": 5000.0,
+    "poisson": 0.35,
+    "density_kg_m3": 625.0,
+    "fixture_scale": 2.0,
+    "fixture_geometry_widths_K_D": "UNCHANGED",
+    "load_std_scale": 1.5,
+    "gravity": [
+      0,
+      0,
+      0
+    ],
+    "contact": "Unsupported",
+    "mass": "Originallumpedvolumemass",
+    "force_N_per_patch": 1.0,
+    "worldforce": "Fixedrest-centroidalignedcentralTENSION(-axis,+axis),notfollowerforce",
+    "load_and_fixture_quadrature": "NEWconsistentpositiveGaussiansurfaceP1load/Gram"
+  },
+  "model_readiness": {
+    "path": "runs/operator-dev/consistent-nonlinear-gaussian-v01/readiness.json",
+    "sha256": "b4800e1cda73e612e70738e0ab7f7880274d59065121f58cffd8f6eca083d90f"
+  },
+  "canonical_load_definition": {
+    "centroids_material_m": [
+      [
+        0.031024844093615663,
+        0.036899856225220774,
+        0.028429950770182236
+      ],
+      [
+        0.06285400247374388,
+        0.0592023675776174,
+        0.06296845628112457
+      ]
+    ],
+    "axis_world": [
+      0.6121664761156601,
+      0.4289415893462637,
+      0.6642750322338152
+    ],
+    "normalizers_m2": [
+      0.01817987735646963,
+      0.01247391971183348
+    ],
+    "adaptive_checks": [
+      {
+        "status": "converged",
+        "subdivisions": 0,
+        "max_raw_error_estimate": 1.3984513959168499e-18
+      },
+      {
+        "status": "converged",
+        "subdivisions": 0,
+        "max_raw_error_estimate": 8.663876500990611e-17
+      },
+      {
+        "status": "converged",
+        "subdivisions": 0,
+        "max_raw_error_estimate": 1.6119036986249335e-17
+      },
+      {
+        "status": "converged",
+        "subdivisions": 0,
+        "max_raw_error_estimate": 2.5754206167856453e-16
+      },
+      {
+        "status": "converged",
+        "subdivisions": 0,
+        "max_raw_error_estimate": 7.42326440083868e-16
+      },
+      {
+        "status": "converged",
+        "subdivisions": 0,
+        "max_raw_error_estimate": 1.2923994827888224e-15
+      }
+    ],
+    "load_std_scale": 1.5,
+    "law": "rest-central tension; fixed world dead loads"
+  },
+  "peak_world_force_pairs_N": [
+    [
+      -0.6121664761156601,
+      -0.4289415893462637,
+      -0.6642750322338152
+    ],
+    [
+      0.6121664761156601,
+      0.4289415893462637,
+      0.6642750322338152
+    ]
+  ],
+  "screen": {
+    "tetrahedra": 128,
+    "mesh_level": 2,
+    "hz": 240,
+    "durations_s": [
+      0.4,
+      0.8
+    ],
+    "hard_wall_cap_s": 300,
+    "minimum_J": 0.1,
+    "selection": "Completeand2\u20138%peakabsoluteprincipalstretchstrainand>=1mmnonrigidRMS;closest5%strain,tie64epsstrainwindowthenshorterT;otherwiseNONEandSTOP"
+  },
+  "fine": {
+    "tetrahedra": [
+      1024,
+      8192
+    ],
+    "mesh_levels": [
+      3,
+      4
+    ],
+    "hz": 240,
+    "hard_wall_cap_s": 600,
+    "reuse_selected128_screen": true,
+    "admission": "Onlyeligiblepredeclaredscreenandrecordedcostforecast<=600s",
+    "costforecast": "2xpriorold8192perstep *selectedstepcount +2xprior1024cost +30ssetup;screenmeasuredcostalsoreported"
+  },
+  "geometry_only_prior_runtime_evidence": {
+    "path": "runs/gaussian-campaign-v01/nonlinear-resolution-v02/summary.json",
+    "sha256": "7ed5c2898eff97124ad7aa6a76901979e4b1555d58933e3d3e1d4de0495889f5"
+  },
+  "old_gate_preserved": {
+    "nodes": [
+      1,
+      4
+    ],
+    "full_trajectory_tolerance": "max2um,10%finehelddisplacementRMS",
+    "original_noise_query_times_s": [
+      0.05,
+      0.1,
+      0.15,
+      0.2
+    ],
+    "additional_drive_fraction_times": [
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "noise_threshold_maxcoordinate_m": [
+      2e-06,
+      2e-05
+    ],
+    "depthscale": "Coordinateproxy,NOTrenderedranges"
+  },
+  "fixed_probe_protocol": {
+    "path": "runs/operator-dev/nonlinear-physical-probes-v01/protocol.json",
+    "sha256": "b42cca22108d0c9f187769f5a8a6952b0ed1386553e4771a49df81b7146c164f"
+  },
+  "source_sha256": {
+    "experiments/run_campaign_revised_gaussian_loads.py": "5429f3b62ddaa74027fa3c9d4a53bdf0ca59c203ecc948db0fb816f17d9a89e5",
+    "experiments/campaign_consistent_nonlinear_gaussian.py": "116b6a09c0bab9deefef1fe165fef9a79e297f50bbe95be91250f4eb46fb6c36",
+    "experiments/campaign_consistent_surface_gaussians.py": "d391b7c36c56dd405fed80631f50aa8603fb630e4b9170317ac8285f601d63cc",
+    "experiments/diagnose_nonlinear_surface_quadrature.py": "a83dcc1e99e00410d3a815c504feca4a0a2564267242cb6ea41b05e142b6160b",
+    "experiments/campaign_quality_tet_refinement.py": "84fe93cceaf9528e3d3981fb685055069781c09484613f1617d28bbbd9bd8bc5",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/campaign_nonlinear_excitation.py": "fbee8a3590887e05547106d035216d70e9b86b1ba2d264a5b805be039c472a3d",
+    "experiments/campaign_compliant_gaussian_linear.py": "5937a41fe8058e8ba8f6d3388591ab18a78989ad72f18f9af1a39c7ff85bf383",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "experiments/campaign_boundary_gaussians.py": "d58b849f4c4399049e64182acb3fa84dc34fe040768c3b88a48d84fd55950362"
+  },
+  "limits": [
+    "No amplitudesearchorretry",
+    "Allfailedscreensretained",
+    "Noautomaticfineifneithereligible",
+    "Onlyspatialchecks;timequalificationNOTRUNinthisstage",
+    "Noinverseorneuraltrainingevenifspatialgatepasses",
+    "Alloldcompression/meshandnoisegatesremainfailedhistoricalevidence"
+  ]
+}

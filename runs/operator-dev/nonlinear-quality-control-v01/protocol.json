@@ -1,0 +1,77 @@
+{
+  "schema": "prospective-quality-mesh-only-control-v0.1",
+  "status": "FROZEN_BEFORE_NEW_DYNAMIC_CALLS",
+  "CPU_threads": 2,
+  "wall_cap_s": 300,
+  "cases": [
+    {
+      "level": 2,
+      "tets": 128,
+      "hz": 240
+    },
+    {
+      "level": 3,
+      "tets": 1024,
+      "hz": 240
+    },
+    {
+      "level": 4,
+      "tets": 8192,
+      "hz": 240
+    }
+  ],
+  "unchanged_physics": {
+    "young_Pa": 5000.0,
+    "poisson": 0.35,
+    "density_kg_m3": 625.0,
+    "fixture_scale": 2.0,
+    "Gaussian_vertex_lumped_fixture_load_quadrature": "UNCHANGED",
+    "force": "OriginalCOMPRESSION balanced_axial,1Nperpatch,sin\u00b20.2s,fixedworlddirections",
+    "damping": "OriginalunscaledD",
+    "duration_s": 0.2,
+    "gravity": [
+      0,
+      0,
+      0
+    ],
+    "contact": "Unsupported",
+    "minimum_J": 0.1
+  },
+  "only_intervention": "Shortestcentral-octahedral-diagonalrefinementwithstablepublicgeometryties;original5verticespreserved",
+  "old_captures": {
+    "128": {
+      "path": "runs/gaussian-campaign-v01/nonlinear-resolution-v02/mesh128-hz240.npz",
+      "sha256": "c38f36dd355664045584684735d4f2e04649d249bd0acb3b4874a3f70497fc7f"
+    },
+    "1024": {
+      "path": "runs/gaussian-campaign-v01/nonlinear-resolution-v02/mesh1024-hz240.npz",
+      "sha256": "4d9472060ffef8b39e0ad3d7130e156270147a266e42b42275139633229f21e8"
+    },
+    "8192": {
+      "path": "runs/gaussian-campaign-v01/nonlinear-resolution-v02/mesh8192-hz240.npz",
+      "sha256": "fb4549bd73e6f91efc9f8bd99e22c8f9bd4e8b2e884557e108e128d62079e4ae"
+    }
+  },
+  "fixed_probe_protocol": {
+    "path": "runs/operator-dev/nonlinear-physical-probes-v01/protocol.json",
+    "sha256": "b42cca22108d0c9f187769f5a8a6952b0ed1386553e4771a49df81b7146c164f"
+  },
+  "metrics": [
+    "Originalnodes1/4fulltrajectory10%/2umgateunchanged",
+    "Sparsequery2um/20umnoisechecksunchanged",
+    "Fixedphysical64volume+6surfaceprobes,rawsame-countoldvsnew",
+    "Exactmass/inertia,oldlumpedGaussianloadandfixturecentroids,resultants/moments",
+    "All2\u20138%/1mmexcitationfailuresretained"
+  ],
+  "no_temporal_inverse_or_training": true,
+  "source_sha256": {
+    "experiments/run_campaign_quality_mesh_control.py": "c2ab573fbce327243123b7d0d239dfa22f6992b7f7f97f48bd5e73bd225f05c3",
+    "experiments/campaign_quality_tet_refinement.py": "84fe93cceaf9528e3d3981fb685055069781c09484613f1617d28bbbd9bd8bc5",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/run_campaign_nonlinear_resolution.py": "dda4342d2cd527a5eee522e6869efa5055bc24f33d8cfeeac7b12eaac681a469",
+    "experiments/campaign_nonlinear_excitation.py": "fbee8a3590887e05547106d035216d70e9b86b1ba2d264a5b805be039c472a3d",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "experiments/campaign_boundary_gaussians.py": "d58b849f4c4399049e64182acb3fa84dc34fe040768c3b88a48d84fd55950362",
+    "experiments/campaign_compliant_gaussian_linear.py": "5937a41fe8058e8ba8f6d3388591ab18a78989ad72f18f9af1a39c7ff85bf383"
+  }
+}

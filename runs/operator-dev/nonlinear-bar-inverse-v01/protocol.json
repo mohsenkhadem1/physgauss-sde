@@ -1,0 +1,182 @@
+{
+  "schema": "nonlinear-homogeneous-bar-inverse-v0.1",
+  "status": "FROZEN_BEFORE_OBSERVATION_GENERATION",
+  "CPU_threads": 2,
+  "wall_cap_s": 300,
+  "prior": {
+    "intrinsic": "NormalizedUNIFORMlogE/logK",
+    "physical_bounds": [
+      [
+        4500.0,
+        9000.0
+      ],
+      [
+        100.0,
+        400.0
+      ]
+    ]
+  },
+  "truth_E_K": [
+    6000.0,
+    220.0
+  ],
+  "known_support": "Fullyconsistentfiniteleftaxialspring, knownlocation/direction/law; no unknownGaussianpatch",
+  "observation": {
+    "known_forces_N": [
+      1.0,
+      3.0
+    ],
+    "raw_channels": [
+      "left1",
+      "right1",
+      "left3",
+      "right3"
+    ],
+    "independent_Gaussian_sigma_m": 0.0002,
+    "seed": 2026121300,
+    "no_extra_difference_channels": true,
+    "truth_from_independent_nested_brent": true
+  },
+  "held_target": {
+    "force_N": 2.0,
+    "type": "FORCEINTERPOLATION; not a futureforecast",
+    "channels": [
+      "left2",
+      "right2"
+    ],
+    "truth_scored_only_after_posterior_arrays_frozen": true
+  },
+  "forward_verification": {
+    "pretruth_plus_prior_points": 9,
+    "prior_points": "4corners+4fixeduniformseed2026121299",
+    "forces": [
+      1.0,
+      3.0
+    ],
+    "meshes": [
+      48,
+      384
+    ],
+    "preFEMcells": 36,
+    "posterior_points": "Cartesian5/50/95%quantiles E/K, afterposteriorfreeze",
+    "post_forces": [
+      1.0,
+      2.0,
+      3.0
+    ],
+    "post_meshes": [
+      48,
+      384
+    ],
+    "post_plus_heldtruth_cells": 56,
+    "maximum_full_position_error_m": 2e-09,
+    "maximum_centerline_prediction_error_m": 2e-09,
+    "maximum_free_force_residual_N": 1e-08,
+    "vectorroot_original_force_residual_N": 1e-12,
+    "vector_vs_brent_prior_and_zero_parity_tests": 4
+  },
+  "adaptive": {
+    "algorithm": "IndependentadaptiveGK21productcubature",
+    "tolerances": [
+      [
+        1e-06,
+        1e-13
+      ],
+      [
+        1e-08,
+        1e-15
+      ]
+    ],
+    "max_subdivisions": 512,
+    "quantile_probabilities": [
+      0.001,
+      0.05,
+      0.25,
+      0.5,
+      0.75,
+      0.95,
+      0.999
+    ],
+    "quantile_bisections": 18,
+    "CDF_knots": "0+65equallyspacedbetweenreference.001/.999quantiles+1; secondtolerancereusesfirstgrid",
+    "maximum_CDF_tolerance_difference": 0.0002,
+    "maximum_unit_quantile_difference": 0.0001,
+    "maximum_held_mean_std_difference_m": 1e-07
+  },
+  "SMC": {
+    "counts": [
+      8192,
+      32768
+    ],
+    "seeds": [
+      2026121301,
+      2026121302,
+      2026121303
+    ],
+    "ess_fraction": 0.8,
+    "rejuvenation_steps": 12,
+    "proposal_scale": 0.03,
+    "independence_probability": 0.25,
+    "max_stages": 64,
+    "all6and15pairsrequired": true,
+    "pre_resampling_ESS_fraction_min": 0.8,
+    "temperature_reaches1": true,
+    "resampling_or_priorfailures_fatal": true,
+    "final_uniformESS_NOT_convergence": true
+  },
+  "MCMC": {
+    "chains": 8,
+    "all_initial_states_independent_prior": true,
+    "seed": 2026121310,
+    "warmup": 1000,
+    "draws": 4000,
+    "no_thinning": true,
+    "pilot": "LastfixedSMC32768seed2026121303, neverbestseedselected",
+    "exact_MH_correction": true,
+    "no_adaptation_or_warmup_extension": true
+  },
+  "numeric_gates": {
+    "maximum_CDF_difference": 0.05,
+    "maximum_unit_quantile_difference": 0.01,
+    "held_mean_and_std_max_error_m": "max(2e-6,.03*reference_latent_std) eachchannel",
+    "rank_folded_split_Rhat_less_than": 1.01,
+    "bulk_tail_ESS_at_least": 400,
+    "no_frozen_chain": true,
+    "monitored": "Bothintrinsicparameters+loglikelihood and bothphysicalparameters+heldlatentdisplacements",
+    "SMC_vs_reference_and_MCMC_and_all15pairs": true
+  },
+  "no_scientific_retuning_no_population_calibration": true,
+  "all_attempts_preserved_no_retry": true,
+  "benchmark_protocol": {
+    "path": "runs/operator-dev/static-uniaxial-consistent-v02/protocol.json",
+    "sha256": "472baa1da5f02c765542484c61c06c5c65ffe20d5d6b6027957b663115141664"
+  },
+  "benchmark_result": {
+    "path": "runs/gaussian-campaign-v01/static-uniaxial-consistent-v02/summary.json",
+    "sha256": "08cde85b5797b6fe9bdaafd2e79f36602a7e8b86129bd30c2103a56e39c46b0b"
+  },
+  "source_sha256": {
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/run_static_uniaxial_bar.py": "b4560ee2acc85182ebf7947aadc236c5b6d236385f43555575d20a09596e5a0a",
+    "tests/test_campaign_static_uniaxial_bar.py": "ada1f2ecf4efec78344a827d8385e357aa336398ef1b91f667c544c6c25a187d",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_nonlinear_excitation.py": "fbee8a3590887e05547106d035216d70e9b86b1ba2d264a5b805be039c472a3d",
+    "experiments/campaign_nonlinear_gaussian_reference.py": "af86fbe7fc7c2cc6c827441835e647750068b27167afb0d9337135e385294c74",
+    "experiments/campaign_boundary_gaussians.py": "d58b849f4c4399049e64182acb3fa84dc34fe040768c3b88a48d84fd55950362",
+    "experiments/campaign_compliant_gaussian_linear.py": "5937a41fe8058e8ba8f6d3388591ab18a78989ad72f18f9af1a39c7ff85bf383",
+    "experiments/campaign_nonlinear_fem.py": "468daaafa9d02c9db27553e2cfb154190248500677c212d9dde25bffdf14e1ff",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7",
+    "experiments/campaign_static_uniaxial_consistent.py": "ca4b5d7a291bb5c376e2675e61f22be7f41678439b49618682e770ebc2839537",
+    "experiments/run_static_uniaxial_consistent.py": "ffdae7a7afa7b4cb946a9d08000bc7eea9cc6672c464b00843ccfac87a58b346",
+    "tests/test_campaign_static_uniaxial_consistent.py": "71d69e76c36716310a4629fe461e4abda11b77b176e7477e8bdc7e0db3e8365c",
+    "experiments/campaign_nonlinear_bar_inverse.py": "21187d0a8e4c5fd2692d46e51083bcee7efd96eb947ca9d6014806ff9fbda495",
+    "experiments/run_nonlinear_bar_inverse.py": "4d1d6365537ba4e68252078b381f31525a39b0595ebae738f75293395cf09441",
+    "tests/test_campaign_nonlinear_bar_inverse.py": "212207dbc73352a25533c71d5a6c527eddbeb67193c611a9900a69c83a1724fe",
+    "experiments/campaign_tempered_reference.py": "e878ef5d973c99bcee0fbb62024c4b4a86733bd323537b2927ed391ba5a1589b",
+    "experiments/campaign_compliant_continuous_reference.py": "51354e607961d333016812601dcae4917c61127331035b99368678128f126611",
+    "src/physgauss/chain_diagnostics.py": "094fe3f7c5eee9c0c387613238a2320917d7af20fcbee35310dbf6e744b50f39"
+  },
+  "scope": "New nonlinear homogeneousSTATIC two-parameter inverse with knownsupportlaw; not original4D rescue/Gaussianinference/Isaac/populationcoverage"
+}

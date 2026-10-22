@@ -1,0 +1,88 @@
+{
+  "schema": "independent-root-review-v0.1",
+  "stage": "completed diagnostics and homogeneous static benchmarks",
+  "pytest": {
+    "tests": 21,
+    "passed": 21,
+    "elapsed_s": 3.78,
+    "exit_code": 0,
+    "session_id": 16062,
+    "test_files": [
+      "tests/test_campaign_consistent_surface_gaussians.py",
+      "tests/test_campaign_quality_tet_refinement.py",
+      "tests/test_campaign_quality_mesh_control.py",
+      "tests/test_campaign_static_uniaxial_bar.py",
+      "tests/test_campaign_static_uniaxial_consistent.py",
+      "tests/test_diagnose_nonlinear_physical_probes.py"
+    ]
+  },
+  "review_findings": [
+    "Parent nonlinear step hardcodes lumped damping potential and spring work; new consistent model must replace those coherently, not just K/C. Agent notified before dynamics.",
+    "Vectorized homogeneous-bar lateral LambertW equation and axial Newton derivative independently checked algebraically; likelihood counts four acquired raw observations only.",
+    "Quality-mesh-only matched failure preserved; no claim poor element shapes fully explain failed convergence.",
+    "Rest-central known dead force has no zero dynamic torque guarantee.",
+    "New consistent model step reviewed: both original hardcoded diagonal quadratics replaced coherently; optimizer and stationarity semantics preserved.",
+    "Revised runner hardcap swallowing was fixed and tested BEFORE protocolfreeze; partial capture retained and secondcase not launched after timeout.",
+    "Nonlinear inverse runner reviewed BEFORE freeze: proper loguniform prior, four raw channels, independent adaptive integrals, exact MH corrections, preregistered CDF/quantile/heldmoments gates."
+  ],
+  "additional_independent_pytest": [
+    {
+      "files": [
+        "tests/test_campaign_consistent_nonlinear_gaussian.py",
+        "tests/test_campaign_nonlinear_bar_inverse.py"
+      ],
+      "passed": 10,
+      "elapsed_s": 1.73,
+      "session_id": 69390,
+      "exit_code": 0
+    },
+    {
+      "files": [
+        "tests/test_campaign_revised_gaussian_loads.py"
+      ],
+      "passed": 3,
+      "elapsed_s": 1.24,
+      "session_id": 51643,
+      "exit_code": 0
+    },
+    {
+      "files": [
+        "tests/test_campaign_nonlinear_bar_inverse.py::test_preregistered_numeric_comparison_rejects_CDF_and_held_errors"
+      ],
+      "passed": 1,
+      "elapsed_s": 1.63,
+      "session_id": 41690,
+      "exit_code": 0
+    },
+    {
+      "files": [
+        "tests/test_campaign_centered_cubature.py"
+      ],
+      "passed": 3,
+      "elapsed_s": 0.4,
+      "exit_code": 0
+    }
+  ],
+  "unique_current_test_cases_checked": 38,
+  "local_scientific_figure": {
+    "path": "runs/gaussian-campaign-v01/nonlinear-revised-load-v01/load-screen-summary.png",
+    "sha256": "db9b33cee49de61f85144d0a602b2c1caa0b3d22d1c6a4a94c66ec48f008570a",
+    "source": "experiments/plot_load_mesh_repair.py",
+    "render_exit_code": 0,
+    "session_id": 12921,
+    "root_visually_inspected": true,
+    "raw_png_uploaded": false
+  },
+  "nonlinear_inverse_terminal_review": {
+    "result": "runs/gaussian-campaign-v01/nonlinear-bar-inverse-v02/summary.json",
+    "sha256": "4311ae7c02379856353a540397ccba067f949284f12ee09beee0e1cb58bf5b2e",
+    "protocol": "runs/operator-dev/nonlinear-bar-inverse-v02/protocol.json",
+    "protocol_sha256": "04e9baeb0116f2007536f83c3befb2dd920a71d7a48b2fc11fc1d749feb14d74",
+    "source_pins_verified": 24,
+    "unchanged_observation_SHA": "2fdbd5fac00313d5565c7e62308184974833c32bb87cbb4f679529b09158f74a",
+    "all_six_SMC_and_15pairs_and_eight_prior_started_chains_pass": true,
+    "raw_array_hashes_verified": 7,
+    "single_truth_90_interval_misses_explicitly_noted": true,
+    "calibration_claim": false
+  }
+}
