@@ -1,0 +1,113 @@
+{
+  "schema": "Completed-fixed96-Q8-Warp-backend-bridge-result-v0.3",
+  "completed": true,
+  "backend_qualified": true,
+  "source_summary": {
+    "path": "runs/gaussian-campaign-v01/p2-warp-96-bridge-v03/summary.json",
+    "bytes": 3404,
+    "sha256": "3d64abf80f921be2821799bb843cc6bff2469e06e7964bf44df9186b0d8bda55"
+  },
+  "protocol": {
+    "path": "runs/operator-dev/p2-warp-96-bridge-v03/protocol.json",
+    "sha256": "1481c3fb2b1a09799fc87adb401d4c6b0e371a0144d31d89c6205755a162d8c1"
+  },
+  "cases": [
+    {
+      "name": "accuracy3",
+      "rtol": 1e-10,
+      "displacement_atol_m": 1e-13,
+      "velocity_atol_m_s": 1e-11,
+      "impulse_atol_Ns": 1e-13,
+      "completed": true,
+      "passed": true,
+      "elapsed_s": 1706.696954892017,
+      "nfev": 708875,
+      "accepted_steps": 25606,
+      "rhs_calls": 708875,
+      "maximum_masssolve_R_N": 2.1495574755327946e-13,
+      "minimum_RHS_J": 0.9253218084744361,
+      "minimum_accepted_J": 0.9253218704375596,
+      "maximum_accepted_analytic_face_penetration_m": 0.00016554946271857415,
+      "maximum_accepted_energy_balance_error_J": 2.6100360761560637e-09,
+      "maximum_accepted_momentum_balance_error_Ns": 4.679858123819668e-15,
+      "maximum_output_energy_balance_error_J": 1.7295437859665697e-09,
+      "maximum_output_momentum_balance_error_Ns": 3.1154928631584053e-15,
+      "capture": {
+        "path": "runs/gaussian-campaign-v01/p2-contact-dop853-v03/accuracy3.npz",
+        "sha256": "eeaecbe60ae6a18640e2068afe35314b9c4fcc450e7f7ca05cfc7103cef3696d"
+      },
+      "imported": true
+    },
+    {
+      "name": "warp_bridge",
+      "rtol": 1e-10,
+      "displacement_atol_m": 1e-13,
+      "velocity_atol_m_s": 1e-11,
+      "impulse_atol_Ns": 1e-13,
+      "completed": true,
+      "passed": true,
+      "elapsed_s": 888.6721390108578,
+      "nfev": 707411,
+      "accepted_steps": 25613,
+      "rhs_calls": 707411,
+      "maximum_masssolve_R_N": 2.0727393270354633e-13,
+      "minimum_RHS_J": 0.9253218385010918,
+      "minimum_accepted_J": 0.9253218570548247,
+      "maximum_accepted_analytic_face_penetration_m": 0.00016554940834009044,
+      "maximum_accepted_energy_balance_error_J": 2.6803168573508174e-09,
+      "maximum_accepted_momentum_balance_error_Ns": 1.0216454849182952e-14,
+      "maximum_output_energy_balance_error_J": 2.27384538975528e-09,
+      "maximum_output_momentum_balance_error_Ns": 4.461280830194122e-15,
+      "capture": {
+        "path": "runs/gaussian-campaign-v01/p2-warp-96-bridge-v03/warp_bridge.npz",
+        "sha256": "9795eb9f7b6dbe006a8809c1850e5b11e46e69b91d1813b409dba33bd1ddd407"
+      }
+    }
+  ],
+  "accuracy_pair": {
+    "maximum_allnode_position_difference_m": 1.2024776530061212e-09,
+    "maximum_allnode_velocity_difference_m_s": 3.3957440256950603e-06,
+    "maximum_output_energy_difference_J": 5.657724289065413e-10,
+    "passed": true
+  },
+  "elapsed_s": 891.8741406425834,
+  "backend": "Warpforce+sameTorchfullMCholesky",
+  "versions": {
+    "torch": "2.14.1+cu130",
+    "scipy": "1.18.1",
+    "numpy": "2.5.4",
+    "warp": "1.18.0"
+  },
+  "own_compute_records": [
+    "2233492, GPU-c49707f6-24fd-38e4-3973-3543ec644ceb, 182 MiB"
+  ],
+  "terminal": {
+    "checked_UTC": "2026-10-22T22:05:43.941478+00:00",
+    "session_reaped_exit_code": 0,
+    "pids": {
+      "controller_pid": 2233469,
+      "worker_pid": 2233492
+    },
+    "pids_absent": {
+      "controller_pid": true,
+      "worker_pid": true
+    },
+    "execution": {
+      "path": "runs/operator-dev/p2-warp-96-bridge-v03/execution.json",
+      "bytes": 378,
+      "sha256": "4b3a44251176d79dce0a45dcdd027e4f8fc1057717ee0a0b59fdeb95101540f4"
+    }
+  },
+  "resource_envelope": {
+    "path": "runs/operator-dev/p2-warp-96-bridge-v03/resource-envelope.json",
+    "bytes": 951,
+    "sha256": "20f5eac6a9f2b85971e31cc480a26b079e9b61ba0df004679265249d2903eb35"
+  },
+  "scope": "Only96tet/Q8/tightaccuracy backend implementation bridge; noQ16/spatial/hardfloor qualification",
+  "nonclaims": [
+    "AuxiliarymomentumusesidenticalRKquadrature;consistencychecknotindependenttimeaccuracy",
+    "Semidiscretefixedmesh/fixedQ/fixedkappa referenceonly",
+    "No hard-floor, friction, continuum spatial or Q qualificationfromtoleranceagreement",
+    "Two adaptive tolerances are numericalchecks, notrigorouserrorbounds"
+  ]
+}

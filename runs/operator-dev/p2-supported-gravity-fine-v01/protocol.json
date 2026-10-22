@@ -1,0 +1,688 @@
+{
+  "CPU_affinity_cores": [
+    0,
+    1
+  ],
+  "CPU_threads": 2,
+  "cases": [
+    {
+      "cells": [
+        20,
+        10,
+        10
+      ],
+      "config": {
+        "id": "coarse",
+        "max_step_s": 0.0001,
+        "rtol": 1e-07,
+        "u_atol_m": 1e-11,
+        "v_atol_m_s": 1e-09
+      },
+      "expected_body_force": {
+        "dtype": "<f8",
+        "sha256": "3a181a884fd67479eda8dff0a61b758ca9816141b325990f254f07f6d31fca4e",
+        "shape": [
+          18081,
+          3
+        ]
+      },
+      "expected_elements": {
+        "dtype": "<i8",
+        "sha256": "6525f039298e8671555bc3b47dec0280186d9b19bbd4a26106024569bf1023ca",
+        "shape": [
+          12000,
+          10
+        ]
+      },
+      "expected_hmax_m": 0.01649242250247066,
+      "expected_rest": {
+        "dtype": "<f8",
+        "sha256": "9575c23b4095d8acd7e52250114ce6ed23e1366bb3a3bd3824beafa1231888e7",
+        "shape": [
+          18081,
+          3
+        ]
+      },
+      "id": "12000tets-coarse",
+      "nodes": 18081,
+      "tetrahedra": 12000,
+      "wall_cap_s": 1200
+    },
+    {
+      "cells": [
+        20,
+        10,
+        10
+      ],
+      "config": {
+        "id": "refined",
+        "max_step_s": 5e-05,
+        "rtol": 1e-09,
+        "u_atol_m": 1e-13,
+        "v_atol_m_s": 1e-11
+      },
+      "expected_body_force": {
+        "dtype": "<f8",
+        "sha256": "3a181a884fd67479eda8dff0a61b758ca9816141b325990f254f07f6d31fca4e",
+        "shape": [
+          18081,
+          3
+        ]
+      },
+      "expected_elements": {
+        "dtype": "<i8",
+        "sha256": "6525f039298e8671555bc3b47dec0280186d9b19bbd4a26106024569bf1023ca",
+        "shape": [
+          12000,
+          10
+        ]
+      },
+      "expected_hmax_m": 0.01649242250247066,
+      "expected_rest": {
+        "dtype": "<f8",
+        "sha256": "9575c23b4095d8acd7e52250114ce6ed23e1366bb3a3bd3824beafa1231888e7",
+        "shape": [
+          18081,
+          3
+        ]
+      },
+      "id": "12000tets-refined",
+      "nodes": 18081,
+      "tetrahedra": 12000,
+      "wall_cap_s": 2400
+    },
+    {
+      "cells": [
+        24,
+        12,
+        12
+      ],
+      "config": {
+        "id": "coarse",
+        "max_step_s": 0.0001,
+        "rtol": 1e-07,
+        "u_atol_m": 1e-11,
+        "v_atol_m_s": 1e-09
+      },
+      "expected_body_force": {
+        "dtype": "<f8",
+        "sha256": "513382145e2325ac2fceb99115e8844aec800595be619f98eecfe1540cf5eb6b",
+        "shape": [
+          30625,
+          3
+        ]
+      },
+      "expected_elements": {
+        "dtype": "<i8",
+        "sha256": "1677f8a6487664494c9ec7fc9c1402b6cd91788797abf0b73750da78e7ea035d",
+        "shape": [
+          20736,
+          10
+        ]
+      },
+      "expected_hmax_m": 0.013743685418725542,
+      "expected_rest": {
+        "dtype": "<f8",
+        "sha256": "fa5159a0c88565ecfdeab1023e5b4b53c3018ac5f9410afcd1ca6c693156fe41",
+        "shape": [
+          30625,
+          3
+        ]
+      },
+      "id": "20736tets-coarse",
+      "nodes": 30625,
+      "tetrahedra": 20736,
+      "wall_cap_s": 1800
+    },
+    {
+      "cells": [
+        24,
+        12,
+        12
+      ],
+      "config": {
+        "id": "refined",
+        "max_step_s": 5e-05,
+        "rtol": 1e-09,
+        "u_atol_m": 1e-13,
+        "v_atol_m_s": 1e-11
+      },
+      "expected_body_force": {
+        "dtype": "<f8",
+        "sha256": "513382145e2325ac2fceb99115e8844aec800595be619f98eecfe1540cf5eb6b",
+        "shape": [
+          30625,
+          3
+        ]
+      },
+      "expected_elements": {
+        "dtype": "<i8",
+        "sha256": "1677f8a6487664494c9ec7fc9c1402b6cd91788797abf0b73750da78e7ea035d",
+        "shape": [
+          20736,
+          10
+        ]
+      },
+      "expected_hmax_m": 0.013743685418725542,
+      "expected_rest": {
+        "dtype": "<f8",
+        "sha256": "fa5159a0c88565ecfdeab1023e5b4b53c3018ac5f9410afcd1ca6c693156fe41",
+        "shape": [
+          30625,
+          3
+        ]
+      },
+      "id": "20736tets-refined",
+      "nodes": 30625,
+      "tetrahedra": 20736,
+      "wall_cap_s": 3600
+    }
+  ],
+  "checkpoint_policy": {
+    "every_accepted_steps": 32,
+    "max_uncommitted_accepted_steps_bound": 32,
+    "on_final": true,
+    "on_initial": true,
+    "on_new_common_output": true
+  },
+  "cost_estimate": {
+    "adaptive_partition_unknown": true,
+    "cap_reason": "Per-casecaps allow~2xadaptiveheadroom/output/checkpoint/wholeJ; totalmaximum9000s, noretries",
+    "measured_bulk_force_ms": {
+      "tets12000": [
+        6,
+        7
+      ],
+      "tets20736": [
+        11,
+        12
+      ]
+    },
+    "measured_mass_PCG_ms": {
+      "tets12000": [
+        25,
+        29
+      ],
+      "tets20736": [
+        32,
+        36
+      ]
+    },
+    "minimum_combined_RHS_calls_approx": 72000,
+    "minimum_full_stage_s_approx": 3000
+  },
+  "durability": "Ownednewprocesspercase; stopnewcasesonfirstfailure, reap/drain; currentacceptedstate/f/h pluscomplete scalarprefix/commonstates every32accepted orcommon/final; rawallacceptedfullfieldsnotstored",
+  "gates": {
+    "accepted_partitions_must_differ": true,
+    "energy_error_J": 1e-08,
+    "fixed_u_v_a": 0,
+    "mass_physical_R_N": 1e-09,
+    "sampled_J_strictly_above": 0.1,
+    "spatial_63query_q_indicator_m": 2e-05,
+    "spatial_63query_v_indicator_m_s": 0.0001,
+    "temporal_allnode_q_m": 2e-05,
+    "temporal_allnode_v_m_s": 0.0001,
+    "whole_Bernstein_at_common_strictly_above": 0.0
+  },
+  "gpu_uuid": "GPU-5b432ce5-a24a-68ba-150f-682265260a9b",
+  "mass_solver": {
+    "absolute_tolerance_N": 1e-12,
+    "max_iterations": 256,
+    "relative_tolerance": 1e-11,
+    "true_residual_every": 8
+  },
+  "material_probes_m": [
+    [
+      0.0,
+      -0.04,
+      -0.04
+    ],
+    [
+      0.0,
+      -0.04,
+      0.0
+    ],
+    [
+      0.0,
+      -0.04,
+      0.04
+    ],
+    [
+      0.0,
+      0.0,
+      -0.04
+    ],
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.04
+    ],
+    [
+      0.0,
+      0.04,
+      -0.04
+    ],
+    [
+      0.0,
+      0.04,
+      0.0
+    ],
+    [
+      0.0,
+      0.04,
+      0.04
+    ],
+    [
+      0.04,
+      -0.04,
+      -0.04
+    ],
+    [
+      0.04,
+      -0.04,
+      0.0
+    ],
+    [
+      0.04,
+      -0.04,
+      0.04
+    ],
+    [
+      0.04,
+      0.0,
+      -0.04
+    ],
+    [
+      0.04,
+      0.0,
+      0.0
+    ],
+    [
+      0.04,
+      0.0,
+      0.04
+    ],
+    [
+      0.04,
+      0.04,
+      -0.04
+    ],
+    [
+      0.04,
+      0.04,
+      0.0
+    ],
+    [
+      0.04,
+      0.04,
+      0.04
+    ],
+    [
+      0.08,
+      -0.04,
+      -0.04
+    ],
+    [
+      0.08,
+      -0.04,
+      0.0
+    ],
+    [
+      0.08,
+      -0.04,
+      0.04
+    ],
+    [
+      0.08,
+      0.0,
+      -0.04
+    ],
+    [
+      0.08,
+      0.0,
+      0.0
+    ],
+    [
+      0.08,
+      0.0,
+      0.04
+    ],
+    [
+      0.08,
+      0.04,
+      -0.04
+    ],
+    [
+      0.08,
+      0.04,
+      0.0
+    ],
+    [
+      0.08,
+      0.04,
+      0.04
+    ],
+    [
+      0.12,
+      -0.04,
+      -0.04
+    ],
+    [
+      0.12,
+      -0.04,
+      0.0
+    ],
+    [
+      0.12,
+      -0.04,
+      0.04
+    ],
+    [
+      0.12,
+      0.0,
+      -0.04
+    ],
+    [
+      0.12,
+      0.0,
+      0.0
+    ],
+    [
+      0.12,
+      0.0,
+      0.04
+    ],
+    [
+      0.12,
+      0.04,
+      -0.04
+    ],
+    [
+      0.12,
+      0.04,
+      0.0
+    ],
+    [
+      0.12,
+      0.04,
+      0.04
+    ],
+    [
+      0.16,
+      -0.04,
+      -0.04
+    ],
+    [
+      0.16,
+      -0.04,
+      0.0
+    ],
+    [
+      0.16,
+      -0.04,
+      0.04
+    ],
+    [
+      0.16,
+      0.0,
+      -0.04
+    ],
+    [
+      0.16,
+      0.0,
+      0.0
+    ],
+    [
+      0.16,
+      0.0,
+      0.04
+    ],
+    [
+      0.16,
+      0.04,
+      -0.04
+    ],
+    [
+      0.16,
+      0.04,
+      0.0
+    ],
+    [
+      0.16,
+      0.04,
+      0.04
+    ],
+    [
+      0.2,
+      -0.04,
+      -0.04
+    ],
+    [
+      0.2,
+      -0.04,
+      0.0
+    ],
+    [
+      0.2,
+      -0.04,
+      0.04
+    ],
+    [
+      0.2,
+      0.0,
+      -0.04
+    ],
+    [
+      0.2,
+      0.0,
+      0.0
+    ],
+    [
+      0.2,
+      0.0,
+      0.04
+    ],
+    [
+      0.2,
+      0.04,
+      -0.04
+    ],
+    [
+      0.2,
+      0.04,
+      0.0
+    ],
+    [
+      0.2,
+      0.04,
+      0.04
+    ],
+    [
+      0.24,
+      -0.04,
+      -0.04
+    ],
+    [
+      0.24,
+      -0.04,
+      0.0
+    ],
+    [
+      0.24,
+      -0.04,
+      0.04
+    ],
+    [
+      0.24,
+      0.0,
+      -0.04
+    ],
+    [
+      0.24,
+      0.0,
+      0.0
+    ],
+    [
+      0.24,
+      0.0,
+      0.04
+    ],
+    [
+      0.24,
+      0.04,
+      -0.04
+    ],
+    [
+      0.24,
+      0.04,
+      0.0
+    ],
+    [
+      0.24,
+      0.04,
+      0.04
+    ]
+  ],
+  "nonclaims": [
+    "No inheritedstaticspaceorcontinuumdynamicqualification",
+    "No contact/materialpopulation/image/inference/policy admission",
+    "No claim of isolatedtime-stepconvergenceorder",
+    "No actualobservation/truth/modelselection inputs; allfouroutcomesplannedbeforecalls"
+  ],
+  "outputs_s": [
+    0.0,
+    0.004166666666666667,
+    0.008333333333333333,
+    0.0125,
+    0.016666666666666666,
+    0.020833333333333332,
+    0.025,
+    0.029166666666666667,
+    0.03333333333333333,
+    0.0375,
+    0.041666666666666664,
+    0.04583333333333333,
+    0.05,
+    0.05416666666666667,
+    0.058333333333333334,
+    0.0625,
+    0.06666666666666667,
+    0.07083333333333333,
+    0.075,
+    0.07916666666666666,
+    0.08333333333333333,
+    0.0875,
+    0.09166666666666666,
+    0.09583333333333333,
+    0.1
+  ],
+  "physics": {
+    "E_Pa": 100000.0,
+    "body_force_only": true,
+    "gravity_m_s2": 9.81,
+    "initial_u_v": "zero fresh REST everycase",
+    "law": "unchanged polynomialstableNH, Keast24degree6exactbulk, original80+10Jguards",
+    "mass": "unchangedfullanalyticT10consistentCSR; strictGPUFP64PCG, diagonalPRECONDITIONERonly",
+    "no_contact_or_damping": true,
+    "nu": 0.35,
+    "rho_kg_m3": 625.0,
+    "support": "both_ends",
+    "surface_force_N": 0.0
+  },
+  "prerequisite_evidence": [
+    {
+      "path": "runs/gaussian-campaign-v01/p2-supported-gravity-parity-v01/summary.json",
+      "sha256": "ba13532800314ffacbfc3b613f7fbd9d18ed5815a27c36c1fd8d306cb2eb36b7"
+    },
+    {
+      "path": "runs/operator-dev/p2-supported-gravity-parity-v01/execution.json",
+      "sha256": "3f9fc2fddd1dce75683babe6851b56b06879361b11cd826bd88365da4eb05cf3"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/p2-supported-gravity-capacity-v01/summary.json",
+      "sha256": "f48bd63c4b7757b63cfe35d6cde767ee75936e8d92db1fce5c0ddb6b0d873420"
+    },
+    {
+      "path": "runs/operator-dev/p2-supported-gravity-capacity-v01/execution.json",
+      "sha256": "a7c1a4ccad8412456b1e6c0a6ca26c1d23c7067a94c2ac2e791aea0078084387"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/p2-supported-mass-pcg-v01/summary.json",
+      "sha256": "01636656be2de0ca67669cbb70cdb579208e1e75bad77738364ff6a33141437f"
+    },
+    {
+      "path": "runs/operator-dev/p2-supported-mass-pcg-v01/execution.json",
+      "sha256": "479b47dcdf25384158fee6bc443eb2e1bfe60fa847d401cee373f2e739c27700"
+    }
+  ],
+  "resource_limits": {
+    "disk_bytes": 32212254720,
+    "disk_free_reserve_bytes": 32212254720,
+    "gpu_bytes": 8589934592,
+    "rss_bytes": 12884901888
+  },
+  "runtime_source_sha256": {
+    "scipy": {
+      "integrate/_ivp/base.py": "1c271e13de494edf6926b5757e5f8dacf764e26a1c3cc0f01cb9d0a59e9a6549",
+      "integrate/_ivp/common.py": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+      "integrate/_ivp/dop853_coefficients.py": "3ab62f5b41eee97eec3a1dfb154e7c80d9200bbeca56961c95ec2ffc04463001",
+      "integrate/_ivp/rk.py": "2a6b9eec1914e8b1dd57d2214f0f6f17900319dac9ae94a47577879211f0250b",
+      "sparse/linalg/_dsolve/linsolve.py": "deb673200c3b01093c849450a342df52cd80d7d1536914e3c0257e36b16f3cfc"
+    },
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "warp": "1.18.0"
+    },
+    "warp": {
+      "warp/__init__.py": "81e043b02787e0e703b8b05ec8ab356d138f7749f08af4ce30c72a0cb2ac2ef9",
+      "warp/_src/codegen.py": "6d79ba57bdb3ea61005e327a2ad645983a53ea2201a03c81084fbc336aadf628",
+      "warp/_src/context.py": "b970a8d8397a1bf63459f1f6b6fc62f4ff33af66d25f05cc79d92ee264949fd5",
+      "warp/_src/types.py": "85ebad67c2d3a5235a159beed3bd6dcb28685c59218663f433963c70c2307f67",
+      "warp/bin/warp.so": "a6eaa36473fb5485ce00f169d68cb2aef605d9a94d51af5b239bed6f548455f2",
+      "warp/config.py": "8d1474e4a7a90bb33143e71f0471fbf32229bd90f7c32becc3a7f40ff30e9f8c"
+    }
+  },
+  "schema": "supported-pure-gravity-fine-joint-space-time-v0.1",
+  "source_sha256": {
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_block_surface_controls.py": "c0ffbd4dd2ecd1cba6b8e293fddc264dcb2c9a07c81304b9b6c4a0313539064e",
+    "experiments/campaign_c38_static_family.py": "b5fd3c6af2169cd68df22739d331d2b47f7c3add2b275301e9ab999c7974601a",
+    "experiments/campaign_consistent_mass_pcg.py": "33665c437387215a732799476254eb7173607340c80a073771aa02e140638e37",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_owned_gpu_budget_v02.py": "60c6a64dd6412e8317306a99f6e33fc854f638c2721fc5521aceffd534f44821",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336",
+    "experiments/campaign_p2_exact_quadrature.py": "6ae75c317b99d2f4ae657442b0c1bfc03c84f1a8a63b069dbd86f5743d9a849a",
+    "experiments/campaign_p2_geometry.py": "fdae2efcbf0c0abff1d4bb11ccaca8182479c423b80805014b781a510ffa77da",
+    "experiments/campaign_p2_jacobian_certificate.py": "ca63e9b1c11c0125ca2171e8d3572807de00d143b66657f5b9f02ae2b510b8cc",
+    "experiments/campaign_p2_keast_quadrature.py": "4ddf8e6dd5bf7203885f6aa179def256f6c3d20a730958ac150ba546a6a8ed7f",
+    "experiments/campaign_p2_warp_rhs.py": "4b61488a1ad75edfcc2596b6eaaf79d7aa24b237e91ed79b0cc24c518f0d2bd6",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/campaign_stable_transient.py": "198c69875bb0672f9966a2eae3706fee34c6af03e4ba41ac7f552c26652175d6",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/campaign_supported_gravity_dop.py": "37caab89374eb7987e33326d675790119e68f0543c018c9a79e3627015b11cb0",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "experiments/run_p2_supported_gravity_fine.py": "e67030f25018625c14fa5e3ca8c6e5cdbf65757c7418389c42768b6f3eb0878c",
+    "experiments/run_p2_supported_gravity_parity.py": "b0c924489f54d806f4f703e07ce14fe501c7b9f2fcb317a14cc0f4a715c73f46",
+    "tests/test_run_p2_supported_gravity_fine.py": "8ce372bd56511d845a379c534bf559f6aa944b9b7e1654d15669ca43b831c0e3"
+  },
+  "spatial_metric": "Max vector discrepancy at all25x63materialqueries, dividedby(actualhcoarse/hfine-1); conditionalp>=1engineeringindicator NOT rigorousbound",
+  "status": "FROZEN_BEFORE_FINE_TRAJECTORIES_REQUIRES_ROOT_REVIEW",
+  "taskset": {
+    "path": "/usr/bin/taskset",
+    "sha256": "a431738fadddc2e2326c8ab81843e72f4011658379381aef1502a6ddb1c1115b"
+  },
+  "temporal_metric": "Same-mesh ALLnodes/25clocks; JOINTtolerance+step-caprefinement, no isolatedorderclaim; byteidenticalacceptedpartitions mean agreementONLY",
+  "torch_runtime": {
+    "CUDA_version": "13.0",
+    "version": "2.14.1+cu130"
+  },
+  "total_per_case_caps_s": 9000
+}

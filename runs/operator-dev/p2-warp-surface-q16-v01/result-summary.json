@@ -1,0 +1,69 @@
+{
+  "completed": true,
+  "passed": false,
+  "surface_quadrature_qualified": false,
+  "protocol": {
+    "path": "runs/operator-dev/p2-warp-surface-q16-v01/protocol.json",
+    "sha256": "6b63e572eb283702d04f3b0f25dc379676a4719c17b55ea603a53e1e1f7c8483"
+  },
+  "execution": {
+    "path": "runs/operator-dev/p2-warp-surface-q16-v01/execution.json",
+    "sha256": "21f6a10bb0ef69f9da31ba29a36f98e4b4928795e8aee205c8569da1d7d5f2ec"
+  },
+  "full_summary": {
+    "path": "runs/gaussian-campaign-v01/p2-warp-surface-q16-v01/summary.json",
+    "sha256": "e57d8b0d105e2b075fee9238b5aebaa9a4c531709d711863e8fcf86064066627"
+  },
+  "role": "Fixed96P2/fullM/stableNH/finitecompliantfloor; ONLYsurfaceQ8toQ16, SAMEWarpbackend/numerics; negative convergence evidence",
+  "unchanged_gates": {
+    "allnode_q_m": 2e-05,
+    "fixedquery_q_m": 2e-05,
+    "allnode_v_m_s": 0.0001
+  },
+  "energy_tolerance_J": 4.708800000000001e-07,
+  "pair": {
+    "maximum_allnode_position_difference_m": 0.00012170974061720916,
+    "maximum_allnode_velocity_difference_m_s": 0.308994834420772,
+    "maximum_output_energy_difference_J": 1.5256143015562884e-09,
+    "passed": false,
+    "maximum_fixedquery_position_difference_m": 0.00011019174604500538
+  },
+  "Q16": {
+    "accepted_steps": 29566,
+    "RHS_calls": 552551,
+    "integration_elapsed_s": 737.0121550238691,
+    "maximum_accepted_energy_error_J": 1.4987507346297946e-09,
+    "maximum_accepted_P_error_Ns": 7.773122446690546e-15,
+    "minimum_RHS_J": 0.9252619378954965,
+    "minimum_accepted_J": 0.9252619379794133,
+    "maximum_masssolve_R_N": 1.9994694494088055e-13,
+    "maximum_analytic_face_penetration_m": 0.0001667103308470655,
+    "conservation_passed": true,
+    "capture": {
+      "path": "runs/gaussian-campaign-v01/p2-warp-surface-q16-v01/surface_Q16.npz",
+      "sha256": "ac850acac4f8906c0b046b813952d07e198736569418f6edc04823b8cbe7f408"
+    }
+  },
+  "Q8": {
+    "imported_without_rerun": true,
+    "capture": {
+      "path": "runs/gaussian-campaign-v01/p2-warp-96-bridge-v03/warp_bridge.npz",
+      "sha256": "9795eb9f7b6dbe006a8809c1850e5b11e46e69b91d1813b409dba33bd1ddd407"
+    },
+    "accepted_steps": 25613,
+    "integration_elapsed_s": 888.6721390108578
+  },
+  "controller_elapsed_s": 743.2329656672664,
+  "terminal": true,
+  "all_owned_PIDs_gone": true,
+  "physical_GPU1_released": true,
+  "case_JSON_cached_by_SHA": "b1227103be5f755fef7d322aa10c6f24866d292ea414ede666723c2206eaf00e",
+  "limitations": [
+    "Both finitecompliantpenalty laws use kappa1e9; no hardfloor/friction/nonpenetration claim.",
+    "Q8toQ16 has not stabilized under declared field/velocity gates; Q16 is not independently established as exact contact solution.",
+    "Same adaptive solver tolerance does not prove Q16 temporal error; conservation alone does not prove physical field accuracy.",
+    "No automaticQ32, newtrajectory, spatial/dataset/training admission, or threshold relaxation.",
+    "Auxiliary momentum shares RKquadrature and is an algebraic consistency check, not independent temporal proof.",
+    "All earlier capped/negative phases remain unchanged."
+  ]
+}

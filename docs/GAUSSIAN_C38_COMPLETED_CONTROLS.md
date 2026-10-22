@@ -1,0 +1,20 @@
+# C38 completed controls and remaining gates
+
+Two selected supported-gravity cases now pass the conditional 32→40 displacement indicator. The broader 14-case family, peak stress, contact convergence and a training dataset remain unqualified. Fine gravity trajectories are active; this checkpoint includes their frozen preparation only and no live outcomes.
+
+| Selected static case, E = 75 kPa and extra downward 2 N |24→32 indicator|32→40 indicator|
+|---|---:|---:|
+|Separated bottom patches|22.564 µm — FAIL|13.381 µm — PASS|
+|Both ends fixed|9.845 µm — PASS|5.504 µm — PASS|
+
+All four new solves passed the unchanged original residual, quadrature, actual force/moment, exact support and positive-J checks. The original 63 material probes and 20 µm threshold were retained. These indicators assume convergence order at least one; they are not rigorous error bounds. Sampled peak strains increase to **61.27% / 18.49%**, despite volume-99th-percentile strains of 2.42% / 3.26%. Displacement convergence does not establish converged peak stress, moderate local strain or realistic material behavior. All earlier failures remain. See the [completed report](../runs/operator-dev/c38-static-graded-refinement-v03/REPORT.md).
+
+One original full graded-pilot case JSON was accidentally overwritten during unlaunched metadata preparation. Its exact bytes were not recovered. Original raw captures survived their preincident hashes, and a separately identified read-only revalidation reproduced all six accepted fields' physical metrics. The new continuation uses that explicit derived provenance; it does not reconstruct the lost report. The [incident receipt](../runs/operator-dev/c38-static-graded-refinement-v01/incident-receipt.json) remains part of the record. New completed case JSONs have external copies verified by content hash.
+
+The completed 96-tet Q8 contact backend bridge agrees with the independent Torch reference to 1.202 nm in position and 3.396 µm/s in velocity. This validates the backend comparison on that case. It does not validate surface quadrature or continuum contact. The subsequent **Q8→Q16 comparison failed**: maximum node difference **121.710 µm**, fixed-query difference 110.192 µm and velocity difference **0.308995 m/s**, against 20 µm / 20 µm / 0.0001 m/s gates. Conservation and positive-J checks passed, showing why they cannot substitute for field accuracy. Q16 is not an exact contact reference or a hard-contact limit. See the [negative contact report](../runs/operator-dev/p2-warp-surface-q16-v01/REPORT.md).
+
+Completed capacity controls at 12,000 and 20,736 tetrahedra passed without an ODE, Newton or equilibrium solve. Exact consistent-mass GPU PCG also passed all five RHS controls on three meshes; independent residuals were at most 6.83e-13 N. It was about 1.6–2.9 times faster than CPU LU for the fine mass solves, while the tiny mesh favored CPU LU. These are numerical solver controls, not trajectory speed or accuracy results. The full physical mass was unchanged. See the [mass-solver report](../runs/gaussian-campaign-v01/p2-supported-mass-pcg-v01/REPORT.md).
+
+The new bulk Hessian-vector kernel and Torch/Warp adapter have manufactured CPU parity checks only. They have no GPU speed or production-integration claim in this checkpoint. Fine supported-gravity trajectory preparation is included; live gravity outputs have not been inspected for this publication bundle. No new observations, cohort, neural training or probing comparison is admitted by these controls. Raw fields, checkpoints and media remain local.
+
+A separate [read-only separation diagnostic](../runs/operator-dev/c38-supported-separation-v02/summary.json) compares nine ideal top material points at the existing finite material endpoints. Downward loading gives greater endpoint separation than upward loading in these selected corners. The minimum over four cross-support endpoint pairs is **not** a minimum or lower bound over continuous E. Some source meshes failed their spatial gate; those fields remain unqualified. No observations, additional solve, posterior, sensor validation or dataset admission follows from this diagnostic.

@@ -1,0 +1,21 @@
+{
+  "role": "Immutable source/preparation only; no Q16 physical trajectory result",
+  "configuration_guard": {
+    "command": "OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 .venv/bin/python -m pytest -q tests/test_run_p2_warp_surface_q16.py",
+    "result": "1 passed in1.77s"
+  },
+  "separate_CPU_control": {
+    "command": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 /usr/bin/taskset --cpu-list 34,35 .venv/bin/python -m pytest -q -s tests/test_p2_warp_q16_prelaunch.py",
+    "result": "1 passed in6.27s",
+    "receipt": {
+      "path": "runs/operator-dev/p2-warp-surface-q16-v01/prelaunch-Q16-CPU-control.json",
+      "bytes": 1438,
+      "sha256": "6aeff772f1f631bc1d871971841aa55154346b42e57162974944d5e37dfacc59"
+    }
+  },
+  "unchanged_runtime_protocol": {
+    "path": "runs/operator-dev/p2-warp-surface-q16-v01/protocol.json",
+    "bytes": 11942,
+    "sha256": "6b63e572eb283702d04f3b0f25dc379676a4719c17b55ea603a53e1e1f7c8483"
+  }
+}

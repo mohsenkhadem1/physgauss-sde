@@ -1,0 +1,71 @@
+{
+  "completed": true,
+  "passed": true,
+  "role": "SOURCE_AND_MANUFACTURED_CPU_ONLY; prospective elastic CG-HVP kernel; no GPU calls/interop/solver integration",
+  "source_sha256": {
+    "experiments/campaign_p2_warp_bulk_hvp.py": "7e812664f2d6b6cd29993776509fd7cfadec8798cd4b6b01de33226be088fd42",
+    "tests/test_campaign_p2_warp_bulk_hvp.py": "808419409b49c37284b2a86d2912aa56011ca178a3185e91a8450f5a1db02482"
+  },
+  "reference_source_sha256": {
+    "experiments/campaign_p2_streaming.py": "9ac365a4661688e6a328ec2f28dcc9f64cc77d5ef41148a327ff06a11c6c09f4",
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/campaign_p2_exact_quadrature.py": "6ae75c317b99d2f4ae657442b0c1bfc03c84f1a8a63b069dbd86f5743d9a849a",
+    "experiments/campaign_p2_keast_quadrature.py": "4ddf8e6dd5bf7203885f6aa179def256f6c3d20a730958ac150ba546a6a8ed7f"
+  },
+  "tests": {
+    "count": 3,
+    "elapsed_s": 7.37,
+    "first_CPU_JIT_s": 3.92494,
+    "log_sha256": "c14d7989e8e90858ec215d9f4e77f9c54405ae906a7b25a43e7b3ef341819d7f",
+    "command": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 /usr/bin/taskset --cpu-list 34,35 .venv/bin/python -m pytest -q -s tests/test_campaign_p2_warp_bulk_hvp.py"
+  },
+  "versions": {
+    "warp": "1.18.0",
+    "torch": "2.14.1+cu130",
+    "dtype": "float64"
+  },
+  "manufactured_geometry": {
+    "cells": [
+      1,
+      1,
+      1
+    ],
+    "tets": 6,
+    "nodes": 27,
+    "young_Pa": 4500.0,
+    "poisson": 0.35,
+    "displacement": "u=[.04X+.3YZ,-.02Y+.1XZ,.03Z+.2XY]",
+    "random_direction_seed": 19
+  },
+  "results": [
+    {
+      "rule": "Keast24",
+      "Q": 24,
+      "HVP_L2_difference_N": 2.5915376047449904e-13,
+      "gradient_FD_L2_difference_N": 1.288787787032013e-08,
+      "symmetry_error": 4.973799150320701e-14,
+      "geometry_bytes": 2064
+    },
+    {
+      "rule": "old_positive_Duffy80",
+      "Q": 80,
+      "HVP_L2_difference_N": 5.006066529981261e-13,
+      "gradient_FD_L2_difference_N": 1.1237832135456411e-08,
+      "symmetry_error": 3.552713678800501e-15,
+      "geometry_bytes": 4304
+    }
+  ],
+  "other_checks": [
+    "full energy second-direction derivative",
+    "exact zero direction",
+    "FP64/shape/positive material/quadrature input rejection"
+  ],
+  "mathematics": "dP=mu*dF+kappa*(cof:dF)*cof+(kappa*(J-1)-mu)*FULL_dcof; compatible T10 gradients recomputed inside(q,e) thread; all cross terms retained",
+  "memory": "No Q*E*10*3 stored gradients; geometry O(E*10+E*4*3+Q*4), HVP storage local_u E*10*3 and global v/output N*3. Scalarweight(Q)*volume(E), exact same quadrature.",
+  "limitations": [
+    "Caller must retain original energy/gradient/J guard/node-block/preconditioner/final residual implementations.",
+    "No GPU calls, CUDA interoperability, speed benchmark, trajectory, or production solver replacement.",
+    "FP64 atomic assembly may reorder sums; separate GPU parity required.",
+    "CPU test Warp initialization reports CUDA unavailable under deliberately empty CVD."
+  ]
+}

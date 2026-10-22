@@ -1,0 +1,67 @@
+{
+  "completed": true,
+  "passed": true,
+  "scope": "CPU-only zero-copy Torch/Warp elasticHVP and same-CG direction, noCUDAcalls or trajectory",
+  "source_sha256": {
+    "experiments/campaign_p2_torch_warp_hvp.py": "ddc731c39d5926867efcb5dd3772dd9bb8829efb2041c517bafb5c4a5b687d48",
+    "tests/test_campaign_p2_torch_warp_hvp.py": "35009e1b2e73aaa0d0a7f08f8800a70e42688390ac8ae1b4dd9d0f2f4fc99d5d",
+    "experiments/campaign_p2_warp_bulk_hvp.py": "7e812664f2d6b6cd29993776509fd7cfadec8798cd4b6b01de33226be088fd42",
+    "experiments/campaign_p2_streaming.py": "9ac365a4661688e6a328ec2f28dcc9f64cc77d5ef41148a327ff06a11c6c09f4",
+    "experiments/campaign_p2_coarse_preconditioner.py": "463cba181d9c6a97de0c31a77cfe1f655adc72999d5f1f6bbe5f82567df39628"
+  },
+  "installed_API_sha256": {
+    "warp/_src/torch.py": "b186349f80b9c459501b1b18da45eaada6112ee9f05406c9d9ffbb33ab98b199",
+    "warp/_src/context.py": "b970a8d8397a1bf63459f1f6b6fc62f4ff33af66d25f05cc79d92ee264949fd5"
+  },
+  "API_evidence": {
+    "from_torch": "aliases storage; owners retained; scalar shape/strides preserved",
+    "stream_from_torch": "Warp stream aliases current Torch CUDA stream; launch uses explicit stream",
+    "lifetime": "geometry Torchowners kept; fresh output Torch-owned; local/direction copies ifneeded remainon sameTorchstream; nohostarraycopy"
+  },
+  "tests": {
+    "passed": 2,
+    "elapsed_s": 7.56,
+    "first_CPU_JIT_s": 4.02318,
+    "CUDA_VISIBLE_DEVICES": "",
+    "CPU_cores": [
+      34,
+      35
+    ],
+    "initial_development_failure": "wp.from_torch before Warp init raised runtimeNone; fixed initialize_warp_hvp explicitlywp.init; log retainedlocal",
+    "log_sha256": "65adb012cb3624009d8c063fd92eba98052dc3e8a98811c65ff7cee6f730cad5"
+  },
+  "rows": [
+    {
+      "Q": 27,
+      "HVP_L2_error_N": 2.9656016751344277e-12,
+      "CG_direction_max_difference_m": 1.0352829704629585e-14,
+      "independent_original_HVP_true_R_N": 7.027310613186712e-11,
+      "CG_iterations_both": 43
+    },
+    {
+      "Q": 24,
+      "HVP_L2_error_N": 3.2126969004299e-12,
+      "CG_direction_max_difference_m": 2.831068712794149e-15,
+      "independent_original_HVP_true_R_N": 5.0819028882351213e-11,
+      "CG_iterations_both": 44
+    }
+  ],
+  "unchanged_inheritance_assertions": [
+    "evaluate",
+    "mass",
+    "nodal_blocks",
+    "make_preconditioner",
+    "solve"
+  ],
+  "checks": [
+    "geometry pointers exactlyaliasTorchdata_ptr",
+    "fresh output persistsunchangedafter nextHVP",
+    "zerodirectionexact",
+    "float32directionreject"
+  ],
+  "limitations": [
+    "NoCUDAinterop/runtimeparity or speedclaim yet",
+    "OriginalTorch E/g/J/blocks/mass/CG/finalR retained; elasticHVP only",
+    "LargeGPU2benchmark needs separatefrozenprotocol/rootreview/release"
+  ]
+}
