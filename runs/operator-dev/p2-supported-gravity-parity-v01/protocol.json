@@ -1,0 +1,210 @@
+{
+  "CPU_affinity_cores": [
+    0,
+    1
+  ],
+  "CPU_threads": 2,
+  "case_order": [
+    "numpy_cpu-accuracy1",
+    "warp_gpu-accuracy1",
+    "numpy_cpu-accuracy2",
+    "warp_gpu-accuracy2"
+  ],
+  "checkpoint_policy": {
+    "every_accepted_steps": 32,
+    "max_uncommitted_accepted_steps_bound": 32,
+    "on_final": true,
+    "on_initial": true,
+    "on_new_common_output": true
+  },
+  "configs": [
+    {
+      "displacement_atol_m": 1e-11,
+      "id": "accuracy1",
+      "rtol": 1e-07,
+      "velocity_atol_m_s": 1e-09
+    },
+    {
+      "displacement_atol_m": 1e-13,
+      "id": "accuracy2",
+      "rtol": 1e-09,
+      "velocity_atol_m_s": 1e-11
+    }
+  ],
+  "durability": "Current accepted y/f/h and all scalar prefix/common25states; commits every32accepted or newcommon or final; slots alternate by commit generation",
+  "gates": {
+    "accuracy_refinement_position_m": 2e-05,
+    "accuracy_refinement_velocity_m_s": 0.0001,
+    "common_whole_Bernstein_lower_strictly_above": 0.0,
+    "energy_absolute_J": 1e-08,
+    "mass_residual_N": 1e-09,
+    "same_accuracy_position_m": 1e-08,
+    "same_accuracy_velocity_m_s": 1e-05,
+    "same_state_energy_J": 1e-12,
+    "same_state_gradient_L2_N": 1e-10,
+    "same_state_mass_weighted_acceleration_L2_N": 1e-10,
+    "sampled_J_strictly_above": 0.1
+  },
+  "gpu_uuid": "GPU-5b432ce5-a24a-68ba-150f-682265260a9b",
+  "maximum_step_s": 0.0001,
+  "model": {
+    "CPU_actual_body_load": {
+      "dtype": "<f8",
+      "sha256": "546da058e978fa7652d9fa187c9be13bc784e34b87cd52c62d24c0d225150999",
+      "shape": [
+        225,
+        3
+      ]
+    },
+    "CPU_quad_points": 80,
+    "GPU_actual_body_load": {
+      "dtype": "<f8",
+      "sha256": "a23447c4d74dc302078f63208274fac4b30615995a1aba1e6d5b1386de9d7af3",
+      "shape": [
+        225,
+        3
+      ]
+    },
+    "GPU_additional_J_guards": 90,
+    "GPU_quad_points": 24,
+    "cells": [
+      4,
+      2,
+      2
+    ],
+    "constant_body_force_only": true,
+    "density_kg_m3": 625.0,
+    "elements": {
+      "dtype": "<i8",
+      "sha256": "436e01c9c42cca8dbbe08f57725ad74d5823b261c6fdd5d00fdfce0813eabefc",
+      "shape": [
+        96,
+        10
+      ]
+    },
+    "fixed_mask": {
+      "dtype": "|b1",
+      "sha256": "c3c5da539ddf2e1aa291cc9644b58bbb49446de98634139e3d8f064acb79a64c",
+      "shape": [
+        225,
+        3
+      ]
+    },
+    "gravity_m_s2": 9.81,
+    "independent_load_max_difference_N": 5.551115123125783e-17,
+    "initial_displacement_velocity": "exact zero",
+    "nodes": 225,
+    "physical_law": "unchanged polynomial stable Neo-Hookean; no contact/damping",
+    "poisson": 0.35,
+    "rest": {
+      "dtype": "<f8",
+      "sha256": "08488c049b0bbb63d5ce97e553a944f8a32f89d2f21f7274b755b08e53e446b4",
+      "shape": [
+        225,
+        3
+      ]
+    },
+    "support": "both_ends",
+    "surface_force_N": 0.0,
+    "tetrahedra": 96,
+    "young_Pa": 100000.0
+  },
+  "nonclaims": [
+    "No spatial or continuum dynamic qualification",
+    "No continuous-time determinant certificate",
+    "No damping/contact/inference/calibration/learned prediction claim",
+    "Shared analytic consistent-mass assembly and SciPyDOP853; independent bulk force implementations",
+    "Pure body force differs only at fixed-node reactions from historical fixed-end traction controls"
+  ],
+  "outputs_s": [
+    0.0,
+    0.004166666666666667,
+    0.008333333333333333,
+    0.0125,
+    0.016666666666666666,
+    0.020833333333333332,
+    0.025,
+    0.029166666666666667,
+    0.03333333333333333,
+    0.0375,
+    0.041666666666666664,
+    0.04583333333333333,
+    0.05,
+    0.05416666666666667,
+    0.058333333333333334,
+    0.0625,
+    0.06666666666666667,
+    0.07083333333333333,
+    0.075,
+    0.07916666666666666,
+    0.08333333333333333,
+    0.0875,
+    0.09166666666666666,
+    0.09583333333333333,
+    0.1
+  ],
+  "resource_estimate": {
+    "RHS_calls_approx": 50000,
+    "expected_wall_s": "150\u2013550 estimate; strict600s budget preserves partial outcomes; no automatic retries",
+    "minimum_steps_per_case": 1000,
+    "tiny_geometry_allocations_MB_less_than": 100,
+    "trajectories": 4
+  },
+  "resource_limits": {
+    "disk_bytes": 32212254720,
+    "disk_free_reserve_bytes": 32212254720,
+    "gpu_bytes": 8589934592,
+    "rss_bytes": 12884901888
+  },
+  "runtime_source_sha256": {
+    "scipy": {
+      "integrate/_ivp/base.py": "1c271e13de494edf6926b5757e5f8dacf764e26a1c3cc0f01cb9d0a59e9a6549",
+      "integrate/_ivp/common.py": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+      "integrate/_ivp/dop853_coefficients.py": "3ab62f5b41eee97eec3a1dfb154e7c80d9200bbeca56961c95ec2ffc04463001",
+      "integrate/_ivp/rk.py": "2a6b9eec1914e8b1dd57d2214f0f6f17900319dac9ae94a47577879211f0250b",
+      "sparse/linalg/_dsolve/linsolve.py": "deb673200c3b01093c849450a342df52cd80d7d1536914e3c0257e36b16f3cfc"
+    },
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "warp": "1.18.0"
+    },
+    "warp": {
+      "warp/__init__.py": "81e043b02787e0e703b8b05ec8ab356d138f7749f08af4ce30c72a0cb2ac2ef9",
+      "warp/_src/codegen.py": "6d79ba57bdb3ea61005e327a2ad645983a53ea2201a03c81084fbc336aadf628",
+      "warp/_src/context.py": "b970a8d8397a1bf63459f1f6b6fc62f4ff33af66d25f05cc79d92ee264949fd5",
+      "warp/_src/types.py": "85ebad67c2d3a5235a159beed3bd6dcb28685c59218663f433963c70c2307f67",
+      "warp/bin/warp.so": "a6eaa36473fb5485ce00f169d68cb2aef605d9a94d51af5b239bed6f548455f2",
+      "warp/config.py": "8d1474e4a7a90bb33143e71f0471fbf32229bd90f7c32becc3a7f40ff30e9f8c"
+    }
+  },
+  "schema": "supported-pure-gravity-tiny96-backend-parity-v0.1",
+  "source_sha256": {
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_block_surface_controls.py": "c0ffbd4dd2ecd1cba6b8e293fddc264dcb2c9a07c81304b9b6c4a0313539064e",
+    "experiments/campaign_c38_static_family.py": "b5fd3c6af2169cd68df22739d331d2b47f7c3add2b275301e9ab999c7974601a",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_owned_gpu_budget_v02.py": "60c6a64dd6412e8317306a99f6e33fc854f638c2721fc5521aceffd534f44821",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336",
+    "experiments/campaign_p2_exact_quadrature.py": "6ae75c317b99d2f4ae657442b0c1bfc03c84f1a8a63b069dbd86f5743d9a849a",
+    "experiments/campaign_p2_geometry.py": "fdae2efcbf0c0abff1d4bb11ccaca8182479c423b80805014b781a510ffa77da",
+    "experiments/campaign_p2_jacobian_certificate.py": "ca63e9b1c11c0125ca2171e8d3572807de00d143b66657f5b9f02ae2b510b8cc",
+    "experiments/campaign_p2_keast_quadrature.py": "4ddf8e6dd5bf7203885f6aa179def256f6c3d20a730958ac150ba546a6a8ed7f",
+    "experiments/campaign_p2_warp_rhs.py": "4b61488a1ad75edfcc2596b6eaaf79d7aa24b237e91ed79b0cc24c518f0d2bd6",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/campaign_stable_transient.py": "198c69875bb0672f9966a2eae3706fee34c6af03e4ba41ac7f552c26652175d6",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/campaign_supported_gravity_dop.py": "37caab89374eb7987e33326d675790119e68f0543c018c9a79e3627015b11cb0",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "experiments/run_p2_supported_gravity_parity.py": "b0c924489f54d806f4f703e07ce14fe501c7b9f2fcb317a14cc0f4a715c73f46",
+    "tests/test_run_p2_supported_gravity_parity.py": "fced94ed2ce6847972bcaf4f8b79c62898a5b5100a65f02e0825c93be22f3d76"
+  },
+  "status": "FROZEN_BEFORE_TRAJECTORIES_REQUIRES_ROOT_REVIEW",
+  "taskset": {
+    "path": "/usr/bin/taskset",
+    "sha256": "a431738fadddc2e2326c8ab81843e72f4011658379381aef1502a6ddb1c1115b"
+  },
+  "wall_cap_s": 600
+}

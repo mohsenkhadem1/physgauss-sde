@@ -1,0 +1,23 @@
+{
+  "schema": "c38-supported-grading-pure-validation-v01",
+  "completed": true,
+  "source_sha256": {
+    "experiments/campaign_c38_supported_grading.py": "e7a2d84b50f0fa31665e771e37d0258e4caab3c854190fc97731b2f3c2aa8c06",
+    "tests/test_campaign_c38_supported_grading.py": "af18304b3fa3c13f5e26d629acfbbb10069b4a1198c977545aabde4d77abb1e7"
+  },
+  "command": "env CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 .venv/bin/python -m pytest -q tests/test_campaign_c38_supported_grading.py",
+  "tests_passed": 7,
+  "seconds": 2.15,
+  "physical_solves": 0,
+  "GPU_calls": 0,
+  "scope": [
+    "same physical affine T10 geometry with rebuilt midpoints and positive volumes",
+    "public force compiler invariant to E and support",
+    "whole supported P2 trace and area",
+    "coarse compatible prolongation/restriction",
+    "consistent full mass independently checked by positive quadrature"
+  ],
+  "mechanical_accuracy_qualified": false,
+  "domain_or_dataset_admitted": false,
+  "previous_test_only_failures": "Affine gradient and assembled mass symmetry checks initially required below-roundoff tolerances; corrected to explicit float64 scale-aware bounds. No failed mechanics run."
+}

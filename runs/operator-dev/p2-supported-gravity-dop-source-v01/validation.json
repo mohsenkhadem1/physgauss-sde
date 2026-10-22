@@ -1,0 +1,60 @@
+{
+  "schema": "C38-supportedgravity-purebulk-DOP-source-validation-v0.1",
+  "status": "CPU_SOURCE_VALIDATED_NO_GPU_OR_PHYSICAL_DYNAMIC_TRAJECTORY",
+  "source": {
+    "path": "experiments/campaign_supported_gravity_dop.py",
+    "sha256": "37caab89374eb7987e33326d675790119e68f0543c018c9a79e3627015b11cb0",
+    "size_bytes": 14454
+  },
+  "tests": {
+    "path": "tests/test_campaign_supported_gravity_dop.py",
+    "sha256": "1373718b7827c97d9b342ff63a4f8e0d083efb9825a619d0c2ed6ab3aaad2fd6",
+    "size_bytes": 6311
+  },
+  "frozen_exported_kernel": {
+    "path": "experiments/campaign_p2_warp_rhs.py",
+    "sha256": "4b61488a1ad75edfcc2596b6eaaf79d7aa24b237e91ed79b0cc24c518f0d2bd6",
+    "size_bytes": 6618
+  },
+  "receipt": {
+    "path": "runs/operator-dev/p2-supported-gravity-dop-source-v01/tests.txt",
+    "sha256": "6ba375d20bd95a8959e9f7979adf579d1e693a2b727afb1405de3ab7e64cfad5",
+    "size_bytes": 98
+  },
+  "tests_passed": 4,
+  "CPU_elapsed_s": 8.35,
+  "test_environment": "Freshbasevenvpytestchild,CUDA_VISIBLE_DEVICES empty,CPU2; appends existingisolatedNewtonWarp1.18prefix; no package/venv changes",
+  "physical_control": "One96tetbothendsE100k/rho625/g9.81staticCPUexact80equilibrium+finite-fieldforce/mass/reactionparity againstKeast24WarpCPU",
+  "dynamic_control": "Independentcoupled2DOFlinearoscillatorexpmreference only,25commonoutputs,energy/clock/checkpoint integrity",
+  "API": {
+    "force": "WarpBulkP2Force(model,device=cpu)",
+    "mass_and_constraints": "SupportedBulkDynamics(model,force_backend).pack/unpack/rhs/mechanics/telemetry",
+    "integration": "streaming_dop853(rhs,telemetry,initial,outputs,rtol,atol,max_step_s,energy_tolerance_J,checkpoint)",
+    "durability": "AcceptedDOPCheckpoint(directory,metadata); read_dop_checkpoint(directory,expected_metadata)"
+  },
+  "mechanics": "ActualscalarconsistentM_ff sparseLU shared3coordinateRHS, freeequationresidual ofFULLM everyrhs<=1e-9N, exactfixedu/v/a0, retainM_cf inreactions;U+.5vMv-Fu",
+  "quadrature": "ActualKeast24 plusold80+10Jguards; no surface/contact/plane kernel launched",
+  "checkpoint_scope": "ExplicitprospectiveN-stepinterval OR newcommonoutput OR initial/final; maxuncommittedtail<=Nacceptedsteps. Commitgenerationflipsalternatingslots, neverstepcountparity. Fullscalarprefix+commonstates retained; noallacceptedfinefields.",
+  "next_prerequisites": [
+    "Rootsource/protocolreviewandinstalledruntimepin",
+    "Independent96CPUvsGPUforce/acceleration/energy/reactionparity",
+    "Paired96causaltrajectorybackendparity",
+    "Onlythenfine12k/20ktwoaccuracy prospectiveboundedstudy; staticspacepassdoesnottransfer"
+  ],
+  "GPU_calls": 0,
+  "physical_dynamic_trajectories": 0,
+  "old_sources_modified": false,
+  "checkpoint_control": "N32eveninterval testverifiesactualslotalternation,throttling,completefinalscalarprefix,partwrite/tamperguards; metadata bindsexactpolicy",
+  "prospective_policy": {
+    "every_accepted_steps": 32,
+    "on_initial": true,
+    "on_new_common_output": true,
+    "on_final": true,
+    "max_uncommitted_accepted_steps_bound": 32
+  },
+  "initial_every_step_test_receipt": {
+    "path": "runs/operator-dev/p2-supported-gravity-dop-source-v01/tests-initial-every-step.txt",
+    "sha256": "c776827b116f8c5010437ec2afcb262cd96bba49355c253ebb9fdce5f246a6c8",
+    "size_bytes": 98
+  }
+}

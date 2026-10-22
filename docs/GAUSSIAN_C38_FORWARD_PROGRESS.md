@@ -10,6 +10,7 @@ The subsequent [mechanics-control report](GAUSSIAN_C38_MECHANICS_CONTROLS.md)
 records the strict Warp/Torch trajectory pass, the capped larger cantilever,
 and the preconditioner timing tradeoff. Varied supported-block qualification
 continues separately; its preparation artifacts do not admit a dataset.
+The completed [supported-family matrix and graded pilot](GAUSSIAN_C38_SUPPORTED_FAMILY_PROGRESS.md) now record seven uniform spatial passes, seven failures and two further graded failures. No varied cohort is admitted.
 
 ## Subsequent bending and impact checks
 

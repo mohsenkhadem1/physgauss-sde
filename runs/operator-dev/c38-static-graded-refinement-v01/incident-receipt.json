@@ -1,0 +1,44 @@
+{
+  "schema": "c38-unlaunched-preparation-incident-v01",
+  "completed": true,
+  "incident": "NEW metadata preparation shadowed requested protocol path with old both-end case path and atomically replaced that old JSON. No physical job ran in this attempt.",
+  "writer_test_session": 39637,
+  "writer_exact_PID_not_recorded": true,
+  "observed_exception": "FileNotFoundError reading expected temporary protocol after prepare wrote another path",
+  "affected_path": "runs/gaussian-campaign-v01/c38-static-graded-pilot-v01/Elo__both_ends__down2/result.json",
+  "original_expected_sha256": "eddc3f42c063e4f1ecd5f0d5f3b0aaa2b890f6c9ac3dd8248a94336eded07f1b",
+  "overwritten_sha256": "e592e1cad97344373adceb1a3c96aefaa213cba8b4274b8a010dd790539c0879",
+  "overwrite_mtime_UTC": "2026-10-22T21:54:29.248469+00:00",
+  "overwritten_bytes_preserved": {
+    "path": "runs/operator-dev/c38-static-graded-refinement-v01/failed-preparation-overwrite-bytes.json",
+    "sha256": "e592e1cad97344373adceb1a3c96aefaa213cba8b4274b8a010dd790539c0879"
+  },
+  "original_full_case_JSON_recovered": false,
+  "no_semantic_reconstruction_at_original_path": true,
+  "all6_raw_capture_hashes_match_preincident_summary": true,
+  "raw_integrity_receipt": {
+    "path": "runs/operator-dev/c38-static-graded-refinement-v01/raw-integrity-check.json",
+    "sha256": "5e3e56b1ce96173c3fb2ff28fbeac667a9047311d4546f04184e915ec4c0311a"
+  },
+  "archived_unexecuted_sources": [
+    {
+      "original_path": "experiments/run_campaign_c38_static_graded_refinement.py",
+      "archived_path": "runs/operator-dev/c38-static-graded-refinement-v01/unlaunched-broken-driver.py",
+      "sha256": "e0f5ddd8562b11a70b3221aa9e482947b1688a6a8f247a11622293ce059576cf",
+      "bytes": 21826,
+      "identical_bytes": true,
+      "removed_from_automatic_discovery": true
+    },
+    {
+      "original_path": "tests/test_run_campaign_c38_static_graded_refinement.py",
+      "archived_path": "runs/operator-dev/c38-static-graded-refinement-v01/unlaunched-broken-test.py",
+      "sha256": "f375f3853b87da60fbf3aaf0d07d7559d641351f0895cd276bcdc5720f913bbc",
+      "bytes": 2383,
+      "identical_bytes": true,
+      "removed_from_automatic_discovery": true
+    }
+  ],
+  "correction": "Separate v02 source uses destination/case_path variables and exclusive protocol creation; all pure tests use temporary ROOT and intercept all writes. No actual continuation protocol or physics started.",
+  "old_physical_results_unchanged_except_full_report_JSON_loss": true,
+  "raw_local": true
+}
