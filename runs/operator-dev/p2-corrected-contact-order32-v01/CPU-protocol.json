@@ -1,0 +1,88 @@
+{
+  "schema": "CPU-root32-vs-timequalified64-fixed26state-Eg-v1",
+  "status": "FROZEN_BEFORE_TIGHT_CAPTURE_VALUES",
+  "source_sha256": {
+    "experiments/campaign_p2_warp_reference_order32.py": "458b7f8c9e40cda130f571fa6f690abf9ac96fe1ece672366cb6e3fe2410839f",
+    "tests/test_campaign_p2_warp_reference_order32.py": "ae481a9b42978dad962035447c5c57ace0313ae1ee1e9ee3c8526c663c8b7cca",
+    "experiments/diagnose_p2_corrected_contact_order32.py": "1fe148f42334be0cdc4685f6e67a3f902e55c065a10ae2908503a71ffac62a05",
+    "experiments/campaign_p2_warp_reference_force.py": "caac58845894c893c0cff0d60457c72ff766cd23dd7d1ba162cf08c9a469d39c",
+    "experiments/campaign_p2_warp_root_contact.py": "756e024da4d445620d6c986a41e8269216e43e8d2221f220a23bdae96083dc99",
+    "experiments/campaign_p2_warp_rhs.py": "4b61488a1ad75edfcc2596b6eaaf79d7aa24b237e91ed79b0cc24c518f0d2bd6",
+    "experiments/run_p2_contact_validation.py": "12b9f3e8740f3ccd8e292b9da6a50cb028d67ee6dee8b9605f42d5207cf17b1b"
+  },
+  "prior_evidence_sha256": {
+    "runs/operator-dev/p2-corrected-contact-reference-v01/protocol.json": "6ec626416e56334530a5432f2cfdb096165a5801b2976e5935cbcbee2d3063eb",
+    "runs/operator-dev/p2-corrected-contact-reference-v01/execution.json": "00e4dcbf9336765afa9411d3cd5fb9189508dcd29d416a4a62272a24c9bf247a",
+    "runs/operator-dev/p2-corrected-contact-reference-v01/terminal-verification.json": "2907d3cef6a970da0f0c3c2013bac523d368dfe160abaf1d83645fc31cd2d4c3"
+  },
+  "capture": {
+    "path": "runs/gaussian-campaign-v01/p2-corrected-contact-reference-v01/accuracy_1e10/trajectory.npz",
+    "sha256": "633ba220edf8f4d5cfb87adb7e6e7db54a74a6bd321270b4e2e454801c314d1c"
+  },
+  "selection": {
+    "all_common_output_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "accepted_nearest_uniform_requested_times_s": [
+      0.08333333333333333,
+      0.0875,
+      0.09166666666666666,
+      0.09583333333333333,
+      0.09999999999999999,
+      0.10416666666666666,
+      0.10833333333333334,
+      0.11249999999999999,
+      0.11666666666666667,
+      0.12083333333333332,
+      0.125,
+      0.12916666666666665,
+      0.13333333333333333,
+      0.1375,
+      0.14166666666666666,
+      0.14583333333333331,
+      0.15
+    ],
+    "total_rows": 26,
+    "retain_duplicate_states_with_different_labels": true,
+    "no_response_dependent_selection": true
+  },
+  "physics": {
+    "cells": [
+      4,
+      2,
+      2
+    ],
+    "E_Pa": 300000.0,
+    "nu": 0.35,
+    "rho": 625.0,
+    "kappa_N_m3": 1000000000.0,
+    "bulk": "SAMEKeast24",
+    "surface": "ONLYrootouter64to32;samefrozenroot_surfacekernel/innerGauss3/topology/sin\u00b2Jac",
+    "guards": 141,
+    "fullM_force_geometry_unchanged": true
+  },
+  "gates": {
+    "energy_J": 1e-12,
+    "contact_energy_J": 1e-12,
+    "gradient_L2_N": 1e-10
+  },
+  "CPU_affinity_cores": [
+    30,
+    31
+  ],
+  "hard_cap_s": 120,
+  "limits": [
+    "NoGPUornewtrajectory",
+    "Force/EONLY; old32to64HFAILretained,noHclaim",
+    "New32constructor explicit; frozen64sourceuntouched",
+    "CPUfixedstateparitynottrajectorysurfaceorderstability or spatialadmission"
+  ]
+}

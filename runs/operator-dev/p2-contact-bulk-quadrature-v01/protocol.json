@@ -1,0 +1,67 @@
+{
+  "schema": "CPU-fixed4state-bulkQ3-24-80-diagnostic-v1",
+  "status": "FROZEN_BEFORE_SAVED_FIELDS",
+  "source_sha256": {
+    "experiments/diagnose_p2_contact_bulk_quadrature.py": "08774e48dd37372dc405835a270c0e68a2205bc96de56f19636d629f00b48ce9",
+    "tests/test_diagnose_p2_contact_bulk_quadrature.py": "054de9edb149a1cd1eaebe8833dfaadf193e6d1d97ca8022d3d89b9079b6dd05",
+    "experiments/run_p2_contact_validation.py": "12b9f3e8740f3ccd8e292b9da6a50cb028d67ee6dee8b9605f42d5207cf17b1b",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_p2_keast_quadrature.py": "4ddf8e6dd5bf7203885f6aa179def256f6c3d20a730958ac150ba546a6a8ed7f",
+    "experiments/campaign_p2_exact_quadrature.py": "6ae75c317b99d2f4ae657442b0c1bfc03c84f1a8a63b069dbd86f5743d9a849a",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336"
+  },
+  "capture": {
+    "path": "runs/gaussian-campaign-v01/p2-warp-surface-q16-v01/surface_Q16.npz",
+    "sha256": "ac850acac4f8906c0b046b813952d07e198736569418f6edc04823b8cbe7f408"
+  },
+  "selection": {
+    "common_output_indices": [
+      2,
+      3,
+      6
+    ],
+    "accepted_nearest_time_s": 0.102
+  },
+  "physics": {
+    "cells": [
+      4,
+      2,
+      2
+    ],
+    "young_Pa": 300000.0,
+    "nu": 0.35,
+    "rho": 625.0,
+    "gravity_m_s2": [
+      0.0,
+      0.0,
+      -9.81
+    ],
+    "all_free": true,
+    "stable_NH_constant_material": true,
+    "reference_geometry_forces_fullM_unchanged": true
+  },
+  "rules": [
+    "originalDuffy3x3x3_27",
+    "positiveKeast24_degree6",
+    "positiveDuffy5x4x4_80_degree6"
+  ],
+  "checks": "UNIONoriginalQ3+old80+original10nodes+new24; eachruleintegrationJalsoreported",
+  "degree6_comparison_gates": {
+    "energy_J": 1e-12,
+    "global_gradient_L2_N": 1e-10
+  },
+  "CPU_threads": 2,
+  "CPU_affinity_cores": [
+    30,
+    31
+  ],
+  "hard_cap_s": 120,
+  "limits": [
+    "NoGPUornewtrajectory",
+    "Q3\u219224differencequantifiednotretroactivetimefailure:oldQ3timechecksvalidONLYitsdiscreteoperator",
+    "Nophysicalmaterial/force/fullMchange; quadraturebiasseparatelylabelled",
+    "Exact24/80claimonlyconstantpolynomialstableNHcompatibleP2bulkinreal-arithmetic",
+    "NoGPUoperatoradoption/surface/spatial/datasetadmission"
+  ]
+}

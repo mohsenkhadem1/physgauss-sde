@@ -1,0 +1,1 @@
+The frozen 26-state comparison FAILED the unchanged 1e-10 N force gate at accepted_uniform_5 (1.197064251e-8 N). Energy passed. All 26 retained. No GPU32 trajectory was launched. Bulk24 and all141 J arrays were unchanged. This negative is not replaced by later fixed128 evidence.

@@ -1,0 +1,32 @@
+{
+  "schema": "C38-static-ideal-export-source-controls-v01",
+  "scope": "Manufactured affine P2 fields and metadata only; no real admission, observations, roles, draws, physics or RGB-D rendering.",
+  "tests": {
+    "command": "env CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 .venv/bin/python -m pytest -q tests/test_campaign_c38_static_export.py",
+    "passed": 8,
+    "seconds": 1.89
+  },
+  "source_sha256": {
+    "experiments/campaign_c38_static_export.py": "28c6a8fcf0b0b5993781a111e9ad6f5749040664725ada90557464e6257331ed",
+    "tests/test_campaign_c38_static_export.py": "d904f01ee1d573fe887c418b09d2973c7a0da919af2a261026d2bb86048c7ea1",
+    "experiments/campaign_c38_static_study.py": "856796f8be00e62dc73157c5a8d7bd59628a24e6567f1237bb2d5d121b73296a",
+    "experiments/campaign_c38_static_data.py": "ea7e7fa436e93b4e23e6f48c5b0f0a82065010993b9d60488ea492fa80fad641",
+    "experiments/campaign_c38_data.py": "2c866f6d55fbea53cda3c4a048634fc7313a86f68ea17c705381cd537f5dae01",
+    "tests/test_campaign_c38_static_study.py": "9e01d8e97bb8244c51cfb2c1c3572c0374ebedc1a965362f11e9df0c9677c66d"
+  },
+  "controls": [
+    "Exact reviewed field/public force digest, object, load and domain binding before selected private array read",
+    "P2 shape interpolation independently matches existing P2 implementation",
+    "Only acquired rows exported; future field arrays are never opened",
+    "Future private field changes and current private constraint changes leave public prefix identical",
+    "Exact rest geometry binding; unqualified force substitution rejected",
+    "Separate private provenance, no material/support/mask/full-state/time fields in public output",
+    "Provided acquired-only measurement error realizations, SPD declared noise covariance; no random draws"
+  ],
+  "limitations": [
+    "Ideal material correspondences are not RGB-D perception",
+    "Static acquisition ledger is not time or a dynamic forecast",
+    "Trusted application boundary, not operating-system isolation",
+    "No real static domain or dataset is admitted"
+  ]
+}

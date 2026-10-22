@@ -1,0 +1,79 @@
+{
+  "schema": "GPU1same-state-root64-forceenergy-parity-v1",
+  "status": "FROZEN_PENDING_ROOT_SOURCE_REVIEW_BEFORE_GPU",
+  "source_sha256": {
+    "experiments/campaign_p2_warp_root_contact.py": "756e024da4d445620d6c986a41e8269216e43e8d2221f220a23bdae96083dc99",
+    "tests/test_campaign_p2_warp_root_contact.py": "c7742682f66d0184366f53a5c7f47efc1eb4b47d777ce54cec3b4179e233ad16",
+    "experiments/benchmark_p2_warp_root_contact.py": "2ba89134a880fe98e59830f1e067b384f913121929957acffc6d7196c9bc8f12",
+    "tests/test_benchmark_p2_warp_root_contact.py": "f262c72f5ea261aa04352d2b6dba1cc85c11622cd333b0bee83bf8e78e70fb89",
+    "experiments/campaign_owned_gpu_budget_v02.py": "60c6a64dd6412e8317306a99f6e33fc854f638c2721fc5521aceffd534f44821",
+    "tests/test_campaign_owned_gpu_budget_v02.py": "84ed05373a596a4158baa0ff1169bee3136e3735e21207d697bdc39c132045f5",
+    "experiments/benchmark_p2_warp_rhs.py": "67008692f5e934033b5f3a7213c4d3e10c6488f577388417d8dcb383c19339fc"
+  },
+  "CPU_evidence_sha256": {
+    "runs/operator-dev/p2-warp-root-contact-v01/CPU-protocol.json": "edb8dc1ce07a9a143c00914cf72cea9d413e31cb9ab9b818cf396db6cbaf92f4",
+    "runs/operator-dev/p2-warp-root-contact-v01/CPU-fixedstate-result.json": "3309a6dbb904e3c8de5452ba9fd1a3b253bfc6f2f21049c139e528485fa094f3"
+  },
+  "installed_warp_source_sha256": {
+    "warp/__init__.py": "81e043b02787e0e703b8b05ec8ab356d138f7749f08af4ce30c72a0cb2ac2ef9",
+    "warp/_src/context.py": "b970a8d8397a1bf63459f1f6b6fc62f4ff33af66d25f05cc79d92ee264949fd5",
+    "warp/_src/types.py": "85ebad67c2d3a5235a159beed3bd6dcb28685c59218663f433963c70c2307f67",
+    "warp/_src/codegen.py": "6d79ba57bdb3ea61005e327a2ad645983a53ea2201a03c81084fbc336aadf628",
+    "warp/config.py": "8d1474e4a7a90bb33143e71f0471fbf32229bd90f7c32becc3a7f40ff30e9f8c"
+  },
+  "capture": {
+    "path": "runs/gaussian-campaign-v01/p2-warp-surface-q16-v01/surface_Q16.npz",
+    "sha256": "ac850acac4f8906c0b046b813952d07e198736569418f6edc04823b8cbe7f408"
+  },
+  "selection": {
+    "common_output_indices": [
+      2,
+      3,
+      6
+    ],
+    "accepted_nearest_time_s": 0.102
+  },
+  "physics": {
+    "kappa_N_m3": 1000000000.0,
+    "floor_z_m": 0.0,
+    "outer_order": 64,
+    "law": "SAMEfinitecompliantreferenceareaT6plane;root-splitinnerquartic+endpointmappedouter64"
+  },
+  "gates": {
+    "energy_J": 1e-12,
+    "gradient_L2_N": 1e-10
+  },
+  "timing": {
+    "rounds": 5,
+    "states_per_round": 4,
+    "CPU_GPU_order_alternates": true,
+    "first_JIT_separate_excluded": true,
+    "included": "NumPyinputtransfer,fullsamecontactE/gwork,E+gradienthostoutput; no bulk/fullM/integrator",
+    "guards_between_rounds_excluded_and_recorded": true,
+    "repeat_GPU_atomic_envelope": true
+  },
+  "GPU_uuid": "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+  "CPU_threads": 2,
+  "CPU_affinity_cores": [
+    34,
+    35
+  ],
+  "hard_cap_s": 180,
+  "resource_limits": {
+    "gpu_bytes": 8589934592,
+    "rss_bytes": 12884901888,
+    "disk_bytes": 32212254720,
+    "disk_free_reserve_bytes": 32212254720
+  },
+  "taskset": {
+    "path": "/usr/bin/taskset",
+    "sha256": "a431738fadddc2e2326c8ab81843e72f4011658379381aef1502a6ddb1c1115b"
+  },
+  "limits": [
+    "Force/EinterfaceONLY; noHessianproductionclaim",
+    "NoGPUtrajectory,temporal/spatial/surfaceadmission",
+    "CPU-vsGPUmicrobenchmarkofsameoperator,notfullRHS/solverperformance",
+    "OldDuffyQ8/Q16negativeand32to64Hnegativepreserved",
+    "FiniteouterE/gderivativeagreementcontrollednumericallyCPU;acceptedtrajectoryenergyguardstillrequiredfuture"
+  ]
+}

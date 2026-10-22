@@ -1,0 +1,9 @@
+# Corrected fixed-mesh contact time pair
+
+Both fresh runs use the same 96 compatible P2 tetrahedra, exact full mass, stable-NH material (E300 kPa, ν0.35, ρ625 kg/m³), gravity, 50 mm initial gap and finite compliant reference-area plane (κ10⁹ N/m³). The new reference explicitly corrects **both** bulk integration to Keast24 and contact integration to root64. Frozen old Q3/Duffy captures and their numerical qualifications remain unchanged.
+
+The original fixed temporal gates passed: maximum all-node and 81-query position difference **18.611 nm**, velocity difference **90.325 µm/s** (100 µm/s gate), and output-energy difference **15.122 nJ** (470.88 nJ gate). These are common-output checks, not rigorous uniform-time bounds. Both workers first passed hash-bound four-state GPU/CPU E/g/J/full-mass implementation controls.
+
+The 10⁻⁹ run used 2866 accepted steps / 42611 RHS calls and 54.307 s integration; maximum accepted energy drift was 33.148 nJ. The 10⁻¹⁰ run used 3419 / 53303 and 67.750 s; accepted energy drift was 2.086 nJ. Momentum consistency errors stayed below 2.90×10⁻¹⁵ N s, guarded J above 0.925347, and mass-solve residual below 1.92×10⁻¹³ N. The whole stage completed in 165.012 s; both workers/controller were reaped and GPU1 released. Completed case JSONs were cached externally by exact SHA afterward.
+
+The much smaller RHS count than old Duffy runs is useful numerical progress, but two quadratures changed and this is not an isolated hardware speed benchmark. The same-RK auxiliary momentum check is algebraic consistency, not independent time accuracy. Surface-order stability at the new fields, spatial convergence, penalty/hard-floor limits and drop-data admission remain unqualified. No larger mesh or extra GPU case was launched. Raw captures, complete accepted-prefix checkpoints, logs and caches remain local.

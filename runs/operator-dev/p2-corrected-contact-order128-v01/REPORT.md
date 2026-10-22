@@ -1,0 +1,1 @@
+All 26 preselected states passed fixed64/fixed128/original-successful-adaptive cross-rule E/force gates (1e-12 J / 1e-10 N). Every adaptive face succeeded under its original tolerances. This is fixed-field evidence, not trajectory surface-order or spatial admission; the strict outer32 and prior Hessian failures remain.
