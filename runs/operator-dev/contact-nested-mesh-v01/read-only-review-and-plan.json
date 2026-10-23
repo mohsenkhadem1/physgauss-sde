@@ -1,0 +1,70 @@
+{
+  "status": "READONLY_REVIEW_AND_PROSPECTIVE_PLAN",
+  "mechanical_interpretation": "Existing evidence favours underresolved elastic-wave/phase behaviour on very coarse spatial meshes; no sampled contact force implementation mismatch was found. This is not unique causal identification or proof that the chosen compliant-floor model represents a rigid floor.",
+  "existing_evidence": [
+    {
+      "source": "runs/operator-dev/p2-contact-rigid-elastic-diagnosis-v01/REPORT.md",
+      "finding": "27 states: root128 versus strict independent adaptive E/g gradient difference<=1.46e-13N, root64/128<=7.66e-14N. Finest local velocity discrepancy predominantly nonrigid, rigid L2 fraction0.00365."
+    },
+    {
+      "source": "runs/operator-dev/p2-soft-floor-screen-v01/REPORT.md",
+      "finding": "Separate kappa1e6 experiment reduced spatial error but finest conditional456.36um/0.39934m/s still fails20um/0.0001m/s. Nonrigid velocity remains dominant. No new time/surface qualification."
+    },
+    {
+      "source": "runs/operator-dev/p2-contact-spatial-pairs-v01/REPORT.md",
+      "finding": "Original kappa1e9 finest conditional4.68668mm/7.12506m/s FAIL;768-tet temporal velocity alsoFAIL192.421um/s. Conservation is not spatial convergence."
+    }
+  ],
+  "resolution": {
+    "old_drop_total_tets": [
+      96,
+      324,
+      768
+    ],
+    "cells": [
+      [
+        4,
+        2,
+        2
+      ],
+      [
+        6,
+        3,
+        3
+      ],
+      [
+        8,
+        4,
+        4
+      ]
+    ],
+    "finest_through_thickness_cells": 4,
+    "smooth_reference_total_tets": 96000,
+    "note": "The current smooth long supported block has a different geometry and forcing, no impact qualification transfers.",
+    "small_strain_wave_speed_estimates_m_s": {
+      "shear": 13.333333333333334,
+      "longitudinal": 27.755546659548436
+    },
+    "thickness_longitudinal_transit_ms": 2.8823067684915684
+  },
+  "contact_model_scope": "Finite undamped frictionless reference-area penalty over the whole material boundary, not exact nonpenetration. Softer compliance is a distinct physical regime, not a numerical repair.",
+  "smallest_new_discriminator": "Same original96-tet saved field prolonged onto certified nested768 partition: test U_f(Pq)=U_c(q), g_c=P^Tg_f and signed full mass Mc=P^TMfP. Existing27-state same-mesh parity does not establish this cross-partition identity.",
+  "interpretation": {
+    "fail": "Investigate face measure, mapping, topology quadrature or mass assembly; no trajectory extension.",
+    "pass_": "Supports mesh-consistent implementation of this mathematical law; next issue is spatial convergence/wave dispersion, not proof of physical contact validity."
+  },
+  "resources": {
+    "nested_diagnostic": "Prospective CPU6,7 noGPU180s RSS2GiB, all9clocks retained, original E/g gates; actual runtime unknown. Old27state diagnostic measured61.25s.",
+    "future_2592_tets": "Not launched or authorized: dense old method4225nodes, M+Cholesky0.266GiB before other allocations. Approximate one-run scale from old768 cost ranges tens of minutes to~2hours; benchmark first, not guaranteed.",
+    "future_6144_tets": "Not launched or authorized:9537nodes, M+Cholesky1.355GiB, saved accepted states severalGiB; old dense mass/RHS and finer time scales could take hours.",
+    "direct96000_tets": "Old dense mass path136161nodes would require276.26GiB for scalar M+Cholesky alone. A controlled sparse/streaming full-mass/contact implementation is prerequisite; no direct large-contact launch."
+  },
+  "gates_unchanged": {
+    "spatial_position_m": 2e-05,
+    "spatial_velocity_m_s": 0.0001,
+    "contact_energy_J": 1e-12,
+    "contact_gradient_L2_N": 1e-10
+  },
+  "new_simulations": 0,
+  "raw_arrays_read_for_this_review": false
+}

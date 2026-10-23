@@ -1,0 +1,19 @@
+{
+  "parent_recipe_unchanged_SHA256": "f19c242843e187cb6956f95a3f116c4791133d3d65e765e22b1be072e4038ff8",
+  "supplement_recipe_SHA256": "a6c82af73a5fa122c5d19ed6f041f978e3992f25a68d90e8725899ee0d9cfd36",
+  "status": "PROSPECTIVE_RESOLUTION_NOTE_NO_SAVED_FIELD_CALLS",
+  "explanation": "The intended dyadic material tetrahedral partition is nested. Actual decimal FP64 rest coordinates and triangle areas are not exactly the same nested real geometry; exact-rational inspection of stored coordinates quantifies the residual. Kappa1e9 amplifies these discrepancies.",
+  "mathematics": "At each coarse boundary point ||N_T6||2 <= ||N_T6||1 <=5/3. Therefore ||delta g||2 <= kappa*A*(5/3)*||delta height||infinity for fixed area; an extra5/3 factor bounds field height from nodal errors. A10-term sparse prolongation dot has conservative forward budget gamma20*||P||infinity*H. Reference-area variation contributes <=kappa*(5/3)*(5/3)*||P||infinity*H*deltaA_total. Positive-part contact is1-Lipschitz. Energy and restriction-reduction bounds are reported separately.",
+  "key_scalars": {
+    "physical_geometry_mismatch_Linf_m": 1.3877787807814457e-17,
+    "measured_rest_prolongation_dot_roundoff_Linf_m": 2.7755575615628914e-17,
+    "gradient_bound_from_geometry_mismatch_N": 3.4540271877227097e-09,
+    "gradient_bound_from_area_per_height_N_m": 2.0474073825216268e-07,
+    "restriction_reduction_error_bound_per_fine_abs_gradient_L2": 3.510833468576896e-13
+  },
+  "limitation": "The conservative geometry-only gradient bound3.45e-9N already exceeds the raw1e-10N gate. Generic nodal-height scenarios are far looser; no actual saved-height maximum has been read or assumed verified. Rest-dot roundoff is a proxy only. These bounds do not certify quadrature or arbitrary libm arithmetic.",
+  "decision": "Keep both original raw1e-12J and1e-10N gates. Do not subtract the estimated error or enlarge a gate. A raw failure compatible with input/reduction resolution is UNRESOLVED, not a proved contact operator inconsistency. A raw pass remains the original finite check, not an interval-certified operator theorem.",
+  "controls": "3 manufactured scalar controls PASS1.82s; constructed96/768 scalar geometry analysis5.477s CPU6,7/noGPU, worker reaped, saved fields and contact integrations zero.",
+  "saved_field_calls": 0,
+  "new_trajectories": 0
+}
