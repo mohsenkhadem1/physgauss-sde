@@ -1,0 +1,118 @@
+{
+  "schema": "compliant-full4D-terminal-scalar-v01",
+  "completed": true,
+  "qualified": false,
+  "reason": "K median unit-quantile MCSE exceeds prospective precision gate",
+  "protocol_sha256": "197a92b956d009d7c9d3da5defc510a6e594b43f792efadd2ed10fa40a231c3a",
+  "full4D_started": false,
+  "stage_denominators": {
+    "qualification_completed": 1,
+    "qualification_planned": 1,
+    "chains": 8,
+    "warmup_per_chain": 500,
+    "retained_per_chain": 2000,
+    "joint_diagnostic_completed": 0,
+    "joint_diagnostic_planned": 1,
+    "SMC_completed": 0,
+    "SMC_planned": 6,
+    "fullMH_completed": 0,
+    "fullMH_planned": 1,
+    "fullMH_chains_planned": 8
+  },
+  "blocked_stages": {
+    "jointDiagnostics": "BLOCKED_BY_2D_GATE",
+    "six_SMC": "BLOCKED_BY_2D_GATE",
+    "fullMH": "BLOCKED_BY_2D_GATE"
+  },
+  "original_2D_comparison": {
+    "max_CDF_difference": 0.010192299263356408,
+    "max_unit_quantile_difference": 0.005573322759332505,
+    "fields": {
+      "A": {
+        "mean_RMS_m": 1.2460531005267136e-06,
+        "std_RMS_m": 2.7504311243352436e-06,
+        "tolerance_m": 4.7161027985101e-06,
+        "passed": true
+      },
+      "B": {
+        "mean_RMS_m": 1.0065259254390237e-06,
+        "std_RMS_m": 2.18374684046984e-06,
+        "tolerance_m": 3.7528428711840544e-06,
+        "passed": true
+      }
+    },
+    "maximum_function_mean_difference_over_posterior_SD": null,
+    "passed": true
+  },
+  "MC_gates": {
+    "max_CDF_MCSE": 0.009117285771530011,
+    "CDF_gate": 0.01,
+    "maximum_unit_quantile_MCSE": 0.0081936678707781,
+    "unit_quantile_gate": 0.005,
+    "failed_parameter": "K",
+    "failed_quantile": 0.5,
+    "maximum_function_relative_MCSE": 0.021011087496127834,
+    "function_gate": 0.05,
+    "field_MCSE_passed": true
+  },
+  "rank_ESS": {
+    "all_parameter_loglik_ridge_fixture_diagnostics_pass": true,
+    "max_Rhat": 1.0014824527036998,
+    "min_bulk_ESS": 2986.8721572347945,
+    "min_tail_ESS": 3468.5265830562603
+  },
+  "supervision": {
+    "completed": true,
+    "exit_code": 0,
+    "reason": null,
+    "supervisor_pid": 2358753,
+    "controller_pid": 2358757,
+    "controller_reaped": true,
+    "controller_PID_absent": true,
+    "observed_owned_worker_PIDs": [
+      2358805
+    ],
+    "all_observed_owned_worker_PIDs_absent": true,
+    "wall_s": 12.798265954013914,
+    "peak_controller_RSS_bytes": 607260672,
+    "hard_wall_s": 1800,
+    "RSS_limit_bytes": 2147483648
+  },
+  "owned_PIDs": [
+    2358753,
+    2358757,
+    2358805
+  ],
+  "all_owned_PIDs_absent": true,
+  "retries": 0,
+  "source_changes_after_freeze": false,
+  "old4D_grid_negative_preserved": true,
+  "raw_arrays_local": true,
+  "limitations": "Batch MCSE is an estimated sampling error; passing original2D agreement does not waive the added precision gate. No new4D inference or identifiability evidence obtained.",
+  "local_lineage": [
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-full4D-v01/execution.json",
+      "sha256": "29aca853133488f2c6030813ad25d4d85c6eb1d760f6defafec70e577f25783c"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-full4D-v01/summary.json",
+      "sha256": "78f8b2bdd47286655b46f9f26a96acc41cd9884e3544d84aec788b359cc45e6b"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-full4D-v01/jobs/qualify2D/numerics.json",
+      "sha256": "2c7b19f9c7ad20da1c2f6e02746766fd2c6f6906fb8ee34eae30cea5cbf4e878"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-full4D-v01/jobs/qualify2D/posterior-structure.json",
+      "sha256": "9fb5a0353fba160ca941dac384c08f8e2958779686bed03eedb0212f1b7587c5"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-full4D-v01/jobs/qualify2D/posterior-arrays.npz",
+      "sha256": "cc4d269c056cff51ba8020ec45a44ff2fe0d7a152ad2f5ff820e28358c517f44"
+    },
+    {
+      "path": "runs/gaussian-campaign-v01/compliant-continuous-full4D-v01/proposal-freezes/qualify2D.npz",
+      "sha256": "bb57bbe627ffc0513642fab3bcbc0cc50d01a6186f1ad48dd7daa4b27e319882"
+    }
+  ]
+}
