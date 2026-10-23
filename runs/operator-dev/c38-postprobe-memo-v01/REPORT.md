@@ -1,0 +1,7 @@
+# Exact posterior memoization: manufactured comparison
+
+All three numerical methods, material/target quantiles and numerical root brackets are bit-identical to the unchanged54-coordinate worker, excluding only performance cache counters. The positive-model result and every original comparison gate pass. Four independent controls include exact old residual-bound equality, analyticlogE CDF, mutable/stale cache protection, cache-capacity bypass, and preservation of the known ultranarrow level/root-mass failures.
+
+The old-then-new manufactured pair took106.926s and26.236s respectively (ratio0.24536, about4.08x). Peak cumulative process RSS was617MB. This is one synthetic case, fixed execution order in one fresh process with shared generic-library warming; it is not a repeated-trial or population speed guarantee. The method only reuses identical completed rational bounds, exact target-root topology and same-posterior coordinate CDFs. It introduces no interpolation, truncation, tolerance change or new enclosure.
+
+The earlier instrumented180s partial-profile failure remains preserved. Current C38 source/dependencies/jobs were never edited. Prospective C39 adoption requires its own frozen source/protocol; this numerical equivalence does not change physical calibration or admission claims. No actual archive/prefix/private arrays were read. Raw synthetic result JSON and pstats remain local.
