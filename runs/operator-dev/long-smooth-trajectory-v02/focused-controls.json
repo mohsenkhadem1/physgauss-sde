@@ -1,0 +1,32 @@
+{
+  "schema": "source-only-trajectory-synthetic-controls-v02",
+  "passed": true,
+  "no_actual_FE_physics": true,
+  "no_GPU_calls": true,
+  "no_actual_array_loading": true,
+  "CPU_affinity": [
+    0,
+    1
+  ],
+  "thread_environment": 2,
+  "full_suite": {
+    "command": "env OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 taskset -c 0,1 .venv/bin/python -m pytest -q tests/test_campaign_long_trajectory_runtime_v02.py tests/test_run_long_smooth_trajectory_v02.py tests/test_campaign_long_trajectory_design.py",
+    "passed": 14,
+    "failed": 0,
+    "seconds": 57.7
+  },
+  "final_affected_suite": {
+    "reason": "Full q added explicitly to9clock captures alongside u/v; affected preparation+aggregation and manufactured controls rechecked",
+    "command": "env OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 taskset -c 0,1 .venv/bin/python -m pytest -q tests/test_run_long_smooth_trajectory_v02.py tests/test_campaign_long_trajectory_design.py",
+    "passed": 7,
+    "failed": 0,
+    "seconds": 44.96
+  },
+  "source_pins_verified_after_all_tests": true,
+  "protocol": {
+    "path": "runs/operator-dev/long-smooth-trajectory-v02/protocol.json",
+    "sha256": "ada92d2e5fe6afe3cacd9a7ee769b115040ca66faa1efce8fca2a35715eb2599",
+    "bytes": 12958
+  },
+  "required_before_launch": "Root full source/protocol review and explicit release"
+}

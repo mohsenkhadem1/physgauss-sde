@@ -1,0 +1,13 @@
+# One-step long-block midpoint capacity/parity benchmark
+
+SOURCE ONLY until root reviews protocol SHA. No trajectory or dynamic qualification is scheduled. The exact completed long-block gravity equilibria are hash-bound prerequisites. Both support cases and their excitation failures remain in the protocol; the algebra benchmark uses only the end-clamped case, with1.374 mm bulk and a failed original local maximum-strain goal9.74%.
+
+Use h=.02 s, v0=0 and a known full-width top-middle world DOWN2 N load added to gravity. This is the peak of the public unit C3 pulse at nominal midpoint time.5 s. Treating a static state at nominal time.49 s is an ALGEBRA/COST benchmark, not an actual physical prehistory. There is no hidden ramp, damping, contact or filtering.
+
+First construct one tiny96-tet CPU static equilibrium. Independent sparse CPU midpoint solves the half-step BE objective with full analytic consistent T10 mass and then reconstructs endpoints. The GPU implementation uses the frozen original stable-NH/full-mass operator and midpoint API. Compare all-node q<=10 nm and v<=1 µm/s. Both midpoint and endpoint need original positive-J guards and whole-element Bernstein certificates. Original24/80 gradient, energy, midpoint residual and dynamic wrench checks apply before fine calls.
+
+Then perform exactly one midpoint solve on each saved graded32/40 end-clamped equilibrium. Retain full q/v/probe fields locally and measure construction+solve and final checks separately. There is no mesh/time comparison gate: the fields are individual impulses from different approximate static equilibria. Full M_cf supplies fixed reactions. Check the original implicit residual<=1e-10 N, physical midpoint residual<=1e-9 N,24/80 gradient<=1e-10 N/energy<=1e-11 J, resultant/moment balance<=1e-8 N/Nm, exact clamps and midpoint+endpoint whole-element positive J. Ledger explicitly retains nonlinear potential midpoint defect and stationarity work, not a claim of exact energy conservation.
+
+One owned GPU0 worker on CPU0,1,2 threads;600 s worker/RSS watchdog and700 s controller+owned TERM/KILL/reap,8 GiB own GPU,12 GiB RSS,30 GiB filesystem free reserve plus3 GiB projected writes. Expected coarse control<2 s, each fine one-step construction/solve10–90 s plus80-point/certificate checks; actual cost remains unknown. Every failure is saved, no retry or trajectory extension. Original frozen C38/C39 sources and old long-static source are unchanged.
+
+Only after these cost and parity results are reviewed can a separate physical C3 trajectory protocol be considered. That later protocol must declare pulse amplitude/duration, initial equilibrium and q AND v temporal/spatial gates before calls; this benchmark cannot admit a dynamic dataset.

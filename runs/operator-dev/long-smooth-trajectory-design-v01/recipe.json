@@ -1,0 +1,67 @@
+{
+  "schema": "long-smooth-trajectory-source-design-v01",
+  "frozen": true,
+  "status": "SOURCE_DESIGN_ONLY_PENDING_ROOT_REVIEW_NO_PHYSICS",
+  "created_utc": "2026-10-23T08:01:40.840231+00:00",
+  "no_launcher": true,
+  "no_GPU_calls": true,
+  "capacity_verification": {
+    "all_completed_inventory_12_files_match": true,
+    "all_protocol_source_pins_match": true,
+    "result_completed_passed": true,
+    "worker_seconds": 132.29537452664226,
+    "controller_worker_PIDs_absent": [
+      2295270,
+      2295352
+    ],
+    "GPU0_compute_processes_absent": true
+  },
+  "prerequisites": [
+    {
+      "path": "runs/operator-dev/long-midpoint-capacity-v01/protocol.json",
+      "bytes": 9858,
+      "sha256": "c54a709f79649bc9ad6d27da659388df98d30c1bb32a4ee698deb465052e65b7"
+    },
+    {
+      "path": "runs/operator-dev/long-midpoint-capacity-v01/completed-publication-inventory.json",
+      "bytes": 2457,
+      "sha256": "2c8c75f467156aefd0724b5ebe47a1cdc1389f89d70296802c4b8af51c923dbe"
+    },
+    {
+      "path": "runs/operator-dev/long-midpoint-capacity-v01/compact-summary.json",
+      "bytes": 15533,
+      "sha256": "ac43ed663b50582c0283aab6ed25ca5e76e4ca917406d9f343cb635701b8b367"
+    },
+    {
+      "path": "runs/operator-dev/long-midpoint-capacity-v01/terminal-proof.json",
+      "bytes": 1062,
+      "sha256": "e4de9a0402fd3c71cc0bfb5edb10f6be09b8c8515d15c6c29951b68d87db551c"
+    }
+  ],
+  "sources": [
+    {
+      "path": "experiments/campaign_long_trajectory_design.py",
+      "bytes": 4075,
+      "sha256": "4217d2bee6b05a8db4a8da15e52d3c5f2aa353b0c3be05a8103e68360371537e"
+    },
+    {
+      "path": "tests/test_campaign_long_trajectory_design.py",
+      "bytes": 3888,
+      "sha256": "2a256f23fda9e5fcd31aff13510e937a09293851ce96cd7682907764b5fea9ed"
+    }
+  ],
+  "plan": {
+    "path": "runs/operator-dev/long-smooth-trajectory-design-v01/PLAN.md",
+    "bytes": 7977,
+    "sha256": "7d9331b29263026310ebb6d2349aad51774d4dd93afee341fab3fece0801abc9"
+  },
+  "controls": {
+    "command": ".venv/bin/python -m pytest -q tests/test_campaign_long_trajectory_design.py",
+    "passed": 4,
+    "failed": 0,
+    "seconds": 1.65,
+    "scope": "Manufactured CPU numerical design; no FE solve or physical trajectory",
+    "sparse_full_mass_checked_without_densification": true
+  },
+  "root_review_required_before_executable_implementation_and_GPU_launch": true
+}

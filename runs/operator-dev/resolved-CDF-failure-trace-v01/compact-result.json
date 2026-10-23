@@ -1,0 +1,45 @@
+{
+  "completed": true,
+  "old_guard_failure_reproduced": true,
+  "protocol": {
+    "path": "runs/operator-dev/resolved-CDF-failure-trace-v01/protocol.json",
+    "sha256": "aa8792bb30e8956a4a928c3fc700ed73aba97ef1d285d787ef855c02dd1d8982"
+  },
+  "LOCAL_detailed_trace": {
+    "path": "runs/gaussian-campaign-v01/resolved-CDF-failure-trace-v01/summary.json",
+    "sha256": "5614c4adfcad23f237e7c9b8025a2fe201b540f9f07209fd49f22037b14a6f16"
+  },
+  "source_pins_unchanged": true,
+  "tests_passed": 6,
+  "tests_seconds": 3.67,
+  "query_count": 2,
+  "offending_tuples": [
+    {
+      "raw": {
+        "cdf": 1.0000000000000002,
+        "lower": 0.9999999999999336,
+        "upper": 1.0
+      },
+      "conditions": {
+        "finite": true,
+        "bounds_in_unit_interval": true,
+        "central_above_lower": true,
+        "central_below_upper": false
+      }
+    }
+  ],
+  "failure": {
+    "type": "FloatingPointError",
+    "message": "Finite ordered numerical CDF enclosure required"
+  },
+  "CDF_trace_seconds": 1.482030943967402,
+  "owned_seconds": 9.282411505933851,
+  "owned_PIDs_absent": true,
+  "worker_reaped": true,
+  "exit_code": 0,
+  "v02_guard_calls": 0,
+  "no_private_truth_or_new_noise": true,
+  "no_production_source_edits": true,
+  "scope": "Single existing failed public linear-prefix adaptive posterior only; tuple diagnosis, not a corrected inference or uncertainty calibration result.",
+  "detailed_query_values_and_physical_coordinate_identity_excluded": true
+}

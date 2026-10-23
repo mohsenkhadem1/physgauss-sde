@@ -1,0 +1,1 @@
+Unexecuted preparation snapshot. Superseded before physics to make inherited concurrency metadata explicit (two independent GPU jobs) and label all new-domain controls as new. No equilibrium GPU call or trajectory executed.

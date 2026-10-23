@@ -1,0 +1,15 @@
+# Recovered numerical results and dynamic simulation source
+
+The completed jobs survived the Codex connection interruption. Their original files and negative results remain immutable. No raw datasets, physical coordinate arrays, models or media are published here.
+
+The stricter coordinate quantile calculation removes nonconstant collapsed intervals. Nonlinear PREFIX and SIDE each cover 1701 of 1728 coordinates in the existing four-configuration development experiment; available quantile probability errors satisfy the fixed 1e-6 criterion. All 256 material/normalizer/mean/variance core outputs remain bit-identical. This is conditional development evidence, not population calibration. Two linear PREFIX GL128 numerical failures remain explicitly negative after the v03 repair. The repair did not change likelihoods, prior, observations, root tolerances or uncertainty widths by a fitted margin.
+
+At true physical parameters, the nonlinear polynomial oracle differs from the four direct FEM targets by 0.529–1.593 nm RMS, while the linear oracle differs by 0.962–2.171 micrometres. Linear representation error remains meaningful for weak deformation axes. The completed private evaluation source, prerequisite barrier controls and compact scalar results are included.
+
+The independent long-block static pilot passes its original physical and finite-query displacement checks. It still fails its original local-strain excitation target, and the bottom-support case also misses its nonrigid bulk-motion goal. No amplitudes or materials were searched to hide these negatives.
+
+The subsequent single-step midpoint capacity benchmark passes its algebraic, quadrature, full-mass, momentum and work-ledger checks. It took 132.30 seconds including both fine meshes. A one-step algebraic check does not establish trajectory convergence.
+
+The frozen next simulation source specifies four fixed one-second C3-force trajectories, using three authorized GPUs, durable accepted-state checkpoints and independent watchdogs. Position AND velocity must pass temporal and conditional spatial convergence gates. These source-preparation files contain no actual trajectory result. The unexecuted earlier two-wave plan remains preserved as superseded. No dataset admission, forecasting result, learned-model advantage or physical uncertainty calibration is claimed.
+
+The first actual v02 pipeline attempt subsequently stopped after 47.28 seconds with zero accepted dynamic steps: the new momentum helper required bitwise symmetry of the assembled sparse mass matrix. A read-only diagnosis measured maximum skew of 2.54e-21 kg, relative 4.05e-17 of the maximum entry. This is a technical validation failure, not a completed trajectory or a physical convergence result. The controller cancelled and reaped the other two workers; the fourth job never launched. All owned processes are absent and the GPU compute list is empty. The original matrix and all failed/cancelled results remain unchanged. Any corrected helper and rerun will use a new version with independently checked floating-arithmetic bounds.
