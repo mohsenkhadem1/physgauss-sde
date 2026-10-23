@@ -1,0 +1,7 @@
+# Static public-prefix policy: source controls
+
+The engine builds positive GL32/64/128 clouds on every exact likelihood-root partition under the uniform log-modulus prior. It checks normalizers, category probabilities and all63 target moments against adaptive continuous integration before design. All cloud orders use the same256 fantasy outcomes from GL128, with64/128/256 nested budgets and common ancestors/noise across the two actions. These are Monte Carlo comparison devices, not a statement that actual acquisition noise is shared.
+
+It reports expected KL and positive two-pass latent-field variance, paired action-advantage MCSE, score/order discrepancies, and the fixed-down fallback whenever the prospectively fixed action-stability rule fails. Random and fixed actions each cost the same single27-coordinate measurement. No duration or motion history is invented. No sensor noise is added to canonical latent targets.
+
+Seven manufactured controls pass. Full both-model benchmarks pass all cloud controls in1.359s nonlinear and0.848s linear; peak process RSS is631MB (cumulative process maximum). Both are synthetic candidates and a synthetic public prefix. No actual public prefix, private object or counterfactual outcome was opened. Choices are not yet sealed: the external controller must verify the complete initial128-prediction seal and freeze all64 choices before any private evaluation or probe acquisition. Numerical/MC stability does not establish action advantage or physical calibration.

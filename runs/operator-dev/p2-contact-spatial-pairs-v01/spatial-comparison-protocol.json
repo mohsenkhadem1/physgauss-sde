@@ -1,0 +1,49 @@
+{
+  "schema": "contact-root128-common81-spatial-comparison-v01",
+  "status": "FROZEN_BEFORE_FINE_COMPARISON_NO_ARRAY_READS",
+  "phase_protocols": {
+    "324tets": {
+      "path": "runs/operator-dev/p2-contact-spatial-pairs-v01/324tets/protocol-v02.json",
+      "sha256": "1c196e6cace6d85e9234ab611da7de345064287b8579a055a33ec336ae076672"
+    },
+    "768tets": {
+      "path": "runs/operator-dev/p2-contact-spatial-pairs-v01/768tets/protocol-v02.json",
+      "sha256": "d1545cefa87f69cc3d27fdc8d1ade1d4d87272143a5823d3147dd8ece231924a"
+    }
+  },
+  "source_sha256": {
+    "experiments/compare_p2_contact_spatial_pairs.py": "af9c6a75a635cca177fed40e49a223321476ae0359e322c09307185ef4b2be7e",
+    "tests/test_compare_p2_contact_spatial_pairs.py": "049d981f6e197cd0db63cf7c4dfd756c635dbd06f9d193000ff5290fe918a11a"
+  },
+  "imported96tight": {
+    "path": "runs/gaussian-campaign-v01/p2-corrected-contact-order128-trajectory-v01/outer128_accuracy_1e10/trajectory.npz",
+    "sha256": "5a2c638041780380c3e7a9dc3afc56036bdb0aec48b1deff4416ff94247a0fee"
+  },
+  "fine_case": "accuracy_1e10",
+  "common_queries": "Exact81materialpoints/times storedbyfrozenworkers; P2queryphysicalvelocity aswellaspositions. NEVERallnodecrossmeshcomparison.",
+  "old96_velocity_interpolation": "Oldcapture lacks queryvelocity: originalauthored96P2build/rest/elementsidentity, query(savedphysicalv,exactmaterialpoints). No nearestnodes/resimulation.",
+  "gates": {
+    "raw_q_m": 2e-05,
+    "raw_v_m_s": 0.0001,
+    "conditional_q_m": 2e-05,
+    "conditional_v_m_s": 0.0001,
+    "adjacent_indicator_factors": [
+      2.0,
+      3.0
+    ],
+    "q_and_v_raw_errors_must_contract": true,
+    "finest_pass_requires_finest_conditional_gate_and_contraction": true
+  },
+  "all_adjacent_results_retained": true,
+  "CPU_affinity_cores": [
+    0,
+    1
+  ],
+  "hard_cap_s": 60,
+  "limits": [
+    "Separate temporal andspatial gates; no combined20umerrorbound",
+    "Finestconditionalindicator assumesp>=1, NOT rigorouscontinuumbound",
+    "Allroot128meshresults arefixed-surface-operator comparisons; no continuum/hardfloor/cohortadmission",
+    "Allfinepairs mustbeTERMINALbeforecomparison; failuresretained, no redraw/retry/selection"
+  ]
+}
