@@ -1,0 +1,788 @@
+{
+  "schema": "C39-SIDE-point-export-v01",
+  "status": "FROZEN_BEFORE_Q63_EXTRACTION",
+  "source_sha256": {
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_block_surface_controls.py": "c0ffbd4dd2ecd1cba6b8e293fddc264dcb2c9a07c81304b9b6c4a0313539064e",
+    "experiments/campaign_boundary_gaussians.py": "d58b849f4c4399049e64182acb3fa84dc34fe040768c3b88a48d84fd55950362",
+    "experiments/campaign_c38_candidate_point_forward.py": "2dd6541d1c76d8e10135e1d8c72ce6e8792f4e4bb7324fb19c2d6d93651b10b0",
+    "experiments/campaign_c38_controlled_observations.py": "ff8af8c202b9d22aca1f08f39c116982ac1964e9a2e3e7583cca65c7cda3104f",
+    "experiments/campaign_c38_inverse_modulus_table.py": "5d960cb6cb7f1bcdd4b8a3159aadda89b32315ad1b0afb3a024a02bdd54cc7c5",
+    "experiments/campaign_c38_linear_candidate_forward.py": "07efe795af285f6b0c0705ecbd4e617b73b8e984893d9934fd71b6e77ab63a9b",
+    "experiments/campaign_c38_nonlinear_table_catalog.py": "8a2c3c53883ef3d01b97cc67923019b1301409cee825969224bed51d53286cc9",
+    "experiments/campaign_c38_polynomial_cache.py": "ea38999a20f679ae5385e3e61396f8fd2a6be910a2d0b87751361ebe99c37795",
+    "experiments/campaign_c38_polynomial_likelihood.py": "231b0a7be3729a61df3798b1713513fe1984e2fea92a1fd8094469478893d9a1",
+    "experiments/campaign_c38_polynomial_likelihood_v02.py": "3e0b97eb8795ca72a39c7b99dcb34f37f5ad548c7797feb6fe38402fad983ab1",
+    "experiments/campaign_c38_public_prefix_inference_v02.py": "f6e1f4b91f24471aa3cf651c98337e55d08ce4285b16fc02c367efa336a06b42",
+    "experiments/campaign_c38_static_family.py": "b5fd3c6af2169cd68df22739d331d2b47f7c3add2b275301e9ab999c7974601a",
+    "experiments/campaign_c38_supported_grading.py": "e7a2d84b50f0fa31665e771e37d0258e4caab3c854190fc97731b2f3c2aa8c06",
+    "experiments/campaign_c38_table_validation.py": "874a5fb025e37a109d94b3e7ba0820a7c326297888266b6bed3b4b17d81096b7",
+    "experiments/campaign_c38_verified_warp_solver.py": "7c8dca13aa04352afd720368c1bdd24a465549ffba0fdf1e729a9eb7c3c20ed1",
+    "experiments/campaign_c39_known_actions.py": "1c071923c46856f978173a17b495022f3b15d1187cb9760c05e2f9112db1e206",
+    "experiments/campaign_c39_side_point_forward.py": "7f73683408498076f8fe98d08ffe600ebddbf59c779da689165585943c0821e9",
+    "experiments/campaign_compliant_gaussian_linear.py": "5937a41fe8058e8ba8f6d3388591ab18a78989ad72f18f9af1a39c7ff85bf383",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_nonlinear_excitation.py": "fbee8a3590887e05547106d035216d70e9b86b1ba2d264a5b805be039c472a3d",
+    "experiments/campaign_nonlinear_fem.py": "468daaafa9d02c9db27553e2cfb154190248500677c212d9dde25bffdf14e1ff",
+    "experiments/campaign_nonlinear_gaussian_reference.py": "af86fbe7fc7c2cc6c827441835e647750068b27167afb0d9337135e385294c74",
+    "experiments/campaign_owned_gpu_budget_v02.py": "60c6a64dd6412e8317306a99f6e33fc854f638c2721fc5521aceffd534f44821",
+    "experiments/campaign_p2_block_preconditioner.py": "39c44377a3f5fdb9207106cc828e655d6c005c617459ae1c67c4110475cc47bb",
+    "experiments/campaign_p2_checkpointed.py": "e330e8a9f9963e7e5e1bf3bea06d8a752fc2006d5f3df3bd5d253c4eb916ed87",
+    "experiments/campaign_p2_coarse_preconditioner.py": "463cba181d9c6a97de0c31a77cfe1f655adc72999d5f1f6bbe5f82567df39628",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336",
+    "experiments/campaign_p2_exact_quadrature.py": "6ae75c317b99d2f4ae657442b0c1bfc03c84f1a8a63b069dbd86f5743d9a849a",
+    "experiments/campaign_p2_geometry.py": "fdae2efcbf0c0abff1d4bb11ccaca8182479c423b80805014b781a510ffa77da",
+    "experiments/campaign_p2_jacobian_certificate.py": "ca63e9b1c11c0125ca2171e8d3572807de00d143b66657f5b9f02ae2b510b8cc",
+    "experiments/campaign_p2_keast_quadrature.py": "4ddf8e6dd5bf7203885f6aa179def256f6c3d20a730958ac150ba546a6a8ed7f",
+    "experiments/campaign_p2_streaming.py": "9ac365a4661688e6a328ec2f28dcc9f64cc77d5ef41148a327ff06a11c6c09f4",
+    "experiments/campaign_p2_supported_preconditioner.py": "70d293dc8fb4c92891c83561df26280876fca2409349524a600f405fe33acb46",
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/campaign_p2_torch_warp_hvp.py": "ddc731c39d5926867efcb5dd3772dd9bb8829efb2041c517bafb5c4a5b687d48",
+    "experiments/campaign_p2_warp_bulk_hvp.py": "7e812664f2d6b6cd29993776509fd7cfadec8798cd4b6b01de33226be088fd42",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/campaign_stable_transient.py": "198c69875bb0672f9966a2eae3706fee34c6af03e4ba41ac7f552c26652175d6",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "experiments/prepare_campaign_c38_point_table.py": "9755377515988e2fdf9683be53becdf5071f8c957345d1ee691475231865a4bc",
+    "experiments/prepare_campaign_c39_side_points.py": "b2d1775954f577e8bc93d9aa4a724f9c27b756971dc131aa3c9a31d894246755",
+    "experiments/run_c39_coarse_linear_screen.py": "cf2b564d9e801465e0cf965d715c9a482bee496c0ed8d89058aff156f2a364ac",
+    "experiments/run_c39_fine_linear_screen.py": "f094370a9935072aa2189ce467035d381585fc782880130550895018c56ad2ca",
+    "experiments/run_campaign_c38_controlled_observations.py": "8a6fd4129a8af03745b18c3492bb38d9df0dafe5780e3834289db81cdfe71c2f",
+    "experiments/run_campaign_c38_graded_family_warp.py": "16441ca027a104cb6cbb0cc2433ca533c2bdc2cfbe5d4873f941a5293ada5c1d",
+    "experiments/run_campaign_c38_initial_inference.py": "b00b1ba5fd9382ad2a0cac0510ca81c79db4e27b04554e68d8acd160bd99c410",
+    "experiments/run_campaign_c38_initial_inference_v02.py": "1ca5b0ec4a7affdaab687c2fbb428544db011c1784fddd3559f3d7efcd5bc879",
+    "experiments/run_campaign_c38_initial_inference_v03.py": "80c7186ed806b349591f20a71b4162fee8e1db2b8ea09ec80f7de3eab5cd67af",
+    "experiments/run_campaign_c38_static_graded_pilot.py": "b57653c690c7631d380ca73d09b342d7150ded7bcdfb27cc7f719a0005a1fdf1",
+    "experiments/run_campaign_c38_static_prequalification.py": "0b220b823cbe03e84f454c45f47714598ec3ae9a225affd83030a62257ab592e",
+    "experiments/run_campaign_c39_side_table.py": "00a1b0ce9de760f5c6e909acd5727e9c1cbc0e2c3b3125e7fcf551149992fa10",
+    "experiments/run_static_p2_axial_continuation.py": "c12200e9a70764e637960ee5bd99909627a83309294459aaf845d995cfcbd86c"
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "sympy": "1.14.0",
+    "mpmath": "1.3.0"
+  },
+  "design": {
+    "path": "runs/operator-dev/c39-controlled-extension-design-v01/design.json",
+    "sha256": "3555d4ad8235efa72b1c606e626cbab262a1fb7c1729b4f79f6a9fd669f0e321"
+  },
+  "metadata": {
+    "summary": {
+      "path": "runs/operator-dev/c39-side-nonlinear-table-v01/completed-summary.json",
+      "sha256": "4da05c37e3a613b85684193a51211cdfc0a4d39c35ef3a3032fe67de67bf6f3e"
+    },
+    "catalog": {
+      "path": "runs/operator-dev/c39-side-nonlinear-table-v01/catalog.json",
+      "sha256": "1efbf29b9fc1b27df489fd130ee0e026990f3d21c4ff811bdfaf080cd4188746"
+    },
+    "nonlinear_rows": [
+      {
+        "source_index": 0,
+        "case": {
+          "id": "C39__Elo__both_ends__side2",
+          "young_Pa": 75000.0,
+          "support": "both_ends",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "Elo",
+          "log_material_fraction": 0.0,
+          "material_use": "TABLE_NODE",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu0/C39__Elo__both_ends__side2/mesh32/capture.npz",
+          "sha256": "d8e40b96968d5d74f6bc739012740df3e47f6b19ae80d8ce3c70835003cf6832"
+        }
+      },
+      {
+        "source_index": 1,
+        "case": {
+          "id": "C39__Elo__both_ends__side2",
+          "young_Pa": 75000.0,
+          "support": "both_ends",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "Elo",
+          "log_material_fraction": 0.0,
+          "material_use": "TABLE_NODE",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          40,
+          20,
+          20
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu0/C39__Elo__both_ends__side2/mesh40/capture.npz",
+          "sha256": "2b1cfb6e7d02203b1ac8d50d29c2c1de432a92b95f3f1896297d5fafddd64b32"
+        }
+      },
+      {
+        "source_index": 2,
+        "case": {
+          "id": "C39__Elo__separated_bottom_patches__side2",
+          "young_Pa": 75000.0,
+          "support": "separated_bottom_patches",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "Elo",
+          "log_material_fraction": 0.0,
+          "material_use": "TABLE_NODE",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu1/C39__Elo__separated_bottom_patches__side2/mesh32/capture.npz",
+          "sha256": "814a1430b5e8dcb626644687231bd1e1d72c5de0db9eb66cc8bd61de6cff4d54"
+        }
+      },
+      {
+        "source_index": 3,
+        "case": {
+          "id": "C39__Elo__separated_bottom_patches__side2",
+          "young_Pa": 75000.0,
+          "support": "separated_bottom_patches",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "Elo",
+          "log_material_fraction": 0.0,
+          "material_use": "TABLE_NODE",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          40,
+          20,
+          20
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu1/C39__Elo__separated_bottom_patches__side2/mesh40/capture.npz",
+          "sha256": "b616e9d67215e8b27b484e087079ef094af154368c666534ef260d22ca4865ca"
+        }
+      },
+      {
+        "source_index": 4,
+        "case": {
+          "id": "C39__ElogQ1__both_ends__side2",
+          "young_Pa": 89190.53362520407,
+          "support": "both_ends",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "ElogQ1",
+          "log_material_fraction": 0.25,
+          "material_use": "WITHHELD_INTERPOLATION_VALIDATION",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu2/C39__ElogQ1__both_ends__side2/mesh32/capture.npz",
+          "sha256": "22ad9040999b376c94e91743110d7927a3d5770d58dba711e7dc357a6752bf6e"
+        }
+      },
+      {
+        "source_index": 5,
+        "case": {
+          "id": "C39__ElogQ1__both_ends__side2",
+          "young_Pa": 89190.53362520407,
+          "support": "both_ends",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "ElogQ1",
+          "log_material_fraction": 0.25,
+          "material_use": "WITHHELD_INTERPOLATION_VALIDATION",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          40,
+          20,
+          20
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu2/C39__ElogQ1__both_ends__side2/mesh40/capture.npz",
+          "sha256": "11a5614926982cb81f8d3d364faa5046c4294d196eec036169609b084562ed62"
+        }
+      },
+      {
+        "source_index": 6,
+        "case": {
+          "id": "C39__ElogQ1__separated_bottom_patches__side2",
+          "young_Pa": 89190.53362520407,
+          "support": "separated_bottom_patches",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "ElogQ1",
+          "log_material_fraction": 0.25,
+          "material_use": "WITHHELD_INTERPOLATION_VALIDATION",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu0/C39__ElogQ1__separated_bottom_patches__side2/mesh32/capture.npz",
+          "sha256": "c490eb42ab92d2f634909ae8ae0d04d8f8c52f2527b0df836fbe934367ed5afe"
+        }
+      },
+      {
+        "source_index": 7,
+        "case": {
+          "id": "C39__ElogQ1__separated_bottom_patches__side2",
+          "young_Pa": 89190.53362520407,
+          "support": "separated_bottom_patches",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "ElogQ1",
+          "log_material_fraction": 0.25,
+          "material_use": "WITHHELD_INTERPOLATION_VALIDATION",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          40,
+          20,
+          20
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu0/C39__ElogQ1__separated_bottom_patches__side2/mesh40/capture.npz",
+          "sha256": "cfe9db95714b0f1d5637bbb7c759e66e52b10907afb29237a474aa3de32ee5c1"
+        }
+      },
+      {
+        "source_index": 8,
+        "case": {
+          "id": "C39__Emid__both_ends__side2",
+          "young_Pa": 106066.01717798212,
+          "support": "both_ends",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "Emid",
+          "log_material_fraction": 0.5,
+          "material_use": "TABLE_NODE",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu1/C39__Emid__both_ends__side2/mesh32/capture.npz",
+          "sha256": "12a10ea326f0ec34f00203f559b8af01710af236fc6ca8bb5ac9a6f93f8eb89c"
+        }
+      },
+      {
+        "source_index": 9,
+        "case": {
+          "id": "C39__Emid__both_ends__side2",
+          "young_Pa": 106066.01717798212,
+          "support": "both_ends",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "Emid",
+          "log_material_fraction": 0.5,
+          "material_use": "TABLE_NODE",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          40,
+          20,
+          20
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu1/C39__Emid__both_ends__side2/mesh40/capture.npz",
+          "sha256": "7cdefadb7489fa2d78a57d5c9dd9dfe2e533356e38d50a8bc24b9df418001d3d"
+        }
+      },
+      {
+        "source_index": 10,
+        "case": {
+          "id": "C39__Emid__separated_bottom_patches__side2",
+          "young_Pa": 106066.01717798212,
+          "support": "separated_bottom_patches",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "Emid",
+          "log_material_fraction": 0.5,
+          "material_use": "TABLE_NODE",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu2/C39__Emid__separated_bottom_patches__side2/mesh32/capture.npz",
+          "sha256": "abb082d81b7306c70a58ffd2180f0ee370989dfdf6ba586bd7326637b341edff"
+        }
+      },
+      {
+        "source_index": 11,
+        "case": {
+          "id": "C39__Emid__separated_bottom_patches__side2",
+          "young_Pa": 106066.01717798212,
+          "support": "separated_bottom_patches",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "Emid",
+          "log_material_fraction": 0.5,
+          "material_use": "TABLE_NODE",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          40,
+          20,
+          20
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu2/C39__Emid__separated_bottom_patches__side2/mesh40/capture.npz",
+          "sha256": "6a83c5acc9468504b95ec0d0fe06d7690ef3e48d6395547a33341d5caa9dca3a"
+        }
+      },
+      {
+        "source_index": 12,
+        "case": {
+          "id": "C39__ElogQ3__both_ends__side2",
+          "young_Pa": 126134.46228805717,
+          "support": "both_ends",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "ElogQ3",
+          "log_material_fraction": 0.75,
+          "material_use": "WITHHELD_INTERPOLATION_VALIDATION",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu0/C39__ElogQ3__both_ends__side2/mesh32/capture.npz",
+          "sha256": "d7ec1ea86e7f27110f5d5668ab7d7494424a49d9111ba4ab93bfe80f2329265f"
+        }
+      },
+      {
+        "source_index": 13,
+        "case": {
+          "id": "C39__ElogQ3__both_ends__side2",
+          "young_Pa": 126134.46228805717,
+          "support": "both_ends",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "ElogQ3",
+          "log_material_fraction": 0.75,
+          "material_use": "WITHHELD_INTERPOLATION_VALIDATION",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          40,
+          20,
+          20
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu0/C39__ElogQ3__both_ends__side2/mesh40/capture.npz",
+          "sha256": "52807a52a6adadce36659493fdb072e5ca58c242264a28bd3b69d692b5a41dfa"
+        }
+      },
+      {
+        "source_index": 14,
+        "case": {
+          "id": "C39__ElogQ3__separated_bottom_patches__side2",
+          "young_Pa": 126134.46228805717,
+          "support": "separated_bottom_patches",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "ElogQ3",
+          "log_material_fraction": 0.75,
+          "material_use": "WITHHELD_INTERPOLATION_VALIDATION",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu1/C39__ElogQ3__separated_bottom_patches__side2/mesh32/capture.npz",
+          "sha256": "e0161804f9587d00e4524a86a9de0dc781f77d6cd5ad98fb37df5a38e8f28f98"
+        }
+      },
+      {
+        "source_index": 15,
+        "case": {
+          "id": "C39__ElogQ3__separated_bottom_patches__side2",
+          "young_Pa": 126134.46228805717,
+          "support": "separated_bottom_patches",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "ElogQ3",
+          "log_material_fraction": 0.75,
+          "material_use": "WITHHELD_INTERPOLATION_VALIDATION",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          40,
+          20,
+          20
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu1/C39__ElogQ3__separated_bottom_patches__side2/mesh40/capture.npz",
+          "sha256": "a9c6acc4c7448e5399a2a94dd5ded6db25a1ebd6dc2ba8c524dcc62a9f1a26b9"
+        }
+      },
+      {
+        "source_index": 16,
+        "case": {
+          "id": "C39__Ehi__both_ends__side2",
+          "young_Pa": 150000.0,
+          "support": "both_ends",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "Ehi",
+          "log_material_fraction": 1.0,
+          "material_use": "TABLE_NODE",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu2/C39__Ehi__both_ends__side2/mesh32/capture.npz",
+          "sha256": "a814c60a529b643e64ea7922d73f7652127d245826a7d75a4d80cd4b802366f1"
+        }
+      },
+      {
+        "source_index": 17,
+        "case": {
+          "id": "C39__Ehi__both_ends__side2",
+          "young_Pa": 150000.0,
+          "support": "both_ends",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "Ehi",
+          "log_material_fraction": 1.0,
+          "material_use": "TABLE_NODE",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          40,
+          20,
+          20
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu2/C39__Ehi__both_ends__side2/mesh40/capture.npz",
+          "sha256": "d4058ac98815001ce276aa765ed6028abe4a7131d5d58be99a2821674facca9f"
+        }
+      },
+      {
+        "source_index": 18,
+        "case": {
+          "id": "C39__Ehi__separated_bottom_patches__side2",
+          "young_Pa": 150000.0,
+          "support": "separated_bottom_patches",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "Ehi",
+          "log_material_fraction": 1.0,
+          "material_use": "TABLE_NODE",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu0/C39__Ehi__separated_bottom_patches__side2/mesh32/capture.npz",
+          "sha256": "e23712fd93f74861fa10deae03c3366083dd8ad3360a33f1d02389f1a83d6254"
+        }
+      },
+      {
+        "source_index": 19,
+        "case": {
+          "id": "C39__Ehi__separated_bottom_patches__side2",
+          "young_Pa": 150000.0,
+          "support": "separated_bottom_patches",
+          "Fz_N": 0.0,
+          "action_id": "middle_side_2N",
+          "force_vector_N": [
+            0.0,
+            2.0,
+            0.0
+          ],
+          "kind": "NEW_C39_nonlinear_side_table",
+          "material_id": "Ehi",
+          "log_material_fraction": 1.0,
+          "material_use": "TABLE_NODE",
+          "force_id": "side2",
+          "reused_original_case": false
+        },
+        "cells": [
+          40,
+          20,
+          20
+        ],
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-side-nonlinear-table-v01/gpu0/C39__Ehi__separated_bottom_patches__side2/mesh40/capture.npz",
+          "sha256": "2ec9351bbb72216ce59d85184d6da3818e10d9f72251c7ab5658c06b82d52fce"
+        }
+      }
+    ],
+    "linear_protocol": {
+      "path": "runs/operator-dev/c39-fine-linear-screen-v01/protocol.json",
+      "sha256": "85a382162073b9786425faadd7883a432908cd3ae20abeb1d14f5b29f587d696"
+    },
+    "linear_execution": {
+      "path": "runs/operator-dev/c39-fine-linear-screen-v01/execution.json",
+      "sha256": "950b4b732eceafa557671684919e010461358db4be10d213c244527000493341"
+    },
+    "linear_compact": {
+      "path": "runs/operator-dev/c39-fine-linear-screen-v01/compact-summary.json",
+      "sha256": "a43079b5ec90d596994c2d132db45caf7a996bdfde04b7565c5f5a28828116c9"
+    },
+    "linear_rows": [
+      {
+        "support": "both_ends",
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "source_result": {
+          "path": "runs/gaussian-campaign-v01/c39-fine-linear-screen-v01/both_ends/result.json",
+          "sha256": "d42b14eb7ce38ee143109d5be887b2775beddd9f348c54512aa229413b8c8487"
+        },
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-fine-linear-screen-v01/both_ends/mesh32.npz",
+          "sha256": "57372caed9e2e45702f7fe3caa723fb7fafe078f86ad2bc4e600697dfb2f8886"
+        }
+      },
+      {
+        "support": "both_ends",
+        "cells": [
+          40,
+          20,
+          20
+        ],
+        "source_result": {
+          "path": "runs/gaussian-campaign-v01/c39-fine-linear-screen-v01/both_ends/result.json",
+          "sha256": "d42b14eb7ce38ee143109d5be887b2775beddd9f348c54512aa229413b8c8487"
+        },
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-fine-linear-screen-v01/both_ends/mesh40.npz",
+          "sha256": "563a21d32475ab344a6e13a1b975b86825cf3a2f8fa233cf05607e166c09b9b1"
+        }
+      },
+      {
+        "support": "separated_bottom_patches",
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "source_result": {
+          "path": "runs/gaussian-campaign-v01/c39-fine-linear-screen-v01/separated_bottom_patches/result.json",
+          "sha256": "c1a2fcc47c4373e43bb451751f63e8446c257cfdad7e47af3c37a50b714ac788"
+        },
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-fine-linear-screen-v01/separated_bottom_patches/mesh32.npz",
+          "sha256": "835ea8dab99c090e228006a56bd0feb753558cb44cf5d39b55b7443fbdac61d6"
+        }
+      },
+      {
+        "support": "separated_bottom_patches",
+        "cells": [
+          40,
+          20,
+          20
+        ],
+        "source_result": {
+          "path": "runs/gaussian-campaign-v01/c39-fine-linear-screen-v01/separated_bottom_patches/result.json",
+          "sha256": "c1a2fcc47c4373e43bb451751f63e8446c257cfdad7e47af3c37a50b714ac788"
+        },
+        "capture": {
+          "path": "runs/gaussian-campaign-v01/c39-fine-linear-screen-v01/separated_bottom_patches/mesh40.npz",
+          "sha256": "38ca4562b5d64c2f83ae87cde89ffed2e0b64e5d3ef8ffdb40769ddf717e3155"
+        }
+      }
+    ]
+  },
+  "output": "runs/gaussian-campaign-v01/c39-side-point-validation-v01",
+  "resources": {
+    "CPU_affinity_cores": [
+      34,
+      35
+    ],
+    "CPU_threads": 2,
+    "RSS_cap_bytes": 2147483648,
+    "wall_cap_s": 120,
+    "disk_free_reserve_bytes": 32212254720,
+    "projected_output_bytes": 10485760,
+    "no_CUDA": true
+  },
+  "withheld_interpolation_tolerance_m": 1e-06,
+  "extract_members": [
+    "material_probes_m",
+    "probe_positions_m"
+  ],
+  "candidate_TABLE_NODE_rows": 12,
+  "PRIVATE_withheld_rows": 8,
+  "linear_rows": 4,
+  "no_observations_or_draws": true,
+  "raw_local": true
+}
