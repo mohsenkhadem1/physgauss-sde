@@ -1,0 +1,191 @@
+{
+  "schema": "COMPLIANT-count-continuation-terminal-scalar-v01",
+  "status": "TERMINAL_FULL4D_PRECISION_NEGATIVE",
+  "completed": true,
+  "passed": false,
+  "reason": "Full4D MH unit-quantile MCSE fails unchanged.005 precision gate",
+  "protocol_sha256": "b61d0213a88b82c02f6dbd1849e958912136abf778e9837d43f85178c4022f1a",
+  "source_pins_verified": 105,
+  "input_pins_verified": 17,
+  "old_source_versions_unchanged": true,
+  "original_2D_negative_preserved": true,
+  "old4D_grid_negative_preserved": true,
+  "stage_denominators": {
+    "qualification_completed": 1,
+    "qualification_planned": 1,
+    "jointDiagnostics_completed": 1,
+    "jointDiagnostics_planned": 1,
+    "SMC_completed": 6,
+    "SMC_planned": 6,
+    "fullMH_completed": 1,
+    "fullMH_planned": 1
+  },
+  "qualification": {
+    "passed": true,
+    "same_chains": 8,
+    "previous_retained_per_chain": 2000,
+    "additional_retained_per_chain": 14000,
+    "total_retained_per_chain": 16000,
+    "new_warmup": 0,
+    "new_seed": false,
+    "new_proposal": false,
+    "old_prefix_states_and_loglik_bit_identical": true,
+    "RNG_end_matches_exact16500step_replay": true,
+    "original_2D_comparison": {
+      "max_CDF_difference": 0.00350174733846631,
+      "max_unit_quantile_difference": 0.001753976327743545,
+      "fields": {
+        "A": {
+          "mean_RMS_m": 8.797779025384221e-07,
+          "std_RMS_m": 7.206904376524123e-07,
+          "tolerance_m": 4.7161027985101e-06,
+          "passed": true
+        },
+        "B": {
+          "mean_RMS_m": 7.019029989042129e-07,
+          "std_RMS_m": 5.796133571939663e-07,
+          "tolerance_m": 3.7528428711840544e-06,
+          "passed": true
+        }
+      },
+      "maximum_function_mean_difference_over_posterior_SD": null,
+      "passed": true
+    },
+    "max_CDF_MCSE": 0.0027164564876570097,
+    "max_quantile_MCSE": 0.002432839381978506,
+    "long_batch_max_CDF_MCSE": 0.002753112671549687,
+    "long_batch_max_quantile_MCSE": 0.002463094292274212,
+    "long_batch_passed": true,
+    "rank_ESS": {
+      "all_parameter_loglik_ridge_function_diagnostics_pass": true,
+      "maximum_Rhat": 1.0003207560882175,
+      "minimum_bulk_ESS": 24128.0209672212,
+      "minimum_tail_ESS": 24233.641493237592,
+      "frozen_chains": 0
+    },
+    "function_relative_MCSE": 0.0072122818426891494,
+    "field_MCSE_passed": true
+  },
+  "full4D": {
+    "started": true,
+    "SMC_original_prescribed_seeds_once": [
+      2026121101,
+      2026121102,
+      2026121103
+    ],
+    "SMC_particle_counts": [
+      8192,
+      32768
+    ],
+    "SMC_pairwise_passed": 15,
+    "SMC_pairwise_planned": 15,
+    "SMC_vs_MH_passed": 6,
+    "SMC_vs_MH_planned": 6,
+    "maximum_comparison_CDF_difference": 0.01870336914062498,
+    "maximum_comparison_unit_quantile_difference": 0.012095830042455902,
+    "SMC_logZ_range": 0.023501066876065124,
+    "SMC_logZ_gate": 0.05,
+    "independent_seed_prediction_MCSE": {
+      "8192": {
+        "A_mean_seed_MCSE_max_m": 5.00799017799641e-06,
+        "A_std_seed_MCSE_max_m": 1.546798596030589e-06,
+        "B_mean_seed_MCSE_max_m": 5.408832139118016e-06,
+        "B_std_seed_MCSE_max_m": 1.4453633451864687e-06
+      },
+      "32768": {
+        "A_mean_seed_MCSE_max_m": 1.3373103193767138e-06,
+        "A_std_seed_MCSE_max_m": 1.140838277381258e-06,
+        "B_mean_seed_MCSE_max_m": 1.407887429219915e-06,
+        "B_std_seed_MCSE_max_m": 1.1959122109958063e-06
+      }
+    },
+    "MH_chains": 8,
+    "MH_warmup_per_chain": 1000,
+    "MH_retained_per_chain": 4000,
+    "MH_seed": 2026121120,
+    "MH_max_CDF_MCSE": 0.009059618703903965,
+    "MH_CDF_MCSE_gate": 0.01,
+    "MH_max_unit_quantile_MCSE": 0.01212539647149085,
+    "MH_quantile_MCSE_gate": 0.005,
+    "MH_failed_quantile_gates": [
+      {
+        "parameter": "center",
+        "quantile": 0.95,
+        "unit_quantile_MCSE": 0.01212539647149085,
+        "gate": 0.005
+      },
+      {
+        "parameter": "width",
+        "quantile": 0.5,
+        "unit_quantile_MCSE": 0.0069778513297999315,
+        "gate": 0.005
+      },
+      {
+        "parameter": "K",
+        "quantile": 0.5,
+        "unit_quantile_MCSE": 0.008070796200069296,
+        "gate": 0.005
+      }
+    ],
+    "MH_rank_ESS": {
+      "all_parameter_loglik_ridge_function_diagnostics_pass": true,
+      "maximum_Rhat": 1.0028236839589622,
+      "minimum_bulk_ESS": 3094.18126308583,
+      "minimum_tail_ESS": 2840.0954806606637,
+      "frozen_chains": 0
+    },
+    "MH_field_MCSE_passed": true,
+    "MH_function_relative_MCSE": 0.018995424400335068,
+    "profile_convergence_complete": true
+  },
+  "supervision": {
+    "completed": true,
+    "exit_code": 0,
+    "reason": null,
+    "supervisor_pid": 7173,
+    "controller_pid": 7174,
+    "controller_reaped": true,
+    "controller_PID_absent": true,
+    "observed_owned_worker_PIDs": [
+      7179,
+      7206,
+      7226,
+      7227,
+      7228,
+      7229,
+      7230,
+      7231,
+      7272
+    ],
+    "all_observed_owned_worker_PIDs_absent": true,
+    "wall_s": 127.83155843100008,
+    "peak_controller_RSS_bytes": 615272448,
+    "hard_wall_s": 1800,
+    "RSS_limit_bytes": 2147483648
+  },
+  "owned_PIDs": [
+    7173,
+    7174,
+    7179,
+    7206,
+    7227,
+    7228,
+    7226,
+    7229,
+    7231,
+    7230,
+    7272
+  ],
+  "all_owned_PIDs_absent": true,
+  "all_workers_reaped": true,
+  "retries": 0,
+  "source_changes_after_freeze": false,
+  "raw_arrays_local": true,
+  "GPU_used": false,
+  "GPU3_untouched": true,
+  "actions_off": true,
+  "physical_calibration": false,
+  "structural_nonidentifiability_claim": false,
+  "next": "No further inference authorized; retain precision negative, source/arrays/diagnostics; any count continuation requires a separately reviewed frozen recipe",
+  "limitations": "Finite chain/batch MCSE estimates do not rule out unvisited modes or prove calibration; profile convergence is not a global identifiability proof"
+}
