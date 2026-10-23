@@ -1,0 +1,5 @@
+# Manufactured postprobe profile: bounded incomplete result
+
+The180s CPU2 controller cap stopped cProfile after177.05s inside the unchanged54-coordinate worker. The partial profile and all outcomes are retained, bothowned processes are absent, and no actual archive/prefix/private values were read. This is NOT a completed numerical-control run. Instrumentation overhead prevents using this partial elapsedtime as ordinary worker runtime.
+
+At termination coordinateCDF accounted for162.28s cumulative; exactrootisolation46.75s (3842calls), with39.79s inside SymPyinterval isolation. Numeric integration accounted for30.74s and repeatedleggauss6.28s. These nested cumulative times overlap and must not be summed. The direct evidence favors exactCDF/topology memoization over a quadrature-rule cache alone. Any optimization requires NEWsource, unchanged rootmass/error guards, independent cached-vs-uncached numerical identity controls and an honest paired manufactured benchmark. Current C38 jobs remain untouched. Rawpstats remain local.

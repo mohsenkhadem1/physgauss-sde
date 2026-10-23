@@ -1,0 +1,203 @@
+{
+  "schema": "C39-controlled-static-orthogonal-extension-DESIGN-v01",
+  "status": "FROZEN_BEFORE_C38_PRIVATE_TARGET_OR_LABEL_ANALYSIS_AND_C39_SIDE_DRAWS",
+  "created_UTC": "2026-10-23T00:52:44.963387+00:00",
+  "scope": "Paired extension of SAME C38 four physical configurations and sixteen noise repetitions. NOT independent population test, RGBD or temporal forecast. No C38 change.",
+  "exact_reuse": {
+    "initial_prediction_seal": {
+      "path": "runs/gaussian-campaign-v01/c38-initial-public-inference-v03/prediction-seal.json",
+      "sha256": "4b8c8dbaed0a566d4cfd72a51a60921f2384be8b78c29e2b20d416b32fdc91e7"
+    },
+    "public_prefix_manifest_sha256": "d04ff02000d80aa334302a3b8e5e961b3c68b32ab2e0709ef57f8a0baf04a630",
+    "initial128_predictions": "Reuse by hash, identical gravity likelihood/target/prior; no recomputation",
+    "downward_post128_predictions": "Reuse hashsealed C38 prefix+DOWN likelihood from same observations; C39policy NEVER accesses DOWN measurements or posteriors"
+  },
+  "physics": {
+    "material_nodes_Pa": [
+      75000.0,
+      106066.01717798212,
+      150000.0
+    ],
+    "validation_logfractions": [
+      0.25,
+      0.75
+    ],
+    "supports": [
+      "both_ends",
+      "separated_bottom_patches"
+    ],
+    "density_kg_m3": 625.0,
+    "poisson": 0.35,
+    "gravity_m_s2": [
+      0.0,
+      0.0,
+      -9.81
+    ],
+    "constitutive": "Unchanged C38 polynomial stableNH",
+    "meshes": [
+      [
+        32,
+        16,
+        16
+      ],
+      [
+        40,
+        20,
+        20
+      ]
+    ],
+    "new_states": "10SIDE states=5E times2BC,20fresh fields FROMREST; originalmechanics gates and20umconditionalq63indicator",
+    "new_candidate_validation": "3TABLEnodes only,inverseE quadratic;2withheld remainPRIVATE;fixed1umEuclideanpointgate,NOrefit/promote/extrapolate"
+  },
+  "actions": [
+    {
+      "action_id": "middle_down_2N",
+      "force_world_N": [
+        0.0,
+        0.0,
+        -2.0
+      ]
+    },
+    {
+      "action_id": "middle_side_2N",
+      "force_world_N": [
+        0.0,
+        2.0,
+        0.0
+      ]
+    }
+  ],
+  "actuator": "Same full-width reference-material TOPband .06<=x<=.18,z=.04. Worlddeadforce. Both2N; eachresetfromcommonrest. Staticstate acquisition, no temporal/energycost claim.",
+  "target": {
+    "action_id": "canonical_up_1N",
+    "force_world_N": [
+      0.0,
+      0.0,
+      1.0
+    ],
+    "point_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62
+    ],
+    "sensor_noise_added_to_latent_field_variance": false
+  },
+  "observations": {
+    "prefix": "EXACT same64 PUBLIC gravity-only prefixes and opaqueIDs; no newIDs/no prefix/downnoise regeneration",
+    "side_sigma_m": 0.0002,
+    "side_noise": "independent zero-mean Cartesian Gaussian, knownstipulatednotcalibratedRGBD",
+    "side_root_seed": 2026102305,
+    "side_seed_recipe": "SeedSequence([2026102305,PRIVATEconfiguration_index,repeat_index,0]); oncesavedandsharedacrosspolicies",
+    "side_draw_gate": "All10 nonlinear side states/pointvalidation/numerical controls PASS +all64C39choicessealed BEFOREfirstSIDEdraw",
+    "per_policy_extra_coordinates": 27,
+    "per_policy_total_coordinates": 54
+  },
+  "prior": {
+    "logE": "uniform log75000..log150000",
+    "support_probabilities": [
+      0.5,
+      0.5
+    ],
+    "matches_C38_exactly": true
+  },
+  "policy": {
+    "names": [
+      "information",
+      "target_risk",
+      "fixed_down",
+      "fixed_side",
+      "random"
+    ],
+    "public_inputs_only": [
+      "candidate_hypothesis_fields",
+      "PUBLICgravity_prefix"
+    ],
+    "forbidden_inputs": [
+      "acquiredDOWNYs",
+      "DOWNposteriors",
+      "SIDEYs",
+      "privateEorBC",
+      "canonicaltargettruth"
+    ],
+    "positive_cloud_orders": [
+      32,
+      64,
+      128
+    ],
+    "fantasy_counts": [
+      64,
+      128,
+      256
+    ],
+    "fantasy_root_seed": 2026102307,
+    "random_root_seed": 2026102306,
+    "common_fantasies": "highest128cloud/sameancestors+noiseacrossactions,samefantasyoutcomesacrossorders,prefixbudgets",
+    "decision": "SameC38 >2pairedMCSE, >2cloudadvantagediscrepancy, samewinnerallorders/budgets; tie/unstable/numericfail=>fixedDOWN; no extraresampling",
+    "risk": "mean latentcanonical+1coordinatevariance over63x3, no sensornoise",
+    "all_choices_sealed_before_SIDE_noise": true
+  },
+  "inference": "SIDEquadGaussian54-coordinate jointprefix+ONEprobe,freshsameprior,blockdiagR; no doubleprefix; unchangedC38target/materialquantileresolution and3methodgates. Exactmemoization optimization only after manufactured comparison; no forward/inference model tuning from C38scores.",
+  "evaluation": "Same64failuredenominator/4fixedgroups/16noiserepetitions, paired5000stratifiednoisebootstrapseed2026102304,no populationCI; pointwisemodel95 vsnumericalrootenclosure95 +zaxis/missmagnitudes. CompareBOTHfixedactions+random. AllC39SIDEpostpredictions sealed beforeC39 SIDE-dependent scores; C38scores may be released after completeC38postseal but do not change thisfrozenplan.",
+  "current_public_evidence": "Coarse4/8 andfine32/40 LINEARrankflip originalCG/q63checksPASS; NOTnonlinearqualification oractivewin",
+  "new_draws_or_physics_authorized_by_this_design_file": false
+}
