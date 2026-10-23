@@ -1,0 +1,162 @@
+{
+  "recipe": {
+    "schema": "C39-static-typed-unknown-physics-point-video-v01",
+    "selection": [
+      {
+        "private_configuration_index": 0,
+        "repeat_index": 0
+      },
+      {
+        "private_configuration_index": 1,
+        "repeat_index": 0
+      },
+      {
+        "private_configuration_index": 2,
+        "repeat_index": 0
+      },
+      {
+        "private_configuration_index": 3,
+        "repeat_index": 0
+      }
+    ],
+    "model": "nonlinear_table",
+    "method": "adaptive",
+    "target_force_Fz_N": 1.0,
+    "after_policy": "target_risk",
+    "fps": 30,
+    "frames_per_case": 120,
+    "width": 1536,
+    "height": 960,
+    "world_scale_pixels_per_m": 1500.0,
+    "orbit_azimuth_degrees": [
+      20.0,
+      65.0
+    ],
+    "elevation_degrees": 20.0,
+    "motion": "STATIC_FIELDS_CAMERA_MOTION_ONLY",
+    "geometry_scale": 1.0,
+    "surface_claim": false,
+    "interval_scope": "Raw z-only 95% model-conditional equal-tail intervals at9qualifiedtop points. Original10nm absolutequantile stopping retained; no nominalCDFaccuracy/calibration claim for tinyspread coordinates. Sensornoise NOT added to latentfield.",
+    "profile_units": "z displacement micrometres; x is reference materialcoordinate millimetres",
+    "CPU_cores": [
+      30,
+      31
+    ],
+    "threads": 2,
+    "hard_wall_s": 180,
+    "no_GPU": true,
+    "purpose": "Static canonical+1 load prediction before/after ONE typedprobe; cameraorbit only, NOT a temporal forecast or learned continuoussurface."
+  },
+  "inputs": {
+    "initial": {
+      "path": "runs/gaussian-campaign-v01/c38-initial-public-inference-v03/prediction-seal.json",
+      "sha256": "4b8c8dbaed0a566d4cfd72a51a60921f2384be8b78c29e2b20d416b32fdc91e7"
+    },
+    "choices": {
+      "path": "runs/gaussian-campaign-v01/c39-typed-static-policy-v01/choices-seal.json",
+      "sha256": "537d4bd6c7bfe550e53152f9505b8443e9dd74f5d155d3fb29caf4fe63ff5894"
+    },
+    "post": {
+      "path": "runs/gaussian-campaign-v01/c39-SIDE-postprobe-inference-v01/prediction-seal.json",
+      "sha256": "12538f5b2d2aa5b1af390c25b3830978a97eea5b49a0071ba9ca16e3315a131d"
+    },
+    "summary": {
+      "path": "runs/gaussian-campaign-v01/c39-full-evaluation-v01/summary.json",
+      "sha256": "a6aa1a8838d27cd39c7c87984ad92d9b821c0315311caae02a12b6bcdb3c447c"
+    },
+    "reference": {
+      "path": "runs/operator-dev/c39-full-evaluation-source-v01/reference.json",
+      "sha256": "d22f471d2797a8b1b7775021af1963b72a4a75c75393a67970e7f58a7eb2b33c"
+    },
+    "observation_execution": {
+      "path": "runs/gaussian-campaign-v01/c38-controlled-observations-v01/PRIVATE/execution.json",
+      "sha256": "94853b220696bcbced7ae48c9d42cf6a37c87d4d28de510f3030093a53888cbe"
+    }
+  },
+  "protocols": {
+    "initial": {
+      "path": "runs/operator-dev/c38-initial-public-inference-v03/protocol-v03.json",
+      "sha256": "cd2238db8cd196f289d5a85f976ad7011f02a01e665a97872a0bcf1a7fd893e0"
+    },
+    "choices": {
+      "path": "runs/operator-dev/c39-typed-static-policy-execution-v01/protocol.json",
+      "sha256": "821e3d062db0f9a831e28825a7e927d0c2b3f7cd91bd71e1fdca68edbd1fd566"
+    },
+    "post": {
+      "path": "runs/operator-dev/c39-SIDE-postprobe-inference-v01/protocol.json",
+      "sha256": "c94ed9e8fe09bbf50cd13d6075b41b8fbff2d04f9a81577460b0c779561e56b3"
+    }
+  },
+  "output": "runs/gaussian-campaign-v01/c39-static-inverse-video-v01",
+  "source_sha256": {
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_block_surface_controls.py": "c0ffbd4dd2ecd1cba6b8e293fddc264dcb2c9a07c81304b9b6c4a0313539064e",
+    "experiments/campaign_boundary_gaussians.py": "d58b849f4c4399049e64182acb3fa84dc34fe040768c3b88a48d84fd55950362",
+    "experiments/campaign_c38_candidate_point_forward.py": "2dd6541d1c76d8e10135e1d8c72ce6e8792f4e4bb7324fb19c2d6d93651b10b0",
+    "experiments/campaign_c38_controlled_observations.py": "ff8af8c202b9d22aca1f08f39c116982ac1964e9a2e3e7583cca65c7cda3104f",
+    "experiments/campaign_c38_inverse_modulus_table.py": "5d960cb6cb7f1bcdd4b8a3159aadda89b32315ad1b0afb3a024a02bdd54cc7c5",
+    "experiments/campaign_c38_linear_candidate_forward.py": "07efe795af285f6b0c0705ecbd4e617b73b8e984893d9934fd71b6e77ab63a9b",
+    "experiments/campaign_c38_nonlinear_table_catalog.py": "8a2c3c53883ef3d01b97cc67923019b1301409cee825969224bed51d53286cc9",
+    "experiments/campaign_c38_policy_metrics.py": "96da3ac624caa0f92e5efb6d02ac959611f692c1436a15f27a52bf4308af6150",
+    "experiments/campaign_c38_polynomial_cache.py": "ea38999a20f679ae5385e3e61396f8fd2a6be910a2d0b87751361ebe99c37795",
+    "experiments/campaign_c38_polynomial_likelihood.py": "231b0a7be3729a61df3798b1713513fe1984e2fea92a1fd8094469478893d9a1",
+    "experiments/campaign_c38_polynomial_likelihood_v02.py": "3e0b97eb8795ca72a39c7b99dcb34f37f5ad548c7797feb6fe38402fad983ab1",
+    "experiments/campaign_c38_prediction_metrics.py": "b08b2de1cf0534067707871cfc5011e9ebf0a76aa9922047a76455f563ad1b8a",
+    "experiments/campaign_c38_public_prefix_inference_v02.py": "f6e1f4b91f24471aa3cf651c98337e55d08ce4285b16fc02c367efa336a06b42",
+    "experiments/campaign_c38_static_family.py": "b5fd3c6af2169cd68df22739d331d2b47f7c3add2b275301e9ab999c7974601a",
+    "experiments/campaign_c38_supported_grading.py": "e7a2d84b50f0fa31665e771e37d0258e4caab3c854190fc97731b2f3c2aa8c06",
+    "experiments/campaign_c38_table_validation.py": "874a5fb025e37a109d94b3e7ba0820a7c326297888266b6bed3b4b17d81096b7",
+    "experiments/campaign_c38_verified_warp_solver.py": "7c8dca13aa04352afd720368c1bdd24a465549ffba0fdf1e729a9eb7c3c20ed1",
+    "experiments/campaign_c39_policy_metrics.py": "287110c55e82af142be268c8b9ef78752f60b3b421256cd064222e4cc6efc3d1",
+    "experiments/campaign_compliant_gaussian_linear.py": "5937a41fe8058e8ba8f6d3388591ab18a78989ad72f18f9af1a39c7ff85bf383",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7",
+    "experiments/campaign_newton_stable_material.py": "bfeba2c9b03891c6dff3efcb9edcc12a7640fe56e5343235cdc7ebaca2d69990",
+    "experiments/campaign_nonlinear_excitation.py": "fbee8a3590887e05547106d035216d70e9b86b1ba2d264a5b805be039c472a3d",
+    "experiments/campaign_nonlinear_fem.py": "468daaafa9d02c9db27553e2cfb154190248500677c212d9dde25bffdf14e1ff",
+    "experiments/campaign_nonlinear_gaussian_reference.py": "af86fbe7fc7c2cc6c827441835e647750068b27167afb0d9337135e385294c74",
+    "experiments/campaign_owned_gpu_budget_v02.py": "60c6a64dd6412e8317306a99f6e33fc854f638c2721fc5521aceffd534f44821",
+    "experiments/campaign_p2_block_preconditioner.py": "39c44377a3f5fdb9207106cc828e655d6c005c617459ae1c67c4110475cc47bb",
+    "experiments/campaign_p2_checkpointed.py": "e330e8a9f9963e7e5e1bf3bea06d8a752fc2006d5f3df3bd5d253c4eb916ed87",
+    "experiments/campaign_p2_coarse_preconditioner.py": "463cba181d9c6a97de0c31a77cfe1f655adc72999d5f1f6bbe5f82567df39628",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336",
+    "experiments/campaign_p2_exact_quadrature.py": "6ae75c317b99d2f4ae657442b0c1bfc03c84f1a8a63b069dbd86f5743d9a849a",
+    "experiments/campaign_p2_geometry.py": "fdae2efcbf0c0abff1d4bb11ccaca8182479c423b80805014b781a510ffa77da",
+    "experiments/campaign_p2_jacobian_certificate.py": "ca63e9b1c11c0125ca2171e8d3572807de00d143b66657f5b9f02ae2b510b8cc",
+    "experiments/campaign_p2_keast_quadrature.py": "4ddf8e6dd5bf7203885f6aa179def256f6c3d20a730958ac150ba546a6a8ed7f",
+    "experiments/campaign_p2_streaming.py": "9ac365a4661688e6a328ec2f28dcc9f64cc77d5ef41148a327ff06a11c6c09f4",
+    "experiments/campaign_p2_supported_preconditioner.py": "70d293dc8fb4c92891c83561df26280876fca2409349524a600f405fe33acb46",
+    "experiments/campaign_p2_torch.py": "978b262409c8ef39c7b6126776c8f5cea6f598f93cc53f62c12ff4bf3d026303",
+    "experiments/campaign_p2_torch_warp_hvp.py": "ddc731c39d5926867efcb5dd3772dd9bb8829efb2041c517bafb5c4a5b687d48",
+    "experiments/campaign_p2_warp_bulk_hvp.py": "7e812664f2d6b6cd29993776509fd7cfadec8798cd4b6b01de33226be088fd42",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/campaign_stable_transient.py": "198c69875bb0672f9966a2eae3706fee34c6af03e4ba41ac7f552c26652175d6",
+    "experiments/campaign_static_p2_block.py": "44ee59307be8f4d2458fbec22c2286fc6dc99b7e0538bf56a58010e25d2e36bf",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "experiments/prepare_campaign_c38_point_table.py": "9755377515988e2fdf9683be53becdf5071f8c957345d1ee691475231865a4bc",
+    "experiments/run_campaign_c38_controlled_observations.py": "8a6fd4129a8af03745b18c3492bb38d9df0dafe5780e3834289db81cdfe71c2f",
+    "experiments/run_campaign_c38_full_evaluation.py": "6d9710f3a7dd77ae7d7c5020b332b3ba41c1253f8fc38c6197570d9cf4a87a0a",
+    "experiments/run_campaign_c38_graded_family_warp.py": "16441ca027a104cb6cbb0cc2433ca533c2bdc2cfbe5d4873f941a5293ada5c1d",
+    "experiments/run_campaign_c38_initial_inference.py": "b00b1ba5fd9382ad2a0cac0510ca81c79db4e27b04554e68d8acd160bd99c410",
+    "experiments/run_campaign_c38_prediction_evaluation.py": "128406c3e6e5c2aec2159ed942e5cc5de5a303c957de49b68ce8e4a6254576aa",
+    "experiments/run_campaign_c38_static_graded_pilot.py": "b57653c690c7631d380ca73d09b342d7150ded7bcdfb27cc7f719a0005a1fdf1",
+    "experiments/run_campaign_c38_static_prequalification.py": "0b220b823cbe03e84f454c45f47714598ec3ae9a225affd83030a62257ab592e",
+    "experiments/run_campaign_c39_full_evaluation.py": "dc1cefd33264a6619f5a93734cd278c0a9e4869b01ed709842e6c37c2efa5845",
+    "experiments/run_static_p2_axial_continuation.py": "c12200e9a70764e637960ee5bd99909627a83309294459aaf845d995cfcbd86c",
+    "experiments/video_c38_controlled_inverse.py": "41c039af238efd40d5abc3403b5cab74af80d5484787bb7e9f6670641dd78a6c",
+    "experiments/video_c39_controlled_inverse.py": "1b0bd1409a08892c893a3945b4db2cf5034b620ab2af44b18b2cceb169df0019",
+    "tests/test_video_c38_controlled_inverse.py": "8800926a107b39495bb98f07915f1d5a39802473b225d6a2fe04245e05370ab7",
+    "tests/test_video_c39_controlled_inverse.py": "f7ffc4d67c0645ba516bee0240184a8c274fa5e4464640c29a2ca79ee42b086e"
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "sympy": "1.14.0",
+    "mpmath": "1.3.0"
+  },
+  "status": "FROZEN_SELECTION_BEFORE_SELECTED_VALUE_READS",
+  "actual_selected_values_read": false
+}
