@@ -1,0 +1,26 @@
+{
+  "schema": "specialised-quartic-numerical-validation-DESIGN-v1",
+  "status": "SOURCE_MANUFACTURED_ONLY_NO_ACTUAL_POSTERIOR_ADMISSION",
+  "model": "SubtractobservedconstantbeforeSPDwhitening. D(x)=.5||r0+r1x+r2x\u00b2||\u00b2. UnitlogEprior; x=Elo/E; stationarityDprimecubic. Exactbinaryrationalcoefficients+Sturmisolation preserveallrealroots/multiplicities.",
+  "partition": "Endpoints+allstationaryrootintervals+allD-Dmin levelroots at1/4/16/64; integrateALLsegments, no taildropping. Directlocalresidual expansion avoidsquarticcancellation. Degeneracy unresolved=>FAIL, notclosestroot/drop.",
+  "integration": "Local delta-logE coordinate; scalar mass scalesdlogE, notuniforminverseE. Adaptivequad_vec success required; fixedGauss independent crossrule. Error-estimatedZmustresolvecomponent/totalnormalizers.",
+  "targets": "CanonicaltargetcoefficientsprovidedSEPARATELY. CoordinateCDF solvesquadraticinequality andintegratescategorymassoverresultingintervals. Centredmoments scaledbyfixed200\u00b5m; no rawsecondmoment cancellation, no sensornoiseadded.",
+  "prospective_numerical_gates": {
+    "logZ_difference": 1e-07,
+    "category_and_CDF_difference": 1e-06,
+    "logE_quantile_difference": 1e-05,
+    "target_mean_and_interval_endpoint_m": 1e-07,
+    "target_variance_difference": "max(1e-14m\u00b2,1e-3referencevariance)"
+  },
+  "required_controls": [
+    "Analyticuniformlogprior/categoryodds",
+    "NarrowlinearGaussian posterior",
+    "Bimodalquadraticmean; near-repeatedstationaryroots andexactmultiplicity",
+    "Sharedmissedpeak counterexample preserved withanalyticwrongness",
+    "Largeconstanttargetshift centredvariance;targetinequalityCDF",
+    "Actualfinite80fieldand16withheldinterpolationgates BEFOREresponse/noisediagnostics",
+    "Independentnumericalrules fornormalizer/materialCDF/quantiles/targetmoments/intervals; no autotuningonscore"
+  ],
+  "diagnostic_scope": "4withheldfixedconfigs x16noise replications, notpopulation/calibration; canonicalall63pointmoments/risk andexplicit9top-pointintervalscope ifchosen. No actualvaluesopened.",
+  "no_launch_authorization": true
+}

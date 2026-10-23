@@ -1,0 +1,1 @@
+The manufactured single- and two-narrow-mode examples reproduce shared quadrature failure. Adaptive and64/128Gauss CDFs agree to3.33e-16 while analytic CDF errors are.875/.35; logZ error is34.80084. This demonstrates numerical agreement alone cannot certify an unrestricted finite likelihood. No actual observations or physics were accessed. Generic helper bytes remain unchanged.

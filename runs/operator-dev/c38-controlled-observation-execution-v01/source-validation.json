@@ -1,0 +1,23 @@
+{
+  "schema": "C38-controlled-observation-execution-source-controls-v01",
+  "source_sha256": {
+    "experiments/run_campaign_c38_controlled_observations.py": "8a6fd4129a8af03745b18c3492bb38d9df0dafe5780e3834289db81cdfe71c2f",
+    "tests/test_run_campaign_c38_controlled_observations.py": "21a063442c361d37be3c430e6e349d7c7620315f1cba349081a1fe475e90155c"
+  },
+  "tests": {
+    "passed": 5,
+    "seconds": 3.74,
+    "command": "env CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 .venv/bin/python -m pytest -q tests/test_run_campaign_c38_controlled_observations.py",
+    "scope": "Previously completed manufactured CPU controls only, fake entropy/RNG and temporary repository. No production arrays, identities or noise."
+  },
+  "checks": [
+    "Strict public scalar string/bool/float and exact dtype array roundtrip; private NPZ members rejected.",
+    "Prepare forbids np.load, identity entropy and noise and writes only tempROOT.",
+    "Wrong controls/candidate archive binding fails before arrays/entropy.",
+    "Fake64 completion preserves4x16 private groups and public-only prefix manifest.",
+    "Partial failure preserves full private64-ID mapping; existing destination rejects retry and regeneration."
+  ],
+  "source_review": "Root independently reviewed full source and approved source/preparation only.",
+  "real_observations_drawn": false,
+  "production_identity_entropy_drawn": false
+}

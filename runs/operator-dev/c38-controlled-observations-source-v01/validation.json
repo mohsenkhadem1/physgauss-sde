@@ -1,0 +1,24 @@
+{
+  "schema": "C38-controlled-observations-source-controls-v01",
+  "source_sha256": {
+    "experiments/campaign_c38_controlled_observations.py": "ff8af8c202b9d22aca1f08f39c116982ac1964e9a2e3e7583cca65c7cda3104f",
+    "tests/test_campaign_c38_controlled_observations.py": "f92f60dce44dded92676b2db956ec3ec9f9bb1bb9025c95b5c952e16e0f65c05"
+  },
+  "tests": {
+    "passed": 5,
+    "seconds": 1.78,
+    "command": "env CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 .venv/bin/python -m pytest -q tests/test_campaign_c38_controlled_observations.py",
+    "scope": "Manufactured63point fields, fake RNG and fake ID entropy only; production RNG disabled in primary draw-control test"
+  },
+  "checks": [
+    "Exactdesign9points/200um/16repeats/SeedSequence channels0gravity1down2up",
+    "No E/BC/private index/repeat/seed/source/canonical target/counterfactual action arrays in exact public payload",
+    "Futurecounterfactual probe/target changes do not affect acquiredprefix",
+    "Independent opaque128bit ID generation signature contains no physics; duplicate IDs fail without redraw, public orderingbyopaqueID",
+    "Private archive hash/role/source_index/finest mesh/63point scope + design-bound posterior controls before arrays/noise"
+  ],
+  "frozen_design_metadata_read_only": true,
+  "real_observations_drawn": false,
+  "production_noise_or_identity_entropy_drawn": false,
+  "real_point_table_arrays_read": false
+}

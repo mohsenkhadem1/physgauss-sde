@@ -1,0 +1,39 @@
+{
+  "schema": "manufactured-shared-peak-counterexample-v1",
+  "status": "FROZEN_BEFORE_MANUFACTURED_DIAGNOSTIC",
+  "source_sha256": {
+    "experiments/diagnose_c38_shared_peak_miss.py": "f2ec84123aba99f97f0118e252ef754c1587e81b52e6421aef29d753e9f85687",
+    "tests/test_diagnose_c38_shared_peak_miss.py": "0edd2393a5066bc7e9cb578bd26c55e2164e6017d2e004e0a24cab4ec27521bf",
+    "experiments/campaign_c38_static_posterior.py": "cb93f101fd367584b35efaf48bfb293ee615fe2c8c97070ef0a4ecdaba9d870c"
+  },
+  "configs": [
+    {
+      "name": "single_narrow_mode",
+      "centers": [
+        0.123456
+      ],
+      "mixture": [
+        1.0
+      ]
+    },
+    {
+      "name": "two_narrow_modes",
+      "centers": [
+        0.123456,
+        0.765432
+      ],
+      "mixture": [
+        0.4,
+        0.6
+      ]
+    }
+  ],
+  "sigma_unit": 1e-07,
+  "background_log": -50.0,
+  "scope": "Source-review counterexample ONLY. No cohort/observations/physics reads, no production helper changes, no calibration or posterior admission.",
+  "expected": "Adaptive and64/128Legendre can all miss same peaks. Retain their apparent agreement alongside analytic error; never promote agreement to proof.",
+  "CPU_affinity_cores": [
+    30,
+    31
+  ]
+}

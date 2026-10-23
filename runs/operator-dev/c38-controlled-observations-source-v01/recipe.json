@@ -1,0 +1,50 @@
+{
+  "schema": "C38-controlled-observations-SOURCE-RECIPE-v01",
+  "status": "NO_EXECUTION_PROTOCOL_NO_PRODUCTION_DRAWS_AUTHORIZED",
+  "design": {
+    "path": "runs/operator-dev/c38-controlled-inverse-design-v01/design-v01.json",
+    "sha256": "698f99008a588e0df4556e4de5b0e95cd19e15790cc89c9ab1cc24ed27877e85"
+  },
+  "controlled_configurations": 4,
+  "independent_noise_repeats_per_configuration": 16,
+  "public_records": 64,
+  "independent_population_objects": false,
+  "point_ids": [
+    11,
+    14,
+    17,
+    29,
+    32,
+    35,
+    47,
+    50,
+    53
+  ],
+  "source_sha256": {
+    "experiments/campaign_c38_controlled_observations.py": "ff8af8c202b9d22aca1f08f39c116982ac1964e9a2e3e7583cca65c7cda3104f",
+    "tests/test_campaign_c38_controlled_observations.py": "f92f60dce44dded92676b2db956ec3ec9f9bb1bb9025c95b5c952e16e0f65c05"
+  },
+  "APIs": [
+    "load_frozen_design(root)",
+    "load_qualified_private_responses(root,archive_record,validation_record,posterior_controls_record,private_configuration_index=...)",
+    "mint_opaque_ids(count) ONLY after execution approval; independently before private label assignment, persist IDs, no redraw",
+    "private_repeat(config,repeat,public_id,bound_private_responses,design=...) returns PUBLIC prefix and separate PRIVATE evaluator bundle",
+    "validate_public_prefix / order_public_prefixes enforce exact acquired-only shape/member/opaque-ID ordering"
+  ],
+  "required_future_prerequisites": [
+    "All40directstates/80meshfields complete originalmechanics/q63spatial checks",
+    "Exact bound point archive finiteinterpolation validation1um on both meshes/allforces",
+    "Root-reviewed specialised posterior-control receipt: completed/all_numerical_controls_passed/design_sha256",
+    "Freeze actual executable call/source/resource/archive/ID mapping before production observations",
+    "Keep PRIVATE counterfactual probe arrays/latent labels/canonical F+1 targets outside B/policy features; caller seal barriers before release"
+  ],
+  "no_noise_or_identity_entropy_drawn": true,
+  "no_actual_case_or_cohort_arrays_read": true,
+  "no_observations_posteriors_policies_or_dataset_admitted": true,
+  "nonclaims": [
+    "Ideal tracked3Dpoints; no RGB-D/camera visibility or physical sensor calibration",
+    "Static load/reset experiment; no dynamic settling/temporal forecast claim",
+    "Fixed4controlled configurations with16noise repeats, not64independent physical objects",
+    "Trusted application source/hash separation, not OS isolation or numerical proof from flags"
+  ]
+}

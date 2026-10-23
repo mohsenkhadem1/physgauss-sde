@@ -1,0 +1,45 @@
+{
+  "schema": "read-only-static-inverse-scientific-review-v1",
+  "reviewed_source_sha256": {
+    "experiments/campaign_c38_static_posterior.py": "cb93f101fd367584b35efaf48bfb293ee615fe2c8c97070ef0a4ecdaba9d870c",
+    "experiments/campaign_c38_inverse_modulus_table.py": "5d960cb6cb7f1bcdd4b8a3159aadda89b32315ad1b0afb3a024a02bdd54cc7c5",
+    "experiments/campaign_c38_table_validation.py": "874a5fb025e37a109d94b3e7ba0820a7c326297888266b6bed3b4b17d81096b7",
+    "tests/test_campaign_c38_static_posterior.py": "aa336296df3dbf146c3d787b348f4ce32556b4aba15412b19f37d38f30961342",
+    "tests/test_campaign_c38_inverse_modulus_table.py": "1e20a7b6e680c80e65e27f5ad87fae1c302504a6a5f36932be49b7ee25d0cf3a"
+  },
+  "no_source_edits": true,
+  "no_actual_observation_or_target_reads": true,
+  "no_physics_calls": true,
+  "findings": [
+    {
+      "severity": "NUMERICAL_ADMISSION_BLOCKER_FOR_GENERIC_HELPER",
+      "issue": "Adaptive plus64/128Legendre agreement can share a completelymissed narrow likelihood mode;257pointshiftgridisnotpeakenumeration.",
+      "evidence": "runs/operator-dev/c38-shared-peak-counterexample-v01/result-summary.json",
+      "scope": "Genericfinitefunctioncounterexample, not observedphysicalresult"
+    },
+    {
+      "severity": "REQUIRED_NORMALIZATION_CHECK",
+      "issue": "Genericquad_vecabsoluteerror isrecorded but notqualifiedrelativeZ beforeCDF/quantiles; tinyZcanmakeabsoluteatolmisleading. NoCDFmonotonicity/bounds guard.",
+      "fix_design": "Specialisedexactrationalstationary/levelpartitions, localmodeintegration, relativeZerrorestimate; independentadaptive/fixedrules plusCDF/quantilechecks. Do not claimrigorousphysicalcoverage."
+    },
+    {
+      "severity": "REQUIRED_FORWARD_LIKELIHOOD_CHECK",
+      "issue": "Passing1\u00b5m maxpointinterpolation at2withheldE doesnotboundlikelihood/posteriorerrorovercontinuousE; quadraticLagrangeweights cannegative and are not PDE equilibria.",
+      "fix_design": "Retainall80fields/allwithheldchecks; preservefailedinterpolation. Validateactualwhitenedmeasurementdifference/directloglikelihoodatwithheldE, tablemeshposteriorstability,andwholeP2J/constraints ofcandidatefields whereclaimed. No refittingwithheldnodes."
+    },
+    {
+      "severity": "ROLE_LIMIT",
+      "issue": "Fourwithheldphysicalconfigurations with16noise repetitions areconditionalmeasurementreplications, not64independentpriorobjects or calibratedpopulationcoverage.",
+      "fix_design": "Reportall4truthsseparately; distinguishconditionalnoisecoveragefrompriorpredictive/populationcalibration. Treatcanonicaltargetasnoiselesslatentfield; do notautomaticallyaddsensornoise."
+    },
+    {
+      "severity": "NO_DEFECT_FOUND",
+      "issue": "UniformlogE prior Jacobian and category normalization correct; table inverseE basis andnoextrapolation/refit behavior correct. Validator checksall80exactcase/mesh/pointslots andretainsfailures."
+    }
+  ],
+  "likelihood_sensitivity": "For delta=interpolatedmean-directmean, r=C^-1/2(y-mu), e=C^-1/2delta, delta logL=r dot e-.5||e||\u00b2. A pointwise displacement tolerance alone isnot a fixedposteriorerrorbound.",
+  "next_specialised_source": "experiments/campaign_c38_polynomial_likelihood.py",
+  "specialised_scope": "FixedGaussian idealtrackedacquiredpoints ONLY; notRGBD/visibility/correlateddiscrepancy likelihood. Exactrationalproofappliestostoredfloatwhitenedcoefficients, notthephysicalforward.",
+  "physical_calibration_established": false,
+  "target_intervals_established": false
+}

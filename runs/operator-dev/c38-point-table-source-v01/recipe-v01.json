@@ -1,0 +1,41 @@
+{
+  "schema": "C38-point-table-RECIPE-SOURCE-ONLY-v01",
+  "status": "NOT_AN_EXECUTION_PROTOCOL_NO_ARRAY_READ_AUTHORIZATION",
+  "required_completed_summary": "runs/operator-dev/c38-nonlinear-table-v01/completed-summary.json",
+  "required_cache_index": "runs/operator-dev/c38-nonlinear-table-v01/terminal-case-cache.json",
+  "required_reused14_prerequisite": "runs/operator-dev/c38-nonlinear-table-v01/prerequisite.json",
+  "counts": {
+    "states": 40,
+    "fields": 80,
+    "table_source_fields": 48,
+    "private_direct_withheld_fields": 32
+  },
+  "source_sha256": {
+    "experiments/prepare_campaign_c38_point_table.py": "9755377515988e2fdf9683be53becdf5071f8c957345d1ee691475231865a4bc",
+    "experiments/campaign_c38_table_validation.py": "874a5fb025e37a109d94b3e7ba0820a7c326297888266b6bed3b4b17d81096b7",
+    "experiments/campaign_c38_inverse_modulus_table.py": "5d960cb6cb7f1bcdd4b8a3159aadda89b32315ad1b0afb3a024a02bdd54cc7c5",
+    "experiments/campaign_c38_nonlinear_table_catalog.py": "8a2c3c53883ef3d01b97cc67923019b1301409cee825969224bed51d53286cc9"
+  },
+  "resources": {
+    "CPU_threads": 2,
+    "wall_cap_s": 120,
+    "RSS_cap_bytes": 12884901888,
+    "disk_free_reserve_bytes": 32212254720,
+    "projected_write_bytes": 10485760,
+    "CPU_affinity_cores": [
+      34,
+      35
+    ]
+  },
+  "tolerance_m": 1e-06,
+  "point_scope": "Exact63 reference material points only; no full nodal/surface/image qualification",
+  "role_rules": "TABLE_NODE material nodes remain candidate forward table; withheld direct nodes remain separate private numerical validation; no refit/promote/drop",
+  "execution_steps": [
+    "Wait all40 completed metadata and external caches; do not read active outputs",
+    "Prepare exact hash-bound execution protocol from completed summary/cache/prerequisite; root reviews exact SHA",
+    "Recheck entire metadata/source/capture closure before first array extraction",
+    "Read ONLY material_probes_m/probe_positions_m from each of80 captures",
+    "Retain every helper check/failure at fixed1e-6m; save separate candidate48/private32 LOCAL archives"
+  ],
+  "no_observations_noise_posterior_or_admission": true
+}

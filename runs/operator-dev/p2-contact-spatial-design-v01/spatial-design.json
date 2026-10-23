@@ -1,0 +1,172 @@
+{
+  "schema": "READONLY-contact-spatial-design-v1",
+  "status": "DESIGN_ONLY_NO_GPU_LEASE_OR_LAUNCH",
+  "source_sha256": {
+    "experiments/campaign_p2_warp_reference_order128.py": "f4b13153e5cc038bd775672b6e09d0cabe2ef67eb21f1e7818038e6e31a2a8d0",
+    "experiments/run_p2_corrected_contact_order128.py": "dbaeb0eed1d09e9be9f2fff5427de2c4bd7862e3ccbed049e00b845da0e4bbc9",
+    "experiments/campaign_p2_jacobian_certificate.py": "ca63e9b1c11c0125ca2171e8d3572807de00d143b66657f5b9f02ae2b510b8cc",
+    "experiments/campaign_p2_consistent_transient.py": "d28e7b3e60f33880178478cde763b78baeb791f0b6c26222874972bbf0d25336"
+  },
+  "completed_reference": {
+    "protocol_path": "runs/operator-dev/p2-corrected-contact-order128-trajectory-v01/protocol.json",
+    "protocol_sha256": "6eb226108e92f411d6499c351d3e8575de031a9c12c4c928038427cddfb856f1",
+    "capture_path": "runs/gaussian-campaign-v01/p2-corrected-contact-order128-trajectory-v01/outer128_accuracy_1e10/trajectory.npz",
+    "capture_sha256": "5a2c638041780380c3e7a9dc3afc56036bdb0aec48b1deff4416ff94247a0fee"
+  },
+  "geometry_only_assembly": [
+    {
+      "cells": [
+        4,
+        2,
+        2
+      ],
+      "tets": 96,
+      "T10_nodes": 225,
+      "DOFs": 675,
+      "T6_boundary_faces": 80,
+      "maximum_rest_edge_m": 0.0824621125123532,
+      "physical_mass_kg": 0.96,
+      "reference_volume_m3": 0.001536,
+      "reference_area_m2": 0.0896,
+      "scalar_M_nnz": 4665,
+      "scalar_dense_M_bytes": 405000,
+      "scalar_M_and_Cholesky_bytes": 810000,
+      "bulk24_and_J141_gradient_bytes": 3801600,
+      "root128_surface_E_bytes": 81920,
+      "accepted4000_fullstate_bytes": 43296000
+    },
+    {
+      "cells": [
+        6,
+        3,
+        3
+      ],
+      "tets": 324,
+      "T10_nodes": 637,
+      "DOFs": 1911,
+      "T6_boundary_faces": 180,
+      "maximum_rest_edge_m": 0.05497474167490214,
+      "physical_mass_kg": 0.96,
+      "reference_volume_m3": 0.001536,
+      "reference_area_m2": 0.0896,
+      "scalar_M_nnz": 14587,
+      "scalar_dense_M_bytes": 3246152,
+      "scalar_M_and_Cholesky_bytes": 6492304,
+      "bulk24_and_J141_gradient_bytes": 12830400,
+      "root128_surface_E_bytes": 184320,
+      "accepted4000_fullstate_bytes": 122400000
+    },
+    {
+      "cells": [
+        8,
+        4,
+        4
+      ],
+      "tets": 768,
+      "T10_nodes": 1377,
+      "DOFs": 4131,
+      "T6_boundary_faces": 320,
+      "maximum_rest_edge_m": 0.0412310562561766,
+      "physical_mass_kg": 0.96,
+      "reference_volume_m3": 0.001536,
+      "reference_area_m2": 0.0896,
+      "scalar_M_nnz": 33249,
+      "scalar_dense_M_bytes": 15169032,
+      "scalar_M_and_Cholesky_bytes": 30338064,
+      "bulk24_and_J141_gradient_bytes": 30412800,
+      "root128_surface_E_bytes": 327680,
+      "accepted4000_fullstate_bytes": 264480000
+    }
+  ],
+  "unchanged_physics": {
+    "size_m": [
+      0.24,
+      0.08,
+      0.08
+    ],
+    "E_Pa": 300000.0,
+    "nu": 0.35,
+    "rho_kg_m3": 625.0,
+    "g_m_s2": [
+      0,
+      0,
+      -9.81
+    ],
+    "bottom_gap_m": 0.05,
+    "finite_reference_area_penalty_N_m3": 1000000000.0,
+    "all_boundary_T6_faces": true,
+    "friction": 0,
+    "damping": 0,
+    "bulk": "Keast24",
+    "surface": "root128",
+    "full_consistent_T10_mass": true,
+    "initial_state": "ExactuniformfreefallT0=1/12s",
+    "end_s": 0.15,
+    "max_DOP_step_s": 3.3333333333333335e-05
+  },
+  "temporal_plan": {
+    "note": "Root64 time pair and tight64->128 surface pair do not establish separate root128 time-pair gate. Worst-case reported velocity-error sum101.637\u00b5m/s exceeds100\u00b5m/s.",
+    "coarse_next": "One root128 rtol1e-9/u1e-12/v1e-10 vs imported tight1e-10/u1e-13/v1e-11; all other settings same; no automatic tighter retry.",
+    "new_meshes": "Each fresh324/768 mesh requires same two-accuracy pair BEFORE spatial admission; failed/completed outcomes retained.",
+    "gates": {
+      "position_m": 2e-05,
+      "velocity_m_s": 0.0001,
+      "energy_J": 4.7088e-07,
+      "momentum_Ns": 1e-08,
+      "masssolve_R_N": 1e-08,
+      "minimum_J": 0.1
+    }
+  },
+  "spatial_plan": {
+    "common_material_points": "Exactexisting81=(x9,y3,z3)publicrestpoints at9common120Hz times; evaluateP2 q AND P2 velocity onidenticalpoints. No nearestnode/allnodearraycomparisonacrossmeshes.",
+    "position_metric": "Maximum Euclidean point error over all fixedtimes/points, not RMS",
+    "velocity_metric": "Same maximum Euclidean error for interpolated physicalvelocity",
+    "gates": {
+      "position_m": 2e-05,
+      "velocity_m_s": 0.0001,
+      "contraction_required": true
+    },
+    "conditional_indicator": "For an explicitlyassumed asymptotic orderp>=1, use h_f/(h_c-h_f)*delta:2 for96->324,3 for324->768; requireindicator20\u00b5m/100\u00b5m/s ifclaiming20\u00b5m conditionalspatialresolution. NOT a rigorous globalerrorbound.",
+    "surface_separation": "Before attributingdifferencesonlytomesh, prospectivelyselectedfiner-state root128 vs fixed256/originaladaptive force/E checks needed. Fixedstateagreement alone isnot trajectory-orderproof; no automatic256GPU.",
+    "population": "Single known drop only; not training/cohort admission orrigidfloor validation"
+  },
+  "cost_forecast": {
+    "measured_96_case_worker_s": 100.79688294697553,
+    "measured_96_integrator_s": 67.76639877771959,
+    "measured_96_RHS": 53435,
+    "measured_inclusive_RHS_plusbalance_average_s": 0.0012682024661311796,
+    "coarse_extra_pair_s": [
+      100,
+      250
+    ],
+    "mid324_per_case_s": [
+      250,
+      800
+    ],
+    "fine768_per_case_s": [
+      600,
+      1800
+    ],
+    "new_mesh_RHS_count_assumption": [
+      50000,
+      150000
+    ],
+    "note": "Extrapolation only. E scales3.375x/8x; boundaryfaces2.25x/4x; densemasssolveN\u00b28.0x/37.5x, but originaloverheads significant. Newfine mesh may require differentadaptivecount; maxstepfixed. No empirical speedclaim.",
+    "suggested_future_caps_s": {
+      "coarse_extra": 600,
+      "mid_per_case": 1200,
+      "mid_phase": 2400,
+      "fine_per_case": 2400,
+      "fine_phase": 4800
+    },
+    "review": "Rootprospectiveseparatephaseapprovalrequiredafteractualmidcost; no batch launch"
+  },
+  "resources": {
+    "GPU_bytes": 8589934592,
+    "RSS_bytes": 12884901888,
+    "filesystem_free_reserve_bytes": 32212254720,
+    "CPU_threads": 2,
+    "lease": "NONE",
+    "checkpoints": "Atomicfullacceptedprefix/y/f/h every512; ownedPGTERM/KILL/reap; preserveallfailures"
+  }
+}
