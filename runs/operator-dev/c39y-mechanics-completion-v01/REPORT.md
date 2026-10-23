@@ -1,0 +1,5 @@
+All four frozen long-domain trajectories completed: 352 accepted steps, 36 fixed-clock captures, physical checks passed throughout, and all owned groups are empty. Supervised wall time was 6758.613 s. GPU0–2 are released; GPU3 remains untouched.
+
+The result is a strict numerical negative. Position temporal order 0.602043 fails the frozen floor of 1 (all-node order 0.602016 also fails). The descriptive position indicator 19.226528 µm is below 20 µm, but its contraction premise fails, so it is not a qualified error bound. Velocity order 1.744793 and conditional indicator 89.769182 µm/s pass their declared gates. Two spatial levels retain only a conditional p≥1 assumption.
+
+The compact inventory preserves all four denominators, original thresholds and negatives, signed and absolute energy-defect sums, runtime evidence and terminal audit hashes. Raw fields, clock captures, checkpoint arrays and media remain local. No dataset is admitted and no new trajectory or retry is authorized. The broad campaign remains incomplete.
