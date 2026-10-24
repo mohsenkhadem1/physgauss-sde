@@ -110,7 +110,8 @@ def render():
                 ax.set_title(name.replace('_', ' ').title(), fontsize=11)
                 ax.tick_params(labelsize=7)
             fig.suptitle(f'Actual: orange surface | Forecast: blue edges | t={(25+frame)/120:.3f} s\n'
-                         'Future only, before extra poke · displacement ×10 · slow playback · finite linear toy model',
+                         'Future only, before extra poke · displacement ×10 · slow playback\n'
+                         f'Finite linear toy model · numerical reference agreement: {status}',
                          fontsize=11)
             fig.subplots_adjust(left=.01, right=.98, bottom=.08, top=.78, wspace=.05)
             fig.canvas.draw()
