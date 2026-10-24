@@ -1,0 +1,323 @@
+{
+  "status": "ACTIVE_FROZEN_DIAGNOSTIC_NOT_POLICY_RERUN",
+  "design": {
+    "schema": "postpoke-refresh-v01",
+    "objects": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "action": "Previously sealed target_variance choice per object; no action reselection",
+    "noise_index": 0,
+    "same_original_observations": true,
+    "reconstructed_observation": "Original runner did not persist poke vectors. Deterministic replay from frozen truth/force/noise seed must reproduce cached old weighted posterior moments before new inference",
+    "dimensions": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "same_original_prior_and_discrete_model": true,
+    "particles": 8192,
+    "prefix_cloud_particles": 32768,
+    "prefix_SMC_seeds": [
+      2026121101,
+      2026121102,
+      2026121103
+    ],
+    "bridge_seeds": [
+      [
+        2026305000,
+        2026305001,
+        2026305002
+      ],
+      [
+        2026305100,
+        2026305101,
+        2026305102
+      ],
+      [
+        2026305200,
+        2026305201,
+        2026305202
+      ],
+      [
+        2026305300,
+        2026305301,
+        2026305302
+      ],
+      [
+        2026305400,
+        2026305401,
+        2026305402
+      ],
+      [
+        2026305500,
+        2026305501,
+        2026305502
+      ],
+      [
+        2026305600,
+        2026305601,
+        2026305602
+      ],
+      [
+        2026305700,
+        2026305701,
+        2026305702
+      ],
+      [
+        2026305800,
+        2026305801,
+        2026305802
+      ],
+      [
+        2026305900,
+        2026305901,
+        2026305902
+      ],
+      [
+        2026306000,
+        2026306001,
+        2026306002
+      ],
+      [
+        2026306100,
+        2026306101,
+        2026306102
+      ]
+    ],
+    "subsample_seeds": [
+      [
+        2026320000,
+        2026320001,
+        2026320002
+      ],
+      [
+        2026320100,
+        2026320101,
+        2026320102
+      ],
+      [
+        2026320200,
+        2026320201,
+        2026320202
+      ],
+      [
+        2026320300,
+        2026320301,
+        2026320302
+      ],
+      [
+        2026320400,
+        2026320401,
+        2026320402
+      ],
+      [
+        2026320500,
+        2026320501,
+        2026320502
+      ],
+      [
+        2026320600,
+        2026320601,
+        2026320602
+      ],
+      [
+        2026320700,
+        2026320701,
+        2026320702
+      ],
+      [
+        2026320800,
+        2026320801,
+        2026320802
+      ],
+      [
+        2026320900,
+        2026320901,
+        2026320902
+      ],
+      [
+        2026321000,
+        2026321001,
+        2026321002
+      ],
+      [
+        2026321100,
+        2026321101,
+        2026321102
+      ]
+    ],
+    "fresh_seeds": [
+      [
+        2026300000,
+        2026300001,
+        2026300002
+      ],
+      [
+        2026300100,
+        2026300101,
+        2026300102
+      ],
+      [
+        2026300200,
+        2026300201,
+        2026300202
+      ],
+      [
+        2026300300,
+        2026300301,
+        2026300302
+      ],
+      [
+        2026300400,
+        2026300401,
+        2026300402
+      ],
+      [
+        2026300500,
+        2026300501,
+        2026300502
+      ],
+      [
+        2026300600,
+        2026300601,
+        2026300602
+      ],
+      [
+        2026300700,
+        2026300701,
+        2026300702
+      ],
+      [
+        2026300800,
+        2026300801,
+        2026300802
+      ],
+      [
+        2026300900,
+        2026300901,
+        2026300902
+      ],
+      [
+        2026301000,
+        2026301001,
+        2026301002
+      ],
+      [
+        2026301100,
+        2026301101,
+        2026301102
+      ]
+    ],
+    "MH_seeds": [
+      2026310000,
+      2026310001,
+      2026310002,
+      2026310003,
+      2026310004,
+      2026310005,
+      2026310006,
+      2026310007,
+      2026310008,
+      2026310009,
+      2026310010,
+      2026310011
+    ],
+    "bridge": {
+      "target": "logL(A)+beta*logL(poke)",
+      "ESS_fraction": 0.8,
+      "rejuvenation_steps": 16,
+      "max_stages": 64,
+      "proposal": "One fixed Gaussian covariance from old prefixSMCseed3; exact independence ratio, correlatedRW box rejection and prior-uniform mixture .5/.45/.05",
+      "RW_scale": 0.5,
+      "initialization": "Uniform8192sample without replacement from each cached32768 prefix cloud; approximate prefixposterior initialization, not exact continuous proposal"
+    },
+    "fresh_joint": {
+      "initialization": "Independent original uniform4D prior, no cached posterior initialization",
+      "ESS_fraction": 0.8,
+      "rejuvenation_steps": 8,
+      "proposal_scale": 0.08,
+      "prior_independence_probability": 0.25,
+      "max_stages": 64
+    },
+    "MH": {
+      "chains": 8,
+      "warmup": 1000,
+      "retained": 64000,
+      "initialization": "Independent fresh original uniform prior",
+      "proposal": "Frozen designated fresh-jointSMCseed3 Gaussian; exact unchanged ridge_MH kernel"
+    },
+    "gates": {
+      "rank_folded_split_Rhat": 1.01,
+      "bulk_tail_ESS": 400,
+      "CDF_MCSE": 0.01,
+      "unit_quantile_MCSE": 0.005,
+      "function_mean_MCSE_over_SD": 0.05,
+      "cross_CDF": 0.05,
+      "cross_unit_quantile": 0.02,
+      "cross_function_mean_over_SD": 0.1,
+      "predictive_mean_SD_RMS": "max(2um,.03*reference_predictiveRMS_SD)",
+      "fresh_logZ_range": 0.05,
+      "bridge_conditional_logZ_range": 0.05
+    },
+    "MCSE_batches": [
+      100,
+      200,
+      400,
+      800,
+      1600
+    ],
+    "comparisons": "All15SMC pairs and6SMCvsMH; no uniform-weight ESS qualification",
+    "bridge_evidence": "Conditional poke evidence relative to approximate prefix clouds; cannot compare its absolute value to joint evidence because original per-seed prefix evidence was not saved",
+    "scope": "Diagnostic selected-action/noise0 numerical posterior only; not16noise policy rerun, population calibration or physical-model validation",
+    "no_retry": true,
+    "no_object_drop": true,
+    "raw_LOCAL": true
+  },
+  "resources": {
+    "controller_cores": [
+      12
+    ],
+    "worker_slots": [
+      [
+        0
+      ],
+      [
+        2
+      ],
+      [
+        4
+      ],
+      [
+        6
+      ],
+      [
+        8
+      ],
+      [
+        10
+      ]
+    ],
+    "threads": 1,
+    "worker_RSS_bytes": 2147483648,
+    "no_GPU": true,
+    "worker_wall_s": 2400,
+    "global_wall_s": 5400,
+    "disk_free_reserve_bytes": 32212254720,
+    "maximum_raw_bytes": 4294967296
+  },
+  "protocol_sha256": "8fbee37a8a4e2c6d13ecdf3b27222b0a294102d0308f797e413578f8386c3eb4",
+  "raw_truth_observation_and_sample_arrays_excluded": true,
+  "no_outcomes_claimed": true
+}
