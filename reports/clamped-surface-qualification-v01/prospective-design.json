@@ -1,0 +1,74 @@
+{
+  "protocol_sha256": "3e3b841e7f9081b81e42690067c8f7f28b48f94d1a8dcb381a0705beecdd2767",
+  "cases": [
+    {
+      "index": 0,
+      "E_Pa": 2000.0,
+      "K_N_m": 5.0
+    },
+    {
+      "index": 1,
+      "E_Pa": 2000.0,
+      "K_N_m": 30.0
+    },
+    {
+      "index": 2,
+      "E_Pa": 8000.0,
+      "K_N_m": 5.0
+    },
+    {
+      "index": 3,
+      "E_Pa": 8000.0,
+      "K_N_m": 30.0
+    },
+    {
+      "index": 4,
+      "E_Pa": 4000.0,
+      "K_N_m": 12.24744871391589
+    }
+  ],
+  "loads": [
+    "normal",
+    "paired_axial"
+  ],
+  "levels": [
+    2,
+    4,
+    8
+  ],
+  "expected_paired_solves": 30,
+  "gates": {
+    "minimum_J": 0.8,
+    "maximum_absolute_symmetric_strain_eigenvalue": 0.05,
+    "minimum_nonrigid_RMS_m": 0.0001,
+    "minimum_nonrigid_fraction": 0.3,
+    "spatial_order_floor": 1.0,
+    "maximum_conditional_fine_indicator_m": 2e-05,
+    "maximum_medium_indicator_m": 2e-05,
+    "maximum_linear_vs_nonlinear_RMS_m": 2e-05,
+    "equilibrium_absolute_N": 1e-10,
+    "equilibrium_relative": 1e-08,
+    "SPD_eigsh_tolerance": 1e-06,
+    "SPD_eigsh_maxiter": 10000,
+    "SPD_initial_seed": 2026102411
+  },
+  "resources": {
+    "cpu_affinity": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "threads": 1,
+    "GPU": false,
+    "wall_cap_s": 1200,
+    "RSS_cap_bytes": 2147483648,
+    "disk_reserve_bytes": 32212254720,
+    "maximum_writes_bytes": 1073741824
+  },
+  "metric": "Coordinate RMS sqrt(integral||difference||\u00b2/(3V)); common finest positiveKeast24; proper weightedSO3 fit",
+  "spatial": "p=log2(dCM/dMF); fine_indicator=dMF/(2**p-1), only if p>=1; medium_indicator=2*dMF. Conditional extrapolation, not rigorous error bound.",
+  "all_cases_retained": true,
+  "no_retuning": true,
+  "no_inference": true
+}
