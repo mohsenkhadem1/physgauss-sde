@@ -81,13 +81,15 @@ def build_cache(model,directory,*,admission_receipt,admission_SHA256,plan=Integr
         raise OSError('Projected cache plus30GiB disk reserve unavailable')
     manifest=dict(schema='surface-response-cache-v01',status='INCOMPLETE',model_fingerprint=fingerprint,
         labels=list(model.labels),channels=Q,plan=dict(simpson=list(plan.simpson),gauss=list(plan.gauss),chunk=plan.chunk),
-        source_SHA256=_sources(),admission_receipt_SHA256=admission_SHA256,admission=admission,
+        source_SHA256=_sources(),build_numpy_version=np.__version__,admission_receipt_SHA256=admission_SHA256,admission=admission,
         projected_table_bytes=projected,RSS_limit_bytes=RSS_LIMIT_BYTES,disk_reserve_bytes=DISK_RESERVE_BYTES,
         interpolation=False,axis_lookup='Exact floating-point equality only; otherwise exact modal fallback',tables=[])
     manifestpath=directory/'manifest.json';manifestpath.write_text(json.dumps(manifest,indent=2)+'\n')
     predict=model.select(model.labels)
     for family,n,axis in specifications:
         name=f'{family}-{n}.npy';path=directory/name
+        axisname=f'{family}-{n}-axis.npy';axispath=directory/axisname
+        np.save(axispath,axis,allow_pickle=False)
         table=np.lib.format.open_memmap(path,mode='w+',dtype=np.float64,shape=(n*n,R,Q))
         for start in range(0,n*n,plan.chunk):
             if _rss()+workspace>=RSS_LIMIT_BYTES:raise MemoryError('Cache write RSS budget exhausted')
@@ -98,7 +100,7 @@ def build_cache(model,directory,*,admission_receipt,admission_SHA256,plan=Integr
             if values.shape!=(len(index),R,Q) or not np.isfinite(values).all():raise FloatingPointError('Invalid exact cache responses')
             table[start:start+len(index)]=values
         table.flush();del table
-        manifest['tables'].append(dict(family=family,n=n,path=name,shape=[n*n,R,Q],SHA256=_sha(path)))
+        manifest['tables'].append(dict(family=family,n=n,path=name,shape=[n*n,R,Q],SHA256=_sha(path),axis_path=axisname,axis_SHA256=_sha(axispath)))
         manifestpath.write_text(json.dumps(manifest,indent=2)+'\n')
     manifest['status']='COMPLETE'
     manifestpath.write_text(json.dumps(manifest,indent=2)+'\n')
@@ -124,9 +126,12 @@ class CachedLabelledModal(LabelledModal):
             if path.parent!=directory or _sha(path)!=entry['SHA256']:raise ValueError('Cache file path/hash mismatch')
             table=np.load(path,mmap_mode='r',allow_pickle=False);n=entry['n']
             if table.dtype!=np.float64 or table.shape!=(n*n,len(self.labels),self.channels):raise ValueError('Cache table layout mismatch')
-            if entry['family']=='Simpson':axis=np.linspace(0,1,n)
-            elif entry['family']=='Gauss':axis=(np.polynomial.legendre.leggauss(n)[0]+1)/2
-            else:raise ValueError('Unknown cache quadrature rule')
+            axispath=directory/entry['axis_path']
+            if axispath.parent!=directory or _sha(axispath)!=entry['axis_SHA256']:raise ValueError('Stored axis path/hash mismatch')
+            axis=np.load(axispath,allow_pickle=False)
+            if entry['family']not in('Simpson','Gauss'):raise ValueError('Unknown cache quadrature rule')
+            if axis.dtype!=np.float64 or axis.shape!=(n,)or not np.isfinite(axis).all()or np.any(np.diff(axis)<=0)or np.any((axis<0)|(axis>1)):
+                raise ValueError('Finite ordered stored unit axis required')
             self.tables.append((axis,table))
         self.manifest=manifest
 

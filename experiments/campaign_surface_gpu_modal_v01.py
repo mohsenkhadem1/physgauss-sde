@@ -58,3 +58,24 @@ class Float64GPUModal(LabelledModal):
                 result=((1/denominator)@coefficients).reshape(len(theta),len(labels),self.channels).cpu().numpy()
             self._guard();return result
         return predict
+
+    def ratio_select(self,labels):
+        """Exact g(r) for u=(1/E)*g(K/E), including every boundary mode.
+
+        This evaluates an algebraic ratio function, not an out-of-prior E/K
+        sample. The caller separately integrates the exact prior wedge.
+        """
+        labels=tuple(labels);self.select(labels);coefficients=self.GPU_coefficients[labels];torch=self.torch
+        def predict(log_ratio):
+            z=np.asarray(log_ratio,float)
+            if z.ndim!=1 or not np.isfinite(z).all() or len(z)>self.maximum_batch:raise ValueError('Bounded finite log-ratio vector')
+            with np.errstate(over='raise',invalid='raise'):ratios=np.exp(z)
+            projected=torch.cuda.memory_allocated(self.device)+8*len(z)*(3*len(self.modal.eigenvalues)+len(labels)*self.channels)+16*1024**2
+            if projected>self.allocated_cap_bytes:raise MemoryError('Ratio batch allocation preflight exceeds declared cap')
+            with torch.no_grad():
+                values=torch.as_tensor(ratios,dtype=torch.float64,device=self.device)
+                denominator=1+values[:,None]*self.GPU_eigenvalues
+                if not bool(torch.isfinite(denominator).all()) or bool((denominator<=0).any()):raise FloatingPointError('Invalid ratio modal denominator')
+                result=((1/denominator)@coefficients).reshape(len(z),len(labels),self.channels).cpu().numpy()
+            self._guard();return result
+        return predict

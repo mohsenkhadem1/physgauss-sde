@@ -25,5 +25,8 @@ def test_float64_selected_modes_independent_likelihood_and_batch_guard():
     np.testing.assert_allclose(a,b,rtol=2e-10,atol=2e-13)
     y=cpu.select(['load0'])(np.array([[.4,.6]]))[0,0];obs=[('load0',y),('load0',y+1e-5)]
     np.testing.assert_allclose(cpu.loglikelihood(obs)(unit),gpu.loglikelihood(obs)(unit),rtol=2e-10,atol=1e-5)
+    z=np.linspace(np.log(5/8000),np.log(30/2000),1024)
+    expected=((1/(1+np.exp(z)[:,None]*modal.eigenvalues))@cpu._selected[tuple(selected)].T).reshape(1024,3,24)
+    np.testing.assert_allclose(gpu.ratio_select(selected)(z),expected,rtol=2e-10,atol=2e-12)
     with pytest.raises(ValueError):gpu.select(['load0'])(np.zeros((4097,2)))
     assert gpu.torch.cuda.max_memory_allocated()<512*1024**2

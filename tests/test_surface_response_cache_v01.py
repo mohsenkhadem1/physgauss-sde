@@ -107,3 +107,19 @@ def test_resource_preflight_refuses_before_table_allocation(tmp_path,monkeypatch
     with pytest.raises(OSError,match='disk reserve'):
         build_cache(model,tmp_path/'disk-refused',admission_receipt=receipt,admission_SHA256=sha(receipt),plan=plan)
     assert not list((tmp_path/'disk-refused').glob('*.npy'))
+
+
+def test_reopen_uses_stored_axes_not_regenerated_library_nodes(tmp_path,monkeypatch):
+    import experiments.campaign_surface_response_cache_v01 as cache
+    model,cached,path,receipt,manifest=fixture(tmp_path)
+    axis=(np.polynomial.legendre.leggauss(16)[0]+1)/2
+    unit=np.array([[axis[3],axis[5]]])
+    expected=model.select(['B'])(unit)
+    def wrong_generation(n):raise AssertionError('Reopen must not regenerate Gauss nodes')
+    monkeypatch.setattr(cache.np.polynomial.legendre,'leggauss',wrong_generation)
+    reopened=CachedLabelledModal(model,path,manifest_SHA256=sha(path/'manifest.json'))
+    assert np.allclose(reopened.select(['B'])(unit),expected,rtol=1e-14,atol=1e-18)
+    axispath=path/manifest['tables'][1]['axis_path']
+    np.save(axispath,np.linspace(0,1,8))
+    with pytest.raises(ValueError,match='axis path/hash'):
+        CachedLabelledModal(model,path,manifest_SHA256=sha(path/'manifest.json'))
