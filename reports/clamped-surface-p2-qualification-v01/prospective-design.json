@@ -1,0 +1,174 @@
+{
+  "schema": "clamped-surface-p2-qualification-v01",
+  "cases": [
+    {
+      "index": 0,
+      "E_Pa": 2000.0,
+      "K_N_m": 5.0
+    },
+    {
+      "index": 1,
+      "E_Pa": 2000.0,
+      "K_N_m": 30.0
+    },
+    {
+      "index": 2,
+      "E_Pa": 8000.0,
+      "K_N_m": 5.0
+    },
+    {
+      "index": 3,
+      "E_Pa": 8000.0,
+      "K_N_m": 30.0
+    },
+    {
+      "index": 4,
+      "E_Pa": 4000.0,
+      "K_N_m": 12.24744871391589
+    }
+  ],
+  "loads": [
+    "normal",
+    "paired_axial"
+  ],
+  "levels": [
+    1,
+    2,
+    4
+  ],
+  "resources": {
+    "cpu_affinity": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "threads": 1,
+    "GPU": false,
+    "wall_cap_s": 1800,
+    "RSS_cap_bytes": 4294967296,
+    "disk_reserve_bytes": 32212254720,
+    "maximum_writes_bytes": 2147483648
+  },
+  "gates": {
+    "minimum_J": 0.8,
+    "maximum_absolute_symmetric_strain_eigenvalue": 0.05,
+    "minimum_nonrigid_RMS_m": 0.0001,
+    "minimum_nonrigid_fraction": 0.3,
+    "spatial_order_floor": 1.0,
+    "maximum_conditional_fine_indicator_m": 2e-05,
+    "maximum_medium_indicator_m": 2e-05,
+    "maximum_linear_vs_nonlinear_RMS_m": 2e-05,
+    "equilibrium_absolute_N": 1e-10,
+    "equilibrium_relative": 1e-08,
+    "SPD_eigsh_tolerance": 1e-06,
+    "SPD_eigsh_maxiter": 10000,
+    "SPD_initial_seed": 2026102411,
+    "maximum_NH24_vs_NH80_RMS_m": 2e-06,
+    "maximum_surface_operator_relative_error": 1e-10
+  },
+  "linear_design": {
+    "schema": "surface-p2-static-v01",
+    "base_n": [
+      1,
+      2,
+      4
+    ],
+    "enriched_nodes": [
+      81,
+      425,
+      2673
+    ],
+    "free_DOF": [
+      189,
+      1125,
+      7533
+    ],
+    "elements_T10": [
+      24,
+      192,
+      1536
+    ],
+    "geometry": "Affine reference T10; bothendfaces exactclamp; unchanged.36x.08x.08",
+    "loads": "Same smooth topnormal-.10N and pairedaxial+.24N perface; exactclippedpatchx[.135,.225],full y",
+    "foundation": "Same analyticnormalized surface Gaussian, consistent P2 Gram W; signed entries/no lumping/no clipping",
+    "bulk_rule": "PositiveKeast24; linear stiffness degree2 exactlyintegrated; independent positive80 crosscheck. LogNH requires numerical24vs80 validation.",
+    "surface_rule": "PositiveDuffy16 independentlychecked20 onoriginalorclippedtriangles; coarseW12vs16 controlnegativepreserved. OriginalP2face shapes evaluated inparent barycentric coordinates",
+    "gates": {
+      "minimum_nonrigid_RMS_m": 0.0001,
+      "minimum_nonrigid_fraction": 0.3,
+      "maximum_linear_strain": 0.05,
+      "minimum_J": 0.8,
+      "free_residual_N": 1e-10,
+      "spatial_order_floor": 1.0,
+      "maximum_conditional_spatial_indicator_m": 2e-05,
+      "support_normalization_relative_error": 1e-10,
+      "load_net_force_error_N": 1e-12,
+      "load_moment_error_Nm": 1e-13,
+      "support_surface_production_vs_refined_relative_Frobenius": 1e-10,
+      "support_surface_production_order": 16,
+      "support_surface_refined_order": 20
+    },
+    "scope": "New higherorder static finite reference. All priorT4 failures preserved. No dynamic, continuumstress, calibratedinference oractivepolicy claim.",
+    "no_automatic_execution": true
+  },
+  "nonlinear_design": {
+    "schema": "surface-p2-static-v01",
+    "base_n": [
+      1,
+      2,
+      4
+    ],
+    "enriched_nodes": [
+      81,
+      425,
+      2673
+    ],
+    "free_DOF": [
+      189,
+      1125,
+      7533
+    ],
+    "elements_T10": [
+      24,
+      192,
+      1536
+    ],
+    "geometry": "Affine reference T10; bothendfaces exactclamp; unchanged.36x.08x.08",
+    "loads": "Same smooth topnormal-.10N and pairedaxial+.24N perface; exactclippedpatchx[.135,.225],full y",
+    "foundation": "Same analyticnormalized surface Gaussian, consistent P2 Gram W; signed entries/no lumping/no clipping",
+    "bulk_rule": "PositiveKeast24; linear stiffness degree2 exactlyintegrated; independent positive80 crosscheck. LogNH requires numerical24vs80 validation.",
+    "surface_rule": "PositiveDuffy16 independentlychecked20 onoriginalorclippedtriangles; coarseW12vs16 controlnegativepreserved. OriginalP2face shapes evaluated inparent barycentric coordinates",
+    "gates": {
+      "minimum_nonrigid_RMS_m": 0.0001,
+      "minimum_nonrigid_fraction": 0.3,
+      "maximum_linear_strain": 0.05,
+      "minimum_J": 0.8,
+      "free_residual_N": 1e-10,
+      "spatial_order_floor": 1.0,
+      "maximum_conditional_spatial_indicator_m": 2e-05,
+      "support_normalization_relative_error": 1e-10,
+      "load_net_force_error_N": 1e-12,
+      "load_moment_error_Nm": 1e-13,
+      "support_surface_production_vs_refined_relative_Frobenius": 1e-10,
+      "support_surface_production_order": 16,
+      "support_surface_refined_order": 20
+    },
+    "scope": "New higherorder static finite reference. All priorT4 failures preserved. No dynamic, continuumstress, calibratedinference oractivepolicy claim.",
+    "no_automatic_execution": true
+  },
+  "expected_paired_solves": 30,
+  "expected_NH80_reference_solves": 30,
+  "quadrature_orders": [
+    24,
+    80
+  ],
+  "surface_quadrature_production": 16,
+  "surface_quadrature_reference": 20,
+  "metric": "Coordinate RMS sqrt(integral||difference||\u00b2/(3V)); common finest positiveKeast24; proper weightedSO3 fit",
+  "spatial": "p=log2(dCM/dMF); fine_indicator=dMF/(2**p-1), only if p>=1; medium_indicator=2*dMF. Conditional extrapolation, not rigorous error bound.",
+  "all_cases_retained": true,
+  "failures_stop_inference": true,
+  "no_retuning": true,
+  "no_inference": true
+}
