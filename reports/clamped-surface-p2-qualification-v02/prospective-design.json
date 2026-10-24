@@ -1,0 +1,180 @@
+{
+  "schema": "clamped-surface-p2-qualification-v02",
+  "resource_projection": {
+    "observed_predecessor_Newton_iteration_range": [
+      3,
+      4
+    ],
+    "synthetic_n8_default_LU_s": 53.835319029996754,
+    "estimated_group_s": 649.9332124579814,
+    "three_wave_estimate_s": 1949.7996373739443,
+    "assumption": "Observed iteration maximum extrapolated;120s extra/coarse/eigensolve allowance. Hard caps, not runtime guarantee.",
+    "benchmark_sha256": "7a8d206b04e6072f0af2a42d65b37821b135a4b85136998aac11768624338075",
+    "MMD_negative_benchmark_sha256": "1cb49a54d172fa625e0cce902f62c712c88e1c9bb08374eece423e2e0e9bdb7e",
+    "default_LU_unchanged": true
+  },
+  "cases": [
+    {
+      "index": 0,
+      "E_Pa": 2000.0,
+      "K_N_m": 5.0
+    },
+    {
+      "index": 1,
+      "E_Pa": 2000.0,
+      "K_N_m": 30.0
+    },
+    {
+      "index": 2,
+      "E_Pa": 8000.0,
+      "K_N_m": 5.0
+    },
+    {
+      "index": 3,
+      "E_Pa": 8000.0,
+      "K_N_m": 30.0
+    },
+    {
+      "index": 4,
+      "E_Pa": 4000.0,
+      "K_N_m": 12.24744871391589
+    }
+  ],
+  "loads": [
+    "normal",
+    "paired_axial"
+  ],
+  "levels": [
+    2,
+    4,
+    8
+  ],
+  "gates": {
+    "minimum_J": 0.8,
+    "maximum_absolute_symmetric_strain_eigenvalue": 0.05,
+    "minimum_nonrigid_RMS_m": 0.0001,
+    "minimum_nonrigid_fraction": 0.3,
+    "spatial_order_floor": 1.0,
+    "maximum_conditional_fine_indicator_m": 2e-05,
+    "maximum_medium_indicator_m": 2e-05,
+    "maximum_linear_vs_nonlinear_RMS_m": 2e-05,
+    "equilibrium_absolute_N": 1e-10,
+    "equilibrium_relative": 1e-08,
+    "SPD_eigsh_tolerance": 1e-06,
+    "SPD_eigsh_maxiter": 10000,
+    "SPD_initial_seed": 2026102411,
+    "maximum_NH24_vs_NH80_RMS_m": 2e-06,
+    "maximum_surface_operator_relative_error": 1e-10
+  },
+  "resources": {
+    "worker_CPUs": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "controller_CPU": 7,
+    "threads_per_worker": 1,
+    "workers": 4,
+    "GPU": false,
+    "worker_wall_cap_s": 1800,
+    "global_wall_cap_s": 3600,
+    "worker_RSS_cap_bytes": 8589934592,
+    "aggregate_RSS_cap_bytes": 34359738368,
+    "RAM_reserve_bytes": 32212254720,
+    "disk_reserve_bytes": 32212254720,
+    "maximum_writes_bytes": 2147483648
+  },
+  "force_bytes_sha256": {
+    "2": {
+      "normal": "70d5215336bc8ec48a9ad7406f4920999dcedf9fc453efe85689e9f39cb2e780",
+      "paired_axial": "0119d713414008aefae48a261725734a3f577276d595b1d7e0f7b476256901ee"
+    },
+    "4": {
+      "normal": "0293e5f7356389e94d3acc020c4666b8f3d7e1d286fcd4aa46d5f9d3f86b4450",
+      "paired_axial": "5321808033341150600426b9c1412489b7bbbae5a7583fbf746a8e5c14dae062"
+    },
+    "8": {
+      "normal": "c9c3ef49a9905ec83e3a0861ab1c322c56af307db448baadadfc3585aaae7463",
+      "paired_axial": "84ac9a3fb8700e55e6e20ae38897efa6b74e83e7c70ff312b155837e6e0cfab7"
+    }
+  },
+  "normal_reuse_proof": {
+    "2": {
+      "normal_load_sha256": "70d5215336bc8ec48a9ad7406f4920999dcedf9fc453efe85689e9f39cb2e780",
+      "geometry_and_operators_byte_identical": true
+    },
+    "4": {
+      "normal_load_sha256": "0293e5f7356389e94d3acc020c4666b8f3d7e1d286fcd4aa46d5f9d3f86b4450",
+      "geometry_and_operators_byte_identical": true
+    }
+  },
+  "expected_groups": 10,
+  "reused_normal_mesh_cases": 10,
+  "new_paired_mesh_solves": 20,
+  "new_equilibria": 60,
+  "target_mesh_n": 4,
+  "physical_design": {
+    "schema": "surface-p2-static-v02",
+    "base_n": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "qualification_levels": [
+      2,
+      4,
+      8
+    ],
+    "target_mesh_n": 4,
+    "enriched_nodes": [
+      81,
+      425,
+      2673,
+      18785
+    ],
+    "free_DOF": [
+      189,
+      1125,
+      7533,
+      54621
+    ],
+    "elements_T10": [
+      24,
+      192,
+      1536,
+      12288
+    ],
+    "geometry": "Affine reference T10; bothendfaces exactclamp; unchanged.36x.08x.08",
+    "loads": "Smooth topnormal-.10N unchanged; pairedaxial+.18N perface total.36N; exactclippedpatchx[.135,.225],full y",
+    "foundation": "Unchanged analyticnormalized surface Gaussian, consistent P2 Gram W; signed entries/no lumping/no clipping",
+    "bulk_rule": "PositiveKeast24; linear stiffness degree2 exactlyintegrated; independent positive80 crosscheck. LogNH requires numerical24vs80 validation.",
+    "surface_rule": "PositiveDuffy16 independentlychecked20 onoriginalorclippedtriangles; originalP2face shapes evaluated inparent barycentric coordinates",
+    "gates": {
+      "minimum_nonrigid_RMS_m": 0.0001,
+      "minimum_nonrigid_fraction": 0.3,
+      "maximum_linear_strain": 0.05,
+      "minimum_J": 0.8,
+      "free_residual_N": 1e-10,
+      "spatial_order_floor": 1.0,
+      "maximum_conditional_spatial_indicator_m": 2e-05,
+      "support_normalization_relative_error": 1e-10,
+      "load_net_force_error_N": 1e-12,
+      "load_moment_error_Nm": 1e-13,
+      "support_surface_production_vs_refined_relative_Frobenius": 1e-10,
+      "support_surface_production_order": 16,
+      "support_surface_refined_order": 20
+    },
+    "design_tuned_on_v01": true,
+    "correction": "v01 medium adequacy failed14/20 and fine soft axial strain exceeded.05. New n8 checks target n4; axial reduced25percent before new force outcomes. Old negatives and gates preserved.",
+    "scope": "New higherorder static finite reference; no automatic admission from v01. All priorT4/P2v01 failures preserved. No dynamic, continuumstress, calibratedinference oractivepolicy claim.",
+    "no_automatic_execution": true
+  },
+  "metric": "Exact frozen central metric functions/source hashes; common finest positiveKeast24 coordinate RMS",
+  "all10_retained": true,
+  "design_tuned_on_v01": true,
+  "no_inference": true,
+  "no_retuning": true,
+  "protocol_sha256": "91cc9ae53732e1f2728cf96fc93f978a54ca38dc944a5948c4064f0bc558c79f"
+}
