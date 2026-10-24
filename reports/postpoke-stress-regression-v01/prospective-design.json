@@ -1,0 +1,116 @@
+{
+  "RSS_bytes_per_worker": 2147483648,
+  "all9_retained": true,
+  "bridge_initialization": "Uniform permutation of all32768 cached prefix particles, approximate prefix posterior initialization",
+  "cases": [
+    {
+      "action": 4,
+      "case_index": 0,
+      "noise_index": 5,
+      "noise_seed": 2026200205,
+      "object_index": 2
+    },
+    {
+      "action": 4,
+      "case_index": 1,
+      "noise_index": 14,
+      "noise_seed": 2026200214,
+      "object_index": 2
+    },
+    {
+      "action": 5,
+      "case_index": 2,
+      "noise_index": 14,
+      "noise_seed": 2026200214,
+      "object_index": 2
+    },
+    {
+      "action": 0,
+      "case_index": 3,
+      "noise_index": 14,
+      "noise_seed": 2026200414,
+      "object_index": 4
+    },
+    {
+      "action": 5,
+      "case_index": 4,
+      "noise_index": 3,
+      "noise_seed": 2026200803,
+      "object_index": 8
+    },
+    {
+      "action": 5,
+      "case_index": 5,
+      "noise_index": 6,
+      "noise_seed": 2026200806,
+      "object_index": 8
+    },
+    {
+      "action": 5,
+      "case_index": 6,
+      "noise_index": 7,
+      "noise_seed": 2026200807,
+      "object_index": 8
+    },
+    {
+      "action": 4,
+      "case_index": 7,
+      "noise_index": 3,
+      "noise_seed": 2026201003,
+      "object_index": 10
+    },
+    {
+      "action": 5,
+      "case_index": 8,
+      "noise_index": 3,
+      "noise_seed": 2026201003,
+      "object_index": 10
+    }
+  ],
+  "controller_CPU": 16,
+  "gates": {
+    "CDF_MCSE": 0.01,
+    "bridge_conditional_logZ_range": 0.05,
+    "bulk_tail_ESS": 400,
+    "cross_CDF": 0.05,
+    "cross_function_mean_over_SD": 0.1,
+    "cross_unit_quantile": 0.02,
+    "fresh_logZ_range": 0.05,
+    "function_mean_MCSE_over_SD": 0.05,
+    "predictive_mean_SD_RMS": "max(2um,.03*reference_predictiveRMS_SD)",
+    "rank_folded_split_Rhat": 1.01,
+    "unit_quantile_MCSE": 0.005
+  },
+  "global_wall_s": 3000,
+  "membership": "All9 original importanceFAIL inputs derivedfrom12complete6x16grids",
+  "method": "32768particles each3bridge+3freshjointSMC; new8priorstartMHchains64000retained+1000warmup; all15SMCpairs+6vsMH+evidencegates",
+  "no_GPU": true,
+  "no_retry": true,
+  "old_failures_preserved": true,
+  "policy_advantage_claim": false,
+  "population_calibration_claim": false,
+  "protocol_sha256": "8b96fd99c650b84c809fae0c24b33002f08177044139cdfeabd59d9d44c12ac6",
+  "replay": "Exactoriginalnoise_seed/action; cached512kMHweightedmeans/variances[action*16+noiseindex]mustreproduceandoldimportanceFAILbeforeinference",
+  "scope": "Regression on known bad importance inputs; no population calibration or active-policy superiority claim",
+  "seed_formulas": {
+    "MH": "2026420000+case*100",
+    "bridge": "2026410000+case*100+rep",
+    "fresh": "2026400000+case*100+rep",
+    "permutation": "2026430000+case*100+rep"
+  },
+  "status": "FROZEN_BEFORE_FIRST_STRESS_RESULT",
+  "threads": 1,
+  "worker_CPU": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "worker_count": 9,
+  "worker_wall_s": 2400
+}
