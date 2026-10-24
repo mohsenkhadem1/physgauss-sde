@@ -111,3 +111,26 @@ def test_informative_Gaussian_full_inner_outer_qualification():
     assert answer['local_final']['weighted_hypotheses']==3*128*64
     assert len(answer['diagnostics']['levels'])==5
     assert all(answer['diagnostics']['successive'][axis][-1]['passed']for axis in('inner','outer'))
+
+
+def test_exact_byte_ratio_memo_bounded_and_no_snapping():
+    from experiments.campaign_surface_conditional_amplitude_v01 import ExactRatioMemo
+    calls=[]
+    def callback(z,labels):calls.append(z.copy());return np.broadcast_to(np.exp(z)[:,None,None],(len(z),len(labels),2))
+    memo=ExactRatioMemo(callback,model_fingerprint='a'*64,maximum_bytes=8500,minimum_rows=1)
+    z=np.array([-5.,-4.]);first=memo(z,['A']);assert np.array_equal(first,memo(z.copy(),['A']))
+    assert len(calls)==1 and memo.hits==1 and not first.flags.writeable
+    changed=z.copy();changed[0]=np.nextafter(changed[0],0);memo(changed,['A'])
+    assert len(calls)==2
+    memo(z,['B']);assert memo.evictions>=1 and memo.allocated_bytes<=memo.maximum_bytes
+
+
+def test_adaptive_warning_or_inconsistent_oracle_prevents_qualification(monkeypatch):
+    import experiments.campaign_amplitude_adaptive_oracle_v01 as oracle
+    from scipy.integrate import IntegrationWarning
+    import warnings
+    def failed(*args,**kwargs):warnings.warn('Synthetic adaptive failure',IntegrationWarning)
+    monkeypatch.setattr(oracle,'adaptive_integral',failed)
+    engine=ConditionalAmplitudeReference(prior_ratio,[('zero',[0.,0.])],['target'])
+    result=engine.qualify(plan=AmplitudePlan(inner=(8,16),outer=(8,16)))
+    assert not result['qualified'] and not result['diagnostics']['independent_adaptive']['passed']

@@ -1,0 +1,151 @@
+{
+  "schema": "clamped-surface-p2-catalog-qualification-v02",
+  "resource_projection": {
+    "maximum_observed_central_group_s": 488.5459258260089,
+    "observed_n8_four_cold_equilibria_and_rest_factor_s": 287.79794825499994,
+    "empirical_base_s": 488.5459258260089,
+    "waves": 5,
+    "safety_factor": 2,
+    "empirical_planning_estimate_wall_s": 5085.459258260089,
+    "extra_validation_s_per_group": 20,
+    "no_runtime_promise": true,
+    "proven_worst_case_bound": false
+  },
+  "solver_design": {
+    "Newton": "Unchanged P2 compressible Neo-Hookean residual, Armijo and final tolerance",
+    "direction": "Shared exact-rest LU preconditioned CG; unmodified current-LU fallback with explicit residual/descent checks",
+    "linear": "Same shared rest LU with explicit residual",
+    "stability": {
+      "schema": "generalized-stability-v01",
+      "seed": 2026102491,
+      "eigenpair_relative_tolerance": 1e-06,
+      "normalization_tolerance": 1e-06,
+      "eigsh_tolerance": 1e-10,
+      "maximum_iterations": 5000,
+      "eigenvalue_units": "dimensionless generalized stiffness ratio",
+      "rest_SPD": "Externally justified assumption; LU is not a certificate",
+      "matrix_modified": false,
+      "rigorous_global_eigenvalue_bound": false
+    },
+    "prospective_change_from_central": "Generalized smallest-algebraic inertia diagnostic replaces ordinary smallest eigsh for NEW catalog states only; central reused ordinary diagnostics untouched",
+    "no_matrix_modification": true
+  },
+  "prefix_only_excitation_required": "normal_x180",
+  "new_prospective_validity_vs_excitation_rule": true,
+  "cases": [
+    {
+      "index": 0,
+      "E_Pa": 2000.0,
+      "K_N_m": 5.0
+    },
+    {
+      "index": 1,
+      "E_Pa": 2000.0,
+      "K_N_m": 30.0
+    },
+    {
+      "index": 2,
+      "E_Pa": 8000.0,
+      "K_N_m": 5.0
+    },
+    {
+      "index": 3,
+      "E_Pa": 8000.0,
+      "K_N_m": 30.0
+    },
+    {
+      "index": 4,
+      "E_Pa": 4000.0,
+      "K_N_m": 12.24744871391589
+    }
+  ],
+  "loads": [
+    "normal_x090",
+    "paired_axial_x090",
+    "normal_x135",
+    "paired_axial_x135",
+    "normal_x180",
+    "paired_axial_x180",
+    "normal_x225",
+    "paired_axial_x225",
+    "normal_x270",
+    "paired_axial_x270"
+  ],
+  "levels": [
+    2,
+    4,
+    8
+  ],
+  "gates": {
+    "minimum_J": 0.8,
+    "maximum_absolute_symmetric_strain_eigenvalue": 0.05,
+    "minimum_nonrigid_RMS_m": 0.0001,
+    "minimum_nonrigid_fraction": 0.3,
+    "spatial_order_floor": 1.0,
+    "maximum_conditional_fine_indicator_m": 2e-05,
+    "maximum_medium_indicator_m": 2e-05,
+    "maximum_linear_vs_nonlinear_RMS_m": 2e-05,
+    "equilibrium_absolute_N": 1e-10,
+    "equilibrium_relative": 1e-08,
+    "SPD_eigsh_tolerance": 1e-06,
+    "SPD_eigsh_maxiter": 10000,
+    "SPD_initial_seed": 2026102411,
+    "maximum_NH24_vs_NH80_RMS_m": 2e-06,
+    "maximum_surface_operator_relative_error": 1e-10
+  },
+  "resources": {
+    "worker_CPUs": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "controller_CPU": 11,
+    "threads_per_worker": 1,
+    "workers": 8,
+    "GPU": false,
+    "worker_wall_cap_s": 1800,
+    "global_wall_cap_s": 7200,
+    "worker_RSS_cap_bytes": 8589934592,
+    "aggregate_RSS_cap_bytes": 68719476736,
+    "RAM_reserve_bytes": 32212254720,
+    "RAM_preflight_bytes": 100931731456,
+    "disk_reserve_bytes": 32212254720,
+    "maximum_writes_bytes": 2147483648
+  },
+  "central_aliases": {
+    "normal_x180": "normal",
+    "paired_axial_x180": "paired_axial"
+  },
+  "expected_groups": 50,
+  "reused_central_groups": 10,
+  "new_groups": 40,
+  "new_paired_mesh_solves": 120,
+  "new_equilibria": 360,
+  "force_program_design": {
+    "schema": "surface-p2-force-v03",
+    "normal_force_N": 0.08,
+    "axial_force_N_per_face": 0.18,
+    "centers_m": [
+      0.09,
+      0.135,
+      0.18,
+      0.225,
+      0.27
+    ],
+    "normal_warmstart_scale": 0.8,
+    "unchanged_generic_physics": "campaign_surface_p2_static_v02",
+    "development_tuned_on_v02": true,
+    "old_normal_10_spatial_failure_preserved": true,
+    "all_original_gates_unchanged": true,
+    "no_automatic_execution": true
+  },
+  "metric": "Exact frozen central metric functions/source hashes; common finest positiveKeast24 coordinate RMS",
+  "all50_retained": true,
+  "no_inference": true,
+  "no_retuning": true
+}
