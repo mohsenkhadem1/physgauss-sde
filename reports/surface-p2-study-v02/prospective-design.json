@@ -1,0 +1,209 @@
+{
+  "status": "FROZEN_UNEXECUTED_AT_PUBLICATION",
+  "protocol_SHA256": "abfa3dde33d3dae0acce56823f12197253cfb8a07a9fc206b4197b2928478269",
+  "design": {
+    "schema": "surface-p2-study-v02",
+    "status": "PROSPECTIVE_NO_OUTCOMES",
+    "target_mesh_n": 4,
+    "unknowns": [
+      "E",
+      "K"
+    ],
+    "prior": "Independent uniform logE[log2000,log8000],logK[log5,log30]",
+    "observation": "24 ideal tracked 3D displacement channels; independent known Gaussian20um per channel",
+    "scope": "Static finite-model diagnostic. No RGB, camera, dynamics, dropping or real-material calibration claim",
+    "objects": 16,
+    "cohort_seed": 2026102481,
+    "prefix_noise_seed": 2026102482,
+    "probe_noise_seed": 2026102483,
+    "random_action_seed": 2026102484,
+    "bootstrap_seed": 2026102485,
+    "bootstrap_clusters": 16,
+    "bootstrap_repetitions": 10000,
+    "prefix": "normal_x180",
+    "target_labels": [
+      "normal_x135",
+      "normal_x225",
+      "paired_axial_x135",
+      "paired_axial_x225"
+    ],
+    "actions": {
+      "normal": [
+        "normal_x090",
+        "normal_x180",
+        "normal_x270"
+      ],
+      "paired_axial": [
+        "paired_axial_x090",
+        "paired_axial_x180",
+        "paired_axial_x270"
+      ]
+    },
+    "actions_targets_disjoint": true,
+    "normal_force_N": 0.08,
+    "paired_axial_force_N_per_face": 0.18,
+    "external_force_version": "campaign_surface_p2_force_v03",
+    "development_tuning": {
+      "before_any_actual_study": true,
+      "old_normal_force_N": 0.1,
+      "new_normal_force_N": 0.08,
+      "axial_force_per_face_unchanged_N": 0.18,
+      "trigger": "Central v02 case00 NH conditional medium spatial indicator21.24um exceeded20um gate",
+      "rationale": "Prospective20percent normal-force reduction; preserve prior normal.10 failure; no guarantee of nonlinear pass and no gate change"
+    },
+    "post_probe_noise_repetitions": 3,
+    "noise_pairing": "One24-channel prefix and three independent24-channel reset noise vectors per object; same vectors across actions and data laws; objects independent",
+    "data_laws": [
+      "matching_linear",
+      "NH80_stress"
+    ],
+    "all16_retained": true,
+    "no_redraws": true,
+    "methods": [
+      "prior_predictive_mean",
+      "highest_likelihood_quadrature_node_plugin",
+      "posterior_predictive_mean",
+      "known_true_parameter_linear_oracle"
+    ],
+    "policies": [
+      "covariance_best_linear_target_MSE_reduction",
+      "each_of_three_fixed_actions",
+      "uniform_random_exact_three_action_average",
+      "Gaussian_observation_information"
+    ],
+    "families_separate": true,
+    "force_budget_scope": "Matched force budget within each three-action family only; normal net.08N and paired axial net.36N are not matched force or energy across families; no pooled policy advantage",
+    "random_realization": "Seeded ancillary draw recorded locally; primary random baseline is exact action average",
+    "numerical": "Explicit protocol choice: preserved tensor baseline or conditional-amplitude positive irregular hypotheses; joint likelihood uses prefix+independent reset probe data; fail closed",
+    "numerical_options": {
+      "tensor": "Simpson129/257/513/1025 +Gauss128/256/512 +six partialCDF checks",
+      "conditional_amplitude": "Separate inner32/64/128 andouter128/256/512 refinements plus independent original-a adaptive evidence+sixCDF at eps1e-6/1e-8; reportederrors<=1e-5, warnings unresolved"
+    },
+    "physics": "All strain/J/equilibrium/stability gates on all loads; prefix amplitude>=100um and nonrigid fraction>=.3; other amplitudes descriptive. Full catalog spatial/quadrature admission required before execution",
+    "metrics": "Latent disjoint96-coordinate target RMS;3noise repetitions averaged within each of16 objects; paired object bootstrap10000 seed2026102485",
+    "comparison": "Every fixed policy separately, uniform-random exact average and information baseline; no advantage claim unless all16 physics/numerical valid",
+    "private": "Unit coords, E/K, noise, observations, CDF/quantiles, probabilities, full fields and models stay LOCAL; publish aggregate scalar metrics/source hashes only"
+  },
+  "selected_numerical_plan": {
+    "engine": "conditional_amplitude",
+    "inner": [
+      32,
+      64,
+      128
+    ],
+    "outer": [
+      128,
+      256,
+      512
+    ],
+    "moment_chunk": 64,
+    "adaptive_epsrel": [
+      1e-06,
+      1e-08
+    ],
+    "adaptive_error_estimate_limit": 1e-05
+  },
+  "resources": {
+    "worker_CPU_sets": [
+      [
+        0
+      ],
+      [
+        1
+      ],
+      [
+        2
+      ],
+      [
+        3
+      ],
+      [
+        4
+      ],
+      [
+        5
+      ],
+      [
+        6
+      ],
+      [
+        7
+      ],
+      [
+        8
+      ],
+      [
+        9
+      ],
+      [
+        10
+      ],
+      [
+        11
+      ],
+      [
+        12
+      ],
+      [
+        13
+      ],
+      [
+        14
+      ],
+      [
+        15
+      ]
+    ],
+    "controller_CPU": 16,
+    "threads_per_worker": 1,
+    "workers": 16,
+    "GPU": true,
+    "worker_RSS_cap_bytes": 4294967296,
+    "aggregate_RSS_cap_bytes": 68719476736,
+    "worker_wall_cap_s": 9000,
+    "global_wall_cap_s": 10800,
+    "disk_reserve_bytes": 32212254720,
+    "maximum_writes_bytes": 12884901888,
+    "host_preflight_available_bytes": 100931731456,
+    "RAM_reserve_bytes": 32212254720,
+    "device_mode": "gpu",
+    "allowed_GPU_UUIDs": [
+      "GPU-5b432ce5-a24a-68ba-150f-682265260a9b",
+      "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+      "GPU-571378aa-c44e-ffb8-b346-1e409f9821f9"
+    ],
+    "worker_GPU_UUIDs": [
+      "GPU-5b432ce5-a24a-68ba-150f-682265260a9b",
+      "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+      "GPU-571378aa-c44e-ffb8-b346-1e409f9821f9",
+      "GPU-5b432ce5-a24a-68ba-150f-682265260a9b",
+      "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+      "GPU-571378aa-c44e-ffb8-b346-1e409f9821f9",
+      "GPU-5b432ce5-a24a-68ba-150f-682265260a9b",
+      "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+      "GPU-571378aa-c44e-ffb8-b346-1e409f9821f9",
+      "GPU-5b432ce5-a24a-68ba-150f-682265260a9b",
+      "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+      "GPU-571378aa-c44e-ffb8-b346-1e409f9821f9",
+      "GPU-5b432ce5-a24a-68ba-150f-682265260a9b",
+      "GPU-c49707f6-24fd-38e4-3973-3543ec644ceb",
+      "GPU-571378aa-c44e-ffb8-b346-1e409f9821f9",
+      "GPU-5b432ce5-a24a-68ba-150f-682265260a9b"
+    ],
+    "allocated_GPU_cap_bytes_per_worker": 536870912,
+    "study_VRAM_cap_bytes_per_physical_GPU": 8589934592,
+    "GPU_maximum_batch": 4096
+  },
+  "actual_study_forward_data_generated": false,
+  "actual_study_posteriors": 0,
+  "resource_note": "Unrelated training started on all GPUs after protocol freeze; execution not released. CPU-only alternative under preparation; all50physics cases remain qualified.",
+  "all20_environment_guards_passed": true,
+  "source_controls_passed": 46,
+  "opt_in_GPU_test_skipped": 1,
+  "separate_GPU_parity_controls_passed_on_devices": [
+    0,
+    1,
+    2
+  ],
+  "raw_data_LOCAL": true
+}
