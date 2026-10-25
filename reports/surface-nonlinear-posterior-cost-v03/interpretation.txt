@@ -1,0 +1,17 @@
+The nonlinear posterior now passes its first real-observation numerical control.
+
+We are testing a block clamped at both ends, with known forces and fixture shape, while inferring two unknown quantities: material stiffness E and fixture stiffness K. This is a controlled static experiment. It does not establish dynamic forecasting, unknown support geometry, camera-based reconstruction, or superior active probing.
+
+The forward-response atlas was independently checked against 1,130 nonlinear finite-element solutions covering ten loads. Its finest grid passed the predefined response and likelihood checks, including reserved query locations. This supports the finite model within the tested parameter range; it is not a global error proof.
+
+The first posterior implementation failed because reflection arithmetic produced invalid cumulative probabilities. Repairing that arithmetic exposed a second, more important failure: its Gaussian-only integration proposal gave large weight to poorly resolved tail endpoints. An independent calculation disagreed substantially. Both failed versions and their results remain available.
+
+The new implementation combines the Gaussian proposal with a fixed 50% contribution from the original log-amplitude prior. This changes the integration method while preserving the physical likelihood, original prior, and accuracy thresholds. The prior contribution keeps narrow Gaussian tails from causing the earlier weight amplification.
+
+On exactly the same saved observation, both the five- and nine-point atlas posterior controls now pass every original numerical check, plus the additional absolute 2 micrometre prediction checks. The nine-point posterior's largest CDF discrepancy against independent original-coordinate adaptive quadrature was about 0.000092, against a 0.005 limit. Its final inner-refinement predictive standard deviation changed by about 0.0434 micrometres. The two atlas levels' predictive means differed by at most 0.00784 micrometres. An independent terminal audit verified hashes, the saved observations, numerical gates, and process closure.
+
+The complete two-atlas control took 534.85 seconds. This is a numerical qualification on one synthetic observation, not population calibration. Agreement between numerical methods also cannot prove that all posterior peaks were found.
+
+Next: verify the GPU implementation on fixed prefix and joint-observation cases, then run the predeclared 64-object study using fresh independent material/noise draws. Compare linear and nonlinear physical likelihoods on identical observations; test whether their uncertainty intervals cover the true parameters and whether predictions improve after fixed normal or axial probes. Unresolved cases remain in the 64-object denominator. Adaptive probing superiority remains unproven.
+
+Raw observations, fields, atlas arrays, posterior archives, and videos stay local.

@@ -1,0 +1,41 @@
+{
+  "schema": "three-GPU-nonlinear-control-prospective-design",
+  "status": "SOURCE_REVIEWED_ROOT_RELEASE_REQUIRED",
+  "cases": [
+    "Existing saved center prefix observation; compare qualified CPU posterior",
+    "Same center prefix plus independent reset normal observation from existing direct field",
+    "Admitted corner prefix plus axial observations from existing direct fields"
+  ],
+  "case_count": 3,
+  "GPUs": [
+    0,
+    1,
+    2
+  ],
+  "GPU3_forbidden": true,
+  "new_PDE_calls": 0,
+  "fresh64_draws": 0,
+  "noise_seeds": [
+    2026103001,
+    2026103002,
+    2026103003
+  ],
+  "backend": "Frozen MISv03/full n9 FastResidualAtlas; CPU ratio callbacks below16rows, FP64 GPU at16+",
+  "numerical_gates": "Every original inner/outer/adaptive gate, additional2um absolute refinements; case0 CPU mean/SD2e-12m and CDF1e-8",
+  "resources": {
+    "worker_CPUs": [
+      0,
+      1,
+      2
+    ],
+    "controller_CPU": 16,
+    "worker_RSS_GiB": 4,
+    "aggregate_RSS_GiB": 16,
+    "Torch_MiB": 512,
+    "owned_VRAM_GiB_per_GPU": 2,
+    "worker_wall_s": 1800,
+    "global_wall_s": 2100,
+    "reserve_RAM_disk_GiB": 30
+  },
+  "scope": "Deterministic numerical/throughput controls; not fresh-cohort calibration, population evidence, or16worker concurrency certification"
+}

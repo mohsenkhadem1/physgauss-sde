@@ -1,0 +1,41 @@
+{
+  "schema": "three-GPU-nonlinear-control-v02-prospective-design",
+  "status": "SOURCE_REVIEWED_ROOT_RELEASE_REQUIRED",
+  "change": "Canonical Python force-label strings preserve the original admitted atlas fingerprint; no posterior/model/gate changes.",
+  "previous_technical_failure_preserved": true,
+  "previous_control_noise_undrawn": true,
+  "cases": [
+    "Saved center prefix versus CPU reference",
+    "Center prefix plus independently noisy normal reset from existing direct field",
+    "Corner prefix plus independently noisy axial reset from existing direct fields"
+  ],
+  "noise_seeds": [
+    2026103001,
+    2026103002,
+    2026103003
+  ],
+  "new_PDE_calls": 0,
+  "fresh64_draws": 0,
+  "resources": {
+    "worker_CPUs": [
+      0,
+      1,
+      2
+    ],
+    "controller_CPU": 16,
+    "GPUs": [
+      0,
+      1,
+      2
+    ],
+    "GPU3_forbidden": true,
+    "worker_RSS_GiB": 4,
+    "aggregate_RSS_GiB": 16,
+    "Torch_MiB": 512,
+    "owned_VRAM_GiB_per_GPU": 2,
+    "worker_wall_s": 1800,
+    "global_wall_s": 2100
+  },
+  "gates": "Unchanged MISv03 inner/outer/original-a oracle and additional2um; saved-center CPU predictive2e-12m/CDF1e-8",
+  "scope": "Finite numerical/throughput controls, not fresh population calibration or16worker throughput certification."
+}
