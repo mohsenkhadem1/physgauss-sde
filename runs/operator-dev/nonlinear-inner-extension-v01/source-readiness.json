@@ -1,0 +1,146 @@
+{
+  "schema": "nonlinear-inner-extension-source-readiness-v01",
+  "status": "FROZEN_SOURCE_REVIEWED_NO_ACTUAL_CALL",
+  "new_source_files": [
+    "experiments/campaign_positive_amplitude_pwl_v02.py",
+    "experiments/campaign_nonlinear_mis_pwl_v02.py",
+    "experiments/campaign_nonlinear_conditional_reference_v04.py",
+    "experiments/run_fresh64_inner_resolution_control_v01.py"
+  ],
+  "controls": {
+    "passed": 18,
+    "seconds": 5.14,
+    "cpu": 18,
+    "threads": 1,
+    "GPU": false,
+    "command": "taskset -c 18 .venv/bin/python -m pytest -q tests/test_fresh64_inner_resolution_control_v01.py tests/test_nonlinear_inner_extension_v01.py"
+  },
+  "kernel_review": {
+    "predictive_precision": "GO; independent10controls4.94s and complete diffs",
+    "precision_cohort_review": "GO; full source/diffs + independent18combinedcontrols5.00sCPU19/noGPU"
+  },
+  "control_review": {
+    "predictive_precision": "GO; fullread + independent8controls1.47s and finalmetadata delta reviewed",
+    "precision_cohort_review": "GO exactb6e53ef2/425105c1; full dataflow/resource/gates review and independent18combinedcontrols5.00s"
+  },
+  "cases": [
+    {
+      "id": "object05-nonlinear-normal-r0-inner",
+      "index": 5,
+      "phase": "normal-r0",
+      "kind": "nonlinear",
+      "axis": "inner",
+      "plan": {
+        "inner": [
+          128,
+          256,
+          512,
+          1024
+        ],
+        "outer": [
+          128,
+          256,
+          512
+        ],
+        "moment_chunk": 1024
+      }
+    },
+    {
+      "id": "object01-nonlinear-axial-r0-outer",
+      "index": 1,
+      "phase": "axial-r0",
+      "kind": "nonlinear",
+      "axis": "outer",
+      "plan": {
+        "inner": [
+          128,
+          256,
+          512
+        ],
+        "outer": [
+          128,
+          256,
+          512,
+          1024
+        ],
+        "moment_chunk": 1024
+      }
+    },
+    {
+      "id": "object01-linear-axial-r0-outer",
+      "index": 1,
+      "phase": "axial-r0",
+      "kind": "linear",
+      "axis": "outer",
+      "plan": {
+        "inner": [
+          128,
+          256,
+          512
+        ],
+        "outer": [
+          128,
+          256,
+          512,
+          1024
+        ],
+        "moment_chunk": 1024
+      }
+    }
+  ],
+  "resources": {
+    "worker_CPU": 17,
+    "controller_CPU": 18,
+    "threads": 1,
+    "GPU": false,
+    "worker_RSS_cap_bytes": 4294967296,
+    "controller_RSS_cap_bytes": 4294967296,
+    "aggregate_RSS_cap_bytes": 8589934592,
+    "wall_cap_s": 2400,
+    "RAM_reserve_bytes": 32212254720,
+    "disk_reserve_bytes": 32212254720,
+    "maximum_writes_bytes": 536870912
+  },
+  "resource_projection": {
+    "per_case": {
+      "object05-nonlinear-normal-r0-inner": {
+        "final_outer_rows": 1536,
+        "atoms_per_row": 4096,
+        "maximum_hypotheses": 6291456
+      },
+      "object01-nonlinear-axial-r0-outer": {
+        "final_outer_rows": 3072,
+        "atoms_per_row": 2048,
+        "maximum_hypotheses": 6291456
+      },
+      "object01-linear-axial-r0-outer": {
+        "final_outer_rows": 3072,
+        "atoms_per_row": 1024,
+        "maximum_hypotheses": 3145728
+      }
+    },
+    "maximum_hypotheses": 6291456,
+    "target_chunk": 1024,
+    "target_channels": 96,
+    "target_chunk_bytes": 786432,
+    "retain_hypotheses": false,
+    "full_hypothesis_by_target_array_allocated": false,
+    "actual_4GiB_per_process_guard_authoritative": true
+  },
+  "unchanged": {
+    "frozen_primary": true,
+    "likelihood": true,
+    "prior": true,
+    "all_original_gates": true,
+    "independent_adaptive_oracle": true,
+    "strict_absolute_2um": true,
+    "old_orders_bit_identical": true
+  },
+  "observation_access": "Only root-released saved acquired prefix/axial response_m and saved paired noise; exact original observation/model hashes before inference. Old512 sufficient-statistic CPU parity2pm mean/SD and1e-8 CDF.",
+  "prohibited": "No RNG, PDE, true-unit/material fields, held truth, PIT/coverage/RMS or actual model calls during source preparation.",
+  "protocol_prepared": false,
+  "actual_launched": false,
+  "original_negative_preserved": true,
+  "scope": "Three numerical implementation/resolution controls only; no cohort admission, replacement or population claim.",
+  "source_frozen": true
+}
