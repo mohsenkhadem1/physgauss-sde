@@ -1,0 +1,25 @@
+{
+  "schema": "nonlinear-mis-v03-source-provenance",
+  "sources": [
+    {
+      "path": "experiments/campaign_nonlinear_mis_pwl_v01.py",
+      "sha256": "7528cc49b5f3074940ad2783fca0d00676addff61b37e0f8e48323d65b2a05c4",
+      "bytes": 6121
+    },
+    {
+      "path": "experiments/campaign_nonlinear_conditional_reference_v03.py",
+      "sha256": "6327b3975dd7ece34346abdf9ea80c510abfe72b2c7915e000c951d60099f011",
+      "bytes": 2140
+    },
+    {
+      "path": "tests/test_nonlinear_mis_pwl_v01.py",
+      "sha256": "21a956a0b03ae8bdda23bbe03daf0d397ac8a1e9bb38758790adae5d0ea993d5",
+      "bytes": 5267
+    }
+  ],
+  "quadrature": "Two normalized proposal streams, fixed .5 truncated Gaussian/.5 log-a. Each integrates .5 L/(a qMix); no Gaussian kernel mass. Primitive excludes proposal linear_peak and engine adds it exactly once.",
+  "hypotheses_per_outer_row": "4*panels",
+  "CDF": "Same positive per-stream PWL density and original panel masses as quadrature; exact zero-mass stream has zero contribution.",
+  "unchanged": "Original prior, full nonlinear likelihood, observation noise, inner/outer refinements, independent original-a oracle and numerical thresholds",
+  "limitations": "Prior floor bounds importance correction but does not certify narrow posterior resolution. Same-data bounded cost qualification remains required. No fresh64 data drawn."
+}
