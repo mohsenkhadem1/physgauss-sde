@@ -1,0 +1,73 @@
+{
+  "schema": "matched-finite-poke-source-readiness-v01",
+  "status": "SOURCE_ONLY_FROZEN_ROOT_AND_TWO_PEER_SOURCE_GO",
+  "source_SHA256": {
+    "experiments/campaign_finite_probe_reference_v01.py": "e05fc9dabbd95e826976ac0a4641abae15b15c1b54ff054557fa095518110d4b",
+    "tests/test_finite_probe_reference_v01.py": "e70ae2b1cebb5ac532327beb1af5efd8e48c07532b6a0f279aad57251705e7c9",
+    "experiments/run_matched_finite_poke_control_v01.py": "ca1a80ce0fed19a79c769e1283f1afe3b92c9714c5540db307e974540fad2aba",
+    "tests/test_matched_finite_poke_control_v01.py": "ee0204cce6fea107a591f4d08879bf94879e7403e203b4f8d9c71cd531d71863",
+    "experiments/audit_matched_finite_poke_control_v01.py": "8181a20b610825fb4d0016000735496bec8696fd080d583ae41103e65e0bb7c3",
+    "tests/test_audit_matched_finite_poke_control_v01.py": "3ef65a4ef8a58ffe95885a77aaea596b3a9805ddeaba47422cd4f2489cf68b9b"
+  },
+  "controls": {
+    "own_wrapper_and_helper": {
+      "passed": 15,
+      "wall_s": 7.46,
+      "CPU": 17,
+      "GPU": false
+    },
+    "own_independent_auditor": {
+      "passed": 10,
+      "wall_s": 6.76,
+      "CPU": 16,
+      "GPU": false
+    },
+    "predictive_wrapper_and_helper": {
+      "passed": 15,
+      "wall_s": 7.64,
+      "CPU": 19,
+      "GPU": false
+    },
+    "predictive_auditor": {
+      "passed": 10,
+      "wall_s": 4.29,
+      "CPU": 19,
+      "GPU": false
+    },
+    "precision_auditor": {
+      "passed": 10,
+      "wall_s": 5.64,
+      "CPU": 16,
+      "GPU": false
+    }
+  },
+  "root_full_source_review": "GO, no changes requested",
+  "independent_peer_receipt": {
+    "path": "runs/operator-dev/active-probing-independent-review-v01/matched-finite-terminal-auditor-source-GO-v01.json",
+    "sha256": "4d0c248e1cf61f4d7f85bad193aeedad42f47c61e763c67f7b682d1e32dbd39f"
+  },
+  "finite_resources": {
+    "CPU": 17,
+    "threads": 1,
+    "GPU": false,
+    "RSS_bytes": 4294967296,
+    "combined_choose_evaluate_wall_s": 1800,
+    "external_owned_watchdog_required": true
+  },
+  "audit_resources": {
+    "CPU": 16,
+    "threads": 1,
+    "GPU": false,
+    "RSS_bytes": 4294967296,
+    "wall_s": 1800,
+    "external_owned_watchdog_required": true
+  },
+  "barriers": [
+    "All32 continuous choices/rootclosure before finite catalog construction",
+    "All64 finite model/trial choices and chooser absence before mapped trial/noise evaluation",
+    "Both source-preapproved operator stages/rootclosures plus all88 physical/all64 posterior byte commitments before audit NPZ access"
+  ],
+  "scope": "Matched uniform8 knownK finite NH-versus-linear comparison; same prefix and NH noisy outcomes,512 fresh prefix-plus-one-scalar updates. Direct Gaussian/logsumexp independent weights/moments/MSE; exact uniform8 random loss, mean4noise/object then equal8objects. Finite prior differs from continuous, so only matchedfinite pair isolates responsephysics. All unresolved choices retained and block comparison. Quadrature risks are source-bound producer witnesses with independently recomputed scalar flags; momentbands are descriptive, no nominal coverage/calibration claim.",
+  "no_actual_prepare_noise_PDE_model_or_dataset_reads": true,
+  "raw_arrays_included": false
+}
