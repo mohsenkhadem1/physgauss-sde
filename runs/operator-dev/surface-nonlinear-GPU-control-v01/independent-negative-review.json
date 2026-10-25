@@ -1,0 +1,84 @@
+{
+  "schema": "nonlinear-GPU-control-v01-independent-negative-review",
+  "status": "TECHNICAL_PRE_OBSERVATION_FAILURE_CLOSED",
+  "source": {
+    "path": "experiments/run_surface_nonlinear_GPU_control_v01.py",
+    "sha256": "36f9de9bdb222d7fd784c7098d8052bd1cbf8dfddd03469f2306ec21d3f35ac8"
+  },
+  "test": {
+    "path": "tests/test_surface_nonlinear_GPU_control_v01.py",
+    "sha256": "5195ce690ec0522d4c91c1fbf0980bad04a95456294bea4cf917c2d3d4905353"
+  },
+  "protocol": {
+    "path": "runs/operator-dev/surface-nonlinear-GPU-control-v01/protocol.json",
+    "sha256": "d86d0e9e6c9d4eb4989b93dbcb2bd2d56ad72ae1451978dc9afd9ee2c5da988f"
+  },
+  "release": {
+    "path": "runs/operator-dev/surface-nonlinear-GPU-control-v01/release.json",
+    "sha256": "81fc342523cbda13035e2bb2503aeaea052c64a97ac95665f4af27d1ba77deff"
+  },
+  "execution": {
+    "path": "runs/operator-dev/surface-nonlinear-GPU-control-v01/execution.json",
+    "sha256": "f176a9ec9ed849a704bb007c90fadd0a333ed3347509cf20bf04ee47bad2b933"
+  },
+  "root_session_reaped_exit_code": 1,
+  "wall_s": 24.51889464299893,
+  "controller_pid": 436261,
+  "all_four_PID_groups_absent": true,
+  "workers": [
+    {
+      "slot": 0,
+      "pid": 436281,
+      "reaped_exit_code": 1,
+      "result": {
+        "path": "runs/operator-dev/surface-nonlinear-GPU-control-v01/worker-0/result-LOCAL.json",
+        "sha256": "3c5f6be9f38e1b254aee6cdc6796a36c6b3b0d64fff544b6c9cd9bd139e92848"
+      },
+      "failure_type": "ValueError",
+      "failure_message": "Admitted n9 atlas fingerprint",
+      "failure_before_observations_and_noise": true,
+      "observations_artifact_absent": true,
+      "posterior_artifact_absent": true
+    },
+    {
+      "slot": 1,
+      "pid": 436282,
+      "reaped_exit_code": 1,
+      "result": {
+        "path": "runs/operator-dev/surface-nonlinear-GPU-control-v01/worker-1/result-LOCAL.json",
+        "sha256": "2cc4902660f9b4fd55d23ae0ad2cedf49f6ffd2a01bdaedc02d76522c8d588c2"
+      },
+      "failure_type": "ValueError",
+      "failure_message": "Admitted n9 atlas fingerprint",
+      "failure_before_observations_and_noise": true,
+      "observations_artifact_absent": true,
+      "posterior_artifact_absent": true
+    },
+    {
+      "slot": 2,
+      "pid": 436283,
+      "reaped_exit_code": 1,
+      "result": {
+        "path": "runs/operator-dev/surface-nonlinear-GPU-control-v01/worker-2/result-LOCAL.json",
+        "sha256": "0ccbc4522c2b7302f7b48d7ab59fb3ea983e99ff53e84641f86dab22c6e24c62"
+      },
+      "failure_type": "ValueError",
+      "failure_message": "Admitted n9 atlas fingerprint",
+      "failure_before_observations_and_noise": true,
+      "observations_artifact_absent": true,
+      "posterior_artifact_absent": true
+    }
+  ],
+  "noise_control_seeds": [
+    2026103001,
+    2026103002,
+    2026103003
+  ],
+  "control_noise_draws_performed": 0,
+  "no_fresh64_draws": true,
+  "no_new_PDE_calls": true,
+  "seed_nonuse_evidence": "All frozen worker traces raise at atlas fingerprint before the sole observations() invocation containing control default_rng calls; observations/posterior artifacts are absent. No array/model replay by this review.",
+  "cause": "NPZ numpy.str_ label objects retained in list change repr-based atlas fingerprint versus canonical Python str labels; numerical arrays were not evaluated.",
+  "qualified": false,
+  "no_numerical_GPU_or_CPU_parity_claim": true
+}
