@@ -1,0 +1,1192 @@
+{
+  "schema": "balanced-held-source-readiness-v01",
+  "status": "SOURCE_ONLY_ROOT_PEER_REVIEW_REQUIRED",
+  "source": {
+    "path": "experiments/campaign_fixture_balanced_held_v01.py",
+    "sha256": "b531c3b62bbce85c63b7a0e36988b7ac0e0239c6fd834c450f9286c44496e70e"
+  },
+  "tests": {
+    "path": "tests/test_fixture_balanced_held_v01.py",
+    "sha256": "86985d44a0bc4318cebada9c90d0f628ba2aa623a985bfddbb3fae86b3c7abe5"
+  },
+  "design": {
+    "schema": "fixture-balanced-held-development-v01",
+    "layouts": [
+      {
+        "id": "bottom-x090-y020",
+        "center_m": [
+          0.09,
+          0.02,
+          0.0
+        ],
+        "std_m": [
+          0.025,
+          0.015
+        ],
+        "surface": "bottom",
+        "prior_probability": 0.25
+      },
+      {
+        "id": "bottom-x090-y060",
+        "center_m": [
+          0.09,
+          0.06,
+          0.0
+        ],
+        "std_m": [
+          0.025,
+          0.015
+        ],
+        "surface": "bottom",
+        "prior_probability": 0.25
+      },
+      {
+        "id": "bottom-x270-y020",
+        "center_m": [
+          0.27,
+          0.02,
+          0.0
+        ],
+        "std_m": [
+          0.025,
+          0.015
+        ],
+        "surface": "bottom",
+        "prior_probability": 0.25
+      },
+      {
+        "id": "bottom-x270-y060",
+        "center_m": [
+          0.27,
+          0.06,
+          0.0
+        ],
+        "std_m": [
+          0.025,
+          0.015
+        ],
+        "surface": "bottom",
+        "prior_probability": 0.25
+      }
+    ],
+    "hard_boundary": "Public exact BOTH end-face clamps, separate from one unknown compliant bottom patch",
+    "material": {
+      "E_Pa": [
+        2000.0,
+        8000.0
+      ],
+      "K_N_m": [
+        5.0,
+        30.0
+      ],
+      "poisson": 0.35,
+      "conditional_prior": "Independent normalized loguniform E,K, identical per layout"
+    },
+    "loads": [
+      {
+        "id": "prefix-center-down",
+        "center_m": [
+          0.18,
+          0.04,
+          0.08
+        ],
+        "direction": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "force_N": 0.04
+      },
+      {
+        "id": "probe-x090-y020-plusY",
+        "center_m": [
+          0.09,
+          0.02,
+          0.08
+        ],
+        "direction": [
+          0.0,
+          0.7071067811865475,
+          -0.7071067811865475
+        ],
+        "force_N": 0.06
+      },
+      {
+        "id": "probe-x090-y020-minusY",
+        "center_m": [
+          0.09,
+          0.02,
+          0.08
+        ],
+        "direction": [
+          0.0,
+          -0.7071067811865475,
+          -0.7071067811865475
+        ],
+        "force_N": 0.06
+      },
+      {
+        "id": "probe-x090-y060-plusY",
+        "center_m": [
+          0.09,
+          0.06,
+          0.08
+        ],
+        "direction": [
+          0.0,
+          0.7071067811865475,
+          -0.7071067811865475
+        ],
+        "force_N": 0.06
+      },
+      {
+        "id": "probe-x090-y060-minusY",
+        "center_m": [
+          0.09,
+          0.06,
+          0.08
+        ],
+        "direction": [
+          0.0,
+          -0.7071067811865475,
+          -0.7071067811865475
+        ],
+        "force_N": 0.06
+      },
+      {
+        "id": "probe-x270-y020-plusY",
+        "center_m": [
+          0.27,
+          0.02,
+          0.08
+        ],
+        "direction": [
+          0.0,
+          0.7071067811865475,
+          -0.7071067811865475
+        ],
+        "force_N": 0.06
+      },
+      {
+        "id": "probe-x270-y020-minusY",
+        "center_m": [
+          0.27,
+          0.02,
+          0.08
+        ],
+        "direction": [
+          0.0,
+          -0.7071067811865475,
+          -0.7071067811865475
+        ],
+        "force_N": 0.06
+      },
+      {
+        "id": "probe-x270-y060-plusY",
+        "center_m": [
+          0.27,
+          0.06,
+          0.08
+        ],
+        "direction": [
+          0.0,
+          0.7071067811865475,
+          -0.7071067811865475
+        ],
+        "force_N": 0.06
+      },
+      {
+        "id": "probe-x270-y060-minusY",
+        "center_m": [
+          0.27,
+          0.06,
+          0.08
+        ],
+        "direction": [
+          0.0,
+          -0.7071067811865475,
+          -0.7071067811865475
+        ],
+        "force_N": 0.06
+      },
+      {
+        "id": "held-oblique-positiveY-down",
+        "center_m": [
+          0.135,
+          0.055,
+          0.08
+        ],
+        "direction": [
+          0.0,
+          0.7071067811865475,
+          -0.7071067811865475
+        ],
+        "force_N": 0.06
+      },
+      {
+        "id": "held-oblique-negativeY-down",
+        "center_m": [
+          0.225,
+          0.025,
+          0.08
+        ],
+        "direction": [
+          0.0,
+          -0.7071067811865475,
+          -0.7071067811865475
+        ],
+        "force_N": 0.06
+      }
+    ],
+    "measurements": [
+      {
+        "id": "prefix-marker-0",
+        "role": "prefix",
+        "load": "prefix-center-down",
+        "point_m": [
+          0.1575,
+          0.033,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "prefix-marker-1",
+        "role": "prefix",
+        "load": "prefix-center-down",
+        "point_m": [
+          0.18,
+          0.047,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "prefix-marker-2",
+        "role": "prefix",
+        "load": "prefix-center-down",
+        "point_m": [
+          0.2025,
+          0.038,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "prefix-marker-3",
+        "role": "prefix",
+        "load": "prefix-center-down",
+        "point_m": [
+          0.18,
+          0.04,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "probe-x090-y020-plusY-marker",
+        "role": "candidate",
+        "load": "probe-x090-y020-plusY",
+        "point_m": [
+          0.09,
+          0.02,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.7071067811865475,
+          -0.7071067811865475
+        ]
+      },
+      {
+        "id": "probe-x090-y020-minusY-marker",
+        "role": "candidate",
+        "load": "probe-x090-y020-minusY",
+        "point_m": [
+          0.09,
+          0.02,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          -0.7071067811865475,
+          -0.7071067811865475
+        ]
+      },
+      {
+        "id": "probe-x090-y060-plusY-marker",
+        "role": "candidate",
+        "load": "probe-x090-y060-plusY",
+        "point_m": [
+          0.09,
+          0.06,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.7071067811865475,
+          -0.7071067811865475
+        ]
+      },
+      {
+        "id": "probe-x090-y060-minusY-marker",
+        "role": "candidate",
+        "load": "probe-x090-y060-minusY",
+        "point_m": [
+          0.09,
+          0.06,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          -0.7071067811865475,
+          -0.7071067811865475
+        ]
+      },
+      {
+        "id": "probe-x270-y020-plusY-marker",
+        "role": "candidate",
+        "load": "probe-x270-y020-plusY",
+        "point_m": [
+          0.27,
+          0.02,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.7071067811865475,
+          -0.7071067811865475
+        ]
+      },
+      {
+        "id": "probe-x270-y020-minusY-marker",
+        "role": "candidate",
+        "load": "probe-x270-y020-minusY",
+        "point_m": [
+          0.27,
+          0.02,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          -0.7071067811865475,
+          -0.7071067811865475
+        ]
+      },
+      {
+        "id": "probe-x270-y060-plusY-marker",
+        "role": "candidate",
+        "load": "probe-x270-y060-plusY",
+        "point_m": [
+          0.27,
+          0.06,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.7071067811865475,
+          -0.7071067811865475
+        ]
+      },
+      {
+        "id": "probe-x270-y060-minusY-marker",
+        "role": "candidate",
+        "load": "probe-x270-y060-minusY",
+        "point_m": [
+          0.27,
+          0.06,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          -0.7071067811865475,
+          -0.7071067811865475
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point0-x",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.09,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point0-y",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.09,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point0-z",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.09,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point1-x",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.09,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point1-y",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.09,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point1-z",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.09,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point2-x",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.18,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point2-y",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.18,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point2-z",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.18,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point3-x",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.18,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point3-y",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.18,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point3-z",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.18,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point4-x",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.27,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point4-y",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.27,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point4-z",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.27,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point5-x",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.27,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point5-y",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.27,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point5-z",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.27,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point6-x",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.135,
+          0.0,
+          0.04
+        ],
+        "projection": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point6-y",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.135,
+          0.0,
+          0.04
+        ],
+        "projection": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point6-z",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.135,
+          0.0,
+          0.04
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point7-x",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.225,
+          0.08,
+          0.04
+        ],
+        "projection": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point7-y",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.225,
+          0.08,
+          0.04
+        ],
+        "projection": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-positiveY-down-point7-z",
+        "role": "target",
+        "load": "held-oblique-positiveY-down",
+        "point_m": [
+          0.225,
+          0.08,
+          0.04
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point0-x",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.09,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point0-y",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.09,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point0-z",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.09,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point1-x",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.09,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point1-y",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.09,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point1-z",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.09,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point2-x",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.18,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point2-y",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.18,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point2-z",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.18,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point3-x",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.18,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point3-y",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.18,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point3-z",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.18,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point4-x",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.27,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point4-y",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.27,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point4-z",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.27,
+          0.015,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point5-x",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.27,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point5-y",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.27,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point5-z",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.27,
+          0.065,
+          0.08
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point6-x",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.135,
+          0.0,
+          0.04
+        ],
+        "projection": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point6-y",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.135,
+          0.0,
+          0.04
+        ],
+        "projection": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point6-z",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.135,
+          0.0,
+          0.04
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point7-x",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.225,
+          0.08,
+          0.04
+        ],
+        "projection": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point7-y",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.225,
+          0.08,
+          0.04
+        ],
+        "projection": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "id": "held-oblique-negativeY-down-point7-z",
+        "role": "target",
+        "load": "held-oblique-negativeY-down",
+        "point_m": [
+          0.225,
+          0.08,
+          0.04
+        ],
+        "projection": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      }
+    ],
+    "sigma_m": 2e-05,
+    "probe_semantics": "One-stage choice of known reset-static load, not a physical transient or accumulated poke history",
+    "gates": {
+      "minimum_nonrigid_RMS_m": 0.0001,
+      "minimum_nonrigid_fraction": 0.3,
+      "maximum_linear_strain": 0.05,
+      "minimum_J": 0.8,
+      "free_residual_N": 1e-10,
+      "spatial_order_floor": 1.0,
+      "maximum_conditional_spatial_indicator_m": 2e-05,
+      "support_normalization_relative_error": 1e-10,
+      "load_net_force_error_N": 1e-12,
+      "load_moment_error_Nm": 1e-13,
+      "support_surface_production_vs_refined_relative_Frobenius": 1e-10,
+      "support_surface_production_order": 16,
+      "support_surface_refined_order": 20
+    },
+    "screen_only": "NEW development load experiment. No automatic NH/space/inference/policy admission; all four layouts and eight candidates retained.",
+    "no_automatic_execution": true,
+    "load_std_m": [
+      0.035,
+      0.025
+    ],
+    "traction": "Analytically normalized Gaussian on ENTIRE top rectangle; no hardpatch edge or discrete renormalization. Actual truncatedcentroid controls reference moment.",
+    "support_bank_changed": false,
+    "material_geometry_directions_markers_changed": false,
+    "predecessor": "Old narrow sin\u00b2/.08N candidate/.02N prefix stage retained as physical+spatial negative.",
+    "geometry_supports_material_priors_unchanged": true,
+    "first9loads_first12channels_unchanged": true,
+    "query_points_unchanged": true,
+    "task_change": "Only heldload directions/IDs change; newdevelopmenttask, not repair/relabel of originalNEW36negative.",
+    "symmetry": "180degreeZrotation about(.18,.04) maps theheldpair/supportcategories/target8queries/candidate8set. Prefix4markers and3DFreudenthaltriangulation areNOTexactlyinvariant; no conditional/universal-policy guarantee.",
+    "control_semantics": "Separate knownresetstatic heldloads, NOT simultaneous zeroresultant/moment pair.",
+    "NH_reuse": "Existing6NH3/6/12prefix+far-candidate fields have identicalloads/querypositions and remainhash-reusable. No newNHfields authorized here.",
+    "scope": "SOURCE-only newheldobjective/compiler; fullmode linear/reference/utility andnewheldequilibrium validations are separate. No automaticphysics/policy/calibration admission."
+  },
+  "controls": {
+    "count": 4,
+    "passed": true,
+    "wall_s": 6.46,
+    "CPU": 15,
+    "GPU": false,
+    "scope": "Knownforcecompiler16vs20/norm/wrench3/6/12+definition/centroid/symmetrylimits+manufacturedn1fullmode/direct2pm/first12bitparity"
+  },
+  "new_actual_held_equilibria": 0,
+  "new_NH_solves": 0,
+  "new_observations_or_RNG": 0,
+  "old_sources_changed": false,
+  "scope": "NEWdevelopmentheldobjective only; oldNEW36negative/criteria preserved. Predictiveownsseparate72heldlinearvalidation+references/utilitydriver. No automaticadmission."
+}
