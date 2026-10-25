@@ -1,0 +1,86 @@
+{
+  "schema": "held-target-support-energy-concept-v01",
+  "status": "CLOSED72_DIAGNOSTIC_PROSPECTIVE_CONCEPT_ONLY",
+  "source_result": {
+    "path": "runs/operator-dev/fixture-Gaussian-linear-screen-v01/result-LOCAL.json",
+    "sha256": "347a798cd6c8c08698a9e60ebb1c6051ba8966ff7f5e258611d1f141e4d79dd0"
+  },
+  "source_response_archive": {
+    "path": "runs/operator-dev/fixture-Gaussian-linear-screen-v01/responses-LOCAL.npz",
+    "sha256": "b0ef3deb8b4d659cc306a1f82bf304222a45de017097a5da8c765b0c6864c530"
+  },
+  "independent_audit": {
+    "path": "runs/operator-dev/fixture-Gaussian-linear-screen-v01/independent-review.json",
+    "sha256": "fdf2ec441664804a746875b2b30b6b2e527250e521c76b0e4d30dfd0f6722b04"
+  },
+  "recipe": "Within each fixedE/K group andmesh, takeall6unorderedpairs of4supportlayouts. Sum squaredresponse differences in responsecolumns12:36(down) and36:60(axial), thenaggregateall9E/K groups equally. Share=blocksum/(down+axial); blockRMS=sqrt(blocksum/(54*24)). Prefixsimilarity uses4channelL2/20um. This is squared-displacement energy,NOT Joules.",
+  "by_mesh": {
+    "3": {
+      "support_pairs": 54,
+      "E_K_groups": 9,
+      "down_share": 0.8932359858381839,
+      "axial_share": 0.10676401416181613,
+      "down_share_range_across_E_K": [
+        0.8925941219740675,
+        0.8962133286154284
+      ],
+      "down_pair_coordinate_RMS_m": 9.622969046331618e-05,
+      "axial_pair_coordinate_RMS_m": 3.32688991350713e-05,
+      "down_to_axial_separation_energy_ratio": 8.366451869113472,
+      "by_prefix_whitened_L2": {
+        "1": {
+          "pairs": 30,
+          "down_share": 0.9499738877351597,
+          "axial_share": 0.050026112264840376
+        },
+        "2": {
+          "pairs": 40,
+          "down_share": 0.9283413244022028,
+          "axial_share": 0.07165867559779711
+        }
+      }
+    },
+    "6": {
+      "support_pairs": 54,
+      "E_K_groups": 9,
+      "down_share": 0.8939796089470815,
+      "axial_share": 0.10602039105291851,
+      "down_share_range_across_E_K": [
+        0.8933296600092118,
+        0.8969786158544294
+      ],
+      "down_pair_coordinate_RMS_m": 9.827793572373025e-05,
+      "axial_pair_coordinate_RMS_m": 3.384440786635372e-05,
+      "down_to_axial_separation_energy_ratio": 8.43214781674277,
+      "by_prefix_whitened_L2": {
+        "1": {
+          "pairs": 30,
+          "down_share": 0.9503885576213938,
+          "axial_share": 0.049611442378606235
+        },
+        "2": {
+          "pairs": 40,
+          "down_share": 0.9288841199702332,
+          "axial_share": 0.07111588002976671
+        }
+      }
+    }
+  },
+  "interpretation": "Downheld dominates support-sensitive targetdifferences, especially amongprefix-similar categories. This canbias a held-risk objective towardoneforcefamily but doesNOT establisha universalbestaction; materialposterior/weights/noise/actionsnotassessedhere.",
+  "prospective_concept": {
+    "implement": false,
+    "run": false,
+    "apply_only_after_current_frozen_adequacy_negative": true,
+    "load1": "sameGaussian at(.135,.055,.08),worlddirection(0,+1,-1)/sqrt2,force.06N",
+    "load2": "sameGaussian at(.225,.025,.08),worlddirection(0,-1,-1)/sqrt2,force.06N",
+    "unchanged": "Prefix,candidate8,material/supportpriors,all16publicquerypositions,Gaussianstd,forcebudget,hardclamps,andallqualificationthresholds",
+    "mechanics": "Eachknownresetheldload excitesbending+lateral/twist; a180degreeZrotationabout(.18,.04) mapsloads,supportbank,candidatebank andtarget8pointset. Continuumuniform-category prior blockenergies shouldmatchbysymmetry, unlikebend-versusaxial currentpair.",
+    "limitations": "Prefix4marker asymmetry yieldsnonuniformconditionalweights; discreteFreudenthal triangulation isnotexactlyinvariantunderthisrotation. Equalunconditionedblockweights doNOTguaranteeheterogeneousoptimalpokes. Balancedmeansobjective/symmetry,NOTzerocombinedresultant/torque; heldprograms areseparate resetloads. Newfields/source+mechanicsandutilityqualificationwouldberequired."
+  },
+  "NEW36_files_read": false,
+  "new_solves": 0,
+  "source_files_changed": false,
+  "no_current_criteria_changed": true,
+  "all54pairs_retained": true,
+  "scope": "LINEARdevelopmentdiagnostic/equal9gridpointaggregation, notpropercontinuousmaterialprior integration/NHvalidation/actualpolicy/calibrationproof. No observations/noise/draws."
+}
