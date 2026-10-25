@@ -70,6 +70,36 @@ def owned_RSS(row):
             if not alive(row):return 0
             raise RuntimeError('Live owned RSS unresolved after bounded exit grace')
         time.sleep(.01)
+def pid_directory_exists(pid):return(Path('/proc')/str(pid)).exists()
+def retirement_proof(row):
+    """Only absence/reuse retires an old nonleader; zombies/errors stay tracked."""
+    try:
+        current=identity(row['pid'])
+        if current is None:return 'PID_absent'if not pid_directory_exists(row['pid'])else None
+        if current['starttime']!=row['starttime']:return 'starttime_changed'
+    except(OSError,ValueError,IndexError,KeyError):pass
+    return None
+
+def retirement_summary():
+    return dict(count=0,SHA256_chain='0'*64,PID_absent=0,starttime_changed=0,algorithm='SHA256(previous_digest_bytes + canonical_identity_and_proof_JSON_UTF8)')
+def compact_owned(previous,fresh,retired):
+    """Retain all observed leaders and live/transitional identities, not tombstones.
+
+    Identity keys include starttime, so PID reuse cannot replace old leader proof.
+    Retire only proven-dead nonleaders into a constant-size count/hash chain.
+    """
+    merged={}
+    for row in[*previous,*fresh]:
+        key=(row['pid'],row['starttime'])
+        if key not in merged or merged[key]['PGID']!=row['pid']:merged[key]=row
+    kept=[];summary=dict(retired)
+    for key,row in sorted(merged.items()):
+        proof=None if row['PGID']==row['pid']else retirement_proof(row)
+        if proof is None:kept.append(row);continue
+        payload=json.dumps(dict(identity=row,proof=proof),sort_keys=True,separators=(',',':')).encode()
+        summary['SHA256_chain']=hashlib.sha256(bytes.fromhex(summary['SHA256_chain'])+payload).hexdigest();summary['count']+=1;summary[proof]+=1
+    return kept,summary
+
 def cleanup(child,owned):
     """65-second TERM grace; no guessed identities, ancestor or unrelated kills."""
     direct=next((r for r in owned if r['pid']==child.pid),None)
@@ -121,7 +151,7 @@ def stage(name,cmd,outputs,digest,*,parent_sha):
     if any(Path(path).exists()for path in outputs):raise FileExistsError('Unbound existing stage output; no retry: '+name)
     cpu,wall,rss=CAPS[name]
     if noisy.available_memory()<rss+OPERATOR_LIMITS['RSS_bytes']+OPERATOR_LIMITS['RAM_reserve_bytes']:raise MemoryError('Initial full scientific + operator + reserve memory envelope')
-    folder.mkdir(parents=True,exist_ok=True);state=dict(phase=name,parent_protocol_SHA256=parent_sha,completed=False,reaped=False,command=cmd,source_SHA256=sources(),operator_preapproval=record(LOCAL/'root-preapproval.json'),resources=dict(CPU=cpu,wall_s=wall,RSS_bytes=rss),outputs=[],observed_owned=[]);exclusive(statepath,state)
+    folder.mkdir(parents=True,exist_ok=True);state=dict(phase=name,parent_protocol_SHA256=parent_sha,completed=False,reaped=False,command=cmd,source_SHA256=sources(),operator_preapproval=record(LOCAL/'root-preapproval.json'),resources=dict(CPU=cpu,wall_s=wall,RSS_bytes=rss),outputs=[],observed_owned=[],observed_owned_scope='All observed group leaders and live/transitional descendants; proven-dead nonleaders retired into count/hash chain',retired_nonleaders=retirement_summary());exclusive(statepath,state)
     token=folder/'start.json';bootstrap=command('experiments.supervise_noisy_poke_pipeline_v01',['child','--token',str(token),'--command-json',json.dumps(cmd)],cpu);child=None;owned=[];start=time.monotonic()
     try:
         with(folder/'stdout-LOCAL.log').open('xb')as log:
@@ -130,7 +160,7 @@ def stage(name,cmd,outputs,digest,*,parent_sha):
             if not row or row['PGID']!=child.pid:raise RuntimeError('Exact owned child session before handshake')
             owned=[row];state['child_identity']=row;atomic(statepath,state);exclusive(token,dict(pid=child.pid,command=cmd))
             while child.poll()is None:
-                fresh=descendants(row);owned=list({v['pid']:v for v in[*owned,*fresh]}.values());state['observed_owned']=owned
+                fresh=descendants(row);owned,state['retired_nonleaders']=compact_owned(owned,fresh,state['retired_nonleaders']);state['observed_owned']=owned
                 total=sum(owned_RSS(v)for v in fresh if alive(v));state['peak_RSS_bytes']=max(state.get('peak_RSS_bytes',0),total)
                 if total>=rss:raise MemoryError('Owned stage RSS aggregate')
                 if time.monotonic()-start>wall:raise TimeoutError('Owned stage wall cap')
@@ -144,7 +174,9 @@ def stage(name,cmd,outputs,digest,*,parent_sha):
         state['failure']=dict(type=type(error).__name__,message=str(error))
         if child is not None:cleanup(child,owned);state.update(exit_code=child.returncode,cleanup_exit_code=child.returncode,reaped=True)
         raise
-    finally:state['wall_s']=time.monotonic()-start;state['observed_owned']=owned;atomic(statepath,state)
+    finally:
+        owned,state['retired_nonleaders']=compact_owned(owned,[],state['retired_nonleaders'])
+        state['wall_s']=time.monotonic()-start;state['observed_owned']=owned;atomic(statepath,state)
     return state
 
 def commit(path,value):

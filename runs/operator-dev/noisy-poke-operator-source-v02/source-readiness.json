@@ -1,0 +1,27 @@
+{
+  "schema": "noisy-poke-operator-bounded-history-readiness-v02",
+  "status": "SOURCE_REVIEW_GO_ROOT_V02_PREAPPROVAL_REQUIRED_BEFORE_ACTUAL",
+  "source_SHA256": {
+    "experiments/supervise_noisy_poke_pipeline_v01.py": "663d8a7f4f51b9e01f58a50020a1483eec7c3aca3a4c30511c1f1e1763203cad",
+    "tests/test_supervise_noisy_poke_pipeline_v01.py": "fe3eb9a3bf471a747c2a0d6d41367730d60e6af2c15282f6fa77ad4f3207b5c7"
+  },
+  "own_controls": {
+    "passed": 19,
+    "wall_s": 8.53,
+    "CPU": 19,
+    "threads": 1,
+    "GPU": false
+  },
+  "independent_controls": {
+    "passed": 19,
+    "wall_s": 10.48,
+    "CPU": 16,
+    "threads": 1,
+    "GPU": false
+  },
+  "change": "Operator-only tracking/storage amendment; scientific files, math, resource and admission gates unchanged. All ever-observed group leaders and live/transitional/unknown descendants retained. Nonleaders retire only after confirmed PIDabsence or starttimechange.",
+  "receipt_semantics": "observed_owned_scope explicitly excludes retired deadnonleader history. retired_nonleaders stores constant-size count/SHA256chain/proof counts, not tombstone list. PID+starttime keys preserve old leader identities across numeric PIDreuse. Cleanup only uses retained/proven live identities, with65sgrace and individual signals for observed nonleaders with dead leaders.",
+  "tests": "Existing15 lifecycle/admission controls plus5000transient boundedhistory, PIDreuse/leader retention, unknown/zombie/present-directory retention and deadleader/livehelper retention. Five retained identities and<400byte retirement metadata in the5000transient manufactured control.",
+  "authority": "Oldrootprecommit/sourcev1inventories immutable. Actual operator still requires NEWROOTpreapproval of exact source graph/resources/dynamic-release predicates after manually reaped/audited group0 and ROOTremaining release. No actualpipeline calls, campaignnoise/PDE/models/GPUqueries or scientificdata read.",
+  "raw_arrays_or_media_included": false
+}

@@ -171,3 +171,45 @@ def test_dead_group_leader_live_observed_nonleader_is_signalled_individually(loc
     def signal(pid,sig):calls.append((pid,sig));living.remove(pid)
     monkeypatch.setattr(o.os,'kill',signal);o.cleanup(Child(),rows)
     assert calls==[(987652,o.signal.SIGTERM)]and not living
+
+
+def test_thousands_of_dead_nonleaders_have_bounded_history_and_digest(monkeypatch):
+    leaders=[dict(pid=800001,PGID=800001,starttime=1),dict(pid=800002,PGID=800002,starttime=2)]
+    special=[dict(pid=800003,PGID=800001,starttime=3),dict(pid=800004,PGID=800001,starttime=4),dict(pid=800005,PGID=800001,starttime=5)]
+    def current(pid):
+        if pid==800003:return dict(pid=pid,starttime=3,state='R')
+        if pid==800004:return dict(pid=pid,starttime=4,state='Z')
+        if pid==800005:raise PermissionError('Unknown status must remain owned')
+        return None
+    monkeypatch.setattr(o,'identity',current);monkeypatch.setattr(o,'pid_directory_exists',lambda pid:False)
+    kept=leaders+special;retired=o.retirement_summary();peak=0
+    for batch in range(100):
+        transient=[dict(pid=1000000+batch*50+i,PGID=800001,starttime=100+i)for i in range(50)]
+        kept,retired=o.compact_owned(kept,transient,retired);peak=max(peak,len(kept))
+    assert peak==5 and kept==leaders+special and retired['count']==5000 and retired['PID_absent']==5000 and retired['starttime_changed']==0
+    assert len(json.dumps(retired))<400 and retired['SHA256_chain']!='0'*64
+    again,summary=o.compact_owned(kept,[],retired);assert again==kept and summary==retired
+
+
+def test_reused_pid_never_erases_old_leader_or_live_new_identity(monkeypatch):
+    oldleader=dict(pid=800001,PGID=800001,starttime=1);oldhelper=dict(pid=800002,PGID=800001,starttime=2);newhelper=dict(pid=800002,PGID=800001,starttime=9)
+    monkeypatch.setattr(o,'identity',lambda pid:dict(pid=pid,starttime=9,state='R'))
+    kept,summary=o.compact_owned([oldleader,oldhelper],[newhelper],o.retirement_summary())
+    assert kept==[oldleader,newhelper]and summary['count']==summary['starttime_changed']==1
+    # Repeat input ordering has the same deterministic retirement commitment.
+    _,again=o.compact_owned([oldhelper,oldleader],[newhelper],o.retirement_summary());assert summary==again
+
+
+def test_none_without_confirmed_pid_absence_and_errors_are_not_retirement(monkeypatch):
+    row=dict(pid=800001,PGID=800000,starttime=1);monkeypatch.setattr(o,'identity',lambda pid:None);monkeypatch.setattr(o,'pid_directory_exists',lambda pid:True)
+    assert o.retirement_proof(row)is None
+    def unknown(pid):raise PermissionError('Unreadable live identity')
+    monkeypatch.setattr(o,'identity',unknown);assert o.retirement_proof(row)is None
+    kept,summary=o.compact_owned([row],[],o.retirement_summary());assert kept==[row]and summary['count']==0
+
+
+def test_live_observed_nonleader_with_dead_leader_remains_cleanup_eligible(monkeypatch):
+    rows=[dict(pid=800001,PGID=800001,starttime=1),dict(pid=800002,PGID=800001,starttime=2)]
+    monkeypatch.setattr(o,'identity',lambda pid:None if pid==800001 else dict(pid=pid,starttime=2,state='R'))
+    monkeypatch.setattr(o,'pid_directory_exists',lambda pid:False)
+    kept,summary=o.compact_owned(rows,[],o.retirement_summary());assert kept==rows and summary['count']==0

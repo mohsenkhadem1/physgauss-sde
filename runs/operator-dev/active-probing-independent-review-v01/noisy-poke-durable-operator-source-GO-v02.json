@@ -1,0 +1,30 @@
+{
+  "source_GO": true,
+  "source_SHA256": {
+    "experiments/supervise_noisy_poke_pipeline_v01.py": "663d8a7f4f51b9e01f58a50020a1483eec7c3aca3a4c30511c1f1e1763203cad",
+    "tests/test_supervise_noisy_poke_pipeline_v01.py": "fe3eb9a3bf471a747c2a0d6d41367730d60e6af2c15282f6fa77ad4f3207b5c7"
+  },
+  "supersedes_source_review": "noisy-poke-durable-operator-source-GO-v01.json",
+  "independent_controls": {
+    "passed": 19,
+    "wall_s": 10.48,
+    "CPU": 16,
+    "no_GPU": true
+  },
+  "author_controls": {
+    "passed": 19,
+    "wall_s": 8.53,
+    "CPU": 19
+  },
+  "scope": "Bounded operator bookkeeping only; no actual stage/preapproval/data/model/GPU calls",
+  "review": [
+    "Diff against reviewed161a9dc6: only ownership-history tracking/storage changed",
+    "Nonleaders retired only with confirmed missingPID directory or different starttime; all observed leaders retained even after exit/reuse",
+    "Sameidentity live/zombie/transitional or unreadable processes retained, no uncertain-identity pruning",
+    "Per-stage explicit retired count and deterministic SHA256 chain plus proof counts; compact per poll and final write",
+    "PID plus starttime keys preserve oldleader proofs during PID reuse",
+    "Ownership signaling, closure checks, resources and all scientific/causal/qualification gates unchanged"
+  ],
+  "actual_release_owner": "root",
+  "release_condition": "Publish new source/precommit and issue new concrete pinned root preapproval; no actual launch authorized by this receipt"
+}
