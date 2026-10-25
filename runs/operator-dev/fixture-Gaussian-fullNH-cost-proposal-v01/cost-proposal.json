@@ -1,0 +1,187 @@
+{
+  "schema": "fixture-Gaussian-fullNH-cost-proposal-v01",
+  "status": "DESIGN_ONLY_HELD_NO_EXECUTION_AUTHORITY",
+  "execution_authorized": false,
+  "prerequisites": [
+    "NEW36case Gaussian linearpolicy development must independently demonstrate useful nonuniversal choices; mechanicalseparation alone is insufficient",
+    "Root-reviewed frozen fullcatalog source/protocol/resources",
+    "No unresolved originalphysical/mesh/force/gate changes"
+  ],
+  "origin": {
+    "protocol": {
+      "path": "runs/operator-dev/active-fixture-gaussian-refinement-v03/protocol.json",
+      "sha256": "75f955bf2910eea102c2c20306c8eec82cee02e982376321b9afeedab2bac9bf"
+    },
+    "execution": {
+      "path": "runs/operator-dev/active-fixture-gaussian-refinement-v03/execution.json",
+      "sha256": "fc777d4c517c20fc73dcd99e968547214a567cbde00a738cad34517988c9c5a8"
+    },
+    "result": {
+      "path": "runs/operator-dev/active-fixture-gaussian-refinement-v03/result-LOCAL.json",
+      "sha256": "dfddef7f1e86b259b7c15ed535b09e549b7ae0dd0e3ce621b0e3684bc3329894"
+    },
+    "audit": {
+      "path": "runs/operator-dev/active-fixture-gaussian-refinement-v03/independent-review.json",
+      "sha256": "4932705f3a1bbdb2694787f1e92b677e9de46a51f2e047b92dbc26e763ff6bf4"
+    }
+  },
+  "catalog_recipe": {
+    "function": "propose_fixture_gaussian_fullNH_cost_v01.catalog",
+    "sha256": "bca4b95bc4cce04f75e551d6a54683f0f9d4baf371604f3aced62c1f4fd0a1a3",
+    "cases": 660,
+    "groups": 20,
+    "layouts": [
+      "bottom-x090-y020",
+      "bottom-x090-y060",
+      "bottom-x270-y020",
+      "bottom-x270-y060"
+    ],
+    "parameters": [
+      [
+        2000.0,
+        5.0
+      ],
+      [
+        2000.0,
+        30.0
+      ],
+      [
+        8000.0,
+        5.0
+      ],
+      [
+        8000.0,
+        30.0
+      ],
+      [
+        4000.0,
+        12.24744871391589
+      ]
+    ],
+    "levels": [
+      3,
+      6,
+      12
+    ],
+    "loads": [
+      "prefix-center-down",
+      "probe-x090-y020-plusY",
+      "probe-x090-y020-minusY",
+      "probe-x090-y060-plusY",
+      "probe-x090-y060-minusY",
+      "probe-x270-y020-plusY",
+      "probe-x270-y020-minusY",
+      "probe-x270-y060-plusY",
+      "probe-x270-y060-minusY",
+      "held-offaxis-down",
+      "held-offaxis-axial"
+    ],
+    "all_cases_retained": true,
+    "no_symmetry_or_E_scaling_substitution": true
+  },
+  "cost_projection": {
+    "measured_perload_mean_s": {
+      "3": 5.463031691018841,
+      "6": 31.498065196501557,
+      "12": 277.2821470380004
+    },
+    "measured_perload_slower_control_s": {
+      "3": 5.724159588018665,
+      "6": 35.33745169499889,
+      "12": 315.81276253200485
+    },
+    "measured_initialization_s": {
+      "3": 0.34268325500306673,
+      "6": 4.672968528000638,
+      "12": 478.4328711399867
+    },
+    "parameter_layout_groups": 20,
+    "meshes_per_group": 3,
+    "loads_per_group_mesh": 11,
+    "new_rest_factors": 60,
+    "full_fields": 660,
+    "reused_fields": 6,
+    "new_fields": 654,
+    "estimated_initialization_s": 9668.970458459808,
+    "estimated_full_payload_s": 69133.51366361458,
+    "measured_reused_payload_credit_s": 628.4864878510416,
+    "estimated_new_serial_s": 78173.99763422334,
+    "estimated_new_serial_hours": 21.714999342839818,
+    "slower_control_serial_s": 87552.8462099137,
+    "medium_only_all220_n3_n6_serial_s": 8231.754350914562,
+    "fourworker_ideal_mean_wall_s": 19543.499408555836,
+    "scope": "Conditional timing extrapolation from two loads/one parameter/layout. Additional Newton/stability/fill/commonRMS/scheduler cost may differ. No factor-reuse credit for dead childLU objects; no assumedGPU PDEspeedup."
+  },
+  "prospective_resources": {
+    "workers": 4,
+    "worker_RSS_cap_bytes": 19327352832,
+    "controller_RSS_cap_bytes": 4294967296,
+    "aggregate_RSS_cap_bytes": 81604378624,
+    "host_free_reserve_bytes": 32212254720,
+    "minimum_initial_MemAvailable_bytes": 113816633344,
+    "measured_one_worker_peak_bytes": 13802950656,
+    "worker_margin_ratio": 1.4002334220907033,
+    "GPU_PDE_acceleration_assumed": false,
+    "per_parameter_layout_group_wall_proposal_s": 5400,
+    "global_wall_proposal_s": 36000,
+    "CPU_assignments": "Root must freeze disjoint allowed cores after currentjobs close; one-threadworkers",
+    "resources_not_yet_frozen_for_execution": true
+  },
+  "storage": {
+    "estimated_full_raw_bytes": 887862360.0,
+    "projected_write_reserve_bytes": 8589934592,
+    "filesystem_free_reserve_bytes": 32212254720,
+    "raw_LOCAL_only": true,
+    "publish_source_protocol_compact_scalars_only": true
+  },
+  "reuse": {
+    "fields": 6,
+    "records": [
+      {
+        "path": "runs/operator-dev/active-fixture-gaussian-refinement-v03/raw-LOCAL/n3-prefix-center-down.npz",
+        "sha256": "5c7ba6e3ef85d69f77b5f900965375e099b836e7c831ec434b5b2809cee05b36"
+      },
+      {
+        "path": "runs/operator-dev/active-fixture-gaussian-refinement-v03/raw-LOCAL/n3-probe-x270-y060-plusY.npz",
+        "sha256": "102b18a2e098f3dbec2fbbac082165ad864aaf0285edc74c97271900f4c6de12"
+      },
+      {
+        "path": "runs/operator-dev/active-fixture-gaussian-refinement-v03/raw-LOCAL/n6-prefix-center-down.npz",
+        "sha256": "f82fb5024f9056ae6d23dd61357b56e5938fcbd548a620586f28f5b912749eb4"
+      },
+      {
+        "path": "runs/operator-dev/active-fixture-gaussian-refinement-v03/raw-LOCAL/n6-probe-x270-y060-plusY.npz",
+        "sha256": "80ba58d0dda93eb4c865524fd58446adc7d305b2d47032926489fa8da55e4d2f"
+      },
+      {
+        "path": "runs/operator-dev/active-fixture-gaussian-refinement-v03/raw-LOCAL/n12-prefix-center-down.npz",
+        "sha256": "21ebd8d24898add18529bf16008d5dd9add21671f50436ad6a61e50ac75808c7"
+      },
+      {
+        "path": "runs/operator-dev/active-fixture-gaussian-refinement-v03/raw-LOCAL/n12-probe-x270-y060-plusY.npz",
+        "sha256": "74f93471c34815d21767c71effeb13ca32793c1a6506b656c1939ac13a9efc7f"
+      }
+    ],
+    "same_parameters_layout_loads_geometry_rule": true,
+    "old_fields_never_overwritten": true,
+    "factors_not_persisted": true
+  },
+  "gates": {
+    "minimum_J": 0.8,
+    "maximum_absolute_symmetric_strain_eigenvalue": 0.05,
+    "minimum_nonrigid_RMS_m": 0.0001,
+    "minimum_nonrigid_fraction": 0.3,
+    "spatial_order_floor": 1.0,
+    "maximum_conditional_fine_indicator_m": 2e-05,
+    "maximum_medium_indicator_m": 2e-05,
+    "maximum_linear_vs_nonlinear_RMS_m": 2e-05,
+    "equilibrium_absolute_N": 1e-10,
+    "equilibrium_relative": 1e-08,
+    "SPD_eigsh_tolerance": 1e-06,
+    "SPD_eigsh_maxiter": 10000,
+    "SPD_initial_seed": 2026102411,
+    "maximum_NH24_vs_NH80_RMS_m": 2e-06,
+    "maximum_surface_operator_relative_error": 1e-10
+  },
+  "scope": "All660 deterministic DEVELOPMENTrun plan only. Six-control spatial pass doesNOT admit otherlayouts/EK/loads. SampledJ and numericalRitz stability retain existing scope; conditionalp>=1 spatial indicators are not rigorous continuum bounds. Everynegative retained; no adaptiveforce tuning, casefilter, posterior, NN or calibration claim."
+}
