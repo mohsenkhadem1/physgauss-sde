@@ -1,0 +1,21 @@
+{
+  "schema": "focused-synthetic-validation-receipt-v01",
+  "source": {
+    "path": "experiments/run_surface_tilted_cdf_diagnostic_v01.py",
+    "sha256": "3afaf336f7e32817265126c26ca9e30b67b6d9da87853626afe134c06f854e87"
+  },
+  "test": {
+    "path": "tests/test_surface_tilted_cdf_diagnostic_v01.py",
+    "sha256": "acf77e877356b629895fd8d54aa1f6fb18e5495aaa5a2d5e50821875766d69cd"
+  },
+  "command": "taskset -c 17 env OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 CUDA_VISIBLE_DEVICES= .venv/bin/python -m pytest -q tests/test_surface_tilted_cdf_diagnostic_v01.py",
+  "passed": 1,
+  "wall_s": 0.7,
+  "checks": [
+    "Manual/original CDF and tail exact array parity on normal and zero-response synthetic rows",
+    "Reflected-width discrepancy observable without repair",
+    "Altered normalizer retains original rejection guard"
+  ],
+  "independent_root_validation": "1 PASS / .71 s reported by root",
+  "no_actual_diagnostic_rerun": true
+}

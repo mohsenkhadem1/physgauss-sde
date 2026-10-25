@@ -1,0 +1,133 @@
+{
+  "schema": "surface-tilted-cdf-diagnostic-review-v01",
+  "status": "PARTIAL_DIAGNOSTIC_WITH_IDENTIFIED_CAUSE",
+  "protocol": {
+    "path": "runs/operator-dev/surface-tilted-cdf-diagnostic-v01/protocol.json",
+    "sha256": "47009b52ecf7fd19f9ae55dcf7949f88ad37481940ea2a0011c666fbbf7ab576"
+  },
+  "raw_result_LOCAL": {
+    "path": "runs/operator-dev/surface-tilted-cdf-diagnostic-v01/result-LOCAL.json",
+    "sha256": "085694c662017fe094504d9c3d493a85604ab60c1f01e13c14e1a48e4b95496f"
+  },
+  "raw_result_bytes": 27313004,
+  "diagnostic_completed": false,
+  "failure": {
+    "type": "FloatingPointError",
+    "message": "Unresolved Gaussian interval logmass",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/bayespc2/vscode/guassianSDE/experiments/run_surface_tilted_cdf_diagnostic_v01.py\", line 126, in run\n    raw,stats=raw_probability(primitive,cut,tail);name='tail'if tail else'CDF';raw_arrays[f'd{dim}_q{j}_{name}']=raw\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/bayespc2/vscode/guassianSDE/experiments/run_surface_tilted_cdf_diagnostic_v01.py\", line 53, in raw_probability\n    left=log_gaussian_interval(alpha,cut);right=log_gaussian_interval(cut,beta)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/bayespc2/vscode/guassianSDE/experiments/campaign_surface_conditional_amplitude_v01.py\", line 59, in log_gaussian_interval\n    if np.any(delta>=0):raise FloatingPointError('Unresolved Gaussian interval logmass')\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFloatingPointError: Unresolved Gaussian interval logmass\n"
+  },
+  "wall_s": 35.20377060698229,
+  "peak_RSS_bytes": 1345818624,
+  "pid": 431172,
+  "pid_absent": true,
+  "state": {
+    "atlas": 9,
+    "outer": 512,
+    "inner": 128,
+    "rows": 1536,
+    "log_evidence": 227.50069699424546
+  },
+  "saved_calls": 65,
+  "completed_interior_calls": 62,
+  "original_rejected_calls": 50,
+  "guard_excess_tolerance": 7.105427357601002e-15,
+  "tail_violating_row_occurrences": 24990,
+  "tail_violating_unique_rows": 1090,
+  "all_violating_tail_coordinates_exactly_one": true,
+  "all_violating_tail_panel127": true,
+  "CDF_violating_row_occurrences": 0,
+  "all_saved_sides_nonfinite_rows": 0,
+  "mass_diagnostics": {
+    "density_pairwise_relative": {
+      "shape": [
+        1536
+      ],
+      "nonfinite": 0,
+      "minimum": 0.0,
+      "maximum": 0.0
+    },
+    "panel_pairwise_relative": {
+      "shape": [
+        1536
+      ],
+      "nonfinite": 0,
+      "minimum": -8.973258677582075e-16,
+      "maximum": 7.199659371624088e-16
+    },
+    "forward_sequential_relative": {
+      "shape": [
+        1536
+      ],
+      "nonfinite": 0,
+      "minimum": -2.0667829326003556e-15,
+      "maximum": 1.619922135657153e-15
+    },
+    "reverse_sequential_relative": {
+      "shape": [
+        1536
+      ],
+      "nonfinite": 0,
+      "minimum": -8.96093588717373e-16,
+      "maximum": 9.387853528683624e-16
+    },
+    "reflected_width_relative": {
+      "shape": [
+        128
+      ],
+      "nonfinite": 0,
+      "minimum": -1.0357597134526417e-13,
+      "maximum": 2.696274360184975e-13
+    },
+    "forward_full_panel_minus_stored_over_mass0": {
+      "shape": [
+        1536,
+        128
+      ],
+      "nonfinite": 0,
+      "minimum": -1.799915366755039e-16,
+      "maximum": 1.7999153648665086e-16
+    },
+    "reflected_full_panel_minus_stored_over_mass0": {
+      "shape": [
+        1536,
+        128
+      ],
+      "nonfinite": 0,
+      "minimum": -1.0560550688315502e-15,
+      "maximum": 2.6980731319348967e-13
+    }
+  },
+  "maximum_absolute_numerator_decomposition_rounding": 2.504659567670179e-16,
+  "causal_interpretation": "Reflected final-panel width changes local full-panel integration while reversed stored panel mass remains based on original width. All violating rows round to proposal tail coordinate1. Geometry local discrepancy dominates sequential-normalizer error. No rows filtered by posterior weight.",
+  "endpoint_failure_scope": "The 66th requested call is K unit1. Original engine returns1 before primitive evaluation; separate manual primitive evaluation hits unresolved Gaussian interval logmass after physical endpoint roundoff. 62/62 interior calls and both sides were already saved. No diagnostic rerun or qualifier rerun.",
+  "qualification": false,
+  "no_probability_clipping": true,
+  "no_engine_changes": true,
+  "no_new_draws_or_PDE": true,
+  "scope": "One failed numerical state diagnosis, not posterior qualification/calibration.",
+  "worst_excess_and_decomposition": {
+    "excess_over_one": 2.702282841937631e-13,
+    "mass0": 7.52953715450677e-05,
+    "sequential_end": 7.529537154506773e-05,
+    "prefix": 4.554504779171627e-11,
+    "local": 7.529532600004025e-05,
+    "stored_panel_mass": 7.529532600001994e-05,
+    "local_full_panel": 7.529532600004025e-05,
+    "width": 0.00015059065189793053,
+    "original_corresponding_width": 0.00015059065189788992,
+    "width_relative": 2.69562150378988e-13,
+    "sequential_minus_mass0_relative": 3.599830076662017e-16,
+    "local_minus_remaining_relative": 2.6980726424581817e-13,
+    "local_full_minus_stored_relative": 2.6980726424581817e-13,
+    "geometry_only_local_delta_relative": 2.696730095602413e-13,
+    "scope": "Numerical PWL integration-coordinate masses/widths only; no physical response/truth/parameter coordinates."
+  },
+  "closure": {
+    "root_session": 74254,
+    "root_reaped_exit_code": 1,
+    "pid": 431172,
+    "PID_absent": true,
+    "process_group_absent": true,
+    "root_confirmed_PID_and_group_absent": true
+  }
+}
