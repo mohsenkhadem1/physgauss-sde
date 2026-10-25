@@ -1,0 +1,50 @@
+{
+  "scope": "Independent full source/physics/math/resource/dataflow review and manufactured controls only; no actual equilibria, fields, parameters or noise generated.",
+  "source_GO": true,
+  "source_SHA256": {
+    "experiments/run_active_fixture_nh80_cost_v01.py": "239385b35361eade6e2ea693b63d4681c347d6febab124a875fd1cb638f445fa",
+    "tests/test_active_fixture_nh80_cost_v01.py": "5e7c3243b37da35679c1192f42c96b5633a2c909cadfd4a1afb25a9deff0839b"
+  },
+  "tests": {
+    "passed": 7,
+    "wall_s": 3.65,
+    "CPU": 18,
+    "GPU": false
+  },
+  "pilot": {
+    "new_equilibria": 6,
+    "layout": "bottom-x090-y020",
+    "E_Pa": 2000,
+    "K_N_m": 5,
+    "loads": [
+      "prefix-center-down",
+      "probe-x270-y060-plusY"
+    ],
+    "levels": [
+      2,
+      4,
+      8
+    ],
+    "worker_CPU": 17,
+    "controller_CPU": 18,
+    "wall_s": 600,
+    "worker_RSS_GiB": 4,
+    "controller_RSS_GiB": 4,
+    "aggregate_GiB": 8,
+    "reserves_GiB": 30
+  },
+  "findings": [
+    "NewconsistentpositiveGaussianfixtureGram reaches exact NH80 potential/gradient/tangent and restfactor; no frozenmodel mutation.",
+    "Exactsame-load linearequilibrium warmstarts each independent mesh/load; restpreconditioner changes no targetHessian/potential/residual/Armijo rules.",
+    "Acceptedstate checks original residual/clamps/reactions/J/strain/generalizedSA eigenpair; no eigen clipping/shifts/dense n8 solve.",
+    "Prefix exempted only absolute100um excitation goal; fraction.3 and physicalchecks unchanged.",
+    "CommonfinestpositiveKeast spatial indicators and publicpoint discrepancies reported; conditional notrigorouscontinuumbounds.",
+    "Source/protocol/closedprior/release gating, exact6stateworkload, ownedchildsignalcleanup and hard600s/4GiB caps."
+  ],
+  "reporting_limitations": [
+    "Result passed denotes sixphysicalchecks; spatial_development_passed andload_eligible separately reported. It does not denote bankadmission.",
+    "SampledJ notwholeelementcertificate; generalizedSA numericaldiagnostic notrigorousglobalbound.",
+    "NH24vs80 agreement remains untested; onlyNH80 costreference here.",
+    "Full660 futurecatalog is metadata proposal and explicitly unauthorized; separate measuredcost/admission/release required."
+  ]
+}
