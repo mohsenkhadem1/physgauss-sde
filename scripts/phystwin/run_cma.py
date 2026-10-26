@@ -34,6 +34,7 @@ logger.set_log_file(path=str(out),name='cma')
 t0=time.time()
 optimizer=OptimizerCMA(data_path=str(root/'data/different_types'/a.case/'final_data.pkl'),
     base_dir=str(out),train_frame=split['train'][1])
+os.chdir(out)  # Keep CMA's default outcmaes logs with the ignored local run.
 optimizer.optimize(max_iter=a.iterations)
 (out/'summary.json').write_text(json.dumps(dict(case=a.case,iterations=a.iterations,
     elapsed_seconds=time.time()-t0,split=split,upstream_commit=subprocess.check_output(
