@@ -1,0 +1,51 @@
+diff --git a/qqtt/engine/trainer_warp.py b/qqtt/engine/trainer_warp.py
+index 3738a0b..dad9b5a 100644
+--- a/qqtt/engine/trainer_warp.py
++++ b/qqtt/engine/trainer_warp.py
+@@ -13,27 +13,29 @@ import warp as wp
+ from scipy.spatial import KDTree
+ import pickle
+ import cv2
+-from pynput import keyboard
++if not os.environ.get("PHYSTWIN_HEADLESS"):
++    from pynput import keyboard
+ import pyrender
+ import trimesh
+ import matplotlib.pyplot as plt
+
+-from gaussian_splatting.scene.gaussian_model import GaussianModel
+-from gaussian_splatting.scene.cameras import Camera
+-from gaussian_splatting.gaussian_renderer import render as render_gaussian
+-from gaussian_splatting.dynamic_utils import (
+-    interpolate_motions_speedup,
+-    knn_weights,
+-    knn_weights_sparse,
+-    get_topk_indices,
+-    calc_weights_vals_from_indices,
+-)
+-from gaussian_splatting.utils.graphics_utils import getWorld2View2, focal2fov, fov2focal
+-from gs_render import (
+-    remove_gaussians_with_low_opacity,
+-    remove_gaussians_with_point_mesh_distance,
+-)
+-from gaussian_splatting.rotation_utils import quaternion_multiply, matrix_to_quaternion
++if not os.environ.get("PHYSTWIN_HEADLESS"):
++    from gaussian_splatting.scene.gaussian_model import GaussianModel
++    from gaussian_splatting.scene.cameras import Camera
++    from gaussian_splatting.gaussian_renderer import render as render_gaussian
++    from gaussian_splatting.dynamic_utils import (
++        interpolate_motions_speedup,
++        knn_weights,
++        knn_weights_sparse,
++        get_topk_indices,
++        calc_weights_vals_from_indices,
++    )
++    from gaussian_splatting.utils.graphics_utils import getWorld2View2, focal2fov, fov2focal
++    from gs_render import (
++        remove_gaussians_with_low_opacity,
++        remove_gaussians_with_point_mesh_distance,
++    )
++    from gaussian_splatting.rotation_utils import quaternion_multiply, matrix_to_quaternion
+
+ from sklearn.cluster import KMeans
+ import copy

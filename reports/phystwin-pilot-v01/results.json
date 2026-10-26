@@ -1,0 +1,531 @@
+{
+  "runs": {
+    "reference": {
+      "case": "single_lift_sloth",
+      "mode": "reference",
+      "split": {
+        "frame_len": 85,
+        "train": [
+          0,
+          59
+        ],
+        "test": [
+          59,
+          85
+        ]
+      },
+      "elapsed_seconds": 9.757262945175171,
+      "upstream_commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+      "headless_patch_sha256": "1722b2d8cf8ea5bb1099372feae884327e1f5cfcf6b864bd3ca036bc019d7700",
+      "checkpoint": "/home/bayespc2/vscode/guassianSDE/runs/third_party/PhysTwin/reference/experiments/single_lift_sloth/train/best_199.pth",
+      "checkpoint_sha256": "e7b853f8369ccb5b0d56dee0991fd6e95482a2baa37a913fc7f4b22db93044ad",
+      "device": "NVIDIA GeForce RTX 2080 Ti",
+      "torch": "2.4.0+cu121",
+      "warp": "1.6.2",
+      "frame_count": 85,
+      "particle_count": 6895,
+      "spring_count": 110833,
+      "iterations": 0,
+      "result": {
+        "train": {
+          "manual_track_mean_m": 0.004900288439855286,
+          "chamfer_l1_mean_m": 0.0038175744084343313,
+          "track_frames": 58,
+          "chamfer_frames": 58
+        },
+        "test": {
+          "manual_track_mean_m": 0.024925932901081655,
+          "chamfer_l1_mean_m": 0.017860441609365552,
+          "track_frames": 26,
+          "chamfer_frames": 26
+        }
+      },
+      "official_saved_trajectory": {
+        "train": {
+          "manual_track_mean_m": 0.004901056185435375,
+          "chamfer_l1_mean_m": 0.003817854971981169,
+          "track_frames": 58,
+          "chamfer_frames": 58
+        },
+        "test": {
+          "manual_track_mean_m": 0.024926414339721696,
+          "chamfer_l1_mean_m": 0.0178600324887817,
+          "track_frames": 26,
+          "chamfer_frames": 26
+        }
+      },
+      "frozen_first_frame": {
+        "train": {
+          "manual_track_mean_m": 0.013462467565429558,
+          "chamfer_l1_mean_m": 0.0069860769119800565,
+          "track_frames": 58,
+          "chamfer_frames": 58
+        },
+        "test": {
+          "manual_track_mean_m": 0.08721640005955725,
+          "chamfer_l1_mean_m": 0.04131671711328924,
+          "track_frames": 26,
+          "chamfer_frames": 26
+        }
+      },
+      "reference_trajectory_rmse_m": 6.356263384077465e-06,
+      "scope": "Official processed observations and CMA initialization; no raw RGB-D preprocessing or Gaussian appearance training. Future control trajectories are supplied. Test metrics are diagnostic only, never used for optimization or checkpoint selection."
+    },
+    "double-reference": {
+      "case": "double_stretch_sloth",
+      "mode": "reference",
+      "split": {
+        "frame_len": 192,
+        "train": [
+          0,
+          134
+        ],
+        "test": [
+          134,
+          192
+        ]
+      },
+      "elapsed_seconds": 11.394092798233032,
+      "upstream_commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+      "headless_patch_sha256": "1722b2d8cf8ea5bb1099372feae884327e1f5cfcf6b864bd3ca036bc019d7700",
+      "checkpoint": "/home/bayespc2/vscode/guassianSDE/runs/third_party/PhysTwin/reference/experiments/double_stretch_sloth/train/best_199.pth",
+      "checkpoint_sha256": "bb9f84ec4166f521552aa3c7a03ba902c0d46b623dd654057cafe1d7d1b35e7e",
+      "device": "NVIDIA GeForce RTX 2080 Ti",
+      "torch": "2.4.0+cu121",
+      "warp": "1.6.2",
+      "frame_count": 192,
+      "particle_count": 6487,
+      "spring_count": 53166,
+      "iterations": 0,
+      "result": {
+        "train": {
+          "manual_track_mean_m": 0.009597224649259108,
+          "chamfer_l1_mean_m": 0.006077468892299522,
+          "track_frames": 133,
+          "chamfer_frames": 133
+        },
+        "test": {
+          "manual_track_mean_m": 0.009754454270161729,
+          "chamfer_l1_mean_m": 0.00597705957700693,
+          "track_frames": 58,
+          "chamfer_frames": 58
+        }
+      },
+      "official_saved_trajectory": {
+        "train": {
+          "manual_track_mean_m": 0.0095945107912775,
+          "chamfer_l1_mean_m": 0.0060720887370742434,
+          "track_frames": 133,
+          "chamfer_frames": 133
+        },
+        "test": {
+          "manual_track_mean_m": 0.009753670436247091,
+          "chamfer_l1_mean_m": 0.0059762211869463944,
+          "track_frames": 58,
+          "chamfer_frames": 58
+        }
+      },
+      "frozen_first_frame": {
+        "train": {
+          "manual_track_mean_m": 0.03473998136794331,
+          "chamfer_l1_mean_m": 0.021849159057222668,
+          "track_frames": 133,
+          "chamfer_frames": 133
+        },
+        "test": {
+          "manual_track_mean_m": 0.024974762299668777,
+          "chamfer_l1_mean_m": 0.01577949480343246,
+          "track_frames": 58,
+          "chamfer_frames": 58
+        }
+      },
+      "reference_trajectory_rmse_m": 2.4868926630006172e-05,
+      "scope": "Official processed observations and CMA initialization; no raw RGB-D preprocessing or Gaussian appearance training. Future control trajectories are supplied. Test metrics are diagnostic only, never used for optimization or checkpoint selection."
+    },
+    "retrained": {
+      "case": "single_lift_sloth",
+      "mode": "train",
+      "split": {
+        "frame_len": 85,
+        "train": [
+          0,
+          59
+        ],
+        "test": [
+          59,
+          85
+        ]
+      },
+      "elapsed_seconds": 976.7885620594025,
+      "upstream_commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+      "headless_patch_sha256": "1722b2d8cf8ea5bb1099372feae884327e1f5cfcf6b864bd3ca036bc019d7700",
+      "checkpoint": "/home/bayespc2/vscode/guassianSDE/runs/phystwin-pilot-v01/retrained/train/best_199.pth",
+      "checkpoint_sha256": "8c3f525ac7408f27741db572c9b3fc3f3e6ee3ce5fffb51e748aa27ac755cb6b",
+      "device": "NVIDIA GeForce RTX 2080 Ti",
+      "torch": "2.4.0+cu121",
+      "warp": "1.6.2",
+      "frame_count": 85,
+      "particle_count": 6895,
+      "spring_count": 110833,
+      "iterations": 200,
+      "result": {
+        "train": {
+          "manual_track_mean_m": 0.004964057037377338,
+          "chamfer_l1_mean_m": 0.003837715662357058,
+          "track_frames": 58,
+          "chamfer_frames": 58
+        },
+        "test": {
+          "manual_track_mean_m": 0.025184531996864344,
+          "chamfer_l1_mean_m": 0.017899551245132008,
+          "track_frames": 26,
+          "chamfer_frames": 26
+        }
+      },
+      "official_saved_trajectory": {
+        "train": {
+          "manual_track_mean_m": 0.004901056185435375,
+          "chamfer_l1_mean_m": 0.003817854971981169,
+          "track_frames": 58,
+          "chamfer_frames": 58
+        },
+        "test": {
+          "manual_track_mean_m": 0.024926414339721696,
+          "chamfer_l1_mean_m": 0.0178600324887817,
+          "track_frames": 26,
+          "chamfer_frames": 26
+        }
+      },
+      "frozen_first_frame": {
+        "train": {
+          "manual_track_mean_m": 0.013462467565429558,
+          "chamfer_l1_mean_m": 0.0069860769119800565,
+          "track_frames": 58,
+          "chamfer_frames": 58
+        },
+        "test": {
+          "manual_track_mean_m": 0.08721640005955725,
+          "chamfer_l1_mean_m": 0.04131671711328924,
+          "track_frames": 26,
+          "chamfer_frames": 26
+        }
+      },
+      "reference_trajectory_rmse_m": 0.0004144773702137172,
+      "scope": "Official processed observations and CMA initialization; no raw RGB-D preprocessing or Gaussian appearance training. Future control trajectories are supplied. Test metrics are diagnostic only, never used for optimization or checkpoint selection."
+    },
+    "fresh-cma": {
+      "case": "single_lift_sloth",
+      "mode": "initialization",
+      "split": {
+        "frame_len": 85,
+        "train": [
+          0,
+          59
+        ],
+        "test": [
+          59,
+          85
+        ]
+      },
+      "elapsed_seconds": 7.988539934158325,
+      "initialization": "/home/bayespc2/vscode/guassianSDE/runs/phystwin-pilot-v01/cma/optimal_params.pkl",
+      "initialization_sha256": "f8f8e0f6dcde974e5e911e51c4cfcc4adf97edc2d5556233d473d9440926b2ce",
+      "upstream_commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+      "headless_patch_sha256": "1722b2d8cf8ea5bb1099372feae884327e1f5cfcf6b864bd3ca036bc019d7700",
+      "checkpoint": null,
+      "checkpoint_sha256": null,
+      "device": "NVIDIA GeForce RTX 2080 Ti",
+      "torch": "2.4.0+cu121",
+      "warp": "1.6.2",
+      "frame_count": 85,
+      "particle_count": 6895,
+      "spring_count": 131607,
+      "iterations": 0,
+      "result": {
+        "train": {
+          "manual_track_mean_m": 0.008006854837192438,
+          "chamfer_l1_mean_m": 0.005181594636805698,
+          "track_frames": 58,
+          "chamfer_frames": 58
+        },
+        "test": {
+          "manual_track_mean_m": 0.031146692560744135,
+          "chamfer_l1_mean_m": 0.024345781589269862,
+          "track_frames": 26,
+          "chamfer_frames": 26
+        }
+      },
+      "official_saved_trajectory": {
+        "train": {
+          "manual_track_mean_m": 0.004901056185435375,
+          "chamfer_l1_mean_m": 0.003817854971981169,
+          "track_frames": 58,
+          "chamfer_frames": 58
+        },
+        "test": {
+          "manual_track_mean_m": 0.024926414339721696,
+          "chamfer_l1_mean_m": 0.0178600324887817,
+          "track_frames": 26,
+          "chamfer_frames": 26
+        }
+      },
+      "frozen_first_frame": {
+        "train": {
+          "manual_track_mean_m": 0.013462467565429558,
+          "chamfer_l1_mean_m": 0.0069860769119800565,
+          "track_frames": 58,
+          "chamfer_frames": 58
+        },
+        "test": {
+          "manual_track_mean_m": 0.08721640005955725,
+          "chamfer_l1_mean_m": 0.04131671711328924,
+          "track_frames": 26,
+          "chamfer_frames": 26
+        }
+      },
+      "reference_trajectory_rmse_m": 0.007049526087939739,
+      "scope": "Official processed observations; CMA initialization recorded separately. No raw RGB-D preprocessing or Gaussian appearance training. Future control trajectories are supplied. Test metrics are diagnostic only, never used for optimization or checkpoint selection."
+    },
+    "fresh-two-stage-20": {
+      "case": "single_lift_sloth",
+      "mode": "train",
+      "split": {
+        "frame_len": 85,
+        "train": [
+          0,
+          59
+        ],
+        "test": [
+          59,
+          85
+        ]
+      },
+      "elapsed_seconds": 128.55964732170105,
+      "initialization": "/home/bayespc2/vscode/guassianSDE/runs/phystwin-pilot-v01/cma/optimal_params.pkl",
+      "initialization_sha256": "f8f8e0f6dcde974e5e911e51c4cfcc4adf97edc2d5556233d473d9440926b2ce",
+      "upstream_commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+      "headless_patch_sha256": "1722b2d8cf8ea5bb1099372feae884327e1f5cfcf6b864bd3ca036bc019d7700",
+      "checkpoint": "/home/bayespc2/vscode/guassianSDE/runs/phystwin-pilot-v01/fresh-two-stage-20/train/best_19.pth",
+      "checkpoint_sha256": "b4c559cf6c7a6f8bb43ce8a98cdfb3ba4c7ebed06432163d98f4be7d1c813225",
+      "device": "NVIDIA GeForce RTX 2080 Ti",
+      "torch": "2.4.0+cu121",
+      "warp": "1.6.2",
+      "frame_count": 85,
+      "particle_count": 6895,
+      "spring_count": 131607,
+      "iterations": 20,
+      "result": {
+        "train": {
+          "manual_track_mean_m": 0.006989179936761058,
+          "chamfer_l1_mean_m": 0.0048898365635731,
+          "track_frames": 58,
+          "chamfer_frames": 58
+        },
+        "test": {
+          "manual_track_mean_m": 0.029565130432479127,
+          "chamfer_l1_mean_m": 0.024213021971128602,
+          "track_frames": 26,
+          "chamfer_frames": 26
+        }
+      },
+      "official_saved_trajectory": {
+        "train": {
+          "manual_track_mean_m": 0.004901056185435375,
+          "chamfer_l1_mean_m": 0.003817854971981169,
+          "track_frames": 58,
+          "chamfer_frames": 58
+        },
+        "test": {
+          "manual_track_mean_m": 0.024926414339721696,
+          "chamfer_l1_mean_m": 0.0178600324887817,
+          "track_frames": 26,
+          "chamfer_frames": 26
+        }
+      },
+      "frozen_first_frame": {
+        "train": {
+          "manual_track_mean_m": 0.013462467565429558,
+          "chamfer_l1_mean_m": 0.0069860769119800565,
+          "track_frames": 58,
+          "chamfer_frames": 58
+        },
+        "test": {
+          "manual_track_mean_m": 0.08721640005955725,
+          "chamfer_l1_mean_m": 0.04131671711328924,
+          "track_frames": 26,
+          "chamfer_frames": 26
+        }
+      },
+      "reference_trajectory_rmse_m": 0.006091517396271229,
+      "scope": "Official processed observations; CMA initialization recorded separately. No raw RGB-D preprocessing or Gaussian appearance training. Future control trajectories are supplied. Test metrics are diagnostic only, never used for optimization or checkpoint selection."
+    }
+  },
+  "cma": {
+    "case": "single_lift_sloth",
+    "iterations": 20,
+    "elapsed_seconds": 659.1080660820007,
+    "split": {
+      "frame_len": 85,
+      "train": [
+        0,
+        59
+      ],
+      "test": [
+        59,
+        85
+      ]
+    },
+    "upstream_commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+    "scope": "Official first-stage search from real.yaml defaults, author-processed observations; no author CMA parameters loaded. Optional OpenGL previews disabled."
+  },
+  "audit": {
+    "reference": {
+      "case": "single_lift_sloth",
+      "physical_model": {
+        "manual_track_mean_m": 0.024925932901081655,
+        "chamfer_l1_mean_m": 0.017860441609365552,
+        "track_frames": 26,
+        "chamfer_frames": 26
+      },
+      "last_prefix_model_state_persistence": {
+        "manual_track_mean_m": 0.046001031756118686,
+        "chamfer_l1_mean_m": 0.019811977679377948,
+        "track_frames": 26,
+        "chamfer_frames": 26
+      },
+      "last_prefix_model_velocity_extrapolation": {
+        "manual_track_mean_m": 0.029744322266220074,
+        "chamfer_l1_mean_m": 0.014015349660602399,
+        "track_frames": 26,
+        "chamfer_frames": 26
+      },
+      "manual_motion_rms_m": 0.06387804393956746,
+      "manual_nonrigid_rms_m": 0.024786368468298913,
+      "nonrigid_to_total_rms_ratio": 0.388026416271424,
+      "note": "Temporal baselines use the same fitted prefix states and no future object observations. Nonrigidity uses sparse manual tracks across the full clip and is a diagnostic only; not a dense strain or elasticity estimate."
+    },
+    "double-reference": {
+      "case": "double_stretch_sloth",
+      "physical_model": {
+        "manual_track_mean_m": 0.009754454270161729,
+        "chamfer_l1_mean_m": 0.00597705957700693,
+        "track_frames": 58,
+        "chamfer_frames": 58
+      },
+      "last_prefix_model_state_persistence": {
+        "manual_track_mean_m": 0.025801165895521627,
+        "chamfer_l1_mean_m": 0.013136606183471794,
+        "track_frames": 58,
+        "chamfer_frames": 58
+      },
+      "last_prefix_model_velocity_extrapolation": {
+        "manual_track_mean_m": 0.03749894375092974,
+        "chamfer_l1_mean_m": 0.017285083143132336,
+        "track_frames": 58,
+        "chamfer_frames": 58
+      },
+      "manual_motion_rms_m": 0.0505734570194406,
+      "manual_nonrigid_rms_m": 0.030857874999959442,
+      "nonrigid_to_total_rms_ratio": 0.6101594950904301,
+      "note": "Temporal baselines use the same fitted prefix states and no future object observations. Nonrigidity uses sparse manual tracks across the full clip and is a diagnostic only; not a dense strain or elasticity estimate."
+    },
+    "retrained": {
+      "case": "single_lift_sloth",
+      "physical_model": {
+        "manual_track_mean_m": 0.025184531996864344,
+        "chamfer_l1_mean_m": 0.017899551245132008,
+        "track_frames": 26,
+        "chamfer_frames": 26
+      },
+      "last_prefix_model_state_persistence": {
+        "manual_track_mean_m": 0.04614419216294877,
+        "chamfer_l1_mean_m": 0.019771943353757114,
+        "track_frames": 26,
+        "chamfer_frames": 26
+      },
+      "last_prefix_model_velocity_extrapolation": {
+        "manual_track_mean_m": 0.029617822760665977,
+        "chamfer_l1_mean_m": 0.013655573039039486,
+        "track_frames": 26,
+        "chamfer_frames": 26
+      },
+      "manual_motion_rms_m": 0.06387804393956746,
+      "manual_nonrigid_rms_m": 0.024786368468298913,
+      "nonrigid_to_total_rms_ratio": 0.388026416271424,
+      "note": "Temporal baselines use the same fitted prefix states and no future object observations. Nonrigidity uses sparse manual tracks across the full clip and is a diagnostic only; not a dense strain or elasticity estimate."
+    },
+    "fresh-cma": {
+      "case": "single_lift_sloth",
+      "physical_model": {
+        "manual_track_mean_m": 0.031146692560744135,
+        "chamfer_l1_mean_m": 0.024345781589269862,
+        "track_frames": 26,
+        "chamfer_frames": 26
+      },
+      "last_prefix_model_state_persistence": {
+        "manual_track_mean_m": 0.0503353832895529,
+        "chamfer_l1_mean_m": 0.021905458142726493,
+        "track_frames": 26,
+        "chamfer_frames": 26
+      },
+      "last_prefix_model_velocity_extrapolation": {
+        "manual_track_mean_m": 0.03596375565153663,
+        "chamfer_l1_mean_m": 0.026045456282780884,
+        "track_frames": 26,
+        "chamfer_frames": 26
+      },
+      "manual_motion_rms_m": 0.06387804393956746,
+      "manual_nonrigid_rms_m": 0.024786368468298913,
+      "nonrigid_to_total_rms_ratio": 0.388026416271424,
+      "note": "Temporal baselines use the same fitted prefix states and no future object observations. Nonrigidity uses sparse manual tracks across the full clip and is a diagnostic only; not a dense strain or elasticity estimate."
+    },
+    "fresh-two-stage-20": {
+      "case": "single_lift_sloth",
+      "physical_model": {
+        "manual_track_mean_m": 0.029565130432479127,
+        "chamfer_l1_mean_m": 0.024213021971128602,
+        "track_frames": 26,
+        "chamfer_frames": 26
+      },
+      "last_prefix_model_state_persistence": {
+        "manual_track_mean_m": 0.04944603820198089,
+        "chamfer_l1_mean_m": 0.02146791177275479,
+        "track_frames": 26,
+        "chamfer_frames": 26
+      },
+      "last_prefix_model_velocity_extrapolation": {
+        "manual_track_mean_m": 0.03583327290719645,
+        "chamfer_l1_mean_m": 0.02581035905850506,
+        "track_frames": 26,
+        "chamfer_frames": 26
+      },
+      "manual_motion_rms_m": 0.06387804393956746,
+      "manual_nonrigid_rms_m": 0.024786368468298913,
+      "nonrigid_to_total_rms_ratio": 0.388026416271424,
+      "note": "Temporal baselines use the same fitted prefix states and no future object observations. Nonrigidity uses sparse manual tracks across the full clip and is a diagnostic only; not a dense strain or elasticity estimate."
+    }
+  },
+  "gradient": {
+    "frame": 40,
+    "base_loss": 2.9737959266640246e-05,
+    "autograd": -2.479552676959429e-06,
+    "checks": [
+      {
+        "epsilon": 0.03,
+        "finite_difference": -2.472006599418819e-06,
+        "relative_difference": 0.003043322132548288
+      },
+      {
+        "epsilon": 0.01,
+        "finite_difference": -2.513024810468778e-06,
+        "relative_difference": 0.013319460026781513
+      },
+      {
+        "epsilon": 0.003,
+        "finite_difference": -2.5159655100045106e-06,
+        "relative_difference": 0.014472707555127178
+      }
+    ],
+    "scope": "Finite differences and autodiff use the identical captured graph. One scalar direction: uniform log-spring-stiffness change, one training frame, fixed starting state and prescribed controls. Does not validate all gradients or long-horizon derivatives."
+  }
+}
