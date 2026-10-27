@@ -73,6 +73,9 @@ def test_memory_bounded_weights_match_gaussian_density_reference():
     log_density=np.column_stack([multivariate_normal(mean=f[:3]+bias[:3],cov=S).logpdf(y) for f in fields])
     expected=softmax(log_density+np.log(prior)[None,:],axis=1)
     assert np.allclose(model.weights(y).numpy(),expected,atol=1e-12,rtol=1e-10)
+    from scripts.phystwin.audit_qualified_oracle import posterior_mean
+    model.weight_batch_size=2
+    assert np.allclose(posterior_mean(model,y),model.infer(y)['mean'],atol=1e-14)
 
 
 def test_exact_spline_mean_preserves_conditioned_prediction_and_risk():

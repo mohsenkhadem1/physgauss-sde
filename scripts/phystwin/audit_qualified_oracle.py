@@ -7,7 +7,16 @@ from scipy.stats import qmc
 from scipy.special import ndtri
 from scripts.phystwin.qualified_reference import BASE,protocol,write_json
 from scripts.phystwin.qualified_policy import OUT,interpolators,fit,observations,verify_seal
-from scripts.phystwin.active_support_policy import Experiment
+from scripts.phystwin.active_support_policy import Experiment,RISK_EXECUTOR
+
+
+def posterior_mean(model,y):
+    """Exact existing posterior mean; the oracle does not need variances."""
+    parts=[]
+    for start in range(0,len(y),model.weight_batch_size):
+        batch=y[start:start+model.weight_batch_size];weights=model.weights(batch)
+        parts.append((model.target_mean(weights)+model.tensor(batch)@model.gain.T).cpu().numpy())
+    return np.concatenate(parts)
 
 
 def main():
@@ -17,10 +26,13 @@ def main():
     interp=interpolators(model);mu,C,_=fit(spec,interp,model);ex=Experiment(interp,summary['grid_size'],mu,C,spec['noise_sigma_m'],a.device)
     ys,truth=observations(spec,'test');saved=np.load(OUT/'test-predictions.npz');z=ndtri(qmc.Sobol(3,scramble=True,seed=8832).random_base2(9));risks=[];low=[]
     for i,y0 in enumerate(ys[0]):
-        f=np.load(BASE/'fields'/f'test-{i//spec["noise_repeats"]}-qualified.npz')['fields'].ravel();r=[];c=[]
+        f=np.load(BASE/'fields'/f'test-{i//spec["noise_repeats"]}-qualified.npz')['fields'].ravel();r=[];c=[];pending=[]
         for j,probe in enumerate(ex.probes):
             y=np.c_[np.broadcast_to(y0,(len(z),len(y0))),f[probe]+spec['noise_sigma_m']*z]
-            errors=np.mean((ex.models[j+1].infer(y)['mean']-truth[i])**2,axis=1);r.append(float(errors.mean()));c.append(float(errors[:128].mean()))
+            pending.append(RISK_EXECUTOR.submit(posterior_mean,ex.models[j+1],y) if ex.parallel_actions else posterior_mean(ex.models[j+1],y))
+        for result in pending:
+            mean=result.result() if ex.parallel_actions else result
+            errors=np.mean((mean-truth[i])**2,axis=1);r.append(float(errors.mean()));c.append(float(errors[:128].mean()))
         risks.append(r);low.append(c)
         if i%8==0:print('ORACLE',i,len(ys[0]),flush=True)
     risks=np.array(risks);low=np.array(low);oracle=risks.argmin(1);rows=np.arange(len(risks))
