@@ -1,6 +1,6 @@
 # Development numerical diagnosis
 
-Snapshot: 2026-10-27T18:33:55Z. 12/12 development references qualified. This snapshot does not claim a completed held-out comparison.
+Snapshot: 2026-10-27T19:08:47Z. 12/12 development references qualified. This snapshot does not claim a completed held-out comparison.
 
 The P2 displacement changes became small sooner than support-force changes. Small position error alone did not validate the support response. The figure retains the original P2 attempts, including failures. Accuracy gates were not loosened.
 

@@ -1,8 +1,11 @@
 # Qualified reference and probing campaign v05 — in progress
 
-All 12 development objects now have qualified nonlinear references. The final
-held-out comparison has not run yet: the finer hypothesis bank is being generated
-because the previous bank failed its development accuracy gate.
+All 12 development objects now have qualified nonlinear references. The completed
+finer hypothesis bank passes its development accuracy gate, and posterior
+refinement passes at 257×257 parameter nodes per fixture category. All 48 development probe
+decisions pass sampling and posterior-grid stability checks. Calibration reference
+generation is running. The final held-out
+comparison has not run yet.
 
 ## What is verified
 
@@ -27,10 +30,20 @@ is equally informative.
 
 ## Why the comparison is still pending
 
-The n=8 bank is complete: 324 physical hypotheses, each evaluated under four loads.
-Its predefined extrapolation still misses the 0.03 mm forward-error gate on two
-hard objects (0.0304 and 0.0530 mm). The protocol therefore requires the n=12 bank
-before model selection can finish. No accuracy threshold was relaxed.
+The n=8 and n=12 banks are complete: each contains 324 physical hypotheses evaluated
+under four loads. The n=8/n=4 extrapolation failed the 0.03 mm forward-error gate on
+two hard objects (0.0304 and 0.0530 mm). The predefined n=12/n=8 extrapolation passes:
+maximum forward RMS error is 0.0101 mm, and maximum bank interpolation RMS error is
+0.00243 mm. [Model selection](model-selection.json) retains every rejected candidate.
+No accuracy threshold was relaxed.
+
+The development posterior required the full 257×257 grid per fixture category.
+The final refinement changes predictive means by at most 0.00278 mm, standard
+deviations by 0.00236 mm, and physical log-parameter quantiles by 0.00976; all pass
+the frozen gates. Earlier grids failed. [Refinement progress](posterior-refinement-progress.json)
+records these checks. All 48 development decisions pass sampling and grid checks;
+47 of 48 match the strong fixture heuristic. This is development evidence, not a
+held-out probing advantage. [Development summary](development-summary.json).
 
 Model selection uses only the 12 development objects. Spare CPUs are preparing
 full-face calibration simulations in parallel; those responses do not select the
