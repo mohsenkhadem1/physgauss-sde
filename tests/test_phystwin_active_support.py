@@ -58,7 +58,9 @@ def test_multidevice_posterior_and_expected_risk_match_cpu():
     rng=np.random.default_rng(15);ys=[rng.normal(0,.001,(3,len(m.chol))) for m in cpu.models]
     for a,b in zip(cpu.predict(ys),gpu.predict(ys)):
         for key in a:assert np.allclose(a[key],b[key],atol=1e-12,rtol=1e-10)
-    assert np.allclose(cpu.choose(ys[0][0],256),gpu.choose(ys[0][0],256),atol=1e-12,rtol=1e-10)
+    parallel=gpu.choose(ys[0][0],256);gpu.parallel_actions=False
+    assert np.allclose(gpu.choose(ys[0][0],256),parallel,atol=1e-12,rtol=1e-10)
+    assert np.allclose(cpu.choose(ys[0][0],256),parallel,atol=1e-12,rtol=1e-10)
 
 
 def test_memory_bounded_weights_match_gaussian_density_reference():

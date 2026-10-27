@@ -7,7 +7,9 @@
   "scope": "Numerical refinement, not parameter/model/policy selection. Same posterior, priors, likelihood, accuracy gates and utility sampling. Apply the same sequence to development, calibration and test. Bound likelihood batches to control memory.",
   "second_refinement_reason": "257-to-513 physical log-quantile change was 0.02094927498, still above unchanged 0.02. Preserve doubled grid refinement; add 1025 before sealing/test. Predictive mean change was 0.0004368 mm.",
   "execution": "Distribute the three observation-budget mixtures across GPUs 0\u20132. Bound likelihood and moment temporaries; run fine/coarse utility checks sequentially and discard unused host copies. Same posterior and numerical gates.",
-  "likelihood_batch_limit_entries": 67108864,
+  "likelihood_batch_limit_entries": 50331648,
   "moment_node_chunk": 65536,
-  "likelihood_memory": "At most two batch-by-grid likelihood arrays alive; retain the same whitened Gaussian density. Independent SciPy density and CPU/three-GPU parity checks pass."
+  "likelihood_memory": "At most two batch-by-grid likelihood arrays alive; retain the same whitened Gaussian density. Independent SciPy density and CPU/three-GPU parity checks pass.",
+  "execution_parallelism": "Independent left/right expected-risk calculations run concurrently on distinct GPUs with unchanged Sobol draws and output order. Sequential/parallel GPU and CPU results agree in tests.",
+  "allocator_headroom": "Two recovered allocation retries occurred at the 2^26 likelihood-entry cap. Reduce the cap by 25% before sealing to leave room for CUDA workspaces; no runtime failure or change to the posterior."
 }

@@ -8,6 +8,7 @@ import argparse
 import hashlib
 import json
 import sys
+from concurrent.futures import ThreadPoolExecutor
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 import numpy as np
 from scipy.interpolate import RegularGridInterpolator
@@ -16,6 +17,11 @@ from scipy.sparse.linalg import spsolve
 from scipy.stats import qmc
 from scripts.phystwin.active_support_reference import ROOT,BASE,BOUNDS,LAYOUTS,ActiveBlock,protocol
 from scripts.phystwin.uncertainty_posterior import conditional_components,discrepancy,Z90
+
+RISK_EXECUTOR=ThreadPoolExecutor(max_workers=2)
+
+
+def mean_risk(model,observations):return float(model.risk(observations).mean())
 
 
 def interpolators(size=9):
@@ -44,7 +50,7 @@ class Mixture:
     def __init__(self,fields,prior,bias,C,observed,target,sigma,device):
         import torch
         self.torch=torch;self.device=device;self.prior=prior
-        self.weight_batch_size=max(1,2**26//len(prior))
+        self.weight_batch_size=max(1,(3*2**24)//len(prior))
         f,M,gain,V,chol=conditional_components(fields,bias,C,observed,target,sigma)
         self.chol=chol
         self.f=self.tensor(np.linalg.solve(chol,f.T).T);self.normf=(self.f*self.f).sum(1)
@@ -94,6 +100,8 @@ class Experiment:
         devices=device.split(',')
         self.models=[Mixture(self.fields,self.prior,bias,C,ix,self.target,sigma,devices[i%len(devices)])
                      for i,ix in enumerate([self.prefix]+[np.r_[self.prefix,q] for q in self.probes])]
+        action_devices=[m.device for m in self.models[1:]]
+        self.parallel_actions=len(set(action_devices))==2 and all(d.startswith('cuda') for d in action_devices)
         self.prefix_model=self.models[0]
         S=C[np.ix_(self.prefix,self.prefix)]+sigma**2*np.eye(len(self.prefix))
         self.future=[]
@@ -110,7 +118,8 @@ class Experiment:
         for a,(mean,gain,chol) in enumerate(self.future):
             y=mean[ix]+y0@gain.T+noise@chol.T
             full=np.c_[np.broadcast_to(y0,(samples,len(y0))),y]
-            risks.append(float(self.models[a+1].risk(full).mean()))
+            risks.append(RISK_EXECUTOR.submit(mean_risk,self.models[a+1],full) if self.parallel_actions else mean_risk(self.models[a+1],full))
+        if self.parallel_actions:risks=[future.result() for future in risks]
         return np.array(risks)
     def predict(self,ys):return [m.infer(y) for m,y in zip(self.models,ys)]
 
