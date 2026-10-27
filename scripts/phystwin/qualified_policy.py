@@ -155,7 +155,9 @@ def run(stage,device):
         seal=json.loads((OUT/'seal.json').read_text());assert seal['protocol']==spec;verify_seal(seal)
     split={'development':'development','calibrate':'calibration','test':'test'}[stage];ys,truth=observations(spec,split)
     previous=None;checks=[]
-    for size in spec['quadrature_sizes']:
+    extension=BASE/'posterior-refinement-extension.json'
+    levels=spec['quadrature_sizes']+(json.loads(extension.read_text())['additional_sizes'] if extension.exists() else [])
+    for size in levels:
         ex=Experiment(interp,size,mu,C,spec['noise_sigma_m'],device);pred=predictions(ex,ys,size)
         if previous is not None:
             c=dict(coarse=old_size,fine=size,**convergence(previous,pred,spec));checks.append(c);print('POSTERIOR',split,c,flush=True)

@@ -1,11 +1,12 @@
 # Qualified reference and probing campaign v05 — in progress
 
-All 12 development objects now have qualified nonlinear references. The completed
+All 12 development and 20 calibration objects now have qualified nonlinear references. The completed
 finer hypothesis bank passes its development accuracy gate, and posterior
 refinement passes at 257×257 parameter nodes per fixture category. All 48 development probe
 decisions pass sampling and posterior-grid stability checks. Calibration reference
-generation is running. The final held-out
-comparison has not run yet.
+generation is complete. Calibration inference stopped before sealing because
+physical parameter quantiles did not converge at its original grid limit. A
+numerical refinement extension is running; the final held-out comparison has not run yet.
 
 ## What is verified
 
@@ -45,11 +46,21 @@ records these checks. All 48 development decisions pass sampling and grid checks
 47 of 48 match the strong fixture heuristic. This is development evidence, not a
 held-out probing advantage. [Development summary](development-summary.json).
 
-Model selection uses only the 12 development objects. Spare CPUs are preparing
-full-face calibration simulations in parallel; those responses do not select the
+Model selection uses only the 12 development objects. CPUs helped prepare
+full-face calibration simulations; those responses did not select the
 model. Twenty new calibration objects will determine the prediction-band scale
 and fixed-action baseline. The model and calibration choices will then be sealed
 before evaluating 24 reserved test objects, with four noise repeats per object.
+
+All 20 calibration simulations have now qualified. Calibration predictions were
+stable at the 257×257 grid (maximum mean change 0.00183 mm), but physical
+log-parameter quantiles changed by 0.0834, exceeding the unchanged 0.02 limit.
+The runner stopped without sealing or opening the test responses. The
+[numerical extension](posterior-refinement-extension.json) adds a 513×513 level
+to the same posterior integration, with bounded likelihood batches to fit GPU
+memory. It does not change the model, priors, likelihood or accuracy gates.
+[Failed checks](calibration-refinement-progress.json) are retained. Nine inference
+tests pass, including batching consistency, and development is being repeated.
 
 The analysis will separately report:
 

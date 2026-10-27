@@ -39,3 +39,7 @@ def test_probe_informativeness_and_utility_scoring_consistency():
     result=m.infer(y)
     assert np.allclose(m.risk(y),np.mean(result['sd']**2,axis=1),atol=1e-14)
     assert m.risk(y)[0]<1e-12 and np.isclose(m.risk(y)[2],.0004)
+    m.weight_batch_size=2
+    batched=m.infer(y)
+    for key in result:assert np.allclose(batched[key],result[key],atol=1e-14)
+    assert np.allclose(m.risk(y),np.mean(result['sd']**2,axis=1),atol=1e-14)
