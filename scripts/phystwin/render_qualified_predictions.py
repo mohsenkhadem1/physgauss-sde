@@ -8,6 +8,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.animation import FFMpegWriter
 from matplotlib.colors import Normalize
+from matplotlib.ticker import MaxNLocator
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import imageio_ffmpeg
 from scripts.phystwin.qualified_reference import BASE,ROOT,protocol,observation_points,write_json
@@ -43,8 +44,8 @@ def main():
     vmax=max(float(np.linalg.norm(c['fields'][k]-c['fields'][0],axis=1).max()*1000) for c in cases for k in [1,2]);vmax=max(vmax,.001)
     norm=Normalize(0,vmax);cmap=plt.get_cmap('viridis')
     fig=plt.figure(figsize=(15.36,7.68));axes=[fig.add_subplot(1,3,i+1,projection='3d') for i in range(3)]
-    fig.subplots_adjust(left=.02,right=.98,bottom=.2,top=.82,wspace=.04)
-    title=fig.suptitle('',fontsize=18);subtitle=fig.text(.5,.86,'',ha='center',fontsize=11)
+    fig.subplots_adjust(left=.035,right=.94,bottom=.22,top=.74,wspace=.18)
+    title=fig.suptitle('',fontsize=18);subtitle=fig.text(.5,.89,'',ha='center',fontsize=11)
     bar=fig.add_axes([.35,.105,.3,.025]);fig.colorbar(plt.cm.ScalarMappable(norm=norm,cmap=cmap),cax=bar,orientation='horizontal',label='Prediction position error (mm; same scale in both cases)')
     fig.text(.5,.035,'Static held-force response • camera orbit only • deformation ×1 • first noise repeat • fixture hidden from policies',ha='center',fontsize=11)
     matplotlib.rcParams['animation.ffmpeg_path']=imageio_ffmpeg.get_ffmpeg_exe()
@@ -62,6 +63,7 @@ def main():
                 ax.add_collection3d(Poly3DCollection((1000*rest)[faces],facecolors=(0,0,0,0),edgecolors=(.5,.5,.5,.15),linewidths=.2))
                 ax.set(xlim=(lo[0],hi[0]),ylim=(lo[1],hi[1]),zlim=(lo[2],hi[2]),xlabel='x (mm)',ylabel='y (mm)',zlabel='z (mm)')
                 ax.set_box_aspect(hi-lo);ax.tick_params(labelsize=8);ax.set_title(labels[k]+('' if k==0 else f'\nCoordinate RMSE {errors[k]:.3f} mm'),fontsize=13)
+                for axis in [ax.xaxis,ax.yaxis,ax.zaxis]:axis.set_major_locator(MaxNLocator(4))
             for frame in range(120):
                 phase=frame/119;az=-70+45*np.sin(2*np.pi*phase);elev=22+5*np.sin(2*np.pi*phase)
                 for ax in axes:ax.view_init(elev=elev,azim=az)

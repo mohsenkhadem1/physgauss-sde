@@ -18,7 +18,7 @@ def one(item):
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--workers',type=int,default=4);p.add_argument('--maximum-mesh',type=int,choices=[8,12],default=12);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--workers',type=int,default=4);p.add_argument('--maximum-mesh',type=int,choices=[8,12,16],default=12);a=p.parse_args()
     jobs=[(f'calibration-{i}',r,a.maximum_mesh) for i,r in enumerate(protocol()['calibration']) if r['layout'].endswith('full')]
     with concurrent.futures.ProcessPoolExecutor(max_workers=a.workers,mp_context=multiprocessing.get_context('spawn')) as pool:
         for result in pool.map(one,jobs):print(result,flush=True)
