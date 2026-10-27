@@ -55,3 +55,11 @@ and a privileged post-test action audit; the latter is not an eligible baseline.
 Validation at this checkpoint: 22 geometry, mechanics, GPU, and inference-audit
 tests passed, plus two supervisor failure-handling tests. The raw data remain local.
 This remains an in-progress campaign, not a completed uncertainty/probing result.
+
+Memory follow-up: these GPUs have 11 GiB each. The largest n=40 linear systems use
+CPU multigrid while retaining batched GPU material assembly. The iterative memory
+estimate now budgets for a multigrid hierarchy rather than a direct factorization;
+the assembly cap and serialization remain. The equations and residual tolerances
+are unchanged. [Execution notes](memory-execution-addendum.json) retain the GPU0
+allocation incident and its resolution. The updated full suite passed 25 tests;
+an additional memory-budget regression test passed separately (26 total).

@@ -43,6 +43,7 @@ def surface(model,side,lower=False,degree=1):
 class ConsistentFixture:
     def clear_linear_cache(self):
         self._gpu_multigrid=None
+        self._cpu_multigrid=None
 
     def solve(self,initial=None,maximum_iterations=40,force_tolerance_N=1e-10):
         # Same unmodified Newton/Armijo objective as QuadraticBlock.solve;
@@ -61,7 +62,17 @@ class ConsistentFixture:
             started=time.monotonic();H=self.evaluate(u,True)['tangent'].tocsr()
             if getattr(self,'progress',False):print(f'TANGENT seconds={time.monotonic()-started:.2f}',flush=True)
             started=time.monotonic()
-            if getattr(self,'linear_solver','superlu')=='gpu_multigrid':
+            if getattr(self,'linear_solver','superlu')=='cpu_multigrid':
+                import pyamg
+                from scipy.sparse.linalg import cg
+                if getattr(self,'_cpu_multigrid',None) is None:
+                    x=self.rest+u;x=x-x.mean(0);B=np.zeros((len(x),3,6));B[:,:,:3]=np.eye(3)
+                    for j in range(3):B[:,:,3+j]=np.cross(np.eye(3)[j],x)
+                    B=B.reshape(-1,6);B/=np.linalg.norm(B,axis=0)
+                    self._cpu_multigrid=pyamg.smoothed_aggregation_solver(H.tobsr(blocksize=(3,3)),B=B,symmetry='symmetric',max_coarse=100)
+                direction,info=cg(H,-r,M=self._cpu_multigrid.aspreconditioner(),rtol=1e-9,atol=1e-13,maxiter=1000)
+                if info:raise StaticFailure(f'CPU multigrid CG failed: {info}',history)
+            elif getattr(self,'linear_solver','superlu')=='gpu_multigrid':
                 from scripts.phystwin.gpu_multigrid import GPUMultigrid
                 if getattr(self,'_gpu_multigrid',None) is None:self._gpu_multigrid=GPUMultigrid(H,self.rest+u,self.engine.device)
                 direction,steps=self._gpu_multigrid.solve(H,-r)
@@ -108,11 +119,11 @@ class P1Fixture(ConsistentFixture,ActiveBlock):
 
 
 class P2Fixture(ConsistentFixture,QuadraticBlock):
-    def __init__(self,n,E,K,layout,order=3,device=None,grading=False,memory_limit_bytes=24*1024**3,z_refinement=1):
+    def __init__(self,n,E,K,layout,order=3,device=None,grading=False,memory_limit_bytes=24*1024**3,z_refinement=1,iterative=False):
         if not isinstance(z_refinement,(int,np.integer)) or z_refinement<1:raise ValueError('Positive integer z refinement required')
         if layout.endswith('lower') and (n*z_refinement)%2:raise ValueError('Half-face patch must align with z=0')
         self.cells=np.array([4*n,n,z_refinement*n],dtype=int)
-        super().__init__(cells=tuple(self.cells),young=E,poisson=.35,density=625.,gravity=0.,traction=0.,order=order,memory_limit_bytes=memory_limit_bytes)
+        super().__init__(cells=tuple(self.cells),young=E,poisson=.35,density=625.,gravity=0.,traction=0.,order=order,memory_limit_bytes=memory_limit_bytes,linear_memory_bytes_per_dof=2000 if iterative else 20000)
         self.n=n
         if grading:
             axes=[np.linspace(0,.24,4*n+1),np.linspace(-.04,.04,n+1),np.linspace(-.04,.04,z_refinement*n+1)]

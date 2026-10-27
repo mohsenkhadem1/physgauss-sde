@@ -44,12 +44,14 @@ def build(n,r,device,order=3):
     if n>=32:
         import fcntl
         lock=open(BASE/'large-mesh.lock','a');fcntl.flock(lock,fcntl.LOCK_EX)
-    try:m=P2Fixture(n,r['E'],r['K'],r['layout'],order=order,device=device,grading=True,memory_limit_bytes=80*1024**3)
+    try:m=P2Fixture(n,r['E'],r['K'],r['layout'],order=order,device=device,grading=True,memory_limit_bytes=80*1024**3,iterative=n>=8)
     except BaseException:
         if lock is not None:lock.close()
         raise
     m._large_mesh_lock=lock
-    m.linear_solver='gpu_multigrid' if device and n>=8 else 'pardiso';return m
+    # The available GPUs have 11 GiB. Keep the largest fine operator on CPU;
+    # constitutive assembly can still use the GPU in bounded element batches.
+    m.linear_solver='cpu_multigrid' if n>=40 or (n>=8 and not device) else ('gpu_multigrid' if device and n>=8 else 'pardiso');return m
 
 
 def release(m):
@@ -130,6 +132,14 @@ def observation_points():
 
 
 def truth_job(name,r,device):
+    import fcntl
+    directory=BASE/'job-locks';directory.mkdir(parents=True,exist_ok=True)
+    with open(directory/f'truth-{name}.lock','a') as lock:
+        fcntl.flock(lock,fcntl.LOCK_EX)
+        return _truth_job(name,r,device)
+
+
+def _truth_job(name,r,device):
     spec=protocol();final=BASE/'fields'/f'{name}-qualified.npz';audit=BASE/'qualification'/f'{name}.json'
     if final.exists() and audit.exists():
         assert json.loads(audit.read_text())['qualified'];return

@@ -42,7 +42,7 @@ def enrich(X,tets):
 
 
 class QuadraticBlock(PrismaticBar):
-    def __init__(self,cells=(4,2,2),*,young=300000.,poisson=.35,density=625.,gravity=9.81,traction=0.,order=3,boundary='left_face',memory_limit_bytes=8*1024**3):
+    def __init__(self,cells=(4,2,2),*,young=300000.,poisson=.35,density=625.,gravity=9.81,traction=0.,order=3,boundary='left_face',memory_limit_bytes=8*1024**3,linear_memory_bytes_per_dof=20000):
         lame(young,poisson)
         if density<=0 or not np.isfinite([density,gravity,traction]).all():raise ValueError('Finite known loads and positive density required')
         X,self.tets,self.faces=block_mesh(SIZE,cells,(SIZE[0]/2,0,0));self.reference_local,self.elements=enrich(X,self.tets);self.rest=self.reference_local
@@ -69,7 +69,7 @@ class QuadraticBlock(PrismaticBar):
         self.mask=np.repeat(support_nodes(self.rest,boundary)[:,None],3,1);self.free=np.flatnonzero(~self.mask.ravel())
         self.rotation=np.eye(3);self.translation=np.zeros(3)
         # Conservative assembly/factor budget estimate, including sparse fill.
-        self.estimated_peak_memory_bytes=int(len(self.elements)*900*32+len(self.rest)*3*20000)
+        self.estimated_peak_memory_bytes=int(len(self.elements)*900*32+len(self.rest)*3*linear_memory_bytes_per_dof)
         if self.estimated_peak_memory_bytes>memory_limit_bytes:raise MemoryError('Prospective P2 memory limit exceeded')
 
     def elastic(self,positions,tangent=False):

@@ -85,3 +85,23 @@ def test_enrichment_retains_checkpoint_node_order_and_shared_edges():
     assert np.array_equal(elements,[[0,1,2,3,5,6,7,8,9,11],[1,2,3,4,8,9,10,11,12,13]])
     assert np.array_equal(rest[:5],x)
     assert np.array_equal(rest[8],(x[1]+x[2])/2)
+
+
+def test_cpu_multigrid_preserves_solution_across_loads():
+    pytest.importorskip('pyamg')
+    m=P2Fixture(2,2000,600,'right_lower',grading=True);m.linear_solver='cpu_multigrid'
+    for action in ['initial','held_oblique']:
+        m.set_action(action);actual=m.solve()
+        direct=P2Fixture(2,2000,600,'right_lower',grading=True);direct.set_action(action);expected=direct.solve()
+        assert np.linalg.norm(actual['residual'])<1e-10
+        assert np.allclose(actual['displacement_local_m'],expected['displacement_local_m'],atol=1e-9,rtol=1e-8)
+    m.clear_linear_cache()
+
+
+def test_iterative_budget_keeps_geometry_and_enforces_assembly_limit():
+    a=P2Fixture(2,2000,600,'right_lower',grading=True,iterative=True)
+    b=P2Fixture(2,2000,600,'right_lower',grading=True)
+    assert np.array_equal(a.rest,b.rest) and np.array_equal(a.elements,b.elements)
+    assert a.estimated_peak_memory_bytes<b.estimated_peak_memory_bytes
+    with pytest.raises(MemoryError):P2Fixture(2,2000,600,'right_lower',memory_limit_bytes=a.estimated_peak_memory_bytes)
+    with pytest.raises(MemoryError):P2Fixture(2,2000,600,'right_lower',iterative=True,memory_limit_bytes=1)
