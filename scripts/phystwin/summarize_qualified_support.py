@@ -8,6 +8,27 @@ from scripts.phystwin.qualified_policy import verify_seal
 OUT=ROOT/'reports/phystwin-qualified-support-v05'
 
 
+def deformation_audit(spec):
+    rows=[];groups={}
+    for split in ['development','calibration','test']:
+        selected=[]
+        for i in range(len(spec[split])):
+            with np.load(BASE/'fields'/f'{split}-{i}-qualified.npz') as z:v=z['nonrigid'].copy()
+            j=1+int(np.argmax(v[1:3,0]));selected.append([v[j,0],v[j,0]/v[j,1]])
+            rows.append(dict(split=split,object=i,best_available_probe=j,
+                nonrigid_coordinate_rms_m=v[:,0].tolist(),total_coordinate_rms_m=v[:,1].tolist(),
+                nonrigid_rms_fraction=(v[:,0]/v[:,1]).tolist()))
+        selected=np.array(selected);groups[split]=dict(minimum_nonrigid_rms_mm=float(1000*selected[:,0].min()),
+            median_nonrigid_rms_mm=float(1000*np.median(selected[:,0])),minimum_nonrigid_rms_fraction=float(selected[:,1].min()),
+            median_nonrigid_rms_fraction=float(np.median(selected[:,1])))
+    with np.load(BASE/'analysis/test-predictions.npz') as z:choices=z['adaptive'].copy()
+    test=[r for r in rows if r['split']=='test'];chosen=np.array([[test[i//spec['noise_repeats']][k][a] for k in ['nonrigid_coordinate_rms_m','nonrigid_rms_fraction']] for i,a in enumerate(choices)])
+    return dict(scope='Post-evaluation physical deformation diagnostic. Nonrigid coordinate RMS after best rigid alignment divided by total displacement RMS; this is an amplitude ratio, not a variance fraction. Available-probe selection maximizes nonrigid RMS, not the ratio. Not used to change test actions.',
+        best_available_probe=groups,chosen_test_adaptive_probe=dict(minimum_nonrigid_rms_mm=float(1000*chosen[:,0].min()),
+            median_nonrigid_rms_mm=float(1000*np.median(chosen[:,0])),minimum_nonrigid_rms_fraction=float(chosen[:,1].min()),
+            median_nonrigid_rms_fraction=float(np.median(chosen[:,1]))),objects=rows)
+
+
 def physical_intervals(spec,test,saved,bootstrap_indices):
     repeats=spec['noise_repeats'];n=len(spec['test']);rows=np.arange(n*repeats)
     truth=np.repeat(np.log([[r['E'],r['K']] for r in spec['test']]),repeats,axis=0)
@@ -65,6 +86,7 @@ def main():
     for f in BASE.glob('*.json'):shutil.copyfile(f,OUT/f.name)
     write_json(OUT/'comparison.json',comparisons);write_json(OUT/'qualification.json',qualification);write_json(OUT/'decision.json',success);write_json(OUT/'confidence-after-probing.json',flags)
     write_json(OUT/'physical-interval-bootstrap.json',physical_ci)
+    motion=deformation_audit(spec);write_json(OUT/'deformation-audit.json',motion)
     policies=['initial','fixed','random','adaptive','fixture_side_heuristic'];labels=['Initial','Fixed','Random','Adaptive','Fixture heuristic']
     import matplotlib
     matplotlib.use('Agg')
@@ -111,6 +133,12 @@ def main():
         r=oracle['scores'][name];agreement=f"{100*r['oracle_choice_agreement']:.1f}%" if 'oracle_choice_agreement' in r else '—'
         lines.append(f"| {name} | {1000*r['expected_rmse_m']:.4f} | {agreement} |")
     lines+=['',f"This diagnostic gives the action evaluator the true object's responses, then integrates future probe noise with {oracle['samples']} samples. It keeps the fitted predictor fixed. It is not an eligible policy, not used for tuning, and its expected errors are not directly comparable to the realized-outcome table above. Oracle action choices agree between 128 and 512 samples in {oracle['choice_refinement_agreement']}/{oracle['trials']} cases; disagreement limits interpretation of this diagnostic. Gaps include uncertainty about the hidden object, not just policy computation error. [Full diagnostic](oracle-audit.json).",'',
+        '## Are these objects actually deforming?','',
+        '| Split | Minimum best-probe nonrigid RMS (mm) | Median (mm) | Minimum nonrigid / total RMS | Median ratio |','|---|---:|---:|---:|---:|']
+    for split,r in motion['best_available_probe'].items():
+        lines.append(f"| {split} | {r['minimum_nonrigid_rms_mm']:.3f} | {r['median_nonrigid_rms_mm']:.3f} | {100*r['minimum_nonrigid_rms_fraction']:.1f}% | {100*r['median_nonrigid_rms_fraction']:.1f}% |")
+    r=motion['chosen_test_adaptive_probe']
+    lines+=['',f"This diagnostic removes best-fit rigid translation and rotation. The table uses each object's available probe with the largest nonrigid RMS. For probes actually chosen by the adaptive policy on test observations, minimum nonrigid RMS is {r['minimum_nonrigid_rms_mm']:.3f} mm and minimum nonrigid/total RMS is {100*r['minimum_nonrigid_rms_fraction']:.1f}%. These percentages are RMS amplitude ratios, not fractions of motion variance. [Per-object and per-load evidence](deformation-audit.json).",'',
         '## Limits','',
         'This is a static synthetic study with four known fixture families and continuous material/support stiffness variation. It does not establish general spatial boundary inference, new topology generalization, gravity/contact performance, or learned PhysTwin uncertainty. Coordinate error includes rigid movement; aligned shape error removes it. Strain is computed on the 81-point observation grid, not interpreted as peak boundary stress.','',
         'Pooled prediction calibration has nominal 90% coverage. The balanced fixture sampling is stratified, so an unconditional exchangeability guarantee is not assumed. Test coverage is measured on only 24 independent objects; material coverage averages four noisy observations per object. Small differences should not be overinterpreted.','',
