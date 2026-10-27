@@ -97,3 +97,7 @@ See [the controlled report](../../reports/phystwin-transfer-v01/REPORT.md) for t
 ## Continuous uncertainty reference
 
 [The v02 uncertainty report](../../reports/phystwin-uncertainty-v02/REPORT.md) replaces the finite physical prior with continuous parameter quadrature and an independently calibrated numerical-discrepancy model. It tests 24 held-out material/support pairs after 12 development and 20 calibration pairs. This is an FEM posterior reference, not learned PhysTwin uncertainty. `uncertainty_reference.py`, `uncertainty_posterior.py`, `freeze_uncertainty.py` and `summarize_uncertainty.py` implement the resumable study; the report contains reproduction commands and limits.
+
+## Active probing across unknown fixture families
+
+[The v03 support-policy study](../../reports/phystwin-active-support-v03/REPORT.md) adds left/right, full/half-face compliant attachments and competing reset pushes. It freezes calibration-selected fixed and uncertainty policies before 24 test objects. Adaptive probing beats fixed/random, but does not beat the simpler inferred-support heuristic. The report also exposes substantial mesh sensitivity. `active_support_reference.py`, `active_support_policy.py`, `audit_active_support.py`, `refine_active_support.py` and `summarize_active_support.py` reproduce the reference study; it is not a learned PhysTwin policy.
