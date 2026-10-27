@@ -1,12 +1,10 @@
 # Qualified reference and probing campaign v05 — in progress
 
-All 12 development and 20 calibration objects now have qualified nonlinear references. The completed
-finer hypothesis bank passes its development accuracy gate, and posterior
-refinement passes at 257×257 parameter nodes per fixture category. All 48 development probe
-decisions pass sampling and posterior-grid stability checks. Calibration reference
-generation is complete. Calibration inference stopped before sealing because
-physical parameter quantiles did not converge at its original grid limit. The 1025-grid extension passes the interval gate; memory optimizations and probe
-checks are being rerun before sealing. The final held-out comparison has not run yet.
+All 12 development and 20 calibration objects have qualified nonlinear references.
+The forward surrogate and posterior convergence checks pass. Calibration is now
+complete and sealed: all 80 probe decisions pass sampling and posterior-grid
+stability checks. The 24 reserved test references are being generated; held-out
+prediction and probing results are not yet available.
 
 ## What is verified
 
@@ -29,7 +27,7 @@ at least one probe with nonrigid coordinate RMS of at least 0.238 mm, and at lea
 an available-probe diagnostic, not a claim that every observation or chosen action
 is equally informative.
 
-## Why the comparison is still pending
+## Completed development and calibration
 
 The n=8 and n=12 banks are complete: each contains 324 physical hypotheses evaluated
 under four loads. The n=8/n=4 extrapolation failed the 0.03 mm forward-error gate on
@@ -48,9 +46,13 @@ held-out probing advantage. [Development summary](development-summary.json).
 
 Model selection uses only the 12 development objects. CPUs helped prepare
 full-face calibration simulations; those responses did not select the
-model. Twenty new calibration objects will determine the prediction-band scale
-and fixed-action baseline. The model and calibration choices will then be sealed
-before evaluating 24 reserved test objects, with four noise repeats per object.
+model. Twenty new calibration objects determined a common prediction-band
+multiplier of 2.552 and selected the right-side probe as the fixed baseline.
+All 80 adaptive decisions agree with the fixture heuristic, so calibration does
+not establish superiority over that baseline. The [seal](seal.json) records the
+model, calibration choices and file hashes before test evaluation.
+[Calibration summary](calibration-summary.json). The test contains 24 reserved
+objects, with four noise repeats per object.
 
 All 20 calibration simulations have now qualified. Calibration predictions were
 stable at the 257×257 grid (maximum mean change 0.00183 mm), but physical
@@ -59,14 +61,15 @@ The runner stopped without sealing or opening the test responses. The
 [numerical extension](posterior-refinement-extension.json) adds 513×513 and 1025×1025 levels
 to the same posterior integration, with bounded likelihood batches to fit GPU
 memory. It does not change the model, priors, likelihood or accuracy gates.
-[Failed checks](calibration-refinement-progress.json) are retained. The 513-grid quantile change was 0.02095, still above 0.02, so doubling continues
+[Failed checks](calibration-refinement-progress.json) are retained. The 513-grid quantile change was 0.02095, still above 0.02, so doubling continued
 to 1025. Three observation-budget mixtures are distributed over GPUs 0–2, moments
 and likelihoods are processed in bounded chunks, and utility grid checks run
 sequentially. Twenty-five targeted tests pass, including three-GPU/CPU prediction
 and expected-risk parity. The 513-to-1025 quantile change is 0.00520, with maximum predictive mean change
 0.000108 mm: all integration gates pass. Memory-bounded likelihood evaluation also
-matches an independent SciPy Gaussian-density reference. Execution checks are being
-repeated before sealing.
+matches an independent SciPy Gaussian-density reference. All 80 calibration
+choices passed sampling and grid refinement checks before sealing at
+2026-10-27 20:58:45 UTC. The same checks remain required on the held-out test.
 
 The analysis will separately report:
 
