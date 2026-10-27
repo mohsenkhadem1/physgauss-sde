@@ -40,14 +40,16 @@ def indices():
 
 
 class Mixture:
+    moment_chunk_size=65536
     def __init__(self,fields,prior,bias,C,observed,target,sigma,device):
         import torch
         self.torch=torch;self.device=device;self.prior=prior
         self.weight_batch_size=max(1,2**24//len(prior))
         f,M,gain,V,chol=conditional_components(fields,bias,C,observed,target,sigma)
-        self.f_numpy=f;self.M_numpy=M;self.chol=chol
+        self.chol=chol
         self.f=self.tensor(np.linalg.solve(chol,f.T).T);self.normf=(self.f*self.f).sum(1)
-        self.M=self.tensor(M);self.normM=(self.M*self.M).mean(1)
+        self.M=self.tensor(M)
+        self.normM=torch.cat([(part*part).mean(1) for part in self.M.split(self.moment_chunk_size)])
         self.gain=self.tensor(gain);self.V=self.tensor(V);self.logprior=self.tensor(np.log(prior))
     def tensor(self,x):return self.torch.as_tensor(x,dtype=self.torch.float64,device=self.device)
     def weights(self,y):
@@ -61,7 +63,11 @@ class Mixture:
             parts=[self.infer(y[start:start+batch]) for start in range(0,len(y),batch)]
             return {key:np.concatenate([part[key] for part in parts]) for key in parts[0]}
         p=self.weights(y);m=p@self.M
-        v=self.torch.clamp(p@(self.M*self.M)-m*m+self.V,min=1e-24)
+        second=self.torch.zeros_like(m)
+        for start in range(0,len(self.prior),self.moment_chunk_size):
+            part=self.M[start:start+self.moment_chunk_size]
+            second+=p[:,start:start+self.moment_chunk_size]@(part*part)
+        v=self.torch.clamp(second-m*m+self.V,min=1e-24)
         mean=m+self.tensor(y)@self.gain.T
         return dict(mean=mean.cpu().numpy(),sd=self.torch.sqrt(v).cpu().numpy(),
                     layout_probability=p.reshape(len(y),4,-1).sum(2).cpu().numpy())
@@ -80,8 +86,9 @@ class Experiment:
     def __init__(self,interp,size,bias,C,sigma,device):
         self.fields,self.prior=nodes_and_fields(interp,size);self.bias=bias;self.C=C;self.sigma=sigma
         self.prefix,self.probes,self.target=indices()
-        self.models=[Mixture(self.fields,self.prior,bias,C,ix,self.target,sigma,device)
-                     for ix in [self.prefix]+[np.r_[self.prefix,q] for q in self.probes]]
+        devices=device.split(',')
+        self.models=[Mixture(self.fields,self.prior,bias,C,ix,self.target,sigma,devices[i%len(devices)])
+                     for i,ix in enumerate([self.prefix]+[np.r_[self.prefix,q] for q in self.probes])]
         self.prefix_model=self.models[0]
         S=C[np.ix_(self.prefix,self.prefix)]+sigma**2*np.eye(len(self.prefix))
         self.future=[]

@@ -83,9 +83,12 @@ def observations(spec,split):
 def predictions(ex,ys,size):
     pred=ex.predict(ys)
     for m,y,p in zip(ex.models,ys,pred):
-        weights=m.weights(y).cpu().numpy().reshape(len(y),4,size,size)
-        p['log_parameter_quantiles']=np.stack([marginal_quantiles(weights.sum((1,3)),np.linspace(*BOUNDS[0],size)),marginal_quantiles(weights.sum((1,2)),np.linspace(*BOUNDS[1],size))],axis=1)
-        p['effective_nodes']=1/np.sum(weights.reshape(len(y),-1)**2,axis=1)
+        quantiles=[];effective=[]
+        for start in range(0,len(y),m.weight_batch_size):
+            batch=y[start:start+m.weight_batch_size];weights=m.weights(batch).cpu().numpy().reshape(len(batch),4,size,size)
+            quantiles.append(np.stack([marginal_quantiles(weights.sum((1,3)),np.linspace(*BOUNDS[0],size)),marginal_quantiles(weights.sum((1,2)),np.linspace(*BOUNDS[1],size))],axis=1))
+            effective.append(1/np.sum(weights.reshape(len(batch),-1)**2,axis=1))
+        p['log_parameter_quantiles']=np.concatenate(quantiles);p['effective_nodes']=np.concatenate(effective)
     return pred
 
 
@@ -164,7 +167,6 @@ def run(stage,device):
             if c['passed']:break
         previous=pred;old_size=size;del ex
     assert checks and checks[-1]['passed'],'Posterior moments/physical quantiles not converged'
-    coarse=Experiment(interp,checks[-1]['coarse'],mu,C,spec['noise_sigma_m'],device)
     utility=[];adaptive=[]
     for i,y in enumerate(ys[0]):
         risks=[ex.choose(y,n) for n in spec['utility_samples'][:2]]
@@ -172,10 +174,14 @@ def run(stage,device):
         if risks[0].argmin()!=risks[1].argmin():
             samples=spec['utility_samples'][2];risks.append(ex.choose(y,samples))
         choice=int(risks[-1].argmin());stable=bool(risks[-2].argmin()==choice)
-        other=coarse.choose(y,samples)
-        utility.append(dict(risks=[r.tolist() for r in risks],samples=samples,stable=stable,posterior_grid_agreement=bool(other.argmin()==choice)))
+        utility.append(dict(risks=[r.tolist() for r in risks],samples=samples,stable=stable))
         adaptive.append(choice+1)
         if i%8==0:print('POLICY',split,i,len(ys[0]),flush=True)
+    del ex
+    coarse=Experiment(interp,checks[-1]['coarse'],mu,C,spec['noise_sigma_m'],device)
+    for i,(y,row,choice) in enumerate(zip(ys[0],utility,adaptive)):
+        other=coarse.choose(y,row['samples']);row['posterior_grid_agreement']=bool(other.argmin()+1==choice)
+        if i%8==0:print('POLICY_GRID_CHECK',split,i,len(ys[0]),flush=True)
     del coarse
     count=len(truth);adaptive=np.array(adaptive);heuristic=np.where(pred[0]['layout_probability'][:,:2].sum(1)>=.5,2,1)
     if stage=='calibrate':

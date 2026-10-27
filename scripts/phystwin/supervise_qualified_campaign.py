@@ -32,7 +32,7 @@ def reference(split,mesh=4):
 
 
 def policy(stage):
-    status('inference-'+stage);wait_all([launch('qualified_policy.py',['--stage',stage],0,'inference-'+stage)])
+    status('inference-'+stage);wait_all([launch('qualified_policy.py',['--stage',stage,'--device','cuda:0,cuda:1,cuda:2'],'0,1,2','inference-'+stage)])
 
 
 def main():
@@ -62,7 +62,7 @@ def main():
         policy('development')
         reference('calibration');policy('calibrate')
         reference('test');policy('test')
-        status('oracle-audit');wait_all([launch('audit_qualified_oracle.py',[],0,'oracle-audit')])
+        status('oracle-audit');wait_all([launch('audit_qualified_oracle.py',['--device','cuda:0,cuda:1,cuda:2'],'0,1,2','oracle-audit')])
         status('publish-local-report');wait_all([launch('summarize_qualified_support.py',[],0,'report')])
         status('render-held-force-video');wait_all([launch('render_qualified_predictions.py',[],0,'video')])
         status('complete',report='reports/phystwin-qualified-support-v05/REPORT.md')

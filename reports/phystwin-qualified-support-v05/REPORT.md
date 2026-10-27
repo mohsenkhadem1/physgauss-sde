@@ -56,11 +56,14 @@ All 20 calibration simulations have now qualified. Calibration predictions were
 stable at the 257×257 grid (maximum mean change 0.00183 mm), but physical
 log-parameter quantiles changed by 0.0834, exceeding the unchanged 0.02 limit.
 The runner stopped without sealing or opening the test responses. The
-[numerical extension](posterior-refinement-extension.json) adds a 513×513 level
+[numerical extension](posterior-refinement-extension.json) adds 513×513 and 1025×1025 levels
 to the same posterior integration, with bounded likelihood batches to fit GPU
 memory. It does not change the model, priors, likelihood or accuracy gates.
-[Failed checks](calibration-refinement-progress.json) are retained. Nine inference
-tests pass, including batching consistency, and development is being repeated.
+[Failed checks](calibration-refinement-progress.json) are retained. The 513-grid quantile change was 0.02095, still above 0.02, so doubling continues
+to 1025. Three observation-budget mixtures are distributed over GPUs 0–2, moments
+and likelihoods are processed in bounded chunks, and utility grid checks run
+sequentially. Twenty-five targeted tests pass, including three-GPU/CPU prediction
+and expected-risk parity. Development is being repeated.
 
 The analysis will separately report:
 

@@ -40,6 +40,22 @@ def test_probe_informativeness_and_utility_scoring_consistency():
     assert np.allclose(m.risk(y),np.mean(result['sd']**2,axis=1),atol=1e-14)
     assert m.risk(y)[0]<1e-12 and np.isclose(m.risk(y)[2],.0004)
     m.weight_batch_size=2
+    m.moment_chunk_size=2
     batched=m.infer(y)
     for key in result:assert np.allclose(batched[key],result[key],atol=1e-14)
     assert np.allclose(m.risk(y),np.mean(result['sd']**2,axis=1),atol=1e-14)
+
+
+def test_multidevice_posterior_and_expected_risk_match_cpu():
+    import pytest,torch
+    from scripts.phystwin.active_support_policy import Experiment
+    if torch.cuda.device_count()<3:pytest.skip('Three CUDA devices required')
+    axis=np.linspace(0,2*np.pi,972)
+    def field(nodes):return 1e-4*(nodes[:,0,None]*np.sin(axis)+nodes[:,1,None]*np.cos(axis))
+    interp=[field]*4;bias=np.zeros(972);C=np.eye(972)*1e-10
+    cpu=Experiment(interp,3,bias,C,.001,'cpu');gpu=Experiment(interp,3,bias,C,.001,'cuda:0,cuda:1,cuda:2')
+    assert [str(m.M.device) for m in gpu.models]==['cuda:0','cuda:1','cuda:2']
+    rng=np.random.default_rng(15);ys=[rng.normal(0,.001,(3,len(m.chol))) for m in cpu.models]
+    for a,b in zip(cpu.predict(ys),gpu.predict(ys)):
+        for key in a:assert np.allclose(a[key],b[key],atol=1e-12,rtol=1e-10)
+    assert np.allclose(cpu.choose(ys[0][0],256),gpu.choose(ys[0][0],256),atol=1e-12,rtol=1e-10)
