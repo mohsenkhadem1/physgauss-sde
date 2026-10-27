@@ -63,3 +63,8 @@ the assembly cap and serialization remain. The equations and residual tolerances
 are unchanged. [Execution notes](memory-execution-addendum.json) retain the GPU0
 allocation incident and its resolution. The updated full suite passed 25 tests;
 an additional memory-budget regression test passed separately (26 total).
+GPU hierarchy uploads also now perform a memory admission check using the actual
+sparse hierarchy, work vectors and currently free device memory. If it does not
+fit, the same hierarchy is used by CPU CG. A forced-fallback test verifies the
+original operator across matrix changes; the affected GPU/CPU tests pass (27
+unique tests across the checkpoint suites).

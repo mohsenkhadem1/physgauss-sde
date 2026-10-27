@@ -105,3 +105,16 @@ def test_iterative_budget_keeps_geometry_and_enforces_assembly_limit():
     assert a.estimated_peak_memory_bytes<b.estimated_peak_memory_bytes
     with pytest.raises(MemoryError):P2Fixture(2,2000,600,'right_lower',memory_limit_bytes=a.estimated_peak_memory_bytes)
     with pytest.raises(MemoryError):P2Fixture(2,2000,600,'right_lower',iterative=True,memory_limit_bytes=1)
+
+
+def test_gpu_memory_admission_falls_back_without_changing_operator():
+    from scripts.phystwin.gpu_multigrid import GPUMultigrid
+    from scipy.sparse.linalg import spsolve
+    m=P2Fixture(2,2000,600,'right_lower',grading=True);H=m.evaluate(np.zeros_like(m.rest),True)['tangent'].tocsr()
+    solver=GPUMultigrid(H,m.rest,'cuda:0',memory_budget_bytes=0)
+    assert solver.cpu_hierarchy is not None
+    rhs=np.random.default_rng(71).normal(size=H.shape[0])
+    for A in [H,H*1.03]:
+        actual,steps=solver.solve(A,rhs)
+        assert np.linalg.norm(A@actual-rhs)<=1e-9*np.linalg.norm(rhs)
+        assert np.allclose(actual,spsolve(A,rhs),rtol=1e-7,atol=1e-8)

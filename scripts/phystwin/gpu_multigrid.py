@@ -4,7 +4,7 @@ import weakref
 
 
 class GPUMultigrid:
-    def __init__(self,A,positions,device):
+    def __init__(self,A,positions,device,memory_budget_bytes=None):
         import torch,pyamg
         self.t=torch;self.device=device
         self.current_matrix=weakref.ref(A)
@@ -12,6 +12,24 @@ class GPUMultigrid:
         for j in range(3):B[:,:,3+j]=np.cross(np.eye(3)[j],x)
         B=B.reshape(-1,6);B/=np.linalg.norm(B,axis=0)
         hierarchy=pyamg.smoothed_aggregation_solver(A.tobsr(blocksize=(3,3)),B=B,symmetry='symmetric',max_coarse=100)
+        # Inspect the actual hierarchy before uploading it. Include fine CG
+        # vectors and cycle temporaries, not just sparse matrix storage.
+        def csr_bytes(a):return a.nnz*12+(a.shape[0]+1)*4
+        required=A.shape[0]*8*16
+        for i,l in enumerate(hierarchy.levels):
+            required+=csr_bytes(l.A)+l.A.shape[0]*8*8
+            if i<len(hierarchy.levels)-1:required+=csr_bytes(l.P)+csr_bytes(l.P.T)
+            else:required+=l.A.shape[0]**2*8
+        if memory_budget_bytes is None:
+            if str(device).startswith('cuda'):
+                with torch.cuda.device(device):torch.cuda.empty_cache();free,_=torch.cuda.mem_get_info()
+                memory_budget_bytes=int(.85*free)
+            else:memory_budget_bytes=0
+        self.estimated_device_bytes=required;self.cpu_hierarchy=None
+        if required>memory_budget_bytes:
+            self.cpu_hierarchy=hierarchy;self.levels=[]
+            print(f'LINEAR_BACKEND cpu_multigrid estimated_device_bytes={required} budget={memory_budget_bytes}',flush=True)
+            return
         self.levels=[]
         for i,l in enumerate(hierarchy.levels):
             a=self.sparse(l.A);d=self.tensor(l.A.diagonal());entry=dict(A=a,invD=1/d)
@@ -41,6 +59,13 @@ class GPUMultigrid:
         for _ in range(2):x=x+D*(b-A@x)
         return x
     def solve(self,A,b,rtol=1e-9,atol=1e-13,maxiter=1000):
+        if self.cpu_hierarchy is not None:
+            from scipy.sparse.linalg import cg
+            steps=[0]
+            def count(_):steps[0]+=1
+            x,info=cg(A,b,M=self.cpu_hierarchy.aspreconditioner(),rtol=rtol,atol=atol,maxiter=maxiter,callback=count)
+            if info or np.linalg.norm(A@x-b)>max(atol,rtol*np.linalg.norm(b)):raise RuntimeError('CPU fallback original residual or convergence check failed')
+            return x,steps[0]
         t=self.t
         if self.current_matrix() is not A:
             # One fine-level GPU matrix serves both the actual operator and
