@@ -5,7 +5,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 import numpy as np
 from scipy.interpolate import RegularGridInterpolator
 from scipy.sparse.linalg import spsolve
-from scripts.phystwin.qualified_reference import BASE,ROOT,BOUNDS,LAYOUTS,ACTIONS,protocol,write_json,sample81,nonrigid
+from scripts.phystwin.qualified_reference import BASE,ROOT,BOUNDS,LAYOUTS,ACTIONS,protocol,write_json,sample81,nonrigid,observation_points
 from scripts.phystwin.active_support_policy import Experiment,indices,score,calibration
 from scripts.phystwin.uncertainty_posterior import discrepancy,marginal_quantiles
 OUT=BASE/'analysis'
@@ -113,6 +113,30 @@ def physical_score(pred,spec,split,choices):
     return out
 
 
+def deformation_errors(predicted,truth):
+    rest=observation_points();a=predicted.reshape(-1,81,3)+rest;b=truth.reshape(-1,81,3)+rest
+    a=a-a.mean(1,keepdims=True);b=b-b.mean(1,keepdims=True)
+    v,_,w=np.linalg.svd(np.swapaxes(a,1,2)@b);D=np.broadcast_to(np.eye(3),(len(a),3,3)).copy();D[:,2,2]=np.linalg.det(v@w)
+    aligned=np.mean((a@v@D@w-b)**2,axis=(1,2))
+    def strain(u):
+        u=u.reshape(-1,9,3,3,3);g=np.stack(np.gradient(u,.03,.04,.04,axis=(1,2,3),edge_order=2),axis=-1)
+        F=g+np.eye(3);return .5*(np.swapaxes(F,-1,-2)@F-np.eye(3))
+    strain_mse=np.mean((strain(predicted)-strain(truth))**2,axis=(1,2,3,4,5))
+    return aligned,strain_mse
+
+
+def deformation_scores(pred,truth,choices,repeats):
+    errors=[deformation_errors(p['mean'],truth) for p in pred];out={};objects={}
+    for name,choice in choices.items():
+        values=[]
+        for k in range(2):
+            stacked=np.stack([e[k] for e in errors]);v=stacked[1:].mean(0) if name=='random' else stacked[choice,np.arange(len(truth))]
+            values.append(v)
+        out[name]=dict(aligned_rmse_m=float(np.sqrt(values[0].mean())),observed_grid_strain_rmse=float(np.sqrt(values[1].mean())))
+        objects[name]=dict(aligned_mse=values[0].reshape(-1,repeats).mean(1).tolist(),strain_mse=values[1].reshape(-1,repeats).mean(1).tolist())
+    return out,objects
+
+
 def hashes(paths):return {str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
 
 
@@ -157,12 +181,18 @@ def run(stage,device):
     else:scale=1.;fixed=1
     choices=dict(initial=np.zeros(count,dtype=int),fixed=np.full(count,fixed),random=None,adaptive=adaptive,fixture_side_heuristic=heuristic,left=np.ones(count,dtype=int),right=np.full(count,2))
     measures,object_mse=score(pred,truth,choices,scale,spec['noise_repeats'])
+    deformation,deformation_objects=deformation_scores(pred,truth,choices,spec['noise_repeats'])
+    for name,metrics in deformation.items():measures[name].update(metrics)
     summary=dict(split=split,quadrature=checks,grid_size=size,scale=scale,fixed_action=fixed,policies=measures,
         physical=physical_score(pred,spec,split,choices),utility_stable=sum(r['stable'] for r in utility),utility_trials=count,
         grid_action_agreement=sum(r['posterior_grid_agreement'] for r in utility),heuristic_agreement=float(np.mean(adaptive==heuristic)),
         adaptive_action_counts={str(i):int(np.sum(adaptive==i)) for i in [1,2]},deformation_gate_passed=diag['deformation_passed'])
     if stage=='calibrate':
         paths=list((ROOT/'scripts/phystwin').glob('qualified_*.py'))+[ROOT/'scripts/phystwin/active_support_policy.py',ROOT/'scripts/phystwin/uncertainty_posterior.py',ROOT/'scripts/phystwin/consistent_fixture.py',ROOT/'scripts/phystwin/gpu_multigrid.py',ROOT/'scripts/phystwin/qualify_fixture.py',ROOT/'scripts/phystwin/summarize_fixture.py',OUT/'model-selection.json']+list(BASE.glob('*.json'))
+        paths += [ROOT/p for p in ['scripts/phystwin/active_support_reference.py',
+            'experiments/campaign_static_p2_block.py','experiments/campaign_static_uniaxial_bar.py',
+            'experiments/campaign_static_supported_block.py','experiments/boundary_block.py',
+            'experiments/diagnose_nonlinear_physical_probes.py']]
         paths+=list((BASE/'fields').glob('bank*.npz'))+list((BASE/'fields').glob('development*.npz'))+list((BASE/'fields').glob('calibration*.npz'))
         paths+=list((BASE/'banks').glob('**/*.npz'))
         sealed=dict(protocol=spec,scale=scale,fixed_action=fixed,calibration_scores=scores.tolist(),hashes=hashes(paths))
@@ -171,6 +201,7 @@ def run(stage,device):
         else:write_json(path,sealed)
     np.savez_compressed(OUT/f'{split}-predictions.npz',truth=truth,adaptive=adaptive,heuristic=heuristic,**{f'{i}_{k}':v for i,p in enumerate(pred) for k,v in p.items()})
     write_json(OUT/f'{split}-summary.json',summary);write_json(OUT/f'{split}-object-mse.json',object_mse);write_json(OUT/f'{split}-utility.json',utility)
+    write_json(OUT/f'{split}-deformation-object-mse.json',deformation_objects)
     print('COMPLETE',split,json.dumps(summary),flush=True)
 
 

@@ -18,7 +18,11 @@ def surface(model,side,lower=False,degree=1):
     if lower:faces=faces[np.all(model.rest[faces,2]<=1e-13,axis=1)]
     points=model.rest[faces];area=.5*np.linalg.norm(np.cross(points[:,1]-points[:,0],points[:,2]-points[:,0]),axis=1)
     if degree==2:
-        edges={tuple(sorted(map(int,t[[i,j]]))):int(e[4+k]) for t,e in zip(model.tets,model.elements) for k,(i,j) in enumerate(EDGES)}
+        edges=getattr(model,'_surface_edges',None)
+        if edges is None:
+            x=model.rest[model.tets,0];boundary=(np.sum(abs(x)<1e-13,axis=1)>=3)|(np.sum(abs(x-.24)<1e-13,axis=1)>=3)
+            edges={tuple(sorted(map(int,t[[i,j]]))):int(e[4+k]) for t,e in zip(model.tets[boundary],model.elements[boundary]) for k,(i,j) in enumerate(EDGES)}
+            model._surface_edges=edges
         nodes=np.c_[faces,[[edges[tuple(sorted(map(int,f[[i,j]])))] for i,j in [(0,1),(0,2),(1,2)]] for f in faces]]
     else:nodes=faces
     z,w=leggauss(3);z=(z+1)/2;w=w/2;N=[];weights=[]
@@ -104,14 +108,20 @@ class P1Fixture(ConsistentFixture,ActiveBlock):
 
 
 class P2Fixture(ConsistentFixture,QuadraticBlock):
-    def __init__(self,n,E,K,layout,order=3,device=None,grading=False,memory_limit_bytes=24*1024**3):
-        super().__init__(cells=(4*n,n,n),young=E,poisson=.35,density=625.,gravity=0.,traction=0.,order=order,memory_limit_bytes=memory_limit_bytes)
+    def __init__(self,n,E,K,layout,order=3,device=None,grading=False,memory_limit_bytes=24*1024**3,z_refinement=1):
+        if not isinstance(z_refinement,(int,np.integer)) or z_refinement<1:raise ValueError('Positive integer z refinement required')
+        if layout.endswith('lower') and (n*z_refinement)%2:raise ValueError('Half-face patch must align with z=0')
+        self.cells=np.array([4*n,n,z_refinement*n],dtype=int)
+        super().__init__(cells=tuple(self.cells),young=E,poisson=.35,density=625.,gravity=0.,traction=0.,order=order,memory_limit_bytes=memory_limit_bytes)
         self.n=n
         if grading:
-            axes=[np.linspace(0,.24,4*n+1),np.linspace(-.04,.04,n+1),np.linspace(-.04,.04,n+1)]
+            axes=[np.linspace(0,.24,4*n+1),np.linspace(-.04,.04,n+1),np.linspace(-.04,.04,z_refinement*n+1)]
             t=axes[0]/.24
-            axes[0]=.24*(t**1.5 if layout.startswith('left') else 1-(1-t)**1.5)
-            z=np.linspace(-1,1,n+1);axes[2]=np.sign(z)*.04*(1-np.cos(np.pi*abs(z)))/2
+            power=2. if grading in ('boundary_layer','edge_refined') else 1.5
+            axes[0]=.24*(t**power if layout.startswith('left') else 1-(1-t)**power)
+            z=np.linspace(-1,1,z_refinement*n+1);s=abs(z)
+            shape=(126*s**5-420*s**6+540*s**7-315*s**8+70*s**9) if grading=='boundary_layer' else (1-np.cos(np.pi*s))/2
+            axes[2]=np.sign(z)*.04*shape
             X=np.stack(np.meshgrid(*axes,indexing='ij'),-1).reshape(-1,3)
             self.rest=self.rest.copy();self.rest[:len(X)]=X
             for k,(i,j) in enumerate(EDGES):self.rest[self.elements[:,4+k]]=(X[self.tets[:,i]]+X[self.tets[:,j]])/2
@@ -126,7 +136,7 @@ class P2Fixture(ConsistentFixture,QuadraticBlock):
 
 
 def locate(model,points):
-    points=np.asarray(points);cells=np.array([4*model.n,model.n,model.n]);lo=np.array([0.,-.04,-.04]);size=np.array([.24,.08,.08])
+    points=np.asarray(points);cells=np.asarray(getattr(model,'cells',[4*model.n,model.n,model.n]));lo=np.array([0.,-.04,-.04]);size=np.array([.24,.08,.08])
     coordinates=(points-lo)/size*cells
     if np.any(coordinates < -1e-10) or np.any(coordinates>cells+1e-10):raise ValueError('Query outside block')
     axes=getattr(model,'axes',[np.linspace(lo[d],lo[d]+size[d],cells[d]+1) for d in range(3)])
@@ -142,6 +152,7 @@ def locate(model,points):
 
 
 def query(model,u,points,gradient=False):
+    if hasattr(model,'query_field'):return model.query_field(u,points,gradient)
     ids,b=locate(model,points)
     if model.degree==1:
         if gradient:return np.einsum('pai,paJ->piJ',u[model.tets[ids]],model.gradients[ids])
@@ -162,14 +173,15 @@ class GPUQuadratic:
         self.weights=self.tensor(model.weights[:,None]*model.volumes[None]);self.I=self.tensor(np.eye(3))
         self.chunk=1 if len(model.elements)>50000 else 4
     def tensor(self,x,dtype=None):return self.t.as_tensor(np.asarray(x),dtype=dtype or self.t.float64,device=self.device)
-    def gradients(self,b):
-        vertex=(4*b[:,None,:,None]-1)*self.linear[None]
-        edge=self.t.stack([4*(b[:,None,i,None]*self.linear[None,:,j,:]+b[:,None,j,None]*self.linear[None,:,i,:]) for i,j in EDGES],dim=2)
+    def gradients(self,b,linear=None):
+        linear=self.linear if linear is None else linear
+        vertex=(4*b[:,None,:,None]-1)*linear[None]
+        edge=self.t.stack([4*(b[:,None,i,None]*linear[None,:,j,:]+b[:,None,j,None]*linear[None,:,i,:]) for i,j in EDGES],dim=2)
         return self.t.cat([vertex,edge],dim=2)
     def elastic(self,positions,tangent=False):
         t=self.t;m=self.model;u=self.tensor(positions)-self.rest;ue=u[self.elements]
         mu,lam=lame(m.young,m.poisson);energy=t.zeros((),dtype=t.float64,device=self.device)
-        ge=t.zeros_like(ue);He=t.zeros((len(ue),10,3,10,3),dtype=t.float64,device=self.device) if tangent else None
+        ge=t.zeros_like(ue)
         Js=[]
         for start in range(0,len(self.check_bary),self.chunk):
             F=self.I+t.einsum('eai,qeaj->qeij',ue,self.gradients(self.check_bary[start:start+self.chunk]));Js.append(t.linalg.det(F).reshape(-1))
@@ -183,16 +195,24 @@ class GPUQuadratic:
             W=mu*(.5*(G*G).sum((-1,-2))-second-detG+xm)+.5*lam*log*log
             P=mu*G+(lam*log-mu)[...,None,None]*(invT-self.I)+lam*log[...,None,None]*self.I
             energy+=(v*W).sum();ge+=t.einsum('qe,qeiJ,qeaJ->eai',v,P,g)
-            if tangent:
-                D=t.einsum('qeiJ,qeaJ->qeai',invT,g)
-                # Bound contraction temporaries independently of mesh size.
-                for first in range(0,len(ue),8192):
-                    sl=slice(first,first+8192);vs=v[:,sl];gs=g[:,sl];ds=D[:,sl]
-                    He[sl]+=mu*t.einsum('qe,qeaJ,qebJ,ik->eaibk',vs,gs,gs,self.I)
-                    He[sl]+=t.einsum('qe,qeak,qebi->eaibk',vs*(mu-lam*log[:,sl]),ds,ds)
-                    He[sl]+=lam*t.einsum('qe,qeai,qebk->eaibk',vs,ds,ds)
         J=t.cat(Js)
         if not bool(t.isfinite(J).all()) or float(J.min())<=m.minimum_J:raise ValueError('Nodal Jacobian guard')
         grad=t.zeros_like(self.rest);grad.index_add_(0,self.elements.reshape(-1),ge.reshape(-1,3))
-        H=None if not tangent else sparse.coo_matrix((He.reshape(-1).cpu().numpy(),(m.rows,m.cols)),shape=(m.rest.size,m.rest.size)).tocsr()
+        H=None
+        if tangent:
+            # Accumulate one element block across all quadrature points, then
+            # transfer it once. The complete element tangent lives on CPU.
+            nodes=ue.shape[1];values=np.empty((len(ue),nodes,3,nodes,3),dtype=np.float64)
+            for first in range(0,len(ue),8192):
+                sl=slice(first,first+8192);ub=ue[sl];he=t.zeros((len(ub),nodes,3,nodes,3),dtype=t.float64,device=self.device)
+                for q in range(0,len(self.bary),4):
+                    g=self.gradients(self.bary[q:q+4],self.linear[sl]);v=self.weights[q:q+4,sl]
+                    G=t.einsum('eai,qeaj->qeij',ub,g);F=self.I+G;invT=t.linalg.inv(F).transpose(-1,-2)
+                    tr=t.diagonal(G,dim1=-2,dim2=-1).sum(-1);second=.5*(tr*tr-t.einsum('qeij,qeji->qe',G,G))
+                    log=t.log1p(tr+second+t.linalg.det(G));D=t.einsum('qeiJ,qeaJ->qeai',invT,g)
+                    he+=mu*t.einsum('qe,qeaJ,qebJ,ik->eaibk',v,g,g,self.I)
+                    he+=t.einsum('qe,qeak,qebi->eaibk',v*(mu-lam*log),D,D)
+                    he+=lam*t.einsum('qe,qeai,qebk->eaibk',v,D,D)
+                values[sl]=he.cpu().numpy()
+            H=sparse.coo_matrix((values.ravel(),(m.rows,m.cols)),shape=(m.rest.size,m.rest.size)).tocsr()
         return float(energy),grad.cpu().numpy(),H,J.cpu().numpy()

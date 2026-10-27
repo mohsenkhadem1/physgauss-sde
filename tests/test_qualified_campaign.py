@@ -53,3 +53,35 @@ def test_physical_audit_detects_wrong_confidence_after_probe():
     assert result['adaptive']['E_mean_log_interval_width']<result['initial']['E_mean_log_interval_width']
     assert result['adaptive']['E_log_median_MAE']>result['initial']['E_log_median_MAE']
     assert not convergence([before],[after],spec)['passed']
+
+
+def test_deformation_metrics_separate_rigid_motion_from_bending():
+    from scripts.phystwin.qualified_policy import deformation_errors
+    from scripts.phystwin.qualified_reference import observation_points
+    x=observation_points();angle=.2;R=np.array([[np.cos(angle),-np.sin(angle),0],[np.sin(angle),np.cos(angle),0],[0,0,1.]])
+    u=(x@R+[.03,.01,-.02]-x).reshape(1,-1)
+    aligned,strain=deformation_errors(u,np.zeros_like(u))
+    assert aligned[0]<1e-28 and strain[0]<1e-28
+    bend=np.zeros_like(x);bend[:,1]=.1*x[:,0]**2
+    aligned,strain=deformation_errors(bend.reshape(1,-1),np.zeros_like(u))
+    assert aligned[0]>1e-10 and strain[0]>1e-7
+
+
+def test_edge_refined_geometry_preserves_domain_and_material_queries():
+    from scripts.phystwin.consistent_fixture import query
+    m=P2Fixture(2,2000,600,'left_lower',grading='edge_refined',z_refinement=4)
+    assert np.isclose(m.volumes.sum(),.24*.08*.08)
+    assert np.isclose(m.attachment_area,.08*.04)
+    p=np.random.default_rng(11).uniform([0,-.04,-.04],[.24,.04,.04],(50,3))
+    u=m.rest**2
+    assert np.allclose(query(m,u,p),p**2,atol=1e-13)
+    assert np.allclose(query(m,u,p,True),np.array([np.diag(2*x) for x in p]),atol=1e-12)
+
+
+def test_enrichment_retains_checkpoint_node_order_and_shared_edges():
+    from experiments.campaign_static_p2_block import enrich
+    x=np.array([[0,0,0],[1,0,0],[0,1,0],[0,0,1],[1,1,1]],float)
+    rest,elements=enrich(x,np.array([[0,1,2,3],[1,2,3,4]]))
+    assert np.array_equal(elements,[[0,1,2,3,5,6,7,8,9,11],[1,2,3,4,8,9,10,11,12,13]])
+    assert np.array_equal(rest[:5],x)
+    assert np.array_equal(rest[8],(x[1]+x[2])/2)

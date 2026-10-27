@@ -29,3 +29,29 @@ category. This remains a numerical reference study, not learned PhysTwin uncerta
 or a demonstration on real RGB-D video. Pooled calibration on a balanced fixture
 cohort has nominal coverage; empirical test coverage and object-level uncertainty
 will be reported rather than assuming an unconditional finite-sample guarantee.
+
+## Development checkpoint, 27 October 2026
+
+[The numerical diagnosis](NUMERICS.md) records the current development checks and
+an independent Q2/P2 comparison. The alternative space agrees with the checked P2
+fields but does not resolve the stiff-support refinement failure; it is not used
+as campaign truth. The same P2 study now permits n=32/40 while preserving every
+accuracy gate. These largest meshes run one at a time to limit host memory.
+
+The finer n=8 hypothesis bank is being generated because the n=4 bank misses the
+30 μm development accuracy target. The frozen selection rule determines whether
+n=8, a specified extrapolation, or n=12 is acceptable. No held-out outcome is used
+for that selection.
+
+The durable runner is `scripts/phystwin/supervise_qualified_campaign.py`. Its local
+status is `runs/phystwin-qualified-support-v05/status/supervisor.json`. It resumes
+atomic checkpoints, verifies all development references, selects the surrogate,
+runs development inference, qualifies/calibrates the new calibration cohort,
+then qualifies/evaluates the reserved test cohort. It stops on an unsuccessful
+reference or posterior gate. The final report is generated only after completion.
+It also records shape error after rigid alignment, raw physical interval coverage,
+and a privileged post-test action audit; the latter is not an eligible baseline.
+
+Validation at this checkpoint: 22 geometry, mechanics, GPU, and inference-audit
+tests passed, plus two supervisor failure-handling tests. The raw data remain local.
+This remains an in-progress campaign, not a completed uncertainty/probing result.

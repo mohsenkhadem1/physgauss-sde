@@ -39,13 +39,24 @@ def protocol():
 
 
 def build(n,r,device,order=3):
-    m=P2Fixture(n,r['E'],r['K'],r['layout'],order=order,device=device,grading=True,memory_limit_bytes=80*1024**3)
+    # Serialize the largest meshes across workers to bound host-memory use.
+    lock=None
+    if n>=32:
+        import fcntl
+        lock=open(BASE/'large-mesh.lock','a');fcntl.flock(lock,fcntl.LOCK_EX)
+    try:m=P2Fixture(n,r['E'],r['K'],r['layout'],order=order,device=device,grading=True,memory_limit_bytes=80*1024**3)
+    except BaseException:
+        if lock is not None:lock.close()
+        raise
+    m._large_mesh_lock=lock
     m.linear_solver='gpu_multigrid' if device and n>=8 else 'pardiso';return m
 
 
 def release(m):
     if m is not None:
         m.clear_linear_cache();m.engine=None;m.rows=None;m.cols=None
+        if getattr(m,'_large_mesh_lock',None) is not None:
+            m._large_mesh_lock.close();m._large_mesh_lock=None
     gc.collect()
     import torch
     if torch.cuda.is_available():torch.cuda.empty_cache()
@@ -91,6 +102,14 @@ def solve(m,action,initial=None):
 
 
 def bank_job(name,r,device,n=4):
+    import fcntl
+    directory=BASE/'job-locks';directory.mkdir(parents=True,exist_ok=True)
+    with open(directory/f'bank-n{n}-{name}.lock','a') as lock:
+        fcntl.flock(lock,fcntl.LOCK_EX)
+        return _bank_job(name,r,device,n)
+
+
+def _bank_job(name,r,device,n=4):
     path=(BASE/'fields' if n==4 else BASE/'banks'/f'n{n}')/f'{name}.npz'
     if path.exists():return
     start=time.time();m=build(n,r,device);fields=[]
@@ -118,6 +137,8 @@ def truth_job(name,r,device):
     previous=None;old=[];old_n=None;checks=[];streak=0
     extension=BASE/'refinement-extension.json'
     levels=spec['truth_levels']+(json.loads(extension.read_text())['additional_levels'] if extension.exists() else [])
+    extension2=BASE/'refinement-extension-v2.json'
+    if extension2.exists():levels+=json.loads(extension2.read_text())['additional_levels']
     for n in levels:
         release(previous);m=build(n,r,device);current=[]
         for j,action in enumerate(ACTIONS):
@@ -164,16 +185,25 @@ def jobs(spec,split):
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--split',choices=['bank','development','calibration','test'],required=True);p.add_argument('--worker',type=int,default=0);p.add_argument('--workers',type=int,default=1);p.add_argument('--device',default='cuda:0');p.add_argument('--bank-mesh',type=int,choices=[4,8,12],default=4);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--split',choices=['bank','development','calibration','test'],required=True);p.add_argument('--worker',type=int,default=0);p.add_argument('--workers',type=int,default=1);p.add_argument('--device',default='cuda:0');p.add_argument('--bank-mesh',type=int,choices=[4,8,12],default=4);p.add_argument('--start-index',type=int,default=0);p.add_argument('--keep-going',action='store_true');a=p.parse_args()
     spec=protocol()
     pending=jobs(spec,a.split)
     if a.split=='bank' and a.bank_mesh>4:pending+=[(f'development-{i}',r) for i,r in enumerate(spec['development'])]
+    failures=[]
     for i,(name,r) in enumerate(pending):
-        if i%a.workers!=a.worker:continue
+        if i<a.start_index or i%a.workers!=a.worker:continue
+        gc.collect()
+        import torch
+        torch.cuda.empty_cache()
         try:
             if a.split=='bank':bank_job(name,r,a.device,a.bank_mesh)
             else:truth_job(name,r,a.device)
         except Exception as e:
-            write_json(BASE/'failures'/f'{name}.json',dict(error=str(e),case=r));raise
+            write_json(BASE/'failures'/f'{name}.json',dict(error=str(e),case=r));failures.append(name)
+            if not a.keep_going:raise
+            print('FAILED',name,str(e),flush=True);gc.collect()
+            import torch
+            torch.cuda.empty_cache()
+    if failures:raise RuntimeError(f'Unqualified cases remain: {failures}')
 
 if __name__=='__main__':main()

@@ -36,9 +36,8 @@ def duffy(order):
 
 
 def enrich(X,tets):
-    edge=np.unique(np.sort(tets[:,np.asarray(EDGES)].reshape(-1,2),axis=1),axis=0)
-    index={tuple(e):len(X)+i for i,e in enumerate(edge)}
-    T=np.concatenate([tets,np.array([[index[tuple(sorted((int(t[i]),int(t[j]))))] for i,j in EDGES] for t in tets])],1)
+    edge,inverse=np.unique(np.sort(tets[:,np.asarray(EDGES)].reshape(-1,2),axis=1),axis=0,return_inverse=True)
+    T=np.concatenate([tets,len(X)+inverse.reshape(len(tets),len(EDGES))],1)
     return np.concatenate([X,X[edge].mean(1)]),T
 
 
@@ -58,7 +57,8 @@ class QuadraticBlock(PrismaticBar):
         self.body_integral_weights=np.zeros(len(self.rest));local=self.volumes[:,None]*np.einsum('q,qa->a',self.weights,self.N)
         np.add.at(self.body_integral_weights,self.elements,local)
         self.load=np.zeros_like(self.rest);self.load[:,2]=-gravity*density*self.body_integral_weights
-        edge_index={tuple(sorted(map(int,t[[i,j]]))):int(e[4+k]) for t,e in zip(self.tets,self.elements) for k,(i,j) in enumerate(EDGES)}
+        right_tets=np.sum(abs(X[self.tets,0]-SIZE[0])<1e-13,axis=1)>=3
+        edge_index={tuple(sorted(map(int,t[[i,j]]))):int(e[4+k]) for t,e in zip(self.tets[right_tets],self.elements[right_tets]) for k,(i,j) in enumerate(EDGES)}
         self.right_surface_weights=np.zeros(len(self.rest))
         for f in self.faces[np.all(abs(X[self.faces,0]-SIZE[0])<1e-13,axis=1)]:
             a=.5*np.linalg.norm(np.cross(X[f[1]]-X[f[0]],X[f[2]]-X[f[0]]))
