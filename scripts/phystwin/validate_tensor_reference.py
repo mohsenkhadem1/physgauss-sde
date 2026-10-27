@@ -17,8 +17,12 @@ def main():
         a=BASE/'refinements/development-11'/f'n{p2["latest_mesh"]}-q3-{action}.npz'
         b=BASE/'tensor-refinements/development-11'/f'n{audits["11"]["latest_mesh"]}-q3-{action}.npz'
         with np.load(a) as az,np.load(b) as bz:cross.append(dict(action=action,**checked_compare(az,bz,spec,spec['development'][11],action)))
+    a=BASE/'tensor-refinements/development-1'/f'n{audits["1"]["latest_mesh"]}-q3-initial.npz'
+    b=BASE/'tensor-edges-diagnostic/development-1/n20-initial.npz'
+    with np.load(a) as az,np.load(b) as bz:finer=checked_compare(az,bz,spec,spec['development'][1],'initial')
     sources=['scripts/phystwin/tensor_fixture.py','scripts/phystwin/consistent_fixture.py','scripts/phystwin/gpu_multigrid.py','scripts/phystwin/qualified_reference.py','scripts/phystwin/qualified_tensor_reference.py','experiments/campaign_static_p2_block.py']
-    validation=dict(passed=all(c['pass'] for c in cross),candidate_audits=audits,qualified_p2_cross_comparison=cross,
+    validation=dict(passed=all(c['pass'] for c in cross) and finer['pass'],candidate_audits=audits,qualified_p2_cross_comparison=cross,
+        additional_finer_initial_check=dict(case='development-1',coarse=audits['1']['latest_mesh'],fine=20,**finer),
         source_hashes={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in sources},
         scope='Two development fixtures, four loads each, unchanged accuracy gates. Finite numerical qualification, not a mathematical continuum-error bound.')
     path=BASE/'tensor-validation.json';write_json(path,validation)

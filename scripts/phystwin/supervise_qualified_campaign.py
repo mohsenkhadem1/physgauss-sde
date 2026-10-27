@@ -26,8 +26,9 @@ def wait_all(processes):
 
 
 def reference(split,mesh=4):
-    label=f'{split}-n{mesh}';status(label)
-    wait_all([launch('qualified_reference.py',['--split',split,'--bank-mesh',mesh,'--workers',3,'--worker',i,'--keep-going'],i,label+f'-{i}') for i in range(3)])
+    workers=6 if split=='bank' else 3
+    label=f'{split}-n{mesh}';status(label,workers=workers)
+    wait_all([launch('qualified_reference.py',['--split',split,'--bank-mesh',mesh,'--workers',workers,'--worker',i,'--keep-going'],i%3,label+f'-{i}') for i in range(workers)])
 
 
 def policy(stage):
@@ -63,6 +64,7 @@ def main():
         reference('test');policy('test')
         status('oracle-audit');wait_all([launch('audit_qualified_oracle.py',[],0,'oracle-audit')])
         status('publish-local-report');wait_all([launch('summarize_qualified_support.py',[],0,'report')])
+        status('render-held-force-video');wait_all([launch('render_qualified_predictions.py',[],0,'video')])
         status('complete',report='reports/phystwin-qualified-support-v05/REPORT.md')
     except BaseException as e:
         status('stopped-on-error',error=str(e));traceback.print_exc();raise

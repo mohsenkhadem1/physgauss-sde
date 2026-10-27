@@ -149,6 +149,7 @@ def run(stage,device):
     if stage=='select':print('SELECTED',model,flush=True);return
     interp=interpolators(model);mu,C,diag=fit(spec,interp,model)
     write_json(OUT/'development-checks.json',diag);assert diag['interpolation_passed'] and diag['forward_passed'],'Forward surrogate gate failed'
+    assert diag['deformation_passed'],'Development probes do not provide the required nonrigid deformation'
     if stage!='development':assert (OUT/'development-summary.json').exists(),'Finish development first'
     if stage=='test':
         seal=json.loads((OUT/'seal.json').read_text());assert seal['protocol']==spec;verify_seal(seal)
@@ -189,7 +190,7 @@ def run(stage,device):
         adaptive_action_counts={str(i):int(np.sum(adaptive==i)) for i in [1,2]},deformation_gate_passed=diag['deformation_passed'])
     if stage=='calibrate':
         paths=list((ROOT/'scripts/phystwin').glob('qualified_*.py'))+[ROOT/'scripts/phystwin/active_support_policy.py',ROOT/'scripts/phystwin/uncertainty_posterior.py',ROOT/'scripts/phystwin/consistent_fixture.py',ROOT/'scripts/phystwin/gpu_multigrid.py',ROOT/'scripts/phystwin/qualify_fixture.py',ROOT/'scripts/phystwin/summarize_fixture.py',OUT/'model-selection.json']+list(BASE.glob('*.json'))
-        paths += [ROOT/p for p in ['scripts/phystwin/active_support_reference.py','scripts/phystwin/tensor_fixture.py',
+        paths += [ROOT/p for p in ['scripts/phystwin/active_support_reference.py','scripts/phystwin/tensor_fixture.py','scripts/phystwin/requirements-fixture.txt',
             'experiments/campaign_static_p2_block.py','experiments/campaign_static_uniaxial_bar.py',
             'experiments/campaign_static_supported_block.py','experiments/boundary_block.py',
             'experiments/diagnose_nonlinear_physical_probes.py']]
