@@ -101,3 +101,27 @@ See [the controlled report](../../reports/phystwin-transfer-v01/REPORT.md) for t
 ## Active probing across unknown fixture families
 
 [The v03 support-policy study](../../reports/phystwin-active-support-v03/REPORT.md) adds left/right, full/half-face compliant attachments and competing reset pushes. It freezes calibration-selected fixed and uncertainty policies before 24 test objects. Adaptive probing beats fixed/random, but does not beat the simpler inferred-support heuristic. The report also exposes substantial mesh sensitivity. `active_support_reference.py`, `active_support_policy.py`, `audit_active_support.py`, `refine_active_support.py` and `summarize_active_support.py` reproduce the reference study; it is not a learned PhysTwin policy.
+
+## Difficult-fixture reference qualification (v04)
+
+`consistent_fixture.py` integrates Robin boundary energy with a consistent
+surface mass matrix and offers quadratic tetrahedra, grading near the fixture
+edge, FP64 CUDA assembly, and CPU sparse Newton solves. Material and loading
+remain those of v03; this is reference qualification before further inference.
+`qualify_fixture.py` writes local fields; `summarize_fixture.py` applies the frozen
+displacement, strain, traction, energy, equilibrium and quadrature gates.
+
+```bash
+.venv/bin/python -m pip install -r scripts/phystwin/requirements-fixture.txt
+CUDA_VISIBLE_DEVICES=0 OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=1 \
+  .venv/bin/python scripts/phystwin/qualify_fixture.py --degree 2 \
+  --levels 8 12 16 20 --action initial --device cuda:0 --grading --linear-solver pardiso
+CUDA_VISIBLE_DEVICES=0 OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=1 \
+  .venv/bin/python scripts/phystwin/qualify_fixture.py --degree 2 \
+  --levels 20 --order 4 --action initial --device cuda:0 --grading --linear-solver pardiso
+.venv/bin/python scripts/phystwin/summarize_fixture.py
+```
+
+Repeat for `push_left`, `push_right`, and `held_oblique`. Fine meshes need substantial
+RAM; limit concurrent jobs to available memory. GPU 3 remains reserved.
+See `reports/phystwin-fixture-convergence-v04/REPORT.md` for measured scope and limits.

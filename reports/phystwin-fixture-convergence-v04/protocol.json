@@ -1,0 +1,43 @@
+{
+  "case": {
+    "layout": "right_lower",
+    "E": 1956.6543115078052,
+    "K": 568.8552357512057
+  },
+  "source": "v03 development object 11, chosen before new solves",
+  "actions": [
+    "initial",
+    "push_left",
+    "push_right",
+    "held_oblique"
+  ],
+  "model": "same log-J Neo-Hookean and Robin surface stiffness; consistent surface integration",
+  "p1_levels": [
+    4,
+    8,
+    12
+  ],
+  "p2_levels": [
+    2,
+    4,
+    6,
+    8
+  ],
+  "quadrature_orders": [
+    3,
+    4
+  ],
+  "displacement_rms_tolerance_m": 2e-05,
+  "displacement_max_tolerance_m": 0.0001,
+  "strain_relative_L2_tolerance": 0.05,
+  "energy_relative_tolerance": 0.01,
+  "traction_relative_L2_tolerance": 0.02,
+  "force_balance_tolerance_N": 1e-08,
+  "moment_balance_tolerance_Nm": 1e-09,
+  "nonlinear_residual_tolerance_N": 1e-09,
+  "quadrature_displacement_rms_tolerance_m": 1e-06,
+  "quadrature_energy_relative_tolerance": 0.0001,
+  "sampling": "425 structured displacement points; 512 scrambled Sobol interior strain points; 64 support-interior traction points",
+  "policy": "Require all four actions to pass successive P2 spatial refinements and quadrature checks; do not rebuild inference on failed reference",
+  "scope": "Single difficult development fixture, no inference/test-set retuning; finite convergence evidence, not analytic error bound"
+}
