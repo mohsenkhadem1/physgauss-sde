@@ -33,6 +33,7 @@ def physical_intervals(spec,test,saved,bootstrap_indices):
 def main():
     spec=protocol();analysis=BASE/'analysis';seal=json.loads((analysis/'seal.json').read_text());verify_seal(seal)
     test=json.loads((analysis/'test-summary.json').read_text());mse=json.loads((analysis/'test-object-mse.json').read_text());deformation=json.loads((analysis/'test-deformation-object-mse.json').read_text())
+    oracle=json.loads((analysis/'oracle-audit.json').read_text())
     groups=[np.array([i for i,r in enumerate(spec['test']) if r['layout']==l]) for l in LAYOUTS];rng=np.random.default_rng(8801)
     ix=np.concatenate([rng.choice(g,(10000,len(g)),replace=True) for g in groups],axis=1)
     with np.load(analysis/'test-predictions.npz') as saved:physical_ci=physical_intervals(spec,test,saved,ix)
@@ -77,7 +78,12 @@ def main():
     ax.bar(x-.18,[100*test['physical'][p]['E_90_coverage'] for p in policies],.36,label='Material E');ax.bar(x+.18,[100*test['physical'][p]['K_90_coverage'] for p in policies],.36,label='Support K');ax.axhline(90,color='grey',ls='--');ax.set_xticks(x,labels,rotation=25);ax.set_ylim(0,105);ax.set_title('Raw nominal 90% physical interval coverage');ax.legend()
     fig.suptitle('24 held-out objects, four fixture families; four noise repeats per object')
     fig.savefig(OUT/'comparison.png',dpi=160);plt.close(fig)
-    lines=['# Qualified nonlinear reference, uncertainty and probing — v05','',
+    labels_for_checks=dict(all_reference_objects_qualified='reference qualification',posterior_refinement_passed='posterior convergence',
+        calibrated_adaptive_object_coverage_at_least90='at least 90% adaptive whole-object coverage',beats_fixed='advantage over the fixed action',
+        beats_fixture_heuristic='advantage over the fixture heuristic',utility_stable='utility sampling stability',posterior_grid_action_agreement='posterior-grid action agreement')
+    failed=[labels_for_checks[k] for k,v in success.items() if not v]
+    verdict='The preregistered active-probing success criteria were met.' if not failed else 'The preregistered active-probing success criteria were not all met. Failed checks: '+', '.join(failed)+'.'
+    lines=['# Qualified nonlinear reference, uncertainty and probing — v05','',verdict,'',
         'All 56 reference objects passed their recorded spatial and quadrature checks. This is finite numerical qualification under specified sampled-field tolerances, not an absolute continuum-error proof or physical validation against real measurements.','',
         '## Held-out results','', '| Policy | Coordinate RMSE (mm) | Aligned shape RMSE (mm) | Whole-object band coverage | Band width (mm) | E interval coverage | K interval coverage |','|---|---:|---:|---:|---:|---:|---:|']
     for label,p in zip(labels,policies):
@@ -92,6 +98,19 @@ def main():
         'The forward surrogate is selected only on development data using a 30 μm RMS accuracy gate; [model-selection.json](model-selection.json) records rejected candidates. Posterior refinement checks predictive means, standard deviations and physical marginal quantiles. The categorical fixture is latent. Known geometry and known forces are supplied. No true fixture label is given to a policy.','',
         'Joint numerical discrepancy is fitted on development residuals, then conditioned on both initial and probe observations. Twenty new calibration objects determine the fixed action and a common object-wise prediction-band multiplier; [seal.json](seal.json) hashes the model and data before held-out evaluation. Raw physical parameter intervals are not disguised as calibrated prediction bands. [confidence-after-probing.json](confidence-after-probing.json) flags intervals that narrow while errors or coverage worsen. [Physical interval uncertainty](physical-interval-bootstrap.json) includes stratified object-bootstrap intervals for coverage, error and width, including paired changes after probing. Noise repeats are averaged within each object before resampling.','',
         f"Utility choices stable under sampling refinement: {test['utility_stable']}/{test['utility_trials']}. Choices agreeing under posterior-grid refinement: {test['grid_action_agreement']}/{test['utility_trials']}. All scientific pass/fail decisions are recorded in [decision.json](decision.json).",'',
+        '## Confidence after probing','',
+        '| Parameter | Change in raw 90% coverage | Paired object-bootstrap 95% interval | Change in absolute log-median error | Paired object-bootstrap 95% interval |','|---|---:|---|---:|---|']
+    for parameter in ['E','K']:
+        c=physical_ci['adaptive'][parameter]['coverage'];e=physical_ci['adaptive'][parameter]['log_median_absolute_error']
+        cc=np.array(c['paired_change_bootstrap95'])*100;ec=e['paired_change_bootstrap95']
+        lines.append(f"| {parameter} | {100*c['change_from_initial']:.2f} percentage points | [{cc[0]:.2f}, {cc[1]:.2f}] | {e['change_from_initial']:.4f} | [{ec[0]:.4f}, {ec[1]:.4f}] |")
+    lines+=['','Positive coverage changes and negative error changes are favorable. Narrower intervals alone are not evidence of better inference. These are raw physical intervals; prediction-band calibration does not calibrate them.','',
+        '## Privileged action diagnostic','',
+        '| Choice | Expected held-force RMSE (mm) | Agreement with oracle action |','|---|---:|---:|']
+    for name in ['fixed','random','fixture_side_heuristic','adaptive','oracle']:
+        r=oracle['scores'][name];agreement=f"{100*r['oracle_choice_agreement']:.1f}%" if 'oracle_choice_agreement' in r else '—'
+        lines.append(f"| {name} | {1000*r['expected_rmse_m']:.4f} | {agreement} |")
+    lines+=['',f"This diagnostic gives the action evaluator the true object's responses, then integrates future probe noise with {oracle['samples']} samples. It keeps the fitted predictor fixed. It is not an eligible policy, not used for tuning, and its expected errors are not directly comparable to the realized-outcome table above. Oracle action choices agree between 128 and 512 samples in {oracle['choice_refinement_agreement']}/{oracle['trials']} cases; disagreement limits interpretation of this diagnostic. Gaps include uncertainty about the hidden object, not just policy computation error. [Full diagnostic](oracle-audit.json).",'',
         '## Limits','',
         'This is a static synthetic study with four known fixture families and continuous material/support stiffness variation. It does not establish general spatial boundary inference, new topology generalization, gravity/contact performance, or learned PhysTwin uncertainty. Coordinate error includes rigid movement; aligned shape error removes it. Strain is computed on the 81-point observation grid, not interpreted as peak boundary stress.','',
         'Pooled prediction calibration has nominal 90% coverage. The balanced fixture sampling is stratified, so an unconditional exchangeability guarantee is not assumed. Test coverage is measured on only 24 independent objects; material coverage averages four noisy observations per object. Small differences should not be overinterpreted.','',
