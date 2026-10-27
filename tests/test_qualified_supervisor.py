@@ -25,3 +25,27 @@ def test_worker_failure_waits_for_other_workers_before_stopping():
         def wait(self):seen.append(self.code);return self.code
     with pytest.raises(RuntimeError,match='Phase failed'):campaign.wait_all([Process(1),Process(0),Process(0)])
     assert seen==[1,0,0]
+
+
+@pytest.mark.parametrize('complete', [True,False])
+def test_resume_requires_complete_outputs_and_valid_seal(tmp_path,monkeypatch,complete):
+    from scripts.phystwin import qualified_policy
+    analysis=tmp_path/'analysis';analysis.mkdir()
+    (analysis/'seal.json').write_text('{}')
+    suffixes=['summary.json','predictions.npz','object-mse.json','utility.json','deformation-object-mse.json']
+    for suffix in suffixes if complete else suffixes[:-1]:
+        (analysis/f'calibration-{suffix}').touch()
+    monkeypatch.setattr(campaign,'BASE',tmp_path)
+    seen=[]
+    monkeypatch.setattr(qualified_policy,'verify_seal',lambda seal:seen.append('verified'))
+    monkeypatch.setattr(campaign,'status',lambda stage:seen.append(stage))
+    monkeypatch.setattr(campaign,'launch',lambda *args:seen.append('launched'))
+    monkeypatch.setattr(campaign,'wait_all',lambda processes:None)
+    campaign.policy('calibrate')
+    assert seen[0]=='verified'
+    assert ('launched' in seen) is not complete
+    def invalid(seal):raise AssertionError('Sealed file changed')
+    monkeypatch.setattr(qualified_policy,'verify_seal',invalid)
+    seen.clear()
+    with pytest.raises(AssertionError,match='Sealed file changed'):campaign.policy('calibrate')
+    assert not seen

@@ -32,6 +32,14 @@ def reference(split,mesh=4):
 
 
 def policy(stage):
+    seal=BASE/'analysis/seal.json'
+    split=dict(development='development',calibrate='calibration',test='test').get(stage)
+    if seal.exists() and split is not None:
+        from scripts.phystwin.qualified_policy import verify_seal
+        verify_seal(json.loads(seal.read_text()))
+        suffixes=['summary.json','predictions.npz','object-mse.json','utility.json','deformation-object-mse.json']
+        if all((BASE/'analysis'/f'{split}-{suffix}').exists() for suffix in suffixes):
+            status('reuse-sealed-inference-'+stage);return
     status('inference-'+stage);wait_all([launch('qualified_policy.py',['--stage',stage,'--device','cuda:0,cuda:1,cuda:2'],'0,1,2','inference-'+stage)])
 
 
