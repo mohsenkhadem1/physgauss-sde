@@ -8,11 +8,13 @@ if [ ! -d "$repo/.git" ]; then
     git -C "$repo" checkout "$revision"
 fi
 [ "$(git -C "$repo" rev-parse HEAD)" = "$revision" ] || { echo 'Unexpected PhysTwin revision'; exit 1; }
-if git -C "$repo" apply --check ../../../scripts/phystwin/headless-imports.patch 2>/dev/null; then
-    git -C "$repo" apply ../../../scripts/phystwin/headless-imports.patch
-else
-    git -C "$repo" apply --reverse --check ../../../scripts/phystwin/headless-imports.patch
-fi
+for patch in headless-imports.patch controlled-physics.patch; do
+    if git -C "$repo" apply --check "../../../scripts/phystwin/$patch" 2>/dev/null; then
+        git -C "$repo" apply "../../../scripts/phystwin/$patch"
+    else
+        git -C "$repo" apply --reverse --check "../../../scripts/phystwin/$patch"
+    fi
+done
 if [ ! -x runs/phystwin-env/bin/python ]; then
     uv venv --python 3.10 runs/phystwin-env
 fi

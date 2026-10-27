@@ -89,3 +89,7 @@ prefix, not separately trained competing methods. Their inputs stop at the
 training cutoff. Sparse nonrigid residuals are not dense strain estimates.
 
 Metrics tests: `.venv/bin/python -m pytest -q tests/test_phystwin_metrics.py`.
+
+## Controlled attachment transfer study
+
+See [the controlled report](../../reports/phystwin-transfer-v01/REPORT.md) for the frozen design, reproduction commands, held-interaction results and negative uncertainty/probing results. `controlled-physics.patch` adds an opt-in gravity scale (default 1 preserves upstream behavior). `controlled_reference.py` generates independent nonlinear FEM references; `run_controlled.py` adapts known geometry and masses to the official dense fitter; `controlled_probing.py` runs a separate finite FEM posterior, not PhysTwin uncertainty. Raw trajectories and videos stay local.

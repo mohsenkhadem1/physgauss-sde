@@ -1,0 +1,12 @@
+diff --git a/qqtt/model/diff_simulator/spring_mass_warp.py b/qqtt/model/diff_simulator/spring_mass_warp.py
+index 23ef7d0..0f70cc7 100644
+--- a/qqtt/model/diff_simulator/spring_mass_warp.py
++++ b/qqtt/model/diff_simulator/spring_mass_warp.py
+@@ -624,6 +624,6 @@ class SpringMassSystemWarp:
+         self.num_substeps = num_substeps
+         self.dashpot_damping = dashpot_damping
+         self.drag_damping = drag_damping
+-        self.reverse_factor = 1.0 if not reverse_z else -1.0
++        self.reverse_factor = getattr(cfg, "gravity_scale", 1.0) * (1.0 if not reverse_z else -1.0)
+         self.spring_Y_min = spring_Y_min
+         self.spring_Y_max = spring_Y_max
