@@ -1,0 +1,29 @@
+{
+  "scope": "Declared before complete development inference and before viewing calibration or test responses.",
+  "candidates": [
+    {
+      "mesh": 4,
+      "coarse": null
+    },
+    {
+      "mesh": 8,
+      "coarse": null
+    },
+    {
+      "mesh": 8,
+      "coarse": 4
+    },
+    {
+      "mesh": 12,
+      "coarse": null
+    },
+    {
+      "mesh": 12,
+      "coarse": 8
+    }
+  ],
+  "extrapolation": "Fixed cubic-order extrapolation: u_f+(u_f-u_c)/((n_f/n_c)^3-1); validated against independently qualified development solutions, not assumed exact.",
+  "selection": "First candidate whose worst development RMS forward error AND tensor-interpolation error are <=30 micrometres; otherwise no inference seal.",
+  "reason": "Avoid relying on a large fitted discrepancy to conceal physical-parameter bias from a coarse solver. Development-only residual covariance remains modeled after selection.",
+  "rms_tolerance_m": 3e-05
+}

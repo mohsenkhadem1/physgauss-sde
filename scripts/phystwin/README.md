@@ -125,3 +125,34 @@ CUDA_VISIBLE_DEVICES=0 OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=
 Repeat for `push_left`, `push_right`, and `held_oblique`. Fine meshes need substantial
 RAM; limit concurrent jobs to available memory. GPU 3 remains reserved.
 See `reports/phystwin-fixture-convergence-v04/REPORT.md` for measured scope and limits.
+
+## Qualified reference, uncertainty and probing campaign (v05)
+
+`qualified_reference.py` resumes a bank or per-object spatial/quadrature
+qualification. `qualified_policy.py` selects a forward surrogate using development
+objects, converges continuous posterior moments and physical quantiles, calibrates
+prediction bands, seals the analysis, then compares fixed/random/adaptive/fixture-side
+policies. Physical-parameter coverage and interval width are audited separately.
+
+```bash
+# One worker per physical GPU 0–2; use worker indices 0,1,2 with --workers 3.
+CUDA_VISIBLE_DEVICES=0 PYTORCH_ALLOC_CONF=expandable_segments:True \
+  OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=1 \
+  .venv/bin/python scripts/phystwin/qualified_reference.py \
+  --split development --worker 0 --workers 3
+# Other splits: bank (optional --bank-mesh 8 or 12), calibration, test.
+# Selection requires all development objects to qualify; missing finer banks
+# are requested explicitly rather than silently accepting a coarse surrogate.
+.venv/bin/python scripts/phystwin/qualified_policy.py --stage select
+CUDA_VISIBLE_DEVICES=0 .venv/bin/python scripts/phystwin/qualified_policy.py --stage development
+CUDA_VISIBLE_DEVICES=0 .venv/bin/python scripts/phystwin/qualified_policy.py --stage calibrate
+CUDA_VISIBLE_DEVICES=0 .venv/bin/python scripts/phystwin/qualified_policy.py --stage test
+```
+
+The v04 thresholds are retained. An analytic zero-strain translation check handles
+same-face pushes on full supports; relative roundoff errors are not meaningful
+there. Refinement and surrogate-selection addenda are preserved in the report.
+GPU multigrid preconditions the current tangent without changing the equilibrium
+problem; an independent CPU residual check remains mandatory. Quadrature-gradient
+and tangent-contraction streaming limit GPU working memory. Raw checkpoints stay
+local. A failed object cannot silently disappear from calibration or testing.

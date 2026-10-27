@@ -30,16 +30,16 @@ def protocol():
     return spec
 
 
-def points():
+def points(layout='right_lower'):
     disp=np.stack(np.meshgrid(np.linspace(0,.24,17),np.linspace(-.04,.04,5),np.linspace(-.04,.04,5),indexing='ij'),-1).reshape(-1,3)
     strain=np.array([0.,-.04,-.04])+qmc.Sobol(3,scramble=True,seed=911).random_base2(9)*[.24,.08,.08]
-    y=-.04+(np.arange(8)+.5)*.08/8;z=-.04+(np.arange(8)+.5)*.04/8
-    support=np.stack(np.meshgrid([.24],y,z,indexing='ij'),-1).reshape(-1,3)
+    y=-.04+(np.arange(8)+.5)*.08/8;z=-.04+(np.arange(8)+.5)*(.04 if layout.endswith('lower') else .08)/8
+    support=np.stack(np.meshgrid([0. if layout.startswith('left') else .24],y,z,indexing='ij'),-1).reshape(-1,3)
     return disp,strain,support
 
 
 def metrics(m,u,state):
-    disp,interior,support=points();G=query(m,u,interior,True);F=G+np.eye(3)
+    disp,interior,support=points(m.layout);G=query(m,u,interior,True);F=G+np.eye(3)
     strain=.5*(np.einsum('pji,pjk->pik',F,F)-np.eye(3))
     traction=-m.K/m.attachment_area*query(m,u,support)
     reaction=-(m.fixture_scalar@u);forces=reaction+m.load

@@ -37,24 +37,32 @@ def surface(model,side,lower=False,degree=1):
 
 
 class ConsistentFixture:
+    def clear_linear_cache(self):
+        self._gpu_multigrid=None
+
     def solve(self,initial=None,maximum_iterations=40,force_tolerance_N=1e-10):
         # Same unmodified Newton/Armijo objective as QuadraticBlock.solve;
         # symmetric-graph ordering reduces sparse fill, without regularization.
         u=np.zeros_like(self.rest) if initial is None else np.asarray(initial).copy()
         if u.shape!=self.rest.shape or not np.isfinite(u).all():raise ValueError('Finite initial displacement required')
-        history=[]
+        history=[];state=self.evaluate(u)
         for iteration in range(maximum_iterations+1):
-            started=time.monotonic()
-            state=self.evaluate(u,True);r=state['residual'].ravel();norm=float(np.linalg.norm(r))
-            if getattr(self,'progress',False):print(f'NEWTON iteration={iteration} residual_N={norm:.6e} assembly_seconds={time.monotonic()-started:.2f}',flush=True)
+            r=state['residual'].ravel();norm=float(np.linalg.norm(r))
+            if getattr(self,'progress',False):print(f'NEWTON iteration={iteration} residual_N={norm:.6e}',flush=True)
             history.append(dict(iteration=iteration,residual_N=norm,potential_J=state['potential_J'],minimum_J=float(state['J'].min())))
             if norm<=force_tolerance_N:
                 state.update(displacement_local_m=u,iterations=iteration,history=history,tolerance_N=force_tolerance_N)
                 return state
             if iteration==maximum_iterations:raise StaticFailure('Consistent-fixture Newton cap',history)
-            H=state['tangent'].tocsr()
+            started=time.monotonic();H=self.evaluate(u,True)['tangent'].tocsr()
+            if getattr(self,'progress',False):print(f'TANGENT seconds={time.monotonic()-started:.2f}',flush=True)
             started=time.monotonic()
-            if getattr(self,'linear_solver','superlu')=='pardiso':
+            if getattr(self,'linear_solver','superlu')=='gpu_multigrid':
+                from scripts.phystwin.gpu_multigrid import GPUMultigrid
+                if getattr(self,'_gpu_multigrid',None) is None:self._gpu_multigrid=GPUMultigrid(H,self.rest+u,self.engine.device)
+                direction,steps=self._gpu_multigrid.solve(H,-r)
+                if getattr(self,'progress',False):print('GPU_PCG iterations',steps,flush=True)
+            elif getattr(self,'linear_solver','superlu')=='pardiso':
                 from pypardiso.scipy_aliases import spsolve,pypardiso_solver
                 try:direction=spsolve(H,-r,factorize=False)
                 finally:pypardiso_solver.free_memory(everything=True)
@@ -70,11 +78,12 @@ class ConsistentFixture:
                 except ValueError:continue
                 floor=128*np.finfo(float).eps*max(abs(state['potential_J']),self.young*self.volumes.sum(),1e-30)
                 if candidate['potential_J']<=state['potential_J']+1e-4*alpha*slope or (abs(candidate['potential_J']-state['potential_J'])<=floor and np.linalg.norm(candidate['residual'])<norm):
-                    u=trial;history[-1]['alpha']=alpha;break
+                    u=trial;state=candidate;history[-1]['alpha']=alpha;break
             else:raise StaticFailure('Consistent-fixture Armijo cap',history)
         raise AssertionError('Unreachable')
     set_action=ActiveBlock.set_action
     def attach(self,layout,K,degree):
+        self.layout=layout
         self.degree=degree;self.K=K;self.mask[:]=False;self.free=np.arange(self.rest.size)
         M,_,self.attachment_area=surface(self,0. if layout.startswith('left') else .24,layout.endswith('lower'),degree)
         self.fixture_scalar=K*M/self.attachment_area
@@ -95,8 +104,8 @@ class P1Fixture(ConsistentFixture,ActiveBlock):
 
 
 class P2Fixture(ConsistentFixture,QuadraticBlock):
-    def __init__(self,n,E,K,layout,order=3,device=None,grading=False):
-        super().__init__(cells=(4*n,n,n),young=E,poisson=.35,density=625.,gravity=0.,traction=0.,order=order,memory_limit_bytes=24*1024**3)
+    def __init__(self,n,E,K,layout,order=3,device=None,grading=False,memory_limit_bytes=24*1024**3):
+        super().__init__(cells=(4*n,n,n),young=E,poisson=.35,density=625.,gravity=0.,traction=0.,order=order,memory_limit_bytes=memory_limit_bytes)
         self.n=n
         if grading:
             axes=[np.linspace(0,.24,4*n+1),np.linspace(-.04,.04,n+1),np.linspace(-.04,.04,n+1)]
@@ -148,20 +157,24 @@ class GPUQuadratic:
         import torch
         self.t=torch;self.model=model;self.device=device
         self.rest=self.tensor(model.rest);self.elements=self.tensor(model.elements,torch.int64)
-        self.grad=self.tensor(np.stack([shape_gradients(b[None],model.linear_gradients) for b in model.bary]))
-        self.check=self.tensor(np.stack([shape_gradients(b[None],model.linear_gradients) for b in model.check_bary]))
+        self.linear=self.tensor(model.linear_gradients)
+        self.bary=self.tensor(model.bary);self.check_bary=self.tensor(model.check_bary)
         self.weights=self.tensor(model.weights[:,None]*model.volumes[None]);self.I=self.tensor(np.eye(3))
         self.chunk=1 if len(model.elements)>50000 else 4
     def tensor(self,x,dtype=None):return self.t.as_tensor(np.asarray(x),dtype=dtype or self.t.float64,device=self.device)
+    def gradients(self,b):
+        vertex=(4*b[:,None,:,None]-1)*self.linear[None]
+        edge=self.t.stack([4*(b[:,None,i,None]*self.linear[None,:,j,:]+b[:,None,j,None]*self.linear[None,:,i,:]) for i,j in EDGES],dim=2)
+        return self.t.cat([vertex,edge],dim=2)
     def elastic(self,positions,tangent=False):
         t=self.t;m=self.model;u=self.tensor(positions)-self.rest;ue=u[self.elements]
         mu,lam=lame(m.young,m.poisson);energy=t.zeros((),dtype=t.float64,device=self.device)
         ge=t.zeros_like(ue);He=t.zeros((len(ue),10,3,10,3),dtype=t.float64,device=self.device) if tangent else None
         Js=[]
-        for start in range(0,len(self.check),self.chunk):
-            F=self.I+t.einsum('eai,qeaj->qeij',ue,self.check[start:start+self.chunk]);Js.append(t.linalg.det(F).reshape(-1))
-        for start in range(0,len(self.grad),self.chunk):
-            g=self.grad[start:start+self.chunk];v=self.weights[start:start+self.chunk]
+        for start in range(0,len(self.check_bary),self.chunk):
+            F=self.I+t.einsum('eai,qeaj->qeij',ue,self.gradients(self.check_bary[start:start+self.chunk]));Js.append(t.linalg.det(F).reshape(-1))
+        for start in range(0,len(self.bary),self.chunk):
+            g=self.gradients(self.bary[start:start+self.chunk]);v=self.weights[start:start+self.chunk]
             G=t.einsum('eai,qeaj->qeij',ue,g);F=self.I+G;J=t.linalg.det(F);Js.append(J.reshape(-1))
             if not bool(t.isfinite(J).all()) or float(J.min())<=m.minimum_J:raise ValueError('Quadrature Jacobian guard')
             tr=t.diagonal(G,dim1=-2,dim2=-1).sum(-1);second=.5*(tr*tr-t.einsum('qeij,qeji->qe',G,G));detG=t.linalg.det(G)
@@ -172,9 +185,12 @@ class GPUQuadratic:
             energy+=(v*W).sum();ge+=t.einsum('qe,qeiJ,qeaJ->eai',v,P,g)
             if tangent:
                 D=t.einsum('qeiJ,qeaJ->qeai',invT,g)
-                He+=mu*t.einsum('qe,qeaJ,qebJ,ik->eaibk',v,g,g,self.I)
-                He+=t.einsum('qe,qeak,qebi->eaibk',v*(mu-lam*log),D,D)
-                He+=lam*t.einsum('qe,qeai,qebk->eaibk',v,D,D)
+                # Bound contraction temporaries independently of mesh size.
+                for first in range(0,len(ue),8192):
+                    sl=slice(first,first+8192);vs=v[:,sl];gs=g[:,sl];ds=D[:,sl]
+                    He[sl]+=mu*t.einsum('qe,qeaJ,qebJ,ik->eaibk',vs,gs,gs,self.I)
+                    He[sl]+=t.einsum('qe,qeak,qebi->eaibk',vs*(mu-lam*log[:,sl]),ds,ds)
+                    He[sl]+=lam*t.einsum('qe,qeai,qebk->eaibk',vs,ds,ds)
         J=t.cat(Js)
         if not bool(t.isfinite(J).all()) or float(J.min())<=m.minimum_J:raise ValueError('Nodal Jacobian guard')
         grad=t.zeros_like(self.rest);grad.index_add_(0,self.elements.reshape(-1),ge.reshape(-1,3))

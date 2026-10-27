@@ -1,0 +1,37 @@
+{
+  "scope": "Perturb each saved n20 equilibrium by 1%, then independently re-solve all four loads with GPU multigrid; compare to retained direct-solver equilibrium.",
+  "results": [
+    {
+      "mesh": 20,
+      "action": "initial",
+      "elapsed_seconds": 66.6856415271759,
+      "max_displacement_difference_from_direct_m": 5.386316392907986e-15
+    },
+    {
+      "mesh": 20,
+      "action": "push_left",
+      "elapsed_seconds": 53.03303241729736,
+      "max_displacement_difference_from_direct_m": 1.0435229069738483e-14
+    },
+    {
+      "mesh": 20,
+      "action": "push_right",
+      "elapsed_seconds": 37.02729678153992,
+      "max_displacement_difference_from_direct_m": 1.3197578846554838e-13
+    },
+    {
+      "mesh": 20,
+      "action": "held_oblique",
+      "elapsed_seconds": 51.50470757484436,
+      "max_displacement_difference_from_direct_m": 6.091915166761552e-15
+    }
+  ],
+  "linear_benchmark": {
+    "mesh": 20,
+    "cpu_amg_setup_s": 13.311594724655151,
+    "cpu_amg_solve_s": 106.15791130065918,
+    "gpu_amg_setup_s": 25.045873880386353,
+    "gpu_amg_solve_s": 3.6792285442352295
+  },
+  "allocation_failure": "Two n24 development jobs exceeded GPU memory before tangent contractions were batched. Completed atomic checkpoints were retained; runs resumed after the memory fix."
+}
