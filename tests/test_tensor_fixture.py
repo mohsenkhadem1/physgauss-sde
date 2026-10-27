@@ -42,3 +42,14 @@ def test_tensor_surface_material_and_newton():
         if layout.endswith('full'):
             assert np.allclose(state['displacement_local_m'],[0,.03/600,0],atol=1e-12)
         m.clear_linear_cache()
+
+
+def test_edge_grading_preserves_surface_energy_and_physical_queries():
+    m=TensorFixture(3,2000.,600.,'left_lower',device='cpu',x_power=2.,y_grading=True,z_refinement=2)
+    assert np.isclose(m.volumes.sum(),.24*.08*.08)
+    assert np.isclose(m.attachment_area,.08*.04)
+    assert m.axes[1][1]-m.axes[1][0]<.08/3
+    for d in [1,2]:assert np.isclose(m.rest[:,d]@(m.fixture_scalar@m.rest[:,d]),600*.04**2/3)
+    p=np.random.default_rng(14).uniform([0,-.04,-.04],[.24,.04,.04],(30,3))
+    def field(x):return np.c_[x[:,0]**2*x[:,2]**2,x[:,1]**2*x[:,0]**2,x[:,2]**2*x[:,1]**2]
+    assert np.allclose(m.query_field(field(m.rest),p),field(p),atol=1e-14)

@@ -14,16 +14,18 @@ def basis(points):
 
 
 class TensorFixture(ConsistentFixture):
-    def __init__(self,n,E,K,layout,order=3,device='cuda:0',x_power=1.5,memory_limit_bytes=24*1024**3):
+    def __init__(self,n,E,K,layout,order=3,device='cuda:0',x_power=1.5,memory_limit_bytes=24*1024**3,y_grading=False,z_refinement=1):
         if not isinstance(n,(int,np.integer)) or n<1:raise ValueError('Positive integer mesh size required')
+        if not isinstance(z_refinement,(int,np.integer)) or z_refinement<1:raise ValueError('Positive integer z refinement required')
         if x_power<=0 or order not in (3,4):raise ValueError('Positive grading and quadrature order 3 or 4 required')
-        if 4*n**3*81**2*24>memory_limit_bytes:raise MemoryError('Tensor tangent assembly exceeds declared memory limit')
-        if n%2 and layout.endswith('lower'):raise ValueError('Half-face patch must align with z=0')
-        self.n=n;self.cells=np.array([4*n,n,n]);self.degree=2;self.layout=layout
+        if 4*n**3*z_refinement*81**2*24>memory_limit_bytes:raise MemoryError('Tensor tangent assembly exceeds declared memory limit')
+        if (n*z_refinement)%2 and layout.endswith('lower'):raise ValueError('Half-face patch must align with z=0')
+        self.n=n;self.cells=np.array([4*n,n,n*z_refinement]);self.degree=2;self.layout=layout
         self.young=E;self.K=K;self.poisson=.35;self.minimum_J=.1;self.order=order
         t=np.linspace(0,1,4*n+1);x=.24*(t**x_power if layout.startswith('left') else 1-(1-t)**x_power)
-        s=np.linspace(-1,1,n+1);z=np.sign(s)*.04*(1-np.cos(np.pi*abs(s)))/2
-        self.axes=[x,np.linspace(-.04,.04,n+1),z]
+        s=np.linspace(-1,1,n*z_refinement+1);z=np.sign(s)*.04*(1-np.cos(np.pi*abs(s)))/2
+        y=-.04*np.cos(np.linspace(0,np.pi,n+1)) if y_grading else np.linspace(-.04,.04,n+1)
+        self.axes=[x,y,z]
         fine=[]
         for axis in self.axes:
             a=np.empty(2*len(axis)-1);a[::2]=axis;a[1::2]=(axis[:-1]+axis[1:])/2;fine.append(a)

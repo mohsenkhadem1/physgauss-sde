@@ -8,11 +8,34 @@ from scripts.phystwin.qualified_policy import verify_seal
 OUT=ROOT/'reports/phystwin-qualified-support-v05'
 
 
+def physical_intervals(spec,test,saved,bootstrap_indices):
+    repeats=spec['noise_repeats'];n=len(spec['test']);rows=np.arange(n*repeats)
+    truth=np.repeat(np.log([[r['E'],r['K']] for r in spec['test']]),repeats,axis=0)
+    q=np.stack([saved[f'{i}_log_parameter_quantiles'] for i in range(3)])
+    raw=dict(coverage=((q[:,:,:,0]<=truth)&(truth<=q[:,:,:,2])).astype(float),
+        log_median_absolute_error=abs(q[:,:,:,1]-truth),log_interval_width=q[:,:,:,2]-q[:,:,:,0])
+    choices=dict(initial=np.zeros(len(rows),int),fixed=np.full(len(rows),test['fixed_action']),
+        adaptive=saved['adaptive'],fixture_side_heuristic=saved['heuristic'],random=None)
+    objects={name:{metric:(values[1:].mean(0) if name=='random' else values[choice,rows]).reshape(n,repeats,2).mean(1)
+        for metric,values in raw.items()} for name,choice in choices.items()}
+    result={}
+    for name,metrics in objects.items():
+        result[name]={}
+        for j,parameter in enumerate(['E','K']):
+            result[name][parameter]={}
+            for metric,values in metrics.items():
+                v=values[:,j];delta=v-objects['initial'][metric][:,j]
+                result[name][parameter][metric]=dict(mean=float(v.mean()),bootstrap95=np.quantile(v[bootstrap_indices].mean(1),[.025,.975]).tolist(),
+                    change_from_initial=float(delta.mean()),paired_change_bootstrap95=np.quantile(delta[bootstrap_indices].mean(1),[.025,.975]).tolist())
+    return result
+
+
 def main():
     spec=protocol();analysis=BASE/'analysis';seal=json.loads((analysis/'seal.json').read_text());verify_seal(seal)
     test=json.loads((analysis/'test-summary.json').read_text());mse=json.loads((analysis/'test-object-mse.json').read_text());deformation=json.loads((analysis/'test-deformation-object-mse.json').read_text())
     groups=[np.array([i for i,r in enumerate(spec['test']) if r['layout']==l]) for l in LAYOUTS];rng=np.random.default_rng(8801)
     ix=np.concatenate([rng.choice(g,(10000,len(g)),replace=True) for g in groups],axis=1)
+    with np.load(analysis/'test-predictions.npz') as saved:physical_ci=physical_intervals(spec,test,saved,ix)
     comparisons={}
     for baseline in ['fixed','random','fixture_side_heuristic']:
         row={}
@@ -24,9 +47,13 @@ def main():
     for split in ['development','calibration','test']:
         for i in range(len(spec[split])):
             q=json.loads((BASE/'qualification'/f'{split}-{i}.json').read_text());assert q['qualified'],f'{split}-{i} failed qualification'
-            qualification.append(dict(split=split,object=i,**q))
+            prior=[json.loads((BASE/p).read_text()) for p in q.get('prior_p2_attempts',[])]
+            qualification.append(dict(split=split,object=i,prior_p2_audits=prior,**q))
     before=test['physical']['initial'];after=test['physical']['adaptive']
     flags={p:dict(narrower=after[f'{p}_mean_log_interval_width']<before[f'{p}_mean_log_interval_width'],median_error_worse=after[f'{p}_log_median_MAE']>before[f'{p}_log_median_MAE'],coverage_lower=after[f'{p}_90_coverage']<before[f'{p}_90_coverage']) for p in ['E','K']}
+    for p in ['E','K']:
+        flags[p].update(coverage_drop_supported=physical_ci['adaptive'][p]['coverage']['paired_change_bootstrap95'][1]<0,
+            median_error_increase_supported=physical_ci['adaptive'][p]['log_median_absolute_error']['paired_change_bootstrap95'][0]>0)
     success=dict(all_reference_objects_qualified=True,posterior_refinement_passed=bool(test['quadrature'][-1]['passed']),
         calibrated_adaptive_object_coverage_at_least90=test['policies']['adaptive']['calibrated_object_all_repeats_coverage']>=.9,
         beats_fixed=comparisons['fixed']['coordinate_mse']['paired_stratified_bootstrap95'][0]>0,
@@ -36,6 +63,7 @@ def main():
     for f in analysis.glob('*.json'):shutil.copyfile(f,OUT/f.name)
     for f in BASE.glob('*.json'):shutil.copyfile(f,OUT/f.name)
     write_json(OUT/'comparison.json',comparisons);write_json(OUT/'qualification.json',qualification);write_json(OUT/'decision.json',success);write_json(OUT/'confidence-after-probing.json',flags)
+    write_json(OUT/'physical-interval-bootstrap.json',physical_ci)
     policies=['initial','fixed','random','adaptive','fixture_side_heuristic'];labels=['Initial','Fixed','Random','Adaptive','Fixture heuristic']
     import matplotlib
     matplotlib.use('Agg')
@@ -60,9 +88,9 @@ def main():
         r=c['coordinate_mse'];ci=r['paired_stratified_bootstrap95'];lines.append(f"| {name} | {1000*r['rmse_improvement']:.4f} | [{1000*ci[0]:.4f}, {1000*ci[1]:.4f}] |")
     lines+=['','Positive intervals support an advantage over that baseline. Intervals containing zero do not. Bootstrap resampling is stratified by fixture family and clustered by object; four noise repeats are not counted as four independent objects. Aligned-shape and coarse-grid strain comparisons are retained in [comparison.json](comparison.json).','',
         '## Numerical and inference checks','',
-        'The original v04 gates remain: displacement RMS 0.02 mm, maximum coordinate difference 0.1 mm, strain relative L2 5%, support traction relative L2 2%, energy 1%, and equilibrium tolerances. Every object requires two consecutive spatial passes and a finest-mesh q3/q4 check. Exact same-face full-support translations use the analytic zero-strain solution instead of relative errors of numerical zero. [qualification.json](qualification.json) retains the per-object evidence.','',
+        'The original v04 gates remain: displacement RMS 0.02 mm, maximum coordinate difference 0.1 mm, strain relative L2 5%, support traction relative L2 2%, energy 1%, and equilibrium tolerances. Every object requires two consecutive spatial passes and a finest-mesh q3/q4 check. Exact same-face full-support translations use the analytic zero-strain solution instead of relative errors of numerical zero. [qualification.json](qualification.json) retains the per-object evidence and identifies the accepted element space. If the development-validated Q2 fallback is enabled, its method and cross-space validation are included in the accompanying addenda; prior failed P2 attempts remain recorded.','',
         'The forward surrogate is selected only on development data using a 30 μm RMS accuracy gate; [model-selection.json](model-selection.json) records rejected candidates. Posterior refinement checks predictive means, standard deviations and physical marginal quantiles. The categorical fixture is latent. Known geometry and known forces are supplied. No true fixture label is given to a policy.','',
-        'Joint numerical discrepancy is fitted on development residuals, then conditioned on both initial and probe observations. Twenty new calibration objects determine the fixed action and a common object-wise prediction-band multiplier; [seal.json](seal.json) hashes the model and data before held-out evaluation. Raw physical parameter intervals are not disguised as calibrated prediction bands. [confidence-after-probing.json](confidence-after-probing.json) flags intervals that narrow while errors or coverage worsen.','',
+        'Joint numerical discrepancy is fitted on development residuals, then conditioned on both initial and probe observations. Twenty new calibration objects determine the fixed action and a common object-wise prediction-band multiplier; [seal.json](seal.json) hashes the model and data before held-out evaluation. Raw physical parameter intervals are not disguised as calibrated prediction bands. [confidence-after-probing.json](confidence-after-probing.json) flags intervals that narrow while errors or coverage worsen. [Physical interval uncertainty](physical-interval-bootstrap.json) includes stratified object-bootstrap intervals for coverage, error and width, including paired changes after probing. Noise repeats are averaged within each object before resampling.','',
         f"Utility choices stable under sampling refinement: {test['utility_stable']}/{test['utility_trials']}. Choices agreeing under posterior-grid refinement: {test['grid_action_agreement']}/{test['utility_trials']}. All scientific pass/fail decisions are recorded in [decision.json](decision.json).",'',
         '## Limits','',
         'This is a static synthetic study with four known fixture families and continuous material/support stiffness variation. It does not establish general spatial boundary inference, new topology generalization, gravity/contact performance, or learned PhysTwin uncertainty. Coordinate error includes rigid movement; aligned shape error removes it. Strain is computed on the 81-point observation grid, not interpreted as peak boundary stress.','',

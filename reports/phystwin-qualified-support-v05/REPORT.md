@@ -56,8 +56,8 @@ Validation at this checkpoint: 22 geometry, mechanics, GPU, and inference-audit
 tests passed, plus two supervisor failure-handling tests. The raw data remain local.
 This remains an in-progress campaign, not a completed uncertainty/probing result.
 
-Memory follow-up: these GPUs have 11 GiB each. The largest n=40 linear systems use
-CPU multigrid while retaining batched GPU material assembly. The iterative memory
+Memory follow-up: these GPUs have 11 GiB each. Linear systems whose actual sparse
+hierarchy does not fit use CPU multigrid with batched GPU material assembly. The iterative memory
 estimate now budgets for a multigrid hierarchy rather than a direct factorization;
 the assembly cap and serialization remain. The equations and residual tolerances
 are unchanged. [Execution notes](memory-execution-addendum.json) retain the GPU0
@@ -68,3 +68,37 @@ sparse hierarchy, work vectors and currently free device memory. If it does not
 fit, the same hierarchy is used by CPU CG. A forced-fallback test verifies the
 original operator across matrix changes; the affected GPU/CPU tests pass (27
 unique tests across the checkpoint suites).
+
+## Support-edge candidate validation
+
+Concentrating Q2 hexahedral resolution near the support cut and outer edges is
+more effective on the stiff fixture than increasing the original mesh uniformly.
+The exploratory n=12-to-16 check passes all four loads; the difficult same-side
+push has 0.34% traction change, compared with the 2% gate. This is one passing
+refinement, not yet qualification of that fixture.
+
+The formal candidate sequence is n=6,10,14,18,22, with x-power-2 grading, cosine
+grading toward y edges and z support edges, and four times as many z cells.
+The intermediate n=18 mesh is sized for the available GPUs. It retains two
+successive spatial passes and q3/q4 checks under all four loads. The hard object
+is still completing this validation.
+
+Development object 11 has qualified at Q2 n=14. Its independent comparison against
+the already-qualified P2 n=20 reference passes every gate for every load: worst
+coordinate RMS difference 0.00427 mm, traction difference 0.257%, and energy
+difference 0.135%. [Cross-space checks](tensor-cross-progress.json) and
+[candidate qualification](tensor-development-11.json) retain the evidence.
+
+`scripts/phystwin/validate_tensor_reference.py` cannot enable the method until both
+development fixtures qualify and the independent comparison passes. If enabled,
+new half-face references will use the edge-refined Q2 mesh directly; full-face
+references retain P2 with Q2 fallback after failed qualification. Already-qualified
+P2 fields and all earlier failed attempts are preserved. This meshing rule belongs
+to the simulator; the true fixture category remains hidden from inference and
+probing policies. The hypothesis bank and physical laws are unchanged.
+
+The integrated mechanics, inference, and failure-handling suite passes 40 tests.
+GPU Newton solves now release the obsolete fine matrix before tangent assembly,
+avoiding overlap between two large allocations. Physical-interval reporting also
+includes object-clustered bootstrap uncertainty, so noise repeats are not treated
+as independent objects. No held-out probing result is available at this checkpoint.

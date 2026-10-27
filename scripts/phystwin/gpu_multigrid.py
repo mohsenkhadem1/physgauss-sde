@@ -46,6 +46,15 @@ class GPUMultigrid:
         largest=float(t.dot(v,invsqrt*(a@(invsqrt*v))))
         return 1./largest
     def tensor(self,a):return self.t.as_tensor(np.asarray(a),dtype=self.t.float64,device=self.device)
+    def empty_device_cache(self):
+        if str(self.device).startswith('cuda') and self.t.cuda.is_available():
+            with self.t.cuda.device(self.device):self.t.cuda.empty_cache()
+    def prepare_assembly(self):
+        # The next Newton tangent replaces the fine operator anyway. Releasing
+        # it first prevents overlap with large element-assembly temporaries.
+        if self.cpu_hierarchy is None and len(self.levels)>1:
+            self.levels[0]['A']=None;self.current_matrix=lambda:None
+        self.empty_device_cache()
     def sparse(self,A):
         A=A.tocsr();A.sum_duplicates();A.sort_indices()
         if max(A.shape)>np.iinfo(np.int32).max or A.nnz>np.iinfo(np.int32).max:raise MemoryError('GPU CSR index range exceeded')
@@ -61,6 +70,7 @@ class GPUMultigrid:
     def solve(self,A,b,rtol=1e-9,atol=1e-13,maxiter=1000):
         if self.cpu_hierarchy is not None:
             from scipy.sparse.linalg import cg
+            self.empty_device_cache()
             steps=[0]
             def count(_):steps[0]+=1
             x,info=cg(A,b,M=self.cpu_hierarchy.aspreconditioner(),rtol=rtol,atol=atol,maxiter=maxiter,callback=count)
@@ -71,6 +81,7 @@ class GPUMultigrid:
             # One fine-level GPU matrix serves both the actual operator and
             # smoother; frozen coarse operators remain preconditioners only.
             self.levels[0]['A']=None
+            self.empty_device_cache()
             a=self.sparse(A);d=self.tensor(A.diagonal());self.levels[0].update(A=a,invD=1/d,omega=self.smoothing_weight(a,d))
             self.current_matrix=weakref.ref(A)
         a=self.levels[0]['A'];rhs=self.tensor(b);x=t.zeros_like(rhs);r=rhs.clone();z=self.cycle(r);p=z.clone();rz=t.dot(r,z)

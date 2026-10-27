@@ -1,6 +1,6 @@
 # Development numerical diagnosis
 
-Snapshot: 2026-10-27T17:11:15Z. 9/12 development references qualified; the comparison is not yet complete.
+Snapshot: 2026-10-27T17:39:35Z. 10/12 development references qualified; the comparison is not yet complete.
 
 The displacement changes become small sooner than the support-force changes. A small position error therefore does not, by itself, validate the inferred support response. The original energy, strain, traction and equilibrium gates remain in force. Failed objects are retained.
 

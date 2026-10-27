@@ -118,3 +118,47 @@ def test_gpu_memory_admission_falls_back_without_changing_operator():
         actual,steps=solver.solve(A,rhs)
         assert np.linalg.norm(A@actual-rhs)<=1e-9*np.linalg.norm(rhs)
         assert np.allclose(actual,spsolve(A,rhs),rtol=1e-7,atol=1e-8)
+
+
+def test_tensor_adoption_requires_validation_and_preserves_solver_failures(tmp_path,monkeypatch):
+    import hashlib,json
+    from scripts.phystwin import qualified_reference as ref,qualified_tensor_reference as tensor
+    monkeypatch.setattr(ref,'BASE',tmp_path)
+    validation=tmp_path/'tensor-validation.json';validation.write_text(json.dumps(dict(passed=False)))
+    def rule():return dict(validated=True,p2_maximum_mesh=28,half_face_reference='Q2_edge',validation_sha256=hashlib.sha256(validation.read_bytes()).hexdigest())
+    with pytest.raises(AssertionError):ref.mixed_truth_job('development-1',{'layout':'left_full'},'cpu',rule())
+    validation.write_text(json.dumps(dict(passed=True)))
+    def broken(*args,**kwargs):raise RuntimeError('Unexpected linear solver failure')
+    monkeypatch.setattr(ref,'_truth_job',broken)
+    monkeypatch.setattr(tensor,'run',lambda *args:pytest.fail('Unexpected solver errors must not trigger method substitution'))
+    with pytest.raises(RuntimeError,match='Unexpected linear'):ref.mixed_truth_job('development-1',{'layout':'left_full'},'cpu',rule())
+
+
+def test_failed_tensor_candidate_cannot_be_published_as_qualified(tmp_path,monkeypatch):
+    import hashlib,json
+    from scripts.phystwin import qualified_reference as ref,qualified_tensor_reference as tensor
+    monkeypatch.setattr(ref,'BASE',tmp_path)
+    validation=tmp_path/'tensor-validation.json';validation.write_text(json.dumps(dict(passed=True)))
+    rule=dict(validated=True,p2_maximum_mesh=28,half_face_reference='Q2_edge',validation_sha256=hashlib.sha256(validation.read_bytes()).hexdigest())
+    old=dict(qualified=False,latest_mesh=28,spatial=[dict(passed=False),dict(passed=False)])
+    ref.write_json(tmp_path/'qualification/development-1.json',old)
+    def rejected(*args):ref.write_json(tmp_path/'tensor-qualification/development-1.json',dict(qualified=False))
+    monkeypatch.setattr(tensor,'run',rejected)
+    with pytest.raises(AssertionError):ref.mixed_truth_job('development-1',{'layout':'left_lower'},'cpu',rule)
+    assert not (tmp_path/'fields/development-1-qualified.npz').exists()
+    assert json.loads((tmp_path/'qualification/p2-attempts/development-1-n28.json').read_text())==old
+
+
+def test_physical_bootstrap_keeps_noise_repeats_with_their_object():
+    from scripts.phystwin.summarize_qualified_support import physical_intervals
+    spec=dict(noise_repeats=2,test=[dict(E=1.,K=1.),dict(E=1.,K=1.)])
+    before=np.tile([-1.,0.,1.],(4,2,1));after=np.tile([.2,.3,.4],(4,2,1));after[1]=before[1]
+    saved={f'{i}_log_parameter_quantiles':q for i,q in enumerate([before,after,after])}
+    saved.update(adaptive=np.ones(4,dtype=int),heuristic=np.full(4,2,dtype=int))
+    result=physical_intervals(spec,dict(fixed_action=1),saved,np.array([[0,0],[1,1],[0,1]]))
+    coverage=result['adaptive']['E']['coverage']
+    assert coverage['mean']==.25
+    # Object-level coverages are 1/2 and 0; no resample can exceed 1/2.
+    assert coverage['bootstrap95'][1]<=.5
+    assert result['initial']['E']['coverage']['bootstrap95']==[1.,1.]
+    assert coverage['paired_change_bootstrap95'][1]<0

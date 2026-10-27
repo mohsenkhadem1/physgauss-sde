@@ -49,9 +49,9 @@ def build(n,r,device,order=3):
         if lock is not None:lock.close()
         raise
     m._large_mesh_lock=lock
-    # The available GPUs have 11 GiB. Keep the largest fine operator on CPU;
-    # constitutive assembly can still use the GPU in bounded element batches.
-    m.linear_solver='cpu_multigrid' if n>=40 or (n>=8 and not device) else ('gpu_multigrid' if device and n>=8 else 'pardiso');return m
+    # GPU multigrid admits the actual hierarchy against free device memory;
+    # oversized hierarchies use CPU CG with the same residual checks.
+    m.linear_solver=('gpu_multigrid' if device else 'cpu_multigrid') if n>=8 else 'pardiso';return m
 
 
 def release(m):
@@ -136,10 +136,42 @@ def truth_job(name,r,device):
     directory=BASE/'job-locks';directory.mkdir(parents=True,exist_ok=True)
     with open(directory/f'truth-{name}.lock','a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX)
+        adoption=BASE/'tensor-reference-adoption.json'
+        if adoption.exists():return mixed_truth_job(name,r,device,json.loads(adoption.read_text()))
         return _truth_job(name,r,device)
 
 
-def _truth_job(name,r,device):
+def mixed_truth_job(name,r,device,rule):
+    import shutil
+    assert rule['validated'] and rule['p2_maximum_mesh']==28 and rule['half_face_reference']=='Q2_edge'
+    validation=BASE/'tensor-validation.json'
+    assert hashlib.sha256(validation.read_bytes()).hexdigest()==rule['validation_sha256']
+    assert json.loads(validation.read_text())['passed']
+    final=BASE/'fields'/f'{name}-qualified.npz';audit=BASE/'qualification'/f'{name}.json'
+    if final.exists() and audit.exists() and json.loads(audit.read_text())['qualified']:return
+    def archive():
+        if audit.exists():
+            old=json.loads(audit.read_text())
+            if old.get('space','P2')=='P2':
+                write_json(BASE/'qualification/p2-attempts'/f'{name}-n{old["latest_mesh"]}.json',old)
+    archive();old=json.loads(audit.read_text()) if audit.exists() else None
+    exhausted=old is not None and old.get('space','P2')=='P2' and old['latest_mesh']>=28 and not all(c['passed'] for c in old['spatial'][-2:])
+    if not exhausted and not r['layout'].endswith('lower'):
+        try:return _truth_job(name,r,device,maximum_mesh=28)
+        except RuntimeError as e:
+            if not str(e).startswith((f'{name}: spatial qualification failed',f'{name}: quadrature qualification failed')):raise
+    archive()
+    from scripts.phystwin.qualified_tensor_reference import run
+    run(name,r,device)
+    candidate=json.loads((BASE/'tensor-qualification'/f'{name}.json').read_text());assert candidate['qualified']
+    candidate['prior_p2_attempts']=[str(p.relative_to(BASE)) for p in sorted((BASE/'qualification/p2-attempts').glob(f'{name}-n*.json'))]
+    tmp=final.with_suffix('.tmp.npz');final.parent.mkdir(parents=True,exist_ok=True)
+    shutil.copyfile(BASE/'tensor-fields'/f'{name}-qualified.npz',tmp)
+    write_json(audit,candidate);tmp.replace(final)
+    print('QUALIFIED',name,'Q2_edge',candidate['latest_mesh'],flush=True)
+
+
+def _truth_job(name,r,device,maximum_mesh=None):
     spec=protocol();final=BASE/'fields'/f'{name}-qualified.npz';audit=BASE/'qualification'/f'{name}.json'
     if final.exists() and audit.exists():
         assert json.loads(audit.read_text())['qualified'];return
@@ -149,6 +181,7 @@ def _truth_job(name,r,device):
     levels=spec['truth_levels']+(json.loads(extension.read_text())['additional_levels'] if extension.exists() else [])
     extension2=BASE/'refinement-extension-v2.json'
     if extension2.exists():levels+=json.loads(extension2.read_text())['additional_levels']
+    if maximum_mesh is not None:levels=[n for n in levels if n<=maximum_mesh]
     for n in levels:
         release(previous);m=build(n,r,device);current=[]
         for j,action in enumerate(ACTIONS):

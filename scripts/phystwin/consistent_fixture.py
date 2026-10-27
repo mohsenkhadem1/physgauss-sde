@@ -59,6 +59,7 @@ class ConsistentFixture:
                 state.update(displacement_local_m=u,iterations=iteration,history=history,tolerance_N=force_tolerance_N)
                 return state
             if iteration==maximum_iterations:raise StaticFailure('Consistent-fixture Newton cap',history)
+            if getattr(self,'_gpu_multigrid',None) is not None:self._gpu_multigrid.prepare_assembly()
             started=time.monotonic();H=self.evaluate(u,True)['tangent'].tocsr()
             if getattr(self,'progress',False):print(f'TANGENT seconds={time.monotonic()-started:.2f}',flush=True)
             started=time.monotonic()
