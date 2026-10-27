@@ -99,3 +99,14 @@ material stiffness, support stiffness and four fixture categories. It does not y
 establish general neural boundary inference, learned PhysTwin uncertainty, real
 RGB-D performance, gravity/contact prediction, or superiority of active probing.
 The numerical checks are finite evidence, not absolute continuum-error bounds.
+
+## Exact execution optimization
+
+Posterior target means can be contracted through the existing cubic B-spline
+bases and coefficients. This is the same interpolator and full posterior, with
+no rank truncation or hypothesis pruning. Dense component norms and second
+moments are retained. CPU and three-GPU prediction/risk parity tests pass; the
+real calibration surrogate benchmark changes risks by less than 1e-20 m² and
+runs 1.72× faster at the 257 grid. [Benchmark](exact-spline-mean-benchmark.json),
+[27 targeted tests](tests-exact-spline.txt). Per-observation timing is saved under
+`runs/phystwin-qualified-support-v05/status/`.

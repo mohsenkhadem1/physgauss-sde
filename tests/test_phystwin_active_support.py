@@ -73,3 +73,27 @@ def test_memory_bounded_weights_match_gaussian_density_reference():
     log_density=np.column_stack([multivariate_normal(mean=f[:3]+bias[:3],cov=S).logpdf(y) for f in fields])
     expected=softmax(log_density+np.log(prior)[None,:],axis=1)
     assert np.allclose(model.weights(y).numpy(),expected,atol=1e-12,rtol=1e-10)
+
+
+def test_exact_spline_mean_preserves_conditioned_prediction_and_risk():
+    import torch
+    from scipy.interpolate import RegularGridInterpolator
+    from scipy.sparse.linalg import spsolve
+    from scripts.phystwin.active_support_policy import Experiment,BOUNDS
+    rng=np.random.default_rng(811);axes=[np.linspace(*b,9) for b in BOUNDS]
+    interp=[RegularGridInterpolator(axes,rng.normal(0,.001,(9,9,972)),method='cubic',solver=spsolve) for _ in range(4)]
+    bias=rng.normal(0,.00001,972);factor=rng.normal(0,.00001,(972,3));C=factor@factor.T+np.eye(972)*1e-10
+    dense=Experiment(interp,17,bias,C,.0003,'cpu',tensor_mean=False)
+    fast=Experiment(interp,17,bias,C,.0003,'cpu')
+    weights=rng.uniform(size=(5,4*17**2));weights/=weights.sum(1,keepdims=True)
+    for m,reference in zip(fast.models,dense.models):
+        assert m.tensor_basis is not None
+        assert np.allclose(m.target_mean(m.tensor(weights)).numpy(),weights@reference.M.numpy(),atol=1e-14,rtol=1e-10)
+    ys=[rng.normal(0,.001,(3,len(m.chol))) for m in dense.models]
+    expected=dense.predict(ys);expected_risk=dense.choose(ys[0][0],256)
+    devices=['cpu']+(['cuda:0,cuda:1,cuda:2'] if torch.cuda.device_count()>=3 else [])
+    for device in devices:
+        model=fast if device=='cpu' else Experiment(interp,17,bias,C,.0003,device)
+        for a,b in zip(expected,model.predict(ys)):
+            for key in a:assert np.allclose(a[key],b[key],atol=1e-12,rtol=1e-9)
+        assert np.allclose(expected_risk,model.choose(ys[0][0],256),atol=1e-12,rtol=1e-9)

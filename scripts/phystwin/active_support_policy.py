@@ -11,7 +11,7 @@ import sys
 from concurrent.futures import ThreadPoolExecutor
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 import numpy as np
-from scipy.interpolate import RegularGridInterpolator
+from scipy.interpolate import RegularGridInterpolator,BSpline
 from scipy.special import ndtri
 from scipy.sparse.linalg import spsolve
 from scipy.stats import qmc
@@ -50,6 +50,7 @@ class Mixture:
     def __init__(self,fields,prior,bias,C,observed,target,sigma,device):
         import torch
         self.torch=torch;self.device=device;self.prior=prior
+        self.tensor_basis=None
         self.weight_batch_size=max(1,(3*2**24)//len(prior))
         f,M,gain,V,chol=conditional_components(fields,bias,C,observed,target,sigma)
         self.chol=chol
@@ -67,13 +68,19 @@ class Mixture:
         logp.sub_(product);del product
         logp.mul_(-.5).add_(self.logprior[None,:])
         return self.torch.softmax(logp,dim=1)
+    def target_mean(self,p):
+        if self.tensor_basis is None:return p@self.M
+        left,right,coefficients,offset,size=self.tensor_basis
+        mass=p.reshape(len(p),4,size,size)
+        projected=self.torch.matmul(self.torch.matmul(left.T,mass),right).reshape(len(p),-1)
+        return projected@coefficients+p.sum(1,keepdim=True)*offset
     def infer(self,y):
         # Bound likelihood temporaries on refined grids and oracle noise batches.
         batch=self.weight_batch_size
         if len(y)>batch:
             parts=[self.infer(y[start:start+batch]) for start in range(0,len(y),batch)]
             return {key:np.concatenate([part[key] for part in parts]) for key in parts[0]}
-        p=self.weights(y);m=p@self.M
+        p=self.weights(y);m=self.target_mean(p)
         second=self.torch.zeros_like(m)
         for start in range(0,len(self.prior),self.moment_chunk_size):
             part=self.M[start:start+self.moment_chunk_size]
@@ -87,19 +94,34 @@ class Mixture:
         batch=min(batch,self.weight_batch_size)
         risks=[]
         for start in range(0,len(y),batch):
-            p=self.weights(y[start:start+batch]);m=p@self.M
+            p=self.weights(y[start:start+batch]);m=self.target_mean(p)
             v=p@self.normM-(m*m).mean(1)+self.V.mean()
             risks.append(self.torch.clamp(v,min=0).cpu().numpy())
         return np.concatenate(risks)
 
 
 class Experiment:
-    def __init__(self,interp,size,bias,C,sigma,device):
+    def __init__(self,interp,size,bias,C,sigma,device,tensor_mean=True):
         self.fields,self.prior=nodes_and_fields(interp,size);self.bias=bias;self.C=C;self.sigma=sigma
         self.prefix,self.probes,self.target=indices()
         devices=device.split(',')
         self.models=[Mixture(self.fields,self.prior,bias,C,ix,self.target,sigma,devices[i%len(devices)])
                      for i,ix in enumerate([self.prefix]+[np.r_[self.prefix,q] for q in self.probes])]
+        splines=[getattr(f,'_spline',None) for f in interp]
+        if tensor_mean and all(s is not None for s in splines):
+            first=splines[0]
+            compatible=all(tuple(s.k)==tuple(first.k) and s.c.shape==first.c.shape and
+                all(np.array_equal(a,b) for a,b in zip(s.t,first.t)) for s in splines)
+            if compatible:
+                # Exact reassociation of the existing tensor-product spline.
+                # No rank truncation, hypothesis pruning or new interpolation.
+                basis=[BSpline.design_matrix(np.linspace(*bounds,size),t,k).toarray() for bounds,t,k in zip(BOUNDS,first.t,first.k)]
+                coefficients=np.stack([s.c for s in splines]).reshape(-1,972)
+                for m,observed in zip(self.models,[self.prefix]+[np.r_[self.prefix,q] for q in self.probes]):
+                    gain=m.gain.cpu().numpy()
+                    adjusted=coefficients[:,self.target]-coefficients[:,observed]@gain.T
+                    offset=bias[self.target]-bias[observed]@gain.T
+                    m.tensor_basis=(*[m.tensor(v) for v in [*basis,adjusted,offset]],size)
         action_devices=[m.device for m in self.models[1:]]
         self.parallel_actions=len(set(action_devices))==2 and all(d.startswith('cuda') for d in action_devices)
         self.prefix_model=self.models[0]

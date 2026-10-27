@@ -11,5 +11,7 @@
   "moment_node_chunk": 65536,
   "likelihood_memory": "At most two batch-by-grid likelihood arrays alive; retain the same whitened Gaussian density. Independent SciPy density and CPU/three-GPU parity checks pass.",
   "execution_parallelism": "Independent left/right expected-risk calculations run concurrently on distinct GPUs with unchanged Sobol draws and output order. Sequential/parallel GPU and CPU results agree in tests.",
-  "allocator_headroom": "Two recovered allocation retries occurred at the 2^26 likelihood-entry cap. Reduce the cap by 25% before sealing to leave room for CUDA workspaces; no runtime failure or change to the posterior."
+  "allocator_headroom": "Two recovered allocation retries occurred at the 2^26 likelihood-entry cap. Reduce the cap by 25% before sealing to leave room for CUDA workspaces; no runtime failure or change to the posterior.",
+  "exact_mean_reassociation": "Evaluate p @ M by contracting posterior masses with the same tensor-product cubic B-spline bases, then with the unchanged conditional-field spline coefficients. Retain dense per-node squared norms and second moments. No rank approximation, node pruning, posterior change or altered sample count. Dense/structured risk agreement validated on CPU, three GPUs and the actual calibration surrogate.",
+  "exact_mean_benchmark": "reports/phystwin-qualified-support-v05/exact-spline-mean-benchmark.json"
 }

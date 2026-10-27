@@ -1,6 +1,6 @@
 """v05 continuous posterior, physical uncertainty audit and frozen probing comparison."""
 from pathlib import Path
-import argparse,hashlib,json,sys
+import argparse,hashlib,json,sys,time
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 import numpy as np
 from scipy.interpolate import RegularGridInterpolator
@@ -168,6 +168,7 @@ def run(stage,device):
         previous=pred;old_size=size;del ex
     assert checks and checks[-1]['passed'],'Posterior moments/physical quantiles not converged'
     utility=[];adaptive=[]
+    started=time.monotonic();last=started
     for i,y in enumerate(ys[0]):
         risks=[ex.choose(y,n) for n in spec['utility_samples'][:2]]
         samples=spec['utility_samples'][1]
@@ -176,11 +177,14 @@ def run(stage,device):
         choice=int(risks[-1].argmin());stable=bool(risks[-2].argmin()==choice)
         utility.append(dict(risks=[r.tolist() for r in risks],samples=samples,stable=stable))
         adaptive.append(choice+1)
+        now=time.monotonic();write_json(BASE/'status'/f'{split}-policy-progress.json',dict(phase='fine',completed=i+1,total=len(ys[0]),grid_size=size,samples=samples,elapsed_seconds=now-started,last_observation_seconds=now-last));last=now
         if i%8==0:print('POLICY',split,i,len(ys[0]),flush=True)
     del ex
     coarse=Experiment(interp,checks[-1]['coarse'],mu,C,spec['noise_sigma_m'],device)
+    started=time.monotonic();last=started
     for i,(y,row,choice) in enumerate(zip(ys[0],utility,adaptive)):
         other=coarse.choose(y,row['samples']);row['posterior_grid_agreement']=bool(other.argmin()+1==choice)
+        now=time.monotonic();write_json(BASE/'status'/f'{split}-policy-progress.json',dict(phase='coarse-check',completed=i+1,total=len(ys[0]),grid_size=checks[-1]['coarse'],samples=row['samples'],elapsed_seconds=now-started,last_observation_seconds=now-last));last=now
         if i%8==0:print('POLICY_GRID_CHECK',split,i,len(ys[0]),flush=True)
     del coarse
     count=len(truth);adaptive=np.array(adaptive);heuristic=np.where(pred[0]['layout_probability'][:,:2].sum(1)>=.5,2,1)
