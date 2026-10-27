@@ -5,8 +5,8 @@ finer hypothesis bank passes its development accuracy gate, and posterior
 refinement passes at 257×257 parameter nodes per fixture category. All 48 development probe
 decisions pass sampling and posterior-grid stability checks. Calibration reference
 generation is complete. Calibration inference stopped before sealing because
-physical parameter quantiles did not converge at its original grid limit. A
-numerical refinement extension is running; the final held-out comparison has not run yet.
+physical parameter quantiles did not converge at its original grid limit. The 1025-grid extension passes the interval gate; memory optimizations and probe
+checks are being rerun before sealing. The final held-out comparison has not run yet.
 
 ## What is verified
 
@@ -63,7 +63,10 @@ memory. It does not change the model, priors, likelihood or accuracy gates.
 to 1025. Three observation-budget mixtures are distributed over GPUs 0–2, moments
 and likelihoods are processed in bounded chunks, and utility grid checks run
 sequentially. Twenty-five targeted tests pass, including three-GPU/CPU prediction
-and expected-risk parity. Development is being repeated.
+and expected-risk parity. The 513-to-1025 quantile change is 0.00520, with maximum predictive mean change
+0.000108 mm: all integration gates pass. Memory-bounded likelihood evaluation also
+matches an independent SciPy Gaussian-density reference. Execution checks are being
+repeated before sealing.
 
 The analysis will separately report:
 

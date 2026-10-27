@@ -6,5 +6,8 @@
   "reason": "All 20 calibration references qualified, but 129-to-257 physical log-quantile change was 0.0834106334, exceeding the unchanged 0.02 gate. Predictive mean/sd already passed. Extend integration resolution only before sealing and before test responses; retain all failed checks.",
   "scope": "Numerical refinement, not parameter/model/policy selection. Same posterior, priors, likelihood, accuracy gates and utility sampling. Apply the same sequence to development, calibration and test. Bound likelihood batches to control memory.",
   "second_refinement_reason": "257-to-513 physical log-quantile change was 0.02094927498, still above unchanged 0.02. Preserve doubled grid refinement; add 1025 before sealing/test. Predictive mean change was 0.0004368 mm.",
-  "execution": "Distribute the three observation-budget mixtures across GPUs 0\u20132. Bound likelihood and moment temporaries; run fine/coarse utility checks sequentially and discard unused host copies. Same posterior and numerical gates."
+  "execution": "Distribute the three observation-budget mixtures across GPUs 0\u20132. Bound likelihood and moment temporaries; run fine/coarse utility checks sequentially and discard unused host copies. Same posterior and numerical gates.",
+  "likelihood_batch_limit_entries": 67108864,
+  "moment_node_chunk": 65536,
+  "likelihood_memory": "At most two batch-by-grid likelihood arrays alive; retain the same whitened Gaussian density. Independent SciPy density and CPU/three-GPU parity checks pass."
 }

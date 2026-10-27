@@ -44,7 +44,7 @@ class Mixture:
     def __init__(self,fields,prior,bias,C,observed,target,sigma,device):
         import torch
         self.torch=torch;self.device=device;self.prior=prior
-        self.weight_batch_size=max(1,2**24//len(prior))
+        self.weight_batch_size=max(1,2**26//len(prior))
         f,M,gain,V,chol=conditional_components(fields,bias,C,observed,target,sigma)
         self.chol=chol
         self.f=self.tensor(np.linalg.solve(chol,f.T).T);self.normf=(self.f*self.f).sum(1)
@@ -54,7 +54,12 @@ class Mixture:
     def tensor(self,x):return self.torch.as_tensor(x,dtype=self.torch.float64,device=self.device)
     def weights(self,y):
         yt=self.tensor(np.linalg.solve(self.chol,np.asarray(y).T).T)
-        logp=self.logprior[None,:]-.5*((yt*yt).sum(1)[:,None]+self.normf[None,:]-2*yt@self.f.T)
+        # Keep at most two batch-by-quadrature arrays alive. This preserves the
+        # whitening/likelihood formula while avoiding multiple large temporaries.
+        product=(2*yt)@self.f.T
+        logp=(yt*yt).sum(1)[:,None]+self.normf[None,:]
+        logp.sub_(product);del product
+        logp.mul_(-.5).add_(self.logprior[None,:])
         return self.torch.softmax(logp,dim=1)
     def infer(self,y):
         # Bound likelihood temporaries on refined grids and oracle noise batches.

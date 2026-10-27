@@ -59,3 +59,15 @@ def test_multidevice_posterior_and_expected_risk_match_cpu():
     for a,b in zip(cpu.predict(ys),gpu.predict(ys)):
         for key in a:assert np.allclose(a[key],b[key],atol=1e-12,rtol=1e-10)
     assert np.allclose(cpu.choose(ys[0][0],256),gpu.choose(ys[0][0],256),atol=1e-12,rtol=1e-10)
+
+
+def test_memory_bounded_weights_match_gaussian_density_reference():
+    from scipy.special import softmax
+    from scipy.stats import multivariate_normal
+    rng=np.random.default_rng(81);fields=rng.normal(0,.001,(12,6));bias=rng.normal(0,.0001,6)
+    A=rng.normal(size=(6,6));C=1e-8*(A@A.T);sigma=.0003;prior=rng.uniform(.1,1,12);prior/=prior.sum()
+    y=rng.normal(0,.001,(7,3));model=Mixture(fields,prior,bias,C,[0,1,2],[3,4,5],sigma,'cpu')
+    S=C[:3,:3]+sigma**2*np.eye(3)
+    log_density=np.column_stack([multivariate_normal(mean=f[:3]+bias[:3],cov=S).logpdf(y) for f in fields])
+    expected=softmax(log_density+np.log(prior)[None,:],axis=1)
+    assert np.allclose(model.weights(y).numpy(),expected,atol=1e-12,rtol=1e-10)
