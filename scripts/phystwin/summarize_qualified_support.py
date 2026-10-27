@@ -26,7 +26,8 @@ def deformation_audit(spec):
     return dict(scope='Post-evaluation physical deformation diagnostic. Nonrigid coordinate RMS after best rigid alignment divided by total displacement RMS; this is an amplitude ratio, not a variance fraction. Available-probe selection maximizes nonrigid RMS, not the ratio. Not used to change test actions.',
         best_available_probe=groups,chosen_test_adaptive_probe=dict(minimum_nonrigid_rms_mm=float(1000*chosen[:,0].min()),
             median_nonrigid_rms_mm=float(1000*np.median(chosen[:,0])),minimum_nonrigid_rms_fraction=float(chosen[:,1].min()),
-            median_nonrigid_rms_fraction=float(np.median(chosen[:,1]))),objects=rows)
+            median_nonrigid_rms_fraction=float(np.median(chosen[:,1])),negligible_deformation_threshold_m=1e-9,
+            negligible_deformation_count=int(np.sum(chosen[:,0]<1e-9)),observation_count=len(chosen)),objects=rows)
 
 
 def physical_intervals(spec,test,saved,bootstrap_indices):
@@ -143,11 +144,14 @@ def main():
     for split,r in motion['best_available_probe'].items():
         lines.append(f"| {split} | {r['minimum_nonrigid_rms_mm']:.3f} | {r['median_nonrigid_rms_mm']:.3f} | {100*r['minimum_nonrigid_rms_fraction']:.1f}% | {100*r['median_nonrigid_rms_fraction']:.1f}% |")
     r=motion['chosen_test_adaptive_probe']
-    lines+=['',f"This diagnostic removes best-fit rigid translation and rotation. The table uses each object's available probe with the largest nonrigid RMS. For probes actually chosen by the adaptive policy on test observations, minimum nonrigid RMS is {r['minimum_nonrigid_rms_mm']:.3f} mm and minimum nonrigid/total RMS is {100*r['minimum_nonrigid_rms_fraction']:.1f}%. These percentages are RMS amplitude ratios, not fractions of motion variance. [Per-object and per-load evidence](deformation-audit.json).",'',
+    lines+=['',f"This diagnostic removes best-fit rigid translation and rotation. The table uses each object's available probe with the largest nonrigid RMS. For probes actually chosen by the adaptive policy on test observations, minimum nonrigid RMS is {r['minimum_nonrigid_rms_mm']:.3f} mm and minimum nonrigid/total RMS is {100*r['minimum_nonrigid_rms_fraction']:.1f}%. These percentages are RMS amplitude ratios, not fractions of motion variance. In {r['negligible_deformation_count']}/{r['observation_count']} observations, the selected probe produces less than 1 nm nonrigid coordinate RMS: essentially uniform translation. This is a post-evaluation descriptive diagnostic, not a changed acceptance criterion. Thus informative probes are available for every object, but the policy does not always select one. [Per-object and per-load evidence](deformation-audit.json).",'',
         '## Limits','',
         'This is a static synthetic study with four known fixture families and continuous material/support stiffness variation. It does not establish general spatial boundary inference, new topology generalization, gravity/contact performance, or learned PhysTwin uncertainty. Coordinate error includes rigid movement; aligned shape error removes it. Strain is computed on the 81-point observation grid, not interpreted as peak boundary stress.','',
         'Pooled prediction calibration has nominal 90% coverage. The balanced fixture sampling is stratified, so an unconditional exchangeability guarantee is not assumed. Test coverage is measured on only 24 independent objects; material coverage averages four noisy observations per object. Small differences should not be overinterpreted.','',
         'GPU multigrid accelerates the unchanged nonlinear equations; the original linear and nonlinear residuals are checked. Tangent temporaries and quadrature gradients are streamed. CPU/direct-solver parity evidence is retained in [solver-validation.json](solver-validation.json). Raw fields remain local.','', '![Held-out comparison](comparison.png)','']
+    if (OUT/'video-selection.json').exists():
+        lines+=['## Actual versus predicted shapes','',
+            '[Watch the comparison](actual-vs-predicted.mp4). It shows the median and worst test objects by adaptive prediction error, before and after the chosen probe. The camera moves around static held-force shapes; this is not a dynamics forecast. Deformation is shown at its actual scale. [Selection details](video-selection.json).','']
     (OUT/'REPORT.md').write_text('\n'.join(lines));print(json.dumps(dict(decision=success,comparison=comparisons),indent=2))
 
 if __name__=='__main__':main()

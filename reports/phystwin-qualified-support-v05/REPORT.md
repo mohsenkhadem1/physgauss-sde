@@ -1,115 +1,86 @@
-# Qualified reference and probing campaign v05 — in progress
+# Qualified nonlinear reference, uncertainty and probing — v05
 
-All 12 development and 20 calibration objects have qualified nonlinear references.
-The forward surrogate and posterior convergence checks pass. Calibration is now
-complete and sealed: all 80 probe decisions pass sampling and posterior-grid
-stability checks. The 24 reserved test references are being generated; held-out
-prediction and probing results are not yet available.
+The preregistered active-probing success criteria were not all met. Failed checks: advantage over the fixture heuristic.
 
-## What is verified
+All 56 reference objects passed their recorded spatial and quadrature checks. This is finite numerical qualification under specified sampled-field tolerances, not an absolute continuum-error proof or physical validation against real measurements.
 
-The original displacement, strain, support-force, energy and equilibrium gates
-remain unchanged. Every accepted reference passes two successive spatial
-refinements and a quadrature check under all four loads. Ten development references
-use P2 tetrahedra; two difficult half-face fixtures use Q2 hexahedra concentrated
-near the support edges. Earlier failed P2 attempts are retained.
+## Held-out results
 
-The new Q2 method passed an independent comparison against the qualified P2
-reference under every load: worst displacement RMS difference 0.00427 mm,
-traction difference 0.257%, and energy difference 0.135%. An additional finer
-check on the hardest object's initial load passed with RMS difference
-0.0000237 mm. [Numerical diagnosis](NUMERICS.md), [validation](tensor-validation.json),
-and the [method selection rule](tensor-reference-adoption.json) record the evidence.
+| Policy | Coordinate RMSE (mm) | Aligned shape RMSE (mm) | Whole-object band coverage | Band width (mm) | E interval coverage | K interval coverage |
+|---|---:|---:|---:|---:|---:|---:|
+| Initial | 0.5266 | 0.0908 | 100.0% | 3.012 | 85.4% | 90.6% |
+| Fixed | 0.2288 | 0.0530 | 100.0% | 1.074 | 87.5% | 92.7% |
+| Random | 0.2965 | 0.0594 | 100.0% | 1.249 | 86.5% | 91.1% |
+| Adaptive | 0.0934 | 0.0267 | 100.0% | 0.535 | 88.5% | 90.6% |
+| Fixture heuristic | 0.0908 | 0.0263 | 100.0% | 0.527 | 88.5% | 90.6% |
 
-These experiments contain measurable deformation. Every development object has
-at least one probe with nonrigid coordinate RMS of at least 0.238 mm, and at least
-9.4% of motion RMS remains after removing rigid translation and rotation. This is
-an available-probe diagnostic, not a claim that every observation or chosen action
-is equally informative.
+## Does adaptive probing beat the strong baselines?
 
-## Completed development and calibration
+| Baseline | Adaptive coordinate RMSE improvement (mm) | Paired object-bootstrap 95% interval (mm) |
+|---|---:|---|
+| fixed | 0.1355 | [0.0546, 0.2126] |
+| random | 0.2032 | [0.1532, 0.2539] |
+| fixture_side_heuristic | -0.0026 | [-0.0123, 0.0041] |
 
-The n=8 and n=12 banks are complete: each contains 324 physical hypotheses evaluated
-under four loads. The n=8/n=4 extrapolation failed the 0.03 mm forward-error gate on
-two hard objects (0.0304 and 0.0530 mm). The predefined n=12/n=8 extrapolation passes:
-maximum forward RMS error is 0.0101 mm, and maximum bank interpolation RMS error is
-0.00243 mm. [Model selection](model-selection.json) retains every rejected candidate.
-No accuracy threshold was relaxed.
+Positive intervals support an advantage over that baseline. Intervals containing zero do not. Bootstrap resampling is stratified by fixture family and clustered by object; four noise repeats are not counted as four independent objects. Aligned-shape and coarse-grid strain comparisons are retained in [comparison.json](comparison.json).
 
-The development posterior required the full 257×257 grid per fixture category.
-The final refinement changes predictive means by at most 0.00278 mm, standard
-deviations by 0.00236 mm, and physical log-parameter quantiles by 0.00976; all pass
-the frozen gates. Earlier grids failed. [Refinement progress](posterior-refinement-progress.json)
-records these checks. All 48 development decisions pass sampling and grid checks;
-47 of 48 match the strong fixture heuristic. This is development evidence, not a
-held-out probing advantage. [Development summary](development-summary.json).
+## Numerical and inference checks
 
-Model selection uses only the 12 development objects. CPUs helped prepare
-full-face calibration simulations; those responses did not select the
-model. Twenty new calibration objects determined a common prediction-band
-multiplier of 2.552 and selected the right-side probe as the fixed baseline.
-All 80 adaptive decisions agree with the fixture heuristic, so calibration does
-not establish superiority over that baseline. The [seal](seal.json) records the
-model, calibration choices and file hashes before test evaluation.
-[Calibration summary](calibration-summary.json). The test contains 24 reserved
-objects, with four noise repeats per object.
+One unqualified test reference required an initialization repair: the analytically uniform translation was only 1.42e-13 m from the exact solution, but roundoff exceeded the frozen absolute zero-strain and traction checks. The exact uniform displacement was supplied as the initial state to the unchanged sealed solver. All original residual and qualification gates then passed. Original checkpoints and failed audits remain local; [repair hashes and checks](initialization-repairs.json) record the change. Deforming loads, accepted references, model, calibration and tolerances were unchanged.
 
-All 20 calibration simulations have now qualified. Calibration predictions were
-stable at the 257×257 grid (maximum mean change 0.00183 mm), but physical
-log-parameter quantiles changed by 0.0834, exceeding the unchanged 0.02 limit.
-The runner stopped without sealing or opening the test responses. The
-[numerical extension](posterior-refinement-extension.json) adds 513×513 and 1025×1025 levels
-to the same posterior integration, with bounded likelihood batches to fit GPU
-memory. It does not change the model, priors, likelihood or accuracy gates.
-[Failed checks](calibration-refinement-progress.json) are retained. The 513-grid quantile change was 0.02095, still above 0.02, so doubling continued
-to 1025. Three observation-budget mixtures are distributed over GPUs 0–2, moments
-and likelihoods are processed in bounded chunks, and utility grid checks run
-sequentially. Twenty-five targeted tests pass, including three-GPU/CPU prediction
-and expected-risk parity. The 513-to-1025 quantile change is 0.00520, with maximum predictive mean change
-0.000108 mm: all integration gates pass. Memory-bounded likelihood evaluation also
-matches an independent SciPy Gaussian-density reference. All 80 calibration
-choices passed sampling and grid refinement checks before sealing at
-2026-10-27 20:58:45 UTC. The same checks remain required on the held-out test.
+The original v04 gates remain: displacement RMS 0.02 mm, maximum coordinate difference 0.1 mm, strain relative L2 5%, support traction relative L2 2%, energy 1%, and equilibrium tolerances. Every object requires two consecutive spatial passes and a finest-mesh q3/q4 check. Exact same-face full-support translations use the analytic zero-strain solution instead of relative errors of numerical zero. [qualification.json](qualification.json) retains the per-object evidence and identifies the accepted element space. If the development-validated Q2 fallback is enabled, its method and cross-space validation are included in the accompanying addenda; prior failed P2 attempts remain recorded.
 
-The analysis will separately report:
+The forward surrogate is selected only on development data using a 30 μm RMS accuracy gate; [model-selection.json](model-selection.json) records rejected candidates. Posterior refinement checks predictive means, standard deviations and physical marginal quantiles. The categorical fixture is latent. Known geometry and known forces are supplied. No true fixture label is given to a policy.
 
-- Posterior numerical convergence, including physical-parameter interval endpoints.
-- Held-force prediction error, shape error after rigid alignment, and strain error.
-- Raw material/support interval coverage and whether probing creates wrong confidence.
-- Adaptive probing versus fixed, random and inferred-fixture-side choices.
-- A privileged post-test action diagnostic, clearly separated from eligible policies.
+Calibration required additional posterior integration levels before sealing: predictive moments had stabilized, but physical quantiles failed at 257 and again at 513 nodes per parameter. The unchanged log-quantile tolerance is 0.02. The [numerical extension](posterior-refinement-extension.json) records the doubled refinement sequence and memory-bounded three-GPU execution; priors, likelihood, model and acceptance gates were unchanged. Failed checks remain in the calibration convergence record.
 
-Uncertainty summaries use object-level resampling; noise repeats are not treated
-as independent objects. The results video will show median and worst test objects
-before and after probing. It depicts camera motion around static held-force shapes,
-not a dynamics forecast.
+Expected-risk means use an exact contraction through the existing cubic B-spline bases and coefficients. Every posterior node remains included; dense component norms and second moments are retained. There is no rank truncation or new physical approximation. [Dense/structured execution tests](tests-exact-spline.txt) and the [actual-surrogate benchmark](exact-spline-mean-benchmark.json) check equivalence. Independent action risks run concurrently on separate GPUs.
 
-## Execution and limits
+Joint numerical discrepancy is fitted on development residuals, then conditioned on both initial and probe observations. Twenty new calibration objects determine the fixed action and a common object-wise prediction-band multiplier; [seal.json](seal.json) hashes the model and data before held-out evaluation. Raw physical parameter intervals are not disguised as calibrated prediction bands. [confidence-after-probing.json](confidence-after-probing.json) flags intervals that narrow while errors or coverage worsen. [Physical interval uncertainty](physical-interval-bootstrap.json) includes stratified object-bootstrap intervals for coverage, error and width, including paired changes after probing. Noise repeats are averaged within each object before resampling.
 
-The integrated mechanics, inference and failure-handling suite passes 40 tests.
-GPU solves use float64, check the original CPU residual, and release the obsolete
-fine matrix before assembling its replacement. Memory admission chooses a CPU
-fallback when a hierarchy cannot fit. The largest host-memory jobs are serialized.
-[Environment](execution-environment.json) and [execution notes](memory-execution-addendum.json)
-record the setup. Raw datasets remain local.
+Utility choices stable under sampling refinement: 96/96. Choices agreeing under posterior-grid refinement: 96/96. All scientific pass/fail decisions are recorded in [decision.json](decision.json).
 
-The durable runner is `scripts/phystwin/supervise_qualified_campaign.py`; local
-status is `runs/phystwin-qualified-support-v05/status/supervisor.json`. It stops on
-failed reference, forward-model, deformation or posterior-convergence gates.
+## Confidence after probing
 
-This is a static synthetic reference study with known geometry and forces, unknown
-material stiffness, support stiffness and four fixture categories. It does not yet
-establish general neural boundary inference, learned PhysTwin uncertainty, real
-RGB-D performance, gravity/contact prediction, or superiority of active probing.
-The numerical checks are finite evidence, not absolute continuum-error bounds.
+| Parameter | Change in raw 90% coverage | Paired object-bootstrap 95% interval | Change in absolute log-median error | Paired object-bootstrap 95% interval |
+|---|---:|---|---:|---|
+| E | 3.12 percentage points | [-5.21, 11.46] | -0.1919 | [-0.2394, -0.1469] |
+| K | 0.00 percentage points | [-6.25, 7.29] | -0.1846 | [-0.2726, -0.0940] |
 
-## Exact execution optimization
+Positive coverage changes and negative error changes are favorable. Narrower intervals alone are not evidence of better inference. These are raw physical intervals; prediction-band calibration does not calibrate them.
 
-Posterior target means can be contracted through the existing cubic B-spline
-bases and coefficients. This is the same interpolator and full posterior, with
-no rank truncation or hypothesis pruning. Dense component norms and second
-moments are retained. CPU and three-GPU prediction/risk parity tests pass; the
-real calibration surrogate benchmark changes risks by less than 1e-20 m² and
-runs 1.72× faster at the 257 grid. [Benchmark](exact-spline-mean-benchmark.json),
-[27 targeted tests](tests-exact-spline.txt). Per-observation timing is saved under
-`runs/phystwin-qualified-support-v05/status/`.
+## Privileged action diagnostic
+
+| Choice | Expected held-force RMSE (mm) | Agreement with oracle action |
+|---|---:|---:|
+| fixed | 0.2300 | 55.2% |
+| random | 0.2985 | — |
+| fixture_side_heuristic | 0.0909 | 84.4% |
+| adaptive | 0.0935 | 84.4% |
+| oracle | 0.0604 | 100.0% |
+
+This diagnostic gives the action evaluator the true object's responses, then integrates future probe noise with 512 samples. It keeps the fitted predictor fixed. It is not an eligible policy, not used for tuning, and its expected errors are not directly comparable to the realized-outcome table above. Oracle action choices agree between 128 and 512 samples in 96/96 cases; disagreement limits interpretation of this diagnostic. Gaps include uncertainty about the hidden object, not just policy computation error. [Full diagnostic](oracle-audit.json).
+
+## Are these objects actually deforming?
+
+| Split | Minimum best-probe nonrigid RMS (mm) | Median (mm) | Minimum nonrigid / total RMS | Median ratio |
+|---|---:|---:|---:|---:|
+| development | 0.238 | 0.500 | 9.4% | 11.5% |
+| calibration | 0.229 | 0.514 | 9.1% | 11.2% |
+| test | 0.210 | 0.542 | 6.3% | 11.2% |
+
+This diagnostic removes best-fit rigid translation and rotation. The table uses each object's available probe with the largest nonrigid RMS. For probes actually chosen by the adaptive policy on test observations, minimum nonrigid RMS is 0.000 mm and minimum nonrigid/total RMS is 0.0%. These percentages are RMS amplitude ratios, not fractions of motion variance. In 6/96 observations, the selected probe produces less than 1 nm nonrigid coordinate RMS: essentially uniform translation. This is a post-evaluation descriptive diagnostic, not a changed acceptance criterion. Thus informative probes are available for every object, but the policy does not always select one. [Per-object and per-load evidence](deformation-audit.json).
+
+## Limits
+
+This is a static synthetic study with four known fixture families and continuous material/support stiffness variation. It does not establish general spatial boundary inference, new topology generalization, gravity/contact performance, or learned PhysTwin uncertainty. Coordinate error includes rigid movement; aligned shape error removes it. Strain is computed on the 81-point observation grid, not interpreted as peak boundary stress.
+
+Pooled prediction calibration has nominal 90% coverage. The balanced fixture sampling is stratified, so an unconditional exchangeability guarantee is not assumed. Test coverage is measured on only 24 independent objects; material coverage averages four noisy observations per object. Small differences should not be overinterpreted.
+
+GPU multigrid accelerates the unchanged nonlinear equations; the original linear and nonlinear residuals are checked. Tangent temporaries and quadrature gradients are streamed. CPU/direct-solver parity evidence is retained in [solver-validation.json](solver-validation.json). Raw fields remain local.
+
+![Held-out comparison](comparison.png)
+
+## Actual versus predicted shapes
+
+[Watch the comparison](actual-vs-predicted.mp4). It shows the median and worst test objects by adaptive prediction error, before and after the chosen probe. The camera moves around static held-force shapes; this is not a dynamics forecast. Deformation is shown at its actual scale. [Selection details](video-selection.json).

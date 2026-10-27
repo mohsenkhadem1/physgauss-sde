@@ -44,7 +44,7 @@ def main():
     vmax=max(float(np.linalg.norm(c['fields'][k]-c['fields'][0],axis=1).max()*1000) for c in cases for k in [1,2]);vmax=max(vmax,.001)
     norm=Normalize(0,vmax);cmap=plt.get_cmap('viridis')
     fig=plt.figure(figsize=(15.36,7.68));axes=[fig.add_subplot(1,3,i+1,projection='3d') for i in range(3)]
-    fig.subplots_adjust(left=.035,right=.94,bottom=.22,top=.74,wspace=.18)
+    fig.subplots_adjust(left=.075,right=.94,bottom=.22,top=.74,wspace=.22)
     title=fig.suptitle('',fontsize=18);subtitle=fig.text(.5,.89,'',ha='center',fontsize=11)
     bar=fig.add_axes([.35,.105,.3,.025]);fig.colorbar(plt.cm.ScalarMappable(norm=norm,cmap=cmap),cax=bar,orientation='horizontal',label='Prediction position error (mm; same scale in both cases)')
     fig.text(.5,.035,'Static held-force response • camera orbit only • deformation ×1 • first noise repeat • fixture hidden from policies',ha='center',fontsize=11)
