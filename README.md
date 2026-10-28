@@ -461,7 +461,8 @@ unchanged. Resume commands (set `CUDA_VISIBLE_DEVICES` to physical GPU 0–2):
 
 The analysis runner waits for the three `phystwin-v07-ref{0,1,2}` systemd units
 and checks all 60 references exist. Bridge workers 0, 1, and 2 divide the six
-objects. Status JSON files record completion or failure. The calibration seal
+objects; optional workers 3, 4, and 5 start the second trio concurrently on the
+same three GPUs. Per-fit locks prevent duplicate training. Status JSON files record completion or failure. The calibration seal
 protects data and model inputs; reruns do not replace it. Planning quadrature and
 prediction refinement are reported separately, without treating coarse action
 choices as numerically converged.

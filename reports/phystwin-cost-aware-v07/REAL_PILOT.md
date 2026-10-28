@@ -1,6 +1,6 @@
 # Real-object pilot prepared for acquisition
 
-No real-object measurements have been collected. The machine currently exposes no `/dev/video*`, `/dev/ttyACM*`, or `/dev/ttyUSB*` devices; that does not exclude network-connected hardware. Hardware availability is awaiting the user's reply.
+No real-object measurements have been collected. The machine currently exposes no `/dev/video*`, `/dev/ttyACM*`, or `/dev/ttyUSB*` devices; that does not exclude network-connected hardware. The user has deferred hardware work and requested a simulation-only focus. This document is retained as a future protocol; no acquisition work is pending in this campaign.
 
 Use a soft block, two independently adjustable clamps, calibrated RGB-D imaging, identifiable surface markers, and a measured force. Measure rest dimensions and mass. Record force uncertainty and the point and direction of application; a hand push without measured force cannot isolate material stiffness from load magnitude. A calibrated load cell is useful; measured suspended weights can support a quasi-static first experiment.
 

@@ -3,6 +3,12 @@ from pathlib import Path
 import argparse,json,os,pickle,sys,time,hashlib
 p=argparse.ArgumentParser();p.add_argument('--object',type=int,choices=list(range(6)),required=True);p.add_argument('--budget',choices=['repeat_initial','fixed','random','adaptive_pokes'],required=True);p.add_argument('--iterations',type=int,default=30);p.add_argument('--evaluate-only',action='store_true');p.add_argument('--step-refinement',type=int,default=1);a=p.parse_args()
 ROOT=Path(__file__).resolve().parents[2];UP=ROOT/'runs/third_party/PhysTwin-v06';BASE=ROOT/'runs/phystwin-cost-aware-v07';OUT=BASE/'phystwin'/f'object-{a.object}-{a.budget}';OUT.mkdir(parents=True,exist_ok=True)
+# Multiple resumable workers may meet at the same fit; serialize per output.
+import fcntl
+_run_lock=(OUT/'run.lock').open('a')
+fcntl.flock(_run_lock,fcntl.LOCK_EX)
+if (OUT/f'summary-dt{a.step_refinement}.json').exists():
+ print('ALREADY_COMPLETE',OUT,a.step_refinement,flush=True);sys.exit(0)
 os.environ['PHYSTWIN_HEADLESS']='1';os.environ['WANDB_MODE']='disabled';sys.path.insert(0,str(UP));sys.path.insert(0,str(ROOT))
 import numpy as np
 import torch
