@@ -11,7 +11,7 @@ class StrongFixture(SequentialFixture):
  def set_action(self,action):
   super().set_action(action)
   gravity=np.zeros_like(self.load);gravity[:,2]=-.02*self.volume_weights
-  self.load=gravity+8*(self.load-gravity)
+  self.load=gravity+(16 if action=='initial' else 4)*(self.load-gravity)
  def solve(self,initial=None,**kwargs):
   def recoverable(error):return isinstance(error,StaticFailure) or 'PCG' in str(error)
   try:return super().solve(initial=initial,**kwargs)
@@ -36,7 +36,7 @@ class StrongFixture(SequentialFixture):
 def protocol():
  p=BASE/'protocol.json'
  if p.exists():return json.loads(p.read_text())
- s=dict(version=8,load_scale=8,reference_levels=[4,6,8,10,12,14],bank_grid=4,noise_repeats=3,planning_grid=65,prediction_grid=65,utility_samples=64,costs=[1.]*6+[.25],cost_penalty_m2=1e-8,action_names=[*ACTIONS[1:7],'deformed_end_view'],fixed_sequence=[4,1],scope='Eightfold applied forces; gravity unchanged. New right-end view measures nine additional points under the stronger initial load. Same nonlinear material and two uncertain supports. Static reference holds, synthetic tracked RGB-D, known forces/geometry. PhysTwin ensemble disagreement is a heuristic, not calibrated information gain.')
+ s=dict(version=8,load_scale=4,initial_load_scale=16,gravity_total_N=.02,initial_force_N=[0,.16,0],maximum_localized_single_force_N=.32,stress_pilot_archive='runs/phystwin-informative-v08-force8-stress',reference_levels=[4,6,8,10,12,14],bank_grid=4,noise_repeats=3,planning_grid=65,prediction_grid=65,utility_samples=64,costs=[1.]*6+[.25],cost_penalty_m2=1e-8,action_names=[*ACTIONS[1:7],'deformed_end_view'],fixed_sequence=[4,1],scope='Fourfold localized/held forces and sixteenfold distributed initial force; gravity unchanged. New right-end view measures nine additional points under the stronger initial load. Same nonlinear material and two uncertain supports. Static reference holds, synthetic tracked RGB-D, known forces/geometry. PhysTwin ensemble disagreement is a heuristic, not calibrated information gain.')
  for split,n,seed in [('development',12,810),('calibration',24,811),('test',24,812)]:
   rng=np.random.default_rng(seed);s[split]=[dict(layout=LAYOUTS[i%3],parameters=np.exp(rng.uniform(BOUNDS[:,0],BOUNDS[:,1])).tolist()) for i in range(n)]
  write(p,s);return s

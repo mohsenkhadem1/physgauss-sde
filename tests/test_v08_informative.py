@@ -8,7 +8,7 @@ def test_stronger_force_preserves_gravity_and_resultants():
  m=StrongFixture(2,4000,500,1000,'crossed',device='cpu');old=SequentialFixture(2,4000,500,1000,'crossed',device='cpu')
  for a in ACTIONS:
   m.set_action(a);old.set_action(a);g=np.zeros_like(old.load);g[:,2]=-.02*old.volume_weights
-  np.testing.assert_allclose(m.load,g+8*(old.load-g),atol=1e-14)
+  np.testing.assert_allclose(m.load,g+(16 if a=='initial' else 4)*(old.load-g),atol=1e-14)
   np.testing.assert_allclose(m.load.sum(0),forces(a).sum(0),atol=1e-12)
   np.testing.assert_allclose(np.cross(m.rest,m.load).sum(0),np.cross(points(),forces(a)).sum(0),atol=1e-12)
 

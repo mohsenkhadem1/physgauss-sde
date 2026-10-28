@@ -1,4 +1,4 @@
-"""Eightfold-load PhysTwin bridge with explicitly matched policy prefix observations."""
+"""Stronger-load PhysTwin bridge with explicitly matched policy prefix observations."""
 from pathlib import Path
 import numpy as np
 from scripts.phystwin.sequential_fixture import points,ACTIONS
@@ -21,7 +21,7 @@ def forces(action):
  elif action=='held_oblique':add(False,'lower',[.04,-.06,.05]);add(True,'upper',[0,.02,-.03])
  else:raise ValueError(action)
  gravity=np.zeros_like(f);gravity[:,2]=-.02*masses()/.96
- return gravity+8*(f-gravity)
+ return gravity+(16 if action=='initial' else 4)*(f-gravity)
 
 def dataset(obj,actions,observe=True,split='test'):
  rest=points();ref=np.load(BASE/'fields'/f'{split}-{obj}-reference.npz')['field'];visible=np.isclose(rest[:,1],-.04);ids=np.flatnonzero(visible)

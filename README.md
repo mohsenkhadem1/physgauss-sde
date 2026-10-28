@@ -474,7 +474,8 @@ includes the measured-data schema and validator. No physical capture is claimed.
 
 ### Stronger deformation and model-specific action selection (v08)
 
-The v08 campaign applies eightfold external forces (gravity unchanged), measures
+The v08 campaign applies fourfold localized/held forces and a sixteenfold
+distributed initial force (gravity unchanged), measures
 nine additional end-face points in a new view of the deformed initial state, and
 checks expected versus actual action value on development objects. It preserves
 v06/v07 data and seals. Nonlinear references retain the displacement and residual
@@ -489,10 +490,10 @@ same 91-frame, 27-marker, 2700-update budget. Development diagnostics fit all si
 single-poke candidates and an equal-budget repeated-load control on three objects.
 
 Raw data and resumable statuses: `runs/phystwin-informative-v08/`. Reference
-workers 0–5 share physical GPUs 0–2, with `CUDA_VISIBLE_DEVICES=worker%3`:
+workers 0–11 share physical GPUs 0–2, with `CUDA_VISIBLE_DEVICES=worker%3`:
 
 ```bash
-.venv/bin/python scripts/phystwin/v08_reference.py --references-only --workers 6 --worker 0
+.venv/bin/python scripts/phystwin/v08_reference.py --references-only --workers 12 --worker 0
 .venv/bin/python scripts/phystwin/v08_reference.py --bank-only --workers 3 --worker 0
 .venv/bin/python scripts/phystwin/v08_runner.py analysis
 .venv/bin/python scripts/phystwin/v08_runner.py bridge --worker 0
