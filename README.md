@@ -434,3 +434,37 @@ See [docs/METHOD.md](docs/METHOD.md) for equations, likelihood, physical units, 
 
 See [HANDOVER.md](HANDOVER.md) for current status and [docs/RESEARCH.md](docs/RESEARCH.md) for the experimental plan. Development uses small pushed commits. The repository includes source, configurations, tests, compact result snapshots, and self-contained reports. Generated raw data and large checkpoints are excluded and reproducible through the run commands.
 
+
+### Cost-aware acquisition and matched PhysTwin study (v07)
+
+The next study adds a second view at constant load and a stop decision to the
+six reset-force probes. It uses 60 fresh objects (12 development, 24 calibration,
+24 test), camera-error covariance fitted on development data, and separate
+object-level predictive-band calibration for each policy and budget. Acquisition
+costs are explicit assumptions: view 0.25, poke 1, with a 0.01 mm² penalty per cost
+unit. Six PhysTwin objects compare repeated initial loads, fixed, random, and
+adaptive pokes using identical 91 frames, 27 visible markers, and 30 epochs.
+
+Raw outputs stay in `runs/phystwin-cost-aware-v07/`. Existing v06 artifacts are
+unchanged. Resume commands (set `CUDA_VISIBLE_DEVICES` to physical GPU 0–2):
+
+```bash
+.venv/bin/python scripts/phystwin/v07_study.py init
+# Run workers 0, 1, 2 on separate GPUs; each checkpoints every reference action.
+.venv/bin/python scripts/phystwin/v07_study.py references --worker 0
+.venv/bin/python scripts/phystwin/v07_runner.py analysis
+.venv/bin/python scripts/phystwin/v07_runner.py bridge --worker 0
+.venv/bin/python scripts/phystwin/v07_legacy_check.py
+.venv/bin/python scripts/phystwin/report_v07.py
+.venv/bin/python scripts/phystwin/render_v07.py
+```
+
+The analysis runner waits for the three `phystwin-v07-ref{0,1,2}` systemd units
+and checks all 60 references exist. Bridge workers 0, 1, and 2 divide the six
+objects. Status JSON files record completion or failure. The calibration seal
+protects data and model inputs; reruns do not replace it. Planning quadrature and
+prediction refinement are reported separately, without treating coarse action
+choices as numerically converged.
+
+[Real-object pilot preparation](reports/phystwin-cost-aware-v07/REAL_PILOT.md)
+includes the measured-data schema and validator. No physical capture is claimed.
