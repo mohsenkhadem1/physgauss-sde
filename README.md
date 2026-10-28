@@ -437,13 +437,15 @@ See [HANDOVER.md](HANDOVER.md) for current status and [docs/RESEARCH.md](docs/RE
 
 ### Cost-aware acquisition and matched PhysTwin study (v07)
 
-The next study adds a second view at constant load and a stop decision to the
+The study adds a second view at constant load and a stop decision to the
 six reset-force probes. It uses 60 fresh objects (12 development, 24 calibration,
 24 test), camera-error covariance fitted on development data, and separate
 object-level predictive-band calibration for each policy and budget. Acquisition
 costs are explicit assumptions: view 0.25, poke 1, with a 0.01 mm² penalty per cost
 unit. Six PhysTwin objects compare repeated initial loads, fixed, random, and
 adaptive pokes using identical 91 frames, 27 visible markers, and 30 epochs.
+
+[Results, numerical audits, and videos](reports/phystwin-cost-aware-v07/REPORT.md).
 
 Raw outputs stay in `runs/phystwin-cost-aware-v07/`. Existing v06 artifacts are
 unchanged. Resume commands (set `CUDA_VISIBLE_DEVICES` to physical GPU 0–2):
