@@ -10,5 +10,9 @@
     "restored_sha256": "c5d500e3766e5115cf69b67b5c0480e5387e171ae9607a256049eca983ad6690"
   },
   "hardware": "CPU plus physical GPUs 0\u20132; GPU3 left to desktop",
-  "raw_datasets": "Remain local as requested"
+  "raw_datasets": "Remain local as requested",
+  "gpu_memory_recovery": {
+    "issue": "Concurrent 97-cubed audit briefly exhausted GPU0 memory and interrupted object0 fixed-policy half-step verification. The trained fit and numerical audit completed.",
+    "resolution": "Restarted checkpoint-only verification after audit completion. Future runner audits wait for bridge fitting; an audit lock prevents duplicate heavy audit processes."
+  }
 }

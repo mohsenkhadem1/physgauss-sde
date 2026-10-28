@@ -5,7 +5,12 @@ import numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 from scripts.phystwin.v08_study import BASE,OUT,Experiment,interpolators,fit,POLICIES,write
 from scripts.phystwin.sequential_policy import verify
-seal=json.loads((BASE/'seal.json').read_text());verify(seal);interp=interpolators();bias,C=fit(interp);ex=Experiment(interp,97,bias,C);ex.cache_limit=2;z=np.load(BASE/'test-observations.npz');y=z['measurements'];summary={}
+import fcntl
+_audit_lock=(BASE/'prediction-audit.lock').open('a');fcntl.flock(_audit_lock,fcntl.LOCK_EX)
+seal=json.loads((BASE/'seal.json').read_text());verify(seal)
+if (OUT/'prediction-refinement.json').exists():
+ print('AUDIT_ALREADY_COMPLETE',flush=True);sys.exit(0)
+interp=interpolators();bias,C=fit(interp);ex=Experiment(interp,97,bias,C);ex.cache_limit=2;z=np.load(BASE/'test-observations.npz');y=z['measurements'];summary={}
 for policy in POLICIES:
  dest=BASE/f'test-{policy}-97.npz'
  if not dest.exists():

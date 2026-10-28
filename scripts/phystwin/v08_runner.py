@@ -28,7 +28,14 @@ def main():
     run('v08_study.py','plan','--split',split);run('v08_study.py','predict','--split',split)
     if split=='calibration':run('v08_study.py','seal')
   elif a.mode=='audit':
-   wait_files('test-cost_aware-65.npz',1);run('v08_prediction_audit.py')
+   wait_files('test-cost_aware-65.npz',1)
+   # The 97^3 audit can fill an 11 GB GPU; run after fitting releases it.
+   for worker in range(3):
+    path=BASE/f'bridge-{worker}-status.json'
+    while not path.exists() or json.loads(path.read_text())['state']!='complete':
+     if path.exists() and json.loads(path.read_text())['state']=='failed':raise RuntimeError(f'bridge-{worker} failed')
+     time.sleep(10)
+   run('v08_prediction_audit.py')
   elif a.mode=='bridge':
    if a.worker<3:
     wait_files('development-observations.npz',1)
