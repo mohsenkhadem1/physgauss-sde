@@ -15,7 +15,7 @@ import torch
 import warp as wp
 from qqtt import InvPhyTrainerWarp
 from qqtt.utils import cfg,logger
-from scripts.phystwin.v08_physbridge import dataset as raw_dataset,masses
+from scripts.phystwin.v08_physbridge import dataset as raw_dataset,masses,restrict_selection_prefix
 def dataset(obj,actions,observe=True):return raw_dataset(obj,actions,observe,a.split)
 from scripts.phystwin.sequential_fixture import points,ACTIONS
 np.random.seed(42);torch.manual_seed(42)
@@ -32,12 +32,7 @@ if member:
  # Exactly the same nine measured prefix coordinates available to Bayes.
  # Interpolate that single observation through the prescribed ramp; do not
  # reveal other vertices or independently noisy frames to the selector.
- rest=points();ids=np.array([np.argmin(np.linalg.norm(rest-[.12,-.04,z],axis=1)) for z in [-.04,0,.04]])
- y=np.load(BASE/f'{a.split}-observations.npz')['measurements'][a.object*3,:9].reshape(3,3)
- t=np.arange(31)/5;alpha=np.minimum(t/1.4,1.);alpha=np.where(t>3.4,np.maximum(0,1-(t-3.4)/1.4),alpha)
- train['object_points'][:]=rest;train['object_points'][:,ids]=rest[ids]+alpha[:,None,None]*y
- train['object_visibilities'][:]=False;train['object_visibilities'][:,ids]=True
- train['object_motions_valid'][:]=False;train['object_motions_valid'][:,ids]=True
+ restrict_selection_prefix(train,np.load(BASE/f'{a.split}-observations.npz')['measurements'][a.object*3,:9])
 with (OUT/'train.pkl').open('wb') as f:pickle.dump(train,f)
 np.savez_compressed(OUT/'forces.npz',forces=load)
 cfg.load_from_yaml(str(UP/'configs/real.yaml'));cfg.FPS=5;cfg.dt=.0002/a.step_refinement;cfg.num_substeps=1000*a.step_refinement;cfg.gravity_scale=0.;cfg.reverse_z=False

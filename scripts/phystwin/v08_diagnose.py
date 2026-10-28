@@ -8,6 +8,9 @@ from scripts.phystwin.v08_study import BASE,OUT,Experiment,interpolators,fit,pro
 
 def main():
  s=protocol();interp=interpolators();bias,C=fit(interp);ex=Experiment(interp,s['planning_grid'],bias,C);z=np.load(BASE/'development-observations.npz');rows=[]
+ from scripts.phystwin.sequential_fixture import LAYOUTS
+ oracle=np.array([interp[LAYOUTS.index(r['layout'])](np.log(r['parameters'])[None])[0,54:] for r in s['development']]);truth=z['truth'][::3]
+ write(OUT/'development-forward-oracle.json',dict(scope='Known true physical parameters and support layout, development objects only; cubic n4 surrogate versus qualified held-force FEM. Does not supply labels to any policy.',raw_target_rmse_mm=float(1000*np.sqrt(np.mean((oracle-truth)**2))),bias_corrected_target_rmse_mm=float(1000*np.sqrt(np.mean((oracle+bias[54:]-truth)**2))),per_object_raw_rmse_mm=(1000*np.sqrt(np.mean((oracle-truth)**2,axis=1))).tolist(),camera_coordinate_rmse_mm=float(1000*np.sqrt(np.mean((z['measurements']-z['exact_observations'])**2)))))
  for i,(y,truth) in enumerate(zip(z['measurements'],z['truth'])):
   path=BASE/'diagnosis'/f'bayes-{i}.json'
   if path.exists():rows.append(json.loads(path.read_text()));continue

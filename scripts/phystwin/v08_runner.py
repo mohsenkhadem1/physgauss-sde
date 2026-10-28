@@ -16,18 +16,19 @@ def fit(split,obj,budget,refine=True):
   if step==2:args+=['--evaluate-only']
   run('run_v08_phystwin.py',*args,python=PHYS)
 def main():
- p=argparse.ArgumentParser();p.add_argument('mode',choices=['analysis','bridge','finalize']);p.add_argument('--worker',type=int,default=0);a=p.parse_args();status=BASE/f'{a.mode}-{a.worker}-status.json'
+ p=argparse.ArgumentParser();p.add_argument('mode',choices=['analysis','bridge','audit','finalize']);p.add_argument('--worker',type=int,default=0);a=p.parse_args();status=BASE/f'{a.mode}-{a.worker}-status.json'
  def mark(state,**kw):status.write_text(json.dumps(dict(state=state,time=time.time(),**kw),indent=2)+'\n')
  try:
   mark('running')
   if a.mode=='analysis':
    wait_files('fields/development-*-reference.npz',12);run('v08_study.py','observations','--split','development')
    wait_files('fields/bank*-n4-q3.npz',192);run('v08_diagnose.py')
-   run('v08_study.py','plan','--split','development')
    for split in ['calibration','test']:
     wait_files(f'fields/{split}-*-reference.npz',24);run('v08_study.py','observations','--split',split)
     run('v08_study.py','plan','--split',split);run('v08_study.py','predict','--split',split)
     if split=='calibration':run('v08_study.py','seal')
+  elif a.mode=='audit':
+   wait_files('test-cost_aware-65.npz',1);run('v08_prediction_audit.py')
   elif a.mode=='bridge':
    if a.worker<3:
     wait_files('development-observations.npz',1)
@@ -45,7 +46,9 @@ def main():
     while not path.exists() or json.loads(path.read_text())['state']!='complete':
      if path.exists() and json.loads(path.read_text())['state']=='failed':raise RuntimeError(f'{name} failed')
      time.sleep(10)
-   run('v08_ensemble.py','--diagnose');run('v08_prediction_audit.py');run('report_v08.py');run('render_v08.py')
+   run('v08_ensemble.py','--diagnose')
+   if not (ROOT/'reports/phystwin-informative-v08/prediction-refinement.json').exists():run('v08_prediction_audit.py')
+   run('report_v08.py');run('render_v08.py')
   mark('complete')
  except BaseException as e:mark('failed',error=repr(e),traceback=traceback.format_exc());raise
 if __name__=='__main__':main()

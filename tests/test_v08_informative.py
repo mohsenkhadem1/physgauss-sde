@@ -38,3 +38,12 @@ def test_incremental_loading_matches_direct_equilibrium():
  np.testing.assert_allclose(state['displacement_local_m'],direct['displacement_local_m'],atol=1e-9,rtol=1e-6)
  assert np.linalg.norm(state['residual'])<1e-10
  np.testing.assert_array_equal(m.load,target)
+
+def test_selection_ensemble_cannot_see_dense_or_future_truth():
+ from scripts.phystwin.v08_physbridge import restrict_selection_prefix
+ x=points();data=dict(object_points=np.full((31,81,3),999.),object_visibilities=np.ones((31,81),bool),object_motions_valid=np.ones((30,81),bool))
+ y=np.arange(9)*.0001;restrict_selection_prefix(data,y);visible=data['object_visibilities'][0];assert visible.sum()==3
+ np.testing.assert_allclose(data['object_points'][:,~visible],np.broadcast_to(x[~visible],(31,78,3)))
+ np.testing.assert_allclose(data['object_points'][10,visible]-x[visible],y.reshape(3,3))
+ assert np.all(data['object_motions_valid'].sum(1)==3)
+ np.testing.assert_allclose(data['object_points'][0],x)
