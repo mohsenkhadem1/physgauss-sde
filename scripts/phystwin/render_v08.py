@@ -41,4 +41,6 @@ def phystwin():
     writer.grab_frame()
  plt.close(fig);write(OUT/'phystwin-video-selection.json',dict(objects=list(range(6)),selection='All six bridge objects in protocol order; no success selection.',scope='Spring rollouts versus interpolated static reference ramps. Only settled hold scores support quantitative comparison; transient reference is not validated dynamic truth.'))
 
-if __name__=='__main__':bayesian();phystwin()
+if __name__=='__main__':
+ if not all((OUT/name).exists() for name in ['actual-vs-predicted.mp4','video-selection.json','prediction-median.png','prediction-worst.png']):bayesian()
+ if not all((OUT/name).exists() for name in ['phystwin-fixed-vs-ensemble.mp4','phystwin-video-selection.json',*[f'phystwin-object-{i}.png' for i in range(6)]]):phystwin()
