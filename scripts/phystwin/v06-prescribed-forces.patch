@@ -1,0 +1,25 @@
+--- a/qqtt/model/diff_simulator/spring_mass_warp.py
++++ b/qqtt/model/diff_simulator/spring_mass_warp.py
+@@ -137,0 +138,6 @@
++
++
++@wp.kernel
++def add_prescribed_forces(start: wp.array(dtype=wp.vec3), end: wp.array(dtype=wp.vec3), alpha: float, force: wp.array(dtype=wp.vec3)):
++    i = wp.tid()
++    force[i] = force[i] + (1.0-alpha)*start[i] + alpha*end[i]
+@@ -635,0 +642,7 @@
++        self.external_force_trajectory = None
++        if getattr(cfg, "external_force_path", None) is not None:
++            import numpy as np
++            self.external_force_trajectory = torch.tensor(np.load(cfg.external_force_path)["forces"], dtype=torch.float32, device=self.device)
++            assert self.external_force_trajectory.shape[1:] == (num_object_points, 3)
++            self.wp_external_start = wp.zeros(num_object_points, dtype=wp.vec3, requires_grad=False)
++            self.wp_external_end = wp.zeros(num_object_points, dtype=wp.vec3, requires_grad=False)
+@@ -806,0 +820,3 @@
++        if self.external_force_trajectory is not None:
++            wp.launch(copy_vec3, dim=self.num_object_points, inputs=[self.external_force_trajectory[frame_idx-1]], outputs=[self.wp_external_start])
++            wp.launch(copy_vec3, dim=self.num_object_points, inputs=[self.external_force_trajectory[frame_idx]], outputs=[self.wp_external_end])
+@@ -957,0 +974,3 @@
++
++            if self.external_force_trajectory is not None:
++                wp.launch(add_prescribed_forces, dim=self.num_object_points, inputs=[self.wp_external_start, self.wp_external_end, float(i+1)/float(self.num_substeps)], outputs=[self.wp_states[i].wp_vertice_forces])

@@ -156,3 +156,48 @@ GPU multigrid preconditions the current tangent without changing the equilibrium
 problem; an independent CPU residual check remains mandatory. Quadrature-gradient
 and tangent-contraction streaming limit GPU working memory. Raw checkpoints stay
 local. A failed object cannot silently disappear from calibration or testing.
+
+## Multi-support sequential probing and RGB-D / PhysTwin bridge (v06)
+
+[The v06 report](../../reports/phystwin-sequential-support-v06/REPORT.md) contains
+36 displacement-qualified references, a three-parameter continuous posterior,
+six force actions, two sequential probes, a rendered RGB-D fiducial observation
+model, and an isolated official-PhysTwin known-force adapter. It reports benefits
+at each observation budget, numerical sensitivity, coverage, and negative results
+without reducing the whole study to one pass/fail label. v05 inputs remain sealed.
+
+```bash
+# Freeze the pilot protocol before starting parallel data workers.
+.venv/bin/python -c 'from scripts.phystwin.sequential_reference import protocol; protocol()'
+# Repeat with GPU/worker indices 0, 1, 2. Each worker handles its disjoint cases.
+CUDA_VISIBLE_DEVICES=0 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=4 \
+  .venv/bin/python scripts/phystwin/sequential_campaign.py --worker 0
+# After all reference workers finish, render local RGB/depth and marker tracks.
+OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/phystwin/v06_visual.py
+# Run direct and RGB-D inference on separate available GPUs.
+CUDA_VISIBLE_DEVICES=0 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=4 \
+  .venv/bin/python scripts/phystwin/v06_analysis_runner.py --observations direct
+CUDA_VISIBLE_DEVICES=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=4 \
+  .venv/bin/python scripts/phystwin/v06_analysis_runner.py --observations rgbd
+# Preserve actions and audit predictions on a finer grid, on a free GPU.
+CUDA_VISIBLE_DEVICES=2 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=4 \
+  .venv/bin/python scripts/phystwin/v06_numerical_audit.py --size 97
+# Requires the existing official checkout and isolated PhysTwin environment.
+.venv/bin/python scripts/phystwin/install_v06_force_adapter.py
+# Repeat object 0, 1, 2 on available GPUs. Fits both budgets and halves dt.
+CUDA_VISIBLE_DEVICES=0 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=4 \
+  .venv/bin/python scripts/phystwin/v06_phystwin_runner.py --object 0
+OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/phystwin/report_v06.py
+OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/phystwin/render_v06.py
+.venv/bin/python -m pytest -q tests/test_sequential_fixture.py \
+  tests/test_sequential_policy.py tests/test_v06_visual_bridge.py
+```
+
+The visual interface uses known cameras, geometry, and colored fiducial identities;
+it is not raw-video reconstruction. PhysTwin gets 27 visible markers per frame,
+so its three-object bridge is separate from the sparse, equal-budget policy
+comparison. Added interactions also increase optimizer updates at the same epoch
+count. PhysTwin learns spring parameters; the continuous physical posterior is a
+separate FEM model. Videos distinguish static shapes and interpolated reference
+ramps from validated dynamic ground truth. Full images, depth maps and simulation
+fields remain local; only derived reports and example videos are published.
