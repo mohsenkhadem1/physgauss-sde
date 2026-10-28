@@ -43,6 +43,7 @@ def main():
    run('report_v07.py')
    run('plot_v07.py')
    if not (ROOT/'reports/phystwin-cost-aware-v07/actual-vs-predicted.mp4').exists():run('render_v07.py')
+   if not (ROOT/'reports/phystwin-cost-aware-v07/phystwin-fixed-vs-adaptive.mp4').exists():run('render_v07_phystwin.py')
   mark('complete')
  except BaseException as e:mark('failed',error=repr(e),traceback=traceback.format_exc());raise
 if __name__=='__main__':main()

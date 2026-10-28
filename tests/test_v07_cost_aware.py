@@ -41,3 +41,10 @@ def test_planning_does_not_read_future_observations():
  ex=Experiment(interp,5,np.zeros(279),np.eye(279)*1e-7,'cpu');a=np.zeros(36);b=a.copy();b[9:]=1000
  ra,ca=ex.choose([],a,samples=4);rb,cb=ex.choose([],b,samples=4)
  np.testing.assert_array_equal(ra,rb);assert ca==cb
+
+def test_rigid_aligned_metric_removes_rotation_and_translation():
+ from scripts.phystwin.report_v07 import aligned_rmse
+ from scripts.phystwin.sequential_fixture import points
+ x=points();angle=.3;R=np.array([[np.cos(angle),-np.sin(angle),0],[np.sin(angle),np.cos(angle),0],[0,0,1]])
+ displacement=x@R+np.array([.01,-.03,.02])-x
+ assert aligned_rmse(displacement.reshape(1,-1),np.zeros((1,243)))<1e-10
