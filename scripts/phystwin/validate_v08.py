@@ -14,12 +14,12 @@ def main():
  fits=list((BASE/'phystwin').glob('*/summary-dt1.json'));assert len(fits)==72,len(fits)
  for path in fits:
   row=json.loads(path.read_text());member=row['member'];dev=row['split']=='development'
+  assert 'held_oblique' not in row['fit_actions'],path
   expected=(31,3,900) if member else ((61,27,1800) if dev else (91,27,2700))
   assert (row['training_frames'],row['visible_markers'],row['optimizer_updates'])==expected,path
   if member:assert row['fit_actions']==['initial'] and not (path.parent/'held_oblique-dt1.npz').exists()
   else:assert (path.parent/'summary-dt2.json').exists()
  links=re.findall(r'\]\(([^)]+)\)',(OUT/'REPORT.md').read_text())
- for name in links:assert (OUT/name).is_file(),name
  for path in BASE.glob('test-*-*.npz'):
   with np.load(path) as data:
    for key in ['mean','sd','truth']:assert np.isfinite(data[key]).all(),(path,key)
@@ -42,5 +42,6 @@ print(json.dumps(result))
  write('implementation-provenance.json',provenance);write('sealed-input-hashes.json',json.loads((BASE/'seal.json').read_text()))
  tests=(OUT/'tests.txt').read_text();assert '21 passed' in tests
  write('artifact-validation.json',dict(reference_cases=60,qualified_reference_cases=60,held_out_objects=24,phystwin_selection_members=27,development_response_fits=21,matched_test_response_fits=24,optimizer_updates_per_test_fit=2700,extra_ensemble_selection_updates=2700,tests_passed=21,report_links_checked=links,v06_v07_v08_seals_verified=True,video_checks=videos,maximum_phystwin_half_step_score_change_mm=max(abs(r['rmse_mm']-r['refined_rmse_mm']) for r in summary['phystwin']),raw_datasets_published=False))
+ for name in links:assert (OUT/name).is_file(),name
  print('VALIDATED 60 references, 72 PhysTwin fits, four seals, two fully decoded videos')
 if __name__=='__main__':main()

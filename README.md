@@ -474,6 +474,17 @@ includes the measured-data schema and validator. No physical capture is claimed.
 
 ### Stronger deformation and model-specific action selection (v08)
 
+Completed: **60 qualified reference cases**, 24 fresh prediction-test objects and
+six matched PhysTwin test objects. The view-or-poke policy reaches **0.138 mm**
+pooled error versus **0.167 mm** for fixed pokes, with **31% lower assumed
+acquisition cost**; the paired object-level advantage remains inconclusive.
+PhysTwin ensemble-selected pokes worsen its mean error (**0.844 vs 0.660 mm**
+fixed). The stronger loads produce a median **33% nonrigid motion fraction**.
+
+[Full results and limits](reports/phystwin-informative-v08/REPORT.md) ·
+[Actual versus predicted video](reports/phystwin-informative-v08/actual-vs-predicted.mp4) ·
+[PhysTwin fixed versus ensemble video](reports/phystwin-informative-v08/phystwin-fixed-vs-ensemble.mp4)
+
 The v08 campaign applies fourfold localized/held forces and a sixteenfold
 distributed initial force (gravity unchanged), measures
 nine additional end-face points in a new view of the deformed initial state, and
