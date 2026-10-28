@@ -1,0 +1,55 @@
+"""Report stronger-load predictions and development action-value diagnoses."""
+from pathlib import Path
+import json,sys
+import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
+from scripts.phystwin.v08_study import BASE,OUT,POLICIES,protocol,write
+from scripts.phystwin.sequential_policy import verify
+from scripts.phystwin.report_v07 import ci,aligned_rmse
+from scripts.phystwin.sequential_fixture import points,ACTIONS
+
+def main():
+ s=protocol();seal=json.loads((BASE/'seal.json').read_text());verify(seal);result=dict(protocol=s,policies={},phystwin=[],development=json.loads((OUT/'development-action-value.json').read_text()),phystwin_development=json.loads((OUT/'phystwin-development-action-value.json').read_text()),numerics=json.loads((OUT/'prediction-refinement.json').read_text()))
+ errors={};costs={}
+ for p in POLICIES:
+  z=np.load(BASE/f'test-{p}-65.npz');e=z['mean']-z['truth'][:,None];plans=json.loads((BASE/'plans'/f'test-{p}.json').read_text());sc=np.array(seal['scales'][p]);mse=(e*e).mean(2).reshape(24,3,3).mean(1);errors[p]=mse
+  cost=np.array([sum(s['costs'][a] for a in r['history']) for r in plans]).reshape(24,3).mean(1);costs[p]=cost
+  result['policies'][p]=dict(rmse_mm=(1000*np.sqrt(mse.mean(0))).tolist(),object_coverage=(abs(e)<=sc[None,:,None]*1.644853626951*z['sd']).reshape(24,3,3,243).all((1,3)).mean(0).tolist(),band_width_mm=(2000*sc*1.644853626951*z['sd'].mean((0,2))).tolist(),mean_cost=float(cost.mean()),view_count=sum(6 in r['history'] for r in plans),stop_counts={str(n):sum(len(r['history'])==n for r in plans) for n in range(3)},rigid_aligned_rmse_mm=[aligned_rmse(z['mean'][:,b],z['truth']) for b in range(3)],scales=sc.tolist(),object_mse_m2=mse.tolist())
+ result['stationary_baseline']=dict(rmse_mm=float(1000*np.sqrt(np.mean(z['truth']**2))),rigid_aligned_rmse_mm=aligned_rmse(np.zeros_like(z['truth']),z['truth']))
+ result['cost_aware_comparisons']={p:dict(rmse_improvement_mm=float(np.mean(1000*(np.sqrt(errors[p][:,-1])-np.sqrt(errors['cost_aware'][:,-1])))),paired_95_interval_mm=ci(1000*(np.sqrt(errors[p][:,-1])-np.sqrt(errors['cost_aware'][:,-1]))),cost_adjusted_improvement_mm2=float(1e6*np.mean(errors[p][:,-1]+s['cost_penalty_m2']*costs[p]-errors['cost_aware'][:,-1]-s['cost_penalty_m2']*costs['cost_aware']))) for p in ['fixed','random','adaptive_pokes']}
+ for obj in range(6):
+  for p in ['fixed','random','adaptive_pokes','ensemble']:
+   folder=BASE/'phystwin'/f'test-{obj}-{p}';a=json.loads((folder/'summary-dt1.json').read_text());b=json.loads((folder/'summary-dt2.json').read_text());assert (a['training_frames'],a['visible_markers'],a['optimizer_updates'])==(91,27,2700)
+   result['phystwin'].append(dict(object=obj,policy=p,actions=a['fit_actions'],rmse_mm=a['results']['held_oblique']['hold_rmse_mm'],refined_rmse_mm=b['results']['held_oblique']['hold_rmse_mm'],stationary_rmse_mm=a['results']['held_oblique']['stationary_rmse_mm'],optimizer_updates=a['optimizer_updates']))
+ result['phystwin_means_mm']={p:float(np.mean([r['rmse_mm'] for r in result['phystwin'] if r['policy']==p])) for p in ['fixed','random','adaptive_pokes','ensemble']}
+ paired={p:np.array([next(r['rmse_mm'] for r in result['phystwin'] if r['object']==i and r['policy']==p) for i in range(6)]) for p in result['phystwin_means_mm']}
+ result['ensemble_improvement']={p:dict(mean_mm=float(np.mean(paired[p]-paired['ensemble'])),paired_95_interval_mm=ci(paired[p]-paired['ensemble'])) for p in ['fixed','random','adaptive_pokes']}
+ quals=[json.loads(p.read_text()) for p in (BASE/'qualification').glob('*.json')];assert len(quals)==60 and all(q['displacement_qualified'] for q in quals);result['reference_qualification']=dict(count=60,mesh_counts={str(n):sum(q['mesh']==n for q in quals) for n in s['reference_levels']},scope='Unchanged sampled displacement RMS≤20um/max≤100um, equilibrium residual≤1e-9N and positive Jacobians; spatial and quadrature refinement. Not full strain/traction or dynamic qualification.')
+ rest=points();xc=rest-rest.mean(0);motion=[]
+ for obj in range(24):
+  fields=np.load(BASE/'fields'/f'test-{obj}-reference.npz')['field']
+  for name,u in zip(ACTIONS,fields):
+   y=rest+u;U,_,V=np.linalg.svd(xc.T@(y-y.mean(0)));R=U@V
+   if np.linalg.det(R)<0:U[:,-1]*=-1;R=U@V
+   total=np.sqrt(np.mean(u*u));shape=np.sqrt(np.mean((xc@R+y.mean(0)-y)**2));motion.append(dict(object=obj,action=name,motion_rms_mm=float(1000*total),nonrigid_rms_mm=float(1000*shape),nonrigid_fraction=float(shape/total)))
+ result['deformation']={a:{k:np.quantile([r[k] for r in motion if r['action']==a],[0,.5,1]).tolist() for k in ['motion_rms_mm','nonrigid_rms_mm','nonrigid_fraction']} for a in ACTIONS};write(OUT/'deformation.json',dict(summary=result['deformation'],rows=motion))
+ write(OUT/'comparison.json',result);write(OUT/'protocol.json',s)
+ lines=['# Informative deformation and model-specific action selection: v08','',s['scope'],'','![Summary](comparison.png)','','## Held-out prediction','','| Policy | Initial / one / two acquisitions RMSE mm | Whole-object coverage | Mean cost |','|---|---|---|---|']
+ for p,r in result['policies'].items():lines.append(f"| {p} | {' / '.join(f'{v:.3f}' for v in r['rmse_mm'])} | {' / '.join(f'{v:.0%}' for v in r['object_coverage'])} | {r['mean_cost']:.3f} |")
+ lines+=['',f"Stationary rest-shape baseline: {result['stationary_baseline']['rmse_mm']:.3f} mm. 24 fresh test objects, three noise repeats each. Coverage requires every sampled coordinate and repeat for an object. Calibration uses 24 separate objects, per policy and budget. Balanced layouts mean coverage is an empirical audit, not a claimed distribution-free guarantee. Acquisition costs are assumed: view 0.25, poke 1; stopping penalty 0.01 mm² per cost unit.",'','[Watch actual versus predicted shapes](actual-vs-predicted.mp4). The video includes median and worst final-error cases at actual deformation scale.','', '## Does predicted information value match actual improvement?','',f"Bayesian diagnostic: all seven actions on 12 development objects × three repeats. Mean within-observation rank correlation: {result['development']['mean_spearman']:.3f}; best-action agreement: {result['development']['top_action_agreement']:.1%}. Expected reduction in posterior target variance is compared with realized held-load MSE reduction. A realized noisy outcome is not an expectation.",'',f"PhysTwin diagnostic: all six force candidates on three development objects, one per support layout. Mean rank correlation between ensemble disagreement and realized squared-error improvement: {result['phystwin_development']['mean_spearman']:.3f}. Each action fit and repeated-initial control has 61 frames, 27 markers and 1800 updates. These are development-only diagnoses; test outcomes do not tune either selector.",'','[Bayesian action details](development-action-value.json) · [PhysTwin action details](phystwin-development-action-value.json)','','## Matched PhysTwin action comparison','','| Policy | Mean held-load RMSE mm |','|---|---|']
+ for p,v in result['phystwin_means_mm'].items():lines.append(f'| {p} | {v:.3f} |')
+ lines+=['','Six fresh objects. Every final fit has 91 frames, 27 visible markers and 2700 updates. Fixed, random, FEM-Bayesian adaptive and PhysTwin-ensemble-selected actions use the same final training budget. The ensemble selector fits three initial-only models at spring initializations 0.05/0.1/0.2 using exactly the same nine RGB-D prefix coordinates as Bayes, interpolated through the load ramp. It receives no candidate response or held-load target. It ranks predicted candidate-marker disagreement and takes the top two as a batch; the Bayesian policy updates after its first observation. The ensemble spends 2700 additional selection updates per object, which fixed/random choices do not require. Disagreement is a heuristic, not calibrated uncertainty.','', '[Watch fixed versus ensemble PhysTwin predictions](phystwin-fixed-vs-ensemble.mp4). Rollouts are compared against interpolated static equilibrium targets; only settled holds support quantitative scores. Transients are not validated dynamic ground truth.','','Ensemble improvement (positive favors ensemble), with exploratory six-object paired bootstrap intervals:','','```json',json.dumps(result['ensemble_improvement'],indent=2),'```','','## Numerical and deformation checks','','All 60 references pass the unchanged displacement/equilibrium checks. Stronger loads exposed GPU PCG failures; v08 retries with rebuilt linear caches and, when necessary, incremental loading, preserving the final force and acceptance criteria. See local checkpoint/log history.','',f"Median nonrigid held-load displacement: {result['deformation']['held_oblique']['nonrigid_rms_mm'][1]:.3f} mm; median initial-load nonrigid displacement: {result['deformation']['initial']['nonrigid_rms_mm'][1]:.3f} mm. Fractions and per-action ranges: [deformation diagnostics](deformation.json).",'','Planning and primary prediction use 65³ quadrature nodes per layout. [97³ prediction audit](prediction-refinement.json) retains selected actions and calibration multipliers. It does not establish action-selection or outcome-sampling convergence. Physical-parameter calibration and superior probing are separate claims from accurate deformation prediction.','','## Reproducibility','','Raw datasets/checkpoints remain local. Code, derived metrics, tests and videos are published. Prior v06/v07 seals are preserved. Simulation only; no hardware results claimed.','']
+ (OUT/'REPORT.md').write_text('\n'.join(lines))
+ fig,axes=plt.subplots(1,3,figsize=(15,4.5));colors=['#386cb0','#777777','#e58b2b','#258556']
+ for (p,r),c in zip(result['policies'].items(),colors):axes[0].plot(range(3),r['rmse_mm'],'o-',label=p,color=c)
+ axes[0].set(xlabel='Acquisitions allowed',ylabel='Held-load RMSE (mm)',xticks=[0,1,2],title='24 fresh objects, stronger forces');axes[0].legend(fontsize=8)
+ d=result['development'];axes[1].bar(np.arange(7)-.18,d['mean_expected_gain_mm2'],width=.36,label='Expected');axes[1].bar(np.arange(7)+.18,d['mean_realized_gain_mm2'],width=.36,label='Realized');axes[1].set(xticks=range(7),xticklabels=['L-y','R-y','L-z','R-z','Twist','Pull','View'],ylabel='MSE reduction (mm²)',title='Development action-value diagnosis');axes[1].legend(fontsize=8)
+ names=list(result['phystwin_means_mm']);axes[2].bar(range(4),list(result['phystwin_means_mm'].values()),color=colors)
+ for r in result['phystwin']:axes[2].plot(names.index(r['policy']),r['rmse_mm'],'k.',alpha=.6)
+ axes[2].set(xticks=range(4),xticklabels=['Fixed','Random','Bayes','PhysTwin\nensemble'],ylabel='Held-load RMSE (mm)',title='Six matched-budget PhysTwin objects')
+ for ax in axes:ax.spines[['top','right']].set_visible(False);ax.grid(axis='y',alpha=.2)
+ fig.tight_layout();fig.savefig(OUT/'comparison.png',dpi=160);print('REPORT_COMPLETE',result['phystwin_means_mm'],flush=True)
+if __name__=='__main__':main()

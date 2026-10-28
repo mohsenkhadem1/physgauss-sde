@@ -471,3 +471,36 @@ choices as numerically converged.
 
 [Real-object pilot preparation](reports/phystwin-cost-aware-v07/REAL_PILOT.md)
 includes the measured-data schema and validator. No physical capture is claimed.
+
+### Stronger deformation and model-specific action selection (v08)
+
+The v08 campaign applies eightfold external forces (gravity unchanged), measures
+nine additional end-face points in a new view of the deformed initial state, and
+checks expected versus actual action value on development objects. It preserves
+v06/v07 data and seals. Nonlinear references retain the displacement and residual
+criteria; solver recovery rebuilds the linear cache and uses incremental loading.
+
+The PhysTwin selector fits three initial-only models with spring initializations
+0.05, 0.1 and 0.2. All receive the same nine measured prefix coordinates as the
+Bayesian policy. Candidate-marker disagreement selects two distinct pokes as a
+batch. This is a heuristic, with additional selection compute, not calibrated
+information gain. Final fixed/random/Bayesian/PhysTwin-ensemble fits share the
+same 91-frame, 27-marker, 2700-update budget. Development diagnostics fit all six
+single-poke candidates and an equal-budget repeated-load control on three objects.
+
+Raw data and resumable statuses: `runs/phystwin-informative-v08/`. Reference
+workers 0–5 share physical GPUs 0–2, with `CUDA_VISIBLE_DEVICES=worker%3`:
+
+```bash
+.venv/bin/python scripts/phystwin/v08_reference.py --references-only --workers 6 --worker 0
+.venv/bin/python scripts/phystwin/v08_reference.py --bank-only --workers 3 --worker 0
+.venv/bin/python scripts/phystwin/v08_runner.py analysis
+.venv/bin/python scripts/phystwin/v08_runner.py bridge --worker 0
+.venv/bin/python scripts/phystwin/v08_runner.py finalize
+```
+
+Run each reference worker and bank worker once. Bridge workers 0–2 handle the
+three development objects and six test objects; optional workers 3–5 start the
+second test trio concurrently, protected by per-fit locks. Finalization waits for
+completed inference and bridge jobs, performs a finer posterior audit, and writes
+the report and videos. No real-hardware work is included.
