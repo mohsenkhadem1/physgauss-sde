@@ -36,6 +36,8 @@ Each accepted reference action must satisfy adjacent-grid and quadrature displac
 
 The two-resolution predictor is $\hat u=(9u_3-4Pu_2)/5$. It is an extrapolated displacement field rather than an exact equilibrium of one mesh. Its derivatives combine the two implicit equilibrium derivatives. Calibration accounts empirically for residual prediction discrepancy.
 
+All 87 declared reference fields, including spatial-transfer cases, passed these checks. Thirty-nine used resolution $n=6$, forty-four used $n=8$, and four used $n=10$. The largest accepted action-level spatial RMS change was $19.35\,\mu$m; the largest quadrature RMS change was $0.278\,\mu$m. The minimum sampled deformation Jacobian was $0.727$, and the largest reaction imbalance was $1.91\times10^{-11}$\,N. These counts concern independently refined reference objects; the separate 512-object neural training bank uses the two-resolution predictor.
+
 \section{Observation interface and action splits}
 All predictors receive three noisy visible position sets and prescribed tool poses. Marker correspondence and camera calibration are known. The front face provides 27 points; the 81-point evaluation set additionally includes 47 hidden surface points and seven interior points. Depth noise has standard deviation $0.3$\,mm and rasterization introduces quantization. The common positional fitting scale is $0.3$\,mm per coordinate.
 

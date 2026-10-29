@@ -14,6 +14,21 @@ SPLITS=['test_id','test_material','test_environment']
 GROUPS=['interpolation','new_interaction','larger_amplitude']
 LABELS={'extrapolated-n3-p3':'Spatial inverse (ours)','extrapolated_material_frame-n3-p3':'Material-indexed load','extrapolated_nominal-n3-p3':'Nominal environment','neural-selected-id':'Neural (ID actions)','neural-selected-all':'Neural (all actions)','undeformed':'Undeformed','last_full_state_oracle_persistence':'Full-state persistence (oracle)'}
 
+def reference_summary():
+ qualification=[];missing=[]
+ counts={split:len(protocol()[split]) for split in ['development','calibration',*SPLITS]}
+ counts.update(transfer_development=3,transfer_calibration=12,transfer_test=9)
+ for split,count in counts.items():
+  for i in range(count):
+   p=BASE/f'qualification/{split}-{i}.json'
+   if not p.exists():missing.append(f'{split}-{i}');continue
+   q=json.loads(p.read_text());f=BASE/f'fields/{split}-{i}.npz'
+   with np.load(f) as z:
+    qualification.append(dict(split=split,object=i,mesh=q['mesh'],spatial_rms_um=1e6*max(q['spatial'][-1]['rms_m']),spatial_maximum_um=1e6*max(q['spatial'][-1]['maximum_m']),quadrature_rms_um=1e6*max(q['quadrature']['rms_m']),minimum_J=float(z['minimum_J'].min()),residual_N=float(z['residual_N'].max()),reaction_balance_N=float(z['reaction_balance_N'].max()),qualified=q['qualified']))
+ report=dict(declared=sum(counts.values()),rows=qualification,missing=missing)
+ write(OUT/'reference-summary.json',report)
+ return report
+
 def main():
  seal=verify();settings=seal['settings'];config=json.loads(CONFIG.read_text());paper=ROOT/'papers'/BASE.name;paper.mkdir(parents=True,exist_ok=True)
  pt='phystwin-'+settings['phystwin']['tag'];mpm='physgaussian-'+settings['mpm']['tag'];LABELS.update({pt:'PhysTwin core adaptation',mpm:'PhysGaussian MPM adaptation'})
@@ -33,15 +48,7 @@ def main():
   transfer_lines.append(LABELS[entry['method']]+' & '+' & '.join(cells)+' \\\\')
  transfer_lines+=['\\bottomrule','\\end{tabular}','\\caption{Spatial-transfer coordinate RMSE (mm) before acquisition, on six matched objects. Every model reuses its original three-observation fit. The held target is the $-40$ mm $y$ translation.}','\\label{tab:transfer}','\\end{table}']
  (paper/'generated-transfer-table.tex').write_text('\n'.join(transfer_lines)+'\n')
- qualification=[];missing=[]
- for split in ['development','calibration',*SPLITS]:
-  for i in range(len(protocol()[split])):
-   p=BASE/f'qualification/{split}-{i}.json'
-   if not p.exists():missing.append(f'{split}-{i}');continue
-   q=json.loads(p.read_text());f=BASE/f'fields/{split}-{i}.npz'
-   with np.load(f) as z:
-    qualification.append(dict(split=split,object=i,mesh=q['mesh'],spatial_rms_um=1e6*max(q['spatial'][-1]['rms_m']),quadrature_rms_um=1e6*max(q['quadrature']['rms_m']),minimum_J=float(z['minimum_J'].min()),residual_N=float(z['residual_N'].max()),reaction_balance_N=float(z['reaction_balance_N'].max())))
- write(OUT/'reference-summary.json',dict(rows=qualification,missing=missing))
+ reference_summary()
  # Counts stay visible: partial completion can never silently become a full cohort.
  tables=[]
  for kind,methods,metric in [('main',main_methods,'coordinate'),('matched',physical_methods,'coordinate'),('incremental',physical_methods,'incremental_coordinate_rmse_mm')]:
