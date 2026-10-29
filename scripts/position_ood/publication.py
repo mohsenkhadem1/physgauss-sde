@@ -33,16 +33,17 @@ def main():
  write(OUT/'reference-summary.json',dict(rows=qualification,missing=missing))
  # Counts stay visible: partial completion can never silently become a full cohort.
  tables=[]
- for kind,methods in [('main',main_methods),('matched',physical_methods)]:
+ for kind,methods,metric in [('main',main_methods,'coordinate'),('matched',physical_methods,'coordinate'),('incremental',physical_methods,'incremental_coordinate_rmse_mm')]:
   tables+=['\\begin{table*}[t]','\\centering\\small','\\begin{tabular}{lrrrrrr}','\\toprule','& \\multicolumn{2}{c}{Familiar parameters} & \\multicolumn{2}{c}{Material shift} & \\multicolumn{2}{c}{Environment shift} \\\\', 'Method & New motions & $2\\times$ amplitude & New motions & $2\\times$ amplitude & New motions & $2\\times$ amplitude \\\\','\\midrule']
   for method in methods:
    cells=[]
    for split in SPLITS:
-    entry=next(r for r in reports[split][kind]['rows'] if r['method']==method)
+    entry=next(r for r in reports[split]['main' if kind=='main' else 'matched']['rows'] if r['method']==method)
     for group in ['new_interaction','larger_amplitude']:
-     g=entry['groups'][group];s=g['summary'];value='--' if s is None else f'{s["mean"]:.3f}';value+=('' if entry['complete'] else f' ({len(g["objects"])}/{entry["declared_objects"]})');cells.append(value)
+     g=entry['groups'][group];s=g['summary'] if metric=='coordinate' else g[metric]['summary'];value='--' if s is None else f'{s["mean"]:.3f}';value+=('' if entry['complete'] else f' ({len(g["objects"])}/{entry["declared_objects"]})');cells.append(value)
    tables.append(LABELS[method]+' & '+' & '.join(cells)+' \\\\')
   caption=('All 42 declared test objects.' if kind=='main' else 'Matched physical comparison on 18 objects selected before evaluation (six per cohort). Native physical components use our shared-interface adapters.')
+  if kind=='incremental':caption="Incremental response error after subtracting each method's nominal-pose prediction, on the same matched 18-object subset."
   tables+=['\\bottomrule','\\end{tabular}',f'\\caption{{Coordinate RMSE (mm), lower is better. {caption} Missing or incomplete results retain explicit counts. Object-level bootstrap intervals and familiar-direction queries are provided in the accompanying report.}}',f'\\label{{tab:{kind}}}','\\end{table*}']
  (paper/'generated-tables.tex').write_text('\n'.join(tables)+'\n')
  sources=[BASE/'method-seal.json',BASE/'neural-selection.json']+list(OUT.glob('*-aggregate.json'))+[OUT/'reference-summary.json']

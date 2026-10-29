@@ -1,4 +1,5 @@
 """Position-query neural baseline with a disjoint simulated training bank."""
+import fcntl
 from pathlib import Path
 import argparse,json,sys,time
 import numpy as np
@@ -14,7 +15,7 @@ from scripts.phystwin.v06_camera import render,track
 from scripts.phystwin.sequential_reference import write
 
 
-def bank(count=512,mesh=2,worker=0,workers=1,forward='dense'):
+def bank(count=512,mesh=2,worker=0,workers=1,forward='dense',indices=None):
     tag=f'n{mesh}' if forward=='dense' else f'{forward}-n{mesh}'
     if forward=='extrapolated':
         from scripts.position_ood.extrapolated import ExtrapolatedPositionFEM
@@ -22,20 +23,24 @@ def bank(count=512,mesh=2,worker=0,workers=1,forward='dense'):
         model=ExtrapolatedPositionFEM()
     else:model=dense_model(mesh)
     ids=np.argmin(np.linalg.norm(model.geo.rest[:,None]-points()[None],axis=-1),axis=0);visible=np.flatnonzero(np.isclose(points()[:,1],-.04))
-    for i in range(worker,count,workers):
+    for i in (range(worker,count,workers) if indices is None else indices):
         within_deadline();path=BASE/f'neural-bank/{tag}/{i}.npz'
-        if path.exists():continue
-        rng=np.random.default_rng(291000+i);E=np.exp(rng.uniform(np.log(8000),np.log(40000)));K=np.exp(rng.uniform(np.log(1500),np.log(15000),2));g=np.r_[rng.uniform(-.3,.3,2),-1.];g*=9.81/np.linalg.norm(g);A=rng.uniform(-.15,.15);h=rng.uniform(-.5,.5);theta=model.tensor([*np.log([E,*K]),*g,A,h]);layout=i%3
-        poses=np.array([controls(a,b) for a,b in ACTIONS]+[controls('translate_y',rng.uniform(-.006,.006)),controls('translate_z',rng.uniform(-.006,.006))]);fields=[]
-        try:
-            with torch.no_grad():
-                for pose in poses:fields.append(model.predict(theta,model.tensor(pose),layout)[ids].cpu().numpy())
-        except (ValueError,RuntimeError) as e:
-            write(path.with_suffix('.failure.json'),dict(error=repr(e),index=i));continue
-        ys=[]
-        for u in fields[:3]:
-            rgb,depth,c=render(points()+u,0,visible);ys.append(track(rgb,depth,c,visible,rng)-points()[visible])
-        path.parent.mkdir(parents=True,exist_ok=True);tmp=path.with_suffix('.tmp.npz');np.savez_compressed(tmp,fields=fields,poses=poses,observations=ys,index=i);tmp.replace(path);print('NEURAL_BANK',i,flush=True)
+        path.parent.mkdir(parents=True,exist_ok=True)
+        with path.with_suffix('.lock').open('a') as lock:
+            try:fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+            except BlockingIOError:continue
+            if path.exists():continue
+            rng=np.random.default_rng(291000+i);E=np.exp(rng.uniform(np.log(8000),np.log(40000)));K=np.exp(rng.uniform(np.log(1500),np.log(15000),2));g=np.r_[rng.uniform(-.3,.3,2),-1.];g*=9.81/np.linalg.norm(g);A=rng.uniform(-.15,.15);h=rng.uniform(-.5,.5);theta=model.tensor([*np.log([E,*K]),*g,A,h]);layout=i%3
+            poses=np.array([controls(a,b) for a,b in ACTIONS]+[controls('translate_y',rng.uniform(-.006,.006)),controls('translate_z',rng.uniform(-.006,.006))]);fields=[]
+            try:
+                with torch.no_grad():
+                    for pose in poses:fields.append(model.predict(theta,model.tensor(pose),layout)[ids].cpu().numpy())
+            except (ValueError,RuntimeError) as e:
+                write(path.with_suffix('.failure.json'),dict(error=repr(e),index=i));continue
+            ys=[]
+            for u in fields[:3]:
+                rgb,depth,c=render(points()+u,0,visible);ys.append(track(rgb,depth,c,visible,rng)-points()[visible])
+            path.parent.mkdir(parents=True,exist_ok=True);tmp=path.with_suffix('.tmp.npz');np.savez_compressed(tmp,fields=fields,poses=poses,observations=ys,index=i);tmp.replace(path);print('NEURAL_BANK',i,flush=True)
 
 class Predictor(nn.Module):
     def __init__(self):

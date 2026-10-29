@@ -11,9 +11,9 @@ from scripts.phystwin.sequential_reference import write
 
 POLICIES=['fixed','random','adaptive'];CANDIDATES=[3,4,5,6,8];TARGET=7
 
-def actions(i,plan,fixed=4):
+def actions(i,plan,fixed=4,seed=292000):
     assert fixed in CANDIDATES
-    return dict(fixed=fixed,random=int(np.random.default_rng(292000+i).choice(CANDIDATES)),adaptive=int(plan['selected']))
+    return dict(fixed=fixed,random=int(np.random.default_rng(seed+i).choice(CANDIDATES)),adaptive=int(plan['selected']))
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--split',default='transfer_development');p.add_argument('--kind',choices=['cpu','gpu'],required=True);p.add_argument('--worker',type=int,default=0);p.add_argument('--workers',type=int,default=1);p.add_argument('--iterations',type=int,default=80);p.add_argument('--fixed-action',type=int,default=4);a=p.parse_args()
@@ -31,7 +31,7 @@ def main():
                 if not (dest/'joint-n2-p3.json').exists():transfer(a.split,i,'joint',2)
                 if not (dest/'extrapolated-n3-p3.json').exists():transfer(a.split,i,'extrapolated',3)
                 if not planpath.exists():uncertainty(a.split,i,'extrapolated',3)
-                choice=actions(i,json.loads(planpath.read_text()),a.fixed_action);write(choicespath,dict(target=TARGET,candidates=CANDIDATES,actions=choice,scope='One acquired response per policy; fixed +40 mm y, seeded random, or prefix-only predicted target-variance reduction. The -40 mm y target remains unobserved.'))
+                random_seed={'transfer_development':292000,'transfer_calibration':293000,'transfer_test':294000}[a.split];choice=actions(i,json.loads(planpath.read_text()),a.fixed_action,random_seed);write(choicespath,dict(target=TARGET,candidates=CANDIDATES,actions=choice,random_seed=random_seed+i,scope='One acquired response per policy; fixed +40 mm y, seeded random, or prefix-only predicted target-variance reduction. The -40 mm y target remains unobserved.'))
             elif not choicespath.exists():pending+=1;continue
             choice=json.loads(choicespath.read_text())['actions']
             for action in sorted(set(choice.values())):

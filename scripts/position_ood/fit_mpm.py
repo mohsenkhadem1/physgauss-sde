@@ -53,10 +53,11 @@ def run(a):
         verify()
     obs=np.load(make(a.split,a.object));tag='mpm' if a.attachment_width==0 else f'mpm-layer{a.attachment_width:g}'
     if (a.seconds,a.ramp_seconds,a.fine_dt,a.fine_grid,a.fine_resolution)!=(2.,0.,.0001,64,2):tag+=f'-s{a.seconds:g}-ramp{a.ramp_seconds:g}-dt{a.fine_dt:g}-g{a.fine_grid}-r{a.fine_resolution}'
+    if a.rpic is not None:tag+=f'-rpic{a.rpic:g}'
     if a.spatial_field:tag+='-field'
     dest=BASE/f'{tag}/{a.split}-{a.object}';dest.mkdir(parents=True,exist_ok=True);lock=(dest/'run.lock').open('a');fcntl.flock(lock,fcntl.LOCK_EX)
     if (dest/'summary.json').exists():return
-    start=time.time();coarse=PositionMPM(1,32,.0002,attachment_width=a.attachment_width,ramp_seconds=a.ramp_seconds,rpic=-1. if a.attachment_width else 0.);rows=[]
+    start=time.time();coarse=PositionMPM(1,32,.0002,attachment_width=a.attachment_width,ramp_seconds=a.ramp_seconds,rpic=a.rpic if a.rpic is not None else (-1. if a.attachment_width else 0.));rows=[]
     for layout in range(3):
         path=dest/f'coarse-layout{layout}.json'
         if path.exists():row=json.loads(path.read_text())
@@ -66,13 +67,13 @@ def run(a):
             row=fit(coarse,obs,layout,initial,a.coarse_iterations,seconds=a.seconds);write(path,row)
         rows.append(row)
     best=min(rows,key=lambda r:r['loss']);del coarse
-    path=dest/'fine-fit.json';fine=PositionMPM(a.fine_resolution,a.fine_grid,a.fine_dt,attachment_width=a.attachment_width,ramp_seconds=a.ramp_seconds,rpic=-1. if a.attachment_width else 0.)
+    path=dest/'fine-fit.json';fine=PositionMPM(a.fine_resolution,a.fine_grid,a.fine_dt,attachment_width=a.attachment_width,ramp_seconds=a.ramp_seconds,rpic=a.rpic if a.rpic is not None else (-1. if a.attachment_width else 0.))
     if path.exists():fitted=json.loads(path.read_text())
     else:fitted=fit(fine,obs,best['layout'],best['z'],a.fine_iterations,seconds=a.seconds);write(path,fitted)
     fine.parameters(**parameters(fitted['z'],fitted['layout']));pred=[];drift=[]
     for pose in obs['poses']:
         within_deadline();r=fine.solve(pose,seconds=a.seconds);pred.append(r['field']);drift.append(r['drift_m'])
-    np.savez_compressed(dest/'predictions.npz',predicted=pred,drift_m=drift,poses=obs['poses']);write(dest/'summary.json',dict(state='complete',split=a.split,object=a.object,coarse_rows=rows,best=fitted,resolution=a.fine_resolution,grid=a.fine_grid,dt=a.fine_dt,seconds=a.seconds,ramp_seconds=a.ramp_seconds,attachment_width=a.attachment_width,inferred_spatial_amplitude=a.spatial_field,spatial_field_shape='Fixed nominal center and width; amplitude inferred from positions' if a.spatial_field else 'None',elapsed_seconds=time.time()-start,scope='Official PhysGaussian fixed-corotated MPM core with our compliant positional-boundary and black-box inverse adapter. Fits spatial material coefficient, two compliances, discrete support layout and gravity direction from the same three positional observations. No true physical labels; optional spatial-potential amplitude is inferred from the same acquired positions and explicitly labelled. Full Gaussian appearance pipeline is not evaluated.'))
+    np.savez_compressed(dest/'predictions.npz',predicted=pred,drift_m=drift,poses=obs['poses']);write(dest/'summary.json',dict(state='complete',split=a.split,object=a.object,coarse_rows=rows,best=fitted,resolution=a.fine_resolution,grid=a.fine_grid,dt=a.fine_dt,seconds=a.seconds,ramp_seconds=a.ramp_seconds,attachment_width=a.attachment_width,rpic=a.rpic if a.rpic is not None else (-1. if a.attachment_width else 0.),inferred_spatial_amplitude=a.spatial_field,spatial_field_shape='Fixed nominal center and width; amplitude inferred from positions' if a.spatial_field else 'None',elapsed_seconds=time.time()-start,scope='Official PhysGaussian fixed-corotated MPM core with our compliant positional-boundary and black-box inverse adapter. Fits spatial material coefficient, two compliances, discrete support layout and gravity direction from the same three positional observations. No true physical labels; optional spatial-potential amplitude is inferred from the same acquired positions and explicitly labelled. Full Gaussian appearance pipeline is not evaluated.'))
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--split',default='development');p.add_argument('--object',type=int,default=1);p.add_argument('--attachment-width',type=float,default=0.);p.add_argument('--coarse-iterations',type=int,default=12);p.add_argument('--fine-iterations',type=int,default=15);p.add_argument('--seconds',type=float,default=2.);p.add_argument('--ramp-seconds',type=float,default=0.);p.add_argument('--fine-dt',type=float,default=.0001);p.add_argument('--fine-grid',type=int,default=64);p.add_argument('--fine-resolution',type=int,default=2);p.add_argument('--spatial-field',action='store_true');a=p.parse_args();run(a)
+    p=argparse.ArgumentParser();p.add_argument('--split',default='development');p.add_argument('--object',type=int,default=1);p.add_argument('--attachment-width',type=float,default=0.);p.add_argument('--coarse-iterations',type=int,default=12);p.add_argument('--fine-iterations',type=int,default=15);p.add_argument('--seconds',type=float,default=2.);p.add_argument('--ramp-seconds',type=float,default=0.);p.add_argument('--fine-dt',type=float,default=.0001);p.add_argument('--fine-grid',type=int,default=64);p.add_argument('--fine-resolution',type=int,default=2);p.add_argument('--rpic',type=float);p.add_argument('--spatial-field',action='store_true');a=p.parse_args();run(a)

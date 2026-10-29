@@ -1,0 +1,58 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+\usepackage[pagenumbers]{cvpr}
+\usepackage[T1]{fontenc}
+\usepackage{times,graphicx,amsmath,amssymb,booktabs}
+\usepackage[breaklinks,colorlinks,citecolor=blue,urlcolor=blue]{hyperref}
+\def\confName{CVPR}\def\confYear{2027}
+\title{Position-Conditioned Deformation Prediction with Unknown Material and Environmental Interactions\\Supplementary Material}
+\author{Anonymous authors}
+\begin{document}
+\maketitle
+\section{Physical model and units}
+The canonical block occupies $[0,0.24]\times[-0.04,0.04]^2$ metres. Density is $625$\,kg/m$^3$, giving mass $0.96$\,kg. Poisson ratio is $0.35$. For local Young modulus $E(X)$, $\mu=E/[2(1+\nu)]$ and $\lambda=E\nu/[(1+\nu)(1-2\nu)]$. The material heterogeneity bases are $b_1=\exp[-((X_x-0.06)/0.07)^2]$ and $b_2=\exp[-((X_x-0.18)/0.07)^2]$.
+
+Each end-face coupling has total stiffness $K$ in N/m, with density normalized by its integrated footprint. For an end-face point $(y,z)$,
+\begin{multline}
+ w(y,z)=\left(1-(y/0.04)^2\right)_+\left(1-(z/0.04)^2\right)_+\\
+ \times\exp\left[-\frac{(y-c_y)^2+(z-c_z)^2}{2(0.03)^2}\right].
+\end{multline}
+The four possible footprint centers are $(0,-0.025)$, $(0,0.025)$, $(-0.025,0)$, and $(0.025,0)$ metres. The three layout hypotheses pair the two lower footprints, lower and upper footprints, or opposite $y$ footprints. Tool rotations act about the respective end-face centers. Attachment footprints move with the object/tool association; the distributed environmental potential is evaluated at current world positions.
+
+\section{Latent inference}
+The eleven latent coordinates comprise log $E_0$, log $K_l$, log $K_r$, two gravity tilts, an environmental amplitude, material heterogeneity, three spatial-center offsets, and a width coordinate. Gravity is
+\begin{equation}
+ g=9.81\frac{(z_3,z_4,-1)}{\|(z_3,z_4,-1)\|},
+\end{equation}
+with zero-based latent indexing. The Gaussian amplitude is $A=0.1z_5$ joules, $h=z_6$, the center is $(0.12,0,-0.09)+(0.06z_7,0.04z_8,0.04z_9)$ metres, and $s=0.08\exp(0.5z_{10})$ metres.
+
+Bounds are $E_0\in[3,100]$\,kPa, $K\in[300,60000]$\,N/m, gravity tilts in $[-0.8,0.8]$, $A\in[-0.5,0.5]$\,J, $h\in[-1.2,1.2]$, center coordinates $z_{7:9}\in[-1,1]$, and width coordinate $z_{10}\in[-1.2,0.8]$. The weak Gaussian regularizer has means $(\log20000,\log5000,\log5000,0,\ldots,0)$ and scales $(1,1,1,0.3,0.3,2,1,0.6,0.6,0.6,0.8)$.
+
+We use bounded L-BFGS with at most 80 iterations, objective tolerance $10^{-9}$ and gradient tolerance $10^{-5}$. A coarse solve screens all three layouts. Fine inference retains layouts within one normalized objective unit of the best coarse result. For post-acquisition inference, initialization chooses the lower acquired-data objective between the coarse post-acquisition fit and the previous fine fit. Neither initialization nor layout selection uses the held target response. Optimizer termination messages are retained separately from predictive error.
+
+\section{Reference and gradient checks}
+The reference uses quadratic hexahedral finite elements with Newton equilibrium solves and spatial refinement. The independent inverse backend assembles a dense tangent in double precision. Tests compare energy, residual and tangent with the sparse implementation and compare implicit gradients with finite differences. Further checks cover footprint normalization, positive Jacobians, mesh interpolation, probe-target exclusion and whole-object translation symmetry.
+
+Each accepted reference action must satisfy adjacent-grid and quadrature displacement RMS changes below $20\,\mu$m, residual below $10^{-9}$\,N, force balance below $10^{-7}$\,N and minimum sampled $J>0.1$. These are observed refinement checks at the declared query points. Surface quadrature uses order six; an independent development comparison against order ten changed predicted displacements by less than one nanometre. The mesh has $4n\times n\times n$ quadratic elements and graded thickness coordinates. Full-field warm starts are interpolated using the actual graded mesh.
+
+The two-resolution predictor is $\hat u=(9u_3-4Pu_2)/5$. It is an extrapolated displacement field rather than an exact equilibrium of one mesh. Its derivatives combine the two implicit equilibrium derivatives. Calibration accounts empirically for residual prediction discrepancy.
+
+\section{Observation interface and action splits}
+All predictors receive three noisy visible position sets and prescribed tool poses. Marker correspondence and camera calibration are known. The front face provides 27 points; the 81-point evaluation set additionally includes 47 hidden surface points and seven interior points. Depth noise has standard deviation $0.3$\,mm and rasterization introduces quantization. The common positional fitting scale is $0.3$\,mm per coordinate.
+
+The acquired prefix is rest, right-tool $+6$\,mm $y$, and right-tool $+6$\,mm $z$. Held local actions are right-tool $+3$\,mm $y$, symmetric $3$\,mm stretching, opposed $6$\,mm $y$ motion, opposed $0.15$\,rad twist, right-tool $0.15$\,rad bending, diagonal translation, and right-tool $+12$\,mm $y$. The transfer challenge translates both tools by $\pm40$\,mm along $x$ or $y$, $+40$\,mm along $z$, or $-25$\,mm along $z$. The $-40$\,mm $y$ response remains held out. The other five translations are probe candidates. The fixed policy uses $+40$\,mm $y$; random selection uses independent seed ranges $292000+i$, $293000+i$ and $294000+i$ for development, calibration and test object $i$, respectively.
+
+Calibration uses twelve separate objects. The pre-acquisition scale and each policy's post-acquisition scale are fitted independently on those objects. With twelve object scores and a 90\% object target, the finite-sample rank is thirteen times 0.9 rounded up, or twelve: the largest calibration score. This intentionally exposes the data requirement for reliable object-level uncertainty. OOD interval coverage is measured without an exchangeability guarantee.
+
+\section{Baseline implementations}
+PhysTwin uses the official spring-mass simulation and per-spring Adam optimizer, with our observation and positional-control adapter. Only the last second of each five-second action contributes observed settled positions; intermediate target shapes are not fabricated. The one-second tool ramp and four-second hold use a $0.2$\,ms time step. Development selection tests log-stiffness regularization strengths 0, 0.01 and 0.1. The selected strength is 0.1, with initial spring stiffness 3 and 100 epochs. The regularizer shrinks bulk spring log stiffness toward the mean in three material-coordinate bins, while controller springs remain free. This regularizer is our adaptation. A fixed-weight timestep-halving check changed predictions by less than $0.5\,\mu$m on the development case.
+
+PhysGaussian uses its official fixed-corotated MPM core, with our compliant positional coupling and inverse-fitting adapter. A normalized 6\,mm attachment layer, APIC transfer, a one-second ramp and eight-second simulation are selected on development checks. The fine configuration uses 14,161 particles, grid resolution 64 and a $0.1$\,ms step; the coarse fit uses grid 32 and $0.2$\,ms. The adapter fits elasticity, heterogeneity, coupling and gravity direction from positions. Development checks found that APIC reduced twisting hold-duration sensitivity relative to PIC; the numerical transfer setting was selected before held-out fitting. Timestep-halving changes are reported separately from physical-model error. The reported comparison concerns these adapted physical components; it does not evaluate the authors' complete reconstruction or appearance pipelines.
+
+Neural baselines use 512 disjoint synthetic objects, split by object into training and validation. Their targets use the same two-resolution forward predictor as the proposed inverse method. A point-query MLP and a rank-32 spatial-basis predictor are trained for 20,000 AdamW updates. The spatial basis uses only training objects. Architecture selection uses validation error alone, separately for the ID-action and all-action training variants. Neither architecture receives physical parameter labels. Both variants remain separately named in the results.
+
+\section{Reproducibility and provenance}
+A pre-evaluation SHA-256 manifest freezes the inference implementation, benchmark configuration, object cohorts, transfer protocol, neural weights and native simulator sources. Numerical fields and rendered data remain local; code, compact reports and manuscript sources are versioned. The study uses CPU workers and GPUs 0--2 on a four-GPU workstation, retaining the fourth GPU for existing desktop use. Raw prediction files precede separate scoring. Object-level bootstrap comparisons use paired objects, not individual coordinates as independent replicates. Explicit completion counts accompany every declared cohort.
+
+\section{Scope}
+This experiment isolates environmental and material ambiguity for known object geometry, synthetic correspondence and settled conservative mechanics. It evaluates unseen positional interaction patterns and material/environment parameter shifts within specified physical families. It does not establish impact prediction, unobserved time-varying force recovery, arbitrary topology reconstruction, or real-world performance. Those extensions require additional validated data and observation models.
+\end{document}

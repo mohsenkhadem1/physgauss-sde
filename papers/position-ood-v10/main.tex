@@ -20,7 +20,7 @@ Predicting deformation from visual observations requires distinguishing an objec
 \end{figure*}
 
 \section{Introduction}
-Physical digital twins connect visual reconstruction to predictions about how an object responds to interaction. A useful twin should answer a positional query: if a gripper moves here, or a tool follows this trajectory, how will the object deform? The reaction forces are consequences of the interaction, rather than necessarily available inputs. This distinction matters when deploying a model without calibrated force sensing.
+Physical digital twins connect visual reconstruction to predictions about how an object responds to interaction. A useful twin should answer a positional query: if a gripper moves here or changes its orientation, how will the object deform? The reaction forces are consequences of the interaction, rather than necessarily available inputs. This distinction matters when deploying a model without calibrated force sensing.
 
 Material properties alone do not determine the observed response. Fixtures may deform, constraints may be only partially visible, and distributed forces may act throughout the volume. A model that explains an observed trajectory by changing material stiffness can reproduce that trajectory while predicting a different interaction incorrectly. The resulting ambiguity is especially consequential outside the interaction patterns used for reconstruction.
 
@@ -79,6 +79,13 @@ The normalization separates contact location from total coupling stiffness. The 
 
 Gravity has known magnitude and unknown direction in the observation frame. Density, Poisson ratio, canonical geometry, and tool kinematics are shared known quantities. Thus the study isolates uncertainty in stiffness, attachment, and environmental loading. Material OOD tests change elastic coefficients and heterogeneity within this constitutive family.
 
+\paragraph{Why spatial transfer distinguishes the explanations.}
+Consider translating both tools by the same vector $t$. With material-indexed body loads, gravity, and the compliant attachments above, $u(a+t)=u(a)+t$ is an equilibrium whenever $u(a)$ is: deformation gradients and relative tool displacements are unchanged. A spatially varying load generally breaks this symmetry. Let $T$ repeat a translation at every node and let $K_\phi$ be the spatial-potential contribution to the tangent. Implicit differentiation gives
+\begin{equation}
+ \frac{\partial u^*}{\partial t}=T-K^{-1}K_\phi T.
+\end{equation}
+Thus a whole-object positional query directly exposes the spatial curvature of the environmental potential. This local identity assumes a nonsingular equilibrium and applies to the stated conservative model. It motivates the transfer experiment and the matched material-indexed-load ablation.
+
 \subsection{Inference from positional observations}
 For an observation operator $H_j$, we fit latent parameters by minimizing a position discrepancy,
 \begin{equation}
@@ -127,6 +134,7 @@ The aim is reliable prediction under changed interactions, rather than recoverin
 
 The present reference formulation describes settled equilibria. Interpolated equilibrium states are not dynamic ground truth, and impact, release, and dropping claims require separately validated trajectories. Results will be scoped to the material and environmental families actually evaluated.
 
+\clearpage
 \section*{LLM Usage Statement}
 OpenAI Codex assisted with research planning, implementation, experiment execution and analysis, related-work lookup, figure preparation, and manuscript drafting. The manuscript and its experimental claims require review and approval by the human authors before submission.
 

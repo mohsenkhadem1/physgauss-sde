@@ -15,6 +15,9 @@ def summarize(split,method_names,indices=None):
         for group,actions in groups.items():
             objects=[i for i in indices if i not in missing];values=[float(np.mean(np.array(lookup[i]['methods'][method]['coordinate_rmse_mm'])[actions])) for i in objects]
             entry['groups'][group]=dict(objects=objects,per_object_rmse_mm=values,summary=paired_interval(values) if values else None)
+            for metric in ['incremental_coordinate_rmse_mm','hidden_surface_rmse_mm','incremental_hidden_surface_rmse_mm']:
+                secondary=[float(np.mean(np.array(lookup[i]['methods'][method][metric])[actions])) for i in objects]
+                entry['groups'][group][metric]=dict(per_object=secondary,summary=paired_interval(secondary) if secondary else None)
         rows.append(entry)
     comparisons=[]
     if method_names:

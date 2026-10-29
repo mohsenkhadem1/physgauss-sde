@@ -9,8 +9,8 @@ from scripts.phystwin.sequential_reference import write
 
 
 def metrics(predicted,reference):
-    error=predicted-reference;front=np.isclose(points()[:,1],-.04);surface=np.any(np.isclose(abs(points()-[.12,0,0]),[.12,.04,.04]),axis=1);hidden=surface&~front
-    return dict(coordinate_rmse_mm=(1000*np.sqrt(np.mean(error**2,axis=(1,2)))).tolist(),point_rmse_mm=(1000*np.sqrt(np.mean(np.sum(error**2,axis=-1),axis=1))).tolist(),visible_rmse_mm=(1000*np.sqrt(np.mean(error[:,front]**2,axis=(1,2)))).tolist(),hidden_surface_rmse_mm=(1000*np.sqrt(np.mean(error[:,hidden]**2,axis=(1,2)))).tolist(),maximum_point_error_mm=(1000*np.linalg.norm(error,axis=-1).max(1)).tolist())
+    error=predicted-reference;increment=error-error[0];front=np.isclose(points()[:,1],-.04);surface=np.any(np.isclose(abs(points()-[.12,0,0]),[.12,.04,.04]),axis=1);hidden=surface&~front
+    return dict(incremental_coordinate_rmse_mm=(1000*np.sqrt(np.mean(increment**2,axis=(1,2)))).tolist(),incremental_hidden_surface_rmse_mm=(1000*np.sqrt(np.mean(increment[:,hidden]**2,axis=(1,2)))).tolist(),coordinate_rmse_mm=(1000*np.sqrt(np.mean(error**2,axis=(1,2)))).tolist(),point_rmse_mm=(1000*np.sqrt(np.mean(np.sum(error**2,axis=-1),axis=1))).tolist(),visible_rmse_mm=(1000*np.sqrt(np.mean(error[:,front]**2,axis=(1,2)))).tolist(),hidden_surface_rmse_mm=(1000*np.sqrt(np.mean(error[:,hidden]**2,axis=(1,2)))).tolist(),maximum_point_error_mm=(1000*np.linalg.norm(error,axis=-1).max(1)).tolist())
 
 
 def deformation(field):
