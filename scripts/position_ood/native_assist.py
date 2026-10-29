@@ -22,8 +22,13 @@ from scripts.phystwin.sequential_reference import write
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--worker', type=int, required=True)
+    parser.add_argument('--script', choices=['fit_mpm.py', 'phystwin.py'])
+    parser.add_argument('--max-jobs', type=int)
     args = parser.parse_args()
     tasks = [j for j in jobs(verify()['settings']) if j['environment'] == 'native']
+    if args.script:
+        tasks = [j for j in tasks if j['script'] == args.script]
+    completed = 0
     directory = BASE / 'jobs'
     while True:
         within_deadline()
@@ -61,6 +66,9 @@ def main():
                                    kind='gpu', job=job, returncode=result.returncode,
                                    elapsed_seconds=time.time()-start, executor='native_assist'))
                 print('JOB_DONE', job['name'], success, flush=True)
+                completed += 1
+                if args.max_jobs is not None and completed >= args.max_jobs:
+                    return
                 progress = True
                 break
         if not pending:
