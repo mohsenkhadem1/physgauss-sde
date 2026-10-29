@@ -110,6 +110,8 @@ def main():
         assert [row['object'] for row in data['rows']] == list(range(9))
         summary = json.loads((OUT/'uncertainty-publication-summary.json').read_text())
         assert all(summary['active'][policy]['objects'] == 9 for policy in ['before', 'fixed', 'random', 'adaptive'])
+        assert summary['acquisition_source_hashes']
+        hash_map(ROOT, summary['acquisition_source_hashes'])
         return dict(objects=9, policies=3, matched_frame_ablation=True)
     check('complete_acquisition_comparison', acquisition)
 
