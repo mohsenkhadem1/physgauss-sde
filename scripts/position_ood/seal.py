@@ -3,7 +3,7 @@ from pathlib import Path
 import datetime,hashlib,json,os,sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 from scripts.position_ood.runtime import ROOT,BASE,CONFIG,BOUNDARY
-SOURCES=['runtime.py','smooth_fixture.py','differentiable.py','extrapolated.py','fixture.py','material_field.py','inverse.py','run_inverse.py','observations.py','uncertainty.py','adapt.py','phystwin.py','physgaussian.py','fit_mpm.py','neural.py','study.py','score.py','reference_solver.py','predict_transfer.py','transfer.py','calibration.py','active_ablation.py','active_calibration.py','active_jobs.py','campaign_jobs.py','predict_selected.py','neural_lowrank.py','aggregate.py','predict_phystwin.py','seal.py']
+SOURCES=['predict_mpm_transfer.py','pilot.py','active_sequence.py','active_scoring_wait.py','launch_frozen.py','runtime.py','smooth_fixture.py','differentiable.py','extrapolated.py','fixture.py','material_field.py','inverse.py','run_inverse.py','observations.py','uncertainty.py','adapt.py','phystwin.py','physgaussian.py','fit_mpm.py','neural.py','study.py','score.py','reference_solver.py','predict_transfer.py','transfer.py','calibration.py','active_ablation.py','active_calibration.py','active_jobs.py','campaign_jobs.py','predict_selected.py','neural_lowrank.py','aggregate.py','predict_phystwin.py','seal.py']
 
 def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -18,9 +18,12 @@ def verify():
 
 def freeze(settings):
     paths=[ROOT/'scripts/position_ood'/s for s in SOURCES]+[CONFIG,BASE/'cohorts.json',BASE/'transfer-protocol.json']
-    paths += [ROOT/'scripts/phystwin'/p for p in ['tensor_fixture.py','sequential_fixture.py','v08_reference.py','consistent_fixture.py','gpu_multigrid.py','v06_camera.py']]
-    paths += [ROOT/'runs/third_party/PhysTwin-v06/qqtt/model/diff_simulator/spring_mass_warp.py']
+    paths += [ROOT/'scripts/phystwin'/p for p in ['tensor_fixture.py','sequential_fixture.py','v08_reference.py','consistent_fixture.py','gpu_multigrid.py','v06_camera.py','v08_physbridge.py']]
+    paths += sorted((ROOT/'runs/third_party/PhysTwin-v06/qqtt').rglob('*.py'))
+    paths += sorted((ROOT/'runs/third_party/PhysTwin-v06/configs').glob('*.yaml'))
     paths += list((ROOT/'runs/third_party/PhysGaussian-v09/mpm_solver_warp').glob('*.py'))
+    paths += sorted((BASE/'fields').glob('*.npz')) + sorted((BASE/'qualification').glob('*.json'))
+    paths += sorted((BASE/'neural-bank/extrapolated-n3').glob('*.npz'))
     paths += [BASE/f'neural/{mode}-{tag}/best.pt' for mode in ['id','all'] for tag in (['n2','extrapolated-n3'] if BOUNDARY=='sharp' else ['extrapolated-n3'])]
     paths += [BASE/f'neural/lowrank-{mode}-extrapolated-n3/best.pt' for mode in ['id','all']] + [BASE/'neural-selection.json']
     seal=dict(created_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),settings=settings,hashes={str(p.relative_to(ROOT)):digest(p) for p in paths})

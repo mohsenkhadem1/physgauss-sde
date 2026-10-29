@@ -1,7 +1,8 @@
 """Official PhysTwin spring-mass dynamics, fitted to shared settled positions.
 
 No interpolated deformation targets and no force labels. Native simulator and
-per-spring Adam updates; only the observation schedule is adapted to this task.
+per-spring Adam updates, with the shared position/observation interface and an
+explicit development-selected bulk regularizer.
 """
 from pathlib import Path
 import argparse,fcntl,json,os,pickle,sys,time

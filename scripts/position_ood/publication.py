@@ -22,6 +22,17 @@ def main():
   reports[split]={}
   for name,methods,indices in [('main',main_methods,None),('matched',physical_methods,config['expensive_baseline_indices'][split])]:
    r=summarize(split,methods,indices);reports[split][name]=r;write(OUT/f'{split}-{name}-aggregate.json',r)
+ transfer=summarize('transfer_test',main_methods+[pt,mpm,'extrapolated_material_frame-n3-p3'],config['transfer_physical_baseline_indices']);write(OUT/'transfer_test-matched-aggregate.json',transfer)
+ transfer_lines=['\\begin{table}[t]','\\centering\\small\\setlength{\\tabcolsep}{3pt}','\\begin{tabular}{lrr}','\\toprule','Method & Translations & Target \\\\','\\midrule']
+ for entry in transfer['rows']:
+  cells=[]
+  for group in ['spatial_transfer','held_target']:
+   g=entry['groups'][group];v=g['summary'];cell='--' if v is None else f'{v["mean"]:.3f}'
+   if not entry['complete']:cell+=f' ({len(g["objects"])}/{entry["declared_objects"]})'
+   cells.append(cell)
+  transfer_lines.append(LABELS[entry['method']]+' & '+' & '.join(cells)+' \\\\')
+ transfer_lines+=['\\bottomrule','\\end{tabular}','\\caption{Spatial-transfer coordinate RMSE (mm) before acquisition, on six matched objects. Every model reuses its original three-observation fit. The held target is the $-40$ mm $y$ translation.}','\\label{tab:transfer}','\\end{table}']
+ (paper/'generated-transfer-table.tex').write_text('\n'.join(transfer_lines)+'\n')
  qualification=[];missing=[]
  for split in ['development','calibration',*SPLITS]:
   for i in range(len(protocol()[split])):
@@ -34,7 +45,7 @@ def main():
  # Counts stay visible: partial completion can never silently become a full cohort.
  tables=[]
  for kind,methods,metric in [('main',main_methods,'coordinate'),('matched',physical_methods,'coordinate'),('incremental',physical_methods,'incremental_coordinate_rmse_mm')]:
-  tables+=['\\begin{table*}[t]','\\centering\\small','\\begin{tabular}{lrrrrrr}','\\toprule','& \\multicolumn{2}{c}{Familiar parameters} & \\multicolumn{2}{c}{Material shift} & \\multicolumn{2}{c}{Environment shift} \\\\', 'Method & New motions & $2\\times$ amplitude & New motions & $2\\times$ amplitude & New motions & $2\\times$ amplitude \\\\','\\midrule']
+  tables+=['\\begin{table*}[t]','\\centering\\small\\setlength{\\tabcolsep}{3pt}','\\begin{tabular}{lrrrrrr}','\\toprule','& \\multicolumn{2}{c}{Familiar parameters} & \\multicolumn{2}{c}{Material shift} & \\multicolumn{2}{c}{Environment shift} \\\\', 'Method & New motions & $2\\times$ amplitude & New motions & $2\\times$ amplitude & New motions & $2\\times$ amplitude \\\\','\\midrule']
   for method in methods:
    cells=[]
    for split in SPLITS:

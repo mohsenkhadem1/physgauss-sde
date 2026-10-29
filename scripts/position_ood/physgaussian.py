@@ -1,7 +1,7 @@
 """Position-coupled official PhysGaussian MPM core (explicit benchmark adaptation).
 
 Uses native fixed-corotated jelly kernels, with particle Robin coupling for the
-shared compliant tool interface. The optional field is for oracle diagnostics;
+shared compliant tool interface. The optional field supports explicit inferred-amplitude or oracle diagnostics;
 benchmark inverse fitting never receives its simulator labels.
 """
 from pathlib import Path

@@ -31,6 +31,13 @@ def jobs(settings):
                 pt=settings['phystwin'];add(f'{split}-{i}-phystwin','gpu','phystwin.py',['--split',split,'--object',i,*pt['args']],BASE/f'phystwin/{split}-{i}/{pt["tag"]}/summary.json',[reference],3,'native')
                 mpm=settings['mpm'];add(f'{split}-{i}-mpm','gpu','fit_mpm.py',['--split',split,'--object',i,*mpm['args']],BASE/f'{mpm["tag"]}/{split}-{i}/summary.json',[reference],3,'native')
                 if i in config['secondary_mpm_field_indices'].get(split,[]):add(f'{split}-{i}-mpm-field','gpu','fit_mpm.py',['--split',split,'--object',i,*mpm['args'],'--spatial-field'],BASE/f'{mpm["tag"]}-field/{split}-{i}/summary.json',[reference],5,'native')
+    for i in range(9):
+        reference=BASE/f'fields/transfer_test-{i}.npz'
+        for mode in ['id','all']:
+            add(f'transfer-{i}-neural-{mode}','gpu','predict_selected.py',['--split','transfer_test','--object',i,'--mode',mode],BASE/f'neural-predictions/transfer_test-{i}-selected-{mode}.npz',[reference],2)
+        if i in config['transfer_physical_baseline_indices']:
+            pt=settings['phystwin'];add(f'transfer-{i}-phystwin','gpu','predict_phystwin.py',['--split','transfer_test','--object',i,'--tag',pt['tag'],'--refinement',1],BASE/f'phystwin/transfer_test-{i}/{pt['tag']}/predictions.npz',[reference,BASE/f'phystwin/test_id-{i}/{pt['tag']}/summary.json'],3,'native')
+            mpm=settings['mpm'];add(f'transfer-{i}-mpm','gpu','predict_mpm_transfer.py',['--object',i],BASE/f'{mpm['tag']}/transfer_test-{i}/predictions.npz',[reference,BASE/f'{mpm['tag']}/test_id-{i}/summary.json'],3,'native')
     cal=BASE/'calibration/extrapolated-n3.json';deps=[BASE/f'inverse/calibration-{i}/extrapolated-n3-p3-uncertainty.npz' for i in range(len(cohorts['calibration']))]
     add('calibrate','cpu','calibration.py',['--split','calibration'],cal,deps,2)
     from scripts.position_ood.study import OUT
@@ -49,10 +56,17 @@ def main():
     tasks.sort(key=lambda r:(r['priority'],r['name']));directory=BASE/'jobs';directory.mkdir(exist_ok=True)
     while True:
         within_deadline();verify();pending=0;progress=False
+        failed_outputs=set()
+        for path in directory.glob('*.json'):
+            record=json.loads(path.read_text())
+            if record.get('state') in ['failed','blocked'] and 'job' in record:failed_outputs.add(record['job']['result'])
         for job in tasks:
             output=Path(job['result']);status=directory/(job['name']+'.json')
             if output.exists():continue
-            if status.exists() and json.loads(status.read_text()).get('state')=='failed':continue
+            if status.exists() and json.loads(status.read_text()).get('state') in ['failed','blocked']:continue
+            failed_dependencies=[p for p in job['deps'] if p in failed_outputs]
+            if failed_dependencies:
+                write(status,dict(state='blocked',job=job,failed_dependencies=failed_dependencies));continue
             pending+=1
             if not all(Path(p).exists() for p in job['deps']):continue
             with (directory/(job['name']+'.lock')).open('a') as lock:
