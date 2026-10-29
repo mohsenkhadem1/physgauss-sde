@@ -16,6 +16,7 @@ from mpm_solver_warp import MPM_Simulator_WARP
 from mpm_utils import zero_grid,compute_stress_from_F_trial,p2g_apic_with_stress,grid_normalization_and_gravity,add_damping_via_grid,g2p
 from warp_utils import MPMStateStruct,MPMModelStruct
 from scripts.phystwin.sequential_fixture import points
+from scripts.position_ood.runtime import BOUNDARY
 
 @wp.kernel
 def robin(state:MPMStateStruct, target:wp.array(dtype=wp.vec3), stiffness:wp.array(dtype=float),dt:float):
@@ -64,7 +65,11 @@ class PositionMPM:
         self.sim.mpm_model.gravitational_accelaration=wp.vec3(*gravity);self.A=float(field_amplitude_J);self.center=self.shift+field_center;self.width=float(field_width)
         kinds={'parallel_lower':('lower','lower'),'crossed':('lower','upper'),'opposite_y':('yminus','yplus')}[layout];k=np.zeros(len(self.rest))
         for side,(K,kind) in enumerate(zip([Kleft,Kright],kinds)):
-            face=np.exp(-((self.rest[:,0]-.24*side)/self.attachment_width)**2) if self.attachment_width>0 else np.isclose(self.rest[:,0],.24*side);axis=2 if kind in ('lower','upper') else 1;negative=kind in ('lower','yminus');coord=self.rest[:,axis];half=(coord<=1e-9) if negative else (coord>=-1e-9);w=self.weights*face*half;w[np.isclose(coord,0)]*=.5;k+=K*w/w.sum()
+            face=np.exp(-((self.rest[:,0]-.24*side)/self.attachment_width)**2) if self.attachment_width>0 else np.isclose(self.rest[:,0],.24*side);axis=2 if kind in ('lower','upper') else 1;negative=kind in ('lower','yminus');coord=self.rest[:,axis];half=(coord<=1e-9) if negative else (coord>=-1e-9);w=self.weights*face*half;w[np.isclose(coord,0)]*=.5
+            if BOUNDARY=='smooth':
+                from scripts.position_ood.smooth_fixture import footprint
+                w=self.weights*face*footprint(self.rest[:,1],self.rest[:,2],kind)
+            k+=K*w/w.sum()
         wp.copy(self.stiffness,wp.from_numpy(k.astype('float32'),dtype=float,device=self.device));self.graph=None
     def set_pose(self,pose):
         target=self.rest+self.shift

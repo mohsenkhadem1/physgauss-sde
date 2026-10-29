@@ -44,7 +44,7 @@ def run(split):
         for directory in sorted(BASE.glob('mpm*')):
             p=directory/f'{split}-{i}/predictions.npz'
             if p.exists():methods['physgaussian-'+directory.name]=p
-        for mode in ['id','all']:
+        for mode in ['id','all','id-extrapolated-n3','all-extrapolated-n3','lowrank-id-extrapolated-n3','lowrank-all-extrapolated-n3','lowrank-all-n2','selected-id','selected-all']:
             p=BASE/f'neural-predictions/{split}-{i}-{mode}.npz'
             if p.exists():methods['neural-'+mode]=p
         measurements=np.load(BASE/f'observations/{split}-{i}.npz')['measurements'] if (BASE/f'observations/{split}-{i}.npz').exists() else None

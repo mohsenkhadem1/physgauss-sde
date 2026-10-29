@@ -1,0 +1,137 @@
+{
+  "version": 10,
+  "status": "smooth_attachment_development_before_held_out_inference",
+  "campaign_start_utc": "2026-10-29T09:51:31Z",
+  "campaign_deadline_utc": "2026-10-30T09:51:00Z",
+  "physical_gpus": [
+    0,
+    1,
+    2
+  ],
+  "raw_data_local_only": true,
+  "problem": "Predict deformable geometry from observed positions and tool poses with unknown material and environmental interactions; evaluate held-out interaction families before and after adaptation.",
+  "primary_inputs": [
+    "RGB-D observations",
+    "camera calibration",
+    "query positions",
+    "tool poses and observed tool trajectory"
+  ],
+  "hidden_primary_labels": [
+    "Young modulus",
+    "support/contact compliance",
+    "support patch assignment",
+    "true applied force history",
+    "body-force parameters",
+    "spatial environmental field parameters"
+  ],
+  "development_material_range_Pa": [
+    8000,
+    40000
+  ],
+  "development_fixture_range_N_per_m": [
+    1500,
+    15000
+  ],
+  "density_kg_per_m3": 625,
+  "gravity_m_per_s2": 9.81,
+  "development_position_scale_m": 0.006,
+  "reference_levels": [
+    4,
+    6,
+    8,
+    10,
+    12,
+    14,
+    16,
+    18,
+    20,
+    22,
+    24
+  ],
+  "reference_displacement_rms_tolerance_m": 2e-05,
+  "reference_displacement_max_tolerance_m": 0.0001,
+  "reference_equilibrium_tolerance_N": 1e-09,
+  "reference_minimum_J": 0.1,
+  "planned_ood_axes": [
+    "new_positional_interaction_family",
+    "position_amplitude",
+    "material_coefficient_and_heterogeneity_extrapolation",
+    "environmental_field_location_scale_amplitude_shift"
+  ],
+  "primary_scope": "Quasistatic position-controlled interactions; dynamic release/impact claims require separate validated dynamic ground truth.",
+  "baseline_plan": {
+    "phystwin": "Official pinned implementation with native moving controller trajectories; no simulator force labels supplied.",
+    "physgaussian": "Assess runnable official MPM implementation and position-control compatibility; any inverse-fitting adaptation labelled explicitly.",
+    "position_conditioned_neural": "Learned displacement predictor with the same observed prefix and positional action inputs.",
+    "proposed": "Position-query deformation prediction with latent material and explicit environmental interaction hypotheses; predictive uncertainty and limited-observation adaptation.",
+    "fixed_spatial_field": "Ablation of the proposed inference retaining nominal environmental fields."
+  },
+  "fairness": [
+    "Identical information access",
+    "Separate privileged oracle diagnostics",
+    "Report training and inference cost",
+    "Freeze methods before held-out evaluation",
+    "Report all predeclared test groups including failures",
+    "Do not call interpolation among known force cases interaction-type OOD"
+  ],
+  "reference_acceptance_norm": "RMS over the 81 query points, separately for every action",
+  "reference_maximum_error_role": "Report separately; not a certificate for pointwise stresses or tractions",
+  "evaluation_all_objects": [
+    "proposed",
+    "neural_id",
+    "neural_all"
+  ],
+  "expensive_baseline_indices": {
+    "test_id": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "test_material": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "test_environment": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "expensive_baseline_selection": "First six predeclared indices in each independent test cohort, two per attachment layout, selected before any held-out fitting or scoring; compare all methods on this same 18-object subset.",
+  "development_baseline_tuning_indices": [
+    0,
+    1,
+    2
+  ],
+  "attachment_model": "Normalized Gaussian footprint on each end face, tapered continuously to zero at the face perimeter; unknown layout and total compliance.",
+  "physical_change": "Replace discontinuous half-face attachment density with a smooth finite footprint. Material law, gravity, parameter draws, action poses, observation interface and numerical acceptance thresholds remain unchanged.",
+  "predecessor": "position-ood-v09",
+  "secondary_mpm_field_indices": {
+    "test_id": [
+      0,
+      1,
+      2
+    ],
+    "test_material": [
+      0,
+      1,
+      2
+    ],
+    "test_environment": [
+      0,
+      1,
+      2
+    ]
+  },
+  "secondary_mpm_field_scope": "Our optional native-MPM augmentation infers one spatial-load amplitude at a fixed nominal Gaussian center/width; not a claim about the original PhysGaussian inverse method. First three indices per cohort, one per attachment layout."
+}

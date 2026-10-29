@@ -36,7 +36,14 @@ def draw(image,positions,rect,angle,color,label,error=None):
 
 
 def main(a):
-    ref=np.load(BASE/f'fields/{a.split}-{a.object}.npz')['field'];ours=np.load(BASE/f'inverse/{a.split}-{a.object}/joint-n2-p3.npz')['predicted'];pt=np.load(BASE/f'phystwin/{a.split}-{a.object}/y{a.initial:g}-dt1/predictions.npz')['predicted'];mpm=np.load(BASE/f'mpm/{a.split}-{a.object}/predictions.npz')['predicted'];rows=[('Reference',ref,(105,185,120)),('Position-conditioned inverse',ours,(220,160,85)),('PhysTwin core adaptation',pt,(175,140,220)),('PhysGaussian MPM adaptation',mpm,(190,185,95))]
+    if 'test' in a.split.split('_'):
+        from scripts.position_ood.seal import verify
+        verify()
+    actions=ACTIONS
+    if a.split.startswith('transfer_'):
+        from scripts.position_ood.transfer import TRANSFER_ACTIONS
+        actions=TRANSFER_ACTIONS
+    ref=np.load(BASE/f'fields/{a.split}-{a.object}.npz')['field'];ours=np.load(BASE/f'inverse/{a.split}-{a.object}/{a.method}-n{a.mesh}-p3.npz')['predicted'];pt=np.load(BASE/f'phystwin/{a.split}-{a.object}/y{a.initial:g}-dt1/predictions.npz')['predicted'];mpm=np.load(BASE/f'{a.mpm_tag}/{a.split}-{a.object}/predictions.npz')['predicted'];rows=[('Reference',ref,(105,185,120)),('Position-conditioned inverse',ours,(220,160,85)),('PhysTwin core adaptation',pt,(175,140,220)),('PhysGaussian MPM adaptation',mpm,(190,185,95))]
     dest=OUT/f'{a.split}-{a.object}-actual-vs-predicted.mp4';OUT.mkdir(exist_ok=True);W,H=1200,760;fps=24
     process=subprocess.Popen([imageio_ffmpeg.get_ffmpeg_exe(),'-y','-f','rawvideo','-vcodec','rawvideo','-pix_fmt','bgr24','-s',f'{W}x{H}','-r',str(fps),'-i','-','-an','-vcodec','libx264','-crf','20','-pix_fmt','yuv420p',str(dest)],stdin=subprocess.PIPE,stderr=subprocess.DEVNULL)
     try:
@@ -45,10 +52,10 @@ def main(a):
                 image=np.full((H,W,3),248,np.uint8);angle=-.7+1.4*frame/(fps*2-1)
                 for k,(name,fields,color) in enumerate(rows):
                     error=None if k==0 else 1000*np.sqrt(np.mean((fields[action]-ref[action])**2));draw(image,points()+fields[action],((k%2)*600,65+(k//2)*310,600,300),angle,color,name,error)
-                phase='OBSERVED PREFIX' if action<3 else 'HELD-OUT POSITIONAL ACTION';name=ACTIONS[action][0].replace('_',' ');cv2.putText(image,f'{a.split.upper()} OBJECT {a.object} | {phase}: {name}',(20,32),0,.66,(25,30,35),1,cv2.LINE_AA)
+                phase='OBSERVED PREFIX' if action<3 else 'HELD-OUT POSITIONAL ACTION';name=actions[action][0].replace('_',' ');cv2.putText(image,f'{a.split.upper()} OBJECT {a.object} | {phase}: {name}',(20,32),0,.66,(25,30,35),1,cv2.LINE_AA)
                 cv2.putText(image,'Actual deformation scale. Camera orbit around settled shapes; this is not a dynamic rollout.',(20,725),0,.57,(35,40,45),1,cv2.LINE_AA);process.stdin.write(image.tobytes())
                 if action==6 and frame==fps:cv2.imwrite(str(dest.with_suffix('.png')),image)
     finally:process.stdin.close();code=process.wait()
     assert code==0;print(dest)
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--split',default='development');p.add_argument('--object',type=int,default=1);p.add_argument('--initial',type=float,default=3.);main(p.parse_args())
+    p=argparse.ArgumentParser();p.add_argument('--split',default='development');p.add_argument('--object',type=int,default=1);p.add_argument('--initial',type=float,default=3.);p.add_argument('--method',default='extrapolated');p.add_argument('--mesh',type=int,default=3);p.add_argument('--mpm-tag',default='mpm-layer0.006');main(p.parse_args())

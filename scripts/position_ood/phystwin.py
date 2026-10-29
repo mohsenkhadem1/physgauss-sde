@@ -89,6 +89,11 @@ class Trainer(InvPhyTrainerWarp):
         return np.array(states),np.array(drift),total/max(updates,1),updates
 
 
+def configure_simulation(refinement=1,initial=3.):
+    cfg.load_from_yaml(str(UP/'configs/real.yaml'));cfg.FPS=5;cfg.dt=.0002/refinement;cfg.num_substeps=1000*refinement;cfg.gravity_scale=9.81/9.8;cfg.reverse_z=False;cfg.external_force_path=None
+    cfg.base_lr=.02;cfg.init_spring_Y=initial;cfg.object_radius=.07;cfg.object_max_neighbours=30;cfg.controller_radius=.06;cfg.controller_max_neighbours=16;cfg.spring_Y_min=.001;cfg.spring_Y_max=300.;cfg.dashpot_damping=.1;cfg.drag_damping=5.;cfg.collision_learn=False;cfg.self_collision=False;cfg.acc_weight=0.;cfg.chamfer_weight=1.;cfg.track_weight=1.;cfg.use_graph=True
+
+
 def run(a):
     if ('test' in a.split.split('_')):
         from scripts.position_ood.seal import verify
@@ -99,8 +104,7 @@ def run(a):
     if (destination/'summary.json').exists():return
     train,starts,ends=schedule(obs['poses'][prefix],obs['measurements'][prefix],obs['visible_ids'],a.frames)
     with (destination/'train.pkl').open('wb') as f:pickle.dump(train,f)
-    cfg.load_from_yaml(str(UP/'configs/real.yaml'));cfg.FPS=5;cfg.dt=.0002/a.refinement;cfg.num_substeps=1000*a.refinement;cfg.gravity_scale=9.81/9.8;cfg.reverse_z=False;cfg.external_force_path=None
-    cfg.base_lr=.02;cfg.init_spring_Y=a.initial;cfg.object_radius=.07;cfg.object_max_neighbours=30;cfg.controller_radius=.06;cfg.controller_max_neighbours=16;cfg.spring_Y_min=.001;cfg.spring_Y_max=300.;cfg.dashpot_damping=.1;cfg.drag_damping=5.;cfg.collision_learn=False;cfg.self_collision=False;cfg.acc_weight=0.;cfg.chamfer_weight=1.;cfg.track_weight=1.;cfg.use_graph=True
+    configure_simulation(a.refinement,a.initial)
     np.random.seed(42);torch.manual_seed(42);logger.set_log_file(path=str(destination),name='fit');trainer=Trainer(str(destination/'train.pkl'),str(destination),train_frame=len(train['object_points']));trainer.capture_observed_loss();sim=trainer.simulator
     trainer.bulk_regularization=a.bulk_regularization
     if a.bulk_regularization:

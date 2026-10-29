@@ -7,7 +7,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 from scripts.position_ood.study import BASE,OUT,protocol,within_deadline
 from scripts.position_ood.observations import make
 from scripts.position_ood.inverse import fit,physical
-from scripts.position_ood.differentiable import DensePositionFEM
+from scripts.position_ood.runtime import dense_model
 from scripts.phystwin.sequential_fixture import points
 from scripts.phystwin.sequential_reference import write
 
@@ -33,7 +33,7 @@ def run(split,i,method,mesh=2,iterations=100,prefix=(0,1,2)):
         screening=json.loads(destination.with_name(coarse_tag+'.json').read_text())
         minimum=min(row['loss'] for row in screening['rows']);layouts=[row['layout'] for row in screening['rows'] if row['loss']<=minimum+1.]
         model=ExtrapolatedPositionFEM(field_frame=frame)
-    else:model=DensePositionFEM(mesh,field_frame=frame)
+    else:model=dense_model(mesh,field_frame=frame)
     results=[]
     for layout in layouts:
         cache=destination.with_name(destination.stem+f'-layout{layout}.json')
@@ -53,7 +53,7 @@ def run(split,i,method,mesh=2,iterations=100,prefix=(0,1,2)):
     # The fit above never opens the held-out reference target array. Predictions
     # and immutable fit metadata are stored before the separate scoring phase.
     np.savez_compressed(destination.with_suffix('.npz'),predicted=predicted,poses=obs['poses'])
-    write(destination,dict(state='complete',split=split,object=i,method=method,mesh=mesh,prefix=list(prefix),rows=results,best=best,input_scope='Rendered visible-point positions and prescribed tool poses only. No material, gravity, field or reaction-force labels.',time=time.time()))
+    write(destination,dict(state='complete',split=split,object=i,method=method,mesh=mesh,device=str(model.device),prefix=list(prefix),rows=results,best=best,input_scope='Rendered visible-point positions and prescribed tool poses only. No material, gravity, field or reaction-force labels.',time=time.time()))
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--split',default='development');p.add_argument('--worker',type=int,default=0);p.add_argument('--workers',type=int,default=1);p.add_argument('--method',choices=['joint','joint_regularized','fixed_spatial_field','material_frame','extrapolated','extrapolated_material_frame','extrapolated_nominal'],default='joint');p.add_argument('--iterations',type=int,default=100);p.add_argument('--mesh',type=int,default=2);a=p.parse_args();s=protocol()

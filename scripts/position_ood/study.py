@@ -9,15 +9,15 @@ from scripts.position_ood.pilot import ACTIONS,comparison
 from scripts.phystwin.sequential_fixture import points,LAYOUTS
 from scripts.phystwin.tensor_fixture import basis
 from scripts.phystwin.sequential_reference import write
-ROOT=Path(__file__).resolve().parents[2];BASE=ROOT/'runs/position-ood-v09';OUT=ROOT/'reports/position-ood-v09'
+from scripts.position_ood.runtime import ROOT,BASE,OUT,CONFIG,BOUNDARY
 
 def within_deadline():
-    s=json.loads((ROOT/'configs/position_ood_v09.json').read_text());end=datetime.datetime.fromisoformat(s['campaign_deadline_utc'].replace('Z','+00:00')).timestamp()
+    s=json.loads(CONFIG.read_text());end=datetime.datetime.fromisoformat(s['campaign_deadline_utc'].replace('Z','+00:00')).timestamp()
     if time.time()>=end:raise RuntimeError('Campaign deadline reached')
 def protocol():
     path=BASE/'cohorts.json'
     if path.exists():return json.loads(path.read_text())
-    s=dict(version=9,status='development; freeze methods before test scoring',actions=ACTIONS,prefix_indices=[0,1,2],id_indices=[3],ood_indices=[4,5,6,7,8,9],reference_levels=[4,6,8,10,12,14,16,18,20],noise_sigma_m=.0003)
+    s=dict(version=10 if BOUNDARY=='smooth' else 9,boundary=BOUNDARY,status='development; freeze methods before test scoring',actions=ACTIONS,prefix_indices=[0,1,2],id_indices=[3],ood_indices=[4,5,6,7,8,9],reference_levels=[4,6,8,10,12,14,16,18,20,22,24],noise_sigma_m=.0003)
     for split,count,seed in [('development',9,290901),('calibration',12,290902),('test_id',18,290903),('test_material',12,290904),('test_environment',12,290905)]:
         rng=np.random.default_rng(seed);rows=[]
         for i in range(count):
@@ -40,11 +40,16 @@ def interpolate_samples(field,query,n=1):
 
 def level(split,i,n,order=3,warm=None):
     r=protocol()[split][i];source={name:hashlib.sha256((ROOT/'scripts/position_ood'/name).read_bytes()).hexdigest() for name in ['fixture.py','material_field.py']}
+    if BOUNDARY=='smooth':source['smooth_fixture.py']=hashlib.sha256((ROOT/'scripts/position_ood/smooth_fixture.py').read_bytes()).hexdigest()
     signature=hashlib.sha256(json.dumps(dict(case=r,n=n,order=order,actions=ACTIONS,source=source),sort_keys=True).encode()).hexdigest();dest=BASE/f'references/{split}-{i}/n{n}-q{order}.npz'
     if dest.exists():
         with np.load(dest) as z:
             assert str(z['signature'])==signature,'Stale reference';return {k:z[k] for k in z.files}
-    within_deadline();device=os.environ.get('POSITION_REFERENCE_DEVICE','cuda:0');model=MaterialPositionFixture(n,**r,order=order,device=device)
+    within_deadline();device=os.environ.get('POSITION_REFERENCE_DEVICE','cuda:0');fixture=MaterialPositionFixture
+    if BOUNDARY=='smooth':
+        from scripts.position_ood.smooth_fixture import SmoothMaterialFixture
+        fixture=SmoothMaterialFixture
+    model=fixture(n,**r,order=order,device=device)
     if device=='cpu':model.linear_solver='cpu_multigrid'
     rows=[];started=time.time();previous_full=None
     try:
@@ -80,11 +85,11 @@ def reference(split,i):
     for n in protocol()['reference_levels']:
         current=level(split,i,n,warm=prev)
         if prev is not None:
-            check=comparison(prev,current);checks.append(dict(n=n,**check));print('REFINEMENT',split,i,n,check['passed'],max(check['rms_m']),max(check['maximum_m']),flush=True)
+            check=comparison(prev,current);check['rms_passed']=bool(max(check['rms_m'])<2e-5);checks.append(dict(n=n,**check));print('REFINEMENT',split,i,n,'rms_passed',check['rms_passed'],'pointwise_passed',check['passed'],max(check['rms_m']),max(check['maximum_m']),flush=True)
             if max(check['rms_m'])<2e-5:
-                q4=level(split,i,n,4,warm=current);qcheck=comparison(current,q4)
+                q4=level(split,i,n,4,warm=current);qcheck=comparison(current,q4);qcheck['rms_passed']=bool(max(qcheck['rms_m'])<2e-5)
                 if max(qcheck['rms_m'])<2e-5:
-                    write(audit,dict(case=protocol()[split][i],mesh=n,spatial=checks,quadrature=qcheck,qualified=True,qualification_scope='RMS displacement refinement below 20 micrometres; maximum-coordinate refinement is a separate reported diagnostic',strict_pointwise_passed=bool(check['passed'] and qcheck['passed'])));final.parent.mkdir(exist_ok=True);tmp=final.with_suffix('.tmp.npz');np.savez_compressed(tmp,**current);tmp.replace(final);return
+                    write(audit,dict(case=protocol()[split][i],mesh=n,spatial=checks,quadrature=qcheck,qualified=True,boundary_model=BOUNDARY,qualification_scope='RMS displacement refinement below 20 micrometres; maximum-coordinate refinement is a separate reported diagnostic',strict_pointwise_passed=bool(check['passed'] and qcheck['passed'])));final.parent.mkdir(exist_ok=True);tmp=final.with_suffix('.tmp.npz');np.savez_compressed(tmp,**current);tmp.replace(final);return
         prev=current
     write(audit,dict(mesh=n,spatial=checks,qualified=False));raise RuntimeError(f'{split}-{i}: reference not qualified')
 

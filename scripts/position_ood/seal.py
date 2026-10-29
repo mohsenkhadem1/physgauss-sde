@@ -2,8 +2,8 @@
 from pathlib import Path
 import datetime,hashlib,json,os,sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
-ROOT=Path(__file__).resolve().parents[2];BASE=ROOT/'runs/position-ood-v09'
-SOURCES=['differentiable.py','extrapolated.py','fixture.py','material_field.py','inverse.py','run_inverse.py','observations.py','uncertainty.py','adapt.py','phystwin.py','physgaussian.py','fit_mpm.py','neural.py','study.py','score.py','reference_solver.py','predict_transfer.py','transfer.py','calibration.py','seal.py']
+from scripts.position_ood.runtime import ROOT,BASE,CONFIG,BOUNDARY
+SOURCES=['runtime.py','smooth_fixture.py','differentiable.py','extrapolated.py','fixture.py','material_field.py','inverse.py','run_inverse.py','observations.py','uncertainty.py','adapt.py','phystwin.py','physgaussian.py','fit_mpm.py','neural.py','study.py','score.py','reference_solver.py','predict_transfer.py','transfer.py','calibration.py','campaign_jobs.py','predict_selected.py','neural_lowrank.py','aggregate.py','predict_phystwin.py','seal.py']
 
 def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -17,11 +17,12 @@ def verify():
     return seal
 
 def freeze(settings):
-    paths=[ROOT/'scripts/position_ood'/s for s in SOURCES]+[ROOT/'configs/position_ood_v09.json',BASE/'cohorts.json',BASE/'transfer-protocol.json']
+    paths=[ROOT/'scripts/position_ood'/s for s in SOURCES]+[CONFIG,BASE/'cohorts.json',BASE/'transfer-protocol.json']
     paths += [ROOT/'scripts/phystwin'/p for p in ['tensor_fixture.py','sequential_fixture.py','v08_reference.py','consistent_fixture.py','gpu_multigrid.py','v06_camera.py']]
     paths += [ROOT/'runs/third_party/PhysTwin-v06/qqtt/model/diff_simulator/spring_mass_warp.py']
     paths += list((ROOT/'runs/third_party/PhysGaussian-v09/mpm_solver_warp').glob('*.py'))
-    paths += [BASE/f'neural/{mode}-n2/best.pt' for mode in ['id','all']]
+    paths += [BASE/f'neural/{mode}-{tag}/best.pt' for mode in ['id','all'] for tag in (['n2','extrapolated-n3'] if BOUNDARY=='sharp' else ['extrapolated-n3'])]
+    paths += [BASE/f'neural/lowrank-{mode}-extrapolated-n3/best.pt' for mode in ['id','all']] + [BASE/'neural-selection.json']
     seal=dict(created_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),settings=settings,hashes={str(p.relative_to(ROOT)):digest(p) for p in paths})
     text=json.dumps(seal,indent=2)+'\n';fd=os.open(BASE/'method-seal.json',os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o644)
     with os.fdopen(fd,'w') as f:f.write(text)

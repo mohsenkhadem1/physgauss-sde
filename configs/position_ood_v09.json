@@ -1,6 +1,6 @@
 {
   "version": 9,
-  "status": "development_protocol_not_yet_frozen",
+  "status": "superseded_by_v10_smooth_attachments_before_held_out_inference",
   "campaign_start_utc": "2026-10-29T09:51:31Z",
   "campaign_deadline_utc": "2026-10-30T09:51:00Z",
   "physical_gpus": [
@@ -44,7 +44,9 @@
     14,
     16,
     18,
-    20
+    20,
+    22,
+    24
   ],
   "reference_displacement_rms_tolerance_m": 2e-05,
   "reference_displacement_max_tolerance_m": 0.0001,
@@ -73,5 +75,42 @@
     "Do not call interpolation among known force cases interaction-type OOD"
   ],
   "reference_acceptance_norm": "RMS over the 81 query points, separately for every action",
-  "reference_maximum_error_role": "Report separately; not a certificate for pointwise stresses or tractions"
+  "reference_maximum_error_role": "Report separately; not a certificate for pointwise stresses or tractions",
+  "evaluation_all_objects": [
+    "proposed",
+    "neural_id",
+    "neural_all"
+  ],
+  "expensive_baseline_indices": {
+    "test_id": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "test_material": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "test_environment": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "expensive_baseline_selection": "First six predeclared indices in each independent test cohort, two per attachment layout, selected before any held-out fitting or scoring; compare all methods on this same 18-object subset.",
+  "development_baseline_tuning_indices": [
+    0,
+    1,
+    2
+  ]
 }

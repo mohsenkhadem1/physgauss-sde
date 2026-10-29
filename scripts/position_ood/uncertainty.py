@@ -8,7 +8,7 @@ import json,sys
 import numpy as np
 import torch
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
-from scripts.position_ood.differentiable import DensePositionFEM
+from scripts.position_ood.runtime import dense_model
 from scripts.position_ood.inverse import physical
 from scripts.position_ood.study import BASE,within_deadline
 from scripts.phystwin.sequential_fixture import points
@@ -51,7 +51,7 @@ def run(split,i,method='joint',mesh=2,prefix=(0,1,2)):
         from scripts.position_ood.seal import verify
         verify()
     tag=f'p{len(prefix)}'+('' if tuple(prefix)==(0,1,2) else '-'+('-'.join(map(str,prefix))))
-    path=BASE/f'inverse/{split}-{i}/{method}-n{mesh}-{tag}.json';record=json.loads(path.read_text());best=record['best'];obs=np.load(BASE/f'observations/{split}-{i}.npz');ids=obs['visible_ids'];model=DensePositionFEM(mesh,field_frame='material' if method=='material_frame' else 'world')
+    path=BASE/f'inverse/{split}-{i}/{method}-n{mesh}-{tag}.json';record=json.loads(path.read_text());best=record['best'];obs=np.load(BASE/f'observations/{split}-{i}.npz');ids=obs['visible_ids'];model=dense_model(mesh,field_frame='material' if method=='material_frame' else 'world')
     if method.startswith('extrapolated'):
         from scripts.position_ood.extrapolated import ExtrapolatedPositionFEM
         model=ExtrapolatedPositionFEM(field_frame='material' if method=='extrapolated_material_frame' else 'world')
