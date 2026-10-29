@@ -46,7 +46,12 @@ def probe_utilities(J,C,visible_ids,candidates=(4,5,6,7,8),target=9,noise_sigma=
 
 
 def run(split,i,method='joint',mesh=2,prefix=(0,1,2)):
-    within_deadline();path=BASE/f'inverse/{split}-{i}/{method}-n{mesh}-p{len(prefix)}.json';record=json.loads(path.read_text());best=record['best'];obs=np.load(BASE/f'observations/{split}-{i}.npz');ids=obs['visible_ids'];model=DensePositionFEM(mesh,field_frame='material' if method=='material_frame' else 'world')
+    within_deadline()
+    if 'test' in split.split('_'):
+        from scripts.position_ood.seal import verify
+        verify()
+    tag=f'p{len(prefix)}'+('' if tuple(prefix)==(0,1,2) else '-'+('-'.join(map(str,prefix))))
+    path=BASE/f'inverse/{split}-{i}/{method}-n{mesh}-{tag}.json';record=json.loads(path.read_text());best=record['best'];obs=np.load(BASE/f'observations/{split}-{i}.npz');ids=obs['visible_ids'];model=DensePositionFEM(mesh,field_frame='material' if method=='material_frame' else 'world')
     if method.startswith('extrapolated'):
         from scripts.position_ood.extrapolated import ExtrapolatedPositionFEM
         model=ExtrapolatedPositionFEM(field_frame='material' if method=='extrapolated_material_frame' else 'world')
@@ -60,4 +65,4 @@ def run(split,i,method='joint',mesh=2,prefix=(0,1,2)):
 
 if __name__=='__main__':
     import argparse
-    p=argparse.ArgumentParser();p.add_argument('--split',default='development');p.add_argument('--object',type=int,default=1);p.add_argument('--method',default='joint');a=p.parse_args();print(run(a.split,a.object,a.method))
+    p=argparse.ArgumentParser();p.add_argument('--split',default='development');p.add_argument('--object',type=int,default=1);p.add_argument('--method',default='joint');p.add_argument('--mesh',type=int,default=2);a=p.parse_args();print(run(a.split,a.object,a.method,a.mesh))

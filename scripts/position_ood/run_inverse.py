@@ -27,8 +27,9 @@ def run(split,i,method,mesh=2,iterations=100,prefix=(0,1,2)):
     if method.startswith('extrapolated'):
         from scripts.position_ood.extrapolated import ExtrapolatedPositionFEM
         assert mesh==3
-        run(split,i,'joint',2,iterations,prefix)
-        coarse_tag=f'joint-n2-{tag}'
+        coarse_method={'extrapolated_nominal':'fixed_spatial_field','extrapolated_material_frame':'material_frame'}.get(method,'joint')
+        run(split,i,coarse_method,2,iterations,prefix)
+        coarse_tag=f'{coarse_method}-n2-{tag}'
         screening=json.loads(destination.with_name(coarse_tag+'.json').read_text())
         minimum=min(row['loss'] for row in screening['rows']);layouts=[row['layout'] for row in screening['rows'] if row['loss']<=minimum+1.]
         model=ExtrapolatedPositionFEM(field_frame=frame)
@@ -41,7 +42,7 @@ def run(split,i,method,mesh=2,iterations=100,prefix=(0,1,2)):
             initial=None
             if method.startswith('extrapolated'):
                 initial=json.loads(destination.with_name(coarse_tag+f'-layout{layout}.json').read_text())['z']
-                if not env:initial=np.r_[initial[:3],initial[6]]
+                if not env and len(initial)>4:initial=np.r_[initial[:3],initial[6]]
             if len(prefix)>3:
                 previous=destination.with_name(f'{method}-n{mesh}-p3-layout{layout}.json')
                 if previous.exists():initial=json.loads(previous.read_text())['z']

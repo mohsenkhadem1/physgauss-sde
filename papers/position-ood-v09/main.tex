@@ -33,7 +33,7 @@ Our study builds on complementary advances in physical Gaussian representations 
 PhysGaussian~\cite{xie2024physgaussian} integrates 3D Gaussian rendering with material-point simulation. Its representation supports a broad range of material behaviors and prescribed scene interactions. PhysTwin~\cite{jiang2025phystwin} combines spring-mass simulation, geometric reconstruction, and Gaussian appearance modeling to infer deformable twins from sparse interaction videos. We compare compatible physical prediction components under a common observation interface and identify adaptations explicitly; our controlled experiments do not substitute for an evaluation of every capability of these complete systems.
 
 \paragraph{Learning physical response.}
-Spring-Gaus~\cite{zhong2024springgaus} identifies elastic spring-mass models from video and evaluates future simulation under changed initial states and environmental parameters. PhysDreamer~\cite{zhang2024physdreamer} uses video-generation priors to estimate spatial material fields and synthesize plausible interactions. UniPhy~\cite{mittal2025uniphy} learns a shared latent-conditioned constitutive model across elastic, plastic, granular, and fluid materials, then optimizes a latent from observed positions for re-simulation under new conditions. These results establish that material inference and interaction generalization are already important capabilities of existing work. Our controlled study addresses their interaction with unknown environmental explanations and the selection of additional positional observations. We do not claim to introduce inverse material learning or counterfactual simulation.
+Spring-Gaus~\cite{zhong2024springgaus} identifies elastic spring-mass models from video and evaluates future simulation under changed initial states and environmental parameters. PhysDreamer~\cite{zhang2024physdreamer} uses video-generation priors to estimate spatial material fields and synthesize plausible interactions. UniPhy~\cite{mittal2025uniphy} learns a shared latent-conditioned constitutive model across elastic, plastic, granular, and fluid materials, then optimizes a latent from observed positions for re-simulation under new conditions. These results establish that material inference and interaction generalization are already important capabilities of existing work. Our controlled study addresses their interaction with unknown environmental explanations and the selection of additional positional observations. Our focus is the ambiguity between material response and spatial interaction, and its consequences for positional queries.
 
 \paragraph{Acquiring informative interactions.}
 AuRA~\cite{yu2026aura} automates robot interaction and data preparation for deformable digital-twin reconstruction. Its focus on efficient acquisition complements our study of uncertainty in the physical explanation of an observed interaction. We distinguish initial generalization from adaptation after collecting additional observations, and report acquisition and computational costs separately.
@@ -71,34 +71,44 @@ The material field is attached to the reference object. In the controlled study,
 \end{equation}
 where $b_i$ are fixed radial basis functions along the block's length. The coefficient $h$ controls spatial stiffness variation. The environmental potential is a spatial Gaussian, $\phi(x)=A|\Omega_0|^{-1}\exp(-\|x-c\|^2/(2s^2))$, with inferred energy amplitude $A$, center $c$, and width $s$. Its force is $-\nabla_x\phi(x)$ and changes as the object traverses the field. Two unknown compliant attachment patches couple the object to the position-controlled tools. We infer their total stiffnesses $K_k$, with $\kappa_k=K_k/|\Gamma_k|$, and select among three patch-layout hypotheses.
 
-Gravity has known magnitude and unknown direction in the observation frame. Density, Poisson ratio, canonical geometry, and tool kinematics are shared known quantities. Thus the study isolates uncertainty in stiffness, attachment, and environmental loading. It does not equate a change in elastic coefficients with a previously unseen constitutive law.
+Gravity has known magnitude and unknown direction in the observation frame. Density, Poisson ratio, canonical geometry, and tool kinematics are shared known quantities. Thus the study isolates uncertainty in stiffness, attachment, and environmental loading. Material OOD tests change elastic coefficients and heterogeneity within this constitutive family.
 
 \subsection{Inference from positional observations}
 For an observation operator $H_j$, we fit latent parameters by minimizing a position discrepancy,
 \begin{equation}
- \mathcal L(\theta)=\sum_j\|H_j u^*(a_j,\theta)-y_j\|^2_{\Sigma_j^{-1}}.
+ \mathcal L(\theta)=\sum_j\|H_j \hat u(a_j,\theta)-y_j\|^2_{\Sigma_j^{-1}}+\|z-z_0\|^2_{\Lambda}.
 \end{equation}
-Unknown discrete environmental hypotheses can be evaluated alongside continuous parameters. Parameter bounds and initialization are selected on development cases before the held-out evaluation. The predictor receives the positional action, not the forces computed internally by the equilibrium model.
+Here $z$ denotes scaled latent coordinates, with log coordinates for positive stiffnesses and field width. Weak regularization constrains poorly identified directions. We screen the three attachment layouts using a coarse model and refine layouts within one normalized loss unit of the best candidate. Parameter bounds and initialization are selected on development cases before the held-out evaluation. The predictor receives the positional action, not the forces computed internally by the equilibrium model.
 
 Let $R(u,\theta,a)=\partial\Pi/\partial u$ and $K=\partial R/\partial u$. At a nonsingular equilibrium, an adjoint solve gives
 \begin{equation}
  K^\top v=\frac{\partial\mathcal L}{\partial u},\qquad
  \frac{d\mathcal L}{d\theta}=-v^\top\frac{\partial R}{\partial\theta}.
 \end{equation}
-We verify the implementation against an independent sparse assembly and finite differences of the equilibrium solution. This separates optimization failures from errors in differentiation.
+We verify the implementation against an independent sparse assembly and finite differences of the equilibrium solution.
+
+\paragraph{Reducing forward discretization bias.}
+A coarse forward model can explain its own numerical error by changing material or environmental parameters. We therefore combine equilibrium predictions at two resolutions,
+\begin{equation}
+ \hat u=\frac{9u_3-4P_{2\to3}u_2}{5},
+\end{equation}
+where $u_n$ uses $4n\times n\times n$ quadratic elements and $P_{2\to3}$ interpolates the coarse field. This removes a leading quadratic resolution term when that error model applies. We assess the correction on development oracle cases, differentiate both equilibrium solves, and retain a positive-Jacobian check on the corrected field. The corrected field approximates the continuum response; remaining discrepancy is included in predictive calibration.
 
 \subsection{Predictive sensitivity and probing}
-Let $J_a=\partial u^*(a,\hat\theta)/\partial\theta$ denote the positional sensitivity at the fitted explanation. We construct a regularized local covariance
+Let $J_a=\partial \hat u(a,\hat\theta)/\partial z$ denote the positional sensitivity at the fitted explanation. We construct a regularized local covariance
 \begin{equation}
  C=\left(J_{\mathcal D}^{\top}\Sigma^{-1}J_{\mathcal D}+\Lambda\right)^{-1},
 \end{equation}
-where $\Lambda$ encodes weak parameter-scale regularization. This is a local approximation, rather than a claim of an exact physical posterior. Its predictive scale is evaluated on independent calibration objects.
+where $\Lambda$ encodes weak parameter-scale regularization. This local approximation describes sensitivity around a fitted explanation. A separate object-level calibration stage sets the predictive interval scale.
 
 For a candidate probe $a$, observing its visible points yields an approximate covariance $C_a=(C^{-1}+J_a^{\top}H_a^{\top}\Sigma^{-1}H_aJ_a)^{-1}$. We choose the probe that maximizes the reduction in target predictive variance,
 \begin{equation}
  a^*=\arg\max_a\mathrm{tr}\!\left[J_*\left(C-C_a\right)J_*^{\top}\right].
 \end{equation}
 Probe selection uses predicted sensitivities, without observing candidate responses. The selected response is then acquired and the inverse problem is refitted. A separate target interaction remains unobserved throughout adaptation.
+
+\paragraph{Object-level calibration.}
+For each calibration object, we take the 90th percentile of absolute held-action coordinate errors divided by $\sqrt{\sigma^2+\epsilon^2}$, where $\sigma^2=\operatorname{diag}(J_aCJ_a^\top)$ and $\epsilon=20\,\mu$m is a fixed scale floor. The order statistic at rank $\lceil0.9(n+1)\rceil$ of the $n$ object scores determines a common interval multiplier. Under object exchangeability, this construction targets at least 90\% coordinate coverage for 90\% of objects. We measure both coordinate and object coverage on each OOD cohort; exchangeability with the calibration distribution is not assumed for these shifts.
 
 \subsection{Generalization and adaptation}
 We distinguish three questions: prediction under a new action before its response is observed; calibration of uncertainty about that response; and prediction after a limited adaptation budget. A completely unobserved change in external loading is not assumed to be uniquely predictable from position alone. Such changes are evaluated through detection and adaptation, with the information available to each method stated explicitly.

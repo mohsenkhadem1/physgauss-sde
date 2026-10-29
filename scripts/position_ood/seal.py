@@ -3,7 +3,7 @@ from pathlib import Path
 import datetime,hashlib,json,os,sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 ROOT=Path(__file__).resolve().parents[2];BASE=ROOT/'runs/position-ood-v09'
-SOURCES=['differentiable.py','extrapolated.py','fixture.py','material_field.py','inverse.py','run_inverse.py','observations.py','uncertainty.py','adapt.py','phystwin.py','physgaussian.py','fit_mpm.py','neural.py','study.py','score.py','reference_solver.py','predict_transfer.py','transfer.py','seal.py']
+SOURCES=['differentiable.py','extrapolated.py','fixture.py','material_field.py','inverse.py','run_inverse.py','observations.py','uncertainty.py','adapt.py','phystwin.py','physgaussian.py','fit_mpm.py','neural.py','study.py','score.py','reference_solver.py','predict_transfer.py','transfer.py','calibration.py','seal.py']
 
 def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 

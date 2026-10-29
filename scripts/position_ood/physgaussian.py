@@ -46,8 +46,8 @@ def matched_neo_hookean_stress(state:MPMStateStruct,model:MPMModelStruct,dt:floa
         state.particle_stress[i]=model.mu[i]*(F*wp.transpose(F)-I)+model.lam[i]*wp.log(J)*I
 
 class PositionMPM:
-    def __init__(self,resolution=2,grid=64,dt=.0002,damping=15.,device='cuda:0',rpic=0.,attachment_width=0.,constitutive='native'):
-        self.device=device;self.dt=dt;self.attachment_width=attachment_width;self.constitutive=constitutive;assert constitutive in ['native','neo_hookean'];self.shift=np.array([.15,.24,.24]);shape=(24*resolution+1,8*resolution+1,8*resolution+1)
+    def __init__(self,resolution=2,grid=64,dt=.0002,damping=15.,device='cuda:0',rpic=0.,attachment_width=0.,constitutive='native',ramp_seconds=0.):
+        self.device=device;self.dt=dt;self.attachment_width=attachment_width;self.ramp_seconds=ramp_seconds;self.constitutive=constitutive;assert constitutive in ['native','neo_hookean'];self.shift=np.array([.15,.24,.24]);shape=(24*resolution+1,8*resolution+1,8*resolution+1)
         self.rest=np.stack(np.meshgrid(np.linspace(0,.24,shape[0]),np.linspace(-.04,.04,shape[1]),np.linspace(-.04,.04,shape[2]),indexing='ij'),-1).reshape(-1,3)
         weights=np.ones(shape)
         for axis in range(3):
@@ -83,8 +83,9 @@ class PositionMPM:
         wp.launch(add_damping_via_grid,dim=grid,inputs=[s,m.grid_v_damping_scale],device=d)
         wp.launch(g2p,dim=n,inputs=[s,m,self.dt],device=d)
     def solve(self,pose,seconds=2.,block=50,safety_check=False):
-        self.set_pose(pose)
-        if self.graph is None:
+        self.set_pose(np.zeros_like(pose) if self.ramp_seconds>0 else pose)
+        if self.graph is None or getattr(self,'graph_block',None)!=block:
+            self.graph_block=block
             self.step() # compile before capture
             with wp.ScopedCapture(device=self.device) as capture:
                 for _ in range(block):self.step()
@@ -92,14 +93,15 @@ class PositionMPM:
         wp.launch(reset,dim=len(self.rest),inputs=[self.sim.mpm_state,self.rest_wp],device=self.device);self.failure.zero_()
         frames=max(1,int(np.ceil(seconds/self.dt/block)));previous=None;start=time.time()
         for j in range(frames):
+            if self.ramp_seconds>0 and j*block*self.dt<=self.ramp_seconds:self.set_pose(pose*min(1.,(j+1)*block*self.dt/self.ramp_seconds))
             wp.capture_launch(self.graph);wp.synchronize_device(self.device)
             if int(wp.to_torch(self.failure).item()):raise RuntimeError(f'MPM domain/Jacobian/CFL guard at {j*block*self.dt:.6f}s')
             if safety_check:
                 speed=float(wp.to_torch(self.sim.mpm_state.particle_v).abs().max().item())
                 if not np.isfinite(speed) or speed>5.:raise RuntimeError(f'MPM velocity safety stop at {j*block*self.dt:.6f}s: {speed}')
-            if j==frames-11:previous=wp.to_torch(self.sim.mpm_state.particle_x).detach().cpu().numpy()[self.sample_ids].copy()
+            if j==max(0,frames-1-max(1,int(round(.05/(block*self.dt))))):previous=wp.to_torch(self.sim.mpm_state.particle_x).detach().cpu().numpy()[self.sample_ids].copy()
         x=wp.to_torch(self.sim.mpm_state.particle_x).detach().cpu().numpy();v=wp.to_torch(self.sim.mpm_state.particle_v).detach().cpu().numpy();assert np.isfinite(x).all() and np.max(abs(x))<2.,'Divergent MPM'
-        return dict(field=x[self.sample_ids]-self.shift-self.rest[self.sample_ids],drift_m=float(np.sqrt(np.mean((x[self.sample_ids]-previous)**2))) if previous is not None else None,max_speed=float(np.linalg.norm(v,axis=1).max()),elapsed_seconds=time.time()-start)
+        return dict(field=x[self.sample_ids]-self.shift-self.rest[self.sample_ids],drift_m=float(np.sqrt(np.mean((x[self.sample_ids]-previous)**2))) if previous is not None else None,drift_window_seconds=min(max(1,int(round(.05/(block*self.dt)))),frames-1)*block*self.dt,max_speed=float(np.linalg.norm(v,axis=1).max()),elapsed_seconds=time.time()-start)
 
 if __name__=='__main__':
     import argparse,json

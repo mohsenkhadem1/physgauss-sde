@@ -72,7 +72,15 @@ class Trainer(InvPhyTrainerWarp):
             if observed:
                 value=float(wp.to_torch(sim.loss,requires_grad=False).item());total+=value
                 if not np.isfinite(value):raise RuntimeError('Nonfinite PhysTwin training loss')
-                self.optimizer.step();updates+=1;sim.tape.zero();sim.clear_loss()
+                self.optimizer.step()
+                if getattr(self,'bulk_regularization',0.):
+                    # Our benchmark adapter regularizes bulk springs in three
+                    # material-coordinate bins; controller springs remain free.
+                    with torch.no_grad():
+                        weights=wp.to_torch(sim.wp_spring_Y)
+                        for ids in self.bulk_groups:
+                            if ids.numel():weights[ids]=(1-self.bulk_regularization)*weights[ids]+self.bulk_regularization*weights[ids].mean()
+                updates+=1;sim.tape.zero();sim.clear_loss()
             if j in ends or j+1 in ends:
                 state=wp.to_torch(sim.wp_states[-1].wp_x,requires_grad=False).cpu().clone().numpy()
                 if j in ends:states.append(state);drift.append(float(np.sqrt(np.mean((state-previous)**2))))
@@ -86,6 +94,7 @@ def run(a):
         from scripts.position_ood.seal import verify
         verify()
     within_deadline();obs=np.load(make(a.split,a.object));prefix=[0,1,2];destination=BASE/f'phystwin/{a.split}-{a.object}/y{a.initial:g}-dt{a.refinement}'
+    if a.bulk_regularization:destination=destination.with_name(destination.name+f'-bulk{a.bulk_regularization:g}')
     destination.mkdir(parents=True,exist_ok=True);lock=(destination/'run.lock').open('a');fcntl.flock(lock,fcntl.LOCK_EX)
     if (destination/'summary.json').exists():return
     train,starts,ends=schedule(obs['poses'][prefix],obs['measurements'][prefix],obs['visible_ids'],a.frames)
@@ -93,6 +102,9 @@ def run(a):
     cfg.load_from_yaml(str(UP/'configs/real.yaml'));cfg.FPS=5;cfg.dt=.0002/a.refinement;cfg.num_substeps=1000*a.refinement;cfg.gravity_scale=9.81/9.8;cfg.reverse_z=False;cfg.external_force_path=None
     cfg.base_lr=.02;cfg.init_spring_Y=a.initial;cfg.object_radius=.07;cfg.object_max_neighbours=30;cfg.controller_radius=.06;cfg.controller_max_neighbours=16;cfg.spring_Y_min=.001;cfg.spring_Y_max=300.;cfg.dashpot_damping=.1;cfg.drag_damping=5.;cfg.collision_learn=False;cfg.self_collision=False;cfg.acc_weight=0.;cfg.chamfer_weight=1.;cfg.track_weight=1.;cfg.use_graph=True
     np.random.seed(42);torch.manual_seed(42);logger.set_log_file(path=str(destination),name='fit');trainer=Trainer(str(destination/'train.pkl'),str(destination),train_frame=len(train['object_points']));trainer.capture_observed_loss();sim=trainer.simulator
+    trainer.bulk_regularization=a.bulk_regularization
+    if a.bulk_regularization:
+        edges=wp.to_torch(sim.wp_springs).detach().cpu().numpy();bulk=np.all(edges<81,axis=1);midpoint=points()[np.minimum(edges,80),0].mean(1);groups=np.clip((midpoint/.08).astype(int),0,2);trainer.bulk_groups=[torch.tensor(np.flatnonzero(bulk&(groups==k)),device=cfg.device) for k in range(3)]
     history=[];best=np.inf;best_weights=None;started=time.time();updates=0
     for epoch in range(a.epochs):
         within_deadline();_,_,loss,count=trainer.rollout(train,starts,ends,True);updates+=count
@@ -105,7 +117,7 @@ def run(a):
     with torch.no_grad():wp.to_torch(sim.wp_spring_Y).copy_(best_weights)
     data,starts,ends=schedule(obs['poses'],frames=a.frames);pred,drift,_,_=trainer.rollout(data,starts,ends)
     assert np.isfinite(pred).all();np.savez_compressed(destination/'predictions.npz',predicted=pred-SHIFT-points(),drift_m=drift,poses=obs['poses'])
-    write(destination/'summary.json',dict(state='complete',split=a.split,object=a.object,initial_Y=a.initial,epochs=a.epochs,updates=updates,frames=a.frames,dt=cfg.dt,best_observed_rmse_mm=1000*np.sqrt(best),max_hold_drift_mm=1000*float(max(drift)),elapsed_seconds=time.time()-started,history=history,scope='Official PhysTwin nonlinear spring-mass core and per-spring Adam; prescribed tool positions, nominal gravity, known rest shape and mass; same three noisy settled RGB-D observations, repeated in final one-second hold. No transient deformation labels or true force inputs. Dynamics used to approximate static endpoints.'))
+    write(destination/'summary.json',dict(state='complete',split=a.split,object=a.object,initial_Y=a.initial,bulk_regularization=a.bulk_regularization,epochs=a.epochs,updates=updates,frames=a.frames,dt=cfg.dt,best_observed_rmse_mm=1000*np.sqrt(best),max_hold_drift_mm=1000*float(max(drift)),elapsed_seconds=time.time()-started,history=history,scope='Official PhysTwin nonlinear spring-mass core and per-spring Adam; prescribed tool positions, nominal gravity, known rest shape and mass; same three noisy settled RGB-D observations, repeated in final one-second hold. No transient deformation labels or true force inputs. Dynamics used to approximate static endpoints.'))
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--split',default='development');p.add_argument('--object',type=int,default=0);p.add_argument('--initial',type=float,default=3.);p.add_argument('--epochs',type=int,default=80);p.add_argument('--frames',type=int,default=25);p.add_argument('--refinement',type=int,default=1);a=p.parse_args();run(a)
+    p=argparse.ArgumentParser();p.add_argument('--split',default='development');p.add_argument('--object',type=int,default=0);p.add_argument('--initial',type=float,default=3.);p.add_argument('--epochs',type=int,default=80);p.add_argument('--frames',type=int,default=25);p.add_argument('--refinement',type=int,default=1);p.add_argument('--bulk-regularization',type=float,default=0.);a=p.parse_args();run(a)

@@ -30,7 +30,10 @@ def run(split):
     if 'test' in split.split('_'):
         from scripts.position_ood.seal import verify
         verify()
-    s=protocol();rows=[];missing=[]
+    s=protocol()
+    if split.startswith('transfer_'):
+        s=json.loads((BASE/'transfer-protocol.json').read_text())
+    rows=[];missing=[]
     for i in range(len(s[split])):
         path=BASE/f'fields/{split}-{i}.npz'
         if not path.exists():missing.append(i);continue
@@ -38,15 +41,16 @@ def run(split):
         for p in (BASE/f'inverse/{split}-{i}').glob('*.npz'):
             if 'uncertainty' not in p.name:methods[p.stem]=p
         for p in (BASE/f'phystwin/{split}-{i}').glob('*/predictions.npz'):methods['phystwin-'+p.parent.name]=p
-        p=BASE/f'mpm/{split}-{i}/predictions.npz'
-        if p.exists():methods['physgaussian-mpm']=p
+        for directory in sorted(BASE.glob('mpm*')):
+            p=directory/f'{split}-{i}/predictions.npz'
+            if p.exists():methods['physgaussian-'+directory.name]=p
         for mode in ['id','all']:
             p=BASE/f'neural-predictions/{split}-{i}-{mode}.npz'
             if p.exists():methods['neural-'+mode]=p
         measurements=np.load(BASE/f'observations/{split}-{i}.npz')['measurements'] if (BASE/f'observations/{split}-{i}.npz').exists() else None
         result={name:metrics(np.load(p)['predicted'],ref) for name,p in methods.items()};result['undeformed']=metrics(np.zeros_like(ref),ref);result['last_full_state_oracle_persistence']=metrics(np.repeat(ref[2:3],len(ref),axis=0),ref)
         rows.append(dict(object=i,methods=result,deformation=deformation(ref)))
-    report=dict(split=split,declared_objects=len(s[split]),completed_reference_objects=len(rows),missing_references=missing,rows=rows,primary_metric='Coordinate RMSE = 1000 sqrt(sum over xyz and query points of squared displacement error / (3 N)); aggregate per object, then average objects. Euclidean point RMSE reported separately.',groups=dict(prefix=[0,1,2],interpolation=[3],new_interaction=[4,5,6,7,8],larger_amplitude=[9]),scope='Development diagnostics' if split=='development' else 'Frozen held-out evaluation')
+    report=dict(split=split,declared_objects=len(s[split]),completed_reference_objects=len(rows),missing_references=missing,rows=rows,primary_metric='Coordinate RMSE = 1000 sqrt(sum over xyz and query points of squared displacement error / (3 N)); aggregate per object, then average objects. Euclidean point RMSE reported separately.',groups=(dict(prefix=[0,1,2],spatial_transfer=[3,4,5,6,7,8],held_target=[7]) if split.startswith('transfer_') else dict(prefix=[0,1,2],interpolation=[3],new_interaction=[4,5,6,7,8],larger_amplitude=[9])),scope='Development diagnostics' if split=='development' else 'Frozen held-out evaluation')
     write(OUT/f'{split}-scores.json',report);return report
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--split',default='development');a=p.parse_args();r=run(a.split);print(r['split'],r['completed_reference_objects'],'/',r['declared_objects'])
