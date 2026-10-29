@@ -6,11 +6,7 @@ The controlled object is a $240\times80\times80$\,mm deformable block with known
 \paragraph{Cohorts and shifts.}
 The protocol declares nine development objects, twelve calibration objects, and three disjoint test cohorts: eighteen objects from the development parameter ranges, twelve with extrapolated elastic coefficients and spatial heterogeneity, and twelve with shifted environmental-field amplitude, center, width, and gravity direction. Material coefficients within development range from 8 to 40\,kPa, and total attachment stiffnesses from 1500 to 15000\,N/m. Each object has a new 3\,mm familiar-direction query, five new positional interaction patterns, and a doubled-amplitude query. New patterns include stretching, opposed tool motion, twisting, bending, and diagonal translation. An additional transfer challenge translates both tools together through the fixed spatial field. These are declared interaction and parameter shifts; the reference material law remains Neo-Hookean.
 
-\begin{figure*}[t]
-\centering\includegraphics[width=\textwidth]{figures/scenarios.pdf}
-\caption{Development reference geometry at actual deformation scale. The top row supplies the three observed configurations; the bottom row illustrates new positional interactions. Color measures displacement remaining after rigid alignment. The block has millimetre-scale nonrigid deformation, with no visual amplification.}
-\label{fig:scenarios}
-\end{figure*}
+
 
 \paragraph{Unseen environmental force laws.}
 A separately declared six-object extension tests anisotropic harmonic fields and signed two-Gaussian fields, with three objects per law and one per attachment layout. Both laws lie outside the single-Gaussian environmental family used by the inverse predictor. Each object supplies the same three prefix observations and is queried with the ten local actions and six whole-object translations. Materials, gravity direction, and compliant coupling remain unknown. All six predictors retain their frozen settings and learned weights; extension results are reported separately from the primary cohorts. All six reference fields pass the original numerical qualification criteria. The supplement gives the potentials and protocol.
@@ -34,12 +30,14 @@ The primary error is coordinate RMS displacement error,
 We also report Euclidean point RMSE, hidden-surface error, and residual motion after removing the best rigid transform. Incremental error compares $\hat u(a)-\hat u(a_0)$ against $u(a)-u(a_0)$, separating the predicted response to the new action from static shape-completion error. Aggregation treats the object as the independent unit. Paired comparisons resample objects rather than frames or points. Probing compares a fixed $+40$\,mm $y$ translation, a reproducible random action, and the sensitivity-based policy, all with one additional acquired response and a separate $-40$\,mm $y$ target. Twelve independent calibration objects set separate pre- and post-acquisition interval scales; the first nine familiar-parameter test objects evaluate transfer. A material-indexed-load ablation receives exactly the probe response selected for the spatial model. Before acquisition, the two neural baselines also predict all nine transfer objects; physical baselines reuse their original fits on the first six objects, with no additional observed responses.
 
 \section{Prediction Results}
+\IfFileExists{generated-main-table.tex}{\input{generated-main-table}}{}
 \paragraph{New interactions with familiar parameters.}
 On all eighteen familiar-parameter objects, the spatial inverse predicts the five new local motions with mean coordinate RMSE of $0.068$\,mm. The all-action neural baseline gives $0.119$\,mm and the ID-action baseline $1.528$\,mm. Relative to all-action training, the inverse reduces mean error by $43.1\%$, with paired advantage $0.051$\,mm and 95\% object-bootstrap interval $[0.037,0.066]$\,mm. The all-action model has seen these interaction families on disjoint training objects, making it a useful comparison for the benefit of per-object physical inference beyond action-family exposure.
 
 \paragraph{Environmental-shift generalization.}
 On all twelve environmental-shift objects, the spatial inverse has new-local-motion coordinate RMSE of $0.067$\,mm, compared with $0.216$\,mm for the neural predictor trained on all local action families and $1.488$\,mm for ID-action training. Relative to the all-action baseline, the mean error is reduced by $68.9\%$; the paired mean advantage is $0.149$\,mm with a 95\% object-bootstrap interval of $[0.066,0.276]$\,mm. The spatial inverse also gives $0.059$\,mm on the familiar-direction query and $0.073$\,mm at doubled amplitude. These results use the original three observations and frozen model settings. The material-shift cohort, physical baselines and acquisition comparisons are still being evaluated.
 
+\IfFileExists{generated-matched-table.tex}{\input{generated-matched-table}}{}
 \paragraph{Matched physical component comparison.}
 On the six predeclared environmental-shift objects, new-motion error is $0.065$\,mm for the spatial inverse and $1.061$\,mm for the PhysTwin core adaptation; the all-action neural baseline gives $0.297$\,mm on these same objects. The paired advantage over the spring-mass adaptation is $0.996$\,mm, with 95\% object-bootstrap interval $[0.811,1.189]$\,mm. Incremental-response errors are $0.031$ and $0.655$\,mm for the spatial inverse and spring-mass adaptation, respectively, showing a difference in the response to new actions beyond nominal-shape reconstruction. This comparison uses the common three-observation positional interface and documented development-selected settings. It concerns the adapted physical component, with the constitutive and environmental representations described above.
 
@@ -47,3 +45,24 @@ On the six predeclared environmental-shift objects, new-motion error is $0.065$\
 With the same fixed calibration scale, predictive intervals on the eighteen familiar-parameter objects cover $98.3\%$ of held-action coordinates on average, with mean half-width $0.169$\,mm; all eighteen objects reach $90\%$ coordinate coverage.
 
 On the environmental-shift cohort, the independently calibrated predictive intervals cover $98.7\%$ of held-action coordinates on average in this cohort, with mean half-width $0.181$\,mm; all twelve objects have at least $90\%$ coordinate coverage. These measurements pool the seven held actions per object and retain the calibration scale fixed on the twelve calibration objects. They assess predictive coverage before acquisition, separately from physical-parameter identifiability and post-probe performance.
+
+
+\IfFileExists{generated-transfer-table.tex}{\input{generated-transfer-table}}{}
+\IfFileExists{generated-active-table.tex}{\input{generated-active-table}}{}
+\IfFileExists{generated-force-law-table.tex}{\input{generated-force-law-table}}{}
+
+\IfFileExists{figures/qualitative.pdf}{
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{figures/qualitative.pdf}
+\caption{Actual-scale geometry and prediction error for the upper-median and largest-error objects among the 18 matched cases, ranked by the spatial inverse's mean error over seven held actions. Each row shows that object's highest-error held action for the spatial inverse. All methods are shown on the same case and action. Color denotes Euclidean point error; reported panel values use coordinate RMSE.}
+\label{fig:qualitative}
+\end{figure*}
+}{}
+
+\IfFileExists{figures/acquisition.pdf}{
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{figures/acquisition.pdf}
+\caption{One-response adaptation on nine held objects. Error, predictive coverage and interval width are evaluated together, using independent calibration for each policy. Points denote objects and bars show object-bootstrap intervals. The final panel compares spatial and material-indexed loading before and after the same acquired response.}
+\label{fig:acquisition}
+\end{figure*}
+}{}

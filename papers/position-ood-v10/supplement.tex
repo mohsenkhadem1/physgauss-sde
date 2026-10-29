@@ -40,6 +40,12 @@ At the true parameters of development object 3, the $n=2$ predictor had coordina
 
 All 87 primary and spatial-transfer reference fields passed these checks. Thirty-nine used resolution $n=6$, forty-four used $n=8$, and four used $n=10$. The largest accepted action-level spatial RMS change was $19.35\,\mu$m; the largest quadrature RMS change was $0.278\,\mu$m. The minimum sampled deformation Jacobian was $0.727$, and the largest reaction imbalance was $1.91\times10^{-11}$\,N. These counts concern independently refined reference objects; the separate 512-object neural training bank uses the two-resolution predictor.
 
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{figures/scenarios.pdf}
+\caption{Development reference geometry at actual deformation scale. The top row supplies the three observed configurations; the bottom row illustrates new positional interactions. Color measures displacement remaining after rigid alignment. The block has millimetre-scale nonrigid deformation, with no visual amplification.}
+\label{fig:scenarios}
+\end{figure*}
+
 \section{Observation interface and action splits}
 All predictors receive three noisy visible position sets and prescribed tool poses. Marker correspondence and camera calibration are known. The front face provides 27 points; the 81-point evaluation set additionally includes 47 hidden surface points and seven interior points. Depth noise has standard deviation $0.3$\,mm and rasterization introduces quantization. The common positional fitting scale is $0.3$\,mm per coordinate.
 
@@ -83,6 +89,9 @@ The centers are $(0.07,-0.035,-0.06)$ and $(0.17,0.035,-0.09)$\,m, with widths $
 Each force-law group contains one object per attachment layout. Elasticity, material heterogeneity, coupling stiffness and gravity orientation are sampled within the familiar ranges using seed 295001; independent observation noise uses seed $296000+i$. Each object has the original ten local actions plus six whole-object translations. The same three prefix observations are supplied to every predictor. The spatial inverse, material-indexed-load ablation, both selected neural models, PhysTwin adaptation and PhysGaussian adaptation are compared on all six objects. The extension has no additional training or probe acquisition. Reference generation uses the original refinement and equilibrium thresholds, with separate energy-gradient, tangent and reaction-balance tests for both new fields. Its results remain separate from the 42-object primary benchmark and the nine-object acquisition experiment.
 
 All six extension references passed qualification: three used $n=6$ and three used $n=8$. The largest action-level spatial RMS change was $18.77\,\mu$m and the largest quadrature RMS change was $0.0444\,\mu$m. The minimum sampled deformation Jacobian was $0.832$. The six fields, observations and qualification records were hashed before extension inference began.
+
+\IfFileExists{generated-incremental-table.tex}{\input{generated-incremental-table}}{}
+\IfFileExists{generated-coverage-table.tex}{\input{generated-coverage-table}}{}
 
 \section{Reproducibility and provenance}
 A pre-evaluation SHA-256 manifest freezes the inference implementation, benchmark configuration, object cohorts, transfer protocol, neural weights and native simulator sources. Numerical fields and rendered data remain local; code, compact reports and manuscript sources are versioned. The study uses CPU workers and GPUs 0--2 on a four-GPU workstation, retaining the fourth GPU for existing desktop use. Raw prediction files precede separate scoring. Object-level bootstrap comparisons use paired objects, not individual coordinates as independent replicates. Explicit completion counts accompany every declared cohort.
