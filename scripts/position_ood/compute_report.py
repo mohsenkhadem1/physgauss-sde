@@ -50,12 +50,12 @@ def main():
         rows.append(row)
         method = next((job['args'][k + 1] for k, arg in enumerate(job['args'])
                        if arg == '--method'), job['script'].removesuffix('.py'))
-        groups[(method, row['execution_kind'])].append(row)
+        groups[(job['script'], method, row['execution_kind'])].append(row)
     summaries = []
-    for (method, device), records in sorted(groups.items(), key=lambda x: str(x[0])):
+    for (script, method, device), records in sorted(groups.items(), key=lambda x: str(x[0])):
         completed = [r for r in records if r['state'] == 'complete']
         flags = [r['optimizer_success'] for r in completed if r.get('optimizer_success') is not None]
-        summaries.append(dict(method=method, execution_kind=device, declared=len(records),
+        summaries.append(dict(script=script, method=method, execution_kind=device, declared=len(records),
             completed=len(completed), states=dict(Counter(r['state'] for r in records)),
             wall_seconds=summarize([r['elapsed_seconds'] for r in completed if 'elapsed_seconds' in r]),
             optimizer_flags=dict(success=sum(flags), other_termination=len(flags)-sum(flags)),
