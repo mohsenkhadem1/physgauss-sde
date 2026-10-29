@@ -1,0 +1,100 @@
+Position-conditioned OOD study: artifact and reproduction guide
+
+Run commands below from the repository root. This directory contains manuscript
+sources; reports/position-ood-v10 contains published summaries and provenance.
+The manuscript is under assembly until the final release audit and visual review.
+
+Data availability
+Raw simulations, observations, fitted parameters and network weights remain local
+under runs/position-ood-v10, as requested. A fresh GitHub checkout does not contain
+those datasets and cannot regenerate the quantitative reports without them.
+Reports include hashes identifying the exact local inputs. Full simulation
+regeneration is distinct from rebuilding reports from stored predictions.
+
+Configuration and provenance
+  configs/position_ood_v10.json
+  reports/position-ood-v10/method-seal.json
+  reports/position-ood-v10/force-law-protocol.json
+  reports/position-ood-v10/force-law-seal.json
+  reports/position-ood-v10/force-law-data-seal.json
+  reports/position-ood-v10/environment.json
+
+The primary method seal freezes source/configuration, reference data, training
+bank and selected weights. The force-law extension has separate protocol and
+data seals. Do not overwrite sealed inputs to extend or repeat experiments.
+Experiment launchers enforce the original 2026-10-30 09:51 UTC deadline; a future
+campaign requires a separate namespace/protocol and its own provenance.
+
+Local environments
+  .venv/bin/python                  Main FEM, inverse, neural and report code
+  runs/phystwin-env/bin/python      Native PhysTwin/PhysGaussian components/video
+  runs/toolchain/tectonic           Manuscript compiler
+
+The environment report records main Python/PyTorch/NumPy/SciPy and GPU versions.
+Native code checkouts and their source hashes are recorded in the method seal.
+The original campaign uses GPUs 0-2; GPU 3 and unrelated jobs are preserved.
+Concurrent workstation runtimes are not isolated hardware benchmarks.
+
+Required environment for every v10 command
+  export POSITION_CAMPAIGN=position-ood-v10
+  export POSITION_BOUNDARY=smooth
+  export OMP_NUM_THREADS=1
+  export OPENBLAS_NUM_THREADS=1
+
+These explicit selectors matter: historical defaults refer to v09/sharp physics.
+CPU inverse execution additionally uses POSITION_INVERSE_DEVICE=cpu. Native
+baseline fitting requires the separate native environment and CUDA.
+
+Inspect completeness and integrity without launching experiments
+  .venv/bin/python scripts/position_ood/release_check.py
+
+Read reports/position-ood-v10/release-readiness.json. Its checks distinguish
+missing results from invalid outputs and verify earlier sealed studies too.
+Passing automated checks still requires manual scientific and visual review.
+There are 394 declared primary output paths. Job-status counts can be lower
+because twelve calibration coarse fits were reused. Acquisition and force-law
+deliverables are checked separately; 394 alone does not establish completion.
+
+Regenerate reports from a COMPLETE local prediction set
+  .venv/bin/python scripts/position_ood/publication.py
+  .venv/bin/python scripts/position_ood/compute_report.py
+  .venv/bin/python scripts/position_ood/neural_report.py
+  .venv/bin/python scripts/position_ood/publication_uncertainty.py
+  .venv/bin/python scripts/position_ood/figure_active.py
+  .venv/bin/python scripts/position_ood/qualitative.py --video
+  .venv/bin/python scripts/position_ood/force_law_report.py
+
+These commands use saved predictions, not new inverse fitting. Main aggregation
+retains explicit missing-object counts if run early; such tables are not final
+cohort results. Uncertainty figures require complete calibrated acquisition
+reports. Force-law reporting requires all six objects and all six predictors.
+Its optional --wait mode remains deadline bounded; a complete stored result set
+can be re-reported after the experiment deadline without launching simulations.
+
+Video rendering uses the native environment internally. Panels share one camera
+center and pixels-per-metre scale, with 50 mm scale bars. These videos show orbit
+views of settled positional queries, not measured dynamic trajectories. The
+main two examples are the predeclared median and largest-error cases of the
+matched subset; the force-law examples are predeclared objects 0 and 3.
+
+Build manuscript previews
+  mkdir -p output/pdf
+  cd papers/position-ood-v10
+  ../../runs/toolchain/tectonic --outdir ../../output/pdf main.tex
+  ../../runs/toolchain/tectonic --outdir ../../output/pdf supplement.tex
+
+Final delivery paths are paper.pdf and supplement.pdf in this directory, after
+every page is rendered and visually reviewed. Generated tables must be integrated
+and prose reconciled with complete results before copying previews to those paths.
+No conference submission is performed by this workflow.
+
+Evaluation scope
+42 primary held objects: 18 familiar, 12 material-shift, 12 environment-shift.
+Physical component comparisons use the same first six objects per cohort (18).
+Nine familiar objects are reused for spatial transfer and one-probe evaluation;
+six of these have physical-baseline transfer predictions. Six separate force-law
+objects test harmonic and two-Gaussian fields, three per law. Transfer fields
+are not additional independent objects. Metrics average within each object and
+bootstrap objects; the reports retain per-object values and paired intervals.
+PhysTwin and PhysGaussian entries evaluate documented positional-interface
+adaptations of official physical cores, not their full appearance pipelines.

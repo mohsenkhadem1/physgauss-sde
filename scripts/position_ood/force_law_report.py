@@ -34,12 +34,12 @@ def main(wait=False):
     plan = verify()
     settings = verify_main()['settings']
     while True:
-        within_deadline()
         missing = [str(p.relative_to(BASE)) for i in range(6) for p in paths(i, settings).values() if not p.exists()]
         if DATA_SEAL.exists() and not missing:
             break
         if not wait:
             raise RuntimeError(f'Complete six-object prediction cohort required; {len(missing)} prediction files missing')
+        within_deadline()
         time.sleep(60)
     seal_data()
     rows = []
