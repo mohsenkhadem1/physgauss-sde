@@ -19,7 +19,16 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--kind', choices=['reference', 'inverse', 'native'], required=True)
     parser.add_argument('--worker', type=int, default=0)
+    parser.add_argument('--max-jobs', type=int, default=0,
+                        help='Exit after this many claimed tasks; zero runs the full queue.')
+    parser.add_argument('--skip-neural', action='store_true',
+                        help='Inverse-fit helpers only: omit GPU checkpoint prediction tasks.')
     args = parser.parse_args()
+    if args.max_jobs < 0:
+        parser.error('--max-jobs must be nonnegative')
+    if args.skip_neural and args.kind != 'inverse':
+        parser.error('--skip-neural is only valid with --kind inverse')
+    completed_here = 0
     verify()
     settings = verify_main()['settings']
     directory = BASE/'force-law-jobs'
@@ -29,7 +38,8 @@ def main():
         if args.kind == 'reference':
             tasks.append((f'reference-{i}', ['--task', 'reference', '--object', str(i)], BASE/f'observations/{SPLIT}-{i}.npz'))
         elif args.kind == 'inverse':
-            tasks.append((f'neural-{i}', ['--task', 'neural', '--object', str(i)], BASE/f'neural-predictions/{SPLIT}-{i}-selected-all.npz'))
+            if not args.skip_neural:
+                tasks.append((f'neural-{i}', ['--task', 'neural', '--object', str(i)], BASE/f'neural-predictions/{SPLIT}-{i}-selected-all.npz'))
             for method in ['extrapolated', 'extrapolated_material_frame']:
                 tasks.append((f'{method}-{i}', ['--task', 'inverse', '--object', str(i), '--method', method], BASE/f'inverse/{SPLIT}-{i}/{method}-n3-p3.json'))
         else:
@@ -72,6 +82,12 @@ def main():
                 write(status, dict(state='complete' if success else 'failed', worker=args.worker,
                                    elapsed_seconds=time.time()-start, returncode=result.returncode, output=str(output)))
                 print('FORCE_LAW_DONE', name, success, flush=True)
+                completed_here += 1
+                if args.max_jobs and completed_here >= args.max_jobs:
+                    write(directory/f'worker-{args.kind}-{args.worker}-bounded-done.json',
+                          dict(time=time.time(), tasks=completed_here,
+                               scope='Worker task limit reached; not a declaration of cohort completeness.'))
+                    return
                 progress = True
                 break
         if not pending:
