@@ -45,10 +45,10 @@ def train(mesh=2,epochs=1000,mode='id',count=512):
     if missing:raise RuntimeError(f'Bank incomplete: {len(missing)} missing; do not silently select successful simulations')
     rows=[np.load(p) for p in paths];obs=np.array([r['observations'] for r in rows]);poses=np.array([r['poses'] for r in rows]);target=np.array([r['fields'] for r in rows]);actions=[0,1,2,3,10,11] if mode=='id' else list(range(12))
     # Validation objects belong only to the training bank, never the study test.
-    trainids=np.arange(count)[np.arange(count)%5!=0];validids=np.arange(count)[np.arange(count)%5==0];torch.manual_seed(291);model=Predictor().cuda();optimizer=torch.optim.AdamW(model.parameters(),lr=.001,weight_decay=1e-4);rng=np.random.default_rng(291)
+    trainids=np.arange(count)[np.arange(count)%5!=0];validids=np.arange(count)[np.arange(count)%5==0];torch.manual_seed(291);model=Predictor().cuda();optimizer=torch.optim.AdamW(model.parameters(),lr=.001,weight_decay=1e-4);scheduler=torch.optim.lr_scheduler.CosineAnnealingLR(optimizer,T_max=epochs,eta_min=1e-5);rng=np.random.default_rng(291)
     obs=torch.tensor(obs,dtype=torch.float32,device='cuda');poses=torch.tensor(poses,dtype=torch.float32,device='cuda');target=torch.tensor(target,dtype=torch.float32,device='cuda');best=np.inf;history=[];dest=BASE/f'neural/{mode}-n{mesh}';dest.mkdir(parents=True,exist_ok=True);start=time.time()
     for epoch in range(epochs):
-        within_deadline();model.train();idx=rng.choice(trainids,256);act=rng.choice(actions,256);pred=model(obs[idx],poses[idx,act]);loss=((pred-target[idx,act])/.01).square().mean();optimizer.zero_grad();loss.backward();optimizer.step()
+        within_deadline();model.train();idx=rng.choice(trainids,256);act=rng.choice(actions,256);pred=model(obs[idx],poses[idx,act]);loss=((pred-target[idx,act])/.01).square().mean();optimizer.zero_grad();loss.backward();optimizer.step();scheduler.step()
         if epoch%20==0 or epoch==epochs-1:
             model.eval()
             with torch.no_grad():
@@ -56,6 +56,17 @@ def train(mesh=2,epochs=1000,mode='id',count=512):
             if value<best:best=value;torch.save(model.state_dict(),dest/'best.pt')
             history.append(dict(epoch=epoch,train=float(loss),validation_rmse_mm=1000*np.sqrt(value)));print('NEURAL_TRAIN',mode,epoch,1000*np.sqrt(value),flush=True)
     write(dest/'summary.json',dict(state='complete',mode=mode,mesh=mesh,training_actions=actions,count=count,epochs=epochs,seed=291,best_validation_rmse_mm=1000*np.sqrt(best),elapsed_seconds=time.time()-start,history=history,scope='Disjoint synthetic training objects; position observations and tool poses only. id model never trains on x translation, rotations, opposed motion, diagonal motion, or doubled amplitude. all model sees those families on separate training objects and is reported separately.'))
+
+def predict(split,i,mode='id',mesh=2):
+    within_deadline()
+    if 'test' in split.split('_'):
+        from scripts.position_ood.seal import verify
+        verify()
+    from scripts.position_ood.observations import make
+    obs=np.load(make(split,i));model=Predictor().cuda();model.load_state_dict(torch.load(BASE/f'neural/{mode}-n{mesh}/best.pt',map_location='cuda',weights_only=True));model.eval()
+    with torch.no_grad():
+        x=torch.tensor(obs['measurements'][:3],dtype=torch.float32,device='cuda')[None].expand(len(obs['poses']),-1,-1,-1);p=torch.tensor(obs['poses'],dtype=torch.float32,device='cuda');pred=model(x,p).cpu().numpy()
+    path=BASE/f'neural-predictions/{split}-{i}-{mode}.npz';path.parent.mkdir(exist_ok=True);np.savez_compressed(path,predicted=pred,poses=obs['poses']);return path
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--task',choices=['bank','train'],default='bank');p.add_argument('--count',type=int,default=512);p.add_argument('--mesh',type=int,default=2);p.add_argument('--worker',type=int,default=0);p.add_argument('--workers',type=int,default=1);p.add_argument('--epochs',type=int,default=2000);p.add_argument('--mode',choices=['id','all'],default='id');a=p.parse_args()

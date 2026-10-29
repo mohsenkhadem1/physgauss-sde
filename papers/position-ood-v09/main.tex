@@ -7,10 +7,17 @@
 \title{Position-Conditioned Deformation Prediction with Unknown Material and Environmental Interactions}
 \author{Anonymous authors\\Research manuscript draft}
 \begin{document}
+\raggedbottom
 \maketitle
 \begin{abstract}
 Predicting deformation from visual observations requires distinguishing an object's material response from the effects of its environment. Similar observed motions can result from different combinations of elasticity, fixture compliance, gravity, and spatial loading. We study position-conditioned prediction: a model observes a short sequence of object positions and prescribed tool poses, then predicts deformation under a new positional interaction without receiving the true force history. Our formulation separates object-attached material properties from environmental interaction fields and fits their latent parameters through implicitly differentiated nonlinear equilibrium. We develop a controlled benchmark that separates familiar positional motions from held-out interaction families and evaluates prediction before and after additional observations. Numerical reference checks and matched observation interfaces support comparisons with physical digital-twin methods and learned positional predictors. Quantitative conclusions in the final manuscript will be generated from the completed, frozen evaluation.
 \end{abstract}
+
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{figures/method.pdf}
+\caption{Position-conditioned inverse mechanics. Observed object positions constrain material and environmental explanations. New tool poses are converted to interaction through the inferred model; true force histories are not supplied. Local predictive sensitivities support selecting an additional observation.}
+\label{fig:method}
+\end{figure*}
 
 \section{Introduction}
 Physical digital twins connect visual reconstruction to predictions about how an object responds to interaction. A useful twin should answer a positional query: if a gripper moves here, or a tool follows this trajectory, how will the object deform? The reaction forces are consequences of the interaction, rather than necessarily available inputs. This distinction matters when deploying a model without calibrated force sensing.
@@ -24,6 +31,9 @@ Our study builds on complementary advances in physical Gaussian representations 
 \section{Related Work}
 \paragraph{Physical visual representations.}
 PhysGaussian~\cite{xie2024physgaussian} integrates 3D Gaussian rendering with material-point simulation. Its representation supports a broad range of material behaviors and prescribed scene interactions. PhysTwin~\cite{jiang2025phystwin} combines spring-mass simulation, geometric reconstruction, and Gaussian appearance modeling to infer deformable twins from sparse interaction videos. We compare compatible physical prediction components under a common observation interface and identify adaptations explicitly; our controlled experiments do not substitute for an evaluation of every capability of these complete systems.
+
+\paragraph{Learning physical response.}
+Spring-Gaus~\cite{zhong2024springgaus} identifies elastic spring-mass models from video and evaluates future simulation under changed initial states and environmental parameters. PhysDreamer~\cite{zhang2024physdreamer} uses video-generation priors to estimate spatial material fields and synthesize plausible interactions. UniPhy~\cite{mittal2025uniphy} learns a shared latent-conditioned constitutive model across elastic, plastic, granular, and fluid materials, then optimizes a latent from observed positions for re-simulation under new conditions. These results establish that material inference and interaction generalization are already important capabilities of existing work. Our controlled study addresses their interaction with unknown environmental explanations and the selection of additional positional observations. We do not claim to introduce inverse material learning or counterfactual simulation.
 
 \paragraph{Acquiring informative interactions.}
 AuRA~\cite{yu2026aura} automates robot interaction and data preparation for deformable digital-twin reconstruction. Its focus on efficient acquisition complements our study of uncertainty in the physical explanation of an observed interaction. We distinguish initial generalization from adaptation after collecting additional observations, and report acquisition and computational costs separately.
@@ -47,11 +57,21 @@ We model settled deformation as a stationary point of total potential energy,
 Here $F=I+\nabla_Xu$, $d_k(a)$ is the displacement prescribed by a rigid tool pose, and $\kappa_k$ represents compliant coupling to that tool or fixture. Gravity is a body force; surface constraints and spatial loading retain their distinct physical roles. The potential $\phi$ is evaluated in spatial coordinates, so its force changes as material moves through the environment.
 
 The initial constitutive implementation uses a compressible Neo-Hookean energy,
-\begin{equation}
+\begin{multline}
  W(F)=\frac\mu2(\mathrm{tr}(F^\top F)-3)-\mu\log J
-       +\frac\lambda2(\log J)^2,\quad J=\det F.
-\end{equation}
+       \\
+ +\frac\lambda2(\log J)^2,\qquad J=\det F.
+\end{multline}
 The simulator enforces a positive-Jacobian guard and checks equilibrium residuals. Reference solutions use quadratic finite elements with spatial and quadrature refinement. Displacement qualification does not imply convergence of every derived stress or traction quantity.
+
+\subsection{Material and environmental fields}
+The material field is attached to the reference object. In the controlled study,
+\begin{equation}
+ E(X)=E_0\exp\!\left[h\left(b_1(X)-b_2(X)\right)\right],
+\end{equation}
+where $b_i$ are fixed radial basis functions along the block's length. The coefficient $h$ controls spatial stiffness variation. The environmental potential is a spatial Gaussian, $\phi(x)=A|\Omega_0|^{-1}\exp(-\|x-c\|^2/(2s^2))$, with inferred energy amplitude $A$, center $c$, and width $s$. Its force is $-\nabla_x\phi(x)$ and changes as the object traverses the field. Two unknown compliant attachment patches couple the object to the position-controlled tools. We infer their total stiffnesses $K_k$, with $\kappa_k=K_k/|\Gamma_k|$, and select among three patch-layout hypotheses.
+
+Gravity has known magnitude and unknown direction in the observation frame. Density, Poisson ratio, canonical geometry, and tool kinematics are shared known quantities. Thus the study isolates uncertainty in stiffness, attachment, and environmental loading. It does not equate a change in elastic coefficients with a previously unseen constitutive law.
 
 \subsection{Inference from positional observations}
 For an observation operator $H_j$, we fit latent parameters by minimizing a position discrepancy,
@@ -66,6 +86,19 @@ Let $R(u,\theta,a)=\partial\Pi/\partial u$ and $K=\partial R/\partial u$. At a n
  \frac{d\mathcal L}{d\theta}=-v^\top\frac{\partial R}{\partial\theta}.
 \end{equation}
 We verify the implementation against an independent sparse assembly and finite differences of the equilibrium solution. This separates optimization failures from errors in differentiation.
+
+\subsection{Predictive sensitivity and probing}
+Let $J_a=\partial u^*(a,\hat\theta)/\partial\theta$ denote the positional sensitivity at the fitted explanation. We construct a regularized local covariance
+\begin{equation}
+ C=\left(J_{\mathcal D}^{\top}\Sigma^{-1}J_{\mathcal D}+\Lambda\right)^{-1},
+\end{equation}
+where $\Lambda$ encodes weak parameter-scale regularization. This is a local approximation, rather than a claim of an exact physical posterior. Its predictive scale is evaluated on independent calibration objects.
+
+For a candidate probe $a$, observing its visible points yields an approximate covariance $C_a=(C^{-1}+J_a^{\top}H_a^{\top}\Sigma^{-1}H_aJ_a)^{-1}$. We choose the probe that maximizes the reduction in target predictive variance,
+\begin{equation}
+ a^*=\arg\max_a\mathrm{tr}\!\left[J_*\left(C-C_a\right)J_*^{\top}\right].
+\end{equation}
+Probe selection uses predicted sensitivities, without observing candidate responses. The selected response is then acquired and the inverse problem is refitted. A separate target interaction remains unobserved throughout adaptation.
 
 \subsection{Generalization and adaptation}
 We distinguish three questions: prediction under a new action before its response is observed; calibration of uncertainty about that response; and prediction after a limited adaptation budget. A completely unobserved change in external loading is not assumed to be uniquely predictable from position alone. Such changes are evaluated through detection and adaptation, with the information available to each method stated explicitly.

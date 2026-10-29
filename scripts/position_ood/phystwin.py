@@ -82,7 +82,7 @@ class Trainer(InvPhyTrainerWarp):
 
 
 def run(a):
-    if a.split.startswith('test'):
+    if ('test' in a.split.split('_')):
         from scripts.position_ood.seal import verify
         verify()
     within_deadline();obs=np.load(make(a.split,a.object));prefix=[0,1,2];destination=BASE/f'phystwin/{a.split}-{a.object}/y{a.initial:g}-dt{a.refinement}'

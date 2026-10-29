@@ -3,7 +3,7 @@ from pathlib import Path
 import datetime,hashlib,json,os,sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 ROOT=Path(__file__).resolve().parents[2];BASE=ROOT/'runs/position-ood-v09'
-SOURCES=['differentiable.py','fixture.py','material_field.py','inverse.py','run_inverse.py','observations.py','uncertainty.py','adapt.py','phystwin.py','physgaussian.py','fit_mpm.py','neural.py','study.py','seal.py']
+SOURCES=['differentiable.py','extrapolated.py','fixture.py','material_field.py','inverse.py','run_inverse.py','observations.py','uncertainty.py','adapt.py','phystwin.py','physgaussian.py','fit_mpm.py','neural.py','study.py','score.py','reference_solver.py','predict_transfer.py','transfer.py','seal.py']
 
 def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -17,7 +17,7 @@ def verify():
     return seal
 
 def freeze(settings):
-    paths=[ROOT/'scripts/position_ood'/s for s in SOURCES]+[ROOT/'configs/position_ood_v09.json',BASE/'cohorts.json']
+    paths=[ROOT/'scripts/position_ood'/s for s in SOURCES]+[ROOT/'configs/position_ood_v09.json',BASE/'cohorts.json',BASE/'transfer-protocol.json']
     paths += [ROOT/'scripts/phystwin'/p for p in ['tensor_fixture.py','sequential_fixture.py','v08_reference.py','consistent_fixture.py','gpu_multigrid.py','v06_camera.py']]
     paths += [ROOT/'runs/third_party/PhysTwin-v06/qqtt/model/diff_simulator/spring_mass_warp.py']
     paths += list((ROOT/'runs/third_party/PhysGaussian-v09/mpm_solver_warp').glob('*.py'))

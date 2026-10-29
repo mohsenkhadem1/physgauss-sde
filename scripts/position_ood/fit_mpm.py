@@ -42,25 +42,25 @@ def fit(model,obs,layout,z0,iterations,seconds=2.):
 
 
 def run(a):
-    if a.split.startswith('test'):
+    if ('test' in a.split.split('_')):
         from scripts.position_ood.seal import verify
         verify()
-    obs=np.load(make(a.split,a.object));dest=BASE/f'mpm/{a.split}-{a.object}';dest.mkdir(parents=True,exist_ok=True);lock=(dest/'run.lock').open('a');fcntl.flock(lock,fcntl.LOCK_EX)
+    obs=np.load(make(a.split,a.object));tag='mpm' if a.attachment_width==0 else f'mpm-layer{a.attachment_width:g}';dest=BASE/f'{tag}/{a.split}-{a.object}';dest.mkdir(parents=True,exist_ok=True);lock=(dest/'run.lock').open('a');fcntl.flock(lock,fcntl.LOCK_EX)
     if (dest/'summary.json').exists():return
-    start=time.time();coarse=PositionMPM(1,32,.0002);rows=[]
+    start=time.time();coarse=PositionMPM(1,32,.0002,attachment_width=a.attachment_width,rpic=-1. if a.attachment_width else 0.);rows=[]
     for layout in range(3):
         path=dest/f'coarse-layout{layout}.json'
         if path.exists():row=json.loads(path.read_text())
         else:row=fit(coarse,obs,layout,np.r_[np.log([20000,5000,5000]),0.,0.,0.],a.coarse_iterations);write(path,row)
         rows.append(row)
     best=min(rows,key=lambda r:r['loss']);del coarse
-    path=dest/'fine-fit.json';fine=PositionMPM(2,64,.0001)
+    path=dest/'fine-fit.json';fine=PositionMPM(2,64,.0001,attachment_width=a.attachment_width,rpic=-1. if a.attachment_width else 0.)
     if path.exists():fitted=json.loads(path.read_text())
     else:fitted=fit(fine,obs,best['layout'],best['z'],a.fine_iterations);write(path,fitted)
     fine.parameters(**parameters(fitted['z'],fitted['layout']));pred=[];drift=[]
     for pose in obs['poses']:
         within_deadline();r=fine.solve(pose);pred.append(r['field']);drift.append(r['drift_m'])
-    np.savez_compressed(dest/'predictions.npz',predicted=pred,drift_m=drift,poses=obs['poses']);write(dest/'summary.json',dict(state='complete',split=a.split,object=a.object,coarse_rows=rows,best=fitted,resolution=2,grid=64,dt=.0001,seconds=2,elapsed_seconds=time.time()-start,scope='Official PhysGaussian fixed-corotated MPM core with our compliant positional-boundary and black-box inverse adapter. Fits spatial material coefficient, two compliances, discrete support layout and gravity direction from the same three positional observations. No true physical labels, no spatial external-potential oracle. Full Gaussian appearance pipeline is not evaluated.'))
+    np.savez_compressed(dest/'predictions.npz',predicted=pred,drift_m=drift,poses=obs['poses']);write(dest/'summary.json',dict(state='complete',split=a.split,object=a.object,coarse_rows=rows,best=fitted,resolution=2,grid=64,dt=.0001,seconds=2,attachment_width=a.attachment_width,elapsed_seconds=time.time()-start,scope='Official PhysGaussian fixed-corotated MPM core with our compliant positional-boundary and black-box inverse adapter. Fits spatial material coefficient, two compliances, discrete support layout and gravity direction from the same three positional observations. No true physical labels, no spatial external-potential oracle. Full Gaussian appearance pipeline is not evaluated.'))
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--split',default='development');p.add_argument('--object',type=int,default=1);p.add_argument('--coarse-iterations',type=int,default=12);p.add_argument('--fine-iterations',type=int,default=15);a=p.parse_args();run(a)
+    p=argparse.ArgumentParser();p.add_argument('--split',default='development');p.add_argument('--object',type=int,default=1);p.add_argument('--attachment-width',type=float,default=0.);p.add_argument('--coarse-iterations',type=int,default=12);p.add_argument('--fine-iterations',type=int,default=15);a=p.parse_args();run(a)

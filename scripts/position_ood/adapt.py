@@ -13,11 +13,11 @@ def adapt(split,i,policy,iterations=100):
     if not planpath.exists():uncertainty(split,i)
     plan=json.loads(planpath.read_text())
     if policy=='adaptive':action=plan['selected']
-    elif policy=='fixed':action=4
+    elif policy=='fixed':action=3 if split.startswith('transfer_') else 4
     elif policy=='random':action=int(np.random.default_rng(292000+i).choice(plan['candidates']))
     else:raise ValueError(policy)
-    assert action in [4,5,6,7,8] and plan['target']==9
-    write(BASE/f'plans/{split}-{i}-{policy}.json',dict(policy=policy,action=action,target=9,information='Prefix observations and local predictive sensitivities only; probe response acquired after selection.'))
+    assert action in plan['candidates'] and action!=plan['target']
+    write(BASE/f'plans/{split}-{i}-{policy}.json',dict(policy=policy,action=action,target=plan['target'],information='Prefix observations and local predictive sensitivities only; probe response acquired after selection.'))
     run(split,i,'joint',2,iterations,prefix=(0,1,2,action))
 
 if __name__=='__main__':

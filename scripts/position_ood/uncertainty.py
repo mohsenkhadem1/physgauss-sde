@@ -17,6 +17,9 @@ from scripts.phystwin.sequential_reference import write
 
 def sensitivity(model,z,pose,layout,environment=True,epsilon=1e-5):
     """Implicit sensitivity using finite differences of the residual, not solves."""
+    if hasattr(model,'coarse'):
+        uf,jf=sensitivity(model.fine,z,pose,layout,environment,epsilon);uc,jc=sensitivity(model.coarse,z,pose,layout,environment,epsilon)
+        return model.fine_weight*uf-model.coarse_weight*model.interpolation@uc, model.fine_weight*jf-model.coarse_weight*(model.interpolation@jc.reshape(len(jc),-1)).reshape(jf.shape)
     with torch.no_grad():
         z=model.tensor(z);pose=model.tensor(pose);theta=physical(z,environment);u,H=model.solve(theta,pose,layout)
         columns=[]
@@ -43,13 +46,17 @@ def probe_utilities(J,C,visible_ids,candidates=(4,5,6,7,8),target=9,noise_sigma=
 
 
 def run(split,i,method='joint',mesh=2,prefix=(0,1,2)):
-    within_deadline();path=BASE/f'inverse/{split}-{i}/{method}-n{mesh}-p{len(prefix)}.json';record=json.loads(path.read_text());best=record['best'];obs=np.load(BASE/f'observations/{split}-{i}.npz');ids=obs['visible_ids'];model=DensePositionFEM(mesh,field_frame='material' if method=='material_frame' else 'world');sample_ids=np.argmin(np.linalg.norm(model.geo.rest[:,None]-points()[None],axis=-1),axis=0)
+    within_deadline();path=BASE/f'inverse/{split}-{i}/{method}-n{mesh}-p{len(prefix)}.json';record=json.loads(path.read_text());best=record['best'];obs=np.load(BASE/f'observations/{split}-{i}.npz');ids=obs['visible_ids'];model=DensePositionFEM(mesh,field_frame='material' if method=='material_frame' else 'world')
+    if method.startswith('extrapolated'):
+        from scripts.position_ood.extrapolated import ExtrapolatedPositionFEM
+        model=ExtrapolatedPositionFEM(field_frame='material' if method=='extrapolated_material_frame' else 'world')
+    sample_ids=np.argmin(np.linalg.norm(model.geo.rest[:,None]-points()[None],axis=-1),axis=0)
     means=[];gradients=[]
     for pose in obs['poses']:
         within_deadline();u,J=sensitivity(model,best['z'],pose,best['layout'],best['environment']);means.append(u[sample_ids]);gradients.append(J[sample_ids])
     J=np.array(gradients);C=covariance(J[np.array(prefix)][:,ids]);var=np.einsum('...p,pq,...q->...',J,C,J);std=np.sqrt(np.maximum(var,0))
     dest=path.with_name(path.stem+'-uncertainty');np.savez_compressed(str(dest)+'.npz',mean=means,std=std,jacobian=J,covariance=C)
-    plans=probe_utilities(J,C,ids);write(Path(str(dest)+'.json'),dict(scope='Local Gaussian sensitivity approximation with weak parameter-scale regularization. No claim of calibrated physical posterior; predictive scale calibrated on separate objects.',prefix=list(prefix),**plans));return plans
+    plans=probe_utilities(J,C,ids,candidates=(3,4,5,6,8),target=7) if split.startswith('transfer_') else probe_utilities(J,C,ids);write(Path(str(dest)+'.json'),dict(scope='Local Gaussian sensitivity approximation with weak parameter-scale regularization. No claim of calibrated physical posterior; predictive scale calibrated on separate objects.',prefix=list(prefix),**plans));return plans
 
 if __name__=='__main__':
     import argparse

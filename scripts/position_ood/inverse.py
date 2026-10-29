@@ -19,7 +19,7 @@ def physical(z,environment=True):
         center=z.new_tensor([.12,0,-.09])+z[7:10]*z.new_tensor([.06,.04,.04]);logwidth=z.new_tensor(np.log(.08))+.5*z[10];theta=torch.cat([theta,center,logwidth[None]])
     return theta
 
-def fit(model,poses,observed,visible,layout,environment=True,iterations=80,initial=None,material_field=False,flexible_field=False):
+def fit(model,poses,observed,visible,layout,environment=True,iterations=80,initial=None,material_field=False,flexible_field=False,regularization=False):
     rest=points();ids=np.argmin(np.linalg.norm(model.geo.rest[:,None]-rest[None],axis=-1),axis=0)
     ids=model.tensor(ids[visible],torch.long);target=model.tensor(observed[:,visible]);ps=model.tensor(poses)
     z0=np.r_[np.log([20000,5000,5000]),0.,0.,0.] if environment else np.log([20000,5000,5000])
@@ -31,17 +31,20 @@ def fit(model,poses,observed,visible,layout,environment=True,iterations=80,initi
     bounds=[(np.log(3000),np.log(100000)),(np.log(300),np.log(60000)),(np.log(300),np.log(60000))]+([(-.8,.8),(-.8,.8),(-5,5)] if environment else [])
     if material_field:bounds+=[(-1.2,1.2)]
     if flexible_field:bounds+=[(-1.,1.),(-1.,1.),(-1.,1.),(-1.2,.8)]
+    prior_mean=model.tensor(np.r_[np.log([20000,5000,5000]),np.zeros(len(z0)-3)]);prior_scale=model.tensor(np.array([1.,1.,1.,.3,.3,2.,1.,.6,.6,.6,.8])[:len(z0)])
     trace=[];best=[np.inf,None];started=time.time()
     def objective(z):
         var=model.tensor(z).requires_grad_()
         try:predictions=torch.stack([model.predict(physical(var,environment),pose,layout)[ids] for pose in ps])
         except (ValueError,RuntimeError):
             anchor=z0 if best[1] is None else best[1];delta=np.asarray(z)-anchor;return 1e12+1e6*float(delta@delta),2e6*delta
-        loss=((predictions-target)/.0003).square().mean();loss.backward();value=float(loss.detach())
+        loss=((predictions-target)/.0003).square().mean()
+        if regularization:loss=loss+((var-prior_mean)/prior_scale).square().sum()/target.numel()
+        loss.backward();value=float(loss.detach())
         if value<best[0]:best[:]=[value,np.array(z).copy()]
         trace.append(value);return value,var.grad.detach().cpu().numpy()
     result=minimize(objective,z0,jac=True,method='L-BFGS-B',bounds=bounds,options=dict(maxiter=iterations,ftol=1e-9,gtol=1e-5,maxls=30))
-    z=best[1];return dict(z=z.tolist(),theta=physical(model.tensor(z),environment).detach().cpu().numpy().tolist(),layout=layout,environment=environment,loss=best[0],optimizer_success=bool(result.success),optimizer_message=str(result.message),evaluations=len(trace),iterations=int(result.nit),trace=trace,elapsed_seconds=time.time()-started)
+    z=best[1];return dict(z=z.tolist(),theta=physical(model.tensor(z),environment).detach().cpu().numpy().tolist(),layout=layout,environment=environment,regularization=regularization,loss=best[0],optimizer_success=bool(result.success),optimizer_message=str(result.message),evaluations=len(trace),iterations=int(result.nit),trace=trace,elapsed_seconds=time.time()-started)
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--case',type=int,default=2);p.add_argument('--mesh',type=int,default=2);p.add_argument('--iterations',type=int,default=80);p.add_argument('--environment',choices=['joint','material_only'],default='joint');a=p.parse_args()
