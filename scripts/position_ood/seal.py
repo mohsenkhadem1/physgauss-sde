@@ -3,7 +3,7 @@ from pathlib import Path
 import datetime,hashlib,json,os,sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 from scripts.position_ood.runtime import ROOT,BASE,CONFIG,BOUNDARY
-SOURCES=['predict_mpm_transfer.py','pilot.py','active_sequence.py','active_scoring_wait.py','launch_frozen.py','runtime.py','smooth_fixture.py','differentiable.py','extrapolated.py','fixture.py','material_field.py','inverse.py','run_inverse.py','observations.py','uncertainty.py','adapt.py','phystwin.py','physgaussian.py','fit_mpm.py','neural.py','study.py','score.py','reference_solver.py','predict_transfer.py','transfer.py','calibration.py','active_ablation.py','active_calibration.py','active_jobs.py','campaign_jobs.py','predict_selected.py','neural_lowrank.py','aggregate.py','predict_phystwin.py','seal.py']
+SOURCES=['active_assist.py','evaluation_cpu.py','predict_mpm_transfer.py','pilot.py','active_sequence.py','active_scoring_wait.py','launch_frozen.py','runtime.py','smooth_fixture.py','differentiable.py','extrapolated.py','fixture.py','material_field.py','inverse.py','run_inverse.py','observations.py','uncertainty.py','adapt.py','phystwin.py','physgaussian.py','fit_mpm.py','neural.py','study.py','score.py','reference_solver.py','predict_transfer.py','transfer.py','calibration.py','active_ablation.py','active_calibration.py','active_jobs.py','campaign_jobs.py','predict_selected.py','neural_lowrank.py','aggregate.py','predict_phystwin.py','seal.py']
 
 def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 

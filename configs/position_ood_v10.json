@@ -1,6 +1,6 @@
 {
   "version": 10,
-  "status": "smooth_attachment_development_before_held_out_inference",
+  "status": "protocol_locked_for_frozen_held_out_evaluation",
   "campaign_start_utc": "2026-10-29T09:51:31Z",
   "campaign_deadline_utc": "2026-10-30T09:51:00Z",
   "physical_gpus": [
@@ -61,7 +61,7 @@
   "primary_scope": "Quasistatic position-controlled interactions; dynamic release/impact claims require separate validated dynamic ground truth.",
   "baseline_plan": {
     "phystwin": "Official pinned implementation with native moving controller trajectories; no simulator force labels supplied.",
-    "physgaussian": "Assess runnable official MPM implementation and position-control compatibility; any inverse-fitting adaptation labelled explicitly.",
+    "physgaussian": "Official fixed-corotated MPM core with explicit position-only inverse adapter, smooth 6 mm coupling layer, APIC transfer, 8 second endpoint, 1 second ramp, fine grid 64 and dt 0.1 ms.",
     "position_conditioned_neural": "Learned displacement predictor with the same observed prefix and positional action inputs.",
     "proposed": "Position-query deformation prediction with latent material and explicit environmental interaction hypotheses; predictive uncertainty and limited-observation adaptation.",
     "fixed_spatial_field": "Ablation of the proposed inference retaining nominal environmental fields."
