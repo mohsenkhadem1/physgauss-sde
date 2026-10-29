@@ -1,4 +1,4 @@
-"""Execute unchanged declared native baseline jobs alongside inverse workers.
+"""Execute unchanged declared baseline jobs alongside inverse workers.
 
 Shares the original per-job lock and status files with campaign_jobs.py. Only
 execution concurrency changes; all commands come from the frozen manifest.
@@ -22,12 +22,11 @@ from scripts.phystwin.sequential_reference import write
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--worker', type=int, required=True)
-    parser.add_argument('--script', choices=['fit_mpm.py', 'phystwin.py'])
+    parser.add_argument('--script', choices=['fit_mpm.py', 'phystwin.py', 'predict_selected.py'])
     parser.add_argument('--max-jobs', type=int)
     args = parser.parse_args()
-    tasks = [j for j in jobs(verify()['settings']) if j['environment'] == 'native']
-    if args.script:
-        tasks = [j for j in tasks if j['script'] == args.script]
+    tasks = [j for j in jobs(verify()['settings'])
+             if (j['script'] == args.script if args.script else j['environment'] == 'native')]
     completed = 0
     directory = BASE / 'jobs'
     while True:
@@ -52,7 +51,9 @@ def main():
                 if output.exists():
                     continue
                 verify()
-                command = [str(ROOT / 'runs/phystwin-env/bin/python'),
+                python = ROOT / ('runs/phystwin-env/bin/python'
+                                 if job['environment'] == 'native' else '.venv/bin/python')
+                command = [str(python),
                            str(ROOT / 'scripts/position_ood' / job['script']), *job['args']]
                 start = time.time()
                 write(status, dict(state='running', worker=args.worker, kind='gpu',
