@@ -1,6 +1,6 @@
 """Camera-orbit comparisons of actual and predicted settled geometry."""
 from pathlib import Path
-import argparse,json,subprocess,sys
+import argparse,hashlib,json,subprocess,sys
 import numpy as np
 import cv2
 import imageio_ffmpeg
@@ -56,6 +56,9 @@ def main(a):
                 cv2.putText(image,'Actual deformation scale. Camera orbit around settled shapes; this is not a dynamic rollout.',(20,725),0,.57,(35,40,45),1,cv2.LINE_AA);process.stdin.write(image.tobytes())
                 if action==6 and frame==fps:cv2.imwrite(str(dest.with_suffix('.png')),image)
     finally:process.stdin.close();code=process.wait()
-    assert code==0;print(dest)
+    assert code==0
+    sources=[BASE/f'fields/{a.split}-{a.object}.npz',BASE/f'inverse/{a.split}-{a.object}/{a.method}-n{a.mesh}-p3.npz',BASE/f'phystwin/{a.split}-{a.object}/{pt_tag}/predictions.npz',BASE/f'{a.mpm_tag}/{a.split}-{a.object}/predictions.npz']
+    metadata=dict(split=a.split,object=a.object,frames=len(ref)*fps*2,fps=fps,resolution=[W,H],deformation_scale=1.,phystwin_tag=pt_tag,mpm_tag=a.mpm_tag,observed_actions=[0,1,2],held_actions=list(range(3,len(ref))),source_sha256={str(p.relative_to(BASE)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sources},video_sha256=hashlib.sha256(dest.read_bytes()).hexdigest(),scope='Camera orbit around separately settled reference and predicted configurations. No dynamic trajectory or intervening shape is synthesized. Errors are coordinate RMSE at the declared 81 query points.')
+    dest.with_suffix('.json').write_text(json.dumps(metadata,indent=2)+'\n');print(dest)
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--split',default='development');p.add_argument('--object',type=int,default=1);p.add_argument('--initial',type=float,default=3.);p.add_argument('--phystwin-tag');p.add_argument('--method',default='extrapolated');p.add_argument('--mesh',type=int,default=3);p.add_argument('--mpm-tag',default='mpm-layer0.006');main(p.parse_args())
