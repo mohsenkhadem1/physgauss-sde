@@ -24,6 +24,16 @@ def quads():
     return np.array(faces)
 
 
+def action_label(name, amplitude):
+    if name=='rest':return 'nominal tool poses'
+    if name=='twist_x':return 'opposed x rotations: +/-0.15 rad'
+    if name=='bend_z':return 'right-tool z rotation: +0.15 rad'
+    if name=='stretch':return f'axial stretch: +/-{500*amplitude:g} mm'
+    if name=='opposed_y':return f'opposed y motion: +/-{1000*amplitude:g} mm'
+    if name=='diagonal':return f'diagonal: ({500*amplitude:g}, {-1000*amplitude:g}, {500*amplitude:g}) mm'
+    return f'{name.replace("_", " ")}: {1000*amplitude:+g} mm'
+
+
 def draw(image,positions,rect,angle,color,label,error=None):
     x0,y0,w,h=rect;center=np.array([.12,0.,-.005]);az=angle;el=.35
     view=np.array([np.cos(el)*np.sin(az),-np.cos(el)*np.cos(az),np.sin(el)]);right=np.cross(view,[0,0,1.]);right/=np.linalg.norm(right);up=np.cross(right,view)
@@ -43,6 +53,7 @@ def main(a):
     if a.split.startswith('transfer_'):
         from scripts.position_ood.transfer import TRANSFER_ACTIONS
         actions=TRANSFER_ACTIONS
+    elif a.split=='force_law_test':actions=json.loads((BASE/'force-law-protocol.json').read_text())['actions']
     ref=np.load(BASE/f'fields/{a.split}-{a.object}.npz')['field'];ours=np.load(BASE/f'inverse/{a.split}-{a.object}/{a.method}-n{a.mesh}-p3.npz')['predicted'];pt_tag=a.phystwin_tag or f'y{a.initial:g}-dt1';pt=np.load(BASE/f'phystwin/{a.split}-{a.object}/{pt_tag}/predictions.npz')['predicted'];mpm=np.load(BASE/f'{a.mpm_tag}/{a.split}-{a.object}/predictions.npz')['predicted'];rows=[('Reference',ref,(105,185,120)),('Position-conditioned inverse',ours,(220,160,85)),('PhysTwin core adaptation',pt,(175,140,220)),('PhysGaussian MPM adaptation',mpm,(190,185,95))]
     dest=OUT/f'{a.split}-{a.object}-actual-vs-predicted.mp4';OUT.mkdir(exist_ok=True);W,H=1200,760;fps=24
     process=subprocess.Popen([imageio_ffmpeg.get_ffmpeg_exe(),'-y','-f','rawvideo','-vcodec','rawvideo','-pix_fmt','bgr24','-s',f'{W}x{H}','-r',str(fps),'-i','-','-an','-vcodec','libx264','-crf','20','-pix_fmt','yuv420p',str(dest)],stdin=subprocess.PIPE,stderr=subprocess.DEVNULL)
@@ -52,7 +63,7 @@ def main(a):
                 image=np.full((H,W,3),248,np.uint8);angle=-.7+1.4*frame/(fps*2-1)
                 for k,(name,fields,color) in enumerate(rows):
                     error=None if k==0 else 1000*np.sqrt(np.mean((fields[action]-ref[action])**2));draw(image,points()+fields[action],((k%2)*600,65+(k//2)*310,600,300),angle,color,name,error)
-                phase='OBSERVED PREFIX' if action<3 else 'HELD-OUT POSITIONAL ACTION';name=actions[action][0].replace('_',' ');cv2.putText(image,f'{a.split.upper()} OBJECT {a.object} | {phase}: {name}',(20,32),0,.66,(25,30,35),1,cv2.LINE_AA)
+                phase='OBSERVED PREFIX' if action<3 else 'HELD-OUT ACTION';name=action_label(*actions[action]);cv2.putText(image,f'{a.split.upper()} OBJECT {a.object} | {phase}: {name}',(20,32),0,.62,(25,30,35),1,cv2.LINE_AA)
                 cv2.putText(image,'Actual deformation scale. Camera orbit around settled shapes; this is not a dynamic rollout.',(20,725),0,.57,(35,40,45),1,cv2.LINE_AA);process.stdin.write(image.tobytes())
                 if action==6 and frame==fps:cv2.imwrite(str(dest.with_suffix('.png')),image)
     finally:process.stdin.close();code=process.wait()

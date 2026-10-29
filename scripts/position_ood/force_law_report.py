@@ -2,6 +2,7 @@
 from pathlib import Path
 import argparse
 import json
+import subprocess
 import sys
 import time
 
@@ -87,6 +88,12 @@ def main(wait=False):
               '\\caption{Unseen environmental force laws: coordinate RMSE (mm) on a separately predeclared six-object extension, three objects per law. All methods use their frozen settings and the same original three observations. Material coefficients remain unknown but are drawn within the familiar range. No model is retrained on these force laws.}',
               '\\label{tab:force-law}', '\\end{table*}']
     (ROOT/'papers'/BASE.name/'generated-force-law-table.tex').write_text('\n'.join(lines)+'\n')
+    visual_plan = json.loads((OUT/'force-law-visual-plan.json').read_text())
+    for i in visual_plan['objects']:
+        within_deadline()
+        subprocess.run([str(ROOT/'runs/phystwin-env/bin/python'), str(ROOT/'scripts/position_ood/render.py'),
+                        '--split', SPLIT, '--object', str(i), '--phystwin-tag', settings['phystwin']['tag'],
+                        '--mpm-tag', settings['mpm']['tag']], check=True, cwd=ROOT)
     print('Complete force-law report generated', flush=True)
 
 
