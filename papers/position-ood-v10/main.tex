@@ -96,7 +96,7 @@ Here $z$ denotes scaled latent coordinates, with log coordinates for positive st
 Let $R(u,\theta,a)=\partial\Pi/\partial u$ and $K=\partial R/\partial u$. At a nonsingular equilibrium, an adjoint solve gives
 \begin{equation}
  K^\top v=\frac{\partial\mathcal L}{\partial u},\qquad
- \frac{d\mathcal L}{d\theta}=-v^\top\frac{\partial R}{\partial\theta}.
+ \frac{d\mathcal L}{d\theta}=\left.\frac{\partial\mathcal L}{\partial\theta}\right|_u-v^\top\frac{\partial R}{\partial\theta}.
 \end{equation}
 We verify the implementation against an independent sparse assembly and finite differences of the equilibrium solution.
 
@@ -112,7 +112,7 @@ Let $J_a=\partial \hat u(a,\hat\theta)/\partial z$ denote the positional sensiti
 \begin{equation}
  C=\left(J_{\mathcal D}^{\top}\Sigma^{-1}J_{\mathcal D}+\Lambda\right)^{-1},
 \end{equation}
-where $\Lambda$ encodes weak parameter-scale regularization. This local approximation describes sensitivity around a fitted explanation. A separate object-level calibration stage sets the predictive interval scale.
+where $\Lambda$ encodes weak parameter-scale regularization. This local approximation describes sensitivity around a fitted explanation, conditioned on its selected attachment layout. A separate object-level calibration stage sets the predictive interval scale.
 
 For a candidate probe $a$, observing its visible points yields an approximate covariance $C_a=(C^{-1}+J_a^{\top}H_a^{\top}\Sigma^{-1}H_aJ_a)^{-1}$. We choose the probe that maximizes the reduction in target predictive variance,
 \begin{equation}
@@ -124,7 +124,7 @@ Probe selection uses predicted sensitivities, without observing candidate respon
 For each calibration object, we take the 90th percentile of absolute held-action coordinate errors divided by $\sqrt{\sigma^2+\epsilon^2}$, where $\sigma^2=\operatorname{diag}(J_aCJ_a^\top)$ and $\epsilon=20\,\mu$m is a fixed scale floor. The order statistic at rank $\lceil0.9(n+1)\rceil$ of the $n$ object scores determines a common interval multiplier. Under object exchangeability, this construction targets at least 90\% coordinate coverage for 90\% of objects. For spatial-transfer experiments, we fit separate multipliers before acquisition and after each acquisition policy on 12 independent calibration objects, using the same held-target protocol as evaluation. This separates covariance contraction from demonstrated post-acquisition coverage. The benchmark fixes balanced attachment-layout counts, and the shifted cohorts additionally change their parameter distributions. We therefore report coverage empirically for this design, rather than assert an exchangeability guarantee for every cohort.
 
 \subsection{Generalization and adaptation}
-We distinguish three questions: prediction under a new action before its response is observed; calibration of uncertainty about that response; and prediction after a limited adaptation budget. A completely unobserved change in external loading is not assumed to be uniquely predictable from position alone. Such changes are evaluated through detection and adaptation, with the information available to each method stated explicitly.
+We distinguish three questions: prediction under a new action before its response is observed; calibration of uncertainty about that response; and prediction after a limited adaptation budget. Each object's environment remains fixed during these experiments; positional actions change how the object samples that environment. Environmental OOD changes the distribution of fields across objects, whose prefixes remain observable. Completely unobserved time-varying changes in external loading are outside this protocol.
 
 \section{Experimental Protocol}
 \input{results}
