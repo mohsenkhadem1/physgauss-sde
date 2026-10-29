@@ -22,7 +22,7 @@ from scripts.phystwin.sequential_reference import write
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--worker', type=int, required=True)
-    parser.add_argument('--script', choices=['fit_mpm.py', 'phystwin.py', 'predict_selected.py'])
+    parser.add_argument('--script', choices=['fit_mpm.py', 'phystwin.py', 'predict_selected.py', 'uncertainty.py'])
     parser.add_argument('--max-jobs', type=int)
     args = parser.parse_args()
     tasks = [j for j in jobs(verify()['settings'])
@@ -55,8 +55,10 @@ def main():
                                  if job['environment'] == 'native' else '.venv/bin/python')
                 command = [str(python),
                            str(ROOT / 'scripts/position_ood' / job['script']), *job['args']]
+                execution_kind = ('cpu' if job['environment'] != 'native'
+                                  and os.environ.get('POSITION_INVERSE_DEVICE') == 'cpu' else 'gpu')
                 start = time.time()
-                write(status, dict(state='running', worker=args.worker, kind='gpu',
+                write(status, dict(state='running', worker=args.worker, kind=execution_kind,
                                    job=job, start=start, executor='native_assist'))
                 print('JOB_START', job['name'], flush=True)
                 with (directory / (job['name'] + '.log')).open('a') as log:
@@ -64,7 +66,7 @@ def main():
                                             stdout=log, stderr=subprocess.STDOUT)
                 success = result.returncode == 0 and output.exists()
                 write(status, dict(state='complete' if success else 'failed', worker=args.worker,
-                                   kind='gpu', job=job, returncode=result.returncode,
+                                   kind=execution_kind, job=job, returncode=result.returncode,
                                    elapsed_seconds=time.time()-start, executor='native_assist'))
                 print('JOB_DONE', job['name'], success, flush=True)
                 completed += 1
