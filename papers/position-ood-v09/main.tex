@@ -1,0 +1,85 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+\usepackage[pagenumbers]{cvpr}
+\usepackage[T1]{fontenc}
+\usepackage{times,graphicx,amsmath,amssymb,booktabs,multirow}
+\usepackage[breaklinks,colorlinks,citecolor=blue,urlcolor=blue]{hyperref}
+\def\confName{CVPR}\def\confYear{2027}
+\title{Position-Conditioned Deformation Prediction with Unknown Material and Environmental Interactions}
+\author{Anonymous authors\\Research manuscript draft}
+\begin{document}
+\maketitle
+\begin{abstract}
+Predicting deformation from visual observations requires distinguishing an object's material response from the effects of its environment. Similar observed motions can result from different combinations of elasticity, fixture compliance, gravity, and spatial loading. We study position-conditioned prediction: a model observes a short sequence of object positions and prescribed tool poses, then predicts deformation under a new positional interaction without receiving the true force history. Our formulation separates object-attached material properties from environmental interaction fields and fits their latent parameters through implicitly differentiated nonlinear equilibrium. We develop a controlled benchmark that separates familiar positional motions from held-out interaction families and evaluates prediction before and after additional observations. Numerical reference checks and matched observation interfaces support comparisons with physical digital-twin methods and learned positional predictors. Quantitative conclusions in the final manuscript will be generated from the completed, frozen evaluation.
+\end{abstract}
+
+\section{Introduction}
+Physical digital twins connect visual reconstruction to predictions about how an object responds to interaction. A useful twin should answer a positional query: if a gripper moves here, or a tool follows this trajectory, how will the object deform? The reaction forces are consequences of the interaction, rather than necessarily available inputs. This distinction matters when deploying a model without calibrated force sensing.
+
+Material properties alone do not determine the observed response. Fixtures may deform, constraints may be only partially visible, and distributed forces may act throughout the volume. A model that explains an observed trajectory by changing material stiffness can reproduce that trajectory while predicting a different interaction incorrectly. The resulting ambiguity is especially consequential outside the interaction patterns used for reconstruction.
+
+We investigate a spatially factored model of this problem. Material coordinates index the object, while environmental interactions are evaluated at the current spatial positions and tool poses. This representation makes the action interface positional and allows forces to emerge from the inferred interaction model. We evaluate generalization across explicitly declared interaction groups rather than treating additional noisy observations of the same motion as independent out-of-distribution evidence.
+
+Our study builds on complementary advances in physical Gaussian representations and visual system identification. PhysGaussian~\cite{xie2024physgaussian} couples continuum simulation and Gaussian rendering, while PhysTwin~\cite{jiang2025phystwin} reconstructs visual and physical object models from interaction videos. These systems establish strong tools for building and using digital twins. Our experiments target the additional question of how unknown environmental interactions affect positional generalization, and how limited new observations can resolve those ambiguities.
+
+\section{Related Work}
+\paragraph{Physical visual representations.}
+PhysGaussian~\cite{xie2024physgaussian} integrates 3D Gaussian rendering with material-point simulation. Its representation supports a broad range of material behaviors and prescribed scene interactions. PhysTwin~\cite{jiang2025phystwin} combines spring-mass simulation, geometric reconstruction, and Gaussian appearance modeling to infer deformable twins from sparse interaction videos. We compare compatible physical prediction components under a common observation interface and identify adaptations explicitly; our controlled experiments do not substitute for an evaluation of every capability of these complete systems.
+
+\paragraph{Acquiring informative interactions.}
+AuRA~\cite{yu2026aura} automates robot interaction and data preparation for deformable digital-twin reconstruction. Its focus on efficient acquisition complements our study of uncertainty in the physical explanation of an observed interaction. We distinguish initial generalization from adaptation after collecting additional observations, and report acquisition and computational costs separately.
+
+\section{Problem Formulation}
+Let $X\in\Omega_0$ denote a material point in a canonical object, and let $x(X,a)=X+u(X,a)$ be its spatial position under a positional action $a$. The action specifies tool translations and rotations. An observed prefix $\mathcal D=\{a_j,y_j\}_{j=1}^m$ contains partial position observations obtained through the visual pipeline. The prediction task is to estimate $u(X,a_*)$ for an unseen action $a_*$, together with predictive uncertainty when supported by the fitted model.
+
+The latent variables are divided into material parameters $\theta_m$ and environmental parameters $\theta_e$. True reaction forces and simulator material labels are excluded from the primary model inputs. Privileged experiments that supply such labels are reported separately. Known geometry and camera calibration are explicit assumptions of the controlled protocol.
+
+\section{Spatially Factored Inverse Mechanics}
+\subsection{Position-driven equilibrium}
+We model settled deformation as a stationary point of total potential energy,
+\begin{align}
+ u^*(a,\theta)&=\arg\min_u\Pi(u,a,\theta),\\
+ \Pi&=\int_{\Omega_0}W(F;\theta_m)\,dX
+\nonumber\\
+ &\quad+\sum_k\frac12\int_{\Gamma_k}\kappa_k\|u-d_k(a)\|^2\,dS\nonumber\\
+ &\quad-\int_{\Omega_0}\rho g^\top u\,dX
+ +\int_{\Omega_0}\phi(X+u;\theta_e)\,dX.\label{eq:energy}
+\end{align}
+Here $F=I+\nabla_Xu$, $d_k(a)$ is the displacement prescribed by a rigid tool pose, and $\kappa_k$ represents compliant coupling to that tool or fixture. Gravity is a body force; surface constraints and spatial loading retain their distinct physical roles. The potential $\phi$ is evaluated in spatial coordinates, so its force changes as material moves through the environment.
+
+The initial constitutive implementation uses a compressible Neo-Hookean energy,
+\begin{equation}
+ W(F)=\frac\mu2(\mathrm{tr}(F^\top F)-3)-\mu\log J
+       +\frac\lambda2(\log J)^2,\quad J=\det F.
+\end{equation}
+The simulator enforces a positive-Jacobian guard and checks equilibrium residuals. Reference solutions use quadratic finite elements with spatial and quadrature refinement. Displacement qualification does not imply convergence of every derived stress or traction quantity.
+
+\subsection{Inference from positional observations}
+For an observation operator $H_j$, we fit latent parameters by minimizing a position discrepancy,
+\begin{equation}
+ \mathcal L(\theta)=\sum_j\|H_j u^*(a_j,\theta)-y_j\|^2_{\Sigma_j^{-1}}.
+\end{equation}
+Unknown discrete environmental hypotheses can be evaluated alongside continuous parameters. Parameter bounds and initialization are selected on development cases before the held-out evaluation. The predictor receives the positional action, not the forces computed internally by the equilibrium model.
+
+Let $R(u,\theta,a)=\partial\Pi/\partial u$ and $K=\partial R/\partial u$. At a nonsingular equilibrium, an adjoint solve gives
+\begin{equation}
+ K^\top v=\frac{\partial\mathcal L}{\partial u},\qquad
+ \frac{d\mathcal L}{d\theta}=-v^\top\frac{\partial R}{\partial\theta}.
+\end{equation}
+We verify the implementation against an independent sparse assembly and finite differences of the equilibrium solution. This separates optimization failures from errors in differentiation.
+
+\subsection{Generalization and adaptation}
+We distinguish three questions: prediction under a new action before its response is observed; calibration of uncertainty about that response; and prediction after a limited adaptation budget. A completely unobserved change in external loading is not assumed to be uniquely predictable from position alone. Such changes are evaluated through detection and adaptation, with the information available to each method stated explicitly.
+
+\section{Experimental Protocol}
+\input{results}
+
+\section{Discussion}
+The aim is reliable prediction under changed interactions, rather than recovering a unique physical label when observations do not identify it. A positional benchmark can expose explanatory ambiguities that remain hidden when models receive true force histories. Spatially factored models provide a direct mechanism for investigating these ambiguities, while strong learned and physical baselines establish when that structure is useful.
+
+The present reference formulation describes settled equilibria. Interpolated equilibrium states are not dynamic ground truth, and impact, release, and dropping claims require separately validated trajectories. Results will be scoped to the material and environmental families actually evaluated.
+
+\section*{LLM Usage Statement}
+OpenAI Codex assisted with research planning, implementation, experiment execution and analysis, related-work lookup, figure preparation, and manuscript drafting. The manuscript and its experimental claims require review and approval by the human authors before submission.
+
+{\small\bibliographystyle{ieeenat_fullname}\bibliography{references}}
+\end{document}

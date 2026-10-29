@@ -36,35 +36,33 @@
   "gravity_m_per_s2": 9.81,
   "development_position_scale_m": 0.006,
   "reference_levels": [
-    2,
     4,
     6,
     8,
     10,
     12,
     14,
-    16
+    16,
+    18,
+    20
   ],
   "reference_displacement_rms_tolerance_m": 2e-05,
   "reference_displacement_max_tolerance_m": 0.0001,
   "reference_equilibrium_tolerance_N": 1e-09,
   "reference_minimum_J": 0.1,
   "planned_ood_axes": [
-    "position_direction",
+    "new_positional_interaction_family",
     "position_amplitude",
-    "tool_rotation",
-    "support_location",
-    "material_parameters",
-    "environmental_field",
-    "combined"
+    "material_coefficient_and_heterogeneity_extrapolation",
+    "environmental_field_location_scale_amplitude_shift"
   ],
   "primary_scope": "Quasistatic position-controlled interactions; dynamic release/impact claims require separate validated dynamic ground truth.",
   "baseline_plan": {
     "phystwin": "Official pinned implementation with native moving controller trajectories; no simulator force labels supplied.",
     "physgaussian": "Assess runnable official MPM implementation and position-control compatibility; any inverse-fitting adaptation labelled explicitly.",
-    "material_only": "Ablation of the proposed inference retaining nominal environmental fields.",
     "position_conditioned_neural": "Learned displacement predictor with the same observed prefix and positional action inputs.",
-    "proposed": "Position-query deformation prediction with latent material and explicit environmental interaction hypotheses; predictive uncertainty and limited-observation adaptation."
+    "proposed": "Position-query deformation prediction with latent material and explicit environmental interaction hypotheses; predictive uncertainty and limited-observation adaptation.",
+    "fixed_spatial_field": "Ablation of the proposed inference retaining nominal environmental fields."
   },
   "fairness": [
     "Identical information access",

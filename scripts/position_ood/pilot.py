@@ -39,7 +39,7 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--case',type=int,required=True);a=p.parse_args();status=BASE/f'pilot-{a.case}-status.json';write(status,dict(state='running',time=time.time()))
     previous=None;checks=[]
     try:
-        for n in [2,4,6,8,10,12,14,16]:
+        for n in [2,4,6,8,10,12,14,16,18,20]:
             current=level(a.case,n)
             if previous is not None:
                 check=comparison(previous,current);checks.append(dict(n=n,**check));print('REFINE',a.case,n,check,flush=True)

@@ -13,18 +13,30 @@ def physical(z,environment=True):
     if environment:
         g=torch.stack([z[3],z[4],z.new_tensor(-1.)]);g=9.81*g/torch.linalg.vector_norm(g);amplitude=.1*z[5]
     else:g=z.new_tensor([0,0,-9.81]);amplitude=z.new_zeros(())
-    return torch.cat([z[:3],g,amplitude[None]])
+    theta=torch.cat([z[:3],g,amplitude[None]])
+    if (environment and z.numel()>=7) or (not environment and z.numel()>=4):theta=torch.cat([theta,z[6:7] if environment else z[3:4]])
+    if environment and z.numel()==11:
+        center=z.new_tensor([.12,0,-.09])+z[7:10]*z.new_tensor([.06,.04,.04]);logwidth=z.new_tensor(np.log(.08))+.5*z[10];theta=torch.cat([theta,center,logwidth[None]])
+    return theta
 
-def fit(model,poses,observed,visible,layout,environment=True,iterations=80,initial=None):
+def fit(model,poses,observed,visible,layout,environment=True,iterations=80,initial=None,material_field=False,flexible_field=False):
     rest=points();ids=np.argmin(np.linalg.norm(model.geo.rest[:,None]-rest[None],axis=-1),axis=0)
     ids=model.tensor(ids[visible],torch.long);target=model.tensor(observed[:,visible]);ps=model.tensor(poses)
     z0=np.r_[np.log([20000,5000,5000]),0.,0.,0.] if environment else np.log([20000,5000,5000])
+    if material_field:z0=np.r_[z0,0.]
+    if flexible_field:
+        assert environment and material_field
+        z0=np.r_[z0,0.,0.,0.,0.];z0[5]=.5
     if initial is not None:z0=np.asarray(initial)
     bounds=[(np.log(3000),np.log(100000)),(np.log(300),np.log(60000)),(np.log(300),np.log(60000))]+([(-.8,.8),(-.8,.8),(-5,5)] if environment else [])
+    if material_field:bounds+=[(-1.2,1.2)]
+    if flexible_field:bounds+=[(-1.,1.),(-1.,1.),(-1.,1.),(-1.2,.8)]
     trace=[];best=[np.inf,None];started=time.time()
     def objective(z):
         var=model.tensor(z).requires_grad_()
-        predictions=torch.stack([model.predict(physical(var,environment),pose,layout)[ids] for pose in ps])
+        try:predictions=torch.stack([model.predict(physical(var,environment),pose,layout)[ids] for pose in ps])
+        except (ValueError,RuntimeError):
+            anchor=z0 if best[1] is None else best[1];delta=np.asarray(z)-anchor;return 1e12+1e6*float(delta@delta),2e6*delta
         loss=((predictions-target)/.0003).square().mean();loss.backward();value=float(loss.detach())
         if value<best[0]:best[:]=[value,np.array(z).copy()]
         trace.append(value);return value,var.grad.detach().cpu().numpy()

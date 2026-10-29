@@ -10,11 +10,13 @@ from numpy.polynomial.legendre import leggauss
 from scripts.phystwin.tensor_fixture import TensorFixture,basis
 
 class DensePositionFEM:
-    def __init__(self,n=1,device='cuda:0',order=3):
-        self.device=device;self.dtype=torch.float64;self.n=n
+    def __init__(self,n=1,device='cuda:0',order=3,field_frame='world'):
+        self.device=device;self.dtype=torch.float64;self.n=n;self.field_frame=field_frame
+        if field_frame not in ['world','material']:raise ValueError('field frame must be world or material')
         geo=TensorFixture(n,1.,1.,'left_full',device=device,order=order,x_power=1.)
         self.geo=geo;self.rest=self.tensor(geo.rest);self.elements=self.tensor(geo.elements,torch.long)
         self.grad=geo.engine.gradients(geo.engine.bary).detach();self.check_grad=geo.engine.gradients(geo.engine.check_bary).detach()
+        N,_=basis(geo.quad);X=torch.einsum('qa,eai->qei',self.tensor(N),self.rest[self.elements]);self.material_feature=torch.exp(-((X[...,0]-.06)/.07)**2)-torch.exp(-((X[...,0]-.18)/.07)**2)
         self.weights=self.tensor(geo.weights[:,None]*geo.volumes[None]);self.eye=torch.eye(3,dtype=self.dtype,device=device)
         self.rows=self.tensor(geo.rows,torch.long);self.cols=self.tensor(geo.cols,torch.long);self.ndof=self.rest.numel()
         integral=np.einsum('i,j,k->ijk',[1,4,1],[1,4,1],[1,4,1]).ravel()/216
@@ -50,25 +52,30 @@ class DensePositionFEM:
         return mu,lam,M,load,constant
     def evaluate(self,u,theta,poses,layout,tangent=False):
         mu,lam,M,load,constant=self.parts(theta,poses,layout);ue=u[self.elements]
+        coefficient=torch.exp(theta[7]*self.material_feature) if theta.numel()>7 else torch.ones_like(self.material_feature)
+        mu=mu*coefficient;lam=lam*coefficient
         G=torch.einsum('eai,qeaj->qeij',ue,self.grad);F=self.eye+G;J=torch.linalg.det(F)
         Jcheck=torch.linalg.det(self.eye+torch.einsum('eai,qeaj->qeij',ue,self.check_grad))
         if min(float(J.detach().min()),float(Jcheck.detach().min()))<=.1:raise ValueError('Nonpositive/near-singular physical deformation')
         log=torch.log(J);invT=torch.linalg.inv(F).transpose(-1,-2)
         W=.5*mu*((F*F).sum((-1,-2))-3)-mu*log+.5*lam*log*log
-        P=mu*F+(lam*log-mu)[...,None,None]*invT
+        P=mu[...,None,None]*F+(lam*log-mu)[...,None,None]*invT
         ge=torch.einsum('qe,qeiJ,qeaJ->eai',self.weights,P,self.grad)
         residual=torch.zeros_like(u).index_add(0,self.elements.reshape(-1),ge.reshape(-1,3))+M@u-load
         energy=(self.weights*W).sum()+.5*(u*(M@u)).sum()-(u*load).sum()+constant
-        delta=self.rest+u-self.field_center;s2=self.field_width**2
+        center=theta[8:11] if theta.numel()>=12 else self.field_center
+        width=torch.exp(theta[11]) if theta.numel()>=12 else self.field_width
+        delta=(self.rest+u if self.field_frame=='world' else self.rest)-center;s2=width**2
         value=theta[6]*self.mass_weights*torch.exp(-(delta*delta).sum(1)/(2*s2))
-        energy=energy+value.sum();residual=residual-value[:,None]*delta/s2
+        force_gradient=-value[:,None]*delta/s2
+        energy=energy+value.sum()+(0. if self.field_frame=='world' else (force_gradient*u).sum());residual=residual+force_gradient
         H=None
         if tangent:
             D=torch.einsum('qeiJ,qeaJ->qeai',invT,self.grad)
-            he=mu*torch.einsum('qe,qeaJ,qebJ,ik->eaibk',self.weights,self.grad,self.grad,self.eye)
-            he=he+torch.einsum('qe,qeak,qebi->eaibk',self.weights*(mu-lam*log),D,D)+lam*torch.einsum('qe,qeai,qebk->eaibk',self.weights,D,D)
+            he=torch.einsum('qe,qeaJ,qebJ,ik->eaibk',self.weights*mu,self.grad,self.grad,self.eye)
+            he=he+torch.einsum('qe,qeak,qebi->eaibk',self.weights*(mu-lam*log),D,D)+torch.einsum('qe,qeai,qebk->eaibk',self.weights*lam,D,D)
             H=torch.zeros((self.ndof,self.ndof),dtype=self.dtype,device=self.device).index_put((self.rows,self.cols),he.reshape(-1),accumulate=True)+torch.kron(M.contiguous(),self.eye)
-            blocks=value[:,None,None]*(delta[:,:,None]*delta[:,None,:]/s2**2-self.eye[None]/s2)
+            blocks=(1. if self.field_frame=='world' else 0.)*value[:,None,None]*(delta[:,:,None]*delta[:,None,:]/s2**2-self.eye[None]/s2)
             ids=torch.arange(self.ndof,device=self.device).reshape(-1,3);H=H.index_put((ids[:,:,None].expand_as(blocks).reshape(-1),ids[:,None,:].expand_as(blocks).reshape(-1)),blocks.reshape(-1),accumulate=True)
         return energy,residual,H
     @torch.no_grad()
