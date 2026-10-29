@@ -12,14 +12,14 @@ def make(split,i):
     if path.exists():return path
     ref=BASE/f'fields/{split}-{i}.npz'
     if not ref.exists():raise FileNotFoundError(ref)
-    ids=np.flatnonzero(np.isclose(points()[:,1],-.04));seed={'development':9100,'calibration':9200,'test_id':9300,'test_material':9400,'test_environment':9500,'transfer_development':9100,'transfer_test':9300}[split]+i;rng=np.random.default_rng(seed)
+    ids=np.flatnonzero(np.isclose(points()[:,1],-.04));seed={'development':9100,'calibration':9200,'test_id':9300,'test_material':9400,'test_environment':9500,'transfer_development':9100,'transfer_test':9300,'transfer_calibration':9200}[split]+i;rng=np.random.default_rng(seed)
     with np.load(ref) as z:
         observations=[]
         for field in z['field']:
             rgb,depth,camera=render(points()+field,0,ids);tracked=track(rgb,depth,camera,ids,rng);observations.append(tracked-points()[ids])
         poses=z['poses'].copy()
     if split.startswith('transfer_'):
-        original='development' if split=='transfer_development' else 'test_id'
+        original={'transfer_development':'development','transfer_calibration':'calibration','transfer_test':'test_id'}[split]
         with np.load(make(original,i)) as previous:observations[:3]=list(previous['measurements'][:3])
     path.parent.mkdir(parents=True,exist_ok=True);temp=path.with_suffix('.tmp.npz');np.savez_compressed(temp,measurements=np.array(observations),visible_ids=ids,poses=poses,seed=seed);temp.replace(path);return path
 if __name__=='__main__':

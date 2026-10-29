@@ -11,7 +11,13 @@ from scripts.position_ood.runtime import dense_model
 from scripts.phystwin.sequential_fixture import points
 from scripts.phystwin.sequential_reference import write
 
+def validate_prefix(split,prefix):
+    if tuple(prefix[:3])!=(0,1,2) or len(prefix) not in [3,4]:raise ValueError('Acquire the original three views and at most one additional probe')
+    allowed={3,4,5,6,8} if split.startswith('transfer_') else {4,5,6,7,8}
+    if len(prefix)==4 and prefix[3] not in allowed:raise ValueError('Held target or undeclared probe cannot enter the acquired prefix')
+
 def run(split,i,method,mesh=2,iterations=100,prefix=(0,1,2)):
+    validate_prefix(split,prefix)
     tag=f'p{len(prefix)}'+('' if tuple(prefix)==(0,1,2) else '-'+('-'.join(map(str,prefix))))
     destination=BASE/f'inverse/{split}-{i}/{method}-n{mesh}-{tag}.json'
     destination.parent.mkdir(parents=True,exist_ok=True);lock=destination.with_suffix('.lock').open('a');fcntl.flock(lock,fcntl.LOCK_EX)
@@ -39,14 +45,17 @@ def run(split,i,method,mesh=2,iterations=100,prefix=(0,1,2)):
         cache=destination.with_name(destination.stem+f'-layout{layout}.json')
         if cache.exists():row=json.loads(cache.read_text())
         else:
-            initial=None
+            initial=None;alternatives=[]
             if method.startswith('extrapolated'):
                 initial=json.loads(destination.with_name(coarse_tag+f'-layout{layout}.json').read_text())['z']
                 if not env and len(initial)>4:initial=np.r_[initial[:3],initial[6]]
             if len(prefix)>3:
                 previous=destination.with_name(f'{method}-n{mesh}-p3-layout{layout}.json')
-                if previous.exists():initial=json.loads(previous.read_text())['z']
-            row=fit(model,poses,observed,visible,layout,environment=env,iterations=iterations,material_field=True,flexible_field=flex,initial=initial,regularization=method=='joint_regularized' or (method.startswith('extrapolated') and env));write(cache,row)
+                if previous.exists():
+                    previous_z=json.loads(previous.read_text())['z']
+                    if initial is None:initial=previous_z
+                    else:alternatives.append(previous_z)
+            row=fit(model,poses,observed,visible,layout,environment=env,iterations=iterations,material_field=True,flexible_field=flex,initial=initial,regularization=method=='joint_regularized' or (method.startswith('extrapolated') and env),alternatives=alternatives);write(cache,row)
         results.append(row);print('INVERSE',split,i,method,layout,row['loss'],flush=True)
     best=min(results,key=lambda row:row['loss']);sample_ids=np.argmin(np.linalg.norm(model.geo.rest[:,None]-points()[None],axis=-1),axis=0)
     with torch.no_grad():predicted=np.array([model.predict(model.tensor(best['theta']),model.tensor(pose),best['layout'])[sample_ids].cpu().numpy() for pose in obs['poses']])
@@ -56,7 +65,8 @@ def run(split,i,method,mesh=2,iterations=100,prefix=(0,1,2)):
     write(destination,dict(state='complete',split=split,object=i,method=method,mesh=mesh,device=str(model.device),prefix=list(prefix),rows=results,best=best,input_scope='Rendered visible-point positions and prescribed tool poses only. No material, gravity, field or reaction-force labels.',time=time.time()))
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--split',default='development');p.add_argument('--worker',type=int,default=0);p.add_argument('--workers',type=int,default=1);p.add_argument('--method',choices=['joint','joint_regularized','fixed_spatial_field','material_frame','extrapolated','extrapolated_material_frame','extrapolated_nominal'],default='joint');p.add_argument('--iterations',type=int,default=100);p.add_argument('--mesh',type=int,default=2);a=p.parse_args();s=protocol()
+    p=argparse.ArgumentParser();p.add_argument('--split',default='development');p.add_argument('--worker',type=int,default=0);p.add_argument('--workers',type=int,default=1);p.add_argument('--method',choices=['joint','joint_regularized','fixed_spatial_field','material_frame','extrapolated','extrapolated_material_frame','extrapolated_nominal'],default='joint');p.add_argument('--iterations',type=int,default=100);p.add_argument('--mesh',type=int,default=2);p.add_argument('--prefix',default='0,1,2');a=p.parse_args();prefix=tuple(map(int,a.prefix.split(',')));s=protocol()
+    if a.split.startswith('transfer_'):s=json.loads((BASE/'transfer-protocol.json').read_text())
     if ('test' in a.split.split('_')) and not (BASE/'method-seal.json').exists():raise RuntimeError('Freeze methods before test inference')
     status=BASE/f'inverse-{a.split}-{a.method}-{a.worker}-status.json';write(status,dict(state='running',time=time.time()))
     try:
@@ -65,7 +75,7 @@ def main():
                 within_deadline();q=BASE/f'qualification/{a.split}-{i}.json'
                 if q.exists() and not json.loads(q.read_text())['qualified']:raise RuntimeError(f'Unqualified reference {a.split}-{i}')
                 time.sleep(10)
-            run(a.split,i,a.method,a.mesh,a.iterations)
+            run(a.split,i,a.method,a.mesh,a.iterations,prefix)
         write(status,dict(state='complete',time=time.time()))
     except BaseException as e:write(status,dict(state='failed',time=time.time(),error=repr(e)));raise
 if __name__=='__main__':main()

@@ -13,7 +13,7 @@ def adapt(split,i,policy,iterations=100,method='joint',mesh=2,fixed_action=None)
     if not planpath.exists():uncertainty(split,i,method,mesh)
     plan=json.loads(planpath.read_text())
     if policy=='adaptive':action=plan['selected']
-    elif policy=='fixed':action=fixed_action if fixed_action is not None else (3 if split.startswith('transfer_') else 4)
+    elif policy=='fixed':action=fixed_action if fixed_action is not None else 4
     elif policy=='random':action=int(np.random.default_rng(292000+i).choice(plan['candidates']))
     else:raise ValueError(policy)
     assert action in plan['candidates'] and action!=plan['target']

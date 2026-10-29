@@ -17,8 +17,9 @@ def jobs(settings):
             reference=BASE/f'fields/{split}-{i}.npz';directory=BASE/f'inverse/{split}-{i}';common=['--split',split,'--worker',i,'--workers',count,'--iterations',settings['iterations']]
             methods=['extrapolated']
             if i in config['expensive_baseline_indices'].get(split,[]):methods+=['extrapolated_material_frame','extrapolated_nominal']
+            elif split=='test_id' and i<9:methods+=['extrapolated_material_frame']
             for method in methods:
-                coarse={'extrapolated':'joint','extrapolated_material_frame':'material_frame','extrapolated_nominal':'fixed_spatial_field'}[method];coarse_path=directory/f'{coarse}-n2-p3.json';fine_path=directory/f'{method}-n3-p3.json';priority=1 if method=='extrapolated' else 4
+                coarse={'extrapolated':'joint','extrapolated_material_frame':'material_frame','extrapolated_nominal':'fixed_spatial_field'}[method];coarse_path=directory/f'{coarse}-n2-p3.json';fine_path=directory/f'{method}-n3-p3.json';priority=1 if method=='extrapolated' else (2 if method=='extrapolated_material_frame' and split=='test_id' and i<9 else 4)
                 add(f'{split}-{i}-{coarse}','cpu','run_inverse.py',common+['--method',coarse,'--mesh',2],coarse_path,[reference],priority)
                 add(f'{split}-{i}-{method}','gpu','run_inverse.py',common+['--method',method,'--mesh',3],fine_path,[reference,coarse_path],priority)
             u=directory/'extrapolated-n3-p3-uncertainty.npz'
@@ -39,7 +40,13 @@ def jobs(settings):
     return sorted(items,key=lambda r:(r['priority'],r['name']))
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--kind',choices=['cpu','gpu'],required=True);p.add_argument('--worker',type=int,default=0);a=p.parse_args();seal=verify();tasks=[r for r in jobs(seal['settings']) if r['kind']==a.kind];directory=BASE/'jobs';directory.mkdir(exist_ok=True)
+    p=argparse.ArgumentParser();p.add_argument('--kind',choices=['cpu','gpu'],required=True);p.add_argument('--worker',type=int,default=0);a=p.parse_args();seal=verify();tasks=[]
+    for job in jobs(seal['settings']):
+        if job['kind']==a.kind:tasks.append(job)
+        elif a.kind=='cpu' and job['script']=='run_inverse.py':
+            # Spare CPU workers may take fine solves after their dependency work.
+            tasks.append(dict(job,priority=job['priority']+10))
+    tasks.sort(key=lambda r:(r['priority'],r['name']));directory=BASE/'jobs';directory.mkdir(exist_ok=True)
     while True:
         within_deadline();verify();pending=0;progress=False
         for job in tasks:

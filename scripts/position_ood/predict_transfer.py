@@ -15,7 +15,7 @@ def run(split,i,method='joint',mesh=2):
     if 'test' in split.split('_'):
         from scripts.position_ood.seal import verify
         verify()
-    original='development' if split=='transfer_development' else 'test_id';source=BASE/f'inverse/{original}-{i}/{method}-n{mesh}-p3.json';record=json.loads(source.read_text());obs=np.load(make(split,i));model=dense_model(mesh,field_frame='material' if method=='material_frame' else 'world')
+    original={'transfer_development':'development','transfer_calibration':'calibration','transfer_test':'test_id'}[split];source=BASE/f'inverse/{original}-{i}/{method}-n{mesh}-p3.json';record=json.loads(source.read_text());obs=np.load(make(split,i));model=dense_model(mesh,field_frame='material' if method=='material_frame' else 'world')
     if method.startswith('extrapolated'):
         from scripts.position_ood.extrapolated import ExtrapolatedPositionFEM
         assert mesh==3

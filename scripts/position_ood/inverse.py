@@ -19,7 +19,7 @@ def physical(z,environment=True):
         center=z.new_tensor([.12,0,-.09])+z[7:10]*z.new_tensor([.06,.04,.04]);logwidth=z.new_tensor(np.log(.08))+.5*z[10];theta=torch.cat([theta,center,logwidth[None]])
     return theta
 
-def fit(model,poses,observed,visible,layout,environment=True,iterations=80,initial=None,material_field=False,flexible_field=False,regularization=False):
+def fit(model,poses,observed,visible,layout,environment=True,iterations=80,initial=None,material_field=False,flexible_field=False,regularization=False,alternatives=None):
     rest=points();ids=np.argmin(np.linalg.norm(model.geo.rest[:,None]-rest[None],axis=-1),axis=0)
     ids=model.tensor(ids[visible],torch.long);target=model.tensor(observed[:,visible]);ps=model.tensor(poses)
     z0=np.r_[np.log([20000,5000,5000]),0.,0.,0.] if environment else np.log([20000,5000,5000])
@@ -43,6 +43,10 @@ def fit(model,poses,observed,visible,layout,environment=True,iterations=80,initi
         loss.backward();value=float(loss.detach())
         if value<best[0]:best[:]=[value,np.array(z).copy()]
         trace.append(value);return value,var.grad.detach().cpu().numpy()
+    if alternatives:
+        objective(z0)
+        for candidate in alternatives:objective(np.asarray(candidate))
+        if best[1] is not None:z0=best[1].copy()
     result=minimize(objective,z0,jac=True,method='L-BFGS-B',bounds=bounds,options=dict(maxiter=iterations,ftol=1e-9,gtol=1e-5,maxls=30))
     z=best[1];return dict(z=z.tolist(),theta=physical(model.tensor(z),environment).detach().cpu().numpy().tolist(),layout=layout,environment=environment,regularization=regularization,loss=best[0],optimizer_success=bool(result.success),optimizer_message=str(result.message),evaluations=len(trace),iterations=int(result.nit),trace=trace,elapsed_seconds=time.time()-started)
 

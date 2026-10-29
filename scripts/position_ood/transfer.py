@@ -23,7 +23,7 @@ def controls(name,amplitude):
 
 def configure():
     original=study.protocol();path=study.BASE/'transfer-protocol.json';source=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
-    if not path.exists():write(path,dict(status='additional development-defined transfer challenge; freeze before held evaluation',actions=TRANSFER_ACTIONS,reference_levels=original['reference_levels'],transfer_development=[original['development'][i] for i in [0,1,2]],transfer_test=[original['test_id'][i] for i in range(9)],source=source))
+    if not path.exists():write(path,dict(status='additional development-defined transfer challenge; freeze before held evaluation',actions=TRANSFER_ACTIONS,target_index=7,candidate_indices=[3,4,5,6,8],reference_levels=original['reference_levels'],transfer_development=[original['development'][i] for i in [0,1,2]],transfer_test=[original['test_id'][i] for i in range(9)],transfer_calibration=original['calibration'],source=source))
     s=json.loads(path.read_text());assert s['source']==source,'Transfer code changed after reference generation'
     study.protocol=lambda:s;study.ACTIONS=TRANSFER_ACTIONS;study.controls=controls;return s
 
