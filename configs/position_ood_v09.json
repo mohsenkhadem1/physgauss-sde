@@ -1,0 +1,77 @@
+{
+  "version": 9,
+  "status": "development_protocol_not_yet_frozen",
+  "campaign_start_utc": "2026-10-29T09:51:31Z",
+  "campaign_deadline_utc": "2026-10-30T09:51:00Z",
+  "physical_gpus": [
+    0,
+    1,
+    2
+  ],
+  "raw_data_local_only": true,
+  "problem": "Predict deformable geometry from observed positions and tool poses with unknown material and environmental interactions; evaluate held-out interaction families before and after adaptation.",
+  "primary_inputs": [
+    "RGB-D observations",
+    "camera calibration",
+    "query positions",
+    "tool poses and observed tool trajectory"
+  ],
+  "hidden_primary_labels": [
+    "Young modulus",
+    "support/contact compliance",
+    "support patch assignment",
+    "true applied force history",
+    "body-force parameters",
+    "spatial environmental field parameters"
+  ],
+  "development_material_range_Pa": [
+    8000,
+    40000
+  ],
+  "development_fixture_range_N_per_m": [
+    1500,
+    15000
+  ],
+  "density_kg_per_m3": 625,
+  "gravity_m_per_s2": 9.81,
+  "development_position_scale_m": 0.006,
+  "reference_levels": [
+    2,
+    4,
+    6,
+    8,
+    10,
+    12,
+    14,
+    16
+  ],
+  "reference_displacement_rms_tolerance_m": 2e-05,
+  "reference_displacement_max_tolerance_m": 0.0001,
+  "reference_equilibrium_tolerance_N": 1e-09,
+  "reference_minimum_J": 0.1,
+  "planned_ood_axes": [
+    "position_direction",
+    "position_amplitude",
+    "tool_rotation",
+    "support_location",
+    "material_parameters",
+    "environmental_field",
+    "combined"
+  ],
+  "primary_scope": "Quasistatic position-controlled interactions; dynamic release/impact claims require separate validated dynamic ground truth.",
+  "baseline_plan": {
+    "phystwin": "Official pinned implementation with native moving controller trajectories; no simulator force labels supplied.",
+    "physgaussian": "Assess runnable official MPM implementation and position-control compatibility; any inverse-fitting adaptation labelled explicitly.",
+    "material_only": "Ablation of the proposed inference retaining nominal environmental fields.",
+    "position_conditioned_neural": "Learned displacement predictor with the same observed prefix and positional action inputs.",
+    "proposed": "Position-query deformation prediction with latent material and explicit environmental interaction hypotheses; predictive uncertainty and limited-observation adaptation."
+  },
+  "fairness": [
+    "Identical information access",
+    "Separate privileged oracle diagnostics",
+    "Report training and inference cost",
+    "Freeze methods before held-out evaluation",
+    "Report all predeclared test groups including failures",
+    "Do not call interpolation among known force cases interaction-type OOD"
+  ]
+}
