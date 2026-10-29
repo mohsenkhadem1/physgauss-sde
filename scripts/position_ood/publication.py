@@ -58,6 +58,9 @@ def main():
   tables+=['\\bottomrule','\\end{tabular}',f'\\caption{{Coordinate RMSE (mm), lower is better. {caption} Missing or incomplete results retain explicit counts. Object-level bootstrap intervals and familiar-direction queries are provided in the accompanying report.}}',f'\\label{{tab:{kind}}}','\\end{table*}']
  (paper/'generated-tables.tex').write_text('\n'.join(tables)+'\n')
  sources=[BASE/'method-seal.json',BASE/'neural-selection.json']+list(OUT.glob('*-aggregate.json'))+[OUT/'reference-summary.json']
- write(OUT/'publication-manifest.json',dict(seal_created=seal['created_utc'],sources={str(p.relative_to(ROOT)):digest(p) for p in sources},scope='Generated from stored frozen predictions. Reference labels are read only for scoring. Missing results are retained.'))
+ raw=[]
+ for pattern in ['inverse/test_*/*.npz','inverse/transfer_test-*/*.npz','phystwin/test_*/*/predictions.npz','phystwin/transfer_test-*/*/predictions.npz','mpm*/test_*/predictions.npz','mpm*/transfer_test-*/predictions.npz','neural-predictions/test_*.npz','neural-predictions/transfer_test-*.npz','calibration/*.json']:
+  raw.extend(BASE.glob(pattern))
+ write(OUT/'publication-manifest.json',dict(seal_created=seal['created_utc'],sources={str(p.relative_to(ROOT)):digest(p) for p in sources},local_prediction_hashes={str(p.relative_to(ROOT)):digest(p) for p in sorted(set(raw))},scope='Generated from stored frozen predictions. Reference labels are read only for scoring. Missing results are retained.'))
  print(json.dumps({s:{k:all(r['complete'] for r in v['rows']) for k,v in d.items()} for s,d in reports.items()}))
 if __name__=='__main__':main()
