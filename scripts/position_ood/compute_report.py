@@ -60,8 +60,16 @@ def main():
             wall_seconds=summarize([r['elapsed_seconds'] for r in completed if 'elapsed_seconds' in r]),
             optimizer_flags=dict(success=sum(flags), other_termination=len(flags)-sum(flags)),
             termination_messages=dict(Counter(r['optimizer_message'] for r in completed if r.get('optimizer_message')))))
+    training = []
+    for path in sorted((BASE/'neural').glob('*/summary.json')):
+        record = json.loads(path.read_text())
+        training.append(dict(model=path.parent.name, objects=record['count'],
+                             updates=record['epochs'], training_actions=record['training_actions'],
+                             loop_wall_seconds=record['elapsed_seconds']))
     report = dict(declared_jobs=len(rows), states=dict(Counter(r['state'] for r in rows)),
                   groups=summaries, rows=rows,
+                  neural_training=training,
+                  neural_training_scope='Training-loop wall times exclude bank generation, data loading and spatial-basis construction. The shared 512-object bank contains twelve paired-resolution positional queries per object. Both candidate architectures and both action-training variants are reported; selected models are identified in neural-selection.json.',
                   interpretation='Shared-workstation wall time includes concurrent contention and process overhead. Fine inverse jobs exclude their separately reported coarse initialization. Optimizer termination flags describe the fixed computational budget; completion and prediction accuracy are separate quantities. No cases are filtered by these flags.')
     write(OUT / 'compute-report.json', report)
     print(json.dumps(dict(declared_jobs=len(rows), states=report['states'])))
