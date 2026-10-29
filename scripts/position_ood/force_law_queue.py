@@ -76,7 +76,9 @@ def main():
                 break
         if not pending:
             if args.kind == 'reference' and all(output.exists() for _, _, output in tasks):
-                seal_data()
+                with (directory/'data-seal.lock').open('a') as lock:
+                    fcntl.flock(lock, fcntl.LOCK_EX)
+                    seal_data()
             write(directory/f'worker-{args.kind}-{args.worker}-done.json', dict(time=time.time()))
             return
         if not progress:
