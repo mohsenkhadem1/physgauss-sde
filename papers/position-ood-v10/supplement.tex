@@ -97,6 +97,15 @@ All six extension references passed qualification: three used $n=6$ and three us
 \IfFileExists{generated-incremental-table.tex}{\input{generated-incremental-table}}{}
 \IfFileExists{generated-coverage-table.tex}{\input{generated-coverage-table}}{}
 
+\section{One-response acquisition results}
+\IfFileExists{figures/acquisition.pdf}{
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{figures/acquisition.pdf}
+\caption{One-response adaptation on nine held objects. Error, predictive coverage and interval width are evaluated together, using independent calibration for each policy. Columns show means, points denote objects, and error bars show object-bootstrap intervals. The final panel compares spatial and material-indexed loading before and after the same acquired response.}
+\label{fig:acquisition}
+\end{figure*}
+}{}
+
 \section{Reproducibility and provenance}
 A pre-evaluation SHA-256 manifest freezes the inference implementation, benchmark configuration, object cohorts, transfer protocol, neural weights and native simulator sources. Numerical fields and rendered data remain local; code, compact reports and manuscript sources are versioned. The study uses CPU workers and GPUs 0--2 on a four-GPU workstation, retaining the fourth GPU for existing desktop use. Raw prediction files precede separate scoring. Object-level bootstrap comparisons use paired objects, not individual coordinates as independent replicates. Explicit completion counts accompany every declared cohort.
 
