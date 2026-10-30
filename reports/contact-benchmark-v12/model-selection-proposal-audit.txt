@@ -1,0 +1,95 @@
+EXPLORATORY MODEL-SELECTION PROPOSAL — AUDIT ONLY, NOT IMPLEMENTED
+
+Recommendation
+Conditionally proceed as a separately frozen post-audit robustness study if the
+coordinator accepts the information-boundary requirements below. Preserve every
+original and guarded benchmark result. There is no untouched same-domain
+PhysTwin case left; results cannot be advertised as fresh confirmation or a
+predeclared primary improvement. No new fitting or selector implementation was
+performed for this audit.
+
+Scientific rationale
+Refitting the field-free model addresses the observed compensation problem:
+removing a term after joint fitting is not equivalent to learning without it.
+A rigid hypothesis is also justified because many SoftVT trajectories contain
+little deformation. However, a rigid model winning a short prefix does not prove
+the material is rigid; the observed excitation may simply be uninformative.
+The field-free model still contains the old reversible tangential support term,
+so this study would not establish general contact-conditioned boundary physics.
+
+Required information boundaries
+Do NOT score the output of existing select_adapter on its own validation frames:
+that API returns a selected adapter refit using the full prefix, which includes
+those targets. Instead construct candidate predictions using only the separate
+70-percent-prefix fit and correctly shortened/recalibrated payload. Generate
+all guarded/contact candidate forecasts for the remaining observed prefix, then
+score that reserved interval. Select the energy family and adapter configuration
+jointly, or use an explicitly nested independent split. Joint finite candidate
+selection is simpler; disclose the increased validation search budget.
+
+After selecting a configuration, recalibrate/refit using the full allowed prefix
+and forecast the true suffix. No full-prefix fitting residual or suffix accuracy
+may influence the choice. Full-prefix field-free fits can be precomputed for
+all cases, but their files must be inaccessible to validation selection.
+Keep only the prescribed positions, initial geometry and permitted prefix motion
+as inputs. Manual markers, force labels and future object/rigid poses remain
+excluded. All validation candidates receive the same initial scene geometry.
+
+Candidate and fallback rules to freeze
+Use the original current-energy family, a genuinely refit field-free family,
+and a calibrated rigid hypothesis. Keep the same data cuts, iterations, feasible
+starts, material basis and contact settings. Existing regression/current base
+settings were checked and match: field/contact enabled; PhysTwin nonconvex mesh
+and six material coefficients; SoftVT one coefficient.
+
+Apply each candidate's local-volume guard BEFORE contact and velocity derivation,
+including inside validation. Each FEM candidate uses its OWN feasible inherited
+FEM anchor. A valid rigid candidate must use an independently feasible rigid
+anchor; failure of an unrelated FEM must not invalidate it. Preserve explicit
+failure counts and assign incomplete validation forecasts infinite loss rather
+than scoring selected finite frames. Define the infinity/tie policy in advance:
+finite beats failed; all failed remains failed; less than two-percent gain keeps
+the current guarded family. Within-family ties prefer simpler correction.
+
+If adapter choices are optimized jointly, define "current guarded" precisely as
+the best permitted current-family validation candidate; do not quietly compare
+against an uncalibrated version. Save every candidate's validation error and
+feasibility result, not only the winner. No per-dataset post-hoc switching based
+on the observed benchmark results.
+
+Practical integration issue
+The old calibrated_rigid helper eagerly reads data['evaluation']['points'][0]
+even when support_geometry is available, and PhysTwin output is dense support
+geometry rather than the internal nodal mesh. It is therefore unsuitable for the
+isolated guarded selector as written. Implement a small payload-only nodal rigid
+adapter from initial nodes and prefix calibration; do not pass evaluator truth
+to work around the API. A rigid candidate's constant shape is a hypothesis, not
+learned elasticity. Reuse scene construction across validation candidates.
+
+Compute estimate, not a guarantee
+All148 sequences comprise140SoftVT and8PhysTwin. One new full plus one shortened
+field-free fit per sequence means296 new FEM jobs; existing native baselines need
+no retraining. Recorded completed fit-plus-predict wall times in the current run:
+                         median seconds    mean seconds
+SoftVT full                   116.4             161.7
+SoftVT shortened               59.9             117.1
+PhysTwin full                 322.2             327.2
+PhysTwin shortened            192.7             234.3
+These imply approximately8worker-hours at medians or12.1worker-hours at observed
+means, before selector/contact evaluation and audits. They are worker wall-time
+estimates, not CPU-core hours. Eight comparable CPU workers suggest roughly1–2
+hours of ideal fit throughput; reserve several hours for long tails, different
+field-free optimizer behavior, selection, rendering and verification. Existing
+jobs reached about37minutes; retain the already declared bounded timeout policy.
+The field-free landscape may converge differently, so a pilot on development
+cases should establish feasibility before committing all296 jobs. Keep GPU3 and
+unrelated jobs untouched. Do not spend the remaining budget on native retraining.
+
+Limits and stop criteria
+Stop or retain an explicit incomplete study if field-free fitting/validation is
+systematically infeasible or the time budget cannot support full cohort coverage.
+Do not lower geometry thresholds or drop hard cases to obtain favorable means.
+A prefix-selected mixture may improve robustness, but neither calibrated material
+inference, active probing, unseen-force-family generalization nor a novel contact
+solver follows from it. Results across all148 would remain exploratory secondary
+comparisons, with the frozen original evidence preserved.

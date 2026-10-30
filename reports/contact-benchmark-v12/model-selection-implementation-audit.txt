@@ -1,0 +1,50 @@
+INDEPENDENT MODEL-SELECTION IMPLEMENTATION REVIEW — 2026-10-30
+Reviewed model_selection.py, fieldfree_runner.py, model_selection_experiment.py.
+Review prior to new model-class source freeze and candidate suffix scoring.
+
+PASSED BY SOURCE INSPECTION
+- Predictors reject evaluator dictionaries; observed arrays end exactly at cuts.
+- Short/full observed identities, prefix values and masks are checked identical.
+- Validation uses separate short-family trajectories. Inputs/trajectories are
+  truncated at observedprefixend, so later predicted failures cannot bias choice.
+- Shared observed coordinate masks/globalRMSE used; nonfinite validation frames
+  invalidate whole candidate rather than dropping frames.
+- Fixed seven FEMadapter options/current+fieldfree plus rigid, defaultfirst.
+- Default metadata is original prefixselected config; no suffixmetrics consulted.
+- Strict<.98default replacement; finite beatsinfinite; allinfinite retains exact
+  saved previousguarded array, with explicit failure reason.
+- Family winners use minimum shortvalidation score/stabletie, noextra2%threshold.
+- Full-family adapter predictions generated only after choice; no suffixfallback.
+- All families use exact inherited tetrahedra guard and same frozen scene contact.
+- Fieldfree family refits field=False with support/gravity retained; settings,
+  selectedframes,nodeidentity,theta/checkpoint and exact zeroGaussian coefficient
+  are validated before rollout. Same fit budget/material/node defaults as v11.
+- In-memory fitter bindings restored; frozen source files not rewritten.
+- Experiment stores predictions/metadata before reading prior metrics or scoring
+  suffix evaluator. Oldresults copied unchanged and sources recorded by hashes.
+
+PRE-FREEZE FIX REQUESTED
+Validation only checked final output finiteness, while the topology guard operated
+beforecontact. Add an explicit actualfinal postcontactJ audit on everyvalidation
+frame with exact inheritedelements and cutoff.03+1e-8; any invalidJ=>infinite score.
+Proper rigid pose should preserveJ, but checking the produced output is necessary
+to satisfy the declared policy and catch numericaldrift. Selectoragent notified.
+Approval is contingent on thatcheck and focused tests; no outcome-based changes.
+
+SCOPE
+Every148case newselector result is post-audit exploratory. Prefixvalidation is
+selection data, not independent evidence of suffixperformance. Finite outputs
+and validtetrahedra do not establish optimizerconvergence or correct dynamics.
+
+FINAL PRE-FREEZE FOLLOW-UP
+Reviewed added _topology_failures: exact inherited-element finiteJ>.03+1e-8 on
+finalpostcontact validation frames; invalidJ invalidates score. New fullprediction
+invalidframes become explicitNaN with recorded indices; originaldefault preserved.
+Reviewed terminal_failure: unavailable fieldfree outputs allNaN, no fabricated fit,
+reason/sourcehashes recorded, previous successfulcompleted candidate preserved.
+Experiment archives terminalcompletion and optimizerflags even without fit.json.
+If every withinfamily validationcandidate fails, standalonefamily is allNaN rather
+than a fabricated winner. Protocol now explicitly records these semantics.
+Independent reviewer APPROVES source freeze, contingent on the reported focused
+selector/runner tests remaining passing; root reports14combined tests passed.
+A terminal-accounting complete marker means accountedfor, not converged/successful.
