@@ -1,0 +1,24 @@
+{
+  "created_utc": "2026-10-30T21:28:57.308676+00:00",
+  "diagnostic": "reports/coupled-surface-v13/development-grid-diagnosis.json",
+  "diagnostic_sha256": "c6d8433992730fe6acf7fa51826914e95f9a4b6429dc01b4fb953e2d7b17ad9c",
+  "data_scope": "Only fixed development squeeze observations, development squeeze noiseless reference and existing35-candidate FEM calibration library. No reserved target or forecast trajectory read. No simulation launched.",
+  "decision": "Support separate prospective nested uniform friction refinement0:0.05:0.8 with unchanged7 stiffness values, physics and position-loss window. Preserve original frozen study.",
+  "evidence": [
+    "Dev1 full-window winner9000Pa/mu0.2 remains unchanged without observation noise.",
+    "Atmu0, bestE3000; atmu0.2, bestE9000. Intermediate true development friction0.1 absent.",
+    "Compression-only loss prefersE3000; release-only loss prefersE9000, consistent with full-window stiffness/friction compensation.",
+    "Dev0 original6500/mu0.4 fit remains stronger and must be retained as a development regression check."
+  ],
+  "not_established": [
+    "Missing friction gridpoint is not yet proven to be the sole cause.",
+    "Finer grid does not guarantee lower forecast error or identifiable physical parameters.",
+    "Known coarse/fine model discrepancy remains."
+  ],
+  "fairness": [
+    "Use same refined friction grid for native and rigid comparisons.",
+    "Refine vertex control too if claiming a matched fine-grid contact comparison; otherwise explicitly separate it from matched comparisons.",
+    "Keep original observations/noise, full calibration window, loss, candidate ordering/tie rule, failure accounting and forecast cohorts."
+  ],
+  "prospective_evaluation": "Declare development comparison on both objects/all3 primary families before new outcomes. Do not alter window weights using this diagnosis. Retain coarse and fine variants with their actual library coverage and computational budgets."
+}

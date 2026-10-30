@@ -1,0 +1,17 @@
+{
+  "declared_utc": "2026-10-30T21:06:32.705120+00:00",
+  "scope": "Read-only descriptive motion diagnostic; population audit not executed",
+  "input_cohort": "All50 declared base-resolution reference jobs: development/reserved and calibration/primary/stress; failed jobs retained",
+  "precondition": "All50 complete.json records must exist before any motion trajectories are read",
+  "metric": "Exact consistent P1 volume-mass weighted proper Kabsch per postinitial frame; physicalCOM from mass row sums, covariance A.T@(M@B), coordinate RMS divisor3*totalmass",
+  "ratio": "Deformation RMS divided by world displacement RMS, not a variance fraction",
+  "aggregation": "Equal saved-frame weight within a case; equal completed-case weight within numeric summaries conditional on auditable trajectories, with failures retained in counts and undefined-ratio counts retained",
+  "limitations": "No material-identifiability, calibrated-uncertainty or physical-truth inference; no cohort or metric changes to prediction benchmark",
+  "source_sha256": {
+    "scripts/coupled_contact_v13/surface_motion_audit.py": "57d782c346aba9e2c2b4b73f2cfb20c62ca4d693d1be02ca54566c78dc2e5863",
+    "tests/test_surface_motion_audit_v13.py": "8c3ca1c8c07b871774c4bbe1474dcaac9fcb44799007584f75550eab3b5b8873"
+  },
+  "synthetic_validation": "4tests passed: rigid motion zero residual/physicalCOM; analytic affine stretch and mesh independence; world-frame invariance; reflection is not a proper rotation",
+  "execution_status": "Prepared only; population audit awaits all50 completion records and independent review",
+  "protocol_binding": "Runtime requires protocol SHA256 equals method-freeze.protocol_sha256"
+}

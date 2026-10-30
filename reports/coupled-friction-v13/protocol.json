@@ -1,0 +1,1108 @@
+{
+  "status": "Prospectively adopted scope; execution additionally requires independently audited method-freeze.json",
+  "objects": [
+    {
+      "id": "surface_dev0",
+      "split": "development",
+      "young": 6000.0,
+      "friction": 0.35
+    },
+    {
+      "id": "surface_dev1",
+      "split": "development",
+      "young": 3000.0,
+      "friction": 0.1
+    },
+    {
+      "id": "surface_test0",
+      "split": "reserved",
+      "young": 4000.0,
+      "friction": 0.25
+    },
+    {
+      "id": "surface_test1",
+      "split": "reserved",
+      "young": 4000.0,
+      "friction": 0.5
+    },
+    {
+      "id": "surface_test2",
+      "split": "reserved",
+      "young": 7000.0,
+      "friction": 0.25
+    },
+    {
+      "id": "surface_test3",
+      "split": "reserved",
+      "young": 7000.0,
+      "friction": 0.5
+    },
+    {
+      "id": "surface_test4",
+      "split": "reserved",
+      "young": 10000.0,
+      "friction": 0.25
+    },
+    {
+      "id": "surface_test5",
+      "split": "reserved",
+      "young": 10000.0,
+      "friction": 0.5
+    },
+    {
+      "id": "surface_test6",
+      "split": "reserved",
+      "young": 14000.0,
+      "friction": 0.25
+    },
+    {
+      "id": "surface_test7",
+      "split": "reserved",
+      "young": 14000.0,
+      "friction": 0.5
+    }
+  ],
+  "calibration_scenario": "squeeze",
+  "forecast_scenarios": [
+    "slide",
+    "edge_drop",
+    "curved",
+    "moving_sphere"
+  ],
+  "size_m": [
+    0.08,
+    0.06,
+    0.05
+  ],
+  "coarse_cells": [
+    4,
+    4,
+    4
+  ],
+  "reference_cells": [
+    8,
+    8,
+    8
+  ],
+  "dt_coarse": 1.25e-05,
+  "dt_reference": 2.5e-05,
+  "duration_seconds": 0.6,
+  "fps": 100,
+  "poisson": 0.3,
+  "density": 1000.0,
+  "viscosity": 1.0,
+  "observation_noise_std_m": 0.0001,
+  "observation_nodes": 18,
+  "observation_seed": 1301,
+  "fem_young_grid": [
+    2000.0,
+    3000.0,
+    4500.0,
+    6500.0,
+    9000.0,
+    13000.0,
+    18000.0
+  ],
+  "native_scale_grid": [
+    1000.0,
+    3162.2776601683795,
+    10000.0,
+    31622.776601683792,
+    100000.0,
+    316227.7660168379,
+    1000000.0
+  ],
+  "friction_grid": [
+    0.0,
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.25,
+    0.3,
+    0.35,
+    0.4,
+    0.45,
+    0.5,
+    0.55,
+    0.6,
+    0.65,
+    0.7,
+    0.75,
+    0.8
+  ],
+  "selection": "minimum calibration position coordinate MSE across fixed nodes/times, no future targets; ties lowest grid index",
+  "metrics": [
+    "world_coordinate_rmse_m",
+    "rigid_aligned_coordinate_rmse_m",
+    "dynamic_body_position_rmse_m",
+    "saved_frames_finite",
+    "min_J",
+    "max_penetration_m"
+  ],
+  "gates": {
+    "penetration_m": 0.001,
+    "trajectory_refinement_rms_m": 0.00025,
+    "refinement_ratio": 0.8,
+    "development_nonrigid_rms_m": 0.001,
+    "minimum_J": 0.02,
+    "spatial_world_coordinate_rms_m": 0.001,
+    "spatial_shape_coordinate_rms_m": 0.0005,
+    "body_temporal_coordinate_rms_m": 0.00025,
+    "body_spatial_quadrature_coordinate_rms_m": 0.001
+  },
+  "scope": "Separately frozen uniform friction-grid refinement of the position-only calibrated coupled simulation study. Original coarse study preserved; no matched fine-grid vertex contact ablation claim.",
+  "contact_stiffness_at_400mm2_N_per_m": 76800.0,
+  "reference_qualification": "Base/half-dt softframes andbodycenters finite, same saved grids, bothpenetration<=1mm andJ>.02; softtrajectory coordinateRMS<=.25mm; movingpayloadcenter postinitial coordinateRMS<=.25mm. Jointqualifiedmeans require bothcalibration andforecast. Development spatial+friction+sphere+mass+time gatesapply toexactchosenconfiguration; allcases retained.",
+  "video_cases": [
+    [
+      "surface_test0",
+      "curved"
+    ],
+    [
+      "surface_test3",
+      "moving_sphere"
+    ],
+    [
+      "surface_test7",
+      "edge_drop"
+    ]
+  ],
+  "created_utc": "2026-10-30T18:24:37.111034+00:00",
+  "deadline_utc": "2026-10-31T05:01:31+00:00",
+  "edge_drop_block_center_m": [
+    0.03,
+    0,
+    0.09
+  ],
+  "edge_obstacle_center_m": [
+    0.01,
+    0,
+    0.025
+  ],
+  "scene_module": "scripts.coupled_contact_v13.engineered_scenarios",
+  "mass_discretization": "consistent tetrahedral P1",
+  "rigid_inertia": "exact uniform-volume P1 moments",
+  "contact_integration": "Clipped P1 triangle normal-force integration for planes/boxes; degree5 seven-point friction quadrature with level1 subdivision; conservative sparse material-surface quadrature at1.5mm spacing for spheres.",
+  "sphere_surface_spacing_m": 0.0015,
+  "friction_quadrature_level": 1,
+  "body_temporal_coordinate_rms_limit_m": 0.00025,
+  "expected_calibration_cases": 10,
+  "expected_forecast_cases": 40,
+  "expected_reserved_forecast_cases": 32,
+  "observation_node_indices": [
+    0,
+    6,
+    11,
+    17,
+    23,
+    29,
+    40,
+    49,
+    55,
+    69,
+    75,
+    84,
+    95,
+    101,
+    107,
+    113,
+    118,
+    124
+  ],
+  "observation_node_coordinates_m": [
+    [
+      -0.04,
+      -0.03,
+      0.0019999999999999983
+    ],
+    [
+      -0.04,
+      -0.015,
+      0.014499999999999999
+    ],
+    [
+      -0.04,
+      0.0,
+      0.014499999999999999
+    ],
+    [
+      -0.04,
+      0.015,
+      0.027
+    ],
+    [
+      -0.04,
+      0.03,
+      0.03950000000000001
+    ],
+    [
+      -0.02,
+      -0.03,
+      0.052000000000000005
+    ],
+    [
+      -0.02,
+      0.015,
+      0.0019999999999999983
+    ],
+    [
+      -0.02,
+      0.03,
+      0.052000000000000005
+    ],
+    [
+      0.0,
+      -0.015,
+      0.0019999999999999983
+    ],
+    [
+      0.0,
+      0.015,
+      0.052000000000000005
+    ],
+    [
+      0.019999999999999997,
+      -0.03,
+      0.0019999999999999983
+    ],
+    [
+      0.019999999999999997,
+      -0.015,
+      0.052000000000000005
+    ],
+    [
+      0.019999999999999997,
+      0.03,
+      0.0019999999999999983
+    ],
+    [
+      0.04,
+      -0.03,
+      0.014499999999999999
+    ],
+    [
+      0.04,
+      -0.015,
+      0.027
+    ],
+    [
+      0.04,
+      0.0,
+      0.03950000000000001
+    ],
+    [
+      0.04,
+      0.015,
+      0.03950000000000001
+    ],
+    [
+      0.04,
+      0.03,
+      0.052000000000000005
+    ]
+  ],
+  "observation_selection_rule": {
+    "reference": "Initial squeeze geometry centered[0,0,.027], dimensions[.08,.06,.05]m",
+    "node_order": "Cartesian itertools.product(axes) with x outermost,y next,z innermost; axes ascending linspace",
+    "boundary": "Ascending flatnonzero of any coordinate isclose to rest.min or rest.max using frozen NumPy defaults",
+    "subsample": "boundary[np.linspace(0,len(boundary)-1,18).round().astype(int)]",
+    "time_mask": "Same18nodes at allsavedcalibrationtimes",
+    "noise": "default_rng(1301+objectindex in thisobjectslist).normal(0,.0001,fullobservedshape); addnoise; overwriteframe0 withknownrest; setunobservedentriesNaN",
+    "freeze_requirement": "Resolveexactindices+worldcoordinates fromchosenpredictormesh beforefreshgeneration; identicalacrossallmethods. Do notchange mesh to optimize heldoutscore."
+  },
+  "observation_coordinate_candidates_pending_mesh_choice": {
+    "2": {
+      "cells": [
+        2,
+        2,
+        2
+      ],
+      "node_count": 27,
+      "indices": [
+        0,
+        1,
+        3,
+        4,
+        6,
+        7,
+        9,
+        10,
+        12,
+        14,
+        16,
+        17,
+        19,
+        20,
+        22,
+        23,
+        25,
+        26
+      ],
+      "coordinates_m": [
+        [
+          -0.04,
+          -0.03,
+          0.0019999999999999983
+        ],
+        [
+          -0.04,
+          -0.03,
+          0.027
+        ],
+        [
+          -0.04,
+          0.0,
+          0.0019999999999999983
+        ],
+        [
+          -0.04,
+          0.0,
+          0.027
+        ],
+        [
+          -0.04,
+          0.03,
+          0.0019999999999999983
+        ],
+        [
+          -0.04,
+          0.03,
+          0.027
+        ],
+        [
+          0.0,
+          -0.03,
+          0.0019999999999999983
+        ],
+        [
+          0.0,
+          -0.03,
+          0.027
+        ],
+        [
+          0.0,
+          0.0,
+          0.0019999999999999983
+        ],
+        [
+          0.0,
+          0.0,
+          0.052000000000000005
+        ],
+        [
+          0.0,
+          0.03,
+          0.027
+        ],
+        [
+          0.0,
+          0.03,
+          0.052000000000000005
+        ],
+        [
+          0.04,
+          -0.03,
+          0.027
+        ],
+        [
+          0.04,
+          -0.03,
+          0.052000000000000005
+        ],
+        [
+          0.04,
+          0.0,
+          0.027
+        ],
+        [
+          0.04,
+          0.0,
+          0.052000000000000005
+        ],
+        [
+          0.04,
+          0.03,
+          0.027
+        ],
+        [
+          0.04,
+          0.03,
+          0.052000000000000005
+        ]
+      ]
+    },
+    "3": {
+      "cells": [
+        3,
+        3,
+        3
+      ],
+      "node_count": 64,
+      "indices": [
+        0,
+        3,
+        6,
+        10,
+        13,
+        16,
+        19,
+        27,
+        30,
+        33,
+        36,
+        44,
+        47,
+        50,
+        53,
+        57,
+        60,
+        63
+      ],
+      "coordinates_m": [
+        [
+          -0.04,
+          -0.03,
+          0.0019999999999999983
+        ],
+        [
+          -0.04,
+          -0.03,
+          0.052000000000000005
+        ],
+        [
+          -0.04,
+          -0.009999999999999998,
+          0.03533333333333333
+        ],
+        [
+          -0.04,
+          0.010000000000000002,
+          0.03533333333333333
+        ],
+        [
+          -0.04,
+          0.03,
+          0.018666666666666665
+        ],
+        [
+          -0.013333333333333332,
+          -0.03,
+          0.0019999999999999983
+        ],
+        [
+          -0.013333333333333332,
+          -0.03,
+          0.052000000000000005
+        ],
+        [
+          -0.013333333333333332,
+          0.010000000000000002,
+          0.052000000000000005
+        ],
+        [
+          -0.013333333333333332,
+          0.03,
+          0.03533333333333333
+        ],
+        [
+          0.013333333333333336,
+          -0.03,
+          0.018666666666666665
+        ],
+        [
+          0.013333333333333336,
+          -0.009999999999999998,
+          0.0019999999999999983
+        ],
+        [
+          0.013333333333333336,
+          0.03,
+          0.0019999999999999983
+        ],
+        [
+          0.013333333333333336,
+          0.03,
+          0.052000000000000005
+        ],
+        [
+          0.04,
+          -0.03,
+          0.03533333333333333
+        ],
+        [
+          0.04,
+          -0.009999999999999998,
+          0.018666666666666665
+        ],
+        [
+          0.04,
+          0.010000000000000002,
+          0.018666666666666665
+        ],
+        [
+          0.04,
+          0.03,
+          0.0019999999999999983
+        ],
+        [
+          0.04,
+          0.03,
+          0.052000000000000005
+        ]
+      ]
+    },
+    "4": {
+      "cells": [
+        4,
+        4,
+        4
+      ],
+      "node_count": 125,
+      "indices": [
+        0,
+        6,
+        11,
+        17,
+        23,
+        29,
+        40,
+        49,
+        55,
+        69,
+        75,
+        84,
+        95,
+        101,
+        107,
+        113,
+        118,
+        124
+      ],
+      "coordinates_m": [
+        [
+          -0.04,
+          -0.03,
+          0.0019999999999999983
+        ],
+        [
+          -0.04,
+          -0.015,
+          0.014499999999999999
+        ],
+        [
+          -0.04,
+          0.0,
+          0.014499999999999999
+        ],
+        [
+          -0.04,
+          0.015,
+          0.027
+        ],
+        [
+          -0.04,
+          0.03,
+          0.03950000000000001
+        ],
+        [
+          -0.02,
+          -0.03,
+          0.052000000000000005
+        ],
+        [
+          -0.02,
+          0.015,
+          0.0019999999999999983
+        ],
+        [
+          -0.02,
+          0.03,
+          0.052000000000000005
+        ],
+        [
+          0.0,
+          -0.015,
+          0.0019999999999999983
+        ],
+        [
+          0.0,
+          0.015,
+          0.052000000000000005
+        ],
+        [
+          0.019999999999999997,
+          -0.03,
+          0.0019999999999999983
+        ],
+        [
+          0.019999999999999997,
+          -0.015,
+          0.052000000000000005
+        ],
+        [
+          0.019999999999999997,
+          0.03,
+          0.0019999999999999983
+        ],
+        [
+          0.04,
+          -0.03,
+          0.014499999999999999
+        ],
+        [
+          0.04,
+          -0.015,
+          0.027
+        ],
+        [
+          0.04,
+          0.0,
+          0.03950000000000001
+        ],
+        [
+          0.04,
+          0.015,
+          0.03950000000000001
+        ],
+        [
+          0.04,
+          0.03,
+          0.052000000000000005
+        ]
+      ]
+    },
+    "6": {
+      "cells": [
+        6,
+        6,
+        6
+      ],
+      "node_count": 343,
+      "indices": [
+        0,
+        13,
+        26,
+        38,
+        51,
+        84,
+        102,
+        139,
+        152,
+        190,
+        203,
+        240,
+        258,
+        291,
+        304,
+        316,
+        329,
+        342
+      ],
+      "coordinates_m": [
+        [
+          -0.04,
+          -0.03,
+          0.0019999999999999983
+        ],
+        [
+          -0.04,
+          -0.019999999999999997,
+          0.052000000000000005
+        ],
+        [
+          -0.04,
+          0.0,
+          0.04366666666666666
+        ],
+        [
+          -0.04,
+          0.020000000000000004,
+          0.027
+        ],
+        [
+          -0.026666666666666665,
+          -0.03,
+          0.018666666666666665
+        ],
+        [
+          -0.026666666666666665,
+          0.020000000000000004,
+          0.0019999999999999983
+        ],
+        [
+          -0.013333333333333332,
+          -0.03,
+          0.03533333333333333
+        ],
+        [
+          -0.013333333333333332,
+          0.020000000000000004,
+          0.052000000000000005
+        ],
+        [
+          0.0,
+          -0.03,
+          0.04366666666666666
+        ],
+        [
+          0.0,
+          0.03,
+          0.01033333333333333
+        ],
+        [
+          0.013333333333333336,
+          -0.019999999999999997,
+          0.0019999999999999983
+        ],
+        [
+          0.013333333333333336,
+          0.03,
+          0.018666666666666665
+        ],
+        [
+          0.026666666666666665,
+          -0.019999999999999997,
+          0.052000000000000005
+        ],
+        [
+          0.026666666666666665,
+          0.03,
+          0.03533333333333333
+        ],
+        [
+          0.04,
+          -0.019999999999999997,
+          0.027
+        ],
+        [
+          0.04,
+          0.0,
+          0.01033333333333333
+        ],
+        [
+          0.04,
+          0.020000000000000004,
+          0.0019999999999999983
+        ],
+        [
+          0.04,
+          0.03,
+          0.052000000000000005
+        ]
+      ]
+    },
+    "8": {
+      "cells": [
+        8,
+        8,
+        8
+      ],
+      "node_count": 729,
+      "indices": [
+        0,
+        23,
+        45,
+        68,
+        98,
+        162,
+        234,
+        278,
+        328,
+        400,
+        450,
+        494,
+        566,
+        630,
+        660,
+        683,
+        705,
+        728
+      ],
+      "coordinates_m": [
+        [
+          -0.04,
+          -0.03,
+          0.0019999999999999983
+        ],
+        [
+          -0.04,
+          -0.015,
+          0.03325
+        ],
+        [
+          -0.04,
+          0.0075,
+          0.0019999999999999983
+        ],
+        [
+          -0.04,
+          0.0225,
+          0.03325
+        ],
+        [
+          -0.03,
+          -0.0225,
+          0.052000000000000005
+        ],
+        [
+          -0.02,
+          -0.03,
+          0.0019999999999999983
+        ],
+        [
+          -0.02,
+          0.03,
+          0.0019999999999999983
+        ],
+        [
+          -0.010000000000000002,
+          -0.0075,
+          0.052000000000000005
+        ],
+        [
+          0.0,
+          -0.03,
+          0.027
+        ],
+        [
+          0.0,
+          0.03,
+          0.027
+        ],
+        [
+          0.010000000000000002,
+          0.0075,
+          0.0019999999999999983
+        ],
+        [
+          0.019999999999999997,
+          -0.03,
+          0.052000000000000005
+        ],
+        [
+          0.019999999999999997,
+          0.03,
+          0.052000000000000005
+        ],
+        [
+          0.030000000000000006,
+          0.0225,
+          0.0019999999999999983
+        ],
+        [
+          0.04,
+          -0.0225,
+          0.02075
+        ],
+        [
+          0.04,
+          -0.0075,
+          0.052000000000000005
+        ],
+        [
+          0.04,
+          0.015,
+          0.02075
+        ],
+        [
+          0.04,
+          0.03,
+          0.052000000000000005
+        ]
+      ]
+    }
+  },
+  "predictor_inputs": "Knowninitialgeometry/density/gravity/Poissonratio/viscosity/scenecollisions; squeeze positions+prescribedtoolposes; futurecommandedtoolposes only. No futurefreebodycenters, trueE/mu, force/reactionlabels orforecasttargetpositions exceptoracle/scorer.",
+  "supplementary_methods": {
+    "vertex": "Matched scene/mesh vertex-contact formulation, NOTpurequadratureablation; actualnodaldampingmass vsarea-distributedmass differs. Recompute35library underchosennewscene, mesh andmatchedinertia ordeclare additionalinertiaconfound.",
+    "nominal": "Exactmain chosenFEM/contact/inertia with E6000Pa,mu.35; fourdeterministicscene predictions reusedacrossobjects."
+  },
+  "fresh_generation_blockers": [
+    "Independent audit of exact preparedcandidate and runtimefreeze installation pending; allconfigurationfields resolved andselectedprimarydevelopmentqualification passed."
+  ],
+  "source_freeze_checklist": [
+    "physics.py",
+    "pipeline.py",
+    "scenarios.py (historical dependency, unchanged)",
+    "inference.py",
+    "baselines.py",
+    "native_adapter.py",
+    "rigid.py",
+    "surface_contact.py",
+    "sparse_surface_contact.py",
+    "clipped_surface_contact.py",
+    "clipped_surface_contact.cpp",
+    "consistent_mass.py (if selected)",
+    "engineered_scenarios.py",
+    "surface_pipeline.py",
+    "surface_body_quality.py",
+    "surface_ablation.py",
+    "campaign.py",
+    "Originalthirdparty native springkernel",
+    "configs/coupled_contact_v13.json",
+    "Qualificationdriver andcomparison/interpolation sources usedfor finalgate decision",
+    "surface_spatial_quality.py",
+    "surface_spatial_verify.py",
+    "surface_verify.py",
+    "verify_surface_ablation.py",
+    "surface_run_campaign.py",
+    "surface_finish.py",
+    "surface_render.py",
+    "surface_report.py",
+    "mesh_diagnostic.py"
+  ],
+  "provenance_checklist": [
+    "Finalprotocol SHA256",
+    "Finalmethodsource SHA256",
+    "Qualificationreport+tests SHA256",
+    "Compilerpath/version/flags, immutableC++sourcesnapshot andsharedlibrarySHA256",
+    "NumPy/SciPy/Warp/Python versions",
+    "prior-preservation.json SHA256",
+    "supplementary-protocol.json SHA256 afterfinalwiring",
+    "Allrawdatasets/checkpoints remainlocal"
+  ],
+  "template_design_sha256": "aa76da5c1a4ed6581f7e5e98f7b062f1f59bbd7ede5989befcaf144530d69e89",
+  "per_case_spatial_qualification": {
+    "declared_utc": "2026-10-30T19:04:54.439366+00:00",
+    "expected_primary_runs": 50,
+    "expected_half_dt_runs": 50,
+    "expected_spatial_companion_runs": 50,
+    "expected_total_reference_runs": 150,
+    "expected_forecast_cases": 40,
+    "expected_reserved_forecasts": 32,
+    "selection": "Choose companion_cells per scenario from accepted development pair before fresh generation; no adaptation to fresh outcomes; primary target unchanged",
+    "integration": "Companion uses SAME primary BASE dt; BOTH meshes require development timestep qualification. Per-case primary base/half-dt check retained. Companion has no additional per-case half-dt run.",
+    "probes": "Common27 Cartesian rest points and common2678 rest-surface midpoint probes at3mm spacing; actual tetrahedral P1 mapping; fixed coordinates and first-frame exclusion",
+    "metrics": "Uniform coordinate RMS world and proper-rigid-aligned shape, separately for both probe sets; maximum per-collider center coordinate RMS",
+    "gates": {
+      "world_rms_m": 0.001,
+      "shape_rms_m": 0.0005,
+      "body_center_coordinate_rms_m": 0.001,
+      "penetration_m": 0.001,
+      "min_j_exclusive": 0.02
+    },
+    "accounting": "Every object calibration and four forecasts require companion. Missing/failed/nonfinite/failedgate means unqualified, never case omission. Joint calibration+forecast qualification includes temporal,body andspatial flags; retain all40cases.",
+    "claim": "Fixed-timestep two-resolution consistency, not continuum convergence proof",
+    "runtime_schema": "reference_settings_by_scenario[scenario] contains cells,dt,companion_cells; reference-spatial jobs carry reference=True,spatial=True"
+  },
+  "adopted_scope": "primary_with_stress",
+  "primary_forecast_scenarios": [
+    "slide",
+    "curved",
+    "moving_sphere"
+  ],
+  "stress_forecast_scenarios": [
+    "edge_drop"
+  ],
+  "surface_spacing_m": 0.0015,
+  "reference_settings_by_scenario": {
+    "squeeze": {
+      "cells": [
+        8,
+        8,
+        8
+      ],
+      "companion_cells": [
+        10,
+        10,
+        10
+      ],
+      "dt": 2.5e-05
+    },
+    "slide": {
+      "cells": [
+        8,
+        8,
+        8
+      ],
+      "companion_cells": [
+        10,
+        10,
+        10
+      ],
+      "dt": 2.5e-05
+    },
+    "curved": {
+      "cells": [
+        8,
+        8,
+        8
+      ],
+      "companion_cells": [
+        10,
+        10,
+        10
+      ],
+      "dt": 2.5e-05
+    },
+    "moving_sphere": {
+      "cells": [
+        12,
+        12,
+        12
+      ],
+      "companion_cells": [
+        10,
+        10,
+        10
+      ],
+      "dt": 2.5e-05
+    },
+    "edge_drop": {
+      "cells": [
+        8,
+        8,
+        8
+      ],
+      "companion_cells": [
+        12,
+        12,
+        12
+      ],
+      "dt": 1.25e-05
+    }
+  },
+  "observation_coordinate_candidates_pending_mesh_choice_scope": "Historical template candidates retained for provenance only; selected4cell indices/coordinates above are final.",
+  "fine_grid_extension": {
+    "parent_protocol_sha256": "369cfd4fac166a1357553c96fe9938085214a885cc82bb6f643b0e23763f9605",
+    "parent_method_freeze_sha256": "a22a07dd027af49d7e7b1783f26fbf3e72f33be67471eb10824d054a0a53820e",
+    "parent_library_audit_sha256": "fd790a09f013dcc1fbb0595190d2866cea0c580cfc338e9a4435f90de0c586bb",
+    "decision_evidence": {
+      "reports/coupled-surface-v13/development-grid-diagnosis.json": "c6d8433992730fe6acf7fa51826914e95f9a4b6429dc01b4fb953e2d7b17ad9c",
+      "reports/coupled-surface-v13/development-grid-decision-audit.json": "7b8db63db8b56bdf53e39fb8b09b889c600797eae5f66c03bab5364ddb8bf7fd"
+    },
+    "library_counts": {
+      "fem": 119,
+      "native": 119,
+      "rigid": 17,
+      "total": 255,
+      "reused": 75,
+      "additional": 180
+    },
+    "max_workers": 6,
+    "deadline_utc": "2026-10-31T05:01:31Z",
+    "unchanged": [
+      "physical solver and numerical settings",
+      "material and native scale grids",
+      "position observations and masks and noise realization",
+      "full-window calibration loss and deterministic tie ordering",
+      "all original development and reserved cases",
+      "fixed primary and exploratory stress cohorts",
+      "reference targets and numerical qualification",
+      "video cases"
+    ],
+    "parent_artifacts": "Read-only explicit reference/observation/oracle/library reuse with source digests; original coarse study preserved. Reference quality reused from completed parent evaluation rows.",
+    "evaluation_order": [
+      "development",
+      "reserved"
+    ],
+    "reserved_accounting": {
+      "primary": 24,
+      "stress": 8
+    },
+    "native_scope": "Matched friction grid for adapted native spring-force baseline, not a complete PhysTwin reproduction.",
+    "vertex_scope": "No fine-grid vertex baseline: no matched quadrature-ablation claim.",
+    "decision_basis": "Development calibration loss diagnosis only; reserved targets were not read to select the grid. Generic nested uniform refinement includes all old hypotheses; no changed loss or phase reweighting."
+  }
+}

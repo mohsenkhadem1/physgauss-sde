@@ -1,0 +1,11 @@
+SECONDARY INFERENCE-RESOLUTION STUDY — DEVELOPMENT MOTIVATION
+
+The original frozen surface-contact study is retained in reports/coupled-surface-v 13. This separate study asks whether a coarse friction grid makes material fitting compensate for missing contact behavior. It does not change the simulator, observation window, loss, initial geometry, or commanded interactions.
+
+On six development forecasts, the original inferred FEM averages 15.065 mm world-coordinate error, compared with 10.410 mm for rigid contact and 3.341 mm when the FEM receives the true parameters. The soft development object selects 9000 Pa and friction 0.2 despite generator settings 3000 Pa and 0.1. The same selection occurs without observation noise. At friction 0, the best stiffness is 3000 Pa; at friction 0.2 it shifts to 9000 Pa. This supports testing resolution of the friction search, without proving it is the only source of error.
+
+The planned generic friction grid is 0 through 0.8 in increments of 0.05, retaining the original seven stiffness/scaling values. FEM and the adapted spring baseline each receive 119 candidates; rigid contact receives 17 friction candidates. The original coarse grid had 35/35/5 candidates. A finer search costs more and guarantees only that the best calibration loss cannot increase; it does not guarantee better forecasts or identifiable material parameters.
+
+Both development objects and all three primary interaction families remain in the development comparison. The reserved comparison retains all 24 primary and 8 stress forecasts, with failures counted explicitly. The sharp-edge drop remains an unqualified stress test. Original and refined results must be shown separately, without choosing whichever method wins for each case. No improved prediction or calibrated uncertainty is claimed before the separate experiment completes and is audited.
+
+Raw datasets and trajectories remain local. This secondary search is part of the original 12-hour campaign, whose deadline remains 2026-10-31 05:01:31 UTC.

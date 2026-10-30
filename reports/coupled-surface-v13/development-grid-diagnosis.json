@@ -1,0 +1,937 @@
+{
+  "scope": "Read-only frozen development squeeze calibration audit; no reserved data, no forecast target reads, no new simulations",
+  "source_sha256": {
+    "scripts/coupled_contact_v13/development_grid_diagnosis.py": "d8642ef076a42ff07df5eaf4d96e7541f96cb9a5dbac5148fbbfe5e685aa715d"
+  },
+  "input_sha256": {
+    "reports/coupled-surface-v13/protocol.json": "369cfd4fac166a1357553c96fe9938085214a885cc82bb6f643b0e23763f9605",
+    "runs/coupled-surface-v13/library/fem/0-0/complete.json": "e499a914581ce467f1714802a6e72360796bf53ee32f3ebb1c1244e988c84901",
+    "runs/coupled-surface-v13/library/fem/0-0/trajectory.npz": "15831f6e868d269bf61f23080e741f24856d0c1bc7bd86330bcdacdd7fe21faf",
+    "runs/coupled-surface-v13/library/fem/0-1/complete.json": "cdd00b82cc61e7daa63ff08a623aba18b26448b4eb9d53209f043918a61a751f",
+    "runs/coupled-surface-v13/library/fem/0-1/trajectory.npz": "894b5c0189b0b7e34292ab183ba98ad694aada349663440ece1192f245162d68",
+    "runs/coupled-surface-v13/library/fem/0-2/complete.json": "fb5ec9c4de605545e56bcf9a4d576b913f35fe983768d33aec6680694f455197",
+    "runs/coupled-surface-v13/library/fem/0-2/trajectory.npz": "b294b33b0ae30f7eda4f12fea12b536aac7e3002d7a68a5ce7ced5c9bd9e26d3",
+    "runs/coupled-surface-v13/library/fem/0-3/complete.json": "048aa85d053cbc836aaa6379ea03d820b1093b2689fa6823e69b5b21281340bc",
+    "runs/coupled-surface-v13/library/fem/0-3/trajectory.npz": "26046167efa0ce5fb553bb0e447b6fc54951153ae511041e4d4acc16f826c320",
+    "runs/coupled-surface-v13/library/fem/0-4/complete.json": "ee8ecbb38be517b0b9b3456b2b0b909a885925d796f6d544fd70432c908b4d32",
+    "runs/coupled-surface-v13/library/fem/0-4/trajectory.npz": "59b3a9015217a0576786831daa78ae989f366eb554e574fbd80033588aa41219",
+    "runs/coupled-surface-v13/library/fem/1-0/complete.json": "147ae176ced1498ae61541ddb38529cf019c758155f6aa6010913a44f9afdaa5",
+    "runs/coupled-surface-v13/library/fem/1-0/trajectory.npz": "60aaf17d9be653e9f6d2bb1d3642d994b49107c682dd932c6cf7927ea1905430",
+    "runs/coupled-surface-v13/library/fem/1-1/complete.json": "b11e991569f0a42f7e2615516b0371c8341d5f4cdba3638234ae1616d26b53d6",
+    "runs/coupled-surface-v13/library/fem/1-1/trajectory.npz": "2b04d2b891e84552f68126136fcc3bbae58daf860e9c71cfc860c9fe366c027a",
+    "runs/coupled-surface-v13/library/fem/1-2/complete.json": "2be686a60b431ba77f376eda96e7866cc8d132dabb1eaacba64a62fdc8e30c6b",
+    "runs/coupled-surface-v13/library/fem/1-2/trajectory.npz": "f9c46a652ec119e9817b9c49d65ab888a51b9531bfc8f4f68b412db64c73efd2",
+    "runs/coupled-surface-v13/library/fem/1-3/complete.json": "ea5ebd4e60e2e129612d99e007743013c527cf246f56cce79580befb42f435d6",
+    "runs/coupled-surface-v13/library/fem/1-3/trajectory.npz": "89a75e1c7fd133b95a93aa25d10630ac7ef16895bd8ee56c5c4f454e457f9cd7",
+    "runs/coupled-surface-v13/library/fem/1-4/complete.json": "6fa66653d75e8f0f1d71c58e0bc51327e6e04691ac038625b01f11193df5f873",
+    "runs/coupled-surface-v13/library/fem/1-4/trajectory.npz": "efbbace42e2133b3519ff9e2b5cd343be71e024ee57866df13c894e24cc927cf",
+    "runs/coupled-surface-v13/library/fem/2-0/complete.json": "5ea319e8cb811ff5d69af1460907acf38d8811c86b8236323f0df1ec29f6bc87",
+    "runs/coupled-surface-v13/library/fem/2-0/trajectory.npz": "432a4c6b56dee4aa541f445bc03a9161daccd3ccc2385a9e2846b03a0127eed4",
+    "runs/coupled-surface-v13/library/fem/2-1/complete.json": "0122e925422edf2514b3ac19f6f88a10bec2a3e800dd40379c0087e0349cc0b3",
+    "runs/coupled-surface-v13/library/fem/2-1/trajectory.npz": "f7fd1af8d3e1bc3186e19d525fbc81b13beee578c0178ada46a8ae35dde8986d",
+    "runs/coupled-surface-v13/library/fem/2-2/complete.json": "1d7de9906243806d1694a27c6689173a687edda2336fef446b0a3a7e9867533a",
+    "runs/coupled-surface-v13/library/fem/2-2/trajectory.npz": "e3c2e394342a2d17a1bb78057d91c07ffeaf755b096bb4618e173b9094791284",
+    "runs/coupled-surface-v13/library/fem/2-3/complete.json": "075465af950715556e84fb56fdefbe272b9f1f08de9968d0fbe6a4739af32b18",
+    "runs/coupled-surface-v13/library/fem/2-3/trajectory.npz": "c007379bb55999430373acb9e992a756aa7027dd37ee72799eba2270e1296484",
+    "runs/coupled-surface-v13/library/fem/2-4/complete.json": "40bacf5cc23e9c63e686c3065aa95e5120eb2e03a15d66baecadb07b05c8d092",
+    "runs/coupled-surface-v13/library/fem/2-4/trajectory.npz": "3404c9ceb10da76401ea223b04b4ed36ca5387d2326a09a3558e2e0b722a728f",
+    "runs/coupled-surface-v13/library/fem/3-0/complete.json": "22617b5f91866a337c0f8f0ec2c9d6c1d7d99f8395623548dab5150a4e881c7d",
+    "runs/coupled-surface-v13/library/fem/3-0/trajectory.npz": "4e6c4b0a72fb546b7b3fb8f68a7b529983ab8c22df22e9ba10cfe4bbe11f2826",
+    "runs/coupled-surface-v13/library/fem/3-1/complete.json": "22260c1b0fabdabf54ebadf19504b91c181bc689efb28b1ab4be388883cee211",
+    "runs/coupled-surface-v13/library/fem/3-1/trajectory.npz": "edcd7a60c2801894c74c39aa45c4d957d15f5cc04c56b5062e940642910e6496",
+    "runs/coupled-surface-v13/library/fem/3-2/complete.json": "9804c7df9d49a494992a2ea88892c9d4dd0f949f40933aae35cb948b356090b3",
+    "runs/coupled-surface-v13/library/fem/3-2/trajectory.npz": "4ab4062ef613060f5ce7129d5431efc144fc2660ca74a9b8b91de71645846a57",
+    "runs/coupled-surface-v13/library/fem/3-3/complete.json": "8620741b16337a0781337f736a8c106380148a7f5b421b129c07deec0526eda6",
+    "runs/coupled-surface-v13/library/fem/3-3/trajectory.npz": "14cb46140bea3d088adbd95ced423a572bd38e373eebe2d2526d85dcff522ec2",
+    "runs/coupled-surface-v13/library/fem/3-4/complete.json": "2d6997ab3f124c80a95e60a8e8c97c54492a5bf32cd3a0c40399f36a1eb60777",
+    "runs/coupled-surface-v13/library/fem/3-4/trajectory.npz": "aa8b348f085a4b57021a8257f8b094c810df51656fa23a93b0b72e10100032af",
+    "runs/coupled-surface-v13/library/fem/4-0/complete.json": "350754c818ce3aeda1a221b6c00120b404c6daa3d5fa45cdb89ae17ee0c4e31a",
+    "runs/coupled-surface-v13/library/fem/4-0/trajectory.npz": "f47f785ccd751fda674eca3b665797928c653d7f566826bd613a810eb494e30f",
+    "runs/coupled-surface-v13/library/fem/4-1/complete.json": "dbf36da225dc7e779e42e4a9bfd3414ebbf3cd7d823a871a7fabd66454e2772c",
+    "runs/coupled-surface-v13/library/fem/4-1/trajectory.npz": "13d754ca429e06586e20ca3893539935aa4ede8793ddea9c00be0a5766ed730f",
+    "runs/coupled-surface-v13/library/fem/4-2/complete.json": "eedcc7304dac758b68633880d56ddf575bf8182222fda28cf1700de39179f3a0",
+    "runs/coupled-surface-v13/library/fem/4-2/trajectory.npz": "c8ffb05010822cee98802f2e338c630f10c5c4300edb9451c6e5337d274b5062",
+    "runs/coupled-surface-v13/library/fem/4-3/complete.json": "ac20b625ebae30364da5df67ad717b75a999da3ca4e4de8a0965ee4f98bcb0c4",
+    "runs/coupled-surface-v13/library/fem/4-3/trajectory.npz": "75a627aba09e069c00aa71106423cf3dfc49504924deefff96d5e9769613b2a5",
+    "runs/coupled-surface-v13/library/fem/4-4/complete.json": "aaac03b3c4772b6eac93f0b59f69629a7a185cded57fdb47cad7d05396d02ab6",
+    "runs/coupled-surface-v13/library/fem/4-4/trajectory.npz": "0a74bf9bb39501b15a20b54d6ccc13b8c6070d6855f76e14da6be55d85dac4a5",
+    "runs/coupled-surface-v13/library/fem/5-0/complete.json": "1e01644ea087315f88ef67f27cd4108630282a7d24e580b0e6d54b76686798c9",
+    "runs/coupled-surface-v13/library/fem/5-0/trajectory.npz": "6c27940f72b769779c3f627c77d4ce09d25b3fef7f82c781825b698cf4e0fbb8",
+    "runs/coupled-surface-v13/library/fem/5-1/complete.json": "5dc9c73e0db56652bed7d2f72019a97ada553b56d91f7d546780f67f44d3b99b",
+    "runs/coupled-surface-v13/library/fem/5-1/trajectory.npz": "68e71c01dd810dbc420aece38b70bee231acbc2cbcdc5cc868f2b802faac43a3",
+    "runs/coupled-surface-v13/library/fem/5-2/complete.json": "15f83a6e0909d8e0bdcfb4f900e074aa6ef45572c95e632843413a2757474320",
+    "runs/coupled-surface-v13/library/fem/5-2/trajectory.npz": "2103166ac20441bdf1eb54c3d5652651de781467424eeb3f80c56aa8902e7585",
+    "runs/coupled-surface-v13/library/fem/5-3/complete.json": "ea48f42c8c6fd52621d6b2af3dd32b467a959a02c79ef55526691cdb3cc35e7f",
+    "runs/coupled-surface-v13/library/fem/5-3/trajectory.npz": "6bec2a8e1b6e4cab611294a71ce2445ca6b9f7b72534220e7be275c01bc23765",
+    "runs/coupled-surface-v13/library/fem/5-4/complete.json": "3fc5f4ef2605bdc6dc6b48cb15875fa7dec9f529665ad81d57ab2646db4bf889",
+    "runs/coupled-surface-v13/library/fem/5-4/trajectory.npz": "3cf30d9de7838b7dab75cbde35888da65083796a0a9566500c34583a3e3215ff",
+    "runs/coupled-surface-v13/library/fem/6-0/complete.json": "1632569d06b859e80f7a792f7637cf4d1370a524184df42f5ede5c0cf9939a2d",
+    "runs/coupled-surface-v13/library/fem/6-0/trajectory.npz": "55489391c9e69bf1cde948009344ed23681ce4e5df1d7b3742d4d6f705d4ff87",
+    "runs/coupled-surface-v13/library/fem/6-1/complete.json": "d005f976c0600c2077084caf446d3c92da8a5237009327650002643aca8ca0b6",
+    "runs/coupled-surface-v13/library/fem/6-1/trajectory.npz": "10ad47f716eee59c4789f7726c7a12d655d606036f5be4fbf31c4612f2be3bd0",
+    "runs/coupled-surface-v13/library/fem/6-2/complete.json": "a72322247c5bbfd0b8ec57393095b4408c68a004b638f76eb37ade8c03a3bf4a",
+    "runs/coupled-surface-v13/library/fem/6-2/trajectory.npz": "e0d3b919dafb281f5af1d92701fab2b3cb58a507873121af82c54f83265da128",
+    "runs/coupled-surface-v13/library/fem/6-3/complete.json": "449a887665f87597ee7c0a8fa62841ae96c5dcde874e3686fb752422424c452b",
+    "runs/coupled-surface-v13/library/fem/6-3/trajectory.npz": "592150faa9dc8c000db669bdf6fb690a94f633c84f5d16bce1fe0d5cf70dbb14",
+    "runs/coupled-surface-v13/library/fem/6-4/complete.json": "a2061d70029de3cb055b208a646188a1840b768461dff67debbe55bd711f4365",
+    "runs/coupled-surface-v13/library/fem/6-4/trajectory.npz": "ea63926ac25c2a163c46c22a11a702b98e7e199ef74e49529f8fb48b8b809ad9",
+    "runs/coupled-surface-v13/inference/surface_dev0/selection.json": "f337eb5d9f5cafa98c29ab78532fbe7c211f218ae555e36be2187e8912ee74cd",
+    "runs/coupled-surface-v13/inference/surface_dev0/observations.npz": "dc8f2044c1c17ff2db2d8ba637039851860eae5c441b16278d70af84f29b388c",
+    "runs/coupled-surface-v13/reference/surface_dev0/squeeze/trajectory.npz": "f4792007c0f29ce5e04df9acd03f1555dd097b06ac88096e854aedadac8bfb57",
+    "runs/coupled-surface-v13/inference/surface_dev1/selection.json": "a1a1210915c9300f496c89045afe4320d74f1602d940c1b9b8bc61a8368cf372",
+    "runs/coupled-surface-v13/inference/surface_dev1/observations.npz": "f79774b97d816b2359f9aefd0e8033eed1b98decafbfea0b2664f99aa489f7e5",
+    "runs/coupled-surface-v13/reference/surface_dev1/squeeze/trajectory.npz": "7d4df80019a011cc5d1f6f51746f7db01549c25a1cd984934ff00554cc4b4422"
+  },
+  "young_grid": [
+    2000.0,
+    3000.0,
+    4500.0,
+    6500.0,
+    9000.0,
+    13000.0,
+    18000.0
+  ],
+  "friction_grid": [
+    0.0,
+    0.2,
+    0.4,
+    0.6,
+    0.8
+  ],
+  "noise_std_mm": 0.1,
+  "cases": [
+    {
+      "object": "surface_dev0",
+      "true_development_young": 6000.0,
+      "true_development_friction": 0.35,
+      "noisy_ranking": [
+        {
+          "young": 6500.0,
+          "friction": 0.4,
+          "rmse_mm": 0.4274595147273642
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.4,
+          "rmse_mm": 0.5146270298113863
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.4,
+          "rmse_mm": 0.5539273557857554
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.6,
+          "rmse_mm": 0.5769460206876205
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.6,
+          "rmse_mm": 0.6063353724118298
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.6,
+          "rmse_mm": 0.6241156854805002
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.8,
+          "rmse_mm": 0.686341856369551
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.6,
+          "rmse_mm": 0.727871691279449
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.6,
+          "rmse_mm": 0.7595613206331723
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.8,
+          "rmse_mm": 0.76426930275995
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.4,
+          "rmse_mm": 0.7894099973461729
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.8,
+          "rmse_mm": 0.8097539435270428
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.8,
+          "rmse_mm": 0.8587260409731531
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.4,
+          "rmse_mm": 0.8796880967433193
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.8,
+          "rmse_mm": 0.9589980028771694
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.4,
+          "rmse_mm": 0.9930324832599026
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.6,
+          "rmse_mm": 1.0440750332593214
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.8,
+          "rmse_mm": 1.2570322545150325
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.2,
+          "rmse_mm": 1.844838505812088
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.4,
+          "rmse_mm": 1.8967603825589405
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.2,
+          "rmse_mm": 1.9531331537300969
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.6,
+          "rmse_mm": 2.0076113169104026
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.2,
+          "rmse_mm": 2.3037785203059418
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.8,
+          "rmse_mm": 2.3195495320464237
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.2,
+          "rmse_mm": 2.67351847072492
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.2,
+          "rmse_mm": 3.0413964322019416
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.0,
+          "rmse_mm": 3.4222900450038125
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.0,
+          "rmse_mm": 3.5359050531945697
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.0,
+          "rmse_mm": 3.5539977919593935
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.0,
+          "rmse_mm": 3.621356576456829
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.0,
+          "rmse_mm": 3.704180402731305
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.0,
+          "rmse_mm": 3.712056388283804
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.2,
+          "rmse_mm": 4.136285422488628
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.0,
+          "rmse_mm": 4.1486521556273495
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.2,
+          "rmse_mm": 5.352554850112661
+        }
+      ],
+      "noiseless_ranking": [
+        {
+          "young": 6500.0,
+          "friction": 0.4,
+          "rmse_mm": 0.4159243104302991
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.4,
+          "rmse_mm": 0.5046692764091967
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.4,
+          "rmse_mm": 0.545567364398764
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.6,
+          "rmse_mm": 0.5679764009519653
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.6,
+          "rmse_mm": 0.5971420241368226
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.6,
+          "rmse_mm": 0.6166043935669062
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.8,
+          "rmse_mm": 0.6782429453728558
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.6,
+          "rmse_mm": 0.7217809811446456
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.6,
+          "rmse_mm": 0.7536586070255429
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.8,
+          "rmse_mm": 0.757356113630763
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.4,
+          "rmse_mm": 0.7841472454681524
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.8,
+          "rmse_mm": 0.803852720020963
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.8,
+          "rmse_mm": 0.8536677484286339
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.4,
+          "rmse_mm": 0.8742985146084975
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.8,
+          "rmse_mm": 0.9544385354735997
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.4,
+          "rmse_mm": 0.9890700930981495
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.6,
+          "rmse_mm": 1.0404347170382298
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.8,
+          "rmse_mm": 1.2542968058242496
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.2,
+          "rmse_mm": 1.8434810102537913
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.4,
+          "rmse_mm": 1.8948890600531487
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.2,
+          "rmse_mm": 1.9513877638403343
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.6,
+          "rmse_mm": 2.005938376339068
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.2,
+          "rmse_mm": 2.3021385186277175
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.8,
+          "rmse_mm": 2.318633457046416
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.2,
+          "rmse_mm": 2.6728042710174362
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.2,
+          "rmse_mm": 3.0405966104049806
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.0,
+          "rmse_mm": 3.4215815655392903
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.0,
+          "rmse_mm": 3.5348726962462202
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.0,
+          "rmse_mm": 3.552935700710948
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.0,
+          "rmse_mm": 3.6206061207049016
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.0,
+          "rmse_mm": 3.703638585517064
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.0,
+          "rmse_mm": 3.7113176330962263
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.2,
+          "rmse_mm": 4.1360836993467185
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.0,
+          "rmse_mm": 4.1489902595319395
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.2,
+          "rmse_mm": 5.352332206089819
+        }
+      ],
+      "phase_diagnostic": {
+        "compression": {
+          "saved_frames": 17,
+          "best": {
+            "young": 6500.0,
+            "friction": 0.4,
+            "rmse_mm": 0.2512412227442711
+          },
+          "frozen_winner_rmse_mm": 0.2512412227442711
+        },
+        "shear": {
+          "saved_frames": 19,
+          "best": {
+            "young": 9000.0,
+            "friction": 0.4,
+            "rmse_mm": 0.383998474320762
+          },
+          "frozen_winner_rmse_mm": 0.42256694927462995
+        },
+        "release": {
+          "saved_frames": 25,
+          "best": {
+            "young": 6500.0,
+            "friction": 0.4,
+            "rmse_mm": 0.51692357464985
+          },
+          "frozen_winner_rmse_mm": 0.51692357464985
+        }
+      },
+      "best_stiffness_at_each_friction": [
+        {
+          "young": 9000.0,
+          "friction": 0.0,
+          "rmse_mm": 3.4222900450038125
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.2,
+          "rmse_mm": 1.844838505812088
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.4,
+          "rmse_mm": 0.4274595147273642
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.6,
+          "rmse_mm": 0.5769460206876205
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.8,
+          "rmse_mm": 0.686341856369551
+        }
+      ],
+      "selection_reconstructed": true
+    },
+    {
+      "object": "surface_dev1",
+      "true_development_young": 3000.0,
+      "true_development_friction": 0.1,
+      "noisy_ranking": [
+        {
+          "young": 9000.0,
+          "friction": 0.2,
+          "rmse_mm": 1.4983519989683804
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.0,
+          "rmse_mm": 1.523755234851118
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.2,
+          "rmse_mm": 1.5587931610097887
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.2,
+          "rmse_mm": 1.6290514358751844
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.0,
+          "rmse_mm": 1.6597348041237416
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.2,
+          "rmse_mm": 1.7238400574139838
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.0,
+          "rmse_mm": 1.769679483199453
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.2,
+          "rmse_mm": 1.7946736731738058
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.0,
+          "rmse_mm": 1.8667175668796747
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.0,
+          "rmse_mm": 1.886189621805965
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.0,
+          "rmse_mm": 1.967900291986907
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.2,
+          "rmse_mm": 1.9874564421340943
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.0,
+          "rmse_mm": 2.1134952805217506
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.8,
+          "rmse_mm": 2.547071614120087
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.6,
+          "rmse_mm": 2.675744694913366
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.4,
+          "rmse_mm": 2.691292823236564
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.2,
+          "rmse_mm": 2.958915796393554
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.8,
+          "rmse_mm": 3.001609859536654
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.4,
+          "rmse_mm": 3.0593427707010887
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.4,
+          "rmse_mm": 3.0595600043949243
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.4,
+          "rmse_mm": 3.215037388385637
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.6,
+          "rmse_mm": 3.2259327202547516
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.4,
+          "rmse_mm": 3.2413147983490633
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.4,
+          "rmse_mm": 3.2681526366135385
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.4,
+          "rmse_mm": 3.2802640356126935
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.6,
+          "rmse_mm": 3.5889835813699125
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.8,
+          "rmse_mm": 3.6173907340383447
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.6,
+          "rmse_mm": 3.7249907126392543
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.6,
+          "rmse_mm": 3.725697665370065
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.6,
+          "rmse_mm": 3.7440850413387556
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.6,
+          "rmse_mm": 3.7793549679563214
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.8,
+          "rmse_mm": 3.9152773249546398
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.8,
+          "rmse_mm": 3.9166829362788698
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.8,
+          "rmse_mm": 3.960282656397417
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.8,
+          "rmse_mm": 4.092896399450294
+        }
+      ],
+      "noiseless_ranking": [
+        {
+          "young": 9000.0,
+          "friction": 0.2,
+          "rmse_mm": 1.4949312417140421
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.0,
+          "rmse_mm": 1.5183814249456016
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.2,
+          "rmse_mm": 1.554573487381463
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.2,
+          "rmse_mm": 1.6244787921443753
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.0,
+          "rmse_mm": 1.6533318298280955
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.2,
+          "rmse_mm": 1.718784164300125
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.0,
+          "rmse_mm": 1.764881176607118
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.2,
+          "rmse_mm": 1.7905596914017914
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.0,
+          "rmse_mm": 1.8610291943552106
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.0,
+          "rmse_mm": 1.8814416598297088
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.0,
+          "rmse_mm": 1.9631132235760842
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.2,
+          "rmse_mm": 1.9863504259325817
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.0,
+          "rmse_mm": 2.1082959812047033
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.8,
+          "rmse_mm": 2.5442837402533813
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.6,
+          "rmse_mm": 2.6726064154010967
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.4,
+          "rmse_mm": 2.687902357334809
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.2,
+          "rmse_mm": 2.9591095051223646
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.8,
+          "rmse_mm": 2.9987592565966668
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.4,
+          "rmse_mm": 3.0562974209649463
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.4,
+          "rmse_mm": 3.056519528878093
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.4,
+          "rmse_mm": 3.2118088053099796
+        },
+        {
+          "young": 3000.0,
+          "friction": 0.6,
+          "rmse_mm": 3.222879420932124
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.4,
+          "rmse_mm": 3.238091150649898
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.4,
+          "rmse_mm": 3.264889106653852
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.4,
+          "rmse_mm": 3.2768894261002206
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.6,
+          "rmse_mm": 3.585682825689041
+        },
+        {
+          "young": 4500.0,
+          "friction": 0.8,
+          "rmse_mm": 3.614148296287192
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.6,
+          "rmse_mm": 3.7219921609078077
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.6,
+          "rmse_mm": 3.722553969707742
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.6,
+          "rmse_mm": 3.74117796499795
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.6,
+          "rmse_mm": 3.7765322364770557
+        },
+        {
+          "young": 18000.0,
+          "friction": 0.8,
+          "rmse_mm": 3.912395621932582
+        },
+        {
+          "young": 6500.0,
+          "friction": 0.8,
+          "rmse_mm": 3.913626054777828
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.8,
+          "rmse_mm": 3.9574293659527413
+        },
+        {
+          "young": 13000.0,
+          "friction": 0.8,
+          "rmse_mm": 4.090164840896618
+        }
+      ],
+      "phase_diagnostic": {
+        "compression": {
+          "saved_frames": 17,
+          "best": {
+            "young": 3000.0,
+            "friction": 0.2,
+            "rmse_mm": 0.34433911871021217
+          },
+          "frozen_winner_rmse_mm": 1.4641170400287817
+        },
+        "shear": {
+          "saved_frames": 19,
+          "best": {
+            "young": 2000.0,
+            "friction": 0.2,
+            "rmse_mm": 1.0927884113359156
+          },
+          "frozen_winner_rmse_mm": 1.5407136345966845
+        },
+        "release": {
+          "saved_frames": 25,
+          "best": {
+            "young": 9000.0,
+            "friction": 0.2,
+            "rmse_mm": 1.4886846797278428
+          },
+          "frozen_winner_rmse_mm": 1.4886846797278428
+        }
+      },
+      "best_stiffness_at_each_friction": [
+        {
+          "young": 3000.0,
+          "friction": 0.0,
+          "rmse_mm": 1.523755234851118
+        },
+        {
+          "young": 9000.0,
+          "friction": 0.2,
+          "rmse_mm": 1.4983519989683804
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.4,
+          "rmse_mm": 2.691292823236564
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.6,
+          "rmse_mm": 2.675744694913366
+        },
+        {
+          "young": 2000.0,
+          "friction": 0.8,
+          "rmse_mm": 2.547071614120087
+        }
+      ],
+      "selection_reconstructed": true
+    }
+  ],
+  "conclusion": "A stiffness/friction tradeoff and unresolved between-grid friction are supported by calibration losses. These diagnostics do not prove that finer friction alone improves future prediction; that requires a separately declared matched development experiment."
+}

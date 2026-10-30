@@ -1,0 +1,49 @@
+{
+  "timestamp_utc": "2026-10-30T21:29:55.092989+00:00",
+  "decision": "Approve separate prospective nested friction-grid secondary sensitivity study, pending implementation audit/freeze; no reserved forecast outcomes read.",
+  "development_primary": {
+    "expected": 6,
+    "metrics": {
+      "fem": {
+        "complete": 6,
+        "mean_mm": 15.064573874700116
+      },
+      "native": {
+        "complete": 4,
+        "mean_mm": 19.459173946639382
+      },
+      "rigid": {
+        "complete": 6,
+        "mean_mm": 10.41004077145375
+      },
+      "oracle": {
+        "complete": 6,
+        "mean_mm": 3.340698476472957
+      },
+      "persistence": {
+        "complete": 6,
+        "mean_mm": 57.3516429009185
+      },
+      "position_ridge": {
+        "complete": 6,
+        "mean_mm": 57.53362054511513
+      },
+      "position_rigid": {
+        "complete": 6,
+        "mean_mm": 57.51679658707488
+      }
+    }
+  },
+  "development_results_sha256": "bd7a390b4aa7853de79d73bfa403b40dd24e23a6b8264547a056353acfc7df59",
+  "independent_numerical_audit": "development-reference-quality-independent-audit.json:1853checks pass;8development forecast rows independently recomputed, selection reconstructed; primary6 rows selected only by frozen scenario list.",
+  "required_controls": [
+    "Preserve original frozen experiment and report both outcomes",
+    "Uniform mu0:.05:.8; same7E and all other observation/loss/physics settings",
+    "119FEM119native17rigid candidates; retained failures and coverage",
+    "Exact old trajectory reuse with parameter/index mapping and source/config/array hashes",
+    "No heldout target access in selection; no per-case best-of-old/new switching",
+    "Secondary study frozen before reserved outcome inspection",
+    "No matched fine-grid vertex comparison; no identifiability or uncertainty claim",
+    "6workers maximum alongside original12; original05:01:31UTC deadline unchanged"
+  ]
+}
