@@ -111,9 +111,54 @@ def annotations():
     return native_note, paired_note, expected_builder, expected_counts
 
 
+def outcome_notes(summary):
+    """Fixed-cohort interpretation only; never filter rows by reference quality."""
+    primary = summary['forecast_cohorts']['reserved']['primary']
+    stress = summary['forecast_cohorts']['reserved']['stress']
+    fem, rigid = (primary['methods'][key] for key in ('fem', 'rigid'))
+    shape_note = ''
+    if fem['complete'] == rigid['complete'] == primary['expected']:
+        fw, rw = fem['coordinate_mean_mm'], rigid['coordinate_mean_mm']
+        fs, rs = fem['shape_mean_mm'], rigid['shape_mean_mm']
+        if any(not math.isfinite(v) or v < 0 for v in (fw, rw, fs, rs)):
+            raise RuntimeError('Invalid interpretation metric')
+        shape_note = (f' Across all {primary["expected"]} primary cases, world error is {fw:.6f} mm for FEM versus {rw:.6f} mm for rigid contact; '
+            f'aligned shape error is {fs:.6f} versus {rs:.6f} mm, a difference of {rs-fs:.6f} mm. '
+            'World-motion gains must not be interpreted as evidence of a substantial deformation-prediction gain.')
+    else:
+        shape_note = ' Shape and world means have different completion coverage; no aggregate deformation-gain interpretation is made.'
+    native = primary['methods']['native']
+    paired = primary['fem_comparisons'].get('native')
+    native_note = (f' Native primary forecasts complete for {native["complete"]}/{native["expected"]}; its mean is conditional on those cases and must not be directly contrasted with a different FEM cohort. ')
+    if paired:
+        native_note += (f'On the {paired["pairs"]} completed matched pairs, FEM wins {paired["wins"]}, loses {paired["losses"]} and ties {paired["ties"]}; '
+            f'the mean paired world-error reduction is {paired["mean_gain_mm"]:.6f} mm. ')
+    else:
+        native_note += 'No completed matched native comparison is available. '
+    native_note += f'Native stress forecasts complete for {stress["methods"]["native"]["complete"]}/{stress["expected"]}.'
+    stress_note = (f' Fresh joint calibration/forecast numerical checks pass for {stress["reference_qualified"]}/{stress["expected"]} stress cases, '
+        f'compared with {primary["reference_qualified"]}/{primary["expected"]} primary cases. These flags do not alter either fixed denominator.')
+    return {'shape_scope': shape_note, 'native_pairs': native_note, 'stress_quality': stress_note}
+
+
+def add_outcome_note(value, notes, counts):
+    prefixes = {'shape_scope': 'World error measures positions in the shared scene.',
+                'native_pairs': "Rigid contact fits friction while suppressing deformation.",
+                'stress_quality': 'The drop family remains development-unqualified'}
+    for key, prefix in prefixes.items():
+        if value.startswith(prefix):
+            counts[key] += 1
+            value += notes[key]
+    return value
+
+
 def main():
     native_note, paired_note, expected_builder, expected_counts = annotations()
-    extra_hashes = {name: digest(REPORT/name) for name in EXTRAS}
+    extra_hashes = {name: digest(REPORT/name) for name in EXTRAS + ['summary.json']}
+    summary = json.loads((REPORT/'summary.json').read_text())
+    notes = outcome_notes(summary)
+    note_counts = {key: 0 for key in notes}
+    expected_notes = {'shape_scope': 1, 'native_pairs': 1, 'stress_quality': int(bool(summary['forecast_cohorts']['reserved']['stress']['expected']))}
     wrapper_hash = digest(Path(__file__))
     spec = importlib.util.spec_from_file_location('_surface_report_frozen_private', BUILDER)
     module = importlib.util.module_from_spec(spec)
@@ -133,11 +178,12 @@ def main():
         if expected_counts['rigid_unavailable'] and value.startswith('World error measures positions in the shared scene.'):
             counts['rigid_unavailable'] += 1
             value += paired_note
+        value = add_outcome_note(value, notes, note_counts)
         return original_p(value, style)
 
     class GuardedDocument(original_document):
         def build(self, *args, **kwargs):
-            if counts != expected_counts:
+            if counts != expected_counts or note_counts != expected_notes:
                 raise RuntimeError('Annotation insertion counts differ: '+repr(counts))
             if digest(BUILDER) != expected_builder:
                 raise RuntimeError('Frozen builder changed during preparation')
@@ -146,7 +192,7 @@ def main():
     module.p = annotated_p
     module.SimpleDocTemplate = GuardedDocument
     module.main()  # Includes all original audit/video/fixed-cohort validation.
-    if counts != expected_counts or digest(BUILDER) != expected_builder or digest(Path(__file__)) != wrapper_hash:
+    if counts != expected_counts or note_counts != expected_notes or digest(BUILDER) != expected_builder or digest(Path(__file__)) != wrapper_hash:
         raise RuntimeError('Builder/wrapper provenance changed during report build')
     if any(digest(REPORT/name) != expected for name, expected in extra_hashes.items()):
         raise RuntimeError('Auxiliary report changed during build')
@@ -155,9 +201,9 @@ def main():
     if provenance['builder_sha256'] != expected_builder:
         raise RuntimeError('Frozen builder provenance mismatch')
     provenance['annotation_wrapper'] = dict(path=str(Path(__file__).relative_to(ROOT)), sha256=wrapper_hash,
-        insertion_counts=counts, expected_insertion_counts=expected_counts, extra_artifact_sha256=extra_hashes,
+        insertion_counts=counts, expected_insertion_counts=expected_counts, outcome_note_counts=note_counts, expected_outcome_note_counts=expected_notes, outcome_notes=notes, extra_artifact_sha256=extra_hashes,
         auxiliary_script_sha256={name: digest(ROOT/'scripts/coupled_contact_v13'/name) for name in ['library_coverage_audit.py', 'surface_cluster_intervals.py']},
-        amendment='Reporting-only actual calibration coverage and descriptive object-cluster interval; no cohort, metric, simulation, or selection change')
+        amendment='Reporting-only actual calibration coverage, descriptive object-cluster interval, world/shape distinction, paired native coverage and fresh stress qualification; no cohort, metric, simulation, or selection change')
     temporary = path.with_suffix('.annotated.tmp')
     temporary.write_text(json.dumps(provenance, indent=2)+'\n')
     temporary.replace(path)

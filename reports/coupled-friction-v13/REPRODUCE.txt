@@ -1,0 +1,54 @@
+SECONDARY FRICTION-GRID STUDY: REPRODUCTION AND LOCAL EVIDENCE
+
+This is a separately frozen secondary search-budget study. It retains the
+original physical solver, observations, parameter loss, geometry, timestep,
+evaluation metrics and fixed cohorts. It changes the friction grid to 17
+uniform values from 0 to 0.8 in steps of 0.05. Seven FEM Young-modulus values
+and seven native spring scales remain unchanged. Do not select whichever
+coarse/fine result is better on each held-out case.
+
+Protocol: protocol.json
+Source inventory: method-freeze.json (82 files)
+Independent approval before execution: prefreeze-audit.json
+Parent study: ../coupled-surface-v13/
+Dependencies and upstream reconstruction: ../coupled-surface-v13/REPRODUCE.txt
+
+The calibration library has 255 attempted candidates: 119 FEM, 119 adapted
+native spring-core and 17 rigid. Of these, 75 are exact parent-library reuses
+and 180 require new simulations. Failed candidates remain part of coverage.
+Each split reuses the parent's position observations and reference trajectories
+with recorded hashes. Oracle forecasts are also reused exactly. The native
+comparison is the authors' spring-force core in this shared scene/contact
+solver; it is not the full PhysTwin reconstruction pipeline.
+
+The historical execution order, from the repository root, is:
+
+  runs/phystwin-env/bin/python scripts/coupled_contact_v13/fine_grid_pipeline.py library --workers 6
+  runs/phystwin-env/bin/python scripts/coupled_contact_v13/fine_grid_pipeline.py evaluate --split development --workers 6
+  runs/phystwin-env/bin/python scripts/coupled_contact_v13/fine_grid_pipeline.py evaluate --split reserved --workers 6
+  runs/phystwin-env/bin/python scripts/coupled_contact_v13/fine_grid_report.py
+  runs/phystwin-env/bin/python scripts/coupled_contact_v13/fine_grid_verify.py
+  runs/phystwin-env/bin/python scripts/coupled_contact_v13/fine_grid_report.py
+  runs/phystwin-env/bin/python scripts/coupled_contact_v13/fine_grid_render.py
+
+These commands document the campaign; they are not an instruction to restart
+it. The frozen simulation driver intentionally enforces the original absolute
+deadline, 2026-10-31T05:01:31Z, and fixed run destinations. Do not change frozen
+sources or the deadline to make these commands run later. A fresh complete
+study needs a separately bounded replay orchestrator, which is not supplied
+by this campaign. The parent's single-job replay tool does not replay this
+secondary grid or its parameter-selection procedure.
+
+The complete local evidence resides in runs/coupled-friction-v13/ and depends
+on runs/coupled-surface-v13/. References and reused artifacts may be symlinks;
+copying the fine directory alone does not produce an independent archive.
+Raw trajectories and observations stay local by user instruction. Published
+protocols, scripts, derived scores and audits do not substitute for those raw
+inputs when independently recomputing selection or forecast errors.
+
+Final numerical verification must require every declared candidate, all fixed
+forecast cases, parent reuse hashes, frozen sources, and independent saved-array
+metric reconstruction. Development-only audits do not establish reserved-test
+completion. Videos and PDFs additionally require visual review. Consult the
+final verification and publication records for which stages actually completed;
+this reproduction document itself makes no completion or improvement claim.

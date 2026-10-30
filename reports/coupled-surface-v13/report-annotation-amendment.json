@@ -7,11 +7,14 @@
   },
   "wrapper": {
     "path": "scripts/coupled_contact_v13/build_surface_report_annotated.py",
-    "sha256": "27e702737a9b430efdd448a701ab713e9c4f34f7b25670aba9972ab2c8a7dfac"
+    "sha256": "e0c3abe076244b49da946a005a5abf794aab9ac2efd2cc9fb344e4aac1e79ccf"
   },
   "changes": [
     "Append actual FEM/native/rigid calibration-library valid and failed counts to matched-baseline paragraph",
-    "Append descriptive95percent object-cluster interval to primary FEM-versus-rigid paired paragraph"
+    "Append descriptive95percent object-cluster interval to primary FEM-versus-rigid paired paragraph",
+    "Explicit world versus aligned-shape interpretation from fixed primary means",
+    "Matched-pair native comparison and primary/stress completion denominators",
+    "Fresh stress and primary numerical qualification counts without filtering"
   ],
   "unchanged": [
     "Cohort membership",
@@ -22,9 +25,15 @@
   ],
   "required_inputs": [
     "library-coverage-audit.json",
-    "primary-cluster-intervals.json"
+    "primary-cluster-intervals.json",
+    "summary.json"
   ],
   "guard": "Require one native annotation and exactly one paired annotation or unavailable-interval fallback before PDF build; verify source/artifact digests; record wrapper and auxiliary hashes in paper-build.json",
   "execution_status": "Not executed; independent review and final render/visual QA required",
-  "independent_review": "Protocol auditor approved reporting-only approach and zero/absent-pair handling; contributing-object and valid-resample counts included as suggested"
+  "independent_review": "Updated outcome annotations awaiting independent auditor review",
+  "focused_test": {
+    "path": "tests/test_surface_report_outcome_notes_v13.py",
+    "sha256": "5dc23ba0b9a16d8dee76ed1308a61908b7d5cd27ba45debc7db23b142c3824d1",
+    "result": "1 passed in 0.09s; no PDF authoring"
+  }
 }
