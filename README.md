@@ -7,9 +7,24 @@ explicit rigid contact. Geometry and gravity are known; measured forces are
 not predictor inputs. The fixed reserved evaluation contains 24 primary
 forecasts and eight sharp-edge drop stress cases. The latter remain numerically
 unqualified and are reported separately, including failures.
-The original comparison is frozen and running. A separately frozen
+The original comparison is complete and independently audited: primary mean
+world error is 5.155 mm for fitted FEM versus 6.823 mm for rigid contact,
+with 20 wins in 24 cases. Aligned shape error is essentially tied
+(0.973 versus 0.975 mm), and fixed nominal FEM slightly improves on fitted
+FEM's world mean (5.073 mm). Numerical reference checks pass for 22 of the
+24 primary cases; every case remains counted. See the
+[four-page report](papers/coupled-surface-v13/report.pdf),
+[all results](reports/coupled-surface-v13/RESULTS.txt), and the fixed videos:
+[curved contact](reports/coupled-surface-v13/surface_test0-curved.mp4),
+[moving rigid body](reports/coupled-surface-v13/surface_test3-moving_sphere.mp4),
+[unqualified drop stress](reports/coupled-surface-v13/surface_test7-edge_drop.mp4).
+The [motion audit](reports/coupled-surface-v13/reference-motion-audit.json)
+finds 1.55 mm deformation during reserved calibration, but only 0.87 mm during
+primary forecasts (1.92% of world-motion RMS). Forecast motion remains mainly
+rigid; that RMS ratio is not a variance fraction.
+A separately frozen
 [finer-friction study](reports/coupled-friction-v13/STUDY-NOTES.txt) tests a
-development fitting error with matched baseline search grids. Neither study
+development fitting error with matched baseline search grids and is still running. Neither study
 currently establishes calibrated uncertainty, active-probing superiority or
 improvement on the official public benchmarks. See the
 [evidence boundaries](reports/coupled-surface-v13/PAPER-CLAIM-BOUNDARIES.txt)
