@@ -10,7 +10,9 @@ from scripts.external_benchmark.evaluate import baselines,expand_prediction,scor
 def evaluate(data):
     fit_end=data['train_end'];end=len(data['times']);predictions=baselines(data,fit_end)
     paths={};missing=[];diagnostics={}
-    for tag,method in [('primary','material_world_fem'),('primary-no-field','no_world_potential_fem')]:
+    variants=[('primary','material_world_fem'),('primary-no-field','no_world_potential_fem')]
+    if data['dataset']=='SoftVTBench':variants += [('adaptive','adaptive_material_world_fem'),('adaptive-no-field','adaptive_no_world_potential_fem')]
+    for tag,method in variants:
         folder=BASE/'fits'/tag/data['name'];path=folder/'prediction.npz'
         if path.exists():
             predictions[method]=expand_prediction(data,np.load(path)['predicted']);paths[method]=dict(path=str(path.relative_to(ROOT)),sha256=sha256(path))
@@ -33,7 +35,9 @@ def evaluate(data):
             segments[label]={method:score(data,pred,fit_end,end,selected) for method,pred in predictions.items()}
     # Quantify actual deformation independently of prediction success.
     deformation=score(data,np.broadcast_to(data['evaluation']['points'][0],data['evaluation']['points'].shape),fit_end,end)['summary']['aligned_shape_rmse_mm']
-    return dict(name=data['name'],dataset=data['dataset'],interval=[fit_end,end],initial_nodes=len(data['nodes']),results=results,segments=segments,missing=missing,prediction_files=paths,fit_diagnostics=diagnostics,actual_nonrigid_shape_rmse_mm=deformation)
+    controls=data['controls'].reshape(end,-1);lo=controls[:fit_end].min(0);hi=controls[:fit_end].max(0)
+    outside=((controls[fit_end:]<lo-.001)|(controls[fit_end:]>hi+.001)).any(1)
+    return dict(control_outside_prefix_box_fraction=float(outside.mean()),name=data['name'],dataset=data['dataset'],interval=[fit_end,end],initial_nodes=len(data['nodes']),results=results,segments=segments,missing=missing,prediction_files=paths,fit_diagnostics=diagnostics,actual_nonrigid_shape_rmse_mm=deformation,nonrigid_to_total_motion_ratio=deformation/max(results['persistence']['summary']['coordinate_rmse_mm'],1e-12))
 
 def summarize(rows,segment=None):
     methods=sorted(set(m for row in rows for m in (row['results'] if segment is None else row['segments'].get(segment,{}))))
@@ -65,7 +69,7 @@ def main():
         if dataset=='SoftVTBench':
             for segment in ['held_grasp','released']:summaries[dataset][segment]=summarize(selected,segment)
     result=dict(created_utc=datetime.now(timezone.utc).isoformat(),partial=a.partial,aggregation='Equal weight per sequence; frame means within each sequence. Errors conditional on numerically valid frames; failures and missing jobs retained explicitly. No confidence claims from correlated frames.',summaries=summaries,sequences=rows,job_status=statuses)
-    write_json(REPORT/('partial-results.json' if a.partial else 'results.json'),result)
+    write_json((BASE/'partial-results.json') if a.partial else (REPORT/'results.json'),result)
     print(json.dumps(summaries,indent=2))
 
 if __name__=='__main__':main()

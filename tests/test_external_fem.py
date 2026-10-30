@@ -74,3 +74,17 @@ def test_observation_projection_preserves_affine_motion():
     transform=np.array([[1.1,.2,0],[.1,.8,-.1],[0,.1,1.2]])
     displacement=nodes@transform+np.array([.04,-.02,.1])-nodes
     assert np.allclose(points+A@displacement,points@transform+[.04,-.02,.1])
+
+
+def test_cpu_gpu_equilibrium_and_adjoint_agree():
+    import pytest
+    if not torch.cuda.is_available():pytest.skip('CUDA unavailable')
+    results=[]
+    for device in ['cpu','cuda:0']:
+        model=ExternalFEM(fixture(),device=device)
+        theta=model.t([-5,2,3,.1,.2]).requires_grad_()
+        prediction=model.predict(theta,0)
+        gradient,=torch.autograd.grad((prediction**2).sum(),theta)
+        results.append((prediction.detach().cpu().numpy(),gradient.detach().cpu().numpy()))
+    assert np.allclose(results[0][0],results[1][0],rtol=1e-7,atol=1e-9)
+    assert np.allclose(results[0][1],results[1][1],rtol=1e-6,atol=1e-9)

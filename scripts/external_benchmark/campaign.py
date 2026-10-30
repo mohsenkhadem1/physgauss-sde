@@ -27,7 +27,7 @@ def commands():
     return jobs
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--worker',required=True);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--worker',required=True);p.add_argument('--cpu-fem',action='store_true');a=p.parse_args()
     manifest=REPORT/'frozen-protocol.json'
     if not manifest.exists():raise RuntimeError('Freeze protocol before running reserved cases')
     jobs=json.loads(manifest.read_text())['jobs'];queue=BASE/'primary-jobs';queue.mkdir(exist_ok=True,parents=True)
@@ -36,9 +36,10 @@ def main():
         with (queue/'lock').open('w') as lock:
             fcntl.flock(lock,fcntl.LOCK_EX)
             for index,item in enumerate(jobs):
+                if a.cpu_fem and not item['command'][1].endswith('/fit.py'):continue
                 status=queue/f'{index:03}.json'
                 if status.exists():continue
-                job=item;state=dict(index=index,worker=a.worker,name=job['name'],command=job['command'],state='running',started_utc=datetime.now(timezone.utc).isoformat())
+                job=dict(item);job['command']=item['command']+(['--device','cpu'] if a.cpu_fem else []);state=dict(index=index,worker=a.worker,name=job['name'],command=job['command'],state='running',started_utc=datetime.now(timezone.utc).isoformat())
                 write_json(status,state);break
         if job is None:break
         log=queue/f'{index:03}.log';print('START',index,job['name'],flush=True)

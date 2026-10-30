@@ -62,7 +62,7 @@ prefixes match, but optimization schedules and representations differ.
 Reproduction
 ------------
 1. From repository root, run bash scripts/phystwin/setup.sh to create the existing
-   pinned PhysTwin environment and headless imports. Add h5py==3.16.0 to that
+   pinned PhysTwin environment and headless imports. Install scripts/external_benchmark/requirements.txt in that
    environment. Requirements are in scripts/phystwin/requirements.txt; recorded
    environment: Python 3.10, torch 2.4.0+cu121, numpy 1.26.4, scipy 1.15.3,
    warp-lang 1.6.2. Original PhysTwin revision:
@@ -85,7 +85,7 @@ Reproduction
 5. After all jobs finish, run scripts/external_benchmark/aggregate.py. It verifies
    frozen prediction/scoring source hashes, scores all 43 selected sequences and
    keeps failures and missing jobs explicit. CPU tests:
-   OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python -m pytest
+   OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 runs/phystwin-env/bin/python -m pytest
    tests/test_external_fem.py -q
 6. render.py makes shared-scale actual/predicted point-cloud videos. These are
    geometry playbacks, not raw camera videos or photorealistic Gaussian renders.
@@ -104,7 +104,6 @@ Sources
 https://softvtbench.github.io/
 https://github.com/TuojingAI/SoftVTBench
 https://huggingface.co/datasets/Arthur12137/SoftVTBench
-https://jianghanxiao.github.io/phystwin-web/
 https://github.com/Jianghanxiao/PhysTwin
 https://huggingface.co/datasets/Jianghanxiao/PhysTwin
 Data and upstream code retain their original licenses and attribution.

@@ -14,3 +14,25 @@ the FIRST start with a valid prefix solve, never held-out loss. All subsequent
 fitting uses the same original observed-prefix objective. This policy applies to
 all matching failures in the selected cohort. It does not replace completed fits
 or select runs using prediction accuracy. Failed starts/reruns remain reported.
+
+Execution-only addition: two CPU workers may claim unstarted FEM jobs from the
+same fixed queue. Their command records append --device cpu; model, split,
+optimizer and budget stay identical. CPU/GPU equilibrium and implicit-gradient
+agreement passed before enabling these workers. Assignment is by queue order,
+not prediction quality. Native PhysTwin remains on authorized GPUs 0-2.
+
+The repair queue was subsequently parallelized over three CPU workers with
+exclusive job claims. One active repair (job 27) was interrupted during this
+supervisor change and restarted from the same declared initial-start policy. Its
+interrupted log is retained. No held-out score selected the restart or device.
+
+Release integration refinement (separate secondary predictions): fixed-step
+release integration reached the 80-iteration nonlinear solve limit on some
+frames. adaptive_prediction.py preserves every fitted parameter and the frozen
+energy/solver tolerances. For a released frame it tries 5 substeps, then 10, 20,
+40, 80, 160 only if a nonlinear solve fails. Each retry rolls back the entire
+frame's state and velocity. The first numerically valid subdivision is retained;
+future target geometry and errors never choose it. This same policy runs on ALL
+40 SoftVTBench episodes, for both full and ablated FEM. Original fixed-step
+predictions remain separate. Subdivision logs and any remaining failures are
+reported. These are post-freeze numerical refinements, not new fitted models.
