@@ -1,0 +1,69 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.9in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,graphicx,hyperref}
+\title{Object Frames and Explicit Static Contact for Position-Driven Deformation Prediction\\\large An isolated extension to the preserved v11 benchmarks}
+\author{Research campaign working addendum}
+\date{October 2026}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We investigate whether separating rigid pose from shape and supplying explicit environmental contact geometry improves position-driven forecasts on SoftVTBench and PhysTwin. The extension retains the earlier finite-element model and adds corrections estimated only from an observed prefix. On SoftVTBench, a reduced contact integrator predicts free pose after release or prefix-detected detachment, using initial static scene meshes. This implementation freezes shape at separation; it does not solve coupled deformable contact. Evaluation preserves the original results and adds predeclared sequences not used for model development. All numerical claims below are generated from the final scored results, with missing outputs and failures accounted for explicitly.
+\end{abstract}
+
+\section{Problem and relation to the preserved model}
+The predictor receives initial object geometry, a prefix of tracked positions, and prescribed future tool positions. It does not receive future object positions, true material labels, measured forces, or simulator contact impulses. Future tool motion is a supplied intervention rather than a quantity the model must forecast. The task is therefore conditional geometric forecasting, not autonomous manipulation-policy evaluation or a complete RGB-to-physics reconstruction pipeline.
+
+The v11 model separates material-reference elastic response from external world-coordinate effects. Its source, observations, results, and numerical qualifications remain unchanged. This addendum evaluates an extension alongside that frozen model; it does not replace previous tables with revised scores. In particular, empirical motion correction is not interpreted as identification of a physical material or a calibrated posterior.
+
+\section{Object-frame representation}
+A useful representation for body $i$ is
+\begin{equation}
+ x_i(X,t)=R_i(t)\bigl[X+u_i(X,t)\bigr]+p_i(t),\qquad R_i(t)\in SO(3),
+\end{equation}
+where $X$ denotes material coordinates, $R_i,p_i$ represent rigid motion, and $u_i$ represents deformation. Rigid bodies have $u_i=0$. The implementation uses the equivalent row-vector convention. We remove the best-fit rigid component by proper Kabsch alignment so that the deformation correction cannot independently duplicate translation and rotation.
+
+The present adapter operates on a previously fitted FEM trajectory. A pose correction aligns the last valid observed attached shape in the moving controller frame and transports that correction with the supplied controls. This preserves the inherited FEM shape at each corrected frame. An optional bounded ridge residual uses controller-relative features and gravity orientation to predict remaining local geometric discrepancy. Its nodal correction is projected to remove the best-fit rigid mode. The initial predicted geometry is retained for the original marker-correspondence convention.
+
+\section{Prefix-only selection}
+For each sequence, the observed prefix is divided chronologically into an earlier 70\% fit segment and a later 30\% validation segment. The FEM is fitted separately on the earlier segment; grasp calibration and attachment geometry are recomputed using that same segment. The correction candidates are the unchanged trajectory and pose or residual corrections at strengths $0.25$, $0.5$, and $1$. A candidate must reduce validation coordinate RMSE by at least 2\% relative to the matched unchanged prediction. The selected correction is then recalibrated on the full permitted prefix and the corresponding full-prefix FEM fit.
+
+The validation target is observed-prefix data only. Final future targets never select the adapter. The unchanged-model option is a validation safeguard, not a per-test oracle: it does not guarantee a future-error improvement. A separate pose-only baseline isolates the effect of observed-prefix pose correction from the empirical shape residual. The controller/geometry calibration must be repeated for the shortened prefix; merely truncating observation arrays after full-prefix calibration would leak validation information.
+
+\section{Reduced environmental contact}
+SoftVTBench supplies initial rigid-object poses. We combine these with public asset meshes for supported static scene objects and rasterize layered vertical surface intersections at 2\,mm spacing. Target-linked tactile proxies and future rigid-object states are excluded. These scene meshes are privileged extra inputs relative to the original v11 interface, so the comparison includes a geometry-matched rigid predictor and a floor-only ablation.
+
+A prefix-only kinematic diagnostic distinguishes evidence of stationary detachment from commanded attachment: the tool must move appreciably while the observed object responds weakly and disagrees with the held-motion hypothesis. Ambiguous cases retain the commanded assumption. This diagnostic does not estimate friction or infer all possible slipping states.
+
+At free-motion initialization, predicted nodes are rigidly aligned to the permitted final observations, and position differences initialize linear and angular velocity. The primary contact policy uses 80 substeps per frame, gravity, zero restitution, and Coulomb-limited impulses with friction coefficient $0.5$. A vertical position projection removes residual penetration of represented support surfaces. These settings were fixed before reserved evaluations.
+
+\paragraph{Scope.}
+This is a split model: FEM supplies shape during held motion; rigid pose integration handles free motion and support. Shape is frozen at separation. Contact impulses do not feed back into an elastic solve. Layered heightfields omit vertical-wall collisions and general undercuts; scene bodies remain static. Thus this benchmark does not establish two-way multi-body dynamics, contact-induced elastic deformation, or guaranteed collision-free integration. Separate coupled-physics qualification experiments, if reported, are diagnostics and are not substituted for these benchmark predictions.
+
+\section{Evaluation protocol}
+Development uses SoftVTBench task~0 episodes~0--9 from each of two suites and PhysTwin \texttt{single\_lift\_sloth}. The preserved regression cohort comprises 40 SoftVTBench episodes (tasks~1--2, episodes~0--9, both suites) and the three previously examined PhysTwin sequences. The independent confirmation cohort comprises the next 40 SoftVTBench episodes (episodes~10--19) and PhysTwin \texttt{single\_lift\_zebra} and \texttt{double\_lift\_sloth}. Confirmation membership was fixed before downloading the two new PhysTwin cases and before prediction-error inspection. These are additional trajectories of known object categories, not proof of unseen-category generalization.
+
+SoftVTBench uses complete initial nodal geometry, the same 48 sparse tracked prefix nodes as v11, a 60\% observed prefix, and a 40\% forecast suffix. PhysTwin retains the authors' processed observations, controller trajectories, and original split. The fixed primary methods are the scene-contact/state variant for SoftVTBench and the prefix-selected object-frame adapter for PhysTwin. Other variants remain ablations.
+
+The full forecast suffix is primary. SoftVTBench reports coordinate RMSE; PhysTwin reports the original manual-marker mean error. These different metrics are not pooled. Sequence means receive equal weight within each dataset. Rigid-aligned shape error, individual sequences, task groups, failed frames, and missing comparisons accompany the mean. A commanded-release phase is defined by inputs, not by actual future slipping or prediction quality. SoftVTBench's repeated episodes cover two main pastry assets across four task/suite groups; they are not independent object categories.
+
+\section{Results}
+\IfFileExists{generated-results.tex}{\input{generated-results.tex}}{\noindent Final result tables have not yet been generated. No placeholder numeric outcome is claimed.}
+
+\section{Interpretation and limitations}
+An improvement over v11 would support explicit pose/contact modeling for these specified forecasts. It would not, by itself, establish correct material inference: SoftVTBench trajectories can be dominated by rigid motion, so a geometry-matched rigid baseline is important. The official PhysTwin reference is distinguished from the locally adapted PhysTwin SoftVTBench baseline. Regression sequences were previously inspected; only the predeclared additional cohort provides independent confirmation for this extension.
+
+We retain failures and per-sequence regressions rather than replacing them with favorable clips. Numerical finiteness does not imply time-step convergence. The study makes no claim of calibrated uncertainty, superior active probing, or state-of-the-art performance. Extending the reduced static-contact mechanism to deformable contact and movable interacting bodies remains a separate modeling step.
+
+A post-freeze topology audit found that empirical residual corrections can invert tetrahedra even when their inherited FEM trajectories remain admissible. The frozen results therefore describe point-geometry prediction, not physically admissible elastic states. A separately declared feasibility extension checks the original FEM elements and constrains corrections before contact integration; its outcomes must be reported separately from these preserved results.
+
+\paragraph{Reproducibility.}
+The campaign publishes frozen method hashes, input provenance, independent input-isolation tests, complete per-frame metric archives, model-selection metadata, and actual-versus-predicted geometry videos. Raw datasets and checkpoints remain local. The earlier paper directories and v11 evidence are preserved.
+
+\section{Separate post-audit feasibility extension}
+A later mesh audit detected inverted inherited tetrahedra in some residual-corrected v12 trajectories. The preceding frozen method and its geometric scores remain archived; low geometric error does not make those trajectories mechanically feasible. A separate deterministic guard uses the original reference tetrahedra and signed volume ratios $J$. It backtracks the residual toward a rigidly aligned inherited FEM shape with a fixed coefficient schedule, requiring $J>0.03+10^{-8}$ before subsequent contact and velocity computation. This is a local saved-frame geometry safeguard, not an equilibrium solve or a continuous-time injectivity guarantee. Correction-induced velocity and acceleration changes are reported.
+
+Re-evaluation of the original 106 sequences is explicitly post-audit secondary evidence. A separate 42-sequence cohort was declared before fetching its new PhysTwin data: SoftVTBench tasks 1--2, episodes 20--29 in both suites, and PhysTwin single-push sloth and double-lift zebra. These are new trajectories of known categories. The same frozen inference budgets and strong baselines are retained, including common scene postprocessing. No repaired-versus-original outcome is selected by future error.
+\IfFileExists{generated-feasibility-results.tex}{\input{generated-feasibility-results.tex}}{\noindent Feasibility-extension result tables are pending; no numeric outcome is claimed.}
+
+\end{document}

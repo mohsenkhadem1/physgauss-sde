@@ -1,0 +1,103 @@
+FINAL IMPLEMENTATION AUDIT — FROZEN v12 PRIMARY METHOD
+
+Scope and independence
+This review checks input isolation, frozen source integrity, failure handling,
+and physical interpretations of the saved regression predictions. It does not
+select model settings using benchmark errors. No frozen primary source was
+changed. Untouched-confirmation execution was still in progress during review;
+its final completion and metric accounting belong to final-audit.json.
+
+Source and test checks
+All 14 SHA256 entries in method-freeze.json match their current files, including
+input adapters, primary predictors, FEM/base runners, and scoring code.
+40 tests pass across object-frame, prefix isolation, input isolation, static
+scene, reduced rollout, nested temporal resolution, and elastic-scene modules.
+Test output: runs/contact-benchmark-v12/final-model-audit-tests.txt.
+
+Information boundaries
+The primary prediction entry rejects an evaluation dictionary in either full
+or validation payload. Object-frame calibration uses only allowed observed
+positions and future prescribed controls. Candidate validation receives a
+separately fitted shortened-prefix FEM and recalibrated shortened payload;
+reserved prefix targets are used only for selection scoring. The selected
+adapter is then recalibrated using the full allowed prefix.
+
+SoftVT scene construction reads initial rigid poses and public asset geometry;
+future rigid trajectories, material labels, force readings and future target
+geometry are not predictor inputs. Poisoning tests cover those boundaries.
+Using explicit scene geometry is extra information relative to the old v11
+method, so the rigid_scene_state baseline is necessary for a fair comparison.
+
+Failure behavior
+Active-frame nonfinite FEM predictions cause object-frame adaptation to reject
+rather than fit around missing frames. Inactive inherited failures remain NaN
+and are listed in metadata; a successful independent free-motion contact rollout
+may replace them. Failed validation predictions receive infinite error, not
+silent frame omission. The main experiment retains the inherited prediction
+when calibration/contact construction fails and records unavailability.
+
+The scorer reports failed-frame counts alongside errors over valid frames. A
+conditional valid-frame error must not be described as complete-cohort accuracy
+without its completion count. The planned final verifier compares archived
+prediction finiteness with those counts. Retaining a failed base as fallback
+preserves accounting, not guaranteed accurate prediction.
+
+What "preserving deformation" does and does not mean
+The pose-reset adapter is a rigid transformation of each inherited FEM shape;
+pairwise distances are preserved. The residual adapter intentionally CHANGES
+shape using a learned, bounded local displacement correction. It removes a
+best-fit rigid component but imposes no elastic equilibrium or element-volume
+constraint. Thus it cannot be described as preserving the FEM's physical
+admissibility merely because it is expressed in material/object coordinates.
+
+The primary reduced contact solver applies rigid rotations/translations after
+separation, preserving the shape at that instant. It does NOT predict elastic
+relaxation or impact deformation. The separate scene_fem diagnostic supplies
+elastic contact response, but is not the frozen primary method.
+
+Actionable geometric-feasibility finding
+An independent local-volume audit reconstructed the same FEM tetrahedra and
+computed det(Ds)/det(Dm) on saved predictions for all 43 regression cases. The
+inherited v11 predictions have no inverted tetrahedra. The primary corrected
+predictions have inverted tetrahedra in 16/43 sequences: two PhysTwin stretching
+cases and 14 SoftVT episodes. The affected cases and per-frame accounting are
+recorded in shape-jacobian-audit.json. Very thin reference tetrahedra can amplify
+reported determinant ratios; a negative determinant still means local inversion.
+
+This finding does not invalidate the point-position error measurements, but it
+precludes calling the corrected output a physically admissible elastic state,
+a non-self-intersecting mesh, or a collision-safe digital twin. The cause is the
+unconstrained empirical deformation residual; later rigid contact motion cannot
+repair those element inversions. Keep all numerical benchmark results unchanged
+and disclose this limitation. Future work should constrain/project residuals
+onto feasible geometry before treating them as states for physical simulation.
+Positive local Jacobians alone would also not certify global nonintersection.
+
+Contact limitations
+Primary contact uses static layered heightfields, an approximate nearest raster
+query, sequential impulses and vertical position correction. Vertical walls,
+general undercuts and two-way motion of other objects are absent. A detached
+stationary prefix hypothesis initializes zero velocity by design; this is a
+conservative heuristic, not measured contact state or calibrated uncertainty.
+The multiple-object coupled qualification and elastic-contact study are separate
+controlled diagnostics, not capabilities demonstrated by the primary benchmark.
+
+Supporting diagnostic publication
+Small derived scene-fem-development.json and scene-fem-isolation.json have been
+copied into this report directory. Their complete refinement/failure histories
+remain intact. The nonprimary reproducer now falls back to the published manifest
+if the local runs manifest is absent; local datasets/checkpoints/assets remain
+required. See elastic-contact-diagnostic.txt for exact findings and command.
+
+Recommendation
+Publish the measured position-prediction gains with these capability boundaries.
+Preserve the frozen method and previous evidence. Next prioritize feasible
+residual geometry and consistent friction/contact resolution, rather than
+claiming physically valid material identification or fully coupled contact.
+
+Subsequent separate safeguard
+The reported inversion finding motivated a NEW, separately labeled feasibility
+guard; it does not alter the frozen method audited above. See
+feasibility-decision.txt and feasibility-development.json for its fixed rule and
+development-only geometric qualification. Guarded benchmark results, if later
+produced, must remain distinct from these original v12 predictions.

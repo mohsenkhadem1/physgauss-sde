@@ -1,0 +1,58 @@
+SEPARATE GEOMETRY FEASIBILITY GUARD — DEVELOPMENT DECISION
+
+This is a new, explicitly separate correction to the frozen primary v12 method.
+The frozen primary results and source files remain unchanged. Discovery of
+post-hoc element inversions motivated this safeguard; it was not selected using
+benchmark accuracy. Apply it after object-frame correction and BEFORE contact
+rollout or velocity derivation.
+
+Rule fixed from the existing FEM source
+Use exactly the inherited FEM tetrahedra, including the original PhysTwin
+nonconvex initial-geometry filtering and numerical degeneracy exclusions.
+No remeshing, topology repair, or future target geometry is used. Require every
+element's det(F)>0.03+1e-8, matching the existing FEM's strict 0.03 cutoff with a
+small numerical margin. The margin is fixed, not tuned to scores.
+
+For each finite frame, require the inherited FEM shape itself to satisfy that
+constraint. If the corrected proposal already satisfies it, leave the proposal
+bitwise unchanged. Otherwise, proper Kabsch alignment transports the inherited
+shape to the proposal's rigid pose. Backtrack only the remaining deformation
+residual using the fixed schedule 1,1/2,...,2^-20,0; accept the largest TESTED
+feasible scale. Alpha zero recovers the aligned inherited shape. Nonfinite input
+or an infeasible anchor remains an explicit failed frame. No observed target is
+consulted by this procedure.
+
+Task0 geometric qualification (no accuracy scoring)
+All 20 SoftVT task0 development sequences were tested using their existing base
+and selected object-frame trajectories. No repaired frame failed; all evaluated
+output tetrahedra passed the fixed determinant cutoff. Minimum output J over
+these sequences was 0.03053946. The smallest accepted residual scale was
+2^-16=0.0000152588; thin tetrahedra can therefore suppress almost all empirical
+shape correction even when visible point displacements are small.
+
+The largest per-frame coordinate-RMS change introduced by the guard was
+3.9018 mm. Maximum guard-induced coordinate-RMS changes to derived velocity and
+acceleration were 0.06629 m/s and 1.32631 m/s^2. These are differences from the
+uncorrected proposal, not ground-truth errors. They demonstrate why the guard
+must run before velocity derivation and why temporal smoothness is not promised.
+Complete per-sequence summaries: feasibility-development.json.
+Complete frame records and repaired predictions remain in
+runs/contact-benchmark-v12/feasibility-development/.
+
+Seven tests pass in tests/test_contact_feasibility.py, covering all-element
+constraints, exact agreement with inherited FEM gradient-based Jacobians,
+proper rigid equivariance, unchanged feasible proposals, explicit anchor/NaN
+failures, input nonmutation and observation/evaluator isolation.
+
+Limitations and next evaluation
+This guard certifies only local element orientation at stored frames. It does
+not enforce elastic equilibrium, global nonintersection, surface collision
+avoidance, continuous-time validity, or calibrated material parameters. It can
+reduce useful empirical shape corrections and create temporal changes. Those
+tradeoffs must be reported, not hidden by replacing the original v12 results.
+
+Recommendation: freeze this separate rule and its source, then evaluate the
+same complete cohorts as an additional guarded variant, retaining every original
+baseline and failed-frame count. Report determinant diagnostics alongside point
+accuracy and shape error. No guard accuracy results were examined for this
+recommendation.

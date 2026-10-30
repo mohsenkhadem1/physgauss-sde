@@ -1,0 +1,89 @@
+FINAL INDEPENDENT PHYSICS AUDIT — V12
+===================================
+Scope: completed43-case regression cohort; confirmation is audited separately as
+it becomes available. Frozen model was not edited during this audit.
+
+What improved, and what it supports
+----------------------------------
+Regression SoftVT coordinate RMSE improves26.967->24.184mm, with40/40 cases
+improving relative to v11. Added initial scene geometry and pose conditioning
+produce measurable practical gains. Improvement is largest in object-task1
+(6.705mm mean) and smallest in spatial-task2(0.816mm), whose absolute error
+remains53.423mm. A residual contact geometry/attachment failure remains.
+
+The geometry-matched rigid_scene_state baseline averages23.524mm, better than
+primary24.184mm, despite primary winning23/40 individual comparisons. Primary
+has lower rigid-aligned shape RMSE1.616mm vs rigid2.048mm. These are complementary
+results: shape correction helps, but elastic complexity has not established the
+best overall position prediction. Original PhysTwin adapted baseline39.351mm
+and geometry-matched adapted baseline37.236mm are worse on this regression set.
+Additional geometry must remain explicit in comparisons with original baselines.
+
+Regression PhysTwin marker error improves18.332->14.452mm across3/3 cases, but
+official PhysTwin13.155mm remains better on each case. Marker error is not the
+same as SoftVT coordinate RMSE; do not pool metrics across datasets.
+
+Contact and detachment scope
+----------------------------
+All40/40 regression SoftVT prefixes classify as kinematically_attached. Therefore
+contact_scene and contact_scene_state coincide on this cohort. These results do
+not demonstrate early slip/detachment discrimination. The state estimator is a
+prefix classifier, not a predictive frictional grasp model.
+
+The benchmark primary is split: corrected FEM-based shape while attached,
+rigid-pose contact integration after separation, frozen release shape. Explicit
+scene meshes are static; they do not react. Vertical layered queries support
+landing but omit side-wall collision, undercuts and full signed-distance contact.
+Projection removes residual penetration. This is not momentum-conserving coupled
+soft-rigid contact, IPC, or a differentiable contact-material inference method.
+
+Spatial task2 demo0 visually demonstrates the remaining failure: recorded object
+ends left of the target plate, but predicted object lands on plate. Correct target
+support cannot compensate for missed future slip/drop. Initial-object min-z floor
+also differs from actual recorded support height in that case. Data conditioning
+is insufficient for some future interactions; no accuracy metric should imply
+that all physical events were inferred.
+
+Physical admissibility of corrected geometry
+-------------------------------------------
+The saved shape-jacobian-audit.json reports inverted original-mesh tetrahedra in
+16/43 primary regression sequences and805/2149 evaluated suffix frames. This
+includes double_stretch_sloth and double_stretch_zebra. Frozen v11 comparisons
+retain valid local orientations in those examples. The unconstrained learned
+residual is a geometry correction and does not preserve FEM invertibility.
+Large minimum-J magnitude depends on poor/skinny tetrahedra; negative orientation
+still precludes calling the corrected mesh a valid elastic simulation.
+
+All-finite predictions and improved marker errors do not override this finding.
+Report both geometric scores and inversion counts. Do not silently repair or
+replace the frozen primary after inspecting the regression cohort. A later
+material-space, orientation-preserving correction is a separate future method.
+
+Numerical qualification and separate prototypes
+-----------------------------------------------
+Primary reduced-contact dt refinements are not uniformly monotonic. The80-substep
+setting was selected on development data; that is not proof of general timestep
+convergence. Frozen shape and projection can hide dynamic deformation errors.
+
+Independent coupled_qualification.py demonstrates a small spring lattice pushing
+a movable sphere with equal/opposite reactions, friction, gravity and position
+actuation. Its final stated conservation/refinement/penetration gates pass, and
+the earlier failed low-damping diagnostic is preserved. This tests that separate
+prototype only. It does not retroactively validate the external benchmark contact
+model or infer material parameters from images.
+
+A separate scene_fem diagnostic genuinely changes elastic shape on impact and
+passes derivative/freefall tests, but documented contact/friction temporal
+sensitivity remains. It is appropriately not promoted to primary. Keep these
+three scopes distinct: benchmark reduced geometry predictor; synthetic coupled
+mechanics qualification; development elastic scene-contact candidate.
+
+Paper-safe conclusion
+---------------------
+Object-frame calibration and explicit static scene support improve geometry
+prediction over the prior method on the established regression cohort. Strong
+rigid and official PhysTwin baselines remain competitive or better, and corrected
+geometry is not guaranteed physically admissible. General interaction inference,
+full multi-body contact, calibrated uncertainty and reliable active probing are
+not established by this campaign. Confirmation results should be reported as a
+separate untouched evaluation, including failures and missing outputs.

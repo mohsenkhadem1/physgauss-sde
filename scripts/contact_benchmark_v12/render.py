@@ -19,14 +19,20 @@ CASES=[('regression',dict(case='double_stretch_sloth')),
        ('untouched_confirmation',dict(subset='object-soft',task=1,episode=10))]
 
 
-def render(cohort,spec):
-    freeze=REPORT/'method-freeze.json'
-    if not freeze.exists():raise RuntimeError('Refusing rendering before method-freeze.json')
+def render(cohort,spec,guarded=False):
+    freeze=REPORT/('feasibility-freeze.json' if guarded else 'method-freeze.json')
+    if not freeze.exists():raise RuntimeError(f'Refusing rendering before {freeze.name}')
     data=load(spec);name=data['name'];folder=BASE/'evaluation'/cohort/name;source=folder/'predictions.npz'
     if not source.exists():raise FileNotFoundError(source)
     archive=np.load(source);method='object_frame' if data['dataset']=='PhysTwin' else 'contact_scene_state'
+    guarded_source=None
+    if guarded:
+        guarded_source=BASE/'feasibility-evaluation'/cohort/name/'predictions.npz'
+        if not guarded_source.exists():raise FileNotFoundError(guarded_source)
+        selected=np.load(guarded_source)['feasible_'+method]
+    else:selected=archive[method]
     count=len(data['evaluation']['points'][0])
-    clouds=[data['evaluation']['points'],expand_prediction(data,archive['v11_fem'])[:,:count],expand_prediction(data,archive[method])[:,:count]]
+    clouds=[data['evaluation']['points'],expand_prediction(data,archive['v11_fem'])[:,:count],expand_prediction(data,selected)[:,:count]]
     T=len(data['times'])
     if any(len(c)!=T or c.shape[1]!=count for c in clouds):raise ValueError('Incompatible rendering geometry shapes')
     masks=data['evaluation']['mask'];scene=load_scene(data) if data['dataset']=='SoftVTBench' else None
@@ -41,11 +47,11 @@ def render(cohort,spec):
     shape_scale=135/max(shape_radius,.001)
     initial=clouds[0][0];rgb=np.c_[(initial[:,0]-initial[:,0].min())/(np.ptp(initial[:,0])+1e-9),(initial[:,1]-initial[:,1].min())/(np.ptp(initial[:,1])+1e-9),np.full(count,.5)]
     colors=(60+150*rgb).astype(np.uint8)
-    fps=1/float(data['times'][1]-data['times'][0]);video=REPORT/f'{cohort}-{name}.mp4';temp=video.with_suffix('.raw.mp4')
+    fps=1/float(data['times'][1]-data['times'][0]);video=REPORT/f'{"guarded-" if guarded else ""}{cohort}-{name}.mp4';temp=video.with_suffix('.raw.mp4')
     writer=cv2.VideoWriter(str(temp),cv2.VideoWriter_fourcc(*'mp4v'),fps,(1536,960))
     if not writer.isOpened():raise RuntimeError('Video writer unavailable')
     snapshots=set(np.linspace(0,T-1,4,dtype=int).tolist());snapshots.add(data['train_end'])
-    titles=['Recorded geometry','Frozen v11 FEM','New object-frame predictor' if data['dataset']=='PhysTwin' else 'New object-frame + static contact']
+    titles=['Recorded geometry','Frozen v11 FEM',('Guarded object-frame prediction' if data['dataset']=='PhysTwin' else 'Guarded shape + static contact') if guarded else ('New object-frame predictor' if data['dataset']=='PhysTwin' else 'New object-frame + static contact')]
     def draw(img,p,valid,basis,depth,origin,pixelscale,offset,ycenter,top,bottom,radius_px=2,grey=False):
         ids=np.flatnonzero(valid)
         if not len(ids):return
@@ -77,7 +83,7 @@ def render(cohort,spec):
         if t in snapshots:cv2.imwrite(str(video.with_name(video.stem+f'-frame{t}.png')),img)
     writer.release()
     subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(),'-y','-loglevel','error','-i',str(temp),'-c:v','libx264','-threads','2','-crf','21','-pix_fmt','yuv420p','-movflags','+faststart',str(video)],check=True);temp.unlink()
-    write_json(video.with_suffix('.json'),dict(cohort=cohort,case=name,selection='Prespecified in video-selection.json before primary scores',primary_method=method,frames=T,fps=fps,fit_end=data['train_end'],source_prediction=str(source.relative_to(ROOT)),prediction_sha256=sha256(source),raw_input_sha256=sha256(data['source']),freeze_sha256=sha256(freeze),renderer_sha256=sha256(Path(__file__)),scene=scene.metadata() if scene else None,world_scale_px_per_m=scale,shape_scale_px_per_m=shape_scale,snapshot_frames=sorted(snapshots),scope='Actual/evaluator geometry used only for display and framing; independent centering removes translation in lower row only; no exaggeration; exact dataset frame rate'))
+    write_json(video.with_suffix('.json'),dict(cohort=cohort,case=name,selection='Prespecified in '+('feasibility-video-selection.json' if guarded else 'video-selection.json')+' before respective scores',primary_method=('feasible_' if guarded else '')+method,frames=T,fps=fps,fit_end=data['train_end'],source_prediction=str(source.relative_to(ROOT)),prediction_sha256=sha256(source),guarded_prediction=str(guarded_source.relative_to(ROOT)) if guarded_source else None,guarded_prediction_sha256=sha256(guarded_source) if guarded_source else None,raw_input_sha256=sha256(data['source']),freeze_sha256=sha256(freeze),renderer_sha256=sha256(Path(__file__)),scene=scene.metadata() if scene else None,world_scale_px_per_m=scale,shape_scale_px_per_m=shape_scale,snapshot_frames=sorted(snapshots),scope='Actual/evaluator geometry used only for display and framing; independent centering removes translation in lower row only; no exaggeration; exact dataset frame rate'))
     print(video,flush=True)
     return video
 

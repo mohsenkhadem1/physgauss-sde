@@ -1,0 +1,59 @@
+{
+  "created_utc": "2026-10-30T14:47:41.211515+00:00",
+  "decision": "Freeze deterministic local-volume guard after development-only geometric qualification and independent pipeline audit. No fresh confirmation scores used.",
+  "protocol_sha256": "2da14febaed38e6eb1bb9717721bde0bf5cdeefe419947ebcc7ed369a4c980f6",
+  "source_sha256": {
+    "scripts/contact_benchmark_v12/data.py": "380aab55ea003b23272a3fdfbf864d28ce742fdc50403f1bfa95161e2e5a991a",
+    "scripts/contact_benchmark_v12/object_frame.py": "f8766b7e0dc3fc70d43faedd096f5ffc55ab81797b15d102c07fe1354d7154b8",
+    "scripts/contact_benchmark_v12/contact_rollout.py": "2164cc07a64b47dff9628566ea667b033c3f72bea21d90cac7b2159e0a573f98",
+    "scripts/contact_benchmark_v12/scene.py": "f60f3287e62f38d547469730a2d46d476bc3637d4caaec6154c02ee4440b82f7",
+    "scripts/contact_benchmark_v12/experiment.py": "be1c05e52508edfca8c265f5b86980f0c5f943cdcabd768dd82f3e2cef5833c1",
+    "scripts/contact_benchmark_v12/base_runner.py": "afe7259645104f19bd44faab3d9f5164de0f10384036c6000250675fc1c81fa7",
+    "scripts/contact_benchmark_v12/native_runner.py": "536ef33721fc39fada2544c3dbed2cdd3504502785fe867ed36fccba9d43708d",
+    "scripts/external_benchmark/data.py": "58733334646dd40377890dd438c0300a8faa4491732540c6098a7ca97956e52c",
+    "scripts/external_benchmark/fem.py": "07a348cd303504858ae7d9b4622493a757ace53fe142c17c373eb7735c915ed2",
+    "scripts/external_benchmark/dynamic_fem.py": "11c9614ec98f80592c341c52448138904313e689dfa0c1ce8107b5a485000c31",
+    "scripts/external_benchmark/fit.py": "2d642caa372c858d92752db968db38183c50eeb45beee1766c340cabcb7a7e00",
+    "scripts/external_benchmark/evaluate.py": "e1668849aef9256a3340172de1c8747449cb31dac25a43ed2fd893f1bfe4b590",
+    "scripts/external_benchmark/native_softvt.py": "d9b7aef022dc0fbf60488eaf86dd372ea2336a1fab2e12979c2c089bc9c0093e",
+    "scripts/external_benchmark/calibrated_baseline.py": "10e648088152c95c0b6693aa97f08080669003370f854ddcdd2a7f3c09f31fd3",
+    "scripts/contact_benchmark_v12/supplemental_baselines.py": "ae3b0db93b4ecb14ef6e6430c206a11fc7dd3c88d6eff878a54a22ae8b4a28b4",
+    "scripts/contact_benchmark_v12/feasibility.py": "811dd8521e0ee779d5b54605b5f78234d2f02507bddea6eee002d1cb48a55f9a",
+    "scripts/contact_benchmark_v12/feasible_experiment.py": "c4557bc206769a573392928da520f3b31d6b985d77f499adc73a52417546bce3"
+  },
+  "primary": {
+    "SoftVTBench": "feasible_contact_scene_state",
+    "PhysTwin": "feasible_object_frame"
+  },
+  "cutoff": 0.03000001,
+  "alpha_schedule": [
+    1.0,
+    0.5,
+    0.25,
+    0.125,
+    0.0625,
+    0.03125,
+    0.015625,
+    0.0078125,
+    0.00390625,
+    0.001953125,
+    0.0009765625,
+    0.00048828125,
+    0.000244140625,
+    0.0001220703125,
+    6.103515625e-05,
+    3.0517578125e-05,
+    1.52587890625e-05,
+    7.62939453125e-06,
+    3.814697265625e-06,
+    1.9073486328125e-06,
+    9.5367431640625e-07,
+    0.0
+  ],
+  "development_record_sha256": "1f210be76802ccb61c4f08e2339b0c82103752732c319d1e003a7e577f8e7eb1",
+  "scope": "Local element orientation safeguard applied before unchanged contact. Not global self-intersection prevention, equilibrium solve or calibrated material inference.",
+  "audit_tests": [
+    "tests/test_contact_feasibility.py",
+    "tests/test_contact_feasible_pipeline.py"
+  ]
+}

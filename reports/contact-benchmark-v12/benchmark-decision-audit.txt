@@ -180,3 +180,24 @@ A separate poisoning cut inside the observed prefix verified shorter-prefix
 recalibration. PhysTwin development future tracks/manual markers were poisoned,
 short-prefix payloads and candidate outputs unchanged. Evaluator payload rejection
 also passes. No benchmark future prediction errors were calculated by these tests.
+
+UNIFORM OPTIMIZATION-TIMEOUT DECISION AUDIT
+Proposed before the first job timeout: a base fit exceeding the fixed2400s job
+budget may roll out its best valid prefix checkpoint rather than omit its sequence.
+Independent review approves this as a declared numerical-budget amendment, with
+NO claim of optimizer convergence and NO model/hyperparameter or suffix selection.
+The frozen fit code saves best.npz only after every selected prefix frame solves
+and the loss/gradient are finite. Its progress.json stores best theta/loss/fit_end.
+Before continuation, require loadable checkpoint; exact matching progress theta;
+finite recorded loss/theta; selected frames strictly below actual fit_end; correct
+node geometry and declared model settings. Preserve checkpoint SHA and parameters.
+If checkpoint/progress mismatch, no checkpoint, or invalid values, retain failure.
+Archive original timeout job state and log. Mark optimizer.success=false and
+budget_exhausted; distinguish completed rollout from completed optimization.
+Apply identically to any new full-prefix and independent subprefix base timeout;
+never replace frozen v11 regression predictions. No extended optimization budget,
+new starts, hyperparameters, or retries chosen using future error. A small separately
+bounded rollout budget remains subject to the campaign hard deadline.
+Report all affected sequence IDs, full/validation role and paired comparisons;
+include sensitivity excluding budget-exhausted cases if substantive. Exclusion
+is diagnostic only: full selected cohort remains the main reported cohort.

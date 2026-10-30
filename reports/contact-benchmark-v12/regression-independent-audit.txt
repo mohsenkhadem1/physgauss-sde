@@ -1,0 +1,69 @@
+INDEPENDENT COMPLETE REGRESSION AUDIT — 2026-10-30
+Cohort: all40SoftVTBench + all3PhysTwin preserved regression sequences.
+All40 supplemental native+contact predictions available. No failed primary frames.
+No candidate source changed. Confirmation remains unfinished; this is not its audit.
+
+MAIN FINDING
+Every regression sequence improves its PRIMARY metric relative to v11, but the
+extension does not beat every strong comparator and does not improve every metric.
+SoftVT coordinate RMSE: v11 26.967 -> primary24.184mm, 40/40 wins (~10.3%).
+PhysTwin marker error: v11 18.332 -> primary14.452mm, 3/3 wins (~21.2%).
+
+FAIR/STRONG BASELINES
+SoftVT original adapted PhysTwin39.351mm; common-contact postprocessed native
+37.236mm; primary24.184mm. Primary wins36/40 against the same-contact supplement.
+Prefix rigid25.070mm; primary wins25/40 and improves its mean0.886mm.
+Rigid + identical scene/state contact23.524mm BEATS primary24.184mm on mean.
+Primary wins23/40 against that rigid baseline but loses17/40; win count alone
+would give a misleading favorable impression. Report mean and wins together.
+PhysTwin official13.155mm beats primary14.452mm on ALL3sequences. Zebra is close,
+but no strict win: primary13.115 vs official13.081mm. Do not claim author baseline
+superiority. Sloth primary12.123 vs official9.754; dinosaur18.119 vs16.631mm.
+
+REGRESSIONS AND HARD CASES
+PhysTwin rigid-aligned shape RMSE WORSE:10.932(v11)->11.144mm(primary), while
+marker error improves. Thus pose/marker improvement does not demonstrate uniformly
+better deformation inference. Official shape10.368mm remains better.
+SoftVT shape improves1.922->1.616mm (rigid shape2.048mm).
+Per-group primary/v11/rigid+scene mean mm:
+object task1:17.734 /24.439 /16.904
+object task2:13.088 /15.116 /13.108
+spatial task1:12.491 /14.073 /10.204
+spatial task2:53.423 /54.239 /53.878
+Spatial task2 remains a large-error group; there is only a small improvement.
+
+MECHANISM EVIDENCE
+All40SoftVT regression initial attachment diagnostics are kinematically_attached.
+contact_scene and contact_scene_state scores are identical. This cohort provides
+NO evidence that the detachment classifier causes the gain.
+All40have at least one modeled contact substep. Median of per-sequence maximum
+preprojection penetration is0.833mm, worst2.987mm. Position projection removes
+represented vertical support penetration; this is not a CCD/nonpenetration proof.
+Object-frame-only25.890mm; floor-contact25.519mm; scene-contact24.184mm. The ablation
+is consistent with useful environmental geometry, but does not validate inferred
+contact forces, elastic impact deformation or two-way moving-object contact.
+
+INDEPENDENT ARTIFACT CHECKS
+Recomputed the coordinate RMSE directly from saved predicted and true nodal arrays
+for all40primary and40supplemental forecasts, retaining full forecast suffix;
+checked against stored summary values at1e-9mm tolerance. Frozen primary and
+supplement source hashes checked unchanged. No future errors selected this audit.
+
+FINALIZER / REPORT / VERIFIER REVIEW
+Finalizer waits all209jobs terminal and exact21/43/42 metric file counts plus
+40/40 supplement counts. Report retains missing methods and failed frames and
+labels incomplete comparisons. Paired gains use complete forecast pairs only.
+Current verifier checks main frozen sources, validation cuts, reproduced v11
+scores, checkpoints and lossless media/archive output. Recommend additional final
+supplement decision/source hashes, prediction shape/node identity and source hashes,
+score/finite-failure consistency, and required-baseline coverage assertions. Counting
+supplement filenames alone does not certify their contents. Root notified.
+Comparison figure now includes same-contact native; paper tables use concise names
+and width-constrained tabular layout to prevent long method names overflowing.
+Follow-up: root added the recommended supplement source/protocol/native identity
+checks and all80supplement rescoring, plus report source hashes and required-method
+coverage checks. Independent code review approves these additions. Primary
+rescoring with surface expansion was suggested as an additional check; all40
+SoftVT primary direct coordinate checks already passed (maxdifference1.42e-14mm).
+Updated comparison figure visually inspected: all fair baseline rows present,
+labels legible, partial confirmation coverage explicit. No PDF rendering claimed.

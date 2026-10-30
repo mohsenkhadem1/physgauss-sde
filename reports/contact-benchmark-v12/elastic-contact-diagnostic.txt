@@ -1,0 +1,100 @@
+ELASTIC CONTACT DIAGNOSTIC — DEVELOPMENT ONLY
+
+Scope
+A separate alternative to the frozen primary reduced contact method. This
+experiment integrates Neo-Hookean deformation during contact instead of freezing
+shape at separation. It is NOT a primary benchmark result or a general contact
+convergence claim. No primary case was used to select these configurations.
+
+Implementation
+scripts/contact_benchmark_v12/scene_fem.py reuses the fitted material parameters
+and corrected DynamicFEM. Initial static scene meshes supply lagged per-node
+support heights. The old reversible tangential spring is disabled; an optional
+regularized dissipative friction potential uses lagged normal forces. The solver
+has exact energy derivatives and Hessians. Failed frame integration remains
+explicit, and timestep retries roll back state. The optional flag
+-- conceptually disable_field_on_release=True -- removes the learned world
+potential only during detached inertial solves, preserving its static behavior.
+
+These are vertically queried layered heightfields, not full signed-distance
+contact, continuous collision detection, or IPC. Side-wall impacts and moving
+rigid partners are not modeled. Contact forces act on elastic shape in this
+candidate, unlike the primary reduced pose-contact variant.
+
+Fixed development experiment
+SoftVTBench spatial-soft task0 demo0, release frames 107 through 114 inclusive
+(eight frames). The existing full-prefix fit is reused without refitting or
+changing material parameters. Initial state and velocity are taken from the
+predicted states immediately before release. Source:
+runs/contact-benchmark-v12/base/full/spatial-soft-task0-demo0/
+No future observed shape is used for prediction; development truth is used only
+to score the completed forecasts.
+
+Results (coordinate RMSE in millimetres over these eight frames)
+Existing base: 18.6996.
+Scene contact with learned field and friction 0.3:
+  5 / 10 / 20 / 40 / 80 substeps: 16.9749 / 17.0716 / 17.5351 /
+  17.6391 / 17.2483.
+Scene contact with field removed during release, friction 0.3:
+  20 / 80 / 160 substeps: 17.5542 / 17.3301 / 16.8440.
+Scene contact with field removed and friction zero:
+  20 / 80 / 160 substeps: 16.8433 / 16.3009 / 16.0446.
+All of these runs finished without failed frames. Successful integration alone
+does not establish accurate or converged physical dynamics.
+
+Numerical diagnosis
+With learned field and friction 0.3, consecutive timestep refinements
+5->10, 10->20, 20->40, and 40->80 have maximum per-frame geometry differences
+0.9997, 2.4411, 1.5296, and 2.3101 mm. They are not monotonically convergent.
+
+Removing the learned field alone does not cure the sensitivity: 80->160 reaches
+5.7921 mm at the final frame. Removing friction as well reduces the final
+80->160 discrepancy to 0.474 mm, although the peak transient is still 2.344 mm.
+Contact is first present at sampled frame 108, following release at frame 107;
+refinement differences increase substantially during contact. These ablations
+implicate contact transients and lagged-friction sensitivity. They do not uniquely
+separate raster switching, stiff elastic response, and friction discretization.
+
+With the support floor moved far below the object, field disabled, and friction
+zero, the finite-element mass-weighted centroid matches analytical implicit-Euler
+gravity motion to less than 1e-9 mm. Its remaining offset from continuous ballistic
+motion is the expected first-order timestep error. The maximum 80->160 full-mesh
+geometry difference is 0.688 mm. This rules out an artificial net free-flight
+force in this tested configuration; it does not prove internal-mode convergence.
+Free-flight error against the actual landing sequence is intentionally large:
+this is a force-isolation experiment, not a candidate landing predictor.
+
+Tests
+Six tests in tests/test_contact_scene_fem.py check analytic gradient/Hessian
+consistency, no teleportation onto overhead supports, free-flight refinement,
+unchanged caller attachment inputs, genuine elastic compression at floor impact,
+and exact preservation of static field behavior when release suppression is
+requested. Together with object-frame and prefix-isolation tests, 25 tests pass.
+The synthetic impact test shortens a tetrahedron edge from 40 to approximately
+26.8 mm; this verifies actual shape response rather than rigid-only movement.
+
+Reproduction and records
+From repository root, with the completed local development base and assets:
+  PYTHONPATH=. OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 \
+    runs/phystwin-env/bin/python \
+    scripts/contact_benchmark_v12/scene_fem_diagnostic.py
+The command uses the fixed source/start/stop manifest in
+runs/contact-benchmark-v12/scene-fem-development.json and repeats the three
+force-isolation variants at 20, 80, and 160 substeps.
+
+Complete original refinement records:
+  runs/contact-benchmark-v12/scene-fem-development.json
+  runs/contact-benchmark-v12/scene-fem-development.log
+Complete force-isolation records:
+  runs/contact-benchmark-v12/scene-fem-isolation.json
+  runs/contact-benchmark-v12/scene-fem-isolation.log
+Local prediction files retain all evaluated trajectories and explicit failure
+records. Raw datasets remain local.
+
+Recommendation
+Keep the frozen primary method unchanged. Before promoting fully elastic scene
+contact, resolve friction/contact timestep sensitivity with a controlled impact
+and sliding qualification, then verify convergence on multiple development
+objects. A more continuous geometric contact representation and consistently
+resolved friction are stronger next targets than treating one favorable error
+value as proof of reliable dynamics.

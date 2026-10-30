@@ -1,0 +1,32 @@
+GUARDED RUNNER AUDIT BEFORE FREEZE
+
+Reviewed scripts/contact_benchmark_v12/feasible_experiment.py without changing it
+or any frozen primary source. No fresh-confirmation errors were inspected.
+
+The runner loads the inherited FEM and selected object-frame proposal separately,
+passes both through the guard, and supplies the repaired trajectory to contact
+BEFORE contact initialization and velocity derivation. Geometry comes from the
+same initial scene payload. Predictions are created before target scoring.
+Original v12 results remain separate; guarded metrics retain hashes linking the
+source predictions, guard metadata, protocol and freeze records.
+
+Four tests in tests/test_contact_feasible_pipeline.py pass, plus seven guard
+unit tests (11 total):
+- An inverted empirical proposal is repaired before rollout; the guarded final
+  contact sequence passes every inherited element's J cutoff. Directly running
+  contact on the unguarded proposal preserves inversion, so ordering matters.
+- A bad prefix anchor stays an explicit failed frame, with contact unavailability
+  recorded and the corrected failure retained as fallback.
+- A failed future free-frame base can be replaced by independently initialized
+  safe contact motion; its original failure remains in guard metadata.
+- Evaluator payloads are rejected and unused true-material/future-force labels
+  do not change predictions.
+
+The final topology diagnostic checks every retained element, not just minimum
+node height or visual surface appearance. A positive local Jacobian does not
+establish global nonintersection, equilibrium, or calibrated physics. Guard and
+contact failures must continue to be reported alongside valid-frame metrics.
+
+No runner correctness change was required. This audit supports freezing the
+separate guarded variant for complete-cohort evaluation without replacing or
+retuning the original v12 method.

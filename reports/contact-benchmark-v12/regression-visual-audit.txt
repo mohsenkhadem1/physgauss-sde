@@ -1,0 +1,52 @@
+Independent prespecified regression video audit
+==============================================
+Rendered after method freeze; no candidate code or hyperparameters changed.
+Reviewed double_stretch_sloth frames63 and191 and spatial-soft-task2-demo0
+frame122, plus initial scene geometry audit. Shared physical scale and correct
+static asset transforms are preserved. Independently centered lower row is
+explicitly labelled and is not a world-position comparison. Movies decode all
+192frames at30fps and123frames at20fps respectively.
+
+Sloth final frame: the new residual correction noticeably spreads the upper/right
+limb cloud compared with the frozen v11 model and recorded geometry. The result
+is not uniformly better visually. Prefix independent validation selected full
+residual strength; this does not ensure future extrapolation succeeds. Metadata
+residual cap is0.416m maximum, so it is a broad guard, not a tight physical
+constraint. No post-test tuning was performed by the auditor.
+
+Spatial task2 demo0 final frame: new predictor lands on the plate and clears
+penetration. Recorded object instead lies to the left of the plate. Recorded
+center[-.0432,.1213,.9135]m; v11[.0486,.1792,.9160]m; new[.0493,.1776,.9212]m.
+Improved environmental support does not correct this missed future slip/drop.
+New postrelease shape is invariant to numerical precision (Kabsch residual
+6.3e-16m), as intended by the reduced split model. It does not demonstrate
+contact-induced shape deformation. Recorded minimum z lies3.75mm below the
+initial-object-floor approximation, confirming that floor is not measured truth.
+
+Metadata-only audit over39 available regression SoftVT cases found all classified
+kinematically_attached at prefix end. Thus no early detachment-detection benefit
+is demonstrated on this available cohort. Maximum preprojection penetration was
+2.40mm(object-task1-demo7), with projection then removing vertical overlap. This
+is a numerical pose correction, not elastic contact response. Full-cohort metrics
+and confirmation cases must decide aggregate performance separately.
+
+Prespecified confirmation visual review
+--------------------------------------
+Both requested confirmation movies rendered without changing candidate code:
+single_lift_zebra66frames at30fps; object-soft-task1-demo10 118frames at20fps.
+All frames decode and exact dataset rates match. Final snapshots reviewed.
+Zebra's new and v11 shapes are visually nearly identical: the independent selector
+retained the inherited prediction, and the discrepancy in the upper extended
+limb remains. This is a conservative selection result, not a demonstrated gain.
+Object-task1-demo10's new prediction sits higher in the basket than v11, but
+recorded geometry remains substantially higher near the basket upper extent.
+The new centered shape has visible local irregularity; improved world pose must
+not be interpreted as a physically admissible deformation. Feasibility audit
+and any secondary repair must remain separate from these frozen primary videos.
+
+The current comparison.png was inspected: all panels readable, units and cohort
+counts shown; strong rigid/official baselines visible. At inspection confirmation
+panels were explicitly partial(23/40 and1/2), so final completion must regenerate
+the plot before calling it a complete comparison. Large rigid PhysTwin errors
+compress the relevant13–18mm differences but are not misleading; a close-up
+could improve legibility in paper figures without excluding the baseline table.
