@@ -1,0 +1,100 @@
+PREFIX-ONLY RIDGE SWITCH: EXPERIMENT AND REPRODUCTION NOTES
+
+This is an exploratory ablation on 140 SoftVTBench sequences and eight PhysTwin
+sequences previously examined in the project. It is not a new sealed test, an
+official SoftVT policy benchmark, or a transfer test of the coupled FEM solver.
+The earlier model-selection results remain the retained model. This extension
+does not overwrite them or choose a method using future prediction errors.
+
+WHAT CHANGES
+The candidate is a fixed-lambda (0.1) nodal position regression with the existing
+volume/contact guards. It is not an elastic forward solve. It differs from the
+archived raw position-ridge baseline because it predicts mechanical nodes and
+then interpolates to the scoring locations. The old and new methods receive
+the same known controller-position trajectories.
+
+The first 70 percent of each observed prefix fits the candidate (the cut is
+max(3, int(0.7 * train_end))). Its remaining
+30 percent validates the candidate against the archived selected configuration
+reconstructed from genuine independent SHORT fits. Switching requires strictly
+more than two percent lower validation error. Otherwise the archived forecast
+array is preserved exactly. The original family selection also used this
+validation interval; this reuse is explicitly exploratory.
+
+The candidate receives the same FEM-anchor feasibility repair and, for SoftVT,
+the same static-scene contact approximation. This scene approximation does not
+provide general coupled rigid-body contact or vertical-wall collision. Failed
+selected forecasts remain failed; a bounded attempt that cannot execute uses
+the declared archived fallback and remains visible in attempt accounting.
+
+INPUT ISOLATION
+The exporter alone opens the upstream dataset. It saves permitted initial
+geometry, observed-prefix positions/masks, known controller trajectories, and
+initial static scene geometry as NPZ/JSON. The prediction process reads those
+exports and frozen cached fits. It does not open the raw HDF/pickle or manual
+evaluation tracks. PhysTwin's upstream pickle contains withheld data, so the
+exporter's slicing and the mutation tests are part of the input contract.
+SoftVT initial FEM nodes are privileged geometry, not image reconstruction.
+
+EVIDENCE AND ORDER
+protocol.json fixes all 148 cases, inputs, selection rule and compute bounds.
+method-freeze.json and input-manifest.json bind sources and consumed assets.
+prefreeze-audit.json records the independent approval before batch execution.
+input-only-pilot.json verifies archived SHORT scores and full forecasts for
+the first declared case of each dataset without evaluating future targets.
+All 148 terminal records in runs/prefix-ridge-switch-v13/attempts.json precede
+scoring. scores.json and summary.json report all cases and separate dataset
+metrics. independent-audit.json is the post-run verification result, when
+present and passing; prefreeze approval is not a substitute for that result.
+
+HISTORICAL COMMANDS (from repository root)
+Set OPENBLAS_NUM_THREADS=1, OMP_NUM_THREADS=1 and MKL_NUM_THREADS=1.
+Using the existing runs/phystwin-env Python environment:
+
+  runs/phystwin-env/bin/python -m scripts.prefix_ridge_switch_v13.batch
+  runs/phystwin-env/bin/python -m scripts.prefix_ridge_switch_v13.score --execute
+  runs/phystwin-env/bin/python -m scripts.prefix_ridge_switch_v13.report
+  runs/phystwin-env/bin/python -m scripts.prefix_ridge_switch_v13.verify_results --execute
+
+These are sequential stages. Scoring rejects incomplete prediction inventories.
+The verifier requires the completed scores and initial report. If report.py is
+rerun to display the audit status, the verifier retains the historical summary
+hash and a canonical metrics digest excluding only that audit-status metadata.
+
+The batch used two workers, a 120-second per-case cap and a 2,700-second total
+budget inside the original absolute campaign deadline, 2026-10-31 05:01:31 UTC.
+These commands enforce historical provenance/deadline checks; they are not a
+deadline-free fresh-clone reproduction recipe. A later full replay needs a
+separately declared protocol and fresh output locations, preserving this study.
+Do not edit the frozen deadline or substitute source/data files silently.
+
+LOCAL DATA REQUIREMENTS
+Raw datasets, static assets, cached fits, safe exports and forecast arrays stay
+local by user instruction. The input manifest records upstream and cached input
+paths/hashes. Generated exports are bound by export-provenance.json and forecast
+metadata; forecasts are bound by attempts.json and scored evidence. A public
+clone alone cannot execute this archived study without the
+matching upstream data/assets and cached fits. No raw dataset is embedded in
+the published report. The separate coupled-surface single-job replay tool does
+not reproduce this external benchmark.
+
+INTERPRETATION
+Report SoftVT coordinate RMS and PhysTwin manual-track mean errors separately.
+Do not pool their millimetre values into one score. Show completion coverage,
+paired comparisons and regressions, not only improvements. The observed result
+of this extension is not a justification to modify its validation rule using
+the already scored suffixes. Further designs require a separately declared
+experiment and must not be described as independent confirmation on these cases.
+
+COMPACT PUBLIC SCORE DISTRIBUTION
+The complete derived score payload is published losslessly as scores.json.gz
+to avoid transferring a large expanded JSON through the repository connector.
+scores-distribution.json records both SHA-256 hashes and a verified exact
+decompression round trip. To restore scores.json in a fresh public checkout:
+
+  gzip -dk reports/prefix-ridge-switch-v13/scores.json.gz
+
+Do not overwrite an existing scores.json. Check its SHA-256 against the recorded
+uncompressed hash before using the historical report or audit commands. Summary
+tables and the PDF are readable directly without decompression. The compressed
+payload contains derived metrics, not raw object trajectories or images.

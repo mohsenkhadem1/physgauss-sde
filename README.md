@@ -15,6 +15,16 @@ improvement on the official public benchmarks. See the
 [evidence boundaries](reports/coupled-surface-v13/PAPER-CLAIM-BOUNDARIES.txt)
 for the relationship to earlier results. Raw datasets remain local.
 
+The separate [148-case prefix-ridge ablation](reports/prefix-ridge-switch-v13/RESULTS.txt)
+is complete and independently verified. It leaves all 140 SoftVT forecasts
+unchanged (20.90 mm) and worsens the eight-case PhysTwin mean from 33.02 to
+37.04 mm; the prior selected model is retained. The metrics differ by dataset.
+See the [two-page appendix](papers/prefix-ridge-switch-v13/report.pdf),
+[switched-case diagnosis](reports/prefix-ridge-switch-v13/POSTHOC-RIDGE-DIAGNOSIS.txt)
+and [reproduction notes](reports/prefix-ridge-switch-v13/REPRODUCE.txt).
+An independent fresh replay of one FEM squeeze job also reproduced all nine
+saved arrays exactly; this verifies one same-environment job, not the full study.
+
 **C38 campaign underway: [higher-order mechanics and remaining gates](docs/GAUSSIAN_C38_FORWARD_PROGRESS.md).**
 The independent fine static spatial indicator passes at 14.568 µm, and the new
 FP64 quadratic GPU solver matches CPU static and full-mass motion controls.

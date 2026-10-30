@@ -1,0 +1,20 @@
+POST-HOC RIDGE SWITCH DIAGNOSIS — KEEP PRIOR, NO PROMOTION
+Post-hoc diagnosis of completed fixed exploratory study; no retuning, new fits, new jobs or selector changes. Independent all-case result verifier remains in progress at preparation.
+
+All148 attempts completed. SoftVT:0/140switches, exact prior mean20.9023mm. PhysTwin:3/8switches, mean manual-track error33.0188→37.0441mm;1win,2losses,5unchanged. All switched suffix forecasts had zero failed frames. These are all historically inspected exploratory cohorts, not a fresh confirmation.
+
+Case | observed-prefix coordinate RMS old→new (mm) | prefix gain | held-out manual mean old→new (mm) | manual gain (positive better)
+single_lift_sloth | 14.298→11.531 | 19.3524% | 37.116→47.450 | -10.334
+single_lift_dinosor | 10.972→9.939 | 9.4115% | 18.119→13.816 | +4.303
+single_push_sloth | 36.833→36.095 | 2.0037% | 67.627→93.799 | -26.172
+
+What the evidence explains:
+1. Prefix validation did not reliably predict later performance. The same guarded model was evaluated on the withheld observed-prefix window and later refit to the full prefix. Both losing cases passed the fixed2%rule; single_push_sloth cleared it by only0.003706percentagepoints. This is sensitivity evidence, not permission to increase the threshold after seeing targets.
+2. These are heavily repaired nodal-ridge predictions, not the archived raw support-space ridge. Every suffix frame in all three switched cases required feasibility repair. The retained nonrigid residual alpha was0.00098–0.00195 for lift_sloth,0.01563–0.03125 for lift_dinosor, and0.00391–0.01563 for push_sloth. The guard strongly restricted the proposal around a rigidly aligned current-FEM anchor. Rigid pose can still differ; small alpha does not mean the whole trajectory matches the prior method.
+3. Proposal element-volume ratios were negative in all three cases; the guard restored positive ratios and kept every forecast frame finite. This is successful local-volume enforcement, not proof of accurate elasticity/contact. The registered full-trajectory maximum guard displacements were~71.9,44.9,82.9mm respectively. Thin inherited tetrahedra affect the magnitude of determinant ratios.
+4. Validation and headline metrics differ. Selection used coordinate RMS on observed tracks; PhysTwin reports manual-track mean. All three switched cases got worse on held-out coordinate RMS, including lift_dinosor (22.834→23.669mm), whose manual-track error nevertheless improved (18.119→13.816mm). Thus metric mismatch matters, but cannot alone explain the losses: even the validation metric did not generalize to the later window.
+5. Archived raw support-space ridge averages29.7047mm on these eight PhysTwin cases, better than the prior33.0188mm. That motivated testing, but it does not imply a selectable per-case improvement. The tested guarded nodal interpolation/repair pipeline is a different predictor. We cannot attribute its regression to the guard alone without an additional prospectively fixed ablation.
+
+Decision: preserve prior forecasts and paper results, retain this negative ablation with full coverage, and do not make future-target-based selector changes. Possible future investigations—multiple chronological validation windows, task-aligned observed metrics and deformation representations less sensitive to inherited mesh geometry—are hypotheses only, not changes authorized or validated by this result.
+
+The independent full-result verifier is still running; use its final pass/failure before presenting these figures as audited. No new fit, simulation, threshold tuning or scoring job was launched for this diagnosis.
