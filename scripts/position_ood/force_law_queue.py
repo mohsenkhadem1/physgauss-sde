@@ -23,11 +23,15 @@ def main():
                         help='Exit after this many claimed tasks; zero runs the full queue.')
     parser.add_argument('--skip-neural', action='store_true',
                         help='Inverse-fit helpers only: omit GPU checkpoint prediction tasks.')
+    parser.add_argument('--native-method', choices=['mpm', 'phystwin'],
+                        help='Native helpers only: select one unchanged baseline queue.')
     args = parser.parse_args()
     if args.max_jobs < 0:
         parser.error('--max-jobs must be nonnegative')
     if args.skip_neural and args.kind != 'inverse':
         parser.error('--skip-neural is only valid with --kind inverse')
+    if args.native_method and args.kind != 'native':
+        parser.error('--native-method is only valid with --kind native')
     completed_here = 0
     verify()
     settings = verify_main()['settings']
@@ -43,7 +47,7 @@ def main():
             for method in ['extrapolated', 'extrapolated_material_frame']:
                 tasks.append((f'{method}-{i}', ['--task', 'inverse', '--object', str(i), '--method', method], BASE/f'inverse/{SPLIT}-{i}/{method}-n3-p3.json'))
         else:
-            for method in ['mpm', 'phystwin']:
+            for method in ([args.native_method] if args.native_method else ['mpm', 'phystwin']):
                 tag = settings[method]['tag']
                 dest = BASE/f'{tag}/{SPLIT}-{i}/summary.json' if method == 'mpm' else BASE/f'phystwin/{SPLIT}-{i}/{tag}/summary.json'
                 tasks.append((f'{method}-{i}', ['--task', method, '--object', str(i)], dest))
