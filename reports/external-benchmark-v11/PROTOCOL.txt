@@ -1,0 +1,52 @@
+External dataset campaign v11 — started 2026-10-30 10:15:21 UTC
+Hard compute deadline: 2026-10-30 22:15:21 UTC (12 hours).
+
+Purpose
+Evaluate position-driven deformation prediction on external data without true
+force or material parameters as inputs. Raw files remain local. This is an
+external geometry/prediction adaptation, not a claim to reproduce an RGB-to-model
+pipeline or SoftVTBench's manipulation-policy leaderboard.
+
+Data selection (before fitting)
+SoftVTBench object-soft and spatial-soft tasks 0, 1, 2. Task 0 episodes 0-9 are
+for development. Tasks 1 and 2, first 10 episodes in numeric ID order, are reserved
+for evaluation. Keep both suites and all selected episodes; report solver failures.
+A small pilot may precede the full run. Object nodes are evaluator ground truth;
+initial geometry and a declared prefix subset of tracked nodes are supplied as
+synthetic geometric observations, equally to all methods. This does not claim
+that camera tracking has been solved. World robot pose must transform local eef
+poses before any fitting. Force, tactile force, material and future shape channels
+must not enter the predictor.
+
+PhysTwin: single_lift_sloth is development (already examined in past work).
+Evaluation cases: double_stretch_sloth, single_lift_dinosor, double_stretch_zebra.
+Use original train/test frame splits, processed observed tracks/visibility and
+prescribed future controllers. Manual marker tracks remain evaluator-only.
+The authors' saved predictions/checkpoints provide an official-method reference;
+any refit must be labelled separately and use the identical observation split.
+
+Method and scope
+Generalize the existing material-reference/world-boundary energy decomposition
+to arbitrary geometry and position-controlled grippers. Start with settled/slow
+response, explicitly mark dynamics/contact approximations. Any restriction to
+held-grasp or low-speed intervals must use an input-only rule fixed on development
+data, never test error or future target motion. Report full selected interval and
+restricted interval separately where feasible. Do not relabel a different learned
+surrogate as the unchanged v10 FEM model.
+
+Comparisons
+Persistence, control-driven rigid motion, position regression, the generalized
+physics model, and PhysTwin official predictions on its own data. Additional
+physical baselines only where actually executed. Compare matched inputs; mark
+privileged initial geometry and author preprocessing. Baseline fit/selection uses
+only fitting/development portions. Freeze model and hyperparameters before test
+scoring. Test failures remain in the report. Score world-space geometric error,
+rigid-motion-removed deformation, and per-sequence metrics; no confidence interval
+from treating correlated frames as independent objects. Videos use fixed shared
+scale with observed/predicted and train/test labels, no deformation exaggeration.
+
+Deliverables
+Data manifests/hashes, reusable adapters, meaningful numerical checks, results on
+two datasets, reproducible commands, limitations tied to observed outcomes, and
+actual-versus-predicted videos. Preserve v10 artifacts. Save checkpoints and
+progress state regularly. Only campaign-owned jobs on GPUs 0-2; GPU 3 is excluded.

@@ -1,0 +1,56 @@
+"""Energy/tangent/adjoint checks independent of benchmark target trajectories."""
+import numpy as np
+import torch
+from scripts.external_benchmark.fem import ExternalFEM
+from scripts.external_benchmark.data import rigid_map, quat_rotation
+
+def fixture():
+    x=np.array([[0,0,0],[1,0,0],[0,1,0],[0,0,1],[1,1,1]],dtype=float)*.1
+    return dict(nodes=x,attachment_weights=np.ones((1,5)),controller_targets=x[None,None]+np.array([0,0,.005]),attachment_active=np.ones((1,1)),floor=-.1)
+
+def test_energy_gradient_and_hessian():
+    m=ExternalFEM(fixture(),device='cpu');th=m.t([-5,2,3,.1,.2]);x=(m.rest+m.t([.02,-.01,.03])).requires_grad_()
+    E,r,H=m.evaluate(x,th,0,True)
+    automatic,=torch.autograd.grad(E,x,create_graph=True)
+    assert torch.allclose(r,automatic,atol=1e-10,rtol=1e-9)
+    h=torch.autograd.functional.hessian(lambda z:m.evaluate(z,th,0)[0],x).reshape(m.ndof,m.ndof)
+    assert torch.allclose(H,h,atol=1e-10,rtol=1e-9)
+
+def test_equilibrium_adjoint():
+    m=ExternalFEM(fixture(),device='cpu');th=m.t([-5,2,3,.1,.2]).requires_grad_()
+    x=m.predict(th,0);loss=(x*x).sum();g,=torch.autograd.grad(loss,th)
+    fd=[]
+    for i in range(len(th)):
+        h=torch.zeros_like(th);h[i]=1e-4
+        a=m.solve(th.detach()+h,0)[0];b=m.solve(th.detach()-h,0)[0]
+        fd.append(float(((a*a).sum()-(b*b).sum())/2e-4))
+    assert np.allclose(g.detach().numpy(),fd,atol=1e-6,rtol=.005)
+
+def test_rigid_transport_and_quaternion_order():
+    R=quat_rotation(np.array([np.sqrt(.5),0,0,np.sqrt(.5)]))
+    assert np.allclose(np.array([1,0,0])@R.T,[0,1,0])
+    x=fixture()['nodes'];y=x@R.T+np.array([.2,-.1,.4])
+    rotation,translation=rigid_map(x,y)
+    assert np.allclose(x@rotation+translation,y)
+
+def test_compliant_contact_tangent():
+    data=fixture();data['floor']=0.
+    m=ExternalFEM(data,device='cpu',contact=True)
+    th=m.t([-5,2,3,.1,.2,1.]);x=(m.rest+m.t([.02,-.01,.03])).requires_grad_()
+    E,r,H=m.evaluate(x,th,0,True)
+    automatic,=torch.autograd.grad(E,x,create_graph=True)
+    h=torch.autograd.functional.hessian(lambda z:m.evaluate(z,th,0)[0],x).reshape(m.ndof,m.ndof)
+    assert torch.allclose(r,automatic,atol=1e-10,rtol=1e-9)
+    assert torch.allclose(H,h,atol=1e-10,rtol=1e-9)
+
+
+def test_inertia_and_material_partition_tangent():
+    m=ExternalFEM(fixture(),device='cpu',materials=3)
+    th=m.t([-5,2,3,.1,-.2,.3,.2])
+    m.inertial_target=m.rest+.01;m.inertial_dt=.02
+    x=(m.rest+m.t([.02,-.01,.03])).requires_grad_()
+    E,r,H=m.evaluate(x,th,0,True)
+    automatic,=torch.autograd.grad(E,x,create_graph=True)
+    h=torch.autograd.functional.hessian(lambda z:m.evaluate(z,th,0)[0],x).reshape(m.ndof,m.ndof)
+    assert torch.allclose(r,automatic,atol=1e-10,rtol=1e-9)
+    assert torch.allclose(H,h,atol=1e-10,rtol=1e-9)
