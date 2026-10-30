@@ -1,0 +1,200 @@
+{
+  "snapshot_utc": "2026-10-30T21:52:10.494147+00:00",
+  "overall_complete": false,
+  "scope": "Objective-to-evidence ledger; presence and status snapshot only, not final outcome analysis. No simulations or source edits. Historical405 hashes recomputed.",
+  "criteria": [
+    {
+      "id": "coupled_solver",
+      "status": "implemented_and_tested",
+      "criterion": "One deformable solid with known static obstacles, prescribed position tools and dynamically reacting rigid sphere; consistent mass/inertia and contact forces.",
+      "evidence": [
+        "consistent-mass-independent-operator-audit.json",
+        "clipping-independent-operator-audit.json",
+        "contact-damping-independent-audit.json",
+        "coupled-body-qualification-audit.json"
+      ],
+      "open_work": "Final fixed-cohort outcome and moving-body error reporting remains open. Two deformable objects, arbitrary articulated hand meshes and unknown collision geometry are not implemented; do not treat these broader goals as satisfied."
+    },
+    {
+      "id": "numerical_qualification",
+      "status": "partial_scope_qualified_known_stress_failure",
+      "criterion": "Development-qualified primary squeeze/slide/curved/moving-sphere numerical setup, with separate sharp drop stress.",
+      "evidence": [
+        "physics-development-qualification.json",
+        "conditional-three-family-decision-audit.json",
+        "selected-predictor-contact-independent-audit.json"
+      ],
+      "open_work": "Per-case150reference accounting still running. Sharp edge_drop remains development-unqualified, not a completed success. Capsule alternative was not adopted. Numerical consistency is not physical validation."
+    },
+    {
+      "id": "preserve_405",
+      "status": "passed_snapshot",
+      "criterion": "All405 declared historical files byte-preserved.",
+      "evidence": {
+        "manifest": "prior-preservation.json",
+        "count": 405,
+        "mismatches": []
+      },
+      "open_work": "Recheck at final publication; unrelated existing working-tree changes must not be included or reverted."
+    },
+    {
+      "id": "frozen_position_protocol",
+      "status": "frozen",
+      "criterion": "Known geometry/material unknown calibration on positions, cross-interaction forecasts; prospective fixed cohorts and explicit stress scope.",
+      "evidence": [
+        "protocol.json",
+        "method-freeze.json",
+        "independent-candidate-freeze-audit.json",
+        "../coupled-friction-v13/protocol.json",
+        "../coupled-friction-v13/method-freeze.json",
+        "../coupled-friction-v13/prefreeze-audit.json"
+      ],
+      "open_work": "Run through fixed24primary+8stress reserved rows and retain all failures. Future prescribed tool positions are action conditioning, not prediction of unknown actions. Secondary friction grid must remain separately labeled."
+    },
+    {
+      "id": "baselines",
+      "status": "implemented_coverage_pending",
+      "criterion": "Rigid-contact, position-ridge/rigid/persistence, shared-contact adapted native spring core, oracle, nominal and matched vertex comparator.",
+      "evidence": [
+        "library-coverage-audit.json",
+        "native-calibration-temporal.json",
+        "supplementary-protocol.json"
+      ],
+      "open_work": "Finish original/fine forecasts and supplement. Original library75records: FEM35/native2/rigid5 successful,33nativefailures; report feasible coverage before conditional errors. Fine grid255candidate status census pending. Native is not fullPhysTwin; fine-vs-coarsevertex is not a pure contact ablation."
+    },
+    {
+      "id": "independent_agents",
+      "status": "substantial_completed_final_pending",
+      "criterion": "Independent decisions, conservation/operator audits, freeze/provenance and selection/metric checks.",
+      "evidence": [
+        "independent-candidate-freeze-audit.json",
+        "library-production-independent-audit.json",
+        "production-reproduction-audit.json",
+        "postfreeze-audit-routing-independent-review.json",
+        "../coupled-friction-v13/prefreeze-audit.json"
+      ],
+      "open_work": "Final original and secondary independent audits must pass after all artifacts exist; early/development audits do not replace final coverage."
+    },
+    {
+      "id": "reproducibility",
+      "status": "source_protocol_frozen_runtime_pending",
+      "criterion": "Committed code/protocol/source hashes and explicit reuse provenance; durable bounded orchestration.",
+      "evidence": {
+        "local_head": "7e2765775b86c8d263c9ce2233c7a1fe942ee498",
+        "source": "scripts/coupled_contact_v13",
+        "freeze": "method-freeze.json"
+      },
+      "open_work": "Verify final source inventory, command/replay instructions and resulting artifact hashes; raw data remains local, so public reproducibility must disclose acquisition/regeneration requirements. No full rerun claimed."
+    },
+    {
+      "id": "final_results",
+      "status": "pending",
+      "criterion": "Final all-case tables, per-case failures, primary/stress separation, object-cluster uncertainty, physical parameter diagnostics and coarse/fine comparison.",
+      "evidence": [
+        "development-results.json",
+        "PAPER-CLAIM-BOUNDARIES.txt"
+      ],
+      "open_work": "No reserved-results.json currently present in either new study. Existing surface summary/RESULTS are incomplete and cannot satisfy final criterion. Complete original/fine reporting, independent verification, supplement and postanalyses; no per-case best-of-method selection."
+    },
+    {
+      "id": "video_pdf",
+      "status": "pending",
+      "criterion": "Actual-versus-predicted fixed-case videos with honest stress labels, fair axes/timing and native failures; paper PDF visually checked.",
+      "evidence": {
+        "existing_development_preview": "capsule-development-contactsheet.png",
+        "new_study_mp4_present": false,
+        "new_study_pdf_present": false
+      },
+      "open_work": "Generate final selected-case videos, decode/count frames, inspect representative frames, ensure successful audit/evidence freshness. Produce combined paper/PDF and inspect rendered pages; development capsule sheet is not final forecast evidence."
+    },
+    {
+      "id": "github_publication",
+      "status": "pending_final_remote_verification",
+      "criterion": "Push campaign code, compact results, paper and videos; verify remote commit/artifact presence.",
+      "evidence": {
+        "origin": "https://github.com/mohsenkhadem1/physgauss-sde.git",
+        "local_head": "7e2765775b86c8d263c9ce2233c7a1fe942ee498",
+        "cached_origin_main": "f61fcd314ab42a1c43332eca72535b8214962e3e"
+      },
+      "open_work": "Local commit and cached remote refs do not establish current remote publication. Final push/remote verification remains open; do not upload raw datasets/assets or unrelated work."
+    },
+    {
+      "id": "resources_deadline",
+      "status": "constraints_recorded_final_pending",
+      "criterion": "Raw datasets local; original absolute deadline2026-10-31T05:01:31Z; preserve unrelated jobs.",
+      "evidence": [
+        "protocol.json",
+        "../coupled-friction-v13/protocol.json",
+        "postanalysis-plan.json"
+      ],
+      "open_work": "No raw transfer performed by this audit. Final root must verify bounded jobs stopped/completed by deadline, publish incomplete/failure status if required, and confirm unrelated jobs untouched. CPU study plus at most6secondary workers is intentional; GPU utilization is not evidence of scientific progress."
+    },
+    {
+      "id": "broader_benchmark_improvement",
+      "status": "open_not_satisfied",
+      "criterion": "Overall coupled-model improvement on both public benchmarking datasets, without sacrificing archived gains.",
+      "evidence": [
+        "full-benchmark-transfer-input-audit.txt",
+        "benchmark-transfer/RESULTS.txt",
+        "PAPER-CLAIM-BOUNDARIES.txt"
+      ],
+      "open_work": "Current controlled study cannot satisfy two-public-dataset improvement. Exact SoftVT robot available but pastry/eval asset endpoints missing; initial FEM geometry is privileged. Arbitrary mesh contact adapter and legitimate input contract remain needed. Development volume-pose pilot is tiny/unchanged, not promoted. Two-soft-object interactions and calibrated active probing remain open."
+    }
+  ],
+  "live_status_snapshot": {
+    "coupled-surface-v13": {
+      "library": {
+        "recorded": 75,
+        "success": 42,
+        "failed": 33
+      },
+      "reference": {
+        "recorded": 10,
+        "success": 10,
+        "failed": 0
+      },
+      "reference-refinement": {
+        "recorded": 18,
+        "success": 18,
+        "failed": 0
+      },
+      "reference-spatial": {
+        "recorded": 14,
+        "success": 14,
+        "failed": 0
+      },
+      "prediction": {
+        "recorded": 32,
+        "success": 28,
+        "failed": 4
+      }
+    },
+    "coupled-friction-v13": {
+      "library": {
+        "recorded": 53,
+        "success": 53,
+        "failed": 0
+      },
+      "reference": {
+        "recorded": 0,
+        "success": 0,
+        "failed": 0
+      },
+      "reference-refinement": {
+        "recorded": 0,
+        "success": 0,
+        "failed": 0
+      },
+      "reference-spatial": {
+        "recorded": 0,
+        "success": 0,
+        "failed": 0
+      },
+      "prediction": {
+        "recorded": 0,
+        "success": 0,
+        "failed": 0
+      }
+    }
+  }
+}

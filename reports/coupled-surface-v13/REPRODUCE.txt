@@ -1,0 +1,108 @@
+INDEPENDENT SINGLE-JOB REPLAY (additive; original study unchanged)
+
+The original campaign has a historical deadline. Do not edit its configuration
+or restart its services to reproduce a job. replay_surface_job.py instead runs
+one exact declared job in an isolated subprocess with a fresh output directory
+and an explicit independent wall-clock bound, at most 43,200 seconds (12 hours).
+This is a future independent replay tool, not additional authorization to extend
+the active campaign or a claim to reproduce the complete study automatically.
+
+From the repository root, with the original Python environment/dependencies and
+a C++17 compiler available, for example:
+
+  runs/phystwin-env/bin/python -B scripts/coupled_contact_v13/replay_surface_job.py \
+    --job library/fem/0-0 --output /tmp/physgauss-replay-fem-0-0 \
+    --max-seconds 3600
+
+The output path MUST NOT EXIST. A prior replay, dangling symlink, frozen source,
+report, paper, original campaign run, or upstream-source destination is rejected.
+No existing output is resumed or overwritten. Running the example is a simulation;
+it has not been run while preparing this tool.
+
+Accepted selectors are exact frozen library paths, reference paths at base,
+half-timestep or spatial-companion resolution, and saved selected-prediction
+paths. Examples of forms (object IDs must exist in the frozen protocol):
+  library/fem/0-0
+  reference/surface_dev0/slide
+  reference-refinement/surface_dev0/slide
+  reference-spatial/surface_dev0/slide
+  prediction/surface_dev0/slide/fem
+Prediction replay requires the saved original selection and matching completion
+metadata; it does not refit parameters. Oracle replay requires matching saved
+prediction metadata and uses the declared true parameters. Failed simulation
+outcomes are retained and produce a nonzero process exit.
+
+Before execution, the tool verifies the original method-freeze source hashes,
+protocol hash, frozen physics qualification, fixed primary/stress adoption and
+referenced qualification evidence. The original solver is imported privately;
+only output destinations, compiler/Warp cache destinations and the independent
+runtime allowance are redirected in the dedicated subprocess. Job parameters,
+scene, material, contact, timestep, mass operator and mesh stay unchanged.
+Original simulation settings are recorded and checked against the replay result.
+The subprocess group is killed on timeout, including compiler subprocesses.
+Original campaign files and deadlines are never changed.
+
+The output includes replay-request.json (job, settings, source/protocol/freeze/
+qualification hashes and selected-fit provenance), replay.log, outputs/<job>/,
+replay-result.json when the worker returns, and replay-execution.json (exit,
+timeout and timing). Compiler provenance stays inside the replay output tree.
+Exact bitwise trajectories are not promised across compiler/library/hardware
+versions; inspect compiler metadata and numerical differences explicitly.
+
+A complete study replay requires looping over all declared library and all three
+reference-level jobs, performing the frozen observation/selection/evaluation
+stages, and running independent audits and report generation. This single-job
+tool supplies neither that complete orchestrator nor missing raw datasets. Raw
+original datasets remain local by user instruction; selected-prediction replay
+requires the corresponding local metadata. Missing frozen upstream files or
+qualification evidence cause a hard failure rather than a silent substitution.
+
+DEPENDENCIES AND ENVIRONMENT
+The preparation environment uses Python3.10.16, NumPy1.26.4, SciPy1.15.3,
+warp-lang1.6.2, Torch2.4.0+cu121, and GCC11.4.0 (C++17). A minimal FEM/rigid
+replay environment can be installed independently with:
+  python3.10 -m venv replay-env
+  replay-env/bin/python -m pip install numpy==1.26.4 scipy==1.15.3
+Set CXX to an available C++17 compiler. For native replay also install the
+recorded Warp/Torch dependencies and the frozen local PhysTwin checkout; the
+full package-version snapshot is replay-environment-packages.txt. Torch's
++cu121 wheel needs its matching PyTorch package index. That snapshot is an
+environment record, not a verified portable lockfile; platform-specific wheels
+and transitive upstream imports may need matching installation. The original
+frozen source checks remain mandatory and missing dependencies fail explicitly.
+Every replay-request records the actual Python, installed package versions,
+platform and selected compiler version; compiler build metadata records actual
+flags/binary hash. No package installation is performed by the replay tool.
+The child also installs its own wall-clock alarm, so its bounded runtime
+survives interruption of the supervising process.
+
+REQUIRED UPSTREAM SOURCE RECONSTRUCTION (all replay families)
+The freeze verifies eight PhysTwin files even for FEM/rigid jobs. Therefore a
+fresh clone needs the source checkout below; FEM/rigid jobs do not thereby need
+the native Torch runtime. Run these commands only when the target checkout is
+absent; never overwrite or repatch an existing checkout:
+
+  if [ ! -e runs/third_party/PhysTwin ]; then
+    git clone https://github.com/Jianghanxiao/PhysTwin.git runs/third_party/PhysTwin
+    git -C runs/third_party/PhysTwin checkout --detach 81c718790a37e5e0102eb77af2c6edd34a9db25f
+    git -C runs/third_party/PhysTwin apply ../../../scripts/phystwin/controlled-physics.patch
+  else
+    echo 'Existing checkout preserved: verify its frozen hashes before replay.'
+  fi
+
+The controlled-physics.patch adds the existing gravity_scale multiplier to one
+constructor line. Do not apply the later v06 patch for this frozen study.
+A clean git-show reconstruction of all eight files followed by this patch
+matches every frozen source hash exactly; evidence is recorded in
+replay-upstream-reconstruction-audit.json. The live checkout was not changed.
+Its separate trainer headless patch is outside these eight frozen files; the
+native package import path can require that environment-specific adaptation.
+The single-job tool does not silently apply or invent upstream adaptations.
+
+CXX must identify an absolute executable because the frozen compiler wrapper
+resolves the provided path. For example:
+  export CXX=/usr/bin/g++
+or, if g++ is installed on PATH:
+  export CXX="$(command -v g++)"
+Verify that the chosen path exists and supports C++17. The current campaign used
+GCC11.4.0 from a local conda compiler; that machine-specific path is not required.

@@ -1,5 +1,20 @@
 # PhysGauss-SDE
 
+**Current coupled-contact campaign (30 October 2026): [status and scope](reports/coupled-surface-v13/CAMPAIGN-STATUS.txt).**
+The new controlled study fits stiffness and friction from observed positions,
+then predicts different commanded interactions with a deformable block and
+explicit rigid contact. Geometry and gravity are known; measured forces are
+not predictor inputs. The fixed reserved evaluation contains 24 primary
+forecasts and eight sharp-edge drop stress cases. The latter remain numerically
+unqualified and are reported separately, including failures.
+The original comparison is frozen and running. A separately frozen
+[finer-friction study](reports/coupled-friction-v13/STUDY-NOTES.txt) tests a
+development fitting error with matched baseline search grids. Neither study
+currently establishes calibrated uncertainty, active-probing superiority or
+improvement on the official public benchmarks. See the
+[evidence boundaries](reports/coupled-surface-v13/PAPER-CLAIM-BOUNDARIES.txt)
+for the relationship to earlier results. Raw datasets remain local.
+
 **C38 campaign underway: [higher-order mechanics and remaining gates](docs/GAUSSIAN_C38_FORWARD_PROGRESS.md).**
 The independent fine static spatial indicator passes at 14.568 µm, and the new
 FP64 quadratic GPU solver matches CPU static and full-mass motion controls.
