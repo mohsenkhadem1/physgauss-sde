@@ -1,0 +1,36 @@
+{
+  "scope": "Development-only quadrature refinement, same physical contact law; no fresh outcomes",
+  "source_sha256": {
+    "scripts/coupled_contact_v13/physics.py": "8400867762863c9551c3eeaac1c758530b34ead8f99811d8b032eb938c008f26",
+    "scripts/coupled_contact_v13/surface_contact.py": "65ac04d47cc9c38496762d636339daa4f5a30332b9a43ecd96d793fb02278f01",
+    "scripts/coupled_contact_v13/sparse_surface_contact.py": "133b19c0e8b692e3d628d0ea883a4db06dee53f5dde721c48a23f15472775804",
+    "scripts/coupled_contact_v13/surface_scenarios.py": "514f62cf3ef8b697e4f489bd0242dd829461331f093e947d1a068a7d77ee5aaf",
+    "scripts/coupled_contact_v13/surface_quadrature_refinement.py": "f7cfcbf1bfafce1d72eff55aae23f643d28e328d105c1dbb29dcc43f79658b27"
+  },
+  "version": "236ddcb20676",
+  "cases": [
+    "edge_drop",
+    "curved"
+  ],
+  "young": 6000.0,
+  "friction": 0.35,
+  "cells": 4,
+  "dt": 5e-05,
+  "spacing_ladder_m": [
+    [
+      0.0015,
+      0.00075
+    ],
+    [
+      0.00075,
+      0.000375
+    ]
+  ],
+  "gates": {
+    "world_rms_m": 0.001,
+    "shape_rms_m": 0.0005,
+    "penetration_m": 0.001
+  },
+  "acceptance": "Lower-cost spacing accepted only if BOTH cases pass both trajectory bounds and physical gates; second rung only if first fails",
+  "acceleration": "Conservative SDF/Frobenius bound; exhaustive equivalence unit tests; same physical quadrature points"
+}

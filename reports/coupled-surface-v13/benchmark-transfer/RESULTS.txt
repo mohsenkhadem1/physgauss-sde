@@ -1,0 +1,34 @@
+ARCHIVED DEVELOPMENT VOLUME-POSE PILOT
+All21declaredcasescompleted. Oldsource/archivehashesverifiedbeforeandafter; originalcontactreplayandprefix/heldpreservationpassed.
+No fitting or reselection; only rest-volume P1 center/inertia in existing free rigid pose integration.
+Exploratory development-only; not coupled deformation, not new generalization, not full PhysTwin.
+
+Dataset | cases | previous mean mm | volume-pose mean mm | wins/losses/ties
+SoftVTBench | 20/20 | 15.346185 | 15.324771 | 10/10/0
+PhysTwin | 1/1 | 37.116468 | 37.116468 | 0/0/1
+
+Case | previous mm | volume-pose mm | gain mm (positive better) | integrated free frames
+object-soft-task0-demo0 | 8.620852 | 8.612234 | 0.008618 | 10
+object-soft-task0-demo1 | 12.629839 | 12.644266 | -0.014427 | 10
+object-soft-task0-demo2 | 34.739671 | 34.875804 | -0.136132 | 10
+object-soft-task0-demo3 | 22.028973 | 21.766646 | 0.262327 | 10
+object-soft-task0-demo4 | 30.837622 | 30.855997 | -0.018375 | 10
+object-soft-task0-demo5 | 32.315538 | 32.324074 | -0.008537 | 10
+object-soft-task0-demo6 | 9.471486 | 9.455307 | 0.016179 | 10
+object-soft-task0-demo7 | 13.407786 | 13.386566 | 0.021220 | 10
+object-soft-task0-demo8 | 12.957750 | 13.003669 | -0.045919 | 10
+object-soft-task0-demo9 | 13.294166 | 13.377085 | -0.082920 | 10
+spatial-soft-task0-demo0 | 7.943849 | 7.840502 | 0.103347 | 13
+spatial-soft-task0-demo1 | 12.970960 | 12.913544 | 0.057416 | 13
+spatial-soft-task0-demo2 | 12.246368 | 12.298097 | -0.051729 | 13
+spatial-soft-task0-demo3 | 13.251637 | 13.202805 | 0.048831 | 13
+spatial-soft-task0-demo4 | 11.605866 | 11.627345 | -0.021478 | 13
+spatial-soft-task0-demo5 | 11.886379 | 11.914833 | -0.028454 | 13
+spatial-soft-task0-demo6 | 15.488484 | 15.287115 | 0.201370 | 13
+spatial-soft-task0-demo7 | 11.218568 | 11.142540 | 0.076028 | 13
+spatial-soft-task0-demo8 | 8.915951 | 8.958968 | -0.043017 | 13
+spatial-soft-task0-demo9 | 11.091960 | 11.008015 | 0.083945 | 13
+single_lift_sloth | 37.116468 | 37.116468 | 0.000000 | 0
+
+Interpretation: SoftVT mean gain0.021415mm (~0.14%) with10wins/10losses is too small and mixed to justify a general improvement claim or promote the change. The single PhysTwin development case is bitwise unchanged by construction because its archived pipeline has no contact-pose stage. No result here demonstrates improvement on both datasets.
+Limits retained: shape frozen at release, constant-omega free rotation, vertical heightfield contact/position projection, homogeneous rest-tetrahedral mass assumption. A corrected inertia model alone does not fix those limitations.

@@ -1,0 +1,92 @@
+{
+  "scope": "Development-only predeclared spatial refinement ladder, not held-out selection",
+  "source_sha256": {
+    "scripts/coupled_contact_v13/physics.py": "8400867762863c9551c3eeaac1c758530b34ead8f99811d8b032eb938c008f26",
+    "scripts/coupled_contact_v13/surface_contact.py": "65ac04d47cc9c38496762d636339daa4f5a30332b9a43ecd96d793fb02278f01",
+    "scripts/coupled_contact_v13/sparse_surface_contact.py": "133b19c0e8b692e3d628d0ea883a4db06dee53f5dde721c48a23f15472775804",
+    "scripts/coupled_contact_v13/clipped_surface_contact.py": "6b4a3aa4cec21c2b51e601d14fef7ad0ab6845177f23ca792974d5019b67d9e1",
+    "scripts/coupled_contact_v13/clipped_surface_contact.cpp": "dc6916790e26a24ecce04b633870d13079b56f33a8ed5b9078b3394d70f5793e",
+    "scripts/coupled_contact_v13/engineered_scenarios.py": "1226d92a358cf93a7a3ff0a96d9672595063af531b7cd986feb649a30e3cc91c",
+    "scripts/coupled_contact_v13/engineered_mesh_refinement.py": "b1087492a35872157ee4e99d6fa80fd9443ee9a7865907584815fcbe65a8423d",
+    "scripts/coupled_contact_v13/surface_qualification.py": "761b615644f54bf312239b5164912746ef5cdcc6b3300f744a9ac2355e74e289",
+    "scripts/coupled_contact_v13/engineered_qualification.py": "de0de81fe8aa2ac86067d139dad22455ba5e1a1dc2a9fda1ecb5118d42734220",
+    "scripts/coupled_contact_v13/mesh_diagnostic.py": "cff1a06608c532fbf65235205befafb9e8c6da879534217f366ae0e3a973fc6e"
+  },
+  "version": "engineered-mesh-29c388239580",
+  "contact_qualification_sha256": "63c78f2a5737c747526a0b02def6b54bc840e285432b3e1e9654b13e1d363454",
+  "friction_level": 1,
+  "ladder": [
+    [
+      6,
+      8
+    ],
+    [
+      8,
+      10
+    ]
+  ],
+  "cases": [
+    [
+      "edge_drop",
+      6000.0,
+      0.35
+    ],
+    [
+      "edge_drop",
+      3000.0,
+      0.1
+    ],
+    [
+      "curved",
+      6000.0,
+      0.35
+    ],
+    [
+      "curved",
+      3000.0,
+      0.1
+    ],
+    [
+      "squeeze",
+      6000.0,
+      0.35
+    ],
+    [
+      "squeeze",
+      3000.0,
+      0.1
+    ],
+    [
+      "slide",
+      6000.0,
+      0.35
+    ],
+    [
+      "slide",
+      3000.0,
+      0.1
+    ],
+    [
+      "moving_sphere",
+      6000.0,
+      0.35
+    ],
+    [
+      "moving_sphere",
+      3000.0,
+      0.1
+    ]
+  ],
+  "dt": 2.5e-05,
+  "quadrature_spacing_m": 0.0015,
+  "measurement": "Both common27physicalrestpoints and common2678surfacequadraturepoints via actualtetP1interpolation, uniformcoordinateRMS, firstframeexcluded; BOTH mustpass samebounds",
+  "gates": {
+    "body_spatial_rms_m": 0.001,
+    "body_temporal_rms_m": 0.00025,
+    "world_rms_m": 0.001,
+    "shape_rms_m": 0.0005,
+    "penetration_m": 0.001,
+    "temporal_world_rms_m": 0.00025
+  },
+  "acceptance": "Candidate lowerresolution only if all10spatialpairs and individualphysicsgates pass. If6vs8fails,8vs10 isnext. Acceptedcandidate gets base/halfdt on all5scenarios bothmaterials; otherwise explicitlyfailed."
+}

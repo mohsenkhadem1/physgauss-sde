@@ -1,0 +1,59 @@
+{
+  "created_utc": "2026-10-30T18:22:55.921124+00:00",
+  "operator_tests_passed": 5,
+  "independent_coupled_checks": [
+    {
+      "class_name": "ConsistentClippedFEMSystem",
+      "mro": [
+        "ConsistentClippedFEMSystem",
+        "ConsistentMassMixin",
+        "ConsistentInertia",
+        "ClippedSurfaceFEMSystem",
+        "ClippedSurfaceContactMixin",
+        "SparseSurfaceFEMSystem",
+        "SparseSurfaceContactMixin",
+        "SurfaceFEMSystem",
+        "SurfaceContactMixin",
+        "FEMSystem",
+        "object"
+      ],
+      "linear_momentum_error": 1.734723475976807e-18,
+      "angular_momentum_error": 2.710505431213761e-20,
+      "friction_count_actual": 52,
+      "friction_count_expected_single_update": 52,
+      "friction_work_j": -1.4388406852949165e-07,
+      "min_j": 0.9999999368650433
+    },
+    {
+      "class_name": "ConsistentClippedSurfaceRigidSystem",
+      "mro": [
+        "ConsistentClippedSurfaceRigidSystem",
+        "ConsistentRigidMassMixin",
+        "ConsistentInertia",
+        "ClippedSurfaceRigidSystem",
+        "ClippedSurfaceContactMixin",
+        "SparseSurfaceRigidSystem",
+        "SparseSurfaceContactMixin",
+        "SurfaceRigidSystem",
+        "SurfaceContactMixin",
+        "RigidSystem",
+        "FEMSystem",
+        "object"
+      ],
+      "linear_momentum_error": 2.6020852139652106e-18,
+      "angular_momentum_error": 8.131516293641283e-20,
+      "friction_count_actual": 52,
+      "friction_count_expected_single_update": 52,
+      "friction_work_j": -1.4388406852949165e-07,
+      "min_j": 0.9999999999999998
+    }
+  ],
+  "diagnostic_plan": "reports/coupled-contact-v13/consistent-mass-diagnostic-plan-2315df9656f8.json",
+  "diagnostic_plan_sha256": "6a4e3a4ea828c3a12f40c55327ece4a53ee52b3afa56299df3ee1841408c00db",
+  "actual_qualified_sources_changed": [],
+  "source_snapshots": "runs/coupled-contact-v13/consistent-audit-source-snapshots/<sha256>/<filename>",
+  "numpy_version": "1.26.4",
+  "scipy_version": "1.15.3",
+  "assessment": "ConsistentM assembly, M_ff static constraints, Mv angularmomentum and exactP1rigidmoment are correct. Contact-force law unchanged. Wrapper MRO bypasses inherited step accumulation and updates friction diagnostics once. No operator blocker found; separate timestep/spatial/contact qualification pending.",
+  "limits": "Static fixed constraints only; rigid orientation integrator firstorder, so kineticenergy maydrift and needs refinement. Stable timestep maybesmaller thanlumped. Operator pass doesnot qualify reference accuracy."
+}

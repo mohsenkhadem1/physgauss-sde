@@ -1,0 +1,51 @@
+{
+  "source_report": "reports/coupled-surface-v13/native-timestep-candidate4-fine-friction1-sphere15.json",
+  "source_report_sha256": "090bc1e20536b32ffc9e55236682649a9de5d445105667105a5c7314b9ac6de4",
+  "source_sha256": {
+    "scripts/coupled_contact_v13/native_timestep_development.py": "458e8c5e132cb6a275c43b31e5e8081ef6448da9e4ba970667f9fb73b388ca49",
+    "scripts/coupled_contact_v13/native_adapter.py": "389d21463c9a026ee4ed98a35a6772008bea39fd468ed8f17458d6f9af5f4173",
+    "scripts/coupled_contact_v13/physics.py": "8400867762863c9551c3eeaac1c758530b34ead8f99811d8b032eb938c008f26",
+    "scripts/coupled_contact_v13/surface_scenarios.py": "514f62cf3ef8b697e4f489bd0242dd829461331f093e947d1a068a7d77ee5aaf",
+    "scripts/coupled_contact_v13/surface_contact.py": "65ac04d47cc9c38496762d636339daa4f5a30332b9a43ecd96d793fb02278f01",
+    "scripts/coupled_contact_v13/sparse_surface_contact.py": "133b19c0e8b692e3d628d0ea883a4db06dee53f5dde721c48a23f15472775804",
+    "scripts/coupled_contact_v13/clipped_surface_contact.py": "6b4a3aa4cec21c2b51e601d14fef7ad0ab6845177f23ca792974d5019b67d9e1",
+    "scripts/coupled_contact_v13/clipped_surface_contact.cpp": "dc6916790e26a24ecce04b633870d13079b56f33a8ed5b9078b3394d70f5793e",
+    "scripts/coupled_contact_v13/native_failure_refinement.py": "3c658ae51e8d331ed066bc97dd41d01ffcc9aa7c5ebf4b389de12cbb1429d7dc"
+  },
+  "jobs": [
+    {
+      "cells": 4,
+      "dt": 1.25e-05,
+      "friction_level": 1,
+      "sphere_spacing": 0.0015,
+      "friction": 0.6,
+      "scale": 100000.0,
+      "scene": "squeeze",
+      "tag": "candidate4-failed125-friction1-sphere15",
+      "name": "squeeze-100000-extra-half"
+    },
+    {
+      "cells": 4,
+      "dt": 1.25e-05,
+      "friction_level": 1,
+      "sphere_spacing": 0.0015,
+      "friction": 0.6,
+      "scale": 1000000.0,
+      "scene": "squeeze",
+      "tag": "candidate4-failed125-friction1-sphere15",
+      "name": "squeeze-1000000-extra-half"
+    },
+    {
+      "cells": 4,
+      "dt": 1.25e-05,
+      "friction_level": 1,
+      "sphere_spacing": 0.0015,
+      "friction": 0.6,
+      "scale": 100000.0,
+      "scene": "curved",
+      "tag": "candidate4-failed125-friction1-sphere15",
+      "name": "curved-100000-extra-half"
+    }
+  ],
+  "policy": "Only finest-step failed development pairs get one additional halving; no reserved cases, model tuning or failure substitution."
+}

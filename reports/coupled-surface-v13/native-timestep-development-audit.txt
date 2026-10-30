@@ -1,0 +1,40 @@
+DEVELOPMENT NATIVE TIMESTEP AUDIT — candidate mesh4, friction0.6, friction quadrature1, sphere1.5mm
+No reserved observations used. Native force core plus shared contact/integrator and FEM mesh-volume guard; not full PhysTwin.
+Failures persisted across four timesteps in three pairs. Persistence alone does not identify physical collapse. High-scale squeeze failure time continues drifting under refinement and is not numerically converged.
+Curved push at scale1e6 completes: successive full-trajectory RMS differences0.2718mm then0.1100mm.
+
+squeeze, scale100000
+ dt=0.0001: success=False, final successful time=0.1694000s, stoppedJ=0.01700081
+ dt=5e-05: success=False, final successful time=0.1695500s, stoppedJ=0.01855389
+ dt=2.5e-05: success=False, final successful time=0.1695500s, stoppedJ=0.01969948
+ dt=1.25e-05: success=False, final successful time=0.1695625s, stoppedJ=0.01967811
+ shared saved prefix through0.16s RMS difference=0.00848213mm; does not assess unsaved final failure dynamics
+ shared saved prefix through0.16s RMS difference=0.00114385mm; does not assess unsaved final failure dynamics
+ shared saved prefix through0.16s RMS difference=0.000607308mm; does not assess unsaved final failure dynamics
+
+squeeze, scale1e+06
+ dt=0.0001: success=False, final successful time=0.1444000s, stoppedJ=0.01591773
+ dt=5e-05: success=False, final successful time=0.1449000s, stoppedJ=0.01132144
+ dt=2.5e-05: success=False, final successful time=0.1458250s, stoppedJ=0.01712678
+ dt=1.25e-05: success=False, final successful time=0.1469375s, stoppedJ=0.01951677
+ shared saved prefix through0.14s RMS difference=0.145967mm; does not assess unsaved final failure dynamics
+ shared saved prefix through0.14s RMS difference=0.0921766mm; does not assess unsaved final failure dynamics
+ shared saved prefix through0.14s RMS difference=0.0390603mm; does not assess unsaved final failure dynamics
+
+curved, scale100000
+ dt=0.0001: success=False, final successful time=0.1870000s, stoppedJ=0.01831952
+ dt=5e-05: success=False, final successful time=0.1870500s, stoppedJ=0.01953533
+ dt=2.5e-05: success=False, final successful time=0.1871000s, stoppedJ=0.01931088
+ dt=1.25e-05: success=False, final successful time=0.1871000s, stoppedJ=0.01977371
+ shared saved prefix through0.18s RMS difference=0.00292765mm; does not assess unsaved final failure dynamics
+ shared saved prefix through0.18s RMS difference=0.0013166mm; does not assess unsaved final failure dynamics
+ shared saved prefix through0.18s RMS difference=0.000537271mm; does not assess unsaved final failure dynamics
+
+curved, scale1e+06
+ dt=0.0001: success=True, final successful time=0.6000000s, stoppedJ=0.9943183
+ dt=5e-05: success=True, final successful time=0.6000000s, stoppedJ=0.9952355
+ dt=2.5e-05: success=True, final successful time=0.6000000s, stoppedJ=0.9940341
+ shared saved prefix through0.60s RMS difference=0.271779mm; does not assess unsaved final failure dynamics
+ shared saved prefix through0.60s RMS difference=0.109976mm; does not assess unsaved final failure dynamics
+
+Recommendation: common predictor dt2.5e-5 is supported for the successful tested native rollout; failed high-scale squeeze remains explicitly unqualified, and its cause cannot be assigned solely to physical/material collapse. Retain all failed hypotheses and avoid a full-PhysTwin ranking. Further refinement is possible but must remain development-only.

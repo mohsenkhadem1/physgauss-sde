@@ -1,0 +1,54 @@
+{
+  "created_utc": "2026-10-30T17:33:23.436357+00:00",
+  "status": "Prospective engineered-scene supplement; execution blocked until final scene/contact/mass/grid source freeze. No fresh outcomes generated.",
+  "scope": "Separate matched-scene/matched-mesh vertex-contact formulation comparison and fixed nominal main-FEM comparison. Vertex and surface contact differ in sampling and damping-mass distribution; this is NOT a pure quadrature-only ablation. Main frozen outputs untouched.",
+  "expected_objects": 10,
+  "expected_forecasts": 40,
+  "expected_reserved_forecasts": 32,
+  "vertex": {
+    "library": "Recompute35vertex-formulation squeeze hypotheses under FINALcommonengineeredscene (candidatek76800/COM.030), predictorgrid and chosenmassoperator; old4800/19200libraries mustnotbereused.",
+    "young_grid": [
+      2000.0,
+      3000.0,
+      4500.0,
+      6500.0,
+      9000.0,
+      13000.0,
+      18000.0
+    ],
+    "friction_grid": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8
+    ],
+    "selection": "Minimum newobserved calibration position MSE; lowestgridindex ties; failedhypotheses infinite; allfailed explicitfailure",
+    "label": "Matched scene/mesh vertex-contact formulation",
+    "limitations": "Vertex FEM uses actual nodal mass in contact damping; surface/clipped uses total body mass times surface patch area divided by total rest surface area. Differences therefore include damping distribution as well as contact sampling/integration.",
+    "causal_claim": "Measures the joint contact-formulation change under common scene, mesh, public inputs, parameter grid and calibration budget; cannot assign gain solely to quadrature.",
+    "inertia": "Pending maincandidate choice. Prefer match chosenFEM/native inertialoperator; ifnotmatched explicitlyreport addedinertiaconfound. Existingactualnodalcontactdamping distinctionremains."
+  },
+  "nominal": {
+    "young_pa": 6000.0,
+    "friction": 0.35,
+    "contact": "Exactly finalfrozen mainmodel_class(fem), scene, grid and inertia; fixedE6000Pa/mu.35; finalcandidatependingqualification",
+    "reuse": "Four fixed trajectories reused acrossobjects with samepublicinitialconditions/commands"
+  },
+  "contact_stiffness_at_400mm2_N_per_m": 76800.0,
+  "edge_block_center_x_m": 0.03,
+  "source_sha256": {
+    "scripts/coupled_contact_v13/surface_ablation.py": "063fd4fb337740c66160b47ef0ed8c13636e309099c8d30d581b1b6586434645"
+  },
+  "deadline_utc": "2026-10-31T05:01:31+00:00",
+  "amended_utc": "2026-10-30T17:54:16.528075+00:00",
+  "amendment": "Nominal obtains main frozen FEM class rather than obsolete midpoint class; common mechanics held identical before any new outcomes.",
+  "label_amended_utc": "2026-10-30T18:09:16.085751+00:00",
+  "scene_module_candidate": "scripts/coupled_contact_v13/engineered_scenarios.py",
+  "final_wiring_required": [
+    "Replace oldsurface_scenarios aliases with selectedscene inrunner beforefreeze",
+    "Match selectedmain inertialoperator invertexcomparator or declare additionalconfound",
+    "Update sourcehash onlyafterfinalaccepted wiring andbeforefreshgeneration"
+  ],
+  "candidate_amended_utc": "2026-10-30T18:20:11.101606+00:00"
+}

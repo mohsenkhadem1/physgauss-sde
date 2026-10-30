@@ -1,0 +1,162 @@
+SURFACE CONTACT EXTENSION: INDEPENDENT PRE-OUTCOME DESIGN AUDIT
+
+Decision: approve a separate, bounded extension. A development-only spatial
+remeshing diagnostic identified vertex-contact aliasing of a narrow edge.
+Temporal refinement does not establish spatial contact convergence. Keep the
+original coupled-contact-v13 experiment, outputs and source freeze unchanged;
+state its newly identified spatial limitation explicitly. This extension is
+coupled-surface-v13, not a silent repair of old reserved predictions.
+
+Cohorts and claim
+Development: exactly the existing (E=6000 Pa,mu=.35) and (E=3000 Pa,mu=.10)
+objects. Use only these objects to qualify quadrature, stability and fit settings.
+Fresh reserved: Cartesian product E={4000,7000,10000,14000} Pa and
+mu={.25,.50}, eight objects. All eight combinations differ from the original
+reserved objects. Four forecast families per object: slide, edge_drop, curved,
+moving_sphere. Each object supplies one squeeze/shear calibration. Thus 10
+calibration records and40forecasts, including32freshreserved forecasts.
+There is no additional validation cohort in this bounded extension. Finish
+method decisions on development, then freeze before fresh reserved generation.
+
+These are fresh parameter combinations, not fresh interaction families: scene
+families were used during earlier development. Report cross-interaction transfer
+from each object's squeeze context. E14000 is above the original engineering
+levels but within the original fitting grid; report it as such without inflating
+the whole cohort into an unseen-physics claim. The new reference/predictor still
+share the Neo-Hookean constitutive family and differ in spatial/time resolution;
+this is controlled simulation evidence, not independent physical validation.
+
+Inputs and inference
+Preserve same initial geometry/known mass, gravity, Poisson ratio, density,
+viscosity, prescribed tool trajectories and supplied scene geometry. Same18
+observed coarse-surface vertices, same noise magnitude and deterministic
+predeclared seeds. Do not change masks or remove difficult nodes after seeing
+reserved errors. Fit using only the new surface-reference squeeze/shear positions.
+All35FEM hypotheses: E={2000,3000,4500,6500,9000,13000,18000} Pa by
+mu={0,.2,.4,.6,.8}. Fresh truths are strictly inside these bounds; report endpoint
+selections and near-tie calibration profiles. Keep exact grid order/tie policy.
+Do not use future free-body trajectories or reaction forces as prediction inputs.
+
+Surface quadrature qualification
+Use rest-surface quadrature with mesh-independent target spacing<=3mm and
+area weights, barycentrically transferring contact forces to the object's nodes.
+Verify reference-surface area/first moments and finite nonnegative weights.
+Force and torque must be conserved by the barycentric transfer: contact points
+and action/reaction arms must agree. Coulomb friction and separation remain
+unilateral; no force after separation. Apply identical surface contact logic to
+all mechanical model classes being compared, including rigid/native adaptations.
+
+A finer surface quadrature does not itself prove spatial convergence. On the two
+development objects, compare at least two quadrature spacings and multiple body
+mesh resolutions with matched physical parameters, public commands and surface
+probe correspondences. The narrow edge case must be included. Check full
+trajectory and contact timing/deformation, not only final positions. Report
+remaining continuum/discretization error independently from inference error.
+Retain absolute original reference gates (penetration<=1mm, positive volume,
+base/half-dt trajectory coordinate RMS<=.25mm), and declare any added spatial
+acceptance threshold before reserved generation. Do not relax these gates in
+response to new reserved results. If spatial convergence is not established,
+explicitly limit the resulting claim to the surface-quadrature discrete model.
+
+Matched comparisons
+A. Surface FEM fitted to new calibration positions.
+B. Surface FEM with true parameters: diagnostic oracle separating coarse-grid
+forward-model error from material/friction inference error.
+C. Fixed nominal surface FEM (E6000 Pa,mu.35): isolates inference gain.
+D. Rigid with the SAME surface contact: tests whether deformation is needed.
+E. Native spring-core adaptation with SAME surface contact, same observation
+budget and35hypotheses, if implemented; never label it full official PhysTwin.
+F. Position ridge/persistence/pose baselines, explicitly lacking collision
+geometry, on the same observations and initial states.
+G. Old vertex-contact FEM: reuse the frozen35old squeeze-library trajectories
+as predictions and select parameters using NEW observed surface-reference
+calibration. Forecast with OLD vertex contact at those selected parameters.
+This is a clean contact-discretization ablation; no future targets or true
+parameters may choose the old baseline. Do not reuse old per-object selections
+for new objects, and do not fit the vertex baseline to its own synthetic truth.
+
+Evaluation and failure accounting
+Primary means retain all declared cases, with explicit incomplete counts and
+conditional means where necessary. Qualified-only results require BOTH new
+calibration and forecast reference qualification. Report each interaction,
+rigid-aligned deformation and world-position errors, moving-body errors,
+penetration, saved-volume checks, and calibration ambiguity. Analyze paired
+changes versus nominal and vertex methods on identical cases. Keep any case
+whose method fails or whose error regresses. Do not count correlated frames as
+independent examples. Reference quality failures remain listed even if omitted
+from a clearly labeled qualified-only supplementary mean.
+
+Preservation, freeze and time
+Write all new artifacts under runs/coupled-surface-v13 and
+reports/coupled-surface-v13. Record new method/source/protocol hashes before
+reserved generation. Preserve the original56main forecasts and their scores.
+The decision to introduce this new extension is informed by development spatial
+physics diagnostics; new confirmation status applies only to fresh objects
+created after the new method freeze, not earlier v13 outcomes.
+The unchanged campaign deadline is2026-10-31T05:01:31+00:00. This extension grants
+no additional12hours. If time runs out, report completed evidence and remaining
+qualification/forecast work without substituting partial favorable results.
+
+DEVELOPMENT AMENDMENT: COMMON CONTACT STIFFNESS AND EDGE GEOMETRY
+The first surface-contact development pilot exceeded the fixed penetration gate
+and exposed a nearly balanced edge-impact configuration. Before any fresh
+reserved generation, approve a new public scene with contact stiffness 19200
+instead of4800N/m at the declared reference area, and edge-drop block center
+x=.018m against edge center x=.010m (8mm imbalance rather than2mm). These are
+engineering changes to contact compliance and experiment geometry, not a
+relaxation of numerical thresholds. Apply them to new reference, inferred FEM,
+nominal/oracle FEM, rigid and native methods identically. Preserve the old pilot
+and its failed stress case as separate evidence; no replacement of old outputs.
+
+Spatial acceptance is declared before the new spatial outcomes: body meshes4
+versus6cells per axis with common surface quadrature/contact law; full-trajectory
+world-coordinate RMS<=1mm and rigid-aligned shape RMS<=.5mm at identical saved
+times and shared surface probes. These equal2% and1% of minimum object width.
+Use all five scenarios on both development materials where runtime allows;
+edge-drop and curved contact on both materials are mandatory. Record the exact
+qualification matrix before generation. These are two-resolution consistency
+gates, not proof of asymptotic mesh convergence or an independent physics engine.
+Original timestep, penetration and positive-volume gates remain unchanged.
+
+IMPORTANT BASELINE CORRECTION
+The earlier recommendation to reuse the old35vertex calibration library is now
+withdrawn because contact stiffness has changed. Recompute all35vertex-contact
+calibration hypotheses using NEW stiffness19200 and NEW public scene geometry,
+then select using the SAME new surface-reference observed squeeze positions and
+forecast with that matched new scene. Only the contact discretization may differ
+between this ablation and surface FEM. Old4800library reuse would confound
+contact sampling with contact compliance and is not a causal ablation.
+
+Fresh reserved eight objects and the original campaign deadline are unchanged.
+This amendment requires a new final source/protocol freeze after development
+qualification and before fresh reserved generation. No fresh reserved outcomes
+were inspected for this decision.
+
+PRE-FREEZE ABLATION CLAIM CORRECTION
+The vertex comparator retains actual nodal masses in contact damping, whereas
+the surface/clipped comparator uses total body mass distributed by rest-surface
+area. Even under identical scene, mesh and penalty coefficient, this changes the
+damping distribution as well as contact sampling/integration. Accordingly label
+it "matched scene/mesh vertex-contact formulation" and explicitly NOT a pure
+quadrature-only ablation. Earlier statements that only discretization differs
+are superseded. Its measured gains can support the joint contact-formulation
+change, not a causal attribution solely to quadrature. No extra comparator is
+required for that narrower claim; a future pure-quadrature experiment would also
+match the damping-mass density. This is a clarification before new outcomes, not
+a predictor revision.
+
+PROSPECTIVE ENGINEERED SCENE AND INERTIA CANDIDATE
+The current candidate uses common penalty76800 and edge-drop COM x=.030m.
+The old x=.018m COM lay exactly on the support right boundary, rather than
+robustly beyond it. The new COM lies12mm beyond it while the block footprint
+still overlaps the ledge. This repairs a marginal balance experiment; it does
+not relax fixed numerical limits. Previous scenes and failed ladders stay saved.
+A separate consistent-P1-mass candidate is under consideration. Exact P1 mass
+moments can remove the substantial coarse-grid lumped rotational inertia bias,
+but stability and every physical qualification must be repeated. No candidate
+is selected and no fresh references may be generated before final qualification
+and freeze. A chosen mass operator must be shared by FEM/native comparisons;
+rigid inertia should match the exact uniform block. If the vertex comparator
+keeps a different mass operator, it adds an inertia confound that must be
+reported; matching its inertial operator is preferable. The original campaign
+deadline and all penetration/time/shape/body limits remain fixed.

@@ -1,0 +1,47 @@
+PRE-RUN INDEPENDENT DEVELOPMENT TRANSFER AUDIT: APPROVED
+
+Scope: exactly the previously declared21development cases (20SoftVTBench and
+onePhysTwin). This is exploratory reuse of known development data, not a new
+independent benchmark cohort. Two CPU workers and the original campaign deadline
+are appropriate. No pilot outcome was inspected for this approval.
+
+Physical change
+The new matrix integrates normalized unit-total-mass P1 volume moments over the
+inherited rest tetrahedra. Its row sums define center of mass; local^T M local
+provides the second moment/inertia. This is the correct uniform reference-volume
+mass integral for the given tetrahedral model. Tests independently pass for
+uniform blocks at multiple resolutions, translations, rotations and tetrahedron
+orientation reorderings. All11declared source hashes and63archived input hashes
+match the pre-run declaration.
+
+The code diff changes COM/inertia and their initialization consistently; gravity,
+contact selection, friction0.5,80substeps, vertical projection and release logic
+are inherited. Unit total mass matches the prior unit-mass contact convention.
+Uniform volume density of the inherited tetrahedral domain is an assumption,
+not recovered real-object mass distribution. The existing pose integrator keeps
+shape frozen after release and retains its original angular-velocity stepping
+and positional penetration correction. Do not describe this as the full new
+consistent-mass coupled deformable solver or a physically exact rigid integrator.
+
+Input isolation and preservation
+Observed positions are already restricted to the permitted prefix by the loader;
+predictor_payload removes evaluation targets. The new rollout additionally
+rejects an evaluation field. Initial scene, archived predicted nodes and commands
+are legitimate predictor inputs; no parameter fit, reselection or true-force
+input occurs. Existing saved future predictions are predictions, not observations.
+Scoring receives evaluation targets only after new predictions are written.
+
+For every SoftVT case, original contact replay must reproduce the archived
+selected array bitwise before the variant is scored. New prediction frames not
+explicitly integrated in free motion must equal the original prefix/held frames
+bitwise. A replay mismatch becomes an explicit failed case; do not repair it
+using target motion or score-based fallback. PhysTwin is copied unchanged, so
+this pilot cannot demonstrate a PhysTwin improvement by construction.
+
+Decision and reporting
+Proceed within this narrow scope. Report all21cases, including failures and
+unchanged cases; separate dataset metrics and mark incomplete means conditional.
+Do not promote a development improvement to independent generalization. A future
+larger test would need a new frozen decision and separately declared cohort.
+The meaningful question here is whether better physical mass moments alone help
+the existing reduced free-pose forecast, while preserving all earlier evidence.

@@ -1,0 +1,197 @@
+{
+  "plan": {
+    "scope": "Development-only quadrature refinement, same physical contact law; no fresh outcomes",
+    "source_sha256": {
+      "scripts/coupled_contact_v13/physics.py": "8400867762863c9551c3eeaac1c758530b34ead8f99811d8b032eb938c008f26",
+      "scripts/coupled_contact_v13/surface_contact.py": "65ac04d47cc9c38496762d636339daa4f5a30332b9a43ecd96d793fb02278f01",
+      "scripts/coupled_contact_v13/sparse_surface_contact.py": "133b19c0e8b692e3d628d0ea883a4db06dee53f5dde721c48a23f15472775804",
+      "scripts/coupled_contact_v13/surface_scenarios.py": "514f62cf3ef8b697e4f489bd0242dd829461331f093e947d1a068a7d77ee5aaf",
+      "scripts/coupled_contact_v13/surface_quadrature_refinement.py": "f7cfcbf1bfafce1d72eff55aae23f643d28e328d105c1dbb29dcc43f79658b27"
+    },
+    "version": "236ddcb20676",
+    "cases": [
+      "edge_drop",
+      "curved"
+    ],
+    "young": 6000.0,
+    "friction": 0.35,
+    "cells": 4,
+    "dt": 5e-05,
+    "spacing_ladder_m": [
+      [
+        0.0015,
+        0.00075
+      ],
+      [
+        0.00075,
+        0.000375
+      ]
+    ],
+    "gates": {
+      "world_rms_m": 0.001,
+      "shape_rms_m": 0.0005,
+      "penetration_m": 0.001
+    },
+    "acceptance": "Lower-cost spacing accepted only if BOTH cases pass both trajectory bounds and physical gates; second rung only if first fails",
+    "acceleration": "Conservative SDF/Frobenius bound; exhaustive equivalence unit tests; same physical quadrature points"
+  },
+  "runs": [
+    {
+      "min_j": 0.6580336577127383,
+      "max_penetration_m": 0.0005845985098244365,
+      "friction_work_j": -0.023648138135202258,
+      "contact_samples": 4069856,
+      "dt": 4.9999999999999996e-05,
+      "friction_active_samples": 3963424,
+      "friction_saturated_samples": 2385928,
+      "friction_saturated_fraction": 0.6019865651517475,
+      "scenario": "edge_drop",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "spacing": 0.0015,
+      "path": "runs/coupled-contact-v13/surface-quadrature-refinement/236ddcb20676/edge_drop-h0.0015",
+      "seconds": 29.131588459014893
+    },
+    {
+      "min_j": 0.6237858775559125,
+      "max_penetration_m": 0.0007812852154781853,
+      "friction_work_j": -0.01575348312822813,
+      "contact_samples": 14985192,
+      "dt": 4.9999999999999996e-05,
+      "friction_active_samples": 14563018,
+      "friction_saturated_samples": 8188533,
+      "friction_saturated_fraction": 0.5622826944250154,
+      "scenario": "edge_drop",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "spacing": 0.00075,
+      "path": "runs/coupled-contact-v13/surface-quadrature-refinement/236ddcb20676/edge_drop-h0.00075",
+      "seconds": 40.30321931838989
+    },
+    {
+      "min_j": 0.7380786078348351,
+      "max_penetration_m": 0.0007421238046997486,
+      "friction_work_j": -0.09383949468124207,
+      "contact_samples": 20068465,
+      "dt": 4.9999999999999996e-05,
+      "friction_active_samples": 19912449,
+      "friction_saturated_samples": 12299588,
+      "friction_saturated_fraction": 0.61768333970372,
+      "scenario": "curved",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "spacing": 0.0015,
+      "path": "runs/coupled-contact-v13/surface-quadrature-refinement/236ddcb20676/curved-h0.0015",
+      "seconds": 40.30161476135254
+    },
+    {
+      "min_j": 0.737794040248676,
+      "max_penetration_m": 0.0007468932723492874,
+      "friction_work_j": -0.09383536379467144,
+      "contact_samples": 79442648,
+      "dt": 4.9999999999999996e-05,
+      "friction_active_samples": 78826371,
+      "friction_saturated_samples": 48690072,
+      "friction_saturated_fraction": 0.6176876010186997,
+      "scenario": "curved",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "spacing": 0.00075,
+      "path": "runs/coupled-contact-v13/surface-quadrature-refinement/236ddcb20676/curved-h0.00075",
+      "seconds": 79.13310980796814
+    },
+    {
+      "min_j": 0.6716011954854118,
+      "max_penetration_m": 0.0009328925075964504,
+      "friction_work_j": -0.023647969129243517,
+      "contact_samples": 63191624,
+      "dt": 4.9999999999999996e-05,
+      "friction_active_samples": 61456021,
+      "friction_saturated_samples": 38484388,
+      "friction_saturated_fraction": 0.626210212991173,
+      "scenario": "edge_drop",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "spacing": 0.000375,
+      "path": "runs/coupled-contact-v13/surface-quadrature-refinement/236ddcb20676/edge_drop-h0.000375",
+      "seconds": 88.80422782897949
+    },
+    {
+      "min_j": 0.7377637695930208,
+      "max_penetration_m": 0.0007516596433777764,
+      "friction_work_j": -0.09384193235225258,
+      "contact_samples": 317832319,
+      "dt": 4.9999999999999996e-05,
+      "friction_active_samples": 315364889,
+      "friction_saturated_samples": 194816061,
+      "friction_saturated_fraction": 0.6177481000429316,
+      "scenario": "curved",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "spacing": 0.000375,
+      "path": "runs/coupled-contact-v13/surface-quadrature-refinement/236ddcb20676/curved-h0.000375",
+      "seconds": 243.57217049598694
+    }
+  ],
+  "checks": [
+    {
+      "complete": true,
+      "world_rms_m": 0.0030534749548765507,
+      "shape_rms_m": 0.0005440887175224413,
+      "scenario": "edge_drop",
+      "spacings_m": [
+        0.0015,
+        0.00075
+      ],
+      "passed": false
+    },
+    {
+      "complete": true,
+      "world_rms_m": 1.3260490367682576e-05,
+      "shape_rms_m": 4.920567711582504e-06,
+      "scenario": "curved",
+      "spacings_m": [
+        0.0015,
+        0.00075
+      ],
+      "passed": true
+    },
+    {
+      "complete": true,
+      "world_rms_m": 0.002201520807853014,
+      "shape_rms_m": 0.0004053761877444531,
+      "scenario": "edge_drop",
+      "spacings_m": [
+        0.00075,
+        0.000375
+      ],
+      "passed": false
+    },
+    {
+      "complete": true,
+      "world_rms_m": 1.4190810609563968e-06,
+      "shape_rms_m": 7.433587154721468e-07,
+      "scenario": "curved",
+      "spacings_m": [
+        0.00075,
+        0.000375
+      ],
+      "passed": true
+    }
+  ],
+  "accepted_spacing_m": null,
+  "source_unchanged": true,
+  "all_gates_pass": false
+}

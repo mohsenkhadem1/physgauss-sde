@@ -1,0 +1,27 @@
+{
+  "created_utc": "2026-10-30T18:00:45.179148+00:00",
+  "status": "Declared before independently reading saved dynamic-body trajectory differences",
+  "development_parameters": [
+    {
+      "young": 6000.0,
+      "friction": 0.35
+    },
+    {
+      "young": 3000.0,
+      "friction": 0.1
+    }
+  ],
+  "scenario": "moving_sphere",
+  "body": "The freely moving payload sphere; not prescribed tool or static obstacle centers",
+  "metric": "Coordinate RMS =sqrt(mean((center_A-center_B)^2)) across all common saved postinitial times and three coordinates; not Euclidean-distance RMS. Initial center is shared, exclude initialframe; also record fulltrajectory finite and maxEuclidean discrepancy.",
+  "gates": {
+    "temporal_center_coordinate_rms_m": 0.00025,
+    "sphere_quadrature_center_coordinate_rms_m": 0.001,
+    "spatial_center_coordinate_rms_m": 0.001,
+    "all_saved_dynamic_centers_finite": true
+  },
+  "selection": "Match prior soft-node qualification comparisons/settings; no choice based on favorable body discrepancies; both development materials required",
+  "per_case_reference": "Final per-case base/half-dt reference qualification must also require finite dynamic-body centers, matching body/time identities and coordinateRMS<=.25mm for moving_sphere; full allcase accounting preserved",
+  "source_policy": "Separate supplemental driver; do not modify running hashed qualification sources",
+  "deadline_utc": "2026-10-31T05:01:31+00:00"
+}

@@ -1,0 +1,58 @@
+INDEPENDENT READ-ONLY AUDIT: CONSISTENT HIGHER REFINEMENT
+
+Source/accounting
+All12sources in the declared higher-refinement plan match their hashes. Its
+prior-report hash matches the completed consistent-mass diagnostic. That report
+has12unique runs and8declared comparisons: two scenarios, two materials and two
+mesh pairs. The new higher ladder is8->10->12->16, using the same25us timestep,
+fixed contact settings and consistent mass. No fresh reserved output is involved.
+
+The higher driver itself covers only edge_drop and curved: four of the required
+ten scenario/material combinations. It correctly publishes all_gates_pass=False
+and lists remaining qualification rather than claiming complete acceptance.
+Squeeze, slide and moving_sphere on both materials remain separate requirements.
+
+Numerical/statistical policy
+Each stage requires both material cases for a scenario and the unchanged sparse
+AND dense spatial bounds (world1mm, alignedshape.5mm), per-body center1mm,
+penetration1mm, J>.02 and finite collider states. The checks retain failed stages.
+Using a predeclared first-passing-pair rule on development numerical diagnostics
+is appropriate engineering selection; it is not held-out forecast tuning.
+However agreement of two resolutions is a consistency check, not evidence of
+asymptotic continuum convergence. Passing a scene at one reference resolution
+does not automatically qualify another finer reference for that scene.
+
+MANDATORY NESTING RESOLUTION
+The current lower-mesh acceptance rule could accept10from the10->12pair.
+A10-cell reference does NOT contain all4-cell predictor vertices. The existing
+exact shared-node mapping would then fail. For a fixed4-cell predictor, eligible
+lower references on this ladder are8and12. A passing10->12 comparison may be
+reported, but cannot silently promote12without its own12->16 check, nor permit10
+without a separately declared interpolation/scoring change. The running source
+should remain preserved; any eligibility correction can be a separately declared
+supplementary decision/check before fresh generation.
+
+MANDATORY SCENE-MAP RESOLUTION
+The higher driver selects reference resolution separately per scenario. The
+original runtime schema has only global reference_cells. Before freeze either:
+(a) implement/freeze an explicit reference_cells_by_scenario map used by both base
+and half-dt reference generation and verification; or(b) qualify a common chosen
+resolution across all ten scenario/material combinations. Merely taking the
+maximum of separately accepted scene resolutions assumes untested accuracy.
+The predictor mesh and observation/scoring probes must remain fixed across all
+methods for each declared comparison.
+
+Remaining gates
+Repeat contact/friction/sphere integration and dynamic-body checks for the chosen
+consistent-mass configuration. Qualify actual selected reference meshes at base
+and half timesteps on all five scenarios and both materials, with soft and body
+thresholds. Repeat endpoint stress/penetration and predictor feasibility under
+the chosen mass operator; old lumped endpoint passes cannot be inherited.
+Resolve exact18observation node indices/coordinates, all scene aliases and mass
+operators; retain405prior artifacts; freeze actual sources and protocol only
+after these requirements are satisfied. The existing campaign deadline remains.
+
+Verdict
+The in-progress ladder is a legitimate development diagnostic, not yet a complete
+reference qualification. No threshold change or source modification made by this
+audit. The nesting and scenario-map issues must be resolved before fresh freeze.

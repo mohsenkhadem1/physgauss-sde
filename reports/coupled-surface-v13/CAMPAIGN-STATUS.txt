@@ -1,0 +1,43 @@
+COUPLED CONTACT CAMPAIGN: DEVELOPMENT EXTENSION
+Original start: 2026-10-30 17:01:31 UTC
+Hard deadline: 2026-10-31 05:01:31 UTC (not reset by repairs)
+
+Completed evidence
+The original v13 study is published at dcb64c482fb76ff902fd042703f34a8d89eb498d.
+Its 32 reserved forecasts improve world-coordinate error against the rigid
+comparison, but its edge reference fails spatial consistency. Those results
+and warnings remain unchanged. The extension preservation manifest verifies
+405 published v11/v12/v13 files.
+
+Current development work
+Clipped triangle contact resolves normal plane/box contact integration;
+friction and sphere quadrature have separate refinement checks. The marginal
+edge case and failed midpoint-contact trials remain archived. A new prospective
+edge scene places the center of mass 12 mm beyond the support edge, and uses
+stronger contact stiffness. All 16 endpoint stress tests pass, with maximum
+penetration 0.897 mm. Contact, timestep and spatial checks are still underway.
+A separate consistent P1 mass candidate is being implemented because the
+lumped coarse mesh overestimates rigid rotational inertia. It must pass its
+own dynamics and numerical checks before use. No new reserved forecasts exist.
+
+Next decision
+Select the reference and predictor discretizations using development evidence,
+then freeze every scene, numerical setting, source, observation and comparator.
+Run 2 development and 8 reserved objects under four forecast interactions.
+Include rigid, native spring-force adaptation, position baselines, matched
+vertex-contact formulation and fixed nominal material comparisons. Independently
+recompute scores and inspect fixed actual-versus-predicted videos.
+
+Scope
+This is a controlled simulation qualification and cross-interaction study.
+It does not yet demonstrate improvement on the archived SoftVTBench or real
+PhysTwin datasets. The native spring-force comparison is not the full authors'
+PhysTwin method. Raw data and checkpoints remain local. Physics, benchmark
+implementation and independent audit are assigned to separate agents.
+
+Recovery
+Live services use the coupled-contact-v13- prefix. Machine-readable restart
+state is runs/coupled-contact-v13/campaign-state.json. Do not recreate live
+queues, overwrite frozen sources, restart the time budget or promote failed
+qualification runs. Development plans and complete failure records remain
+alongside the reports.

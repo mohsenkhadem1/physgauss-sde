@@ -1,0 +1,54 @@
+{
+  "scope": "Development-only predeclared spatial refinement ladder, not held-out selection",
+  "source_sha256": {
+    "scripts/coupled_contact_v13/physics.py": "8400867762863c9551c3eeaac1c758530b34ead8f99811d8b032eb938c008f26",
+    "scripts/coupled_contact_v13/surface_contact.py": "65ac04d47cc9c38496762d636339daa4f5a30332b9a43ecd96d793fb02278f01",
+    "scripts/coupled_contact_v13/surface_scenarios.py": "514f62cf3ef8b697e4f489bd0242dd829461331f093e947d1a068a7d77ee5aaf",
+    "scripts/coupled_contact_v13/surface_mesh_refinement.py": "12b9345489965c0b8a185a7bf83da84e25e10ba644c5e7f4505da982cde5d619",
+    "scripts/coupled_contact_v13/surface_qualification.py": "761b615644f54bf312239b5164912746ef5cdcc6b3300f744a9ac2355e74e289"
+  },
+  "version": "mesh-81473beacd0e",
+  "prior_version": "1f149be83bf2",
+  "ladder": [
+    [
+      6,
+      8
+    ],
+    [
+      8,
+      10
+    ]
+  ],
+  "cases": [
+    [
+      "edge_drop",
+      6000.0,
+      0.35
+    ],
+    [
+      "edge_drop",
+      3000.0,
+      0.1
+    ],
+    [
+      "curved",
+      6000.0,
+      0.35
+    ],
+    [
+      "curved",
+      3000.0,
+      0.1
+    ]
+  ],
+  "dt": 2.5e-05,
+  "quadrature_spacing_m": 0.003,
+  "measurement": "Both common27physicalrestpoints and common2678surfacequadraturepoints via actualtetP1interpolation, uniformcoordinateRMS, firstframeexcluded; BOTH mustpass samebounds",
+  "gates": {
+    "world_rms_m": 0.001,
+    "shape_rms_m": 0.0005,
+    "penetration_m": 0.001,
+    "temporal_world_rms_m": 0.00025
+  },
+  "acceptance": "Candidate lowerresolution only if all4spatialpairs and individualphysicsgates pass. If6vs8fails,8vs10 isnext. Acceptedcandidate gets base/halfdt on all5dev0 plusedge/curveddev1; otherwise explicitlyfailed."
+}

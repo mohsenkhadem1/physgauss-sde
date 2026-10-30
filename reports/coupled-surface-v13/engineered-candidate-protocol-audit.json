@@ -1,0 +1,29 @@
+{
+  "created_utc": "2026-10-30T18:08:27.392056+00:00",
+  "status": "Prospective candidate design approved; numerical qualification pending, no inheritance of prior passes",
+  "support_interval_x_m": [
+    0.002,
+    0.018
+  ],
+  "old_block_center_x_m": 0.018,
+  "new_block_center_x_m": 0.03,
+  "new_com_beyond_support_edge_m": 0.012,
+  "new_block_footprint_x_m": [
+    -0.01,
+    0.07
+  ],
+  "contact_stiffness_at_400mm2_N_per_m": 76800.0,
+  "scene_sha256": "1226d92a358cf93a7a3ff0a96d9672595063af531b7cd986feb649a30e3cc91c",
+  "original_frozen_source_changes": [],
+  "previous_clipping_source_changes": [],
+  "rationale": "Move COM off exact support-boundary tipping degeneracy while preserving actual ledge overlap; increase common penalty stiffness to address fixed penetration gate. Same scene/penalty for all new methods. Previous failed stress cases preserved.",
+  "required_qualification": [
+    "Endpoint grid stability/penetration screen",
+    "Friction integration on both development materials",
+    "Sphere integration and dynamic body position on both materials",
+    "All five scenarios on both materials at three timesteps",
+    "Body-mesh spatial consistency at common physical probes and dynamic sphere centers"
+  ],
+  "limits": "Candidate selection remains development-only. New stiffness changes penalty compliance and damping, so earlier time/contact/body passes cannot be inherited. No fresh data or predictors have been evaluated under this candidate by this audit.",
+  "deadline_utc": "2026-10-31T05:01:31+00:00"
+}

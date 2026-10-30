@@ -1,0 +1,19 @@
+READ-ONLY ARCHIVED BENCHMARK TRANSFER ASSESSMENT
+
+Reusable inputs
+SoftVTBench: initial nodal geometry, sparse observed prefix, commanded end-effector poses/gripper widths, initial rigid-scene poses and local public USD plate/basket/bowl assets. Existing v12 representation reduces scene meshes to vertical heightfields. The latent FEM mesh is a Delaunay tetrahedralization of the input nodes, and archived fitted/base predictions are available.
+PhysTwin: initial surface/interior point reconstruction, sparse tracked positions and controller-point trajectories. Existing loader treats gripper neighborhoods as positional attachments. It supplies an initial inferred floor, but does not provide explicit collision geometry of moving hands/tools or complete environmental rigid bodies/masses. Nonconvex tetrahedra are heuristically filtered from initial reconstruction.
+
+What does not transfer directly
+The new sparse surface sampler assumes a box rest shape. Plush-object meshes violate that assumption. Plane/box clipping can integrate arbitrary boundary triangles in principle, but a replacement surface sampler and mesh-quality audit are needed for sphere/mesh contacts. SoftVT static asset meshes include curved walls/undercuts; the qualified synthetic collider set does not yet represent those arbitrary meshes. Existing fitted material/world parameters are dimensionless and partly quasistatic, whereas the new explicit solver uses SI density/stiffness/damping. Dropping parameters into the new solver would change the physical model without calibration. Hand/tool collision geometry and attachment/slip interfaces also need an explicit adapter.
+
+Small useful development pilot
+Create a separate volume-consistent rigid-pose rollout using the archived initial tetrahedral mass matrix. Normalize mass to one, use row sums for center of mass and the P1 quadratic moment for inertia. Preserve the existing prefix, attachment diagnosis, contact impulse/friction rule, scene queries, substeps, and fixed shape at release. Compare on the previously used development cohort first, using immutable cached fitted trajectories. Freeze any subsequent exploratory re-evaluation and preserve old files. This isolates an inertial correction; it does not demonstrate contact-induced deformation.
+
+Likely scope
+SoftVT released/detached cases can change. PhysTwin current model-selection pipeline does not apply scene contact rollout, so this correction should leave its forecasts unchanged. Showing both dataset counts is useful for regression preservation but cannot be described as improvement on both datasets. No guarantee of metric gains.
+
+Cost
+The small pose pilot avoids neural/physical refits and needs only cached predictions, initial meshes/scenes and a short CPU rollout; a development pilot should be minutes to tens of minutes, not hours. Exact cost remains unmeasured. A faithful coupled deformable transfer to both datasets has substantial geometry, unit-conversion, boundary and stability work and should not be promised within the remaining campaign without a successful development prototype.
+
+No archived predictor, result, input file or frozen source was modified for this assessment.

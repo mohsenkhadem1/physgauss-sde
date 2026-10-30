@@ -1,0 +1,60 @@
+{
+  "scope": "Development-only clipping qualification before fresh inference/results",
+  "source_sha256": {
+    "scripts/coupled_contact_v13/physics.py": "8400867762863c9551c3eeaac1c758530b34ead8f99811d8b032eb938c008f26",
+    "scripts/coupled_contact_v13/surface_contact.py": "65ac04d47cc9c38496762d636339daa4f5a30332b9a43ecd96d793fb02278f01",
+    "scripts/coupled_contact_v13/sparse_surface_contact.py": "133b19c0e8b692e3d628d0ea883a4db06dee53f5dde721c48a23f15472775804",
+    "scripts/coupled_contact_v13/clipped_surface_contact.py": "6b4a3aa4cec21c2b51e601d14fef7ad0ab6845177f23ca792974d5019b67d9e1",
+    "scripts/coupled_contact_v13/clipped_surface_contact.cpp": "dc6916790e26a24ecce04b633870d13079b56f33a8ed5b9078b3394d70f5793e",
+    "scripts/coupled_contact_v13/engineered_scenarios.py": "1226d92a358cf93a7a3ff0a96d9672595063af531b7cd986feb649a30e3cc91c",
+    "scripts/coupled_contact_v13/consistent_qualification.py": "76500b5a3b1a5b35f39a5585f1ba11088ab9659973e077ddedc35b1f36787ec9",
+    "scripts/coupled_contact_v13/consistent_mass.py": "bd1a3a882f7269c89a18899d3491ccf1fbf4c36a68f9177d6dfc86fe4ac4dc66",
+    "scripts/coupled_contact_v13/surface_qualification.py": "761b615644f54bf312239b5164912746ef5cdcc6b3300f744a9ac2355e74e289"
+  },
+  "version": "8085bb6406af",
+  "friction_cases": [
+    "edge_drop",
+    "squeeze"
+  ],
+  "sphere_cases": [
+    "curved",
+    "moving_sphere"
+  ],
+  "materials": [
+    [
+      6000.0,
+      0.35
+    ],
+    [
+      3000.0,
+      0.1
+    ]
+  ],
+  "cells": 4,
+  "dt": 2.5e-05,
+  "friction_levels": [
+    0,
+    1,
+    2
+  ],
+  "sphere_spacing_ladder_m": [
+    [
+      0.0015,
+      0.00075
+    ],
+    [
+      0.00075,
+      0.000375
+    ]
+  ],
+  "gates": {
+    "body_spatial_quadrature_rms_m": 0.001,
+    "body_temporal_rms_m": 0.00025,
+    "world_rms_m": 0.001,
+    "shape_rms_m": 0.0005,
+    "penetration_m": 0.001,
+    "temporal_world_rms_m": 0.00025,
+    "temporal_refinement_ratio": 0.8
+  },
+  "acceptance": "Friction level1 must agree with level2 for all4 cases; level0 diagnostic only. Sphere spacing accepted only if all4 cases pass. Accepted sphere spacing +friction1 then get3timelevels on all5scenarios bothmaterials, with per-body center gates. No FEM spatial acceptance implied."
+}

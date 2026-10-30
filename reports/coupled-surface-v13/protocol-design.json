@@ -1,0 +1,197 @@
+{
+  "created_utc": "2026-10-30T17:27:20.332555+00:00",
+  "status": "Prospective engineered scene with separate consistent-mass candidate; final source freeze and fresh reference generation prohibited until chosen configuration passes development qualification",
+  "deadline_utc": "2026-10-31T05:01:31+00:00",
+  "objects": [
+    {
+      "id": "surface_dev0",
+      "split": "development",
+      "young": 6000.0,
+      "friction": 0.35
+    },
+    {
+      "id": "surface_dev1",
+      "split": "development",
+      "young": 3000.0,
+      "friction": 0.1
+    },
+    {
+      "id": "surface_test0",
+      "split": "reserved",
+      "young": 4000.0,
+      "friction": 0.25
+    },
+    {
+      "id": "surface_test1",
+      "split": "reserved",
+      "young": 4000.0,
+      "friction": 0.5
+    },
+    {
+      "id": "surface_test2",
+      "split": "reserved",
+      "young": 7000.0,
+      "friction": 0.25
+    },
+    {
+      "id": "surface_test3",
+      "split": "reserved",
+      "young": 7000.0,
+      "friction": 0.5
+    },
+    {
+      "id": "surface_test4",
+      "split": "reserved",
+      "young": 10000.0,
+      "friction": 0.25
+    },
+    {
+      "id": "surface_test5",
+      "split": "reserved",
+      "young": 10000.0,
+      "friction": 0.5
+    },
+    {
+      "id": "surface_test6",
+      "split": "reserved",
+      "young": 14000.0,
+      "friction": 0.25
+    },
+    {
+      "id": "surface_test7",
+      "split": "reserved",
+      "young": 14000.0,
+      "friction": 0.5
+    }
+  ],
+  "calibration": "squeeze",
+  "forecast_scenarios": [
+    "slide",
+    "edge_drop",
+    "curved",
+    "moving_sphere"
+  ],
+  "expected_calibration_records": 10,
+  "expected_forecasts": 40,
+  "expected_reserved_forecasts": 32,
+  "observation_nodes": 18,
+  "noise_std_m": 0.0001,
+  "fem_young_grid": [
+    2000.0,
+    3000.0,
+    4500.0,
+    6500.0,
+    9000.0,
+    13000.0,
+    18000.0
+  ],
+  "friction_grid": [
+    0.0,
+    0.2,
+    0.4,
+    0.6,
+    0.8
+  ],
+  "max_reference_surface_quadrature_spacing_m": "Pending quadrature qualification",
+  "reference_cells": "Pending development spatial qualification",
+  "coarse_cells": "Pending development predictor-resolution qualification",
+  "reference_qualification": "Original absolute penetration/volume/timestep gates retained; additional spatial qualification declared on development before method freeze",
+  "vertex_baseline": "Recompute35vertex-contact squeeze hypotheses under identical FINAL common scene/contact penalty and predictor grid. Fit same new observed calibration; originalFEMSystem vertex formulation retains actual nodal damping mass, while main surface/clipped formulation uses area-distributed mass. This is a matched-scene/matched-mesh contact-FORMULATION comparison, not pure quadrature isolation.",
+  "preservation": "Original coupled-contact-v13 source and56forecasts preserved",
+  "scope": "Controlled same-constitutive-family fine/coarse transfer with new contact discretization and fresh parameter combinations; interaction families already used in development",
+  "audit_sha256": "cbff189cab6a0d83304c7d861fbff11a9d8e52ac75a3c77d05381d74dc1716c7",
+  "amended_utc": "2026-10-30T17:30:00.646763+00:00",
+  "contact_stiffness_at_400mm2_N_per_m": 76800.0,
+  "edge_drop_block_center_m": [
+    0.03,
+    0,
+    0.09
+  ],
+  "edge_obstacle_center_m": [
+    0.01,
+    0,
+    0.025
+  ],
+  "spatial_development_gates": {
+    "coarse_cells": [
+      4,
+      4,
+      4
+    ],
+    "fine_cells": [
+      6,
+      6,
+      6
+    ],
+    "world_trajectory_coordinate_rms_m": 0.001,
+    "rigid_aligned_shape_rms_m": 0.0005,
+    "minimum_required_scenarios": [
+      "edge_drop",
+      "curved"
+    ],
+    "minimum_required_objects": [
+      "surface_dev0",
+      "surface_dev1"
+    ],
+    "recommended_matrix": "All five scenarios including squeeze on both development objects",
+    "interpretation": "Two-resolution spatial consistency, not asymptotic mesh convergence; exact matrix recorded before generation"
+  },
+  "amendment_reason": "Development-only surface pilot exceeded fixed penetration gate and nearly balanced edge aliased; change common scene/contact compliance, preserve failed pilot, retain all numerical gates.",
+  "contact_integration": "Candidate exact clipped plane/box P1 normal integration, independently refined friction quadrature and separately qualified sparse sphere surface quadrature; final settings not frozen.",
+  "development_repair_history": [
+    {
+      "method": "Vertex contact, original v13",
+      "outcome": "Frozen study completed; edge reference spatial differences12.13/29.72mm at4vs6."
+    },
+    {
+      "method": "Surface midpoint contact, k19200 and8mm edge offset",
+      "outcome": "Time and penetration qualified at4cells; spatial4vs6 failed; edge contact quadrature3\u21921.5mm world4.189mm,1.5\u2192.75mm3.053mm,.75\u2192.375mm2.202mm exceeds fixed1mmgate."
+    },
+    {
+      "method": "Clipped surface triangle contact",
+      "outcome": "Under implementation and independent audit. No freshcases generated."
+    },
+    {
+      "method": "Clipped plane/box contact at k19200 with COM .018",
+      "outcome": "Operator and development timestep/friction/sphere checks passed; body/spatial reference qualification not complete. Fine8 softedge penetration1.145mm exceededfixed1mm gate; previouspasses cannot transfer to changedpenalty."
+    },
+    {
+      "method": "Engineered scene k76800 COM .030, lumped mass",
+      "status": "Separate candidate undergoing endpoint and development qualification; original scenes preserved",
+      "declared_utc": "2026-10-30T18:19:36.171089+00:00"
+    },
+    {
+      "method": "Consistent P1 mass with engineered scene",
+      "status": "Separate prospective candidate pending operator, stability and development qualification; not selected for fresh reference generation",
+      "rationale": "Lumped mass produces rotational inertia bias at coarse meshes; constant consistentP1 mass represents linear-field mass moments exactly."
+    }
+  ],
+  "repair_amended_utc": "2026-10-30T17:50:46.052669+00:00",
+  "body_temporal_coordinate_rms_limit_m": 0.00025,
+  "body_reference_qualification": "Both base/half-dt saved collidercenters finite, valid/matching time/body arrays; moving_sphere dynamic payload center postinitial coordinateRMS <=.25mm. Combined with existing softnode gates for calibration/forecast joint qualification.",
+  "body_qualification_amended_utc": "2026-10-30T18:03:02.168476+00:00",
+  "scene_module_candidate": "scripts/coupled_contact_v13/engineered_scenarios.py",
+  "geometry_rationale": "Support x interval [.002,.018]m: former block COM .018 lay exactly on support boundary. New COM .030 is12mm beyond boundary while footprint[-.01,.07] still overlapsledge; remove marginalbalance without removingcontact.",
+  "inertia_candidates": {
+    "current": "Existing lumped inertia remains separate preserved candidate",
+    "prospective": {
+      "method": "Consistent P1 M_e=rho*V/20*(I+ones), sparse factor once, acceleration solve with three RHS",
+      "fixed_constraints": "Solve free block M_ff; do not solve full mass then zero fixed accelerations",
+      "momentum": "Angular momentum sum_i x_i cross (Mv)_i; kineticenergy .5 v^T M v",
+      "comparisons": "Same chosen mass operator for FEM and native spring-core adaptation; exactuniformblock rigid inertia; matched vertex comparator should sharechosen inertia or disclose additional inertia confound",
+      "qualification": "No inherited lumped stability/timestep/body/spatial passes; independently test massmoments, momentum, energy, forcebalance, timestep and spatial consistency before sourcefreeze"
+    }
+  },
+  "fixed_numerical_thresholds": {
+    "reference_penetration_m": 0.001,
+    "minimum_J": 0.02,
+    "temporal_coordinate_rms_m": 0.00025,
+    "temporal_refinement_ratio": 0.8,
+    "spatial_world_coordinate_rms_m": 0.001,
+    "spatial_shape_rms_m": 0.0005,
+    "body_temporal_coordinate_rms_m": 0.00025,
+    "body_spatial_or_quadrature_coordinate_rms_m": 0.001
+  },
+  "fresh_reference_generation": "Not authorized until final chosen scene/contact/mass/grid/timeconfiguration qualified and source+protocol hashes frozen; fresh8parameter combinations unchanged.",
+  "engineered_amended_utc": "2026-10-30T18:19:36.171089+00:00"
+}

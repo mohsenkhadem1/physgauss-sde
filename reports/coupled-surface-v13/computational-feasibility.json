@@ -1,0 +1,17 @@
+{
+  "scope": "Development-only CPU microprofile, 20 steps or contact evaluations per configuration; no forecast scores used, no model changes. Single-thread BLAS, concurrent campaign work may affect timings.",
+  "exhaustive": [
+    {"cells":2,"spacing_m":0.0015,"samples":10712,"setup_s":0.3606,"free_step_s":0.0107702},
+    {"cells":6,"spacing_m":0.0015,"samples":10712,"setup_s":1.4685,"free_step_s":0.0123871},
+    {"cells":6,"spacing_m":0.00075,"samples":42178,"setup_s":5.7386,"free_step_s":0.0419874},
+    {"cells":8,"spacing_m":0.00075,"samples":42178,"setup_s":11.9132,"free_step_s":0.0453608}
+  ],
+  "sparse": [
+    {"cells":2,"spacing_m":0.0015,"samples":10712,"setup_s":0.4519,"free_step_s":0.0015657,"loaded_contact_only_s":0.0042707},
+    {"cells":6,"spacing_m":0.0015,"samples":10712,"setup_s":1.8332,"free_step_s":0.0043652,"loaded_contact_only_s":0.0045292},
+    {"cells":6,"spacing_m":0.00075,"samples":42178,"setup_s":6.4510,"free_step_s":0.0064021,"loaded_contact_only_s":0.0142766},
+    {"cells":8,"spacing_m":0.00075,"samples":42178,"setup_s":13.1040,"free_step_s":0.0099350,"loaded_contact_only_s":0.0143437}
+  ],
+  "estimate": "At four workers, exhaustive100fine reference jobs split50base/50half-dt plus235coarsejobs approximately6.5hours; conservative sparse equivalent approximately2–4hours depending contact occupancy. Estimates, not measured full-study runtime.",
+  "loaded_contact_definition": "Initial block moved downward3mm and squeeze planes moved to x=+-35mm; repeated force evaluation without integrating these artificial initial penetrations. This profiles occupied contact, not a physically qualified trajectory."
+}
