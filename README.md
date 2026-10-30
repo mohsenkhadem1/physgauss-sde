@@ -24,7 +24,14 @@ primary forecasts (1.92% of world-motion RMS). Forecast motion remains mainly
 rigid; that RMS ratio is not a variance fraction.
 A separately frozen
 [finer-friction study](reports/coupled-friction-v13/STUDY-NOTES.txt) tests a
-development fitting error with matched baseline search grids and is still running. Neither study
+development fitting error with matched baseline search grids. It is complete:
+primary FEM world error falls from 5.155 to 4.134 mm and shape error from
+0.973 to 0.897 mm (13 improvements, five regressions, six ties). This uses a
+larger search budget with unchanged physics, not a new architecture comparison.
+See the [secondary appendix](papers/coupled-friction-v13/report.pdf),
+[results and failures](reports/coupled-friction-v13/RESULTS.txt), and
+[moving-body video](reports/coupled-friction-v13/surface_test3-moving_sphere.mp4).
+Neither study
 currently establishes calibrated uncertainty, active-probing superiority or
 improvement on the official public benchmarks. See the
 [evidence boundaries](reports/coupled-surface-v13/PAPER-CLAIM-BOUNDARIES.txt)
