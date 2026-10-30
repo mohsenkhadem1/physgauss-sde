@@ -1,0 +1,33 @@
+{
+  "created_utc": "2026-10-30T22:15:37.166394+00:00",
+  "source_review_passed": true,
+  "actual_reproduction_passed": null,
+  "scope": "Independent comparison-logic source and synthetic-fixture audit only; no simulation replay performed",
+  "tests": {
+    "command": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 runs/phystwin-env/bin/python -B -m pytest -q tests/test_compare_surface_replay_v13.py",
+    "passed": 8,
+    "failed": 0,
+    "elapsed_seconds": 0.29,
+    "cases": [
+      "exact matching replay",
+      "missing array",
+      "both archives missing required array",
+      "nonfinite array",
+      "changed settings",
+      "failed execution",
+      "changed request",
+      "tampered result"
+    ]
+  },
+  "checks": [
+    "Request/result execution digests bind current files",
+    "Request job/settings/protocol identity matches archived and replayed status",
+    "Result status and required artifact inventory/hash verified",
+    "Nine required trajectory arrays including equal keys/shapes/dtypes and finite exact equality",
+    "All metadata including diagnostics equal; successful execution and both statuses required"
+  ],
+  "source_sha256": {
+    "scripts/coupled_contact_v13/compare_surface_replay.py": "cc5ff88da7e4ec6d96a2849debee1281a85f0c3df331d4eb6460173739003270",
+    "tests/test_compare_surface_replay_v13.py": "d25d1efddab4be1b975dac6c0569dc59d36490da99a3552344ea6990bca6a300"
+  }
+}

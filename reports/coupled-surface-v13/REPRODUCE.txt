@@ -106,3 +106,20 @@ or, if g++ is installed on PATH:
   export CXX="$(command -v g++)"
 Verify that the chosen path exists and supports C++17. The current campaign used
 GCC11.4.0 from a local conda compiler; that machine-specific path is not required.
+
+CHECKING A COMPLETED REPLAY
+After a successful replay, compare its saved arrays and settings against the
+local archived job using a fresh report path:
+
+  runs/phystwin-env/bin/python -B scripts/coupled_contact_v13/compare_surface_replay.py \
+    /tmp/physgauss-replay-fem-0-0 --output /tmp/physgauss-replay-comparison.json
+
+This checks every trajectory array, required array inventory, finite values,
+job/settings/protocol identity, diagnostics, and replay request/result hashes.
+A passing result means exact reproduction of that one archived job in the
+tested environment. It does not establish full-study reproduction, convergence,
+or agreement across machines. The comparator reports absolute differences but
+does not silently accept a numerical tolerance. Inspect any mismatch explicitly.
+The comparison requires the local archived trajectory, which remains local under
+the dataset policy. Eight synthetic acceptance/rejection tests have passed;
+the independent audit distinguishes those tests from an actual simulation replay.
