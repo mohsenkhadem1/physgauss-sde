@@ -22,7 +22,9 @@ from scripts.phystwin.sequential_reference import write
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--worker', type=int, required=True)
-    parser.add_argument('--script', choices=['fit_mpm.py', 'phystwin.py', 'predict_selected.py', 'uncertainty.py'])
+    parser.add_argument('--script', choices=['fit_mpm.py', 'phystwin.py', 'predict_selected.py',
+                                            'uncertainty.py', 'predict_phystwin.py',
+                                            'predict_mpm_transfer.py'])
     parser.add_argument('--max-jobs', type=int)
     args = parser.parse_args()
     tasks = [j for j in jobs(verify()['settings'])
