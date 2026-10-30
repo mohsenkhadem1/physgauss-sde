@@ -1,0 +1,178 @@
+{
+  "status": "Frozen before validation/reserved generation",
+  "objects": [
+    {
+      "id": "dev0",
+      "split": "development",
+      "young": 6000.0,
+      "friction": 0.35
+    },
+    {
+      "id": "dev1",
+      "split": "development",
+      "young": 3000.0,
+      "friction": 0.1
+    },
+    {
+      "id": "val0",
+      "split": "validation",
+      "young": 4500.0,
+      "friction": 0.2
+    },
+    {
+      "id": "val1",
+      "split": "validation",
+      "young": 4500.0,
+      "friction": 0.55
+    },
+    {
+      "id": "val2",
+      "split": "validation",
+      "young": 9000.0,
+      "friction": 0.2
+    },
+    {
+      "id": "val3",
+      "split": "validation",
+      "young": 9000.0,
+      "friction": 0.55
+    },
+    {
+      "id": "test0",
+      "split": "reserved",
+      "young": 3500.0,
+      "friction": 0.15
+    },
+    {
+      "id": "test1",
+      "split": "reserved",
+      "young": 3500.0,
+      "friction": 0.6
+    },
+    {
+      "id": "test2",
+      "split": "reserved",
+      "young": 5500.0,
+      "friction": 0.15
+    },
+    {
+      "id": "test3",
+      "split": "reserved",
+      "young": 5500.0,
+      "friction": 0.6
+    },
+    {
+      "id": "test4",
+      "split": "reserved",
+      "young": 8000.0,
+      "friction": 0.15
+    },
+    {
+      "id": "test5",
+      "split": "reserved",
+      "young": 8000.0,
+      "friction": 0.6
+    },
+    {
+      "id": "test6",
+      "split": "reserved",
+      "young": 11000.0,
+      "friction": 0.15
+    },
+    {
+      "id": "test7",
+      "split": "reserved",
+      "young": 11000.0,
+      "friction": 0.6
+    }
+  ],
+  "calibration_scenario": "squeeze",
+  "forecast_scenarios": [
+    "slide",
+    "edge_drop",
+    "curved",
+    "moving_sphere"
+  ],
+  "size_m": [
+    0.08,
+    0.06,
+    0.05
+  ],
+  "coarse_cells": [
+    2,
+    2,
+    2
+  ],
+  "reference_cells": [
+    4,
+    4,
+    4
+  ],
+  "dt_coarse": 0.0001,
+  "dt_reference": 5e-05,
+  "duration_seconds": 0.6,
+  "fps": 100,
+  "poisson": 0.3,
+  "density": 1000.0,
+  "viscosity": 1.0,
+  "observation_noise_std_m": 0.0001,
+  "observation_nodes": 18,
+  "observation_seed": 1301,
+  "fem_young_grid": [
+    2000.0,
+    3000.0,
+    4500.0,
+    6500.0,
+    9000.0,
+    13000.0,
+    18000.0
+  ],
+  "native_scale_grid": [
+    1000.0,
+    3162.2776601683795,
+    10000.0,
+    31622.776601683792,
+    100000.0,
+    316227.7660168379,
+    1000000.0
+  ],
+  "friction_grid": [
+    0.0,
+    0.2,
+    0.4,
+    0.6,
+    0.8
+  ],
+  "selection": "minimum calibration position coordinate MSE across fixed nodes/times, no future targets; ties lowest grid index",
+  "metrics": [
+    "world_coordinate_rmse_m",
+    "rigid_aligned_coordinate_rmse_m",
+    "dynamic_body_position_rmse_m",
+    "saved_frames_finite",
+    "min_J",
+    "max_penetration_m"
+  ],
+  "gates": {
+    "penetration_m": 0.001,
+    "trajectory_refinement_rms_m": 0.00025,
+    "refinement_ratio": 0.8,
+    "development_nonrigid_rms_m": 0.001
+  },
+  "scope": "Controlled same-constitutive-family fine/coarse simulation transfer; known scene geometry and initial state; unseen interaction types relative to calibration, not unseen material range. No official PhysTwin method ranking.",
+  "contact_stiffness_at_400mm2_N_per_m": 4800.0,
+  "reference_qualification": "Per-case base and half-dt finite arrays, identical saved time grids, both penetration<=1mm/J>.02, absolute trajectory RMS<=.25mm. Three-level refinement-ratio gate applies to development qualification only. Qualified-only metrics require calibration and forecast references both qualified; all cases retained regardless.",
+  "video_cases": [
+    [
+      "test0",
+      "curved"
+    ],
+    [
+      "test3",
+      "moving_sphere"
+    ],
+    [
+      "test7",
+      "edge_drop"
+    ]
+  ]
+}

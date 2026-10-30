@@ -1,0 +1,308 @@
+COUPLED CONTACT v13: INDEPENDENT PROTOCOL AUDIT
+Prepared before v13 reserved outcomes; 2026-10-30
+
+Decision
+Prioritize a small cross-interaction prediction study over a large collection of
+self-reconstruction episodes. Fit an object's response from position observations
+of squeezing, then predict curved-obstacle push, edge drop and sliding from tool
+poses and known scene geometry. Keep the v12 benchmark evidence read-only. New
+simulation results extend the evidence; they cannot improve the numerical scores
+of the archived SoftVTBench/PhysTwin tables by themselves.
+
+Sources inspected
+reports/contact-benchmark-v12/OVERVIEW.txt
+scripts/contact_benchmark_v12/README.txt
+scripts/contact_benchmark_v12/coupled_qualification.py
+reports/contact-benchmark-v12/coupled-qualification.json
+scripts/contact_benchmark_v12/scene_fem.py
+No reserved v13 outputs were read.
+
+Why this study matters
+The prior coupled prototype has equal/opposite sphere contact and a useful
+refinement diagnostic, but it is a 27-node spring lattice with discrete node
+collision. The benchmark implementation freezes shape after release, while the
+elastic heightfield diagnostic does not establish general wall/curved contact.
+The prior SoftVT improvement is small relative to rigid/contact baselines. The
+new study must show measurable shape change and transfer of inferred response
+between interactions, not only correct translation or fitted trajectory replay.
+
+Recommended compact split (freeze the exact manifest before test generation)
+A practical design is 4 development object/parameter combinations, 4 validation
+combinations, and 8 reserved combinations. Each has one fit squeeze trajectory
+and three held-out interactions: curved push, edge drop, lateral slide. That is
+16 fit plus 48 forecast episodes, with 24 reserved forecasts. Smaller counts are
+acceptable if declared before outcomes; more objects are preferable to more
+nearly identical trajectory seeds. If runtime allows, a second amplitude or
+approach direction per reserved interaction is useful but must be declared first.
+
+Vary elastic response across at least three visibly different stiffness levels;
+use at least two friction levels and two attachment/support arrangements. Include
+both free and fixed-patch objects in development. Reserve combinations of these
+factors, contact locations, obstacle curvature and trajectory direction; avoid
+claiming unseen interaction families if the algorithm has been tuned on those
+families in development. The precise claim should be: the object's parameters
+are fitted using squeeze observations only, and its response transfers to new
+interaction trajectories/geometries. A stronger held-out-family claim requires
+one family entirely absent from development and validation outcomes.
+
+Make gravity known and constant in the first study. Geometry, reference size,
+density/mass, attachment *locations* and robot command trajectories are permitted
+inputs if declared and supplied equally to all methods. Hide elastic stiffness,
+friction and attachment compliance from inference. Hiding all mass, stiffness,
+friction, gravity and attachment simultaneously needlessly creates an
+unidentifiable inverse problem. Unknown gravity can be a later explicit ablation.
+Boundary conditions include body gravity, moving contact surfaces and attachment
+constraints; they are not only supports or external force labels.
+
+Input and target isolation
+For each object, fitting receives rest/reference geometry, the observed squeeze
+surface/node positions and timestamps, squeeze tool poses and known geometry.
+No reaction forces, stress, true material parameters, true contact labels or
+reserved target object positions enter fitting or model selection. Fit/validation
+within an observed squeeze may use a fixed chronological 70/30 split; rerun full
+squeeze fitting only after hyperparameters are selected. Global hyperparameters
+are chosen on the development/validation objects, never on reserved objects'
+forecast targets. Each reserved object's squeeze is permitted test-time context.
+
+A forecast receives its initial measured configuration and velocity (or a declared
+stationary reset), known static geometry and future PRESCRIBED tool positions.
+It must not receive future trajectories of freely moving bodies: those positions
+are part of the prediction target. Oracle initial velocities must be labeled and
+matched across methods; prefer rest initialization or an equally available short
+pre-action observation. The future free-body position cannot masquerade as an
+input trajectory. Separate serialized predictor payloads from scorer targets,
+record hashes, and verify fitting/scoring do not share target-containing objects.
+
+An object reset between interactions is allowed: this is cross-interaction
+parameter transfer, not a continuous long rollout. Record resets, object-frame
+transforms and correspondences explicitly. Use a proper rotation for the rigid
+motion decomposition, and report deformation errors after rigid alignment in
+addition to world-coordinate errors.
+
+Nontrivial scene requirements
+Squeeze: opposing position-driven plates, nonzero relaxation/hold and release;
+include tangential offset in development if friction is to be inferred.
+Curved push: a side contact with an actual curved boundary, not a heightfield-only
+substitute; no silhouette-through-wall shortcut. Use an unseen contact location
+or curvature in reserved cases.
+Edge drop: free flight under gravity followed by off-centre contact, rotation,
+compression and rebound/settling. Show both pre-contact and post-contact error.
+Slide: lateral prescribed motion with normal load variation, visible stick/slip
+or separation; avoid a trajectory with no frictional contact at all.
+At least one scene must contain a freely moving rigid body whose translation and
+rotation respond to the soft body. A prescribed gripper exchanges momentum with
+an external actuator and does not alone demonstrate two-way free-body coupling.
+
+Reference and numerical gates
+Use an independent implementation or at least different mesh/resolution plus
+finer integration for reference trajectories. Same-code, same-grid hidden-
+parameter fitting is valuable controlled system identification but must be labeled
+as such. Resolution variation is not independent validation of the constitutive
+law. If only a spring-lattice reference is feasible, report that scope clearly;
+do not relabel spring parameters as validated continuum Young's modulus.
+
+Qualify development scenes before freezing: finite trajectories, noninverted
+volume elements if tetrahedral, sustained nonrigid deformation after removing
+rigid motion, contact actually exercised, and unilateral separation. Check normal
+reaction is nonnegative, friction is dissipative, and pair contact applies equal
+and opposite forces and torques at a common contact point. Check isolated linear
+and angular momentum without gravity/support/drives; with those enabled, account
+for external impulse and work rather than demanding conservation.
+
+Check timestep refinement on the ENTIRE position trajectory at common times,
+not only the final state: three levels with decreasing errors to the finest and
+an error small relative to the effect being studied. Include peak penetration,
+contact timing and nonrigid response in refinement. Penetration tolerance should
+be relative to object scale and tighter than the deformation effect. Record mesh
+refinement or explicitly limit claims to the discrete model. A useful initial
+development target is maximum penetration below 2% of object width and refinement
+coordinate RMS below 0.5% of width, with monotone improvement. These are proposed
+engineering thresholds, not already attained results; freeze adopted thresholds
+before reserved generation. Do not silently drop failed cases. Apply a declared
+reference-failure rule, publish full counts, and never exclude cases because the
+new predictor loses. Low-deformation reserved cases remain in the full aggregate
+and can be separately stratified using predeclared thresholds.
+
+Comparisons and ablations
+1. Rigid body with the same scene/contact geometry and equally fitted pose: tests
+whether the task actually needs elasticity.
+2. Position-conditioned ridge predictor fitted to the identical squeeze context;
+fixed regularization chosen on development. It cannot be expected to infer a new
+obstacle without geometry input; disclose that difference or include matched
+geometric features. Do not call it a physics method.
+3. Current v12 frozen-shape-contact method, adapted only through an explicit input
+adapter, labeled as v12 adaptation. If interface/scene limitations prevent a fair
+run, report unsupported cases rather than an invented v12 surrogate.
+4. Material/contact model with nominal parameters versus inferred parameters.
+5. No-contact, frozen-shape and one-way-contact ablations, retaining the same
+inferred parameters and scene settings where possible.
+6. True-parameter forward-model oracle, diagnostic only. If this fails, parameter
+inference cannot repair the physical model reliably.
+7. Official PhysTwin implementation only with matched observation/context budgets,
+permitted inputs and declared adaptation. A newly authored spring baseline is
+NOT PhysTwin. If a native run cannot be completed, the study can still establish
+mechanism/ablation evidence; it must not claim a PhysTwin benchmark victory.
+
+Evaluation and uncertainty
+Primary: equal-object then equal-interaction aggregate world-coordinate error and
+rigid-aligned shape error, in physical units. Also free rigid-body pose error,
+contact penetration/failure counts, and pre-contact/post-contact breakdown.
+Report each interaction family and every case, wins/losses, and paired changes;
+bootstrap objects, not correlated frames, if confidence intervals are used.
+Do not pool unrelated dataset metrics. A benchmark preservation audit is separate:
+hash the old predictions/sources and compare a fixed replay subset unchanged.
+
+Squeeze alone may not identify friction or fixture compliance. A narrow optimum
+is not a calibrated posterior. Profile/ensemble diagnostic alternatives can show
+ambiguity; describe ranges as hypotheses unless coverage is validated. Compare
+true-parameter predictions, best-fit predictions and alternative near-fit
+hypotheses on unseen interactions to separate forward error from ambiguity.
+Do not select the best hypothesis using held-out future error. Active probing
+remains a later study unless a separate frozen observation/action protocol fits
+within the campaign.
+
+Audit checkpoints
+A. Manifest, inputs and numerical thresholds frozen before reserved outputs.
+B. Development-only simulation qualification and oracle check.
+C. Model/hyperparameter freeze, fit termination rules and failure policy recorded.
+D. Independent leakage audit before reserved scoring.
+E. All cases scored once; any subsequent change is a new exploratory version.
+F. Fixed representative videos include one of each interaction, any serious
+failure and both world/rigid-aligned views, using identical scales and cameras.
+G. Final claims distinguish controlled simulation evidence, archived public
+benchmark preservation, native benchmark reruns, and unimplemented capabilities.
+
+Decision recommendation
+Proceed with the compact cross-interaction study and its matched simple baselines.
+Do not delay genuine contact/deformation qualification to fit a larger neural
+network. Preserve prior results literally. Prioritize a successful true-parameter
+forward oracle and a real two-way free-body scene before expensive inference.
+
+ROOT-REQUESTED CONCRETE COMPACT MATRIX (proposal, before outcomes)
+Use 2 development, 4 validation, 8 reserved objects. E0 is the single stiffness
+scale chosen from simulator stability/visible-deformation engineering before any
+validation/test outcomes. Fix Poisson ratio and density; do not optimize them in
+this first inverse problem. Friction is dimensionless. Publish final physical E0.
+
+ID    Split          E/E0   mu    Calibration fixture location
+D01   development    0.75   0.25  centered
+D02   development    1.50   0.55  centered
+V01   validation     0.50   0.15  centered
+V02   validation     0.50   0.60  centered
+V03   validation     2.00   0.15  centered
+V04   validation     2.00   0.60  centered
+T01   reserved       0.65   0.25  offset negative
+T02   reserved       0.65   0.50  offset positive
+T03   reserved       0.90   0.25  offset positive
+T04   reserved       0.90   0.50  offset negative
+T05   reserved       1.40   0.25  offset negative
+T06   reserved       1.40   0.50  offset positive
+T07   reserved       2.50   0.25  offset positive
+T08   reserved       2.50   0.50  offset negative
+
+All fixture locations are known geometric inputs. Offset means +/-0.15 times
+object width in the declared tangential direction, not a hidden force label.
+Each object supplies one squeezing trajectory with an initial compression ramp,
+a tangential excursion, hold and release. This is deliberately informative about
+friction; plain purely normal squeeze need not identify friction. If the parent
+chooses pure squeeze instead, retain friction ambiguity as a result rather than
+retroactively adding observations after test scoring.
+
+Each object has four forecast episodes: slide, edge-drop, curved-push and contact
+with a freely moving rigid sphere. Thus 14 calibration +56 forecasts total,
+including 32 reserved forecasts. If initial budget demands three interactions,
+combine curved-push and moving-sphere into curved push against a free rigid sphere
+and declare 42 forecasts before generation. A static curved obstacle plus an
+unrelated tiny sphere qualification must not be described as the same combined
+benchmark. Choose this option before the manifest freeze.
+
+Development/validation use centered contact and one direction; reserved use
+contact offsets +/-0.15 width and opposite/lateral directions. Specify each
+trajectory as normalized tool-pose keyframes before numerical rendering. Use the
+same fixed keyframes per interaction across methods. Geometry changes are inputs;
+reserved target geometry trajectories are not. At least two reserved objects
+(T07/T08) extrapolate the E range of development/validation; the other six test
+unseen combinations and geometry/path transfer, not material-range extrapolation.
+All interaction families occur in development, so the proper claim is
+cross-interaction transfer from object-specific squeeze context, not an untouched
+interaction-family test. Report the two E-extrapolation objects separately without
+replacing the all-eight-object aggregate.
+
+Additional concrete qualification rules
+- Numerical roundoff gate for isolated pairwise force/torque cancellation:
+  relative residual <=1e-10 in float64 against nonzero force/torque scales, with
+  an absolute tolerance also declared for zero-load cases.
+- All sampled and integrated reference tetrahedral determinants positive; log
+  minimum J, not just sampled-frame J. If a finite safety margin is used, freeze
+  it and distinguish it from the mathematical noninversion condition J>0.
+- Three timesteps h, h/2, h/4; require medium-versus-fine trajectory coordinate
+  RMS <=0.005*width and <=0.8 times coarse-versus-fine RMS. This 0.8 ratio is a
+  practical improvement gate, not an assertion of a solver's formal order.
+- Maximum reference penetration <=0.02*width. Report phase and time of the max.
+- Development scenes should exhibit max rigid-aligned coordinate RMS deformation
+  >=0.02*width in at least squeeze and one forecast interaction. This is a scene
+  design target, not a post-hoc exclusion rule for reserved cases.
+- Mesh refinement uses common reference surface probes/correspondence. Report its
+  error; if not demonstrably converged, state discrete-model transfer rather than
+  continuum validation. Do not hide coarse-predictor discretization error inside
+  inferred material differences: show the true-parameter oracle on that grid.
+
+These are proposed frozen gates, not empirical claims. The parent may select an
+alternative before outcomes and must retain the signed final values/protocol.
+
+FINAL ROOT-SPECIFIED NUMERICAL MATRIX AUDIT
+This supersedes the normalized matrix proposal above. Proposed alternatives are
+retained as decision history, not simultaneous experiment specifications.
+
+Object dimensions 0.08 x 0.06 x 0.05 m; density 1000 kg/m^3; Poisson ratio 0.3.
+Development: (E Pa,mu) = (6000,0.35), (3000,0.10).
+Validation Cartesian product: E={4500,9000} Pa; mu={0.20,0.55} (4 objects).
+Reserved Cartesian product: E={3500,5500,8000,11000} Pa; mu={0.15,0.60}
+(8 objects). Four forecast families per object, squeeze+shear calibration only.
+No material-range extrapolation claim: all reserved material/friction values lie
+within declared simulator/material development envelopes. This is unseen
+combinations and cross-interaction transfer conditioned on each object's squeeze.
+The E=11000 reserved values exceed the specific validation E=9000 maximum but
+fall within declared E=12000 engineering envelope; describe the actual split,
+not a blanket unseen-material claim.
+
+Frozen candidate grid recommendation:
+E={2000,3000,4500,6500,9000,13000,18000} Pa;
+mu={0.0,0.2,0.4,0.6,0.8}; Cartesian product 35 hypotheses.
+All reference E and mu fall strictly inside the search ranges. The true values
+are usually not grid members, preventing a trivial lookup of exact labels.
+Choose by the declared position loss, deterministic tie-break, equal observation
+budget and identical solver settings. No test-driven grid refinement. Uniform
+local refinement is possible only if bounds, iterations, fit loss and termination
+are declared before freeze and applied to every object. The finite grid alone is
+a defensible, reproducible starting method; parameter quantization is a reported
+limitation, not a reason to manually repair failed test objects.
+
+Boundary/identifiability audit requirements
+1. Report selected-grid edge hits (E=2000 or18000, mu=0 or0.8), best-vs-second-best
+   calibration loss, and the parameter span of hypotheses within a fixed declared
+   loss tolerance. Edge hits indicate search/model mismatch, not proof that the
+   true parameter lies beyond the grid. Do not expand the grid using test errors.
+2. Friction excitation must actually visit its force-limiting regime. For a
+   min(c*speed,mu*normal) law, slow tangential motion can remain in the viscous
+   branch for all mu; a shear command alone does not establish identifiability.
+   Log Coulomb-cap-active contact fraction, tangential travel and stick/slip in
+   development. Adjust the development excitation before the protocol freeze.
+3. Compare calibration losses across the mu dimension at fixed E. Flat profiles
+   mean the observation cannot identify friction. Preserve alternate plausible
+   hypotheses; do not invent confidence from a single argmin. A predicted motion
+   can still transfer well even if parameters remain ambiguous.
+4. With normal squeezing prescribed, stiffness affects reaction forces directly,
+   while observed positions may be partly imposed by plates. Observe free lateral
+   bulging, relaxation or release transient as well as contacted nodes. A model
+   that observes only forced node coordinates can fit all stiffnesses equally.
+5. Keep mass, Poisson ratio, damping convention, attachment geometry and contact
+   penalty settings known/fixed across inference and reference as declared. If
+   coarse/fine dynamics use different effective damping or contact stiffness,
+   document it as model mismatch. Do not interpret fitted E as uniquely recovered
+   material stiffness in that case.
+6. Primary qualification thresholds should normalize by the minimum object
+   dimension L=0.05 m for conservatism: maximum penetration <=1.0 mm,
+   medium-to-fine coordinate trajectory RMS <=0.25 mm, and development peak
+   rigid-aligned coordinate RMS >=1.0 mm in squeeze and >=one forecast family.
+   Refinement ratio <=0.8 and positivity/reciprocity rules remain as above.
