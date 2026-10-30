@@ -1,0 +1,16 @@
+2026-10-30, after protocol freeze, before inspecting failed-case future scores:
+
+Two initial spatial-soft-task1-demo0 fits (full model and no-world-potential)
+failed with "No valid fitting iterate". Their original queue logs and failure
+records are retained. The failure occurs at observed-prefix frame 71, before
+any held-out prediction or scoring for that model.
+
+A numerical initialization repair is authorized for SoftVTBench jobs with this
+exact failure. retry_fit.py leaves the frozen data adapter, physical energy,
+objective, bounds and optimization budget unchanged. It tests the original start,
+then three fixed (log gravity/material, log attachment/material) pairs:
+(-6,-1), (-6,-3), (-8,-3). Both attachment terms share the selected start. It uses
+the FIRST start with a valid prefix solve, never held-out loss. All subsequent
+fitting uses the same original observed-prefix objective. This policy applies to
+all matching failures in the selected cohort. It does not replace completed fits
+or select runs using prediction accuracy. Failed starts/reruns remain reported.

@@ -51,7 +51,7 @@ def main():
     for source,expected in frozen['source_sha256'].items():
         if sha256(ROOT/source)!=expected:raise RuntimeError(f'Frozen prediction/scoring source changed: {source}')
     statuses=[json.loads(p.read_text()) for p in (BASE/'primary-jobs').glob('*.json')]
-    if not a.partial and (len(statuses)<len(frozen['jobs']) or any(s['state']=='running' for s in statuses)):raise RuntimeError('Primary queue is not finished')
+    if not a.partial and (len(statuses)<len(frozen['jobs']) or any(s['state'] not in ['complete','failed'] for s in statuses)):raise RuntimeError('Primary queue is not finished')
     rows=[]
     for case in frozen['phystwin']['cases']:
         rows.append(evaluate(phystwin(case,300)));print('scored',case,flush=True)

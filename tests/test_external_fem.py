@@ -54,3 +54,23 @@ def test_inertia_and_material_partition_tangent():
     h=torch.autograd.functional.hessian(lambda z:m.evaluate(z,th,0)[0],x).reshape(m.ndof,m.ndof)
     assert torch.allclose(r,automatic,atol=1e-10,rtol=1e-9)
     assert torch.allclose(H,h,atol=1e-10,rtol=1e-9)
+
+
+def test_release_has_physical_free_fall_acceleration():
+    data=fixture();data['attachment_active'][:]=0
+    m=ExternalFEM(data,device='cpu',field=False)
+    theta=m.t([-2,2,3,0,0]);dt=.001
+    m.inertial_target=m.rest.clone();m.inertial_dt=dt
+    x,_,diagnostic=m.solve(theta,0)
+    change=((x-m.rest)*m.mass[:,None]).sum(0).numpy()*m.scale
+    assert np.allclose(change,[0,0,-9.81*dt**2],atol=2e-10,rtol=1e-5)
+    assert diagnostic['residual']<1e-7
+
+
+def test_observation_projection_preserves_affine_motion():
+    from scripts.external_benchmark.data import interpolate_matrix
+    nodes=fixture()['nodes'];points=np.array([nodes.mean(0),nodes[:4].mean(0)])
+    A=interpolate_matrix(nodes,points)
+    transform=np.array([[1.1,.2,0],[.1,.8,-.1],[0,.1,1.2]])
+    displacement=nodes@transform+np.array([.04,-.02,.1])-nodes
+    assert np.allclose(points+A@displacement,points@transform+[.04,-.02,.1])
