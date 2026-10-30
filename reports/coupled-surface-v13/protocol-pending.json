@@ -818,7 +818,16 @@
     "campaign.py",
     "Originalthirdparty native springkernel",
     "configs/coupled_contact_v13.json",
-    "Qualificationdriver andcomparison/interpolation sources usedfor finalgate decision"
+    "Qualificationdriver andcomparison/interpolation sources usedfor finalgate decision",
+    "surface_spatial_quality.py",
+    "surface_spatial_verify.py",
+    "surface_verify.py",
+    "verify_surface_ablation.py",
+    "surface_run_campaign.py",
+    "surface_finish.py",
+    "surface_render.py",
+    "surface_report.py",
+    "mesh_diagnostic.py"
   ],
   "provenance_checklist": [
     "Finalprotocol SHA256",
@@ -830,5 +839,28 @@
     "supplementary-protocol.json SHA256 afterfinalwiring",
     "Allrawdatasets/checkpoints remainlocal"
   ],
-  "template_design_sha256": "aa76da5c1a4ed6581f7e5e98f7b062f1f59bbd7ede5989befcaf144530d69e89"
+  "template_design_sha256": "aa76da5c1a4ed6581f7e5e98f7b062f1f59bbd7ede5989befcaf144530d69e89",
+  "per_case_spatial_qualification": {
+    "declared_utc": "2026-10-30T19:04:54.439366+00:00",
+    "expected_primary_runs": 50,
+    "expected_half_dt_runs": 50,
+    "expected_spatial_companion_runs": 50,
+    "expected_total_reference_runs": 150,
+    "expected_forecast_cases": 40,
+    "expected_reserved_forecasts": 32,
+    "selection": "Choose companion_cells per scenario from accepted development pair before fresh generation; no adaptation to fresh outcomes; primary target unchanged",
+    "integration": "Companion uses SAME primary BASE dt; BOTH meshes require development timestep qualification. Per-case primary base/half-dt check retained. Companion has no additional per-case half-dt run.",
+    "probes": "Common27 Cartesian rest points and common2678 rest-surface midpoint probes at3mm spacing; actual tetrahedral P1 mapping; fixed coordinates and first-frame exclusion",
+    "metrics": "Uniform coordinate RMS world and proper-rigid-aligned shape, separately for both probe sets; maximum per-collider center coordinate RMS",
+    "gates": {
+      "world_rms_m": 0.001,
+      "shape_rms_m": 0.0005,
+      "body_center_coordinate_rms_m": 0.001,
+      "penetration_m": 0.001,
+      "min_j_exclusive": 0.02
+    },
+    "accounting": "Every object calibration and four forecasts require companion. Missing/failed/nonfinite/failedgate means unqualified, never case omission. Joint calibration+forecast qualification includes temporal,body andspatial flags; retain all40cases.",
+    "claim": "Fixed-timestep two-resolution consistency, not continuum convergence proof",
+    "runtime_schema": "reference_settings_by_scenario[scenario] contains cells,dt,companion_cells; reference-spatial jobs carry reference=True,spatial=True"
+  }
 }

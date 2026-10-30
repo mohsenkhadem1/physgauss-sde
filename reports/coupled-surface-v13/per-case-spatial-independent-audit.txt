@@ -1,0 +1,22 @@
+PRE-FREEZE SPATIAL COMPANION AUDIT
+
+Prospective declaration added to protocol-design.json and protocol-pending.json:
+50primary+50half-dt+50spatial=150 reference runs, all10objects and5scenarios.
+Companion meshes come from development-accepted pairs, chosen before fresh data.
+Same primary BASE timestep; both members require development time qualification.
+Primary targets remain unchanged. All40forecast cases retained, including failures.
+
+Independent surface_spatial_verify.py uses sorted Cartesian cell fractions to
+construct Freudenthal tetrahedral barycentric coordinates. It verifies every used
+tetrahedron exists in saved topology; no production interpolation/metric helper
+is imported. Common27 and dense2678 probes are reconstructed independently.
+Both world and proper-rigid-aligned shape RMS exclude initial frame. Body error
+is the maximum of per-collider coordinate RMS. Fixed1mm/.5mm spatial and1mm body
+bounds, finite arrays, J>.02, penetration<=1mm and equal integration dt apply.
+Missing/failed companions are unqualified. Joint quality and failure labels are
+checked independently; spatial body failures are distinct from temporal ones.
+
+Nonaffine interpolation matches brute saved-tet barycentric solves; affine fields
+agree across meshes, outside-domain and absent-topology queries fail, and missing
+companions fail qualification. Combined adapter/wiring/spatial/audit17tests pass.
+No reserved output generated or inspected, no source freeze claimed.

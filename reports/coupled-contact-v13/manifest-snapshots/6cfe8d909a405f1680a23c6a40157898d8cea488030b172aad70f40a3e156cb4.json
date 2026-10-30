@@ -1,0 +1,788 @@
+{
+  "plan": {
+    "scope": "Prospective development refinement, scene-specific reference candidates; temporal/full-scene gates still required",
+    "source_sha256": {
+      "scripts/coupled_contact_v13/physics.py": "8400867762863c9551c3eeaac1c758530b34ead8f99811d8b032eb938c008f26",
+      "scripts/coupled_contact_v13/surface_contact.py": "65ac04d47cc9c38496762d636339daa4f5a30332b9a43ecd96d793fb02278f01",
+      "scripts/coupled_contact_v13/sparse_surface_contact.py": "133b19c0e8b692e3d628d0ea883a4db06dee53f5dde721c48a23f15472775804",
+      "scripts/coupled_contact_v13/clipped_surface_contact.py": "6b4a3aa4cec21c2b51e601d14fef7ad0ab6845177f23ca792974d5019b67d9e1",
+      "scripts/coupled_contact_v13/clipped_surface_contact.cpp": "dc6916790e26a24ecce04b633870d13079b56f33a8ed5b9078b3394d70f5793e",
+      "scripts/coupled_contact_v13/consistent_mass.py": "bd1a3a882f7269c89a18899d3491ccf1fbf4c36a68f9177d6dfc86fe4ac4dc66",
+      "scripts/coupled_contact_v13/engineered_scenarios.py": "1226d92a358cf93a7a3ff0a96d9672595063af531b7cd986feb649a30e3cc91c",
+      "scripts/coupled_contact_v13/engineered_mesh_refinement.py": "b1087492a35872157ee4e99d6fa80fd9443ee9a7865907584815fcbe65a8423d",
+      "scripts/coupled_contact_v13/surface_qualification.py": "761b615644f54bf312239b5164912746ef5cdcc6b3300f744a9ac2355e74e289",
+      "scripts/coupled_contact_v13/mesh_diagnostic.py": "cff1a06608c532fbf65235205befafb9e8c6da879534217f366ae0e3a973fc6e",
+      "scripts/coupled_contact_v13/consistent_mass_diagnostic.py": "ccb0919107ae7c5d766e2b8df518bfc5e60b857c64539bb755386362d1bdb55d",
+      "scripts/coupled_contact_v13/consistent_other_spatial.py": "72fd3ade617dde4049abb87aa92c878071030a1b26bd08cae2760a15c81a757f"
+    },
+    "prior_report_sha256": "335e442dd347cdf445842e4ad369ac5cd5d6da26820710ff1ee77c5e30ae4935",
+    "ladder": [
+      [
+        8,
+        10
+      ],
+      [
+        10,
+        12
+      ]
+    ],
+    "scenarios": [
+      "squeeze",
+      "slide",
+      "moving_sphere"
+    ],
+    "materials": [
+      [
+        6000.0,
+        0.35
+      ],
+      [
+        3000.0,
+        0.1
+      ]
+    ],
+    "dt": 2.5e-05,
+    "gates": {
+      "sparse_and_dense_world_rms_m": 0.001,
+      "sparse_and_dense_shape_rms_m": 0.0005,
+      "per_body_center_rms_m": 0.001,
+      "penetration_m": 0.001,
+      "min_J": 0.02
+    },
+    "acceptance": "Each scenario accepts the lower mesh of its first passing pair, requiring BOTH materials and all gates. Failed stages stay recorded."
+  },
+  "runs": [
+    {
+      "min_j": 0.4414043367721483,
+      "max_penetration_m": 0.0009119135521898434,
+      "friction_work_j": -0.03472828006468067,
+      "contact_samples": 20448288,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 20448288,
+      "friction_saturated_samples": 15879185,
+      "friction_saturated_fraction": 0.7765532742887815,
+      "scenario": "edge_drop",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.005355604302054478,
+      "spec": [
+        "edge_drop",
+        6000.0,
+        0.35,
+        4
+      ],
+      "key": "edge_drop-E6000-mu0.35-n4",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/2315df9656f8/edge_drop-E6000-mu0.35-n4",
+      "seconds": 52.29416346549988
+    },
+    {
+      "min_j": 0.42735184124635656,
+      "max_penetration_m": 0.0005837486690440493,
+      "friction_work_j": -0.032976053615450016,
+      "contact_samples": 40496456,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 40496456,
+      "friction_saturated_samples": 30205325,
+      "friction_saturated_fraction": 0.7458757625605559,
+      "scenario": "edge_drop",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.005139552056170844,
+      "spec": [
+        "edge_drop",
+        6000.0,
+        0.35,
+        6
+      ],
+      "key": "edge_drop-E6000-mu0.35-n6",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/2315df9656f8/edge_drop-E6000-mu0.35-n6",
+      "seconds": 112.66615986824036
+    },
+    {
+      "min_j": 0.3686988588847653,
+      "max_penetration_m": 0.0005056273668142623,
+      "friction_work_j": -0.03556641031213004,
+      "contact_samples": 63178360,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 63178360,
+      "friction_saturated_samples": 41706514,
+      "friction_saturated_fraction": 0.6601392312177777,
+      "scenario": "edge_drop",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.005794576861130682,
+      "spec": [
+        "edge_drop",
+        6000.0,
+        0.35,
+        8
+      ],
+      "key": "edge_drop-E6000-mu0.35-n8",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/2315df9656f8/edge_drop-E6000-mu0.35-n8",
+      "seconds": 238.2531442642212
+    },
+    {
+      "min_j": 0.5353742865597004,
+      "max_penetration_m": 0.0008390933490638481,
+      "friction_work_j": -0.04455054409077184,
+      "contact_samples": 34228432,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 34228432,
+      "friction_saturated_samples": 33711912,
+      "friction_saturated_fraction": 0.9849096213346845,
+      "scenario": "edge_drop",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.006527042374294038,
+      "spec": [
+        "edge_drop",
+        3000.0,
+        0.1,
+        4
+      ],
+      "key": "edge_drop-E3000-mu0.1-n4",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/2315df9656f8/edge_drop-E3000-mu0.1-n4",
+      "seconds": 52.98315215110779
+    },
+    {
+      "min_j": 0.5348741374995782,
+      "max_penetration_m": 0.0004665363697474102,
+      "friction_work_j": -0.04486421572588453,
+      "contact_samples": 68898312,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 68898312,
+      "friction_saturated_samples": 64245430,
+      "friction_saturated_fraction": 0.9324674021041328,
+      "scenario": "edge_drop",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.008243395015551743,
+      "spec": [
+        "edge_drop",
+        3000.0,
+        0.1,
+        6
+      ],
+      "key": "edge_drop-E3000-mu0.1-n6",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/2315df9656f8/edge_drop-E3000-mu0.1-n6",
+      "seconds": 115.39819359779358
+    },
+    {
+      "min_j": 0.40115492760151356,
+      "max_penetration_m": 0.000390175408603127,
+      "friction_work_j": -0.04962873501337228,
+      "contact_samples": 107299024,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 107299024,
+      "friction_saturated_samples": 101328600,
+      "friction_saturated_fraction": 0.9443571453175567,
+      "scenario": "edge_drop",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.00868834529753093,
+      "spec": [
+        "edge_drop",
+        3000.0,
+        0.1,
+        8
+      ],
+      "key": "edge_drop-E3000-mu0.1-n8",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/2315df9656f8/edge_drop-E3000-mu0.1-n8",
+      "seconds": 237.26493906974792
+    },
+    {
+      "min_j": 0.7441506079450321,
+      "max_penetration_m": 0.00037680468480965484,
+      "friction_work_j": -0.08926648338258633,
+      "contact_samples": 46857214,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 46853136,
+      "friction_saturated_samples": 33650225,
+      "friction_saturated_fraction": 0.7182064611427504,
+      "scenario": "curved",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.002311770357639586,
+      "spec": [
+        "curved",
+        6000.0,
+        0.35,
+        4
+      ],
+      "key": "curved-E6000-mu0.35-n4",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/2315df9656f8/curved-E6000-mu0.35-n4",
+      "seconds": 65.1551513671875
+    },
+    {
+      "min_j": 0.6376599770874292,
+      "max_penetration_m": 0.0002839639140162359,
+      "friction_work_j": -0.08859712801850698,
+      "contact_samples": 83083507,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 83078336,
+      "friction_saturated_samples": 53684536,
+      "friction_saturated_fraction": 0.6461917581016549,
+      "scenario": "curved",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.0023583143031612372,
+      "spec": [
+        "curved",
+        6000.0,
+        0.35,
+        6
+      ],
+      "key": "curved-E6000-mu0.35-n6",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/2315df9656f8/curved-E6000-mu0.35-n6",
+      "seconds": 128.06307792663574
+    },
+    {
+      "min_j": 0.5991322322063899,
+      "max_penetration_m": 0.00021948118737797132,
+      "friction_work_j": -0.08638056134960377,
+      "contact_samples": 127262740,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 127257208,
+      "friction_saturated_samples": 76097102,
+      "friction_saturated_fraction": 0.5979787172448416,
+      "scenario": "curved",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.0024085327929376727,
+      "spec": [
+        "curved",
+        6000.0,
+        0.35,
+        8
+      ],
+      "key": "curved-E6000-mu0.35-n8",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/2315df9656f8/curved-E6000-mu0.35-n8",
+      "seconds": 258.60579442977905
+    },
+    {
+      "min_j": 0.6775259696996992,
+      "max_penetration_m": 0.00030633885339334185,
+      "friction_work_j": -0.052094736532209356,
+      "contact_samples": 51838756,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 51834564,
+      "friction_saturated_samples": 51173113,
+      "friction_saturated_fraction": 0.9872391904367133,
+      "scenario": "curved",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.0025863743873102683,
+      "spec": [
+        "curved",
+        3000.0,
+        0.1,
+        4
+      ],
+      "key": "curved-E3000-mu0.1-n4",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/2315df9656f8/curved-E3000-mu0.1-n4",
+      "seconds": 64.69084072113037
+    },
+    {
+      "min_j": 0.599716128116947,
+      "max_penetration_m": 0.00020738081854162344,
+      "friction_work_j": -0.05427829089862035,
+      "contact_samples": 91784962,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 91780125,
+      "friction_saturated_samples": 90205655,
+      "friction_saturated_fraction": 0.9828451966043846,
+      "scenario": "curved",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.0027308110700062895,
+      "spec": [
+        "curved",
+        3000.0,
+        0.1,
+        6
+      ],
+      "key": "curved-E3000-mu0.1-n6",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/2315df9656f8/curved-E3000-mu0.1-n6",
+      "seconds": 125.84985780715942
+    },
+    {
+      "min_j": 0.5881325408133782,
+      "max_penetration_m": 0.00018387203957773157,
+      "friction_work_j": -0.055297457303930306,
+      "contact_samples": 141822483,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 141816958,
+      "friction_saturated_samples": 139020749,
+      "friction_saturated_fraction": 0.9802829715188222,
+      "scenario": "curved",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.0028328592421665625,
+      "spec": [
+        "curved",
+        3000.0,
+        0.1,
+        8
+      ],
+      "key": "curved-E3000-mu0.1-n8",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/2315df9656f8/curved-E3000-mu0.1-n8",
+      "seconds": 244.20963525772095
+    },
+    {
+      "min_j": 0.7045937684595631,
+      "max_penetration_m": 8.038670383440222e-05,
+      "friction_work_j": -0.01570762727873849,
+      "contact_samples": 290852912,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 290852912,
+      "friction_saturated_samples": 108151296,
+      "friction_saturated_fraction": 0.3718418882462487,
+      "scenario": "squeeze",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.0035780756269278013,
+      "spec": [
+        "squeeze",
+        6000.0,
+        0.35,
+        8
+      ],
+      "key": "squeeze-E6000-mu0.35-n8",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/other-spatial-bacb67619d97/squeeze-E6000-mu0.35-n8",
+      "seconds": 250.72326159477234
+    },
+    {
+      "min_j": 0.6843296453125308,
+      "max_penetration_m": 7.208242749876664e-05,
+      "friction_work_j": -0.015314722137163872,
+      "contact_samples": 412688892,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 412688892,
+      "friction_saturated_samples": 149236974,
+      "friction_saturated_fraction": 0.36162101014339876,
+      "scenario": "squeeze",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.003581032992895845,
+      "spec": [
+        "squeeze",
+        6000.0,
+        0.35,
+        10
+      ],
+      "key": "squeeze-E6000-mu0.35-n10",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/other-spatial-bacb67619d97/squeeze-E6000-mu0.35-n10",
+      "seconds": 478.0845625400543
+    },
+    {
+      "min_j": 0.7682524560937775,
+      "max_penetration_m": 2.9108778202835417e-05,
+      "friction_work_j": -0.00957904934450246,
+      "contact_samples": 313735632,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 313735632,
+      "friction_saturated_samples": 251197324,
+      "friction_saturated_fraction": 0.8006655871335647,
+      "scenario": "squeeze",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.0032603301368686116,
+      "spec": [
+        "squeeze",
+        3000.0,
+        0.1,
+        8
+      ],
+      "key": "squeeze-E3000-mu0.1-n8",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/other-spatial-bacb67619d97/squeeze-E3000-mu0.1-n8",
+      "seconds": 250.87110376358032
+    },
+    {
+      "min_j": 0.755690734490981,
+      "max_penetration_m": 2.0843448256820107e-05,
+      "friction_work_j": -0.009443232828220608,
+      "contact_samples": 446549544,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 446549544,
+      "friction_saturated_samples": 354996622,
+      "friction_saturated_fraction": 0.794977011554176,
+      "scenario": "squeeze",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.003276754755600838,
+      "spec": [
+        "squeeze",
+        3000.0,
+        0.1,
+        10
+      ],
+      "key": "squeeze-E3000-mu0.1-n10",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/other-spatial-bacb67619d97/squeeze-E3000-mu0.1-n10",
+      "seconds": 464.7870225906372
+    },
+    {
+      "min_j": 0.5846877110835327,
+      "max_penetration_m": 0.00020752432555974296,
+      "friction_work_j": -0.08008262423440161,
+      "contact_samples": 126219170,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 126217648,
+      "friction_saturated_samples": 78882443,
+      "friction_saturated_fraction": 0.6249715808363027,
+      "scenario": "slide",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.0024345592261982097,
+      "spec": [
+        "slide",
+        6000.0,
+        0.35,
+        8
+      ],
+      "key": "slide-E6000-mu0.35-n8",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/other-spatial-bacb67619d97/slide-E6000-mu0.35-n8",
+      "seconds": 222.3338463306427
+    },
+    {
+      "min_j": 0.5724111903890623,
+      "max_penetration_m": 0.00016854893983352798,
+      "friction_work_j": -0.08107490167706237,
+      "contact_samples": 179894258,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 179892440,
+      "friction_saturated_samples": 108578981,
+      "friction_saturated_fraction": 0.603577232039323,
+      "scenario": "slide",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.002396234332766138,
+      "spec": [
+        "slide",
+        6000.0,
+        0.35,
+        10
+      ],
+      "key": "slide-E6000-mu0.35-n10",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/other-spatial-bacb67619d97/slide-E6000-mu0.35-n10",
+      "seconds": 436.8113257884979
+    },
+    {
+      "min_j": 0.5884627095674196,
+      "max_penetration_m": 0.0001754645296212047,
+      "friction_work_j": -0.055456823313975286,
+      "contact_samples": 142413274,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 142411833,
+      "friction_saturated_samples": 139583287,
+      "friction_saturated_fraction": 0.980138265617296,
+      "scenario": "slide",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.002828806607209931,
+      "spec": [
+        "slide",
+        3000.0,
+        0.1,
+        8
+      ],
+      "key": "slide-E3000-mu0.1-n8",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/other-spatial-bacb67619d97/slide-E3000-mu0.1-n8",
+      "seconds": 226.74147772789001
+    },
+    {
+      "min_j": 0.5712783073351856,
+      "max_penetration_m": 0.00013804465512189112,
+      "friction_work_j": -0.055825649060851856,
+      "contact_samples": 202884469,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 202882636,
+      "friction_saturated_samples": 198236582,
+      "friction_saturated_fraction": 0.9770997947798746,
+      "scenario": "slide",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.00288124666862593,
+      "spec": [
+        "slide",
+        3000.0,
+        0.1,
+        10
+      ],
+      "key": "slide-E3000-mu0.1-n10",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/other-spatial-bacb67619d97/slide-E3000-mu0.1-n10",
+      "seconds": 402.94467854499817
+    },
+    {
+      "min_j": 0.560783087977406,
+      "max_penetration_m": 0.00020853683542220933,
+      "friction_work_j": -0.08868863611549532,
+      "contact_samples": 123349891,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 123347007,
+      "friction_saturated_samples": 81929395,
+      "friction_saturated_fraction": 0.664218751574572,
+      "scenario": "moving_sphere",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.0028426544368562426,
+      "spec": [
+        "moving_sphere",
+        6000.0,
+        0.35,
+        8
+      ],
+      "key": "moving_sphere-E6000-mu0.35-n8",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/other-spatial-bacb67619d97/moving_sphere-E6000-mu0.35-n8",
+      "seconds": 236.83218336105347
+    },
+    {
+      "min_j": 0.5564625697011206,
+      "max_penetration_m": 0.00016931081081645802,
+      "friction_work_j": -0.08972706430133541,
+      "contact_samples": 176123948,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 176120399,
+      "friction_saturated_samples": 110456188,
+      "friction_saturated_fraction": 0.6271629443673927,
+      "scenario": "moving_sphere",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.002896679489277068,
+      "spec": [
+        "moving_sphere",
+        6000.0,
+        0.35,
+        10
+      ],
+      "key": "moving_sphere-E6000-mu0.35-n10",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/other-spatial-bacb67619d97/moving_sphere-E6000-mu0.35-n10",
+      "seconds": 410.7900574207306
+    },
+    {
+      "min_j": 0.5824767104538694,
+      "max_penetration_m": 0.00017658106757385134,
+      "friction_work_j": -0.05887952129133878,
+      "contact_samples": 142395349,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 142392742,
+      "friction_saturated_samples": 139481815,
+      "friction_saturated_fraction": 0.979557054951579,
+      "scenario": "moving_sphere",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.0030522588093638784,
+      "spec": [
+        "moving_sphere",
+        3000.0,
+        0.1,
+        8
+      ],
+      "key": "moving_sphere-E3000-mu0.1-n8",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/other-spatial-bacb67619d97/moving_sphere-E3000-mu0.1-n8",
+      "seconds": 237.67009162902832
+    },
+    {
+      "min_j": 0.5709787117302395,
+      "max_penetration_m": 0.00013915546951247595,
+      "friction_work_j": -0.05910171780019997,
+      "contact_samples": 203063431,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 203060336,
+      "friction_saturated_samples": 198252009,
+      "friction_saturated_fraction": 0.9763206981002928,
+      "scenario": "moving_sphere",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "max_kabsch_deformation_m": 0.003087412496122481,
+      "spec": [
+        "moving_sphere",
+        3000.0,
+        0.1,
+        10
+      ],
+      "key": "moving_sphere-E3000-mu0.1-n10",
+      "path": "runs/coupled-contact-v13/consistent-mass-diagnostic/other-spatial-bacb67619d97/moving_sphere-E3000-mu0.1-n10",
+      "seconds": 406.8177547454834
+    }
+  ],
+  "checks": [
+    {
+      "complete": true,
+      "world_rms_m": 0.0001256384084366536,
+      "shape_rms_m": 0.00010191841074260408,
+      "body_center_rms_m": 0.0,
+      "body_positions_finite": true,
+      "scenario": "squeeze",
+      "young": 6000.0,
+      "friction": 0.35,
+      "cells": [
+        8,
+        10
+      ],
+      "dense_surface": {
+        "complete": true,
+        "points": 2678,
+        "world_rms_m": 0.00011446422279138561,
+        "shape_rms_m": 9.033620741639035e-05
+      },
+      "passed": true
+    },
+    {
+      "complete": true,
+      "world_rms_m": 9.499743505124958e-05,
+      "shape_rms_m": 7.649471768534482e-05,
+      "body_center_rms_m": 0.0,
+      "body_positions_finite": true,
+      "scenario": "squeeze",
+      "young": 3000.0,
+      "friction": 0.1,
+      "cells": [
+        8,
+        10
+      ],
+      "dense_surface": {
+        "complete": true,
+        "points": 2678,
+        "world_rms_m": 8.377911567933286e-05,
+        "shape_rms_m": 6.275289530665662e-05
+      },
+      "passed": true
+    },
+    {
+      "complete": true,
+      "world_rms_m": 0.0005181801492703044,
+      "shape_rms_m": 0.00023418215637664909,
+      "body_center_rms_m": 0.0,
+      "body_positions_finite": true,
+      "scenario": "slide",
+      "young": 6000.0,
+      "friction": 0.35,
+      "cells": [
+        8,
+        10
+      ],
+      "dense_surface": {
+        "complete": true,
+        "points": 2678,
+        "world_rms_m": 0.0004631271606144771,
+        "shape_rms_m": 0.00019548985602953493
+      },
+      "passed": true
+    },
+    {
+      "complete": true,
+      "world_rms_m": 0.0004955973646938053,
+      "shape_rms_m": 0.0002439170219781689,
+      "body_center_rms_m": 0.0,
+      "body_positions_finite": true,
+      "scenario": "slide",
+      "young": 3000.0,
+      "friction": 0.1,
+      "cells": [
+        8,
+        10
+      ],
+      "dense_surface": {
+        "complete": true,
+        "points": 2678,
+        "world_rms_m": 0.00047226442327200877,
+        "shape_rms_m": 0.00020419943643436083
+      },
+      "passed": true
+    },
+    {
+      "complete": true,
+      "world_rms_m": 0.0006435571034867042,
+      "shape_rms_m": 0.00030738589551759565,
+      "body_center_rms_m": 0.0011766494050827836,
+      "body_positions_finite": true,
+      "scenario": "moving_sphere",
+      "young": 6000.0,
+      "friction": 0.35,
+      "cells": [
+        8,
+        10
+      ],
+      "dense_surface": {
+        "complete": true,
+        "points": 2678,
+        "world_rms_m": 0.0005873188134049139,
+        "shape_rms_m": 0.000252487189290458
+      },
+      "passed": false
+    },
+    {
+      "complete": true,
+      "world_rms_m": 0.00040731981691306905,
+      "shape_rms_m": 0.0002557890776499711,
+      "body_center_rms_m": 0.000813010764742426,
+      "body_positions_finite": true,
+      "scenario": "moving_sphere",
+      "young": 3000.0,
+      "friction": 0.1,
+      "cells": [
+        8,
+        10
+      ],
+      "dense_surface": {
+        "complete": true,
+        "points": 2678,
+        "world_rms_m": 0.0003750176530946121,
+        "shape_rms_m": 0.000213272941410283
+      },
+      "passed": true
+    }
+  ],
+  "accepted_reference_cells": {
+    "squeeze": 8,
+    "slide": 8
+  }
+}

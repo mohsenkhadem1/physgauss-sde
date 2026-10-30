@@ -1,0 +1,48 @@
+{
+  "audited_utc": "2026-10-30T20:29:06.128182+00:00",
+  "source_sha256": "55a43c0e600ed1a4c6ea5d995c49cfb1fd4791293127066d0074d75262771f26",
+  "seed": 130013,
+  "draws": 10000,
+  "formula": "For each draw sample8object indices withreplacement; sum allavailablepaired gains within drawnclusters, dividebytotalavailablepairs. This estimates the same pair-weighted conditional mean as primarypairedmetric, withobject-levelresampling.",
+  "checks": {
+    "constant": {
+      "pairs": 24,
+      "mean_gain_mm": 2.5,
+      "percentile_95_mm": [
+        2.5,
+        2.5
+      ],
+      "valid_bootstrap_draws": 10000,
+      "draws": 10000,
+      "seed": 130013
+    },
+    "seven_missing_clusters": {
+      "pairs": 3,
+      "mean_gain_mm": 4.0,
+      "percentile_95_mm": [
+        4.0,
+        4.0
+      ],
+      "valid_bootstrap_draws": 6542,
+      "draws": 10000,
+      "seed": 130013
+    },
+    "all_missing": {
+      "pairs": 0,
+      "mean_gain_mm": null,
+      "percentile_95_mm": null,
+      "valid_bootstrap_draws": 0,
+      "draws": 10000,
+      "seed": 130013
+    }
+  },
+  "findings": [
+    "Repeated interactions remain withinresampledobjectclusters. Everyfixedrecordrequired, duplicatekeysrejected, completednonfinitescoresrejected. Noqualificationfilter.",
+    "Zero-pairclusters remaininresampling. All-zero draws are omitted andvaliddrawcountreported; this is a conditional-on-at-least-one-pairbootstrap, increasinglyfragilewithfewcontributingobjects.",
+    "With8objects thesepercentileintervals are descriptive, not calibratedpopulationcoverage ormultiple-comparison-adjusted significance.",
+    "Mean weightsobjects bytheirnumberofcompletedpairs, intentionallymatchingpooledpairedmean; itisnot equal-objectmeanwhenpaircounts differ.",
+    "Standalone main assumesprotocolhasexactly8unique reservedobjects. Existingcampaignvalidators enforce this; explicitlocalcheckwouldimprove robustness."
+  ],
+  "scope": "Read-only formula audit andsmallsyntheticconstant/missingclusterchecks. No freshdata read oroutputs generated.",
+  "followup": "Root added explicit8uniqueobject guard and contributing_objects output; resampling formula unchanged."
+}

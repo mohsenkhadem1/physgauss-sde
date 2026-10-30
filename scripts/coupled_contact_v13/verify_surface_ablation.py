@@ -3,7 +3,7 @@ from pathlib import Path
 import json,sys
 import numpy as np
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT))
-from scripts.coupled_contact_v13.surface_verify import implementation
+from scripts.coupled_contact_v13.surface_verify import implementation,verify_settings
 BASE=ROOT/'runs/coupled-surface-v13';REPORT=ROOT/'reports/coupled-surface-v13'
 independent=implementation()
 Audit=independent.Audit
@@ -14,6 +14,7 @@ def main():
     audit=Audit();p=read(REPORT/'protocol.json');supp=read(REPORT/'supplementary-protocol.json');d=read(REPORT/'ablation-results.json');frozen=read(REPORT/'method-freeze.json')
     for path,sha in {**frozen['source_sha256'],**supp['source_sha256']}.items():audit.check(digest(ROOT/path)==sha,'frozen '+path)
     audit.check(digest(REPORT/'protocol.json')==frozen['protocol_sha256'],'main protocol unchanged')
+    verify_settings(audit,p,'ablation')
     want={(o['id'],s) for o in p['objects'] for s in p['forecast_scenarios']};got=[(r['object'],r['scenario']) for r in d['cases']]
     audit.check(len(got)==40 and len(set(got))==40 and set(got)==want,'all40unique supplement cases')
     for obj in p['objects']:
@@ -57,6 +58,15 @@ def main():
                 if mainrows[(obj,s)]['results'].get('fem',{}).get('complete'):
                     fitted=arrays(BASE/'evaluation'/obj/s/'predictions.npz')['fem'];score=geometry_metrics(fitted,target)
                     audit.close(row['surface_fem_gain_mm'][family],(calc['coordinate_rmse_m']-score['coordinate_rmse_m'])*1000,label+'/'+family+' paired gain')
-    result=dict(passed=not audit.errors,checks=audit.checks,errors=audit.errors,cases=len(got),verifier_sha256=digest(Path(__file__)))
+    from scripts.coupled_contact_v13.surface_scope_audit import supplement_cohorts
+    expected_cohorts=supplement_cohorts(d['cases'],p)
+    def compare_tree(actual,expected,label):
+        if isinstance(expected,dict):
+            audit.check(isinstance(actual,dict) and set(actual)==set(expected),label+' keys')
+            for key,value in expected.items():compare_tree(actual.get(key) if isinstance(actual,dict) else None,value,label+'/'+key)
+        elif isinstance(expected,float):audit.close(actual,expected,label)
+        else:audit.check(actual==expected,label)
+    compare_tree(d.get('forecast_cohorts'),expected_cohorts,'Independent fixed supplement cohorts')
+    result=dict(passed=not audit.errors,checks=audit.checks,errors=audit.errors,cases=len(got),audited_report_sha256={name:digest(REPORT/name) for name in ['protocol.json','method-freeze.json','ablation-results.json','supplementary-protocol.json']},verifier_sha256=digest(Path(__file__)))
     (REPORT/'ablation-audit.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2));return int(not result['passed'])
 if __name__=='__main__':sys.exit(main())

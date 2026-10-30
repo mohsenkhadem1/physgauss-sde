@@ -1,0 +1,31 @@
+{
+  "source_sha256": {
+    "scripts/coupled_contact_v13/capsule_development.py": "75405a3e28ed899e829782c0de902927fae96a70aa15bd761de6caab35109883",
+    "tests/test_capsule_development_v13.py": "d2eea2c53ba0c019641ac6076b43e488ffc3921cba7bf22e538cbecb91b14cb7"
+  },
+  "operator_tests": "3 passed",
+  "geometry": {
+    "segment_length_m": 0.124,
+    "total_span_m": 0.14,
+    "center_m": [
+      0.01,
+      0,
+      0.042
+    ],
+    "radius_m": 0.008,
+    "width_m": 0.016,
+    "top_m": 0.05,
+    "underside_m": 0.034,
+    "old_box_underside_m": 0.0
+  },
+  "scope": "Read-only operator/geometry audit; no spatial or contact integration qualification claimed",
+  "findings": [
+    "SDF is exact distance to finite y-axis segment minus radius; outward normal and rigid transformation conventions match Collider. Segment-axis normal is a deterministic choice at a nondifferentiable location.",
+    "Infinite positive mass enforced; finite-mass dynamic capsule rejected. Static/prescribed motion supported, no dynamic capsule inertia claim.",
+    "Capsule is routed to sparse material quadrature because it is neither plane nor box. Conservative culling relies on its1-Lipschitz SDF and existing deformation stretch bound; exhaustive contact comparison and force/torque tests pass.",
+    "Development build creates a fresh engineered system then replaces only its own edge collider; production pipeline/render/ablation do not import capsule module. No global production binding changed.",
+    "Straight segment124mm plus two8mm caps gives140mm total span; segment endpoints are y\u00b162mm, not\u00b170mm. Width16mm/top50mm/block initial geometry and penalty76800 retained.",
+    "Underside34mm is elevated versus old full-height box underside0mm; cap ends and cross-sectional geometry differ. This is an engineering redesign, not an isolated corner-normal smoothing experiment.",
+    "Independent curved-contact quadrature, mesh/time/body/endpoints must qualify before any production replacement. No gate or threshold changed."
+  ]
+}

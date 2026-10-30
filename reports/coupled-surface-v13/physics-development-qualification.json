@@ -1,27 +1,460 @@
 {
-  "status": "in_progress",
-  "updated_utc": "2026-10-30T18:31:47.119013+00:00",
-  "all_gates_pass": false,
-  "selected_mass_candidate": "consistent P1 tetrahedral mass",
-  "selected_reference_cells": null,
-  "selected_predictor_cells": null,
-  "evidence_report_sha256": {
-    "engineered-endpoint-screen.json": "81048ba3477984d087b73dfa9c1c5128a335984eeb33caf37851f0eac2d17e59",
-    "engineered-development-qualification.json": "63c78f2a5737c747526a0b02def6b54bc840e285432b3e1e9654b13e1d363454",
-    "consistent-higher-refinement-plan-higher-907826b3da3d.json": "773a128628bcdb4b9992a5c76542107a49b83b674f747b21be532180b2e7680e",
-    "consistent-mass-diagnostic.json": "335e442dd347cdf445842e4ad369ac5cd5d6da26820710ff1ee77c5e30ae4935"
+  "nesting_amendment": {
+    "path": "reports/coupled-contact-v13/consistent-reference-nesting-amendment.json",
+    "sha256": "e738de75f9f921734b583c812a35ef1beb4f2b117c68e77c605b4ee9e34563f7"
   },
-  "completed": [
-    "Independent consistent-mass operator tests",
-    "Repaired lumped endpoint/contact/time feasibility"
+  "source_sha256": {
+    "scripts/coupled_contact_v13/physics.py": "8400867762863c9551c3eeaac1c758530b34ead8f99811d8b032eb938c008f26",
+    "scripts/coupled_contact_v13/surface_contact.py": "65ac04d47cc9c38496762d636339daa4f5a30332b9a43ecd96d793fb02278f01",
+    "scripts/coupled_contact_v13/sparse_surface_contact.py": "133b19c0e8b692e3d628d0ea883a4db06dee53f5dde721c48a23f15472775804",
+    "scripts/coupled_contact_v13/clipped_surface_contact.py": "6b4a3aa4cec21c2b51e601d14fef7ad0ab6845177f23ca792974d5019b67d9e1",
+    "scripts/coupled_contact_v13/clipped_surface_contact.cpp": "dc6916790e26a24ecce04b633870d13079b56f33a8ed5b9078b3394d70f5793e",
+    "scripts/coupled_contact_v13/consistent_mass.py": "bd1a3a882f7269c89a18899d3491ccf1fbf4c36a68f9177d6dfc86fe4ac4dc66",
+    "scripts/coupled_contact_v13/engineered_scenarios.py": "1226d92a358cf93a7a3ff0a96d9672595063af531b7cd986feb649a30e3cc91c",
+    "scripts/coupled_contact_v13/engineered_mesh_refinement.py": "b1087492a35872157ee4e99d6fa80fd9443ee9a7865907584815fcbe65a8423d",
+    "scripts/coupled_contact_v13/surface_qualification.py": "761b615644f54bf312239b5164912746ef5cdcc6b3300f744a9ac2355e74e289",
+    "scripts/coupled_contact_v13/mesh_diagnostic.py": "cff1a06608c532fbf65235205befafb9e8c6da879534217f366ae0e3a973fc6e",
+    "scripts/coupled_contact_v13/consistent_mass_diagnostic.py": "ccb0919107ae7c5d766e2b8df518bfc5e60b857c64539bb755386362d1bdb55d",
+    "scripts/coupled_contact_v13/consistent_higher_refinement.py": "6a6fb6d98b10a57d353235b0cdb508a210fa85b9b95d7d3a655577c05c03daa3",
+    "scripts/coupled_contact_v13/consistent_other_spatial.py": "72fd3ade617dde4049abb87aa92c878071030a1b26bd08cae2760a15c81a757f",
+    "scripts/coupled_contact_v13/consistent_endpoint_screen.py": "eabb7b3637a74a2decb3edffe0a076ab0874686d7584f7e53973fd4c1d59d403",
+    "scripts/coupled_contact_v13/consistent_qualification.py": "76500b5a3b1a5b35f39a5585f1ba11088ab9659973e077ddedc35b1f36787ec9",
+    "scripts/coupled_contact_v13/consistent_predictor_halfstep.py": "1edb42f710ee95941070ec87c2882a487f46427d6e09a975aa7a6e27b9281e7a",
+    "scripts/coupled_contact_v13/consistent_reference_checks_v2.py": "dcd101db0368de26e2f88feff0b24161e9350697da9f1ce8b0191f84ae208e57",
+    "scripts/coupled_contact_v13/consistent_reference_checks.py": "634cf4d71a6e86a7d9621fde66a10bcde2688ae12831a7423e6a838f1e6b77d1",
+    "scripts/coupled_contact_v13/predictor_selected_contact.py": "1e5d1491767b31849d97e32e6648fbbd8e45bccc4de7eac7f89c2d147c15b2a5",
+    "scripts/coupled_contact_v13/qualification_aggregate.py": "142f1c3ce5629d67d0acb49c05ca4777683a82c9d5f9931be6516e263671ae2a"
+  },
+  "schema_version": 1,
+  "status": "in_progress",
+  "updated_utc": "2026-10-30T20:33:01.572209+00:00",
+  "all_gates_pass": false,
+  "scenarios": {
+    "squeeze": {
+      "primary_cells": 8,
+      "companion_cells": 10,
+      "dt": 2.5e-05,
+      "half_dt": 1.25e-05,
+      "predictor_cells": 4,
+      "predictor_dt": 1.25e-05,
+      "spatial_pair": [
+        8,
+        10
+      ],
+      "surface_spacing_m": 0.0015,
+      "friction_level": 1,
+      "gates": {
+        "spatial": {
+          "report": "reports/coupled-contact-v13/consistent-other-spatial.json",
+          "report_sha256": "8d2fd18472a9e0948cdb48f58f5fe688e867caf626372a75a77a1fdb9a4bfada",
+          "selected_check_indices": [
+            0,
+            1
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        },
+        "primary_time": {
+          "report": "reports/coupled-contact-v13/consistent-reference-time-03a1b5a332db.json",
+          "report_sha256": "10fee6013c08a933cfa707072215f3f1597da700080ab45f5ae2afc01956a0dd",
+          "selected_check_indices": [
+            0,
+            1
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        },
+        "companion_time": {
+          "report": "reports/coupled-contact-v13/consistent-reference-time-ceec2fe3b347.json",
+          "report_sha256": "b2096dd47f68438d394a24cba760afa5bc18a2c9e30cc870ec78afd7b9b1a8eb",
+          "selected_check_indices": [
+            0,
+            1
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        },
+        "contact": {
+          "report": "reports/coupled-contact-v13/consistent-reference-contact-7c6398253b15.json",
+          "report_sha256": "65f25f282f2261ce3d86a3ab7126404f14dabf45aab84969034d55a54d1efb8f",
+          "selected_check_indices": [
+            0,
+            1
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        },
+        "endpoints": {
+          "report": "reports/coupled-contact-v13/consistent-reference-endpoints-ea63e8264cc7.json",
+          "report_sha256": "36c7fdf016bf611c454edf5fd1f797b52e52aab4b12fc06cc0e76f0b7cfcbc68",
+          "selected_check_indices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        }
+      },
+      "source_hashes_verified": true,
+      "qualified": true,
+      "pending": []
+    },
+    "slide": {
+      "primary_cells": 8,
+      "companion_cells": 10,
+      "dt": 2.5e-05,
+      "half_dt": 1.25e-05,
+      "predictor_cells": 4,
+      "predictor_dt": 1.25e-05,
+      "spatial_pair": [
+        8,
+        10
+      ],
+      "surface_spacing_m": 0.0015,
+      "friction_level": 1,
+      "gates": {
+        "spatial": {
+          "report": "reports/coupled-contact-v13/consistent-other-spatial.json",
+          "report_sha256": "8d2fd18472a9e0948cdb48f58f5fe688e867caf626372a75a77a1fdb9a4bfada",
+          "selected_check_indices": [
+            2,
+            3
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        },
+        "primary_time": {
+          "report": "reports/coupled-contact-v13/consistent-reference-time-03a1b5a332db.json",
+          "report_sha256": "10fee6013c08a933cfa707072215f3f1597da700080ab45f5ae2afc01956a0dd",
+          "selected_check_indices": [
+            2,
+            3
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        },
+        "companion_time": {
+          "report": "reports/coupled-contact-v13/consistent-reference-time-ceec2fe3b347.json",
+          "report_sha256": "b2096dd47f68438d394a24cba760afa5bc18a2c9e30cc870ec78afd7b9b1a8eb",
+          "selected_check_indices": [
+            2,
+            3
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        },
+        "contact": {
+          "report": "reports/coupled-contact-v13/consistent-reference-contact-7c6398253b15.json",
+          "report_sha256": "65f25f282f2261ce3d86a3ab7126404f14dabf45aab84969034d55a54d1efb8f",
+          "selected_check_indices": [
+            2,
+            3
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        },
+        "endpoints": {
+          "report": "reports/coupled-contact-v13/consistent-reference-endpoints-6223e50d87eb.json",
+          "report_sha256": "653340e8bf0d44583ca9bf0fe4907f72c201912d34d43319dbbc6ae49b2c4bd6",
+          "selected_check_indices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        }
+      },
+      "source_hashes_verified": true,
+      "qualified": true,
+      "pending": []
+    },
+    "curved": {
+      "primary_cells": 8,
+      "companion_cells": 10,
+      "dt": 2.5e-05,
+      "half_dt": 1.25e-05,
+      "predictor_cells": 4,
+      "predictor_dt": 1.25e-05,
+      "spatial_pair": [
+        8,
+        10
+      ],
+      "surface_spacing_m": 0.0015,
+      "friction_level": 1,
+      "gates": {
+        "spatial": {
+          "report": "reports/coupled-contact-v13/consistent-higher-refinement.json",
+          "report_sha256": "7ffceed45e9b1891800af2096078a4422e32d833b42bf3bdfae96e0e33fe3bfa",
+          "selected_check_indices": [
+            2,
+            3
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        },
+        "primary_time": {
+          "report": "reports/coupled-contact-v13/consistent-reference-time-cb7f0c9eb4a3.json",
+          "report_sha256": "a26daa4874c1b816de0ab6917aee8f9d518b5abb41174b0f0ea7f690e6c3ff34",
+          "selected_check_indices": [
+            0,
+            1
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        },
+        "companion_time": {
+          "report": "reports/coupled-contact-v13/consistent-reference-time-ceec2fe3b347.json",
+          "report_sha256": "b2096dd47f68438d394a24cba760afa5bc18a2c9e30cc870ec78afd7b9b1a8eb",
+          "selected_check_indices": [
+            4,
+            5
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        },
+        "contact": {
+          "report": "reports/coupled-contact-v13/consistent-reference-contact-acc2ef8a8bdd.json",
+          "report_sha256": "b1f5585f9b8bb66a3a201566b36ced84bb7b818ddffa6b8e79962e6996e11a34",
+          "selected_check_indices": [
+            0,
+            1
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        },
+        "endpoints": {
+          "report": "reports/coupled-contact-v13/consistent-reference-endpoints-6223e50d87eb.json",
+          "report_sha256": "653340e8bf0d44583ca9bf0fe4907f72c201912d34d43319dbbc6ae49b2c4bd6",
+          "selected_check_indices": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        }
+      },
+      "source_hashes_verified": true,
+      "qualified": true,
+      "pending": []
+    },
+    "moving_sphere": {
+      "primary_cells": 12,
+      "companion_cells": 10,
+      "dt": 2.5e-05,
+      "half_dt": 1.25e-05,
+      "predictor_cells": 4,
+      "predictor_dt": 1.25e-05,
+      "spatial_pair": [
+        10,
+        12
+      ],
+      "surface_spacing_m": 0.0015,
+      "friction_level": 1,
+      "gates": {
+        "spatial": {
+          "report": "reports/coupled-contact-v13/consistent-other-spatial.json",
+          "report_sha256": "8d2fd18472a9e0948cdb48f58f5fe688e867caf626372a75a77a1fdb9a4bfada",
+          "selected_check_indices": [
+            6,
+            7
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        },
+        "primary_time": {
+          "report": "reports/coupled-contact-v13/consistent-reference-time-bd8e75f220de.json",
+          "report_sha256": "31e8b43599dabb42e3de9a3d32d8b8a17f0538e7d0427a637258949ace5bcc18",
+          "selected_check_indices": [
+            0,
+            1
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        },
+        "companion_time": {
+          "report": "reports/coupled-contact-v13/consistent-reference-time-875bbe254977.json",
+          "report_sha256": "6c6a895439eaaef3a100407c5bf7ddffb49b612c6a520b289a80038493709ad7",
+          "selected_check_indices": [
+            0,
+            1
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        },
+        "contact": {
+          "report": "reports/coupled-contact-v13/consistent-reference-contact-d5b4450106e0.json",
+          "report_sha256": "e1c4bf217e2cadec0f2c0ddff8a40ae5411b314e33d7f634358706d2ee6d356f",
+          "selected_check_indices": [
+            0,
+            1
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        },
+        "endpoints": {
+          "report": "reports/coupled-contact-v13/consistent-reference-endpoints-6223e50d87eb.json",
+          "report_sha256": "653340e8bf0d44583ca9bf0fe4907f72c201912d34d43319dbbc6ae49b2c4bd6",
+          "selected_check_indices": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "expected_coverage_pass": true,
+          "source_hashes_verified": true,
+          "passed": true,
+          "settings_verified": true
+        }
+      },
+      "source_hashes_verified": true,
+      "qualified": true,
+      "pending": []
+    },
+    "sharp_edge_drop": {
+      "qualified": false,
+      "pending": [
+        "No accepted spatial pair"
+      ],
+      "evidence_report": "reports/coupled-contact-v13/consistent-higher-refinement.json",
+      "evidence_report_sha256": "7ffceed45e9b1891800af2096078a4422e32d833b42bf3bdfae96e0e33fe3bfa"
+    },
+    "rounded_support_drop": {
+      "qualified": false,
+      "pending": [
+        "Initial spatial pair failed; bounded fallback/time diagnosis pending; further qualification required"
+      ]
+    }
+  },
+  "predictor_evidence": [
+    {
+      "report": "reports/coupled-contact-v13/consistent-predictor-halfstep.json",
+      "report_sha256": "2215ed7820477118a94c3d7379d38e365256d4e06c66948a4bb99f2ca1e8959d",
+      "expected_coverage_pass": true,
+      "source_hashes_verified": true,
+      "passed": true
+    },
+    {
+      "report": "reports/coupled-contact-v13/predictor-selected-contact.json",
+      "report_sha256": "ab5c6be39da819e0bd15818cf5addeaad6bf43d6526472a4b9c1013576d9f6f4",
+      "expected_coverage_pass": true,
+      "source_hashes_verified": true,
+      "passed": true
+    },
+    {
+      "report": "reports/coupled-contact-v13/consistent-predictor-endpoint-screen.json",
+      "report_sha256": "d4077552a5a841f9841388210b95e1311115642f2d36f9486cafab838879c186",
+      "expected_coverage_pass": true,
+      "source_hashes_verified": true,
+      "passed": true
+    }
   ],
-  "pending": [
-    "Consistent reference spatial convergence",
-    "Consistent selected-reference timestep checks",
-    "Consistent contact/friction/sphere refinement",
-    "Consistent endpoint feasibility",
-    "Coupled moving-body spatial checks",
-    "Predictor oracle bias and stable common step"
+  "aggregator_source_sha256": {
+    "scripts/coupled_contact_v13/qualification_aggregate.py": "142f1c3ce5629d67d0acb49c05ca4777683a82c9d5f9931be6516e263671ae2a"
+  },
+  "scope": "Qualification evidence only; no automatic cohort selection, no relaxed gates, no promotion of unresolved stress cases",
+  "spatial_claim": "Two-resolution consistency, not continuum convergence",
+  "adopted_scope": "primary_with_stress",
+  "primary_forecast_scenarios": [
+    "slide",
+    "curved",
+    "moving_sphere"
   ],
-  "notes": "Lumped checks are supporting development evidence, not transferred acceptance for consistent mass. Original failed marginal-edge and spatial pilots are preserved."
+  "stress_forecast_scenarios": [
+    "edge_drop"
+  ],
+  "primary_gates_pass": true,
+  "decision": {
+    "path": "reports/coupled-surface-v13/scope-adoption-decision.json",
+    "sha256": "6d9dc222360512a306f6bc3fde74ee850a7c3dc53decb306dbebf70cd93da25a"
+  },
+  "primary_evidence": {
+    "squeeze": [
+      {
+        "path": "reports/coupled-surface-v13/physics-development-qualification-unadopted.json",
+        "sha256": "f9cba6d09b973fcd29320fba35405a8a4fa392efacad414cef928d037ec9b62c",
+        "passed_key": [
+          "scenarios",
+          "squeeze",
+          "qualified"
+        ]
+      }
+    ],
+    "slide": [
+      {
+        "path": "reports/coupled-surface-v13/physics-development-qualification-unadopted.json",
+        "sha256": "f9cba6d09b973fcd29320fba35405a8a4fa392efacad414cef928d037ec9b62c",
+        "passed_key": [
+          "scenarios",
+          "slide",
+          "qualified"
+        ]
+      }
+    ],
+    "curved": [
+      {
+        "path": "reports/coupled-surface-v13/physics-development-qualification-unadopted.json",
+        "sha256": "f9cba6d09b973fcd29320fba35405a8a4fa392efacad414cef928d037ec9b62c",
+        "passed_key": [
+          "scenarios",
+          "curved",
+          "qualified"
+        ]
+      }
+    ],
+    "moving_sphere": [
+      {
+        "path": "reports/coupled-surface-v13/physics-development-qualification-unadopted.json",
+        "sha256": "f9cba6d09b973fcd29320fba35405a8a4fa392efacad414cef928d037ec9b62c",
+        "passed_key": [
+          "scenarios",
+          "moving_sphere",
+          "qualified"
+        ]
+      }
+    ]
+  }
 }

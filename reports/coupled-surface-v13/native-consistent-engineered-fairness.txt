@@ -1,0 +1,16 @@
+Development native timestep fairness audit — engineered scenes, consistent P1 mass
+
+Scope: predictor cells4; k76800; clipped P1 plane/box normals, friction quadrature1, sphere spacing1.5mm; native spring effective scales 100000 and1000000; friction .6. Squeeze and curved only. No reserved cases, selection or parameter-grid tuning. All declared source hashes match.
+
+Common predictor timestep candidate:12.5 microseconds. The completed curved/scale1000000 trajectory differs by0.197808514mm coordinate RMS from6.25 microseconds, below the predefined0.25mm trajectory criterion. Its final-frame RMS is0.286577136mm; the trajectory-average criterion does not imply every frame is below0.25mm. At25 versus12.5 microseconds the full RMS was0.627345701mm, so25 microseconds is not supported for this native case.
+
+The other three configurations hit the inherited tetrahedral positive-J safety guard at all three time steps; they are not completed predictions:
+- Squeeze scale100000: last valid times25/12.5/6.25us =0.218175/0.218200/0.2182125s. Shared saved prefix through0.21s, 12.5-to6.25 RMS0.000601625mm; final shared frame0.00150403mm.
+- Curved scale100000:0.181000/0.1810125/0.181025s. Shared prefix through0.18s, RMS0.000392334mm; final shared frame0.000614396mm.
+- Squeeze scale1000000:0.137950/0.137675/0.137600s. Shared prefix through0.13s, RMS0.023503388mm; final shared frame0.079541934mm.
+
+These increasingly consistent prefixes and persistent guarded failures show that merely halving the timestep did not recover complete forecasts. They do not establish physical collapse, continuum convergence or failure of the complete published PhysTwin system. This is the author spring-force kernel inside the shared contact/inertia/integrator adaptation, with a study-specific tetrahedral guard.
+
+Coverage is deliberately limited to four development configurations at a single predictor resolution. The native calibration grid and unseen forecasts may expose other timestep sensitivities and failures; retain their status rather than silently substituting or dropping them. A3.125us stable-case refinement was briefly launched but cancelled on the campaign lead decision because12.5→6.25 met the predefined trajectory criterion; no outcome from that cancelled run was used.
+
+Machine-readable evidence: native-consistent-engineered-audit.json and native-timestep-consistent-engineered-{candidate4,failed625,stable625}.json. No prior frozen source/results were changed.

@@ -1,5 +1,5 @@
 from scripts.coupled_contact_v13 import surface_run_campaign,surface_finish,surface_render,render
-from scripts.coupled_contact_v13 import surface_scenarios,scenarios
+from scripts.coupled_contact_v13 import engineered_scenarios,scenarios
 
 
 def test_surface_stages_exact_and_bounded_scope():
@@ -14,7 +14,7 @@ def test_surface_renderer_isolation_and_fixed_cases():
     original=(render.BASE,render.REPORT,render.build,render.command)
     module=surface_render.implementation()
     assert module.BASE==surface_render.BASE and module.REPORT==surface_render.REPORT
-    assert module.build is surface_scenarios.build and module.command is surface_scenarios.command
+    assert module.build is engineered_scenarios.build and module.command is engineered_scenarios.command
     assert (render.BASE,render.REPORT,render.build,render.command)==original
     assert render.build is scenarios.build
     assert surface_render.FIXED_CASES==[['surface_test0','curved'],['surface_test3','moving_sphere'],['surface_test7','edge_drop']]

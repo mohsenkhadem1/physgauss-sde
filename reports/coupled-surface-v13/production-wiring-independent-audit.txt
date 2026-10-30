@@ -1,0 +1,28 @@
+PRODUCTION WIRING AUDIT (PRE-FREEZE)
+
+Reviewed surface_pipeline.py and surface_render.py. Main classes compose
+consistent P1 inertia with clipped plane/box contact and sparse sphere contact;
+FEM/oracle, native and rigid use the same declared scene/contact settings.
+Reference per-scenario cells/dt override globals; half-dt jobs retain cells.
+Predictors use common coarse cells/dt. Cache reuse compares exact job, resolved
+settings and protocol bytes hash, including failed jobs. Engineered scene aliases
+are used by the renderer, which retains three prospectively fixed clips, world
+coordinates and source-time checks. No reserved target enters class resolution.
+
+Supplement now uses engineered_scenarios and consistent P1 vertex inertia;
+nominal uses the main model class. Its status artifacts have equivalent settings
+and protocol-hash cache guards. Vertex comparison remains a contact-formulation
+comparison, including damping distribution, not pure quadrature isolation.
+
+Independent verifier now resolves settings directly from protocol fields, without
+calling/importing the predictor resolver. It checks every saved completion status
+(including failures), exact protocol SHA, path provenance, nested references,
+actual saved node/tetrahedron counts and actual diagnostic timestep. Supplement
+verifier invokes the same independent checks on its separate output subtree.
+Two mutation tests pass: overridden half-step resolution plus stale setting/hash
+rejection, and rejection of nonnested reference10 with predictor4.
+
+No final reference qualification or freeze asserted. Required final protocol
+fields include surface_spacing_m and friction_quadrature_level explicitly; the
+independent verifier rejects their absence. Final accepted configuration and all
+physics gates remain pending development evidence.

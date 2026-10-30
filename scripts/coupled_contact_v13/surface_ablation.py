@@ -4,8 +4,10 @@ import argparse,concurrent.futures,hashlib,json,multiprocessing,sys,time,traceba
 import numpy as np
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT))
 from scripts.coupled_contact_v13.surface_pipeline import implementation,BASE,REPORT
-from scripts.coupled_contact_v13.surface_scenarios import run,build,shared_node_indices
+from scripts.coupled_contact_v13.engineered_scenarios import run,build,shared_node_indices
 from scripts.coupled_contact_v13.physics import FEMSystem
+from scripts.coupled_contact_v13.consistent_mass import with_consistent_mass
+from scripts.coupled_contact_v13.surface_pipeline import simulation_settings
 from scripts.coupled_contact_v13.inference import choose
 from scripts.coupled_contact_v13.campaign import remaining,write
 
@@ -15,19 +17,42 @@ def load(path):
 
 def simulate_job(job):
     m=implementation();p=m.protocol();path=BASE/job['path']
-    if (path/'complete.json').exists():return read(path/'complete.json')
+    settings=simulation_settings(dict(job,reference=False),p)
+    if job['family']=='vertex':
+        settings.update(contact_formulation='vertex-nodal-mass-damping',surface_spacing_m=None,friction_quadrature_level=None)
+    protocol_sha=hashlib.sha256((REPORT/'protocol.json').read_bytes()).hexdigest()
+    if (path/'complete.json').exists():
+        cached=read(path/'complete.json')
+        if cached.get('job')!=job or cached.get('simulation_settings')!=settings or cached.get('protocol_sha256')!=protocol_sha:
+            raise RuntimeError('Supplement cache provenance/settings mismatch: '+str(path))
+        return cached
     start=time.monotonic()
     try:
         if remaining()<=0:raise RuntimeError('Original campaign deadline reached')
-        model=FEMSystem if job['family']=='vertex' else m.model_class('fem')
-        result=run(job['scenario'],job['scale'],job['friction'],tuple(p['coarse_cells']),p['dt_coarse'],p['duration_seconds'],model)
+        model=with_consistent_mass(FEMSystem) if job['family']=='vertex' else m.model_class('fem')
+        result=run(job['scenario'],job['scale'],job['friction'],tuple(settings['cells']),settings['dt'],settings['duration_seconds'],model)
         m.save_result(path,result);status=dict(success=True,job=job,seconds=time.monotonic()-start,diagnostics=read(path/'diagnostics.json'))
     except Exception as error:status=dict(success=False,job=job,seconds=time.monotonic()-start,error=repr(error),traceback=traceback.format_exc())
+    status.update(simulation_settings=settings,protocol_sha256=protocol_sha)
     write(path/'complete.json',status);return status
 
 def execute(jobs,workers):
     with concurrent.futures.ProcessPoolExecutor(max_workers=workers,mp_context=multiprocessing.get_context('spawn')) as pool:
         for status in pool.map(simulate_job,jobs):print(json.dumps({k:status[k] for k in ['success','job','seconds']}),flush=True)
+
+def cohort_summary(rows,p):
+    out={}
+    for split in ('development','reserved','all_objects'):
+        ids={o['id'] for o in p['objects'] if split=='all_objects' or o['split']==split};out[split]={}
+        for name,scenes in [('primary',p['primary_forecast_scenarios']),('stress',p['stress_forecast_scenarios']),('full',p['forecast_scenarios'])]:
+            selected=[r for r in rows if r['object'] in ids and r['scenario'] in scenes];expected=len(ids)*len(scenes)
+            record=dict(scenarios=scenes,expected=expected,present=len(selected),reference_qualified=sum(bool(r.get('joint_reference_qualified')) for r in selected),methods={})
+            for method in ('vertex','nominal'):
+                valid=[r['results'][method] for r in selected if r.get('results',{}).get(method,{}).get('complete')]
+                gains=[r['surface_fem_gain_mm'][method] for r in selected if method in r.get('surface_fem_gain_mm',{})]
+                record['methods'][method]=dict(expected=expected,complete=len(valid),failed_or_missing=expected-len(valid),means_conditional_on_success=len(valid)!=expected,mean_coordinate_mm=float(np.mean([r['coordinate_rmse_m'] for r in valid])*1000) if valid else None,paired_cases=len(gains),surface_fem_gain_mm=float(np.mean(gains)) if gains else None)
+            out[split][name]=record
+    return out
 
 def main():
     arg=argparse.ArgumentParser();arg.add_argument('--workers',type=int,default=4);args=arg.parse_args()
@@ -76,6 +101,6 @@ def main():
         for method in ['vertex','nominal']:
             valid=[r['results'][method] for r in cohort if r['results'].get(method,{}).get('complete')];gain=np.array([r['surface_fem_gain_mm'][method] for r in cohort if method in r.get('surface_fem_gain_mm',{})])
             summary[split][method]=dict(expected=len(cohort),complete=len(valid),mean_coordinate_mm=float(np.mean([r['coordinate_rmse_m'] for r in valid])*1000) if valid else None,paired_cases=len(gain),surface_fem_gain_mm=float(gain.mean()) if len(gain) else None,wins=int((gain>1e-9).sum()),losses=int((gain< -1e-9).sum()),ties=int((abs(gain)<=1e-9).sum()))
-    write(REPORT/'ablation-results.json',dict(expected_cases=len(p['objects'])*len(p['forecast_scenarios']),cases=rows,selections=selections,splits=summary,scope=supp['scope']))
+    write(REPORT/'ablation-results.json',dict(expected_cases=len(p['objects'])*len(p['forecast_scenarios']),cases=rows,selections=selections,splits=summary,scope=supp['scope'],forecast_cohorts=cohort_summary(rows,p)))
     print(json.dumps(summary,indent=2))
 if __name__=='__main__':main()

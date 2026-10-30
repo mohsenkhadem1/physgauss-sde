@@ -1,0 +1,714 @@
+{
+  "plan": {
+    "scope": "Development-only clipping qualification before fresh inference/results",
+    "source_sha256": {
+      "scripts/coupled_contact_v13/physics.py": "8400867762863c9551c3eeaac1c758530b34ead8f99811d8b032eb938c008f26",
+      "scripts/coupled_contact_v13/surface_contact.py": "65ac04d47cc9c38496762d636339daa4f5a30332b9a43ecd96d793fb02278f01",
+      "scripts/coupled_contact_v13/sparse_surface_contact.py": "133b19c0e8b692e3d628d0ea883a4db06dee53f5dde721c48a23f15472775804",
+      "scripts/coupled_contact_v13/clipped_surface_contact.py": "6b4a3aa4cec21c2b51e601d14fef7ad0ab6845177f23ca792974d5019b67d9e1",
+      "scripts/coupled_contact_v13/clipped_surface_contact.cpp": "dc6916790e26a24ecce04b633870d13079b56f33a8ed5b9078b3394d70f5793e",
+      "scripts/coupled_contact_v13/engineered_scenarios.py": "1226d92a358cf93a7a3ff0a96d9672595063af531b7cd986feb649a30e3cc91c",
+      "scripts/coupled_contact_v13/consistent_qualification.py": "76500b5a3b1a5b35f39a5585f1ba11088ab9659973e077ddedc35b1f36787ec9",
+      "scripts/coupled_contact_v13/consistent_mass.py": "bd1a3a882f7269c89a18899d3491ccf1fbf4c36a68f9177d6dfc86fe4ac4dc66",
+      "scripts/coupled_contact_v13/surface_qualification.py": "761b615644f54bf312239b5164912746ef5cdcc6b3300f744a9ac2355e74e289"
+    },
+    "version": "8085bb6406af",
+    "friction_cases": [
+      "edge_drop",
+      "squeeze"
+    ],
+    "sphere_cases": [
+      "curved",
+      "moving_sphere"
+    ],
+    "materials": [
+      [
+        6000.0,
+        0.35
+      ],
+      [
+        3000.0,
+        0.1
+      ]
+    ],
+    "cells": 4,
+    "dt": 2.5e-05,
+    "friction_levels": [
+      0,
+      1,
+      2
+    ],
+    "sphere_spacing_ladder_m": [
+      [
+        0.0015,
+        0.00075
+      ],
+      [
+        0.00075,
+        0.000375
+      ]
+    ],
+    "gates": {
+      "body_spatial_quadrature_rms_m": 0.001,
+      "body_temporal_rms_m": 0.00025,
+      "world_rms_m": 0.001,
+      "shape_rms_m": 0.0005,
+      "penetration_m": 0.001,
+      "temporal_world_rms_m": 0.00025,
+      "temporal_refinement_ratio": 0.8
+    },
+    "acceptance": "Friction level1 must agree with level2 for all4 cases; level0 diagnostic only. Sphere spacing accepted only if all4 cases pass. Accepted sphere spacing +friction1 then get3timelevels on all5scenarios bothmaterials, with per-body center gates. No FEM spatial acceptance implied."
+  },
+  "runs": [
+    {
+      "min_j": 0.44133266072128624,
+      "max_penetration_m": 0.000911923764999438,
+      "friction_work_j": -0.03471658728704416,
+      "contact_samples": 5112345,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 5112345,
+      "friction_saturated_samples": 3964920,
+      "friction_saturated_fraction": 0.7755579875771295,
+      "scenario": "edge_drop",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "edge_drop",
+        6000.0,
+        0.35,
+        2.5e-05,
+        0.0015,
+        0
+      ],
+      "key": "edge_drop-E6000-mu0.35-dt2.5e-05-h0.0015-l0",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/edge_drop-E6000-mu0.35-dt2.5e-05-h0.0015-l0",
+      "seconds": 54.12798881530762
+    },
+    {
+      "min_j": 0.4414043367721483,
+      "max_penetration_m": 0.0009119135521898434,
+      "friction_work_j": -0.03472828006468067,
+      "contact_samples": 20448288,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 20448288,
+      "friction_saturated_samples": 15879185,
+      "friction_saturated_fraction": 0.7765532742887815,
+      "scenario": "edge_drop",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "edge_drop",
+        6000.0,
+        0.35,
+        2.5e-05,
+        0.0015,
+        1
+      ],
+      "key": "edge_drop-E6000-mu0.35-dt2.5e-05-h0.0015-l1",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/edge_drop-E6000-mu0.35-dt2.5e-05-h0.0015-l1",
+      "seconds": 53.8679518699646
+    },
+    {
+      "min_j": 0.44137736390901217,
+      "max_penetration_m": 0.0009119142855966347,
+      "friction_work_j": -0.034728445936496356,
+      "contact_samples": 81791024,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 81791024,
+      "friction_saturated_samples": 63531585,
+      "friction_saturated_fraction": 0.7767549774165928,
+      "scenario": "edge_drop",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "edge_drop",
+        6000.0,
+        0.35,
+        2.5e-05,
+        0.0015,
+        2
+      ],
+      "key": "edge_drop-E6000-mu0.35-dt2.5e-05-h0.0015-l2",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/edge_drop-E6000-mu0.35-dt2.5e-05-h0.0015-l2",
+      "seconds": 56.76431941986084
+    },
+    {
+      "min_j": 0.5354354029453,
+      "max_penetration_m": 0.0008390935893998071,
+      "friction_work_j": -0.044545974080307055,
+      "contact_samples": 8556877,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 8556877,
+      "friction_saturated_samples": 8427121,
+      "friction_saturated_fraction": 0.9848360564257264,
+      "scenario": "edge_drop",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "edge_drop",
+        3000.0,
+        0.1,
+        2.5e-05,
+        0.0015,
+        0
+      ],
+      "key": "edge_drop-E3000-mu0.1-dt2.5e-05-h0.0015-l0",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/edge_drop-E3000-mu0.1-dt2.5e-05-h0.0015-l0",
+      "seconds": 53.576027393341064
+    },
+    {
+      "min_j": 0.5353742865597004,
+      "max_penetration_m": 0.0008390933490638481,
+      "friction_work_j": -0.04455054409077184,
+      "contact_samples": 34228432,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 34228432,
+      "friction_saturated_samples": 33711912,
+      "friction_saturated_fraction": 0.9849096213346845,
+      "scenario": "edge_drop",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "edge_drop",
+        3000.0,
+        0.1,
+        2.5e-05,
+        0.0015,
+        1
+      ],
+      "key": "edge_drop-E3000-mu0.1-dt2.5e-05-h0.0015-l1",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/edge_drop-E3000-mu0.1-dt2.5e-05-h0.0015-l1",
+      "seconds": 52.68219876289368
+    },
+    {
+      "min_j": 0.535377583686927,
+      "max_penetration_m": 0.0008390932354283998,
+      "friction_work_j": -0.044550145304280774,
+      "contact_samples": 136911824,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 136911824,
+      "friction_saturated_samples": 134858025,
+      "friction_saturated_fraction": 0.9849991115449604,
+      "scenario": "edge_drop",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "edge_drop",
+        3000.0,
+        0.1,
+        2.5e-05,
+        0.0015,
+        2
+      ],
+      "key": "edge_drop-E3000-mu0.1-dt2.5e-05-h0.0015-l2",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/edge_drop-E3000-mu0.1-dt2.5e-05-h0.0015-l2",
+      "seconds": 56.329911947250366
+    },
+    {
+      "min_j": 0.7651182593186979,
+      "max_penetration_m": 8.585687635723205e-05,
+      "friction_work_j": -0.017272233987847243,
+      "contact_samples": 26838210,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 26838210,
+      "friction_saturated_samples": 11585492,
+      "friction_saturated_fraction": 0.43167901287008337,
+      "scenario": "squeeze",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "squeeze",
+        6000.0,
+        0.35,
+        2.5e-05,
+        0.0015,
+        0
+      ],
+      "key": "squeeze-E6000-mu0.35-dt2.5e-05-h0.0015-l0",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/squeeze-E6000-mu0.35-dt2.5e-05-h0.0015-l0",
+      "seconds": 57.59482264518738
+    },
+    {
+      "min_j": 0.7650985481988999,
+      "max_penetration_m": 8.583794662166827e-05,
+      "friction_work_j": -0.017273145863289388,
+      "contact_samples": 107346904,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 107346904,
+      "friction_saturated_samples": 46394643,
+      "friction_saturated_fraction": 0.4321935824064381,
+      "scenario": "squeeze",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "squeeze",
+        6000.0,
+        0.35,
+        2.5e-05,
+        0.0015,
+        1
+      ],
+      "key": "squeeze-E6000-mu0.35-dt2.5e-05-h0.0015-l1",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/squeeze-E6000-mu0.35-dt2.5e-05-h0.0015-l1",
+      "seconds": 59.63963174819946
+    },
+    {
+      "min_j": 0.7650998965228524,
+      "max_penetration_m": 8.583830687659139e-05,
+      "friction_work_j": -0.017273058653695977,
+      "contact_samples": 429367008,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 429367008,
+      "friction_saturated_samples": 185591461,
+      "friction_saturated_fraction": 0.43224434467959866,
+      "scenario": "squeeze",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "squeeze",
+        6000.0,
+        0.35,
+        2.5e-05,
+        0.0015,
+        2
+      ],
+      "key": "squeeze-E6000-mu0.35-dt2.5e-05-h0.0015-l2",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/squeeze-E6000-mu0.35-dt2.5e-05-h0.0015-l2",
+      "seconds": 77.20183658599854
+    },
+    {
+      "min_j": 0.790885384195851,
+      "max_penetration_m": 6.0405988216612194e-05,
+      "friction_work_j": -0.010010527805856411,
+      "contact_samples": 28688485,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 28688485,
+      "friction_saturated_samples": 23158306,
+      "friction_saturated_fraction": 0.807233494553651,
+      "scenario": "squeeze",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "squeeze",
+        3000.0,
+        0.1,
+        2.5e-05,
+        0.0015,
+        0
+      ],
+      "key": "squeeze-E3000-mu0.1-dt2.5e-05-h0.0015-l0",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/squeeze-E3000-mu0.1-dt2.5e-05-h0.0015-l0",
+      "seconds": 58.85820937156677
+    },
+    {
+      "min_j": 0.7908783216303911,
+      "max_penetration_m": 6.037821619760131e-05,
+      "friction_work_j": -0.010010897792380907,
+      "contact_samples": 114756908,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 114756908,
+      "friction_saturated_samples": 92701184,
+      "friction_saturated_fraction": 0.8078048251352328,
+      "scenario": "squeeze",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "squeeze",
+        3000.0,
+        0.1,
+        2.5e-05,
+        0.0015,
+        1
+      ],
+      "key": "squeeze-E3000-mu0.1-dt2.5e-05-h0.0015-l1",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/squeeze-E3000-mu0.1-dt2.5e-05-h0.0015-l1",
+      "seconds": 62.546311140060425
+    },
+    {
+      "min_j": 0.790875050934269,
+      "max_penetration_m": 6.0378038454413085e-05,
+      "friction_work_j": -0.010010915059631354,
+      "contact_samples": 459033120,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 459033120,
+      "friction_saturated_samples": 370848837,
+      "friction_saturated_fraction": 0.807891241050319,
+      "scenario": "squeeze",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "squeeze",
+        3000.0,
+        0.1,
+        2.5e-05,
+        0.0015,
+        2
+      ],
+      "key": "squeeze-E3000-mu0.1-dt2.5e-05-h0.0015-l2",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/squeeze-E3000-mu0.1-dt2.5e-05-h0.0015-l2",
+      "seconds": 78.59066677093506
+    },
+    {
+      "min_j": 0.7441506079450321,
+      "max_penetration_m": 0.00037680468480965484,
+      "friction_work_j": -0.08926648338258633,
+      "contact_samples": 46857214,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 46853136,
+      "friction_saturated_samples": 33650225,
+      "friction_saturated_fraction": 0.7182064611427504,
+      "scenario": "curved",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "curved",
+        6000.0,
+        0.35,
+        2.5e-05,
+        0.0015,
+        1
+      ],
+      "key": "curved-E6000-mu0.35-dt2.5e-05-h0.0015-l1",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/curved-E6000-mu0.35-dt2.5e-05-h0.0015-l1",
+      "seconds": 64.33535432815552
+    },
+    {
+      "min_j": 0.7436236634384719,
+      "max_penetration_m": 0.0003852868199625409,
+      "friction_work_j": -0.08922351341287388,
+      "contact_samples": 47951762,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 47935915,
+      "friction_saturated_samples": 34514640,
+      "friction_saturated_fraction": 0.7200162967578694,
+      "scenario": "curved",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "curved",
+        6000.0,
+        0.35,
+        2.5e-05,
+        0.00075,
+        1
+      ],
+      "key": "curved-E6000-mu0.35-dt2.5e-05-h0.00075-l1",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/curved-E6000-mu0.35-dt2.5e-05-h0.00075-l1",
+      "seconds": 75.36990332603455
+    },
+    {
+      "min_j": 0.6775259696996992,
+      "max_penetration_m": 0.00030633885339334185,
+      "friction_work_j": -0.052094736532209356,
+      "contact_samples": 51838756,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 51834564,
+      "friction_saturated_samples": 51173113,
+      "friction_saturated_fraction": 0.9872391904367133,
+      "scenario": "curved",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "curved",
+        3000.0,
+        0.1,
+        2.5e-05,
+        0.0015,
+        1
+      ],
+      "key": "curved-E3000-mu0.1-dt2.5e-05-h0.0015-l1",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/curved-E3000-mu0.1-dt2.5e-05-h0.0015-l1",
+      "seconds": 62.4937481880188
+    },
+    {
+      "min_j": 0.6771594127346648,
+      "max_penetration_m": 0.0003107552494967143,
+      "friction_work_j": -0.05210532323701927,
+      "contact_samples": 52729419,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 52712990,
+      "friction_saturated_samples": 51961491,
+      "friction_saturated_fraction": 0.9857435709869616,
+      "scenario": "curved",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "curved",
+        3000.0,
+        0.1,
+        2.5e-05,
+        0.00075,
+        1
+      ],
+      "key": "curved-E3000-mu0.1-dt2.5e-05-h0.00075-l1",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/curved-E3000-mu0.1-dt2.5e-05-h0.00075-l1",
+      "seconds": 72.54766368865967
+    },
+    {
+      "min_j": 0.7091499135584016,
+      "max_penetration_m": 0.0003860065430522433,
+      "friction_work_j": -0.07692046673326143,
+      "contact_samples": 44529335,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 44526464,
+      "friction_saturated_samples": 32711585,
+      "friction_saturated_fraction": 0.7346549009595732,
+      "scenario": "moving_sphere",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "moving_sphere",
+        6000.0,
+        0.35,
+        2.5e-05,
+        0.0015,
+        1
+      ],
+      "key": "moving_sphere-E6000-mu0.35-dt2.5e-05-h0.0015-l1",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/moving_sphere-E6000-mu0.35-dt2.5e-05-h0.0015-l1",
+      "seconds": 73.15812563896179
+    },
+    {
+      "min_j": 0.7085392783209791,
+      "max_penetration_m": 0.0003928135506610364,
+      "friction_work_j": -0.07692453081457222,
+      "contact_samples": 45572860,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 45562133,
+      "friction_saturated_samples": 33387449,
+      "friction_saturated_fraction": 0.7327894196700581,
+      "scenario": "moving_sphere",
+      "young": 6000.0,
+      "friction": 0.35,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "moving_sphere",
+        6000.0,
+        0.35,
+        2.5e-05,
+        0.00075,
+        1
+      ],
+      "key": "moving_sphere-E6000-mu0.35-dt2.5e-05-h0.00075-l1",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/moving_sphere-E6000-mu0.35-dt2.5e-05-h0.00075-l1",
+      "seconds": 83.60739421844482
+    },
+    {
+      "min_j": 0.6565483553652408,
+      "max_penetration_m": 0.00032264896008746963,
+      "friction_work_j": -0.05746956846591189,
+      "contact_samples": 52528940,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 52527042,
+      "friction_saturated_samples": 51824493,
+      "friction_saturated_fraction": 0.9866250035553116,
+      "scenario": "moving_sphere",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "moving_sphere",
+        3000.0,
+        0.1,
+        2.5e-05,
+        0.0015,
+        1
+      ],
+      "key": "moving_sphere-E3000-mu0.1-dt2.5e-05-h0.0015-l1",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/moving_sphere-E3000-mu0.1-dt2.5e-05-h0.0015-l1",
+      "seconds": 72.3865647315979
+    },
+    {
+      "min_j": 0.6564278051358805,
+      "max_penetration_m": 0.0003160343033072159,
+      "friction_work_j": -0.05746959129029078,
+      "contact_samples": 53383948,
+      "dt": 2.4999999999999998e-05,
+      "friction_active_samples": 53376561,
+      "friction_saturated_samples": 52507047,
+      "friction_saturated_fraction": 0.9837098159995733,
+      "scenario": "moving_sphere",
+      "young": 3000.0,
+      "friction": 0.1,
+      "success": true,
+      "finite_colliders": true,
+      "spec": [
+        "moving_sphere",
+        3000.0,
+        0.1,
+        2.5e-05,
+        0.00075,
+        1
+      ],
+      "key": "moving_sphere-E3000-mu0.1-dt2.5e-05-h0.00075-l1",
+      "path": "runs/coupled-contact-v13/consistent-qualification/8085bb6406af/moving_sphere-E3000-mu0.1-dt2.5e-05-h0.00075-l1",
+      "seconds": 81.25359678268433
+    }
+  ],
+  "checks": [
+    {
+      "complete": true,
+      "world_rms_m": 2.636515481712076e-06,
+      "shape_rms_m": 8.585294940228741e-07,
+      "body_center_rms_m": 0.0,
+      "body_positions_finite": true,
+      "type": "friction",
+      "scenario": "edge_drop",
+      "young": 6000.0,
+      "friction": 0.35,
+      "levels": [
+        1,
+        2
+      ],
+      "passed": true
+    },
+    {
+      "complete": true,
+      "world_rms_m": 3.0656357396770217e-06,
+      "shape_rms_m": 5.025804023719992e-07,
+      "body_center_rms_m": 0.0,
+      "body_positions_finite": true,
+      "type": "friction",
+      "scenario": "edge_drop",
+      "young": 3000.0,
+      "friction": 0.1,
+      "levels": [
+        1,
+        2
+      ],
+      "passed": true
+    },
+    {
+      "complete": true,
+      "world_rms_m": 1.3150218787453978e-07,
+      "shape_rms_m": 7.035617400731596e-08,
+      "body_center_rms_m": 0.0,
+      "body_positions_finite": true,
+      "type": "friction",
+      "scenario": "squeeze",
+      "young": 6000.0,
+      "friction": 0.35,
+      "levels": [
+        1,
+        2
+      ],
+      "passed": true
+    },
+    {
+      "complete": true,
+      "world_rms_m": 1.356145006758626e-07,
+      "shape_rms_m": 6.17341545692619e-08,
+      "body_center_rms_m": 0.0,
+      "body_positions_finite": true,
+      "type": "friction",
+      "scenario": "squeeze",
+      "young": 3000.0,
+      "friction": 0.1,
+      "levels": [
+        1,
+        2
+      ],
+      "passed": true
+    },
+    {
+      "complete": true,
+      "world_rms_m": 1.181272782558473e-05,
+      "shape_rms_m": 4.506301489491669e-06,
+      "body_center_rms_m": 0.0,
+      "body_positions_finite": true,
+      "type": "sphere_quadrature",
+      "scenario": "curved",
+      "young": 6000.0,
+      "friction": 0.35,
+      "spacings": [
+        0.0015,
+        0.00075
+      ],
+      "passed": true
+    },
+    {
+      "complete": true,
+      "world_rms_m": 3.327885350746037e-05,
+      "shape_rms_m": 7.454687887636967e-06,
+      "body_center_rms_m": 0.0,
+      "body_positions_finite": true,
+      "type": "sphere_quadrature",
+      "scenario": "curved",
+      "young": 3000.0,
+      "friction": 0.1,
+      "spacings": [
+        0.0015,
+        0.00075
+      ],
+      "passed": true
+    },
+    {
+      "complete": true,
+      "world_rms_m": 5.297623741744127e-06,
+      "shape_rms_m": 3.049859850146323e-06,
+      "body_center_rms_m": 1.5680544307962257e-05,
+      "body_positions_finite": true,
+      "type": "sphere_quadrature",
+      "scenario": "moving_sphere",
+      "young": 6000.0,
+      "friction": 0.35,
+      "spacings": [
+        0.0015,
+        0.00075
+      ],
+      "passed": true
+    },
+    {
+      "complete": true,
+      "world_rms_m": 1.8611996954782307e-05,
+      "shape_rms_m": 3.3675632582734825e-06,
+      "body_center_rms_m": 2.8920364112462384e-05,
+      "body_positions_finite": true,
+      "type": "sphere_quadrature",
+      "scenario": "moving_sphere",
+      "young": 3000.0,
+      "friction": 0.1,
+      "spacings": [
+        0.0015,
+        0.00075
+      ],
+      "passed": true
+    }
+  ]
+}

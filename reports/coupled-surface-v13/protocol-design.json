@@ -193,5 +193,28 @@
     "body_spatial_or_quadrature_coordinate_rms_m": 0.001
   },
   "fresh_reference_generation": "Not authorized until final chosen scene/contact/mass/grid/timeconfiguration qualified and source+protocol hashes frozen; fresh8parameter combinations unchanged.",
-  "engineered_amended_utc": "2026-10-30T18:19:36.171089+00:00"
+  "engineered_amended_utc": "2026-10-30T18:19:36.171089+00:00",
+  "per_case_spatial_qualification": {
+    "declared_utc": "2026-10-30T19:04:54.439366+00:00",
+    "expected_primary_runs": 50,
+    "expected_half_dt_runs": 50,
+    "expected_spatial_companion_runs": 50,
+    "expected_total_reference_runs": 150,
+    "expected_forecast_cases": 40,
+    "expected_reserved_forecasts": 32,
+    "selection": "Choose companion_cells per scenario from accepted development pair before fresh generation; no adaptation to fresh outcomes; primary target unchanged",
+    "integration": "Companion uses SAME primary BASE dt; BOTH meshes require development timestep qualification. Per-case primary base/half-dt check retained. Companion has no additional per-case half-dt run.",
+    "probes": "Common27 Cartesian rest points and common2678 rest-surface midpoint probes at3mm spacing; actual tetrahedral P1 mapping; fixed coordinates and first-frame exclusion",
+    "metrics": "Uniform coordinate RMS world and proper-rigid-aligned shape, separately for both probe sets; maximum per-collider center coordinate RMS",
+    "gates": {
+      "world_rms_m": 0.001,
+      "shape_rms_m": 0.0005,
+      "body_center_coordinate_rms_m": 0.001,
+      "penetration_m": 0.001,
+      "min_j_exclusive": 0.02
+    },
+    "accounting": "Every object calibration and four forecasts require companion. Missing/failed/nonfinite/failedgate means unqualified, never case omission. Joint calibration+forecast qualification includes temporal,body andspatial flags; retain all40cases.",
+    "claim": "Fixed-timestep two-resolution consistency, not continuum convergence proof",
+    "runtime_schema": "reference_settings_by_scenario[scenario] contains cells,dt,companion_cells; reference-spatial jobs carry reference=True,spatial=True"
+  }
 }

@@ -1,43 +1,45 @@
-COUPLED CONTACT CAMPAIGN: DEVELOPMENT EXTENSION
+COUPLED SURFACE-CONTACT CAMPAIGN: FROZEN AND RUNNING
 Original start: 2026-10-30 17:01:31 UTC
-Hard deadline: 2026-10-31 05:01:31 UTC (not reset by repairs)
+Hard deadline: 2026-10-31 05:01:31 UTC (unchanged)
 
-Completed evidence
-The original v13 study is published at dcb64c482fb76ff902fd042703f34a8d89eb498d.
-Its 32 reserved forecasts improve world-coordinate error against the rigid
-comparison, but its edge reference fails spatial consistency. Those results
-and warnings remain unchanged. The extension preservation manifest verifies
-405 published v11/v12/v13 files.
+Scope adopted 2026-10-30 20:37 UTC; production launched after independent freeze audit.
+Three primary forecast families: slide, curved contact, moving rigid sphere.
+Eight reserved objects yield24primary forecasts. All eight sharp-drop forecasts
+remain explicitly development-unqualified exploratory stress. All40forecasts
+across10objects and all150reference jobs remain in the accounting.
 
-Current development work
-Clipped triangle contact resolves normal plane/box contact integration;
-friction and sphere quadrature have separate refinement checks. The marginal
-edge case and failed midpoint-contact trials remain archived. A new prospective
-edge scene places the center of mass 12 mm beyond the support edge, and uses
-stronger contact stiffness. All 16 endpoint stress tests pass, with maximum
-penetration 0.897 mm. Contact, timestep and spatial checks are still underway.
-A separate consistent P1 mass candidate is being implemented because the
-lumped coarse mesh overestimates rigid rotational inertia. It must pass its
-own dynamics and numerical checks before use. No new reserved forecasts exist.
+Reason for scope decision
+Sharp-support dropping failed spatial consistency. A single declared rounded
+capsule redesign also failed the stiff-material timestep check (1.0977mm versus
+0.25mm gate). No further geometry search or tolerance relaxation. The remaining
+16-cell base capsule run may finish as an archived diagnostic only; its result
+cannot change the adopted scope. Unused16-cell half-step runs were cancelled.
 
-Next decision
-Select the reference and predictor discretizations using development evidence,
-then freeze every scene, numerical setting, source, observation and comparator.
-Run 2 development and 8 reserved objects under four forecast interactions.
-Include rigid, native spring-force adaptation, position baselines, matched
-vertex-contact formulation and fixed nominal material comparisons. Independently
-recompute scores and inspect fixed actual-versus-predicted videos.
+Numerical configuration
+Consistent P1 mass, exact rigid inertia, clipped triangle plane/box normal
+contact, refined friction quadrature and sparse sphere contact. Predictor:
+4cells peraxis,12.5microsecond timestep. Primary references:8cells for squeeze,
+slide andcurved;12cells for moving_sphere;10cell companions;25microsecond base
+step. Stress:8cellprimary/12cellcompanion/12.5microseconds. Each primary run also
+has a half-step check. Exact predictor contact8/8 and all required primary
+reference gates passed. All cases retain fresh per-case quality flags.
 
-Scope
-This is a controlled simulation qualification and cross-interaction study.
-It does not yet demonstrate improvement on the archived SoftVTBench or real
-PhysTwin datasets. The native spring-force comparison is not the full authors'
-PhysTwin method. Raw data and checkpoints remain local. Physics, benchmark
-implementation and independent audit are assigned to separate agents.
+Verification and execution
+111integration tests passed. A subsequent qualification-aggregator metadata
+change was checked separately with20unchanged gate recomputations. Independent
+candidate freeze audit passed583checks over77sources;405prior artifacts unchanged.
+12CPUworkers execute the restartable production service; the finish service
+waits for completion, then runs matched controls, verification and fixed videos.
+No GPU execution is claimed. Unrelated jobs are untouched.
+
+Preserved evidence and limits
+Original v13 remains published with its spatial-consistency warning. The21case
+public-dataset pilot found only0.14%SoftVT change and unchangedPhysTwin; it is not
+promoted as a benchmark improvement. This is a controlled simulation study,
+not calibrated uncertainty, unknown-geometry inference, or fullPhysTwin ranking.
+Raw datasets and trajectories remain local.
 
 Recovery
-Live services use the coupled-contact-v13- prefix. Machine-readable restart
-state is runs/coupled-contact-v13/campaign-state.json. Do not recreate live
-queues, overwrite frozen sources, restart the time budget or promote failed
-qualification runs. Development plans and complete failure records remain
-alongside the reports.
+runs/coupled-contact-v13/campaign-state.json records current state.
+Services:coupled-contact-v13-surface-production andcoupled-contact-v13-surface-finish.
+Do not duplicate live queues, overwrite frozen sources or reset the deadline.

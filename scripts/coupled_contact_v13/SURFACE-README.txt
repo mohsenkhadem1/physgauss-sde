@@ -40,6 +40,16 @@ families have already been used in numerical development. The native comparator
 uses the authors' spring-force kernel in a matched numerical framework; it is
 not the full official PhysTwin method.
 
+Every calibration/forecast reference has a base run, a half-timestep run and a
+spatial companion from the scene's preselected mesh pair: 150 reference runs
+for ten objects and five interactions. Primary and companion use the same base
+timestep; both mesh members must pass development time checks. Spatial metrics
+use 27 common material points and 2678 surface probes, plus collider centers.
+Failures mark references unqualified; they never remove cases or change the
+primary target. The independent verifier uses a separate closed-form Cartesian
+tetrahedral interpolator. Mesh/timestep agreement is a numerical consistency
+check, not a proof of continuum truth or empirical material validity.
+
 Execution after freeze
 Use runs/phystwin-env/bin/python. surface_run_campaign.py --workers 12 runs
 library, development references/evaluation, then reserved references/evaluation.

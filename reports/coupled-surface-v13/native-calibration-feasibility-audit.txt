@@ -1,0 +1,11 @@
+Development-only native calibration feasibility
+
+All12 predeclared high-grid runs completed accounting. Two complete the full0.6s squeeze trajectory: effective scale100000 and316227.7660168379, bothfriction0.2. Ten runs hit the inherited positive-J guard. All source hashes match. This establishes at least2 of the unchanged35 declared calibration hypotheses can complete under engineered k76800, consistent P1 mass, cells4 and12.5microsecond integration; zero coverage is not inevitable. It does not establish all35 outcomes or forecasting quality. No grid changes, alternate safety guards, reserved observations or future-based selection were used.
+
+The effective spring parameter maps to geometry-scaled edge coefficients (scale times tributary tet volume divided by rest length), not Young modulus; full author optimizer/graph/integration is replaced in this shared-contact adaptation. The author eval_springs force kernel remains unchanged. Positive-J failures belong to this adapted discretization/safety guard and should not be reported as full PhysTwin method failures.
+
+Recommendation: retain the existing35-point grid and report every calibration failure. Additional same-case half-step checks of the two successful hypotheses would assess timestep sensitivity, but no grid expansion is needed merely to obtain nonzero calibration coverage. Production selected friction/scale may still have poor forecast coverage; retain all forecast failures explicitly.
+
+Completed follow-up: both successful calibration hypotheses also complete at6.25µs. Their12.5→6.25µs coordinate trajectory RMS (excluding initial frame) is0.001213585mm and0.001342230mm respectively, both below the fixed0.25mm criterion. Final-frame RMS is0.001452416mm and0.002175015mm. Both levels pass finite/J/penetration checks; all source and input hashes match. Evidence: native-calibration-temporal-plan.json and native-calibration-temporal.json.
+
+Final limited conclusion:2/12 tested high-grid hypotheses complete and pass the declared timestep comparison;10/12 hit the inherited guard. This is not a census of all35 grid hypotheses, not full-method PhysTwin validation, and not held-out forecasting evidence. Retain unchanged grid and all subsequent failures.

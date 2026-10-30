@@ -37,3 +37,59 @@ def test_supplement_report_uses_matched_pairs_and_keeps_failures(tmp_path,monkey
     assert vertex['failed_cases'][0]['reason']=='J gate'
     assert nominal['fem_losses']==1 and abs(nominal['mean_fem_gain_mm']+2)<1e-12
     assert any('vertex | 1/2' in line for line in lines)
+
+
+def test_reference_accounting_counts_150_and_retains_missing(tmp_path,monkeypatch):
+    import json
+    monkeypatch.setattr(surface_report,'BASE',tmp_path)
+    protocol=dict(objects=[dict(id=f'obj{i}') for i in range(10)],forecast_scenarios=['slide','curved','edge_drop','moving_sphere'],reference_settings_by_scenario={'edge_drop':dict(cells=[12]*3,companion_cells=[16]*3,dt=25e-6)})
+    path=tmp_path/'reference'/'obj0'/'curved';path.mkdir(parents=True)
+    (path/'complete.json').write_text(json.dumps(dict(success=True,simulation_settings={'cells':[8]*3})))
+    (path/'spatial-quality.json').write_text(json.dumps(dict(qualified=False,reasons=['spatial companion unavailable'])))
+    result=surface_report.reference_accounting(protocol)
+    assert result['expected_total']==150
+    assert all(level['expected']==50 for level in result['levels'].values())
+    assert result['levels']['reference']['complete']==1
+    assert result['levels']['reference-spatial']['present']==0
+    assert result['spatial']['checked']==1 and result['spatial']['qualified']==0
+
+
+def test_video_reference_label_retains_failed_qualification(tmp_path,monkeypatch):
+    import json
+    from scripts.coupled_contact_v13 import surface_render
+    monkeypatch.setattr(surface_render,'REPORT',tmp_path)
+    rows=[dict(object='ok',scenario='curved',joint_reference_qualified=True),dict(object='bad',scenario='curved',joint_reference_qualified=False,reference_qualification_reasons=['spatial difference'])]
+    (tmp_path/'reserved-results.json').write_text(json.dumps(dict(cases=rows)))
+    assert 'passed' in surface_render.reference_label_for_case('ok','curved')
+    assert 'failed' in surface_render.reference_label_for_case('bad','curved')
+    assert 'unavailable' in surface_render.reference_label_for_case('missing','curved')
+    module=surface_render.implementation()
+    assert module.reference_label_for_case is surface_render.reference_label_for_case
+
+
+def test_stress_video_label_cannot_be_promoted_by_per_case_pass(tmp_path,monkeypatch):
+    import json
+    from scripts.coupled_contact_v13 import surface_render
+    monkeypatch.setattr(surface_render,'REPORT',tmp_path)
+    (tmp_path/'protocol.json').write_text(json.dumps(dict(stress_forecast_scenarios=['edge_drop'])))
+    row=dict(object='ok',scenario='edge_drop',joint_reference_qualified=True,reference_qualified=True)
+    (tmp_path/'reserved-results.json').write_text(json.dumps(dict(cases=[row])))
+    label=surface_render.reference_label_for_case('ok','edge_drop')
+    assert 'Exploratory stress' in label and 'development unqualified' in label
+    assert 'checks passed' not in label
+    assert surface_render.case_qualification('ok','edge_drop')['joint_reference_qualified'] is True
+
+
+def test_supplement_explicit_primary_stress_full_tables(tmp_path,monkeypatch):
+    import json
+    monkeypatch.setattr(surface_report,'REPORT',tmp_path)
+    def record(n,scenes):
+        return dict(expected=n,present=n,scenarios=scenes,methods=dict(vertex=dict(expected=n,complete=1,failed_or_missing=n-1,mean_coordinate_mm=2.,paired_cases=1,surface_fem_gain_mm=.5)))
+    cohorts=dict(reserved=dict(primary=record(24,['slide','curved','moving_sphere']),stress=record(8,['edge_drop']),full=record(32,['slide','curved','moving_sphere','edge_drop'])))
+    (tmp_path/'ablation-results.json').write_text(json.dumps(dict(cases=[],expected_cases=32,forecast_cohorts=cohorts)))
+    output,lines=surface_report.supplementary_comparisons()
+    assert output['forecast_cohorts']==cohorts
+    assert any('RESERVED / PRIMARY: expected 24' in s for s in lines)
+    assert any('RESERVED / STRESS: expected 8' in s for s in lines)
+    assert any('RESERVED / FULL: expected 32' in s for s in lines)
+    assert any('RESERVED / FULL COHORT'==s for s in lines)
