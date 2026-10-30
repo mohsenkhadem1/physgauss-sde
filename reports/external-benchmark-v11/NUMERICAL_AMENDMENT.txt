@@ -36,3 +36,22 @@ future target geometry and errors never choose it. This same policy runs on ALL
 40 SoftVTBench episodes, for both full and ablated FEM. Original fixed-step
 predictions remain separate. Subdivision logs and any remaining failures are
 reported. These are post-freeze numerical refinements, not new fitted models.
+
+Development-only temporal accuracy check: before scoring the adaptive predictions,
+compare fixed 5/20/80-substep release predictions to 320 substeps on development
+spatial-soft-task0-demo1 using its already fitted parameters. This compares model
+predictions to each other, not to future target geometry. Use the coarsest of
+5/20/80 whose maximum per-frame coordinate RMS difference to 320 is <=0.25 mm;
+if none qualifies, use 320. The selected minimum applies to every SoftVTBench
+secondary prediction and both FEM variants. Adaptive doubling remains triggered
+only by nonlinear-solver failure. Fixed-step primary predictions stay untouched.
+
+Outcome of the temporal check: the original J>0.03 solver did not produce a
+valid 320-substep reference, so the proposed accuracy-based minimum-step rule
+could not be applied. A diagnostic positive-volume extension (same energy,
+J>1e-6) completed all four resolutions, but 20/80 versus 320 differed by up to
+16.9/17.5 mm per-frame coordinate RMS on that development release. This does NOT
+meet the 0.25 mm criterion. Neither a converged time step nor a validated release
+reference is claimed. The separately reported adaptive predictions remain the
+5-step-plus-failure-subdivision stability repair. The positive-volume extension
+is diagnostic only and does not replace the frozen primary model.

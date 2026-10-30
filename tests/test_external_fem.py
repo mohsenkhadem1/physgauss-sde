@@ -88,3 +88,15 @@ def test_cpu_gpu_equilibrium_and_adjoint_agree():
         results.append((prediction.detach().cpu().numpy(),gradient.detach().cpu().numpy()))
     assert np.allclose(results[0][0],results[1][0],rtol=1e-7,atol=1e-9)
     assert np.allclose(results[0][1],results[1][1],rtol=1e-6,atol=1e-9)
+
+
+def test_positive_volume_extension_has_consistent_tangent():
+    from scripts.external_benchmark.fem_positive_volume import PositiveVolumeFEM
+    m=PositiveVolumeFEM(fixture(),device='cpu');theta=m.t([-5,2,3,.1,.2])
+    x=(m.rest*.2).requires_grad_()
+    assert 0<m.min_jacobian(x)<.03
+    energy,residual,hessian=m.evaluate(x,theta,0,True)
+    gradient,=torch.autograd.grad(energy,x,create_graph=True)
+    automatic=torch.autograd.functional.hessian(lambda y:m.evaluate(y,theta,0)[0],x).reshape(m.ndof,m.ndof)
+    assert torch.allclose(residual,gradient,atol=1e-9,rtol=1e-8)
+    assert torch.allclose(hessian,automatic,atol=1e-8,rtol=1e-8)

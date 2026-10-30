@@ -17,13 +17,14 @@ def main():
     'Cohort: 40 SoftVTBench episodes (2 suites x 2 reserved tasks x 10 episodes),',
     'and 3 reserved PhysTwin sequences. Development cases are excluded from these',
     'results. Configurations were frozen and pushed before primary scoring.','',
-    'Methods: persistence, rigid tool transport, position ridge regression, full FEM,',
+    'Methods: persistence, rigid tool transport, prefix-calibrated rigid transport,',
+    'position ridge regression, full FEM,',
     'FEM without its additional world-space Gaussian potential, official released',
     'PhysTwin predictions on its data, and adapted native PhysTwin on SoftVTBench.','',
     'Mean sequence errors (mm; lower is better)']
     for dataset,parts in summary.items():
         for part,methods in parts.items():
-            text+=['',f'{dataset} / {part}',f'{"Method":30} {"position RMSE":>14} {"shape RMSE":>12} {"manual track":>13} {"failed frames":>14} {"present":>10}']
+            text+=['',f'{dataset} / {"commanded_hold" if part=="held_grasp" else "commanded_release" if part=="released" else part}',f'{"Method":30} {"position RMSE":>14} {"shape RMSE":>12} {"manual track":>13} {"failed frames":>14} {"present":>10}']
             for method,result in methods.items():
                 m=result['mean'];fmt=lambda key:f'{m[key]:.3f}' if key in m else '-'
                 text.append(f'{method:30} {fmt("coordinate_rmse_mm"):>14} {fmt("aligned_shape_rmse_mm"):>12} {fmt("manual_track_mean_mm"):>13} {result["failed_frames"]:>14} {result["sequences_present"]:>4}/{result["sequences_expected"]:<5}')
@@ -51,13 +52,21 @@ def main():
     'SoftVTBench episode, with identical fitted parameters. Substeps increase only',
     'when the nonlinear solver fails. No target error selects a step size. Original',
     'fixed-step results remain in the table above. See NUMERICAL_AMENDMENT.txt.',
+    'A separate development time-step study did NOT establish converged release',
+    'dynamics: the original fine-step solver failed; a positive-volume diagnostic',
+    'extension ran but showed up to 17.5 mm change against a finer discretization.',
+    'Adaptive finite predictions therefore demonstrate stability, not temporal',
+    'convergence or a validated dynamics reference.',
     '','Interpretation and scope',
     'Position RMSE measures location plus deformation. Shape RMSE removes the best',
     'rigid alignment, isolating shape difference. PhysTwin manual marker distance',
     'and one-way L1 Chamfer are also reported; dense processed track errors are an',
     'additional diagnostic and can include tracking noise. Different metrics must',
     'not be substituted when a method loses on one but wins on another.',
-    'SoftVTBench held-grasp/release intervals use only tool commands and positions.',
+    'SoftVTBench phase intervals use only tool commands and positions. The JSON key',
+    'held_grasp means commanded hold, not verified physical attachment: an object',
+    'can slip or drop while the gripper command remains closed. released likewise',
+    'means commanded release. These phases must not be confused with true contact.',
     'Full-suffix results remain primary. No future target error was used to exclude',
     'frames. No new container/contact geometry is supplied after release.',
     'The FEM assumes quasistatic held-grasp motion and treats the initial observed',
@@ -71,7 +80,7 @@ def main():
     'missing methods and failed frames are separately retained. Forty episodes',
     'cover two pastry assets in four suite/task groups, not forty independent objects.','',
     'Reliability and reproduction',
-    'Eight numerical tests cover analytic energy derivatives, Hessians, material',
+    'Nine numerical tests cover analytic energy derivatives, Hessians, material',
     'features, implicit adjoints, contact and inertia. The in-memory target-poisoning',
     'audit confirms that future truth/manual markers cannot change predictor inputs.',
     'frozen-protocol.json lists exact jobs and core source hashes; results.json',
@@ -87,7 +96,7 @@ def main():
     import matplotlib;matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     fig,axes=plt.subplots(1,3,figsize=(15,4.6),layout='constrained')
-    specs=[('PhysTwin','full','manual_track_mean_mm','Manual marker error (mm)'),('SoftVTBench','held_grasp','coordinate_rmse_mm','Held-grasp position RMSE (mm)'),('SoftVTBench','full','coordinate_rmse_mm','Full-suffix position RMSE (mm)')]
+    specs=[('PhysTwin','full','manual_track_mean_mm','Manual marker error (mm)'),('SoftVTBench','held_grasp','coordinate_rmse_mm','Commanded-hold position RMSE (mm)'),('SoftVTBench','full','coordinate_rmse_mm','Full-suffix position RMSE (mm)')]
     methods=['control_rigid','position_ridge','material_world_fem','no_world_potential_fem']
     labels={'control_rigid':'Rigid','position_ridge':'Ridge','material_world_fem':'Material + world FEM','no_world_potential_fem':'No extra world potential','official_phystwin':'Official PhysTwin','adapted_phystwin':'Adapted PhysTwin','adaptive_material_world_fem':'FEM (adaptive steps)','adaptive_no_world_potential_fem':'Ablation (adaptive steps)'}
     for ax,(dataset,segment,metric,title) in zip(axes,specs):

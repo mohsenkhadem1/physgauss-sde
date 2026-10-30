@@ -6,9 +6,10 @@ import numpy as np
 from scripts.external_benchmark.common import *
 from scripts.external_benchmark.data import phystwin,softvt
 from scripts.external_benchmark.evaluate import baselines,expand_prediction,score
+from scripts.external_benchmark.calibrated_baseline import calibrated_rigid
 
 def evaluate(data):
-    fit_end=data['train_end'];end=len(data['times']);predictions=baselines(data,fit_end)
+    fit_end=data['train_end'];end=len(data['times']);predictions=baselines(data,fit_end);predictions['prefix_calibrated_rigid']=calibrated_rigid(data)
     paths={};missing=[];diagnostics={}
     variants=[('primary','material_world_fem'),('primary-no-field','no_world_potential_fem')]
     if data['dataset']=='SoftVTBench':variants += [('adaptive','adaptive_material_world_fem'),('adaptive-no-field','adaptive_no_world_potential_fem')]
