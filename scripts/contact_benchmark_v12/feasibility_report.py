@@ -46,7 +46,7 @@ def collect(cohorts):
     freeze=REPORT/'feasibility-freeze.json'
     if not freeze.exists():raise RuntimeError('Feasibility freeze required before report access')
     protocols={c:json.loads((REPORT/('feasibility-protocol.json' if c=='fresh_confirmation' else 'benchmark-protocol.json')).read_text())[c] for c in cohorts}
-    out=dict(created_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),cohorts=cohorts,scope='106 old cases post-audit secondary;42 fresh predeclared confirmation, known categories',freeze_sha256=sha256(freeze),protocol_sha256=sha256(REPORT/'feasibility-protocol.json'),summaries={},groups={},sequences={},geometry={},sources={},jobs={})
+    out=dict(created_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),cohorts=cohorts,scope='106 old cases post-audit secondary;42 fresh predeclared confirmation, known categories',freeze_sha256=sha256(freeze),protocol_sha256=sha256(REPORT/'feasibility-protocol.json'),summaries={},groups={},sequences={},geometry={},guard_records={},sources={},jobs={})
     for c,p in protocols.items():
         specs=p['SoftVTBench']+[dict(case=x) for x in p['PhysTwin']];rows=[];metadata={}
         for spec in specs:
@@ -57,7 +57,7 @@ def collect(cohorts):
             assert row['freeze_sha256']==sha256(freeze)
             mp=path.with_name('prediction-metadata.json');assert sha256(mp)==row['guard_metadata_sha256']
             rows.append(row);metadata[name]=json.loads(mp.read_text());out['sources'][str(path.relative_to(ROOT))]=sha256(path);out['sources'][str(mp.relative_to(ROOT))]=sha256(mp)
-        out['sequences'][c]=rows;out['geometry'][c]=guard_summary(metadata);out['summaries'][c]={};out['groups'][c]={}
+        out['sequences'][c]=rows;out['guard_records'][c]=metadata;out['geometry'][c]=guard_summary(metadata);out['summaries'][c]={};out['groups'][c]={}
         for dataset in PRIMARY:
             expected=[f"{s['subset']}-task{s['task']}-demo{s['episode']}" for s in p[dataset]] if dataset=='SoftVTBench' else p[dataset]
             subset=[r for r in rows if r['dataset']==dataset]

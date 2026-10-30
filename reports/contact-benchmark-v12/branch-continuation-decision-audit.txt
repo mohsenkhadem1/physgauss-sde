@@ -1,0 +1,88 @@
+BRANCH CONTINUATION — INDEPENDENT PRACTICAL DECISION AUDIT
+2026-10-30. Diagnosis only; frozen148case feasibility campaign unchanged.
+
+DECISION
+Proceed with a bounded solver study on development and the known failed zebra.
+First try SAME-energy continuation; do not add empirical force/material complexity
+until determining whether the existing solver is following a stable branch.
+A topology guard cannot detect the documented large positive-J pose jump.
+
+ORDERED EXPERIMENT
+1. At the pre-jump solution and candidate post-jump equilibrium, compute full
+   original-energy residual, signedJ and the smallest eigenvalue of the symmetric
+   unmodified Hessian (report any pin/gauge contribution separately). A tiny
+   residual with a negative physical-curvature mode is a saddle, not a stable
+   quasistatic solution. Verify energy derivatives against directional differences
+   on representative states; do not confuse an internally shifted Newton Hessian
+   used for solving with the actual energy Hessian used for stability diagnosis.
+2. Interpolate only the prescribed controls between adjacent frames and solve
+   from the last accepted state with fixed subdivision levels1,2,4,8,16 (bounded).
+   Preserve physical energy/material values, reference mesh and geometry. Record
+   every rejected substep, residual, minJ, energy and displacement. Controller
+   interpolation must respect the representation (proper rotation interpolation
+   if interpolating rigid poses rather than declared nodal position controls).
+3. Check path refinement: do endpoints/path approach a stable result as steps
+   shrink? Do not pick the subdivision with the best target error. A fixed
+   numerically selected rule may accept a solution only using convergence,
+   feasibility and stability evidence, not true trajectory discrepancy.
+4. If stable branch disappears or repeated refinement does not settle, flag a
+   genuine branch transition/instability. Move to an explicitly DIFFERENT dynamic
+   model with mass/inertia and dissipative terms, not an undisclosed displacement
+   clamp or target-driven force. A large snap-through can be physically real;
+   a rule demanding displacement smaller than tool motion would suppress it.
+
+WHAT COUNTS AS A NUMERICAL FIX
+Homotopy/trust-region continuation on the unchanged energy may change the selected
+local equilibrium. Describe that branch-selection rule explicitly; it is not a
+proof of the unique physical branch. Check force residual on the final original
+energy, not only a proximal surrogate. Time-step refinement should reduce solver
+sensitivity, and all original constitutive/attachment parameters remain frozen.
+Dynamic/proximal regularization is a model change if its penalty remains in the
+accepted equations. Calling it numerical only requires demonstrating convergence
+as the artificial regularization is removed while the original residual remains
+small. Physical inertia should instead be labelled dynamics, with declared mass,
+time-step and dissipative assumptions; it cannot be claimed inferred merely from
+an improved fit. Curvature sign alone cannot establish dynamic stability under
+all contact constraints, but it identifies obvious unconstrained saddle outputs.
+
+PRACTICAL GO / NO-GO FOR PROMOTION
+GO as a separately labelled numerical candidate if a fixed input-only rule:
+- avoids saddle acceptance and produces finite positive-J states;
+- converges under the predeclared control refinement, including transition frames;
+- retains original-energy residual tolerance and unchanged fitted parameters;
+- behaves correctly on simple rigid-motion, gradual loading and known snap-through
+  or loss-of-equilibrium qualification cases (do not force every transition smooth);
+- reports the same rule on ALL8solid PT cases, all original prefixes/suffixes,
+  failures, degraded cases and reference comparisons, not only the failed zebra.
+NO-GO as a reliable physical cure if it only delays the large jump, requires
+case-specific target-calibrated damping, or attains small geometric error at a
+large unreported original residual. Then retain it as a failed/useful diagnostic.
+Bound the first study (e.g.60–90minutes) and decide from numerical convergence,
+not serial new benchmark experiments. Frozen148case processing stays unchanged.
+
+EVALUATION / SERIAL HOLDOUT POLICY
+The zebra was selected because it failed; success on it is diagnostic, not an
+unbiased performance estimate. Original106 and fresh42 phase labels remain as
+published for their respective frozen models. A later branch change evaluated
+on already inspected cases must not inherit the earlier fresh label automatically.
+Predeclare branch-candidate settings/source hashes and all8case comparison before
+running. Publish every phase and retain failed methods/guarded tradeoffs in paper.
+No best-of-old-versus-new per-sequence future-error selection. Any prefix selector
+would need a separately refitted shorter-prefix protocol and frozen candidate set.
+Report displacement/velocity continuity and original-energy stability alongside
+accuracy; do not use the continuity diagnostic alone to declare physical success.
+
+UNTAPPED OFFICIAL DATA INVENTORY (METADATA ONLY)
+Read local official data_config.csv and directory names only; no new targets read.
+ALL8catalogued solid toy/sloth/dinosaur cases are now present:
+double_stretch_zebra, double_stretch_sloth, single_lift_dinosor,
+double_lift_zebra, double_lift_sloth, single_lift_sloth, single_lift_zebra,
+single_push_sloth.
+Remaining named cases are rope/twine, cloth variants, and weird_package(category
+package,flagFalse). There are NOT2–4additional untouched same-domain solid PT
+cases in this catalog. Cloth/rope need topology/model changes; weird_package is
+one different class, not a substitute for four solid toys. Do not download or
+cherry-pick those for a clean-looking confirmation score.
+A stronger independent next study needs separately acquired public volumetric
+cases or new simulated scenes frozen before model tuning. Within this campaign,
+all8case comparative numerics plus explicit diagnosis is the defensible scope.

@@ -1,0 +1,20 @@
+EVALUATOR-ONLY MOTION DIAGNOSIS —148 PREDECLARED SEQUENCES
+
+Vector RMS sqrt(mean squared Euclidean displacement); Kabsch removes best proper rigid transform from initial geometry. Segment means pool shared visible point observations within each sequence. Group/dataset summaries weight sequences equally.
+RMS ratio=residual RMS/total RMS. Squared-displacement fraction=(RMS ratio)^2; neither is mechanical strain energy.
+
+Suffix summaries (equal sequence weight; median ratios):
+group | n | total RMS mm(mean) | nonrigid RMS mm(mean) | RMS ratio median | squared-displacement fraction median
+SoftVTBench / ALL | 140 | 272.050 | 3.354 | 0.00726 | 0.000053
+development / SoftVTBench | 20 | 287.695 | 1.968 | 0.00686 | 0.000047
+PhysTwin / ALL | 8 | 108.959 | 44.820 | 0.49365 | 0.244670
+development / PhysTwin | 1 | 81.703 | 49.337 | 0.60386 | 0.364651
+regression / SoftVTBench | 40 | 269.060 | 3.574 | 0.01177 | 0.000156
+regression / PhysTwin | 3 | 75.381 | 31.334 | 0.71720 | 0.514382
+untouched_confirmation / SoftVTBench | 40 | 270.388 | 3.577 | 0.01173 | 0.000153
+untouched_confirmation / PhysTwin | 2 | 117.621 | 43.346 | 0.37950 | 0.150900
+fresh_confirmation / SoftVTBench | 40 | 268.880 | 3.604 | 0.01130 | 0.000152
+fresh_confirmation / PhysTwin | 2 | 164.291 | 64.265 | 0.43189 | 0.195175
+
+Interpretation: small residual relative to total motion helps explain a strong rigid-motion baseline. It is not proof that elasticity is absent or unidentifiable in every trial. Visibility and tracking noise can inflate residual. Full per-frame masks/counts and prefix/suffix summaries are in the JSON.
+The 1 micrometer denominator floor marks tiny-motion ratios undefined; frame0 normally falls here. No scores or prediction outputs were read. This diagnostic must not be fed back into frozen predictor selection.

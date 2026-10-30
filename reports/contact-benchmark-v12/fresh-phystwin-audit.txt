@@ -1,0 +1,52 @@
+INDEPENDENT COMPLETE FRESH PHYSTWIN STRATUM AUDIT — 2026-10-30
+Both predeclared cases complete. No partial SoftVT mean inspected or reported.
+Frozen membership/source and full-suffix evaluation retained; no model tuning.
+
+PRIMARY MARKER ERROR (mm)
+case                 v11      unguardedv12   guarded    official   prefixrigid
+single_push_sloth    85.802      70.188       80.684      21.125      54.387
+double_lift_zebra    41.052      39.423       40.107      31.203      89.740
+equalcase mean       63.427      54.805       60.395      26.164      72.064
+Guarded improves v11 on2/2cases, mean3.032mm (~4.8%), but is substantially worse
+than official PhysTwin on2/2cases. Push-sloth also loses to simple prefixrigid.
+Guarded is worse than unguarded on both, reflecting removal of invalid geometry.
+These2known-category trajectories do not establish broad generalization or SOTA.
+
+SHAPE AND COORDINATE DIAGNOSTICS (mm)
+Push-sloth alignedshape:50.661(v11),36.310(unguarded),50.455(guard),15.748(official),
+46.238(prefixrigid). CoordinateRMSE78.121,46.852,58.248,18.694,46.557 respectively.
+Double-lift-zebra alignedshape:15.920(v11),14.655(unguarded),15.890(guard),
+13.441(official),27.801(prefixrigid). CoordinateRMSE27.094,25.500,26.381,21.665,
+45.360 respectively. Guard leaves only small shape improvements over v11.
+
+FITTING AND PREFIX SELECTION
+Push-sloth full and independently shortened-prefix optimizers terminate ABNORMAL,
+not converged (19and12iterations); valid saved prefix fitRMSE27.806and10.747mm.
+All resulting forecast frames are finite, but completed rollout is NOT successful
+parameter optimization. The declared prefix selector chooses residual strength1:
+validationRMSE49.626->44.949mm; no future errors participate.
+Double-lift-zebra full/validation optimizers converge in32/44iterations; prefix
+fitRMSE5.716/3.711mm. Prefix selector chooses residual strength0.5, validation
+RMSE10.783->9.617mm. Both cases use independent chronological validation and
+unchanged material/force input restrictions. Neither has failed forecast frames.
+
+LOCAL GEOMETRIC FEASIBILITY
+Every noninitial unguarded frame has inverted original tetrahedra:67/68push and
+57/58double-lift. Guard corrects124/126frames with zero final inversions, zero
+margin violations and finite output. Minimum finalJ .033710push/.030481double-lift.
+Push alpha1/64 in33frames,1/32in15,1/128in14,1/256in5; double-lift alpha ranges
+1/8to1/128(noninitial). These substantial reductions show most learned residual
+cannot be retained while preserving original-element orientation. The large
+unguarded geometric gains must not be advertised as mechanically valid.
+The guard remains a saved-frame local-volume repair, not equilibrium/contact/
+continuous-time certification. Strong material or boundary identification is not
+supported by these outcomes.
+
+GOAL ASSESSMENT
+Fresh PhysTwin demonstrates modest improvement over OUR frozen v11 on bothcases,
+with valid saved tetrahedra, but large absolute errors and clear losses to the
+official method. The strongest counterexample here is push-sloth: optimizer
+nonconvergence, ~81mmmarker error and worse than the rigid baseline. It must remain
+in the final headline context alongside better cases. Combined fresh42conclusion
+must wait for all40SoftVT episodes; this audit covers only the complete2-case
+PhysTwin stratum and does not aggregate an unfinished dataset.

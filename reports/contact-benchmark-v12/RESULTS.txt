@@ -1,0 +1,440 @@
+CONTACT BENCHMARK V12 — COMPLETE COMPARISONS
+Generated 2026-10-30T15:22:06.302077+00:00
+
+Primary: SoftVTBench contact_scene_state; PhysTwin object_frame. Fixed before reserved evaluation.
+Full forecast suffix is primary; equal sequence weighting. Different dataset metrics are not pooled.
+Means with failed frames are conditional and do not establish full-sequence accuracy.
+Paired wins/gains use only pairs without failed frames; coverage is explicit. No frame-level confidence intervals.
+
+COHORT DEVELOPMENT
+Job states: {"complete": 42}
+
+SoftVTBench: 20/20 sequences; metric coordinate_rmse_mm
+method | n/expected | complete | mean mm | shape mm | failed frames | paired wins/count | paired gain mm
+contact_floor_state | 20/20 | 20 | 15.872 | 1.417 | 0 | 19/20 | 2.152
+contact_scene | 20/20 | 20 | 15.199 | 1.417 | 0 | 20/20 | 2.825
+contact_scene_state | 20/20 | 20 | 15.199 | 1.417 | 0 | 20/20 | 2.825
+control_rigid | 20/20 | 20 | 18.176 | 0.924 | 0 | 10/20 | -0.152
+object_frame | 20/20 | 20 | 15.849 | 1.094 | 0 | 19/20 | 2.175
+persistence | 20/20 | 20 | 160.207 | 0.924 | 0 | 0/20 | -142.183
+pose_reset | 20/20 | 20 | 15.987 | 1.652 | 0 | 19/20 | 2.037
+position_ridge | 20/20 | 20 | 118.115 | 4.817 | 0 | 0/20 | -100.091
+prefix_calibrated_rigid | 20/20 | 20 | 15.107 | 0.924 | 0 | 19/20 | 2.917
+rigid_scene_state | 20/20 | 20 | 15.402 | 0.924 | 0 | 20/20 | 2.622
+v11_fem | 20/20 | 20 | 18.024 | 1.652 | 0 | 0/20 | 0.000
+
+PRIMARY against strong baselines (complete pairs only; positive gain is improvement):
+reference | pairs | primary mm | reference mm | gain mm | wins/losses/ties
+v11_fem | 20 | 15.199 | 18.024 | 2.825 | 20/0/0
+prefix_calibrated_rigid | 20 | 15.199 | 15.107 | -0.092 | 8/12/0
+  Primary is WORSE on the paired mean than prefix_calibrated_rigid.
+rigid_scene_state | 20 | 15.199 | 15.402 | 0.203 | 18/2/0
+adapted_phystwin | 0 | NA | NA | NA | 0/0/0
+adapted_phystwin_scene_state | 0 | NA | NA | NA | 0/0/0
+
+Per-group PRIMARY versus frozen v11 (positive gain is improvement):
+group | n/expected | primary mm | v11 mm | paired gain mm | wins/count
+object-soft-task0 | 10/10 | 18.889 | 22.178 | 3.289 | 10/10
+spatial-soft-task0 | 10/10 | 11.509 | 13.870 | 2.362 | 10/10
+
+Per-sequence PRIMARY versus frozen v11:
+sequence | primary mm | v11 mm | gain mm | primary failed frames
+object-soft-task0-demo0 | 10.029 | 13.299 | 3.270 | 0
+object-soft-task0-demo1 | 11.602 | 14.382 | 2.780 | 0
+object-soft-task0-demo2 | 34.524 | 35.662 | 1.138 | 0
+object-soft-task0-demo3 | 21.467 | 24.160 | 2.692 | 0
+object-soft-task0-demo4 | 30.728 | 35.748 | 5.021 | 0
+object-soft-task0-demo5 | 32.390 | 38.973 | 6.583 | 0
+object-soft-task0-demo6 | 9.193 | 12.418 | 3.225 | 0
+object-soft-task0-demo7 | 13.197 | 15.508 | 2.311 | 0
+object-soft-task0-demo8 | 12.704 | 17.325 | 4.621 | 0
+object-soft-task0-demo9 | 13.054 | 14.303 | 1.248 | 0
+spatial-soft-task0-demo0 | 7.421 | 10.150 | 2.729 | 0
+spatial-soft-task0-demo1 | 12.876 | 14.356 | 1.481 | 0
+spatial-soft-task0-demo2 | 11.950 | 17.368 | 5.417 | 0
+spatial-soft-task0-demo3 | 13.049 | 14.538 | 1.489 | 0
+spatial-soft-task0-demo4 | 11.164 | 13.581 | 2.417 | 0
+spatial-soft-task0-demo5 | 11.968 | 17.479 | 5.511 | 0
+spatial-soft-task0-demo6 | 15.126 | 16.116 | 0.990 | 0
+spatial-soft-task0-demo7 | 11.257 | 13.792 | 2.535 | 0
+spatial-soft-task0-demo8 | 9.196 | 9.316 | 0.120 | 0
+spatial-soft-task0-demo9 | 11.080 | 12.008 | 0.927 | 0
+
+PhysTwin: 1/1 sequences; metric manual_track_mean_mm
+method | n/expected | complete | mean mm | shape mm | failed frames | paired wins/count | paired gain mm
+control_rigid | 1/1 | 1 | 161.365 | 28.206 | 0 | 0/1 | -121.964
+object_frame | 1/1 | 1 | 34.076 | 17.333 | 0 | 1/1 | 5.325
+official_phystwin | 1/1 | 1 | 24.926 | 17.421 | 0 | 1/1 | 14.475
+persistence | 1/1 | 1 | 87.216 | 28.206 | 0 | 0/1 | -47.815
+pose_reset | 1/1 | 1 | 37.147 | 19.175 | 0 | 1/1 | 2.254
+position_ridge | 1/1 | 1 | 49.410 | 14.377 | 0 | 0/1 | -10.009
+prefix_calibrated_rigid | 1/1 | 1 | 86.490 | 28.206 | 0 | 0/1 | -47.089
+v11_fem | 1/1 | 1 | 39.401 | 19.175 | 0 | 0/1 | 0.000
+
+PRIMARY against strong baselines (complete pairs only; positive gain is improvement):
+reference | pairs | primary mm | reference mm | gain mm | wins/losses/ties
+v11_fem | 1 | 34.076 | 39.401 | 5.325 | 1/0/0
+prefix_calibrated_rigid | 1 | 34.076 | 86.490 | 52.414 | 1/0/0
+official_phystwin | 1 | 34.076 | 24.926 | -9.150 | 0/1/0
+  Primary is WORSE on the paired mean than official_phystwin.
+
+Per-group PRIMARY versus frozen v11 (positive gain is improvement):
+group | n/expected | primary mm | v11 mm | paired gain mm | wins/count
+single_lift_sloth | 1/1 | 34.076 | 39.401 | 5.325 | 1/1
+
+Per-sequence PRIMARY versus frozen v11:
+sequence | primary mm | v11 mm | gain mm | primary failed frames
+single_lift_sloth | 34.076 | 39.401 | 5.325 | 0
+COHORT REGRESSION
+Job states: {"complete": 43}
+
+SoftVTBench: 40/40 sequences; metric coordinate_rmse_mm
+method | n/expected | complete | mean mm | shape mm | failed frames | paired wins/count | paired gain mm
+adapted_phystwin | 40/40 | 40 | 39.351 | 11.751 | 0 | 5/40 | -12.384
+adapted_phystwin_scene_state | 40/40 | 40 | 37.236 | 11.183 | 0 | 5/40 | -10.269
+contact_floor_state | 40/40 | 40 | 25.519 | 1.616 | 0 | 31/40 | 1.447
+contact_scene | 40/40 | 40 | 24.184 | 1.616 | 0 | 40/40 | 2.783
+contact_scene_state | 40/40 | 40 | 24.184 | 1.616 | 0 | 40/40 | 2.783
+control_rigid | 40/40 | 40 | 27.725 | 2.048 | 0 | 8/40 | -0.759
+object_frame | 40/40 | 40 | 25.890 | 1.694 | 0 | 16/40 | 1.077
+persistence | 40/40 | 40 | 150.657 | 2.048 | 0 | 1/40 | -123.690
+pose_reset | 40/40 | 40 | 25.439 | 1.922 | 0 | 37/40 | 1.527
+position_ridge | 40/40 | 40 | 207.792 | 2.416 | 0 | 0/40 | -180.825
+prefix_calibrated_rigid | 40/40 | 40 | 25.070 | 2.048 | 0 | 26/40 | 1.897
+rigid_scene_state | 40/40 | 40 | 23.524 | 2.048 | 0 | 36/40 | 3.443
+v11_fem | 40/40 | 40 | 26.967 | 1.922 | 0 | 0/40 | 0.000
+
+PRIMARY against strong baselines (complete pairs only; positive gain is improvement):
+reference | pairs | primary mm | reference mm | gain mm | wins/losses/ties
+v11_fem | 40 | 24.184 | 26.967 | 2.783 | 40/0/0
+prefix_calibrated_rigid | 40 | 24.184 | 25.070 | 0.886 | 25/15/0
+rigid_scene_state | 40 | 24.184 | 23.524 | -0.660 | 23/17/0
+  Primary is WORSE on the paired mean than rigid_scene_state.
+adapted_phystwin | 40 | 24.184 | 39.351 | 15.167 | 35/5/0
+adapted_phystwin_scene_state | 40 | 24.184 | 37.236 | 13.052 | 36/4/0
+
+Per-group PRIMARY versus frozen v11 (positive gain is improvement):
+group | n/expected | primary mm | v11 mm | paired gain mm | wins/count
+object-soft-task1 | 10/10 | 17.734 | 24.439 | 6.705 | 10/10
+object-soft-task2 | 10/10 | 13.088 | 15.116 | 2.028 | 10/10
+spatial-soft-task1 | 10/10 | 12.491 | 14.073 | 1.583 | 10/10
+spatial-soft-task2 | 10/10 | 53.423 | 54.239 | 0.816 | 10/10
+
+Per-sequence PRIMARY versus frozen v11:
+sequence | primary mm | v11 mm | gain mm | primary failed frames
+object-soft-task1-demo0 | 16.097 | 24.079 | 7.982 | 0
+object-soft-task1-demo1 | 15.154 | 23.890 | 8.735 | 0
+object-soft-task1-demo2 | 15.975 | 24.606 | 8.631 | 0
+object-soft-task1-demo3 | 16.795 | 24.338 | 7.542 | 0
+object-soft-task1-demo4 | 21.911 | 25.216 | 3.305 | 0
+object-soft-task1-demo5 | 21.038 | 24.039 | 3.001 | 0
+object-soft-task1-demo6 | 16.583 | 24.753 | 8.170 | 0
+object-soft-task1-demo7 | 20.178 | 23.630 | 3.453 | 0
+object-soft-task1-demo8 | 16.512 | 25.063 | 8.551 | 0
+object-soft-task1-demo9 | 17.093 | 24.776 | 7.683 | 0
+object-soft-task2-demo0 | 13.018 | 15.171 | 2.154 | 0
+object-soft-task2-demo1 | 13.248 | 15.128 | 1.881 | 0
+object-soft-task2-demo2 | 13.262 | 15.131 | 1.869 | 0
+object-soft-task2-demo3 | 12.778 | 14.740 | 1.961 | 0
+object-soft-task2-demo4 | 12.971 | 15.014 | 2.043 | 0
+object-soft-task2-demo5 | 13.642 | 16.048 | 2.406 | 0
+object-soft-task2-demo6 | 12.777 | 14.745 | 1.968 | 0
+object-soft-task2-demo7 | 13.318 | 15.348 | 2.030 | 0
+object-soft-task2-demo8 | 13.146 | 15.097 | 1.951 | 0
+object-soft-task2-demo9 | 12.719 | 14.735 | 2.016 | 0
+spatial-soft-task1-demo0 | 12.478 | 13.513 | 1.035 | 0
+spatial-soft-task1-demo1 | 12.478 | 13.643 | 1.166 | 0
+spatial-soft-task1-demo2 | 12.651 | 13.546 | 0.895 | 0
+spatial-soft-task1-demo3 | 12.575 | 13.475 | 0.901 | 0
+spatial-soft-task1-demo4 | 12.779 | 13.722 | 0.943 | 0
+spatial-soft-task1-demo5 | 12.124 | 13.229 | 1.105 | 0
+spatial-soft-task1-demo6 | 12.895 | 20.119 | 7.224 | 0
+spatial-soft-task1-demo7 | 12.481 | 13.428 | 0.946 | 0
+spatial-soft-task1-demo8 | 12.506 | 13.349 | 0.843 | 0
+spatial-soft-task1-demo9 | 11.939 | 12.706 | 0.768 | 0
+spatial-soft-task2-demo0 | 60.221 | 60.553 | 0.333 | 0
+spatial-soft-task2-demo1 | 29.517 | 29.823 | 0.306 | 0
+spatial-soft-task2-demo2 | 20.227 | 22.100 | 1.873 | 0
+spatial-soft-task2-demo3 | 76.771 | 77.362 | 0.591 | 0
+spatial-soft-task2-demo4 | 58.983 | 60.138 | 1.155 | 0
+spatial-soft-task2-demo5 | 71.357 | 73.724 | 2.367 | 0
+spatial-soft-task2-demo6 | 54.550 | 54.876 | 0.326 | 0
+spatial-soft-task2-demo7 | 61.187 | 61.309 | 0.122 | 0
+spatial-soft-task2-demo8 | 41.673 | 42.218 | 0.546 | 0
+spatial-soft-task2-demo9 | 59.742 | 60.286 | 0.545 | 0
+
+PhysTwin: 3/3 sequences; metric manual_track_mean_mm
+method | n/expected | complete | mean mm | shape mm | failed frames | paired wins/count | paired gain mm
+control_rigid | 3/3 | 3 | 130.729 | 16.239 | 0 | 0/3 | -112.397
+object_frame | 3/3 | 3 | 14.452 | 11.144 | 0 | 3/3 | 3.880
+official_phystwin | 3/3 | 3 | 13.155 | 10.368 | 0 | 3/3 | 5.177
+persistence | 3/3 | 3 | 69.334 | 16.239 | 0 | 0/3 | -51.002
+pose_reset | 3/3 | 3 | 16.504 | 10.933 | 0 | 1/3 | 1.828
+position_ridge | 3/3 | 3 | 17.060 | 11.960 | 0 | 2/3 | 1.272
+prefix_calibrated_rigid | 3/3 | 3 | 96.196 | 16.239 | 0 | 0/3 | -77.864
+v11_fem | 3/3 | 3 | 18.332 | 10.932 | 0 | 0/3 | 0.000
+
+PRIMARY against strong baselines (complete pairs only; positive gain is improvement):
+reference | pairs | primary mm | reference mm | gain mm | wins/losses/ties
+v11_fem | 3 | 14.452 | 18.332 | 3.880 | 3/0/0
+prefix_calibrated_rigid | 3 | 14.452 | 96.196 | 81.744 | 3/0/0
+official_phystwin | 3 | 14.452 | 13.155 | -1.297 | 0/3/0
+  Primary is WORSE on the paired mean than official_phystwin.
+
+Per-group PRIMARY versus frozen v11 (positive gain is improvement):
+group | n/expected | primary mm | v11 mm | paired gain mm | wins/count
+double_stretch_sloth | 1/1 | 12.123 | 14.016 | 1.893 | 1/1
+double_stretch_zebra | 1/1 | 13.115 | 13.681 | 0.566 | 1/1
+single_lift_dinosor | 1/1 | 18.119 | 27.299 | 9.180 | 1/1
+
+Per-sequence PRIMARY versus frozen v11:
+sequence | primary mm | v11 mm | gain mm | primary failed frames
+double_stretch_sloth | 12.123 | 14.016 | 1.893 | 0
+single_lift_dinosor | 18.119 | 27.299 | 9.180 | 0
+double_stretch_zebra | 13.115 | 13.681 | 0.566 | 0
+COHORT UNTOUCHED_CONFIRMATION
+Job states: {"complete": 124}
+
+SoftVTBench: 40/40 sequences; metric coordinate_rmse_mm
+method | n/expected | complete | mean mm | shape mm | failed frames | paired wins/count | paired gain mm
+adapted_phystwin | 40/40 | 40 | 36.289 | 11.478 | 0 | 3/40 | -12.758
+adapted_phystwin_scene_state | 40/40 | 40 | 34.243 | 10.820 | 0 | 4/40 | -10.711
+contact_floor_state | 40/40 | 40 | 21.766 | 1.542 | 0 | 36/40 | 1.765
+contact_scene | 40/40 | 40 | 20.522 | 1.542 | 0 | 40/40 | 3.009
+contact_scene_state | 40/40 | 40 | 20.522 | 1.542 | 0 | 40/40 | 3.009
+control_rigid | 40/40 | 40 | 24.132 | 2.043 | 0 | 10/40 | -0.601
+object_frame | 40/40 | 40 | 22.282 | 1.644 | 0 | 18/40 | 1.249
+persistence | 40/40 | 40 | 151.690 | 2.043 | 0 | 1/40 | -128.159
+pose_reset | 40/40 | 40 | 21.879 | 1.943 | 0 | 37/40 | 1.652
+position_ridge | 40/40 | 40 | 172.816 | 2.164 | 0 | 0/40 | -149.285
+prefix_calibrated_rigid | 40/40 | 40 | 21.526 | 2.043 | 0 | 30/40 | 2.005
+rigid_scene_state | 40/40 | 40 | 19.905 | 2.043 | 0 | 40/40 | 3.626
+v11_fem | 40/40 | 40 | 23.531 | 1.943 | 0 | 0/40 | 0.000
+
+PRIMARY against strong baselines (complete pairs only; positive gain is improvement):
+reference | pairs | primary mm | reference mm | gain mm | wins/losses/ties
+v11_fem | 40 | 20.522 | 23.531 | 3.009 | 40/0/0
+prefix_calibrated_rigid | 40 | 20.522 | 21.526 | 1.004 | 27/13/0
+rigid_scene_state | 40 | 20.522 | 19.905 | -0.617 | 23/17/0
+  Primary is WORSE on the paired mean than rigid_scene_state.
+adapted_phystwin | 40 | 20.522 | 36.289 | 15.768 | 40/0/0
+adapted_phystwin_scene_state | 40 | 20.522 | 34.243 | 13.721 | 40/0/0
+
+Per-group PRIMARY versus frozen v11 (positive gain is improvement):
+group | n/expected | primary mm | v11 mm | paired gain mm | wins/count
+object-soft-task1 | 10/10 | 17.272 | 24.433 | 7.161 | 10/10
+object-soft-task2 | 10/10 | 13.269 | 15.314 | 2.045 | 10/10
+spatial-soft-task1 | 10/10 | 12.553 | 14.241 | 1.688 | 10/10
+spatial-soft-task2 | 10/10 | 38.994 | 40.137 | 1.144 | 10/10
+
+Per-sequence PRIMARY versus frozen v11:
+sequence | primary mm | v11 mm | gain mm | primary failed frames
+object-soft-task1-demo10 | 21.528 | 23.801 | 2.272 | 0
+object-soft-task1-demo11 | 15.055 | 24.018 | 8.963 | 0
+object-soft-task1-demo12 | 16.503 | 24.580 | 8.077 | 0
+object-soft-task1-demo13 | 15.714 | 24.019 | 8.305 | 0
+object-soft-task1-demo14 | 16.891 | 24.908 | 8.018 | 0
+object-soft-task1-demo15 | 21.435 | 24.712 | 3.276 | 0
+object-soft-task1-demo16 | 16.953 | 24.938 | 7.985 | 0
+object-soft-task1-demo17 | 16.755 | 24.544 | 7.789 | 0
+object-soft-task1-demo18 | 15.620 | 24.258 | 8.638 | 0
+object-soft-task1-demo19 | 16.266 | 24.551 | 8.285 | 0
+object-soft-task2-demo10 | 12.885 | 14.936 | 2.050 | 0
+object-soft-task2-demo11 | 13.420 | 15.546 | 2.126 | 0
+object-soft-task2-demo12 | 13.728 | 15.890 | 2.162 | 0
+object-soft-task2-demo13 | 12.955 | 14.847 | 1.892 | 0
+object-soft-task2-demo14 | 13.317 | 15.300 | 1.983 | 0
+object-soft-task2-demo15 | 13.685 | 15.782 | 2.098 | 0
+object-soft-task2-demo16 | 12.842 | 14.814 | 1.972 | 0
+object-soft-task2-demo17 | 12.895 | 14.971 | 2.076 | 0
+object-soft-task2-demo18 | 13.679 | 15.754 | 2.076 | 0
+object-soft-task2-demo19 | 13.280 | 15.299 | 2.019 | 0
+spatial-soft-task1-demo10 | 11.972 | 21.360 | 9.388 | 0
+spatial-soft-task1-demo11 | 12.756 | 13.545 | 0.789 | 0
+spatial-soft-task1-demo12 | 12.770 | 13.630 | 0.859 | 0
+spatial-soft-task1-demo13 | 12.199 | 13.015 | 0.815 | 0
+spatial-soft-task1-demo14 | 12.059 | 12.918 | 0.859 | 0
+spatial-soft-task1-demo15 | 13.039 | 13.854 | 0.815 | 0
+spatial-soft-task1-demo16 | 12.632 | 13.508 | 0.876 | 0
+spatial-soft-task1-demo17 | 12.870 | 13.675 | 0.804 | 0
+spatial-soft-task1-demo18 | 12.531 | 13.337 | 0.806 | 0
+spatial-soft-task1-demo19 | 12.700 | 13.567 | 0.867 | 0
+spatial-soft-task2-demo10 | 10.152 | 10.786 | 0.634 | 0
+spatial-soft-task2-demo11 | 71.220 | 72.713 | 1.493 | 0
+spatial-soft-task2-demo12 | 18.784 | 19.732 | 0.948 | 0
+spatial-soft-task2-demo13 | 14.995 | 16.138 | 1.143 | 0
+spatial-soft-task2-demo14 | 38.095 | 39.184 | 1.089 | 0
+spatial-soft-task2-demo15 | 69.243 | 70.723 | 1.480 | 0
+spatial-soft-task2-demo16 | 41.672 | 42.238 | 0.566 | 0
+spatial-soft-task2-demo17 | 40.418 | 41.731 | 1.313 | 0
+spatial-soft-task2-demo18 | 25.127 | 26.128 | 1.001 | 0
+spatial-soft-task2-demo19 | 60.231 | 62.002 | 1.771 | 0
+
+PhysTwin: 2/2 sequences; metric manual_track_mean_mm
+method | n/expected | complete | mean mm | shape mm | failed frames | paired wins/count | paired gain mm
+control_rigid | 2/2 | 2 | 159.704 | 25.021 | 0 | 0/2 | -74.687
+object_frame | 2/2 | 2 | 80.184 | 17.401 | 0 | 1/2 | 4.833
+official_phystwin | 2/2 | 2 | 26.218 | 16.304 | 0 | 2/2 | 58.798
+persistence | 2/2 | 2 | 118.569 | 25.021 | 0 | 1/2 | -33.552
+pose_reset | 2/2 | 2 | 82.013 | 18.686 | 0 | 1/2 | 3.003
+position_ridge | 2/2 | 2 | 37.837 | 17.144 | 0 | 2/2 | 47.179
+prefix_calibrated_rigid | 2/2 | 2 | 90.148 | 25.021 | 0 | 1/2 | -5.132
+v11_fem | 2/2 | 2 | 85.016 | 18.688 | 0 | 0/2 | 0.000
+
+PRIMARY against strong baselines (complete pairs only; positive gain is improvement):
+reference | pairs | primary mm | reference mm | gain mm | wins/losses/ties
+v11_fem | 2 | 80.184 | 85.016 | 4.833 | 1/0/1
+prefix_calibrated_rigid | 2 | 80.184 | 90.148 | 9.964 | 1/1/0
+official_phystwin | 2 | 80.184 | 26.218 | -53.966 | 0/2/0
+  Primary is WORSE on the paired mean than official_phystwin.
+
+Per-group PRIMARY versus frozen v11 (positive gain is improvement):
+group | n/expected | primary mm | v11 mm | paired gain mm | wins/count
+double_lift_sloth | 1/1 | 29.372 | 39.037 | 9.665 | 1/1
+single_lift_zebra | 1/1 | 130.996 | 130.996 | 0.000 | 0/1
+
+Per-sequence PRIMARY versus frozen v11:
+sequence | primary mm | v11 mm | gain mm | primary failed frames
+single_lift_zebra | 130.996 | 130.996 | 0.000 | 0
+double_lift_sloth | 29.372 | 39.037 | 9.665 | 0
+
+CONTACT MECHANISM DIAGNOSTICS
+Penetration is measured before projection, not a final nonpenetration or CCD certificate.
+Median per sequence means median of framewise maximum preprojection gaps, including zero-contact free frames.
+A sequence with no free-motion diagnostics has NA penetration, not a measured zero.
+DEVELOPMENT
+contact_floor_state: states={'kinematically_attached': 20}; contact sequences=20/20; median sequence-max penetration=0.415 mm; worst=1.007 mm
+contact_scene: states={'kinematically_attached': 20}; contact sequences=20/20; median sequence-max penetration=0.426 mm; worst=2.233 mm
+contact_scene_state: states={'kinematically_attached': 20}; contact sequences=20/20; median sequence-max penetration=0.426 mm; worst=2.233 mm
+rigid_scene_state: states={'kinematically_attached': 20}; contact sequences=20/20; median sequence-max penetration=0.402 mm; worst=2.118 mm
+adapted_phystwin_scene_state: states={}; contact sequences=0/0; median sequence-max penetration=NA mm; worst=NA mm
+Primary per sequence: name | state | contact frames/free frames | contact substeps | max penetration mm | median frame-max penetration mm
+object-soft-task0-demo0 | kinematically_attached | 7/10 | 501 | 0.367 | 0.028
+object-soft-task0-demo1 | kinematically_attached | 7/10 | 504 | 0.438 | 0.019
+object-soft-task0-demo2 | kinematically_attached | 7/10 | 546 | 0.529 | 0.017
+object-soft-task0-demo3 | kinematically_attached | 7/10 | 490 | 1.398 | 0.082
+object-soft-task0-demo4 | kinematically_attached | 7/10 | 528 | 0.979 | 0.019
+object-soft-task0-demo5 | kinematically_attached | 7/10 | 435 | 2.233 | 0.159
+object-soft-task0-demo6 | kinematically_attached | 7/10 | 506 | 0.643 | 0.037
+object-soft-task0-demo7 | kinematically_attached | 7/10 | 503 | 1.087 | 0.103
+object-soft-task0-demo8 | kinematically_attached | 7/10 | 520 | 1.332 | 0.011
+object-soft-task0-demo9 | kinematically_attached | 7/10 | 528 | 0.664 | 0.014
+spatial-soft-task0-demo0 | kinematically_attached | 12/13 | 926 | 0.282 | 0.005
+spatial-soft-task0-demo1 | kinematically_attached | 12/13 | 917 | 0.174 | 0.005
+spatial-soft-task0-demo2 | kinematically_attached | 12/13 | 932 | 0.403 | 0.019
+spatial-soft-task0-demo3 | kinematically_attached | 12/13 | 914 | 0.296 | 0.004
+spatial-soft-task0-demo4 | kinematically_attached | 12/13 | 932 | 0.207 | 0.005
+spatial-soft-task0-demo5 | kinematically_attached | 12/13 | 899 | 0.456 | 0.011
+spatial-soft-task0-demo6 | kinematically_attached | 12/13 | 904 | 0.279 | 0.009
+spatial-soft-task0-demo7 | kinematically_attached | 12/13 | 943 | 0.313 | 0.019
+spatial-soft-task0-demo8 | kinematically_attached | 12/13 | 908 | 0.413 | 0.010
+spatial-soft-task0-demo9 | kinematically_attached | 12/13 | 910 | 0.244 | 0.015
+REGRESSION
+contact_floor_state: states={'kinematically_attached': 40}; contact sequences=40/40; median sequence-max penetration=0.322 mm; worst=1.250 mm
+contact_scene: states={'kinematically_attached': 40}; contact sequences=40/40; median sequence-max penetration=0.833 mm; worst=2.987 mm
+contact_scene_state: states={'kinematically_attached': 40}; contact sequences=40/40; median sequence-max penetration=0.833 mm; worst=2.987 mm
+rigid_scene_state: states={'kinematically_attached': 40}; contact sequences=40/40; median sequence-max penetration=0.708 mm; worst=2.958 mm
+adapted_phystwin_scene_state: states={'kinematically_attached': 40}; contact sequences=40/40; median sequence-max penetration=1.933 mm; worst=2.306 mm
+Primary per sequence: name | state | contact frames/free frames | contact substeps | max penetration mm | median frame-max penetration mm
+object-soft-task1-demo0 | kinematically_attached | 8/10 | 404 | 1.987 | 0.802
+object-soft-task1-demo1 | kinematically_attached | 8/10 | 367 | 1.879 | 0.517
+object-soft-task1-demo2 | kinematically_attached | 8/10 | 304 | 2.134 | 1.379
+object-soft-task1-demo3 | kinematically_attached | 8/10 | 473 | 2.987 | 0.044
+object-soft-task1-demo4 | kinematically_attached | 8/10 | 375 | 2.041 | 1.710
+object-soft-task1-demo5 | kinematically_attached | 8/10 | 379 | 1.977 | 1.243
+object-soft-task1-demo6 | kinematically_attached | 8/10 | 448 | 1.982 | 0.427
+object-soft-task1-demo7 | kinematically_attached | 8/10 | 418 | 2.400 | 1.997
+object-soft-task1-demo8 | kinematically_attached | 8/10 | 415 | 2.095 | 1.664
+object-soft-task1-demo9 | kinematically_attached | 8/10 | 529 | 0.762 | 0.006
+object-soft-task2-demo0 | kinematically_attached | 7/10 | 399 | 1.075 | 1.051
+object-soft-task2-demo1 | kinematically_attached | 7/10 | 514 | 1.147 | 0.036
+object-soft-task2-demo2 | kinematically_attached | 7/10 | 536 | 0.923 | 0.014
+object-soft-task2-demo3 | kinematically_attached | 7/10 | 466 | 0.959 | 0.052
+object-soft-task2-demo4 | kinematically_attached | 7/10 | 508 | 1.154 | 0.007
+object-soft-task2-demo5 | kinematically_attached | 7/10 | 467 | 2.101 | 0.007
+object-soft-task2-demo6 | kinematically_attached | 7/10 | 504 | 1.559 | 0.044
+object-soft-task2-demo7 | kinematically_attached | 7/10 | 423 | 1.864 | 0.685
+object-soft-task2-demo8 | kinematically_attached | 7/10 | 544 | 0.905 | 0.011
+object-soft-task2-demo9 | kinematically_attached | 7/10 | 540 | 0.976 | 0.013
+spatial-soft-task1-demo0 | kinematically_attached | 12/13 | 923 | 0.454 | 0.008
+spatial-soft-task1-demo1 | kinematically_attached | 12/13 | 917 | 0.422 | 0.006
+spatial-soft-task1-demo2 | kinematically_attached | 12/13 | 914 | 0.429 | 0.008
+spatial-soft-task1-demo3 | kinematically_attached | 12/13 | 916 | 0.344 | 0.008
+spatial-soft-task1-demo4 | kinematically_attached | 12/13 | 911 | 0.429 | 0.008
+spatial-soft-task1-demo5 | kinematically_attached | 12/13 | 917 | 0.378 | 0.008
+spatial-soft-task1-demo6 | kinematically_attached | 12/13 | 917 | 0.433 | 0.008
+spatial-soft-task1-demo7 | kinematically_attached | 12/13 | 913 | 0.325 | 0.008
+spatial-soft-task1-demo8 | kinematically_attached | 12/13 | 918 | 0.336 | 0.008
+spatial-soft-task1-demo9 | kinematically_attached | 12/13 | 919 | 0.333 | 0.008
+spatial-soft-task2-demo0 | kinematically_attached | 13/13 | 980 | 0.211 | 0.007
+spatial-soft-task2-demo1 | kinematically_attached | 13/13 | 969 | 0.151 | 0.007
+spatial-soft-task2-demo2 | kinematically_attached | 13/13 | 968 | 0.198 | 0.007
+spatial-soft-task2-demo3 | kinematically_attached | 13/13 | 1005 | 0.086 | 0.006
+spatial-soft-task2-demo4 | kinematically_attached | 13/13 | 996 | 0.137 | 0.004
+spatial-soft-task2-demo5 | kinematically_attached | 13/13 | 1040 | 0.952 | 0.007
+spatial-soft-task2-demo6 | kinematically_attached | 13/13 | 973 | 0.224 | 0.007
+spatial-soft-task2-demo7 | kinematically_attached | 13/13 | 983 | 0.242 | 0.007
+spatial-soft-task2-demo8 | kinematically_attached | 13/13 | 994 | 0.138 | 0.007
+spatial-soft-task2-demo9 | kinematically_attached | 13/13 | 981 | 0.102 | 0.007
+UNTOUCHED_CONFIRMATION
+contact_floor_state: states={'kinematically_attached': 40}; contact sequences=40/40; median sequence-max penetration=0.362 mm; worst=1.098 mm
+contact_scene: states={'kinematically_attached': 40}; contact sequences=40/40; median sequence-max penetration=0.389 mm; worst=2.321 mm
+contact_scene_state: states={'kinematically_attached': 40}; contact sequences=40/40; median sequence-max penetration=0.389 mm; worst=2.321 mm
+rigid_scene_state: states={'kinematically_attached': 40}; contact sequences=40/40; median sequence-max penetration=0.557 mm; worst=2.580 mm
+adapted_phystwin_scene_state: states={'kinematically_attached': 40}; contact sequences=40/40; median sequence-max penetration=1.925 mm; worst=2.364 mm
+Primary per sequence: name | state | contact frames/free frames | contact substeps | max penetration mm | median frame-max penetration mm
+object-soft-task1-demo10 | kinematically_attached | 8/10 | 475 | 1.946 | 0.033
+object-soft-task1-demo11 | kinematically_attached | 8/10 | 430 | 2.179 | 1.560
+object-soft-task1-demo12 | kinematically_attached | 8/10 | 446 | 2.135 | 0.421
+object-soft-task1-demo13 | kinematically_attached | 8/10 | 465 | 2.321 | 0.132
+object-soft-task1-demo14 | kinematically_attached | 8/10 | 481 | 1.778 | 0.130
+object-soft-task1-demo15 | kinematically_attached | 8/10 | 491 | 2.129 | 0.038
+object-soft-task1-demo16 | kinematically_attached | 8/10 | 469 | 1.221 | 0.212
+object-soft-task1-demo17 | kinematically_attached | 8/10 | 314 | 1.972 | 0.858
+object-soft-task1-demo18 | kinematically_attached | 8/10 | 341 | 2.245 | 1.957
+object-soft-task1-demo19 | kinematically_attached | 8/10 | 392 | 2.150 | 0.834
+object-soft-task2-demo10 | kinematically_attached | 7/10 | 516 | 0.954 | 0.007
+object-soft-task2-demo11 | kinematically_attached | 7/10 | 545 | 0.547 | 0.012
+object-soft-task2-demo12 | kinematically_attached | 7/10 | 541 | 0.554 | 0.009
+object-soft-task2-demo13 | kinematically_attached | 7/10 | 544 | 0.236 | 0.011
+object-soft-task2-demo14 | kinematically_attached | 7/10 | 508 | 0.777 | 0.007
+object-soft-task2-demo15 | kinematically_attached | 7/10 | 548 | 0.346 | 0.007
+object-soft-task2-demo16 | kinematically_attached | 7/10 | 545 | 1.008 | 0.030
+object-soft-task2-demo17 | kinematically_attached | 7/10 | 546 | 0.800 | 0.008
+object-soft-task2-demo18 | kinematically_attached | 7/10 | 483 | 1.174 | 0.043
+object-soft-task2-demo19 | kinematically_attached | 7/10 | 521 | 1.037 | 0.014
+spatial-soft-task1-demo10 | kinematically_attached | 12/13 | 917 | 0.351 | 0.008
+spatial-soft-task1-demo11 | kinematically_attached | 12/13 | 916 | 0.435 | 0.008
+spatial-soft-task1-demo12 | kinematically_attached | 12/13 | 909 | 0.271 | 0.008
+spatial-soft-task1-demo13 | kinematically_attached | 12/13 | 916 | 0.264 | 0.008
+spatial-soft-task1-demo14 | kinematically_attached | 12/13 | 917 | 0.323 | 0.008
+spatial-soft-task1-demo15 | kinematically_attached | 12/13 | 920 | 0.292 | 0.008
+spatial-soft-task1-demo16 | kinematically_attached | 12/13 | 915 | 0.300 | 0.008
+spatial-soft-task1-demo17 | kinematically_attached | 12/13 | 918 | 0.366 | 0.008
+spatial-soft-task1-demo18 | kinematically_attached | 12/13 | 918 | 0.243 | 0.008
+spatial-soft-task1-demo19 | kinematically_attached | 12/13 | 916 | 0.412 | 0.008
+spatial-soft-task2-demo10 | kinematically_attached | 13/13 | 963 | 0.190 | 0.007
+spatial-soft-task2-demo11 | kinematically_attached | 13/13 | 1030 | 0.171 | 0.009
+spatial-soft-task2-demo12 | kinematically_attached | 13/13 | 967 | 0.142 | 0.007
+spatial-soft-task2-demo13 | kinematically_attached | 13/13 | 965 | 0.242 | 0.007
+spatial-soft-task2-demo14 | kinematically_attached | 13/13 | 980 | 0.208 | 0.007
+spatial-soft-task2-demo15 | kinematically_attached | 13/13 | 1016 | 0.064 | 0.007
+spatial-soft-task2-demo16 | kinematically_attached | 13/13 | 980 | 0.184 | 0.007
+spatial-soft-task2-demo17 | kinematically_attached | 13/13 | 980 | 0.143 | 0.007
+spatial-soft-task2-demo18 | kinematically_attached | 13/13 | 966 | 0.249 | 0.007
+spatial-soft-task2-demo19 | kinematically_attached | 13/13 | 1039 | 0.197 | 0.007
+
+INTERPRETATION AND LIMITS
+V11 code/results are preserved; regression cases were already examined. Untouched confirmation uses predeclared new sequences.
+SoftVTBench has two primary pastry assets across four task/suite groups, not 40 independent object categories.
+PhysTwin confirmation adds trajectories of known toy categories. Tiny case counts do not establish broad category generalization.
+Inputs include privileged initial geometry, sparse observed-prefix positions and prescribed future tool positions, not true forces/materials.
+The object-frame adapter is prefix-calibrated rigid correction plus optional bounded empirical deformation residual; it is not new material identification.
+A post-freeze topology audit found inverted FEM tetrahedra in residual-corrected outputs (see shape-jacobian-audit.json). These forecasts are point-geometry predictions, not physically admissible FEM states. A separately declared feasibility extension preserves this frozen comparison.
+Contact primary splits FEM shape and rigid contact pose, with shape frozen at separation. Static mesh heightfields do not resolve vertical walls, undercuts, deformable contact forces or two-way moving-object coupling.
+Vertical projection removes residual represented-support penetration but is not continuous collision detection or a general nonpenetration guarantee.
+Public scene meshes are extra input versus v11; rigid_scene_state supplies a geometry-matched baseline, and contact_floor_state is the same-input geometry ablation.
+Independent shorter-prefix fits select the adapter; no future object truth selects candidates. Contact policy is fixed on development.
+All original per-frame metrics, phase diagnostics, selection metadata and source hashes are retained in results.json.gz.
+Supplement adapted_phystwin_scene_state was declared after primary freeze and partial scores: identical frozen scene/state pose postprocessing, no native refit or future-score selection, all80SoftVT episodes. It is not unchanged author PhysTwin.
+No claim of calibrated physical uncertainty, active probing superiority, real-time speed or release convergence follows from these results.

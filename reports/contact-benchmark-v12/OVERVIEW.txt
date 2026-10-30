@@ -1,0 +1,84 @@
+CAMPAIGN v12: OBJECT MOTION, DEFORMATION AND CONTACT
+Completed study; all 148 selected forecasts available. Raw datasets stay local.
+
+What changed, in plain language
+We let the model distinguish moving a whole object from changing its shape.
+We add known static scene surfaces so a released object can fall, separate,
+and meet a support. We check that shape corrections do not turn mesh elements
+inside out. Finally, we compare three explanations using only the beginning
+of each recording: rigid motion, the existing deformable model, and a refitted
+deformable model without its global Gaussian potential. The short-prefix
+validation chooses a model; the future object motion is used only for scoring.
+Future tool positions are supplied. This is conditional forecasting.
+
+Main results (lower is better; equal sequence weighting)
+Dataset        Cases   Starting v11    Guarded extension    New selector
+SoftVTBench      140      23.85 mm         21.15 mm             20.90 mm
+PhysTwin           8      48.91 mm         46.39 mm             33.02 mm
+SoftVT uses coordinate RMSE; PhysTwin uses manual-marker mean error. Do not
+pool these metrics. These all-case selector results are POST-AUDIT EXPLORATORY
+and include development sequences, not a new independent generalization test.
+
+The largest repair is the zebra lift: 131.00 -> 38.05 mm. It contributes about
+87% of the PhysTwin gain over the guarded version. All four other unchanged
+PhysTwin cases retain their previous predictions exactly; four improve.
+On SoftVT, the small incremental average gain hides 41 improvements, 61
+regressions and 38 ties versus the guarded version. Against starting v11,
+139/140 SoftVT and 7/8 PhysTwin cases improve. Earlier results remain archived.
+
+Strong comparisons remain important
+Rigid motion with the same scene contact has lower SoftVT mean: 20.51 mm.
+Official PhysTwin has lower error on all eight PhysTwin cases: 21.14 mm mean.
+The simple position-ridge baseline also beats our PhysTwin mean: 29.70 mm.
+On 120 matched nondevelopment SoftVT cases, our selector is 21.83 mm versus
+35.30 mm for the locally adapted PhysTwin model plus the same contact stage.
+That adaptation comparison is not the official PhysTwin benchmark ranking.
+
+Separate independent evidence
+Before designing the later selector, the guarded version was frozen and tested
+on 42 additional trajectories: SoftVT 23.97 -> 21.30 mm (39/40 improvements),
+PhysTwin 63.43 -> 60.40 mm (2/2). These are known object categories with new
+trajectories. The later selector cannot inherit that confirmation designation.
+
+What the audits changed
+Agents independently reviewed method choices, topology, benchmarks and videos.
+They found inverted elements after empirical correction and a large incorrect equilibrium
+jump in the zebra case. The local-volume guard addresses the former; prefix
+selection between refitted model families reduces the latter. Full benchmark
+forecasting still uses a split contact approximation with static scene bodies.
+A separate small soft-block/moving-sphere prototype tests two-way contact but
+has not been transferred into these benchmark forecasts. A nonlinear release
+diagnostic failed convergence and was not promoted.
+
+Checks and remaining limits
+629 fitting jobs completed, including 80 native GPU fits on GPUs 0-2; unrelated
+jobs were left running. 92 numerical tests pass. Independent verification
+recomputed 592 forecast scores and checked all 296 new fits. Twelve fixed cases
+replayed selection metadata and all four forecast arrays exactly. All 148
+selected forecasts are finite and satisfy the saved-frame local volume margin.
+This does not guarantee equilibrium, global injectivity or timestep convergence.
+Eight full-prefix and five short-prefix fits have abnormal optimizer flags.
+Standalone current-FEM outputs are complete on 132/140 SoftVT and 7/8 PhysTwin;
+field-free outputs on 126/140 and 8/8. Incomplete-family means are conditional.
+The selected method itself is complete on every declared case.
+An evaluator-only amendment handles missing marker correspondence for one
+failed standalone zebra output without changing any prediction.
+
+We have improved average prediction and numerical reliability over our starting
+model. We have not established superiority to the strongest baselines, general
+moving-object contact, calibrated material/boundary uncertainty, or active probing.
+The next substantive step is contact that changes shape and reacts on both bodies,
+followed by a new frozen evaluation on interactions not used in this campaign.
+
+Where to look
+Paper: papers/contact-benchmark-v12/extension.pdf
+Detailed results: MODEL-SELECTION-RESULTS.txt and model-selection-results.json.gz
+Earlier guarded evidence: FEASIBILITY-RESULTS.txt and feasibility-results.json.gz
+Independent audit: final-model-selection-audit.txt
+Numerical verification: model-selection-final-audit.json
+Replay: model-selection-replay-audit.json
+Videos: model-selection-*.mp4 (five cases fixed before outcome inspection)
+Best visible repair: model-selection-untouched_confirmation-single_lift_zebra.mp4
+Remaining shape failure: model-selection-fresh_confirmation-single_push_sloth.mp4
+Scene-contact failure: model-selection-fresh_confirmation-spatial-soft-task2-demo20.mp4
+Code/reproduction: scripts/contact_benchmark_v12/README.txt

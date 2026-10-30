@@ -1,0 +1,83 @@
+CONTACT BENCHMARK V12 — COMPLETE COMPARISONS
+Generated 2026-10-30T14:10:26.180281+00:00
+
+Primary: SoftVTBench contact_scene_state; PhysTwin object_frame. Fixed before reserved evaluation.
+Full forecast suffix is primary; equal sequence weighting. Different dataset metrics are not pooled.
+Means with failed frames are conditional and do not establish full-sequence accuracy.
+Paired wins/gains use only pairs without failed frames; coverage is explicit. No frame-level confidence intervals.
+
+COHORT DEVELOPMENT
+Job states: {"complete": 42}
+
+SoftVTBench: 20/20 sequences; metric coordinate_rmse_mm
+method | n/expected | complete | mean mm | shape mm | failed frames | paired wins/count | paired gain mm
+contact_floor_state | 20/20 | 20 | 15.872 | 1.417 | 0 | 19/20 | 2.152
+contact_scene | 20/20 | 20 | 15.199 | 1.417 | 0 | 20/20 | 2.825
+contact_scene_state | 20/20 | 20 | 15.199 | 1.417 | 0 | 20/20 | 2.825
+control_rigid | 20/20 | 20 | 18.176 | 0.924 | 0 | 10/20 | -0.152
+object_frame | 20/20 | 20 | 15.849 | 1.094 | 0 | 19/20 | 2.175
+persistence | 20/20 | 20 | 160.207 | 0.924 | 0 | 0/20 | -142.183
+pose_reset | 20/20 | 20 | 15.987 | 1.652 | 0 | 19/20 | 2.037
+position_ridge | 20/20 | 20 | 118.115 | 4.817 | 0 | 0/20 | -100.091
+prefix_calibrated_rigid | 20/20 | 20 | 15.107 | 0.924 | 0 | 19/20 | 2.917
+rigid_scene_state | 20/20 | 20 | 15.402 | 0.924 | 0 | 20/20 | 2.622
+v11_fem | 20/20 | 20 | 18.024 | 1.652 | 0 | 0/20 | 0.000
+
+Per-group PRIMARY versus frozen v11 (positive gain is improvement):
+group | n/expected | primary mm | v11 mm | paired gain mm | wins/count
+object-soft-task0 | 10/10 | 18.889 | 22.178 | 3.289 | 10/10
+spatial-soft-task0 | 10/10 | 11.509 | 13.870 | 2.362 | 10/10
+
+Per-sequence PRIMARY versus frozen v11:
+sequence | primary mm | v11 mm | gain mm | primary failed frames
+object-soft-task0-demo0 | 10.029 | 13.299 | 3.270 | 0
+object-soft-task0-demo1 | 11.602 | 14.382 | 2.780 | 0
+object-soft-task0-demo2 | 34.524 | 35.662 | 1.138 | 0
+object-soft-task0-demo3 | 21.467 | 24.160 | 2.692 | 0
+object-soft-task0-demo4 | 30.728 | 35.748 | 5.021 | 0
+object-soft-task0-demo5 | 32.390 | 38.973 | 6.583 | 0
+object-soft-task0-demo6 | 9.193 | 12.418 | 3.225 | 0
+object-soft-task0-demo7 | 13.197 | 15.508 | 2.311 | 0
+object-soft-task0-demo8 | 12.704 | 17.325 | 4.621 | 0
+object-soft-task0-demo9 | 13.054 | 14.303 | 1.248 | 0
+spatial-soft-task0-demo0 | 7.421 | 10.150 | 2.729 | 0
+spatial-soft-task0-demo1 | 12.876 | 14.356 | 1.481 | 0
+spatial-soft-task0-demo2 | 11.950 | 17.368 | 5.417 | 0
+spatial-soft-task0-demo3 | 13.049 | 14.538 | 1.489 | 0
+spatial-soft-task0-demo4 | 11.164 | 13.581 | 2.417 | 0
+spatial-soft-task0-demo5 | 11.968 | 17.479 | 5.511 | 0
+spatial-soft-task0-demo6 | 15.126 | 16.116 | 0.990 | 0
+spatial-soft-task0-demo7 | 11.257 | 13.792 | 2.535 | 0
+spatial-soft-task0-demo8 | 9.196 | 9.316 | 0.120 | 0
+spatial-soft-task0-demo9 | 11.080 | 12.008 | 0.927 | 0
+
+PhysTwin: 1/1 sequences; metric manual_track_mean_mm
+method | n/expected | complete | mean mm | shape mm | failed frames | paired wins/count | paired gain mm
+control_rigid | 1/1 | 1 | 161.365 | 28.206 | 0 | 0/1 | -121.964
+object_frame | 1/1 | 1 | 34.076 | 17.333 | 0 | 1/1 | 5.325
+official_phystwin | 1/1 | 1 | 24.926 | 17.421 | 0 | 1/1 | 14.475
+persistence | 1/1 | 1 | 87.216 | 28.206 | 0 | 0/1 | -47.815
+pose_reset | 1/1 | 1 | 37.147 | 19.175 | 0 | 1/1 | 2.254
+position_ridge | 1/1 | 1 | 49.410 | 14.377 | 0 | 0/1 | -10.009
+prefix_calibrated_rigid | 1/1 | 1 | 86.490 | 28.206 | 0 | 0/1 | -47.089
+v11_fem | 1/1 | 1 | 39.401 | 19.175 | 0 | 0/1 | 0.000
+
+Per-group PRIMARY versus frozen v11 (positive gain is improvement):
+group | n/expected | primary mm | v11 mm | paired gain mm | wins/count
+single_lift_sloth | 1/1 | 34.076 | 39.401 | 5.325 | 1/1
+
+Per-sequence PRIMARY versus frozen v11:
+sequence | primary mm | v11 mm | gain mm | primary failed frames
+single_lift_sloth | 34.076 | 39.401 | 5.325 | 0
+
+INTERPRETATION AND LIMITS
+V11 code/results are preserved; regression cases were already examined. Untouched confirmation uses predeclared new sequences.
+SoftVTBench has two primary pastry assets across four task/suite groups, not 40 independent object categories.
+PhysTwin confirmation adds trajectories of known toy categories. Tiny case counts do not establish broad category generalization.
+Inputs include privileged initial geometry, sparse observed-prefix positions and prescribed future tool positions, not true forces/materials.
+The object-frame adapter is prefix-calibrated rigid correction plus optional bounded empirical deformation residual; it is not new material identification.
+Contact primary splits FEM shape and rigid contact pose, with shape frozen at separation. Static mesh heightfields do not resolve vertical walls, undercuts, deformable contact forces or two-way moving-object coupling.
+Public scene meshes are extra input versus v11; rigid_scene_state supplies a geometry-matched baseline, and contact_floor_state is the same-input geometry ablation.
+Independent shorter-prefix fits select the adapter; no future object truth selects candidates. Contact policy is fixed on development.
+All original per-frame metrics, phase diagnostics, selection metadata and source hashes are retained in results.json.gz.
+No claim of calibrated physical uncertainty, active probing superiority, real-time speed or release convergence follows from these results.

@@ -1,0 +1,93 @@
+BOUNDED EQUILIBRIUM-BRANCH DIAGNOSIS — NO PRIMARY METHOD CHANGE
+
+Scope
+A mechanistic diagnostic on development single_lift_sloth and the already-known
+single_lift_zebra failure. No future-target loss was computed to choose branches,
+settings or variants. No variant is promoted to the 148-case guarded benchmark.
+The eight available solid-toy PhysTwin cases are already used; these findings
+are not fresh confirmation evidence.
+
+Frozen-energy controller continuation does not fix the zebra jump
+Starting from the same predicted frame51 and fitted parameters, solving frame 52
+with 1/2/4/8/16 linearly interpolated commanded-position steps always reaches the
+same approximately 244.834 mm mean node displacement. At 16 steps the largest change
+occurs at command fraction 0.3125:154.16 mm coordinate RMS in one substep.
+The smallest static Hessian eigenvalue decreases from 3.06e-5 at fraction 0.0625
+to 1.29e-5 at0.25, then the solver reaches a different stable equilibrium with
+minimum eigenvalue about 5.28e-6. At the final command it is 5.19e-6, with no negative
+eigenvalues, residual about 1.9e-11 and minimum J 0.33439.
+
+The previous shape's energy under the new command is 0.00815456; the new
+equilibrium has energy 0.00481305. Consequently, neither an energy-decrease test
+nor positive-Hessian filtering would reject this wrong-but-feasible solution.
+The evidence is consistent with a branch transition of the fitted energy. It
+does not prove a unique mathematical bifurcation mechanism or imply that a
+physical snap of the real object occurred. The existing failure audit documents
+the disagreement with recorded motion.
+
+The independently fitted validation trajectory still fails at frame 32 under
+1/4/8 continuation steps, with iteration-limit residuals 1.06e-5,5.69e-5,2.33e-5.
+Those failures are preserved in the JSON records. On development sloth, static
+1 versus 8 step continuation over frames 59:64 differs by only 0.0000513 mm maximum
+per-frame coordinate RMS. Simple controller substepping is therefore not a
+systematic repair of this fitted model's failure.
+
+Inertia smooths the jump but does not establish a correct model
+A separate implicit-inertia rollout uses the existing source mass/gravity ratio,
+unchanged fitted parameters and prescribed positions. It starts from the last
+observed-prefix predicted state, with velocity from the preceding prediction.
+This changes the quasistatic model; density is not independently identified.
+
+For zebra frames 46:66, 8->16 and 16->32 substeps produce maximum trajectory
+coordinate-RMS differences 0.48869 mm and 0.29777 mm. The instantaneous frame 52 jump
+is reduced to about 4.50 mm mean node displacement at 32 steps. However motion
+continues accelerating, reaching 23.10 mm per frame by frame 65. Thus inertia may delay
+motion toward the same problematic attractor; no accuracy improvement is claimed.
+For development sloth frames 59:85, 8->16 differs by at most 0.04682 mm. Successful
+refinement in these bounded tests does not independently validate fitted physics.
+
+Learned world-potential ablation identifies a conditional mechanism
+With the same parameters but the Gaussian world potential disabled, zebra's
+static full-suffix rollout has maximum per-frame mean displacement 4.60 mm. The
+1 versus 8 step paths agree to 0.000806 mm maximum coordinate RMS. Removing the old
+reversible tangential support term alone instead retains a 79.72 mm frame 52 jump.
+The fitted zebra Gaussian coefficient is positive 0.045996; its positive Gaussian
+energy produces a repulsive force away from the field center. This unlocalized
+surrogate can influence a largely unconstrained rigid mode after support changes.
+These controlled model ablations implicate the world term in this example;
+they are not evidence that every learned field is wrong.
+
+Crucial development counterexample: disabling the field with unchanged sloth
+parameters causes an immediate 74.39 mm first-step adjustment, versus about 1.61 mm
+with the original energy. Its1 versus 8 step no-field paths still agree within
+0.00180 mm. This is a changed-energy effect, not a solver-resolution problem.
+Parameters fitted jointly with the field can rely on it. Blanket field removal
+would therefore risk destroying previous good behavior and is rejected.
+
+Decision
+Keep every original and guarded benchmark result unchanged. Do not promote
+field-off, inertia, or a score-selected branch. Future work should refit a model
+with explicit contact-conditioned or localized interaction fields, or perform
+model-class selection using only reserved prefix observations. Such a remedy
+has NOT been implemented or validated in this campaign. Local element validity
+and low equilibrium residual are necessary checks but cannot certify the correct
+physical trajectory.
+
+Records and reproduction
+branch-diagnostic.json contains complete per-run settings, checkpoint hashes,
+energy/Hessian/J diagnostics, failed iterations and trajectory refinements.
+branch-substep-stability.json contains the 16-step static stability trace.
+Local prediction arrays and logs remain under
+runs/contact-benchmark-v12/branch-diagnostic/ and branch*-diagnostic.log.
+The prototype is scripts/contact_benchmark_v12/branch_diagnostic.py.
+Example (from repository root):
+  OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 runs/phystwin-env/bin/python \
+    scripts/contact_benchmark_v12/branch_diagnostic.py \
+    --case single_lift_zebra --start 52 --stop 53 --steps 16 \
+    --tag zebra-static-16-stability --inspect-substeps
+For full-suffix inertia use --start 46 --stop 66 --steps 32 --inertia.
+Use --no-field only for the declared energy ablation and --validation for the
+separately fitted validation checkpoint. Do not overwrite benchmark predictions.
+
+Two prototype tests pass: prescribed-input nonmutation and observation isolation,
+plus explicit rejection of evaluation targets and invalid integration intervals.

@@ -1,0 +1,43 @@
+INDEPENDENT EVALUATOR-ONLY FAILURE ACCOUNTING AUDIT
+2026-10-30. Source-review task only; no partial aggregate inspection.
+
+PROPOSAL APPROVED
+Original PhysTwin metric identifies marker vertices from predictionframe0. If
+thatframe is nonfinite, cKDTree fails and correspondence cannot be established.
+Returning a fabricated finite manualmetric, substituting originalnodes or another
+method/frame, or omitting the candidate would misrepresent failure.
+An evaluator-only wrapper should preserve originalscore exactly for finiteinitial
+predictions. For nonfiniteinitialPhysTwin, shallow-copy the dataset identity to
+skip ONLY the manualmarker branch of originalscore, preserving coordinates,
+visibility, interval and generic finite-frame/failure scoring; set manualmetric
+None with explicit manual_metric_available=false and reason. No correspondences
+can be recovered without changing the original metric definition.
+This amendment accounts for saved failures; it does not improve model performance.
+
+REQUIRED REPRODUCIBILITY
+Record original21frozen source hashes, amendment sourcehash and reason. Score-only
+resume must load saved predictions and saved selectionmetadata, and verify hashes
+before/after; no fit, select_model, rollout or differentfallback calls permitted.
+Finiteinitial paths must return exactly the original score dictionary. Add tests
+for finiteidentity, allNaNtrajectory, NaNinitial/finitefuture, and invalidfuture
+with finiteinitial. Original dataset dictionaries/arrays remain unchanged.
+No unavailablemanualmetric counts as a complete PhysTwin primary outcome. Generic
+coordinate metrics may remain valid on laterframes but cannot substitute silently
+for markererror. Reports must retain available/expected, finitecount, completecount
+and unavailablecase reason. Allfailedfamily remains explicit, not dropped.
+Terminal evaluator service failures must be accounted even if transient systemd
+units have been collected; declared expectedcase membership is source of truth.
+
+FINAL SOURCE REVIEW APPROVAL
+Reviewed model_selection_scoring.py and model_selection_score_resume.py. Finite
+initial branch calls originalscore exactly. Nonfiniteinitial branch shallowcopies
+only datasetidentity, retains manualmetricNone and an explicit undefinedmanual
+correspondence diagnostic; no substitutegeometry. Score-onlyresume loads saved
+fourmethodarrays and prior metadata, verifies their hashes before/after, and never
+calls modelselection/fitting/rollout. Existingmetricfiles are preserved. Amendment
+hashes include originalevaluator/helper/resume, tied to frozenmodel source record.
+Root reports5focusedtests passed. Independent reviewer APPROVES declaration and
+score-onlyresume. In reportedzebra case ONLYstandalonecurrentfamily is allNaN;
+selected/fieldfree/rigid are finite. Do not report this as selectedforecastfailure.
+The allNaNfamily remains an explicit unavailable comparison in archive/report;
+manualmetricNone prevents it counting as complete rather than silentlydropping it.

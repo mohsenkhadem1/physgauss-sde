@@ -13,9 +13,11 @@ def ready():
 
 def main():
     while not ready():check_deadline();time.sleep(20)
-    commands=[([PYTHON,'-m','pytest','tests/test_model_selection_v12.py','tests/test_contact_fieldfree_runner.py','-q'],REPORT/'model-selection-tests.txt',240),
+    commands=[([PYTHON,'-m','pytest','tests/test_model_selection_v12.py','tests/test_contact_fieldfree_runner.py','tests/test_contact_model_selection_scoring.py','-q'],REPORT/'model-selection-tests.txt',240),
               ([PYTHON,'scripts/contact_benchmark_v12/model_selection_report.py'],BASE/'model-selection-report.log',180),
-              ([PYTHON,'scripts/contact_benchmark_v12/model_selection_verify.py'],BASE/'model-selection-verification.log',900)]
+              ([PYTHON,'scripts/contact_benchmark_v12/model_selection_plot.py'],BASE/'model-selection-plot.log',180),
+              ([PYTHON,'scripts/contact_benchmark_v12/model_selection_verify.py'],BASE/'model-selection-verification.log',900),
+              ([PYTHON,'scripts/contact_benchmark_v12/model_selection_replay.py'],BASE/'model-selection-replay-final.log',1800)]
     for command,log,timeout in commands:
         check_deadline()
         with open(log,'w') as output:subprocess.run(command,cwd=ROOT,stdout=output,stderr=subprocess.STDOUT,check=True,timeout=timeout)

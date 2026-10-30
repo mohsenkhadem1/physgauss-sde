@@ -1,0 +1,64 @@
+GUARDED VIDEO REVIEW — ALL FOUR COMPLETE
+=============================================
+Prespecified cases only. No model/threshold changes made during review. Rendered
+regression double_stretch_sloth(192frames30fps), prior confirmation object-soft-
+task1-demo10(118frames20fps), fresh single_push_sloth(68frames30fps). All frames
+decode at original rates. Fresh spatial-soft-task2-demo20 was subsequently rendered and audited:125frames
+at20fps, complete decoding. All four prespecified videos are now reviewed.
+
+Scale and framing
+World camera and scale match across three columns. Lower row independently
+centers each cloud and uses common shape scale; labels make that distinction
+explicit. Grey scene assets remain correctly scaled. No deformation exaggeration.
+
+Sloth stretch
+Final guarded frame no longer shows the unguarded upper/right limb cloud spread.
+It retains a shape close to the inherited feasible FEM, with changed global pose.
+Some limb/recorded-shape discrepancy persists. This is local-feasibility repair,
+not proof of correct material or contact inference.
+
+Object task1 demo10
+Guard alpha is1 for all48 suffix frames, so this example equals the original
+primary. New pose sits higher in basket than v11 but recorded geometry remains
+much higher. Locally irregular shape can pass positive-J tests. This is a useful
+failure example: a local orientation guard does not guarantee correct landing,
+self-collision avoidance, elastic equilibrium, or visually smooth shape.
+
+Fresh single push sloth
+First prediction frame47 and finalframe67 were inspected. Both v11 and guarded
+shape differ from observed limb deformation. The guarded final body has a
+noticeably different orientation from the recorded body; correcting tetrahedron
+orientation does not repair an incorrect predicted rigid pose. Do not present
+this as a uniformly successful motion reconstruction.
+
+Temporal diagnostic
+Node coordinate second differences are recorded in guarded-visual-kinematics.json.
+These include real motion, so they are indicators, not a pure jitter metric.
+Sloth suffix guardalpha changes6times across58frames (range.015625–.0625).
+Maximum coordinate acceleration RMS: guard1.223m/s², unguarded3.113, v111.221.
+Fresh push guardalpha changes16times across21frames(range.00390625–.03125).
+Maximum acceleration RMS: guard21.795m/s², unguarded28.624, v1121.565;
+mean: guard5.494, unguarded16.397, v115.374. Discrete scaling does not increase
+these summaries over the unguarded outputs, but per-frame backtracking is not a
+continuity guarantee. Object demo10 is unchanged by the guard.
+
+Original final comparison plot
+comparison.png now includes full original cohort counts40/40 SoftVT and2/2
+confirmation PhysTwin. Readable labels, separate metrics, and stronger baselines
+are retained. Confirmation PhysTwin remains substantially worse than official
+PhysTwin; this is clearly visible. The plot describes original primary outputs,
+not guarded secondary outputs; the two must remain distinctly captioned.
+
+Fourth prespecified fresh case: spatial task2 demo20
+---------------------------------------------------
+Reviewed first forecast frame75, contact frame112 and finalframe124. Initial
+transport remains close visually. At finalframe recorded object is tilted and
+offset at the plate edge; guarded prediction lies flatter and centered on the
+plate. The local volume guard is inactive(alpha1 throughout); it cannot repair
+this wrong rigid orientation/contact evolution. Scene scale is consistent.
+The centered row makes the remaining orientation error visible rather than
+removing rotation. The first contact metadata records0.134mm preprojection
+penetration, but low overlap does not establish a correct landing trajectory.
+Additional representative contactframe111/112 PNGs were extracted from the
+encoded video for review; standard snapshots are also retained. No candidate
+threshold, model or case selection changed after these observations.

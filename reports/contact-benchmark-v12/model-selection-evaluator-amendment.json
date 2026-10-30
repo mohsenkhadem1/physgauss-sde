@@ -1,0 +1,12 @@
+{
+  "declared_utc": "2026-10-30T16:37:13.436107+00:00",
+  "source_sha256": {
+    "scripts/external_benchmark/evaluate.py": "e1668849aef9256a3340172de1c8747449cb31dac25a43ed2fd893f1bfe4b590",
+    "scripts/contact_benchmark_v12/model_selection_scoring.py": "d9cbdeb808e60d0fdfd773c5be3f90c16eb8d0e40e70e8f3163b6ef5c3cf00f7",
+    "scripts/contact_benchmark_v12/model_selection_score_resume.py": "c343abace93f678782843cb196437d15a747ff7e86e4b16e221b48967600e7ae"
+  },
+  "source_freeze_sha256": "8cc8b8c6fcb1a4d5821dd40de8c8f89f7d03ccc72362eb713742ed4342e96db2",
+  "reason": "PhysTwin manual scorer constructs a nearest-neighbor tree from frame0, which crashes for explicitly failed all-NaN candidate predictions.",
+  "rule": "Finite initial predictions use exactly original score. Nonfinite initial predictions retain original coordinate/frame-failure scoring and mark manual correspondence metric unavailable. No fabricated initial geometry or predictor changes.",
+  "scope": "Evaluator-only amendment, after saved predictor outputs; no model selection or parameter changes."
+}

@@ -1,0 +1,112 @@
+INDEPENDENT COMPLETE ORIGINAL-COHORT / GUARDED-SECONDARY AUDIT
+2026-10-30; snapshot while42fresh feasibility-confirmation cases still running.
+
+COVERAGE / PRESERVATION
+All106original cases exist:21development,43regression,42first confirmation.
+All106guarded secondary counterparts exist, no primary invalid forecast frames.
+Every original result dictionary is exactly preserved in its counterpart.
+Primary method-freeze, feasibility-freeze and supplemental-freeze source hashes
+all match. No frozen source mutation or outcome-based method selection found.
+Detailed independent recalculation: independent-old106-audit-data.json.
+
+COMPLETE FULL-SUFFIX MEANS (mm; lower better)
+Dataset/cohort        v11       v12       guarded   strongest listed comparator
+SoftVT development  18.024    15.199      15.372    prefixrigid15.107
+SoftVT regression   26.967    24.184      24.343    rigid+scene23.524
+SoftVT firstconfirm 23.531    20.522      20.678    rigid+scene19.905
+PhysTwin development39.401    34.076      37.920    official24.926
+PhysTwin regression 18.332    14.452      16.146    official13.155
+PhysTwin firstconfirm85.016   80.184      81.985    official26.218
+SoftVT metric is coordinateRMSE; PhysTwin metric is manual-markermean. Do not pool.
+The name firstconfirmation means independent for the frozen originalv12; its
+GUARDED counterparts are POST-AUDIT SECONDARY, not new independent results.
+
+WIN COUNTS / STRONG BASELINES
+Guarded SoftVT improves v11 on20/20development,40/40regression,40/40firstconfirm.
+Against uncorrectedv12: development4wins/16losses; regression7wins/7losses/26ties;
+firstconfirm1win/9losses/30ties. Feasibility slightly costs average position error.
+Against rigid+scene: regression18wins/22losses, mean0.820mm worse;
+firstconfirm20wins/20losses, mean0.773mm worse. Do not hide mean behind win count.
+Against identical-contact native: regression36/40wins (guard24.343vsnative37.236);
+firstconfirm40/40wins (guard20.678vsnative34.243). Original native is also retained.
+Guarded PhysTwin regression improves v11 on2/3 and worsens1/3; firstconfirm1win/1tie.
+Official PhysTwin beats guarded on ALL6 original PhysTwin cases, including dev.
+Firstconfirmation zebra remains130.996mm; official24.304mm. See dedicated failure
+audit: large wrong-but-positive-J equilibrium jump, not metric/unit mismatch.
+
+SHAPE / FEASIBILITY TRADEOFF
+SoftVT regression shapeRMSE:1.922(v11),1.616(v12),1.894(guard).
+SoftVT firstconfirm shape:1.943(v11),1.542(v12),1.915(guard).
+Guard keeps a small shape improvement over v11 but removes much of v12's gain.
+SoftVT dev shape:1.652(v11),1.417(v12),2.096(guard): WORSE than v11.
+PhysTwin regression shape:10.932(v11),11.144(v12),10.885(guard): slight guarded gain.
+PhysTwin firstconfirm shape:18.688(v11),17.401(v12),18.665(guard): near v11 again.
+All106guard outputs have zero saved-frame inverted/margin-violating elements and
+zero failed frames. MinimumJ across cohorts0.030154>0.03. Guard altered3607of13122
+saved frames across48of106cases. This is local original-tet orientation feasibility,
+not injectivity, contact nonpenetration, equilibrium or trajectory convergence.
+Large positive-J physical prediction failures remain, notably zebra.
+
+SCIENTIFIC CONCLUSION NOW
+The extension consistently improves SoftVT geometric forecasts over v11, including
+its original firstconfirmation cohort, but a strong geometry-matched rigid model
+remains better on average. PhysTwin has some improved individual trajectories,
+but a severe confirmation failure and clear losses to the official method.
+The geometry guard removes a real invalid-mesh defect, at measurable accuracy cost.
+It does not establish trustworthy physical inference or successful active probing.
+All strengths, losses, invalid original meshes and post-audit corrections belong
+in the paper; a claim that all prior good results are preserved would be false.
+
+FRESH CONFIRMATION STATUS
+At this audit snapshot only16/42additional guarded fresh-confirmation metric files
+exist. Those results have NOT been aggregated here. Final independent conclusions
+must wait for all40SoftVT +2PhysTwin cases and every baseline. No incomplete-cohort
+mean is used in this audit. An update will append the complete fresh results.
+
+FINAL UPDATE — COMPLETE FRESH42 AND COMPLETE148GUARDED RESULTS
+All40predeclared SoftVT demos20–29 and both PhysTwin cases now present. All planned
+comparators are present, no case exclusions and zero failed forecast frames in
+these methods. Freshguard minimumJ .0301829SoftVT/.0304813PhysTwin, no inversions
+or margin violations. Complete feasibility report has21/43/42/42cases, total148;
+comparison_complete and geometry_complete_and_feasible both true. All frozen
+primary/guard/supplement sources still match their recorded hashes.
+Independent recalculation from individual metrics: independent-fresh42-audit-data.json.
+
+Fresh SoftVT full-suffix coordinateRMSE(mm):
+v11 23.971; unguardedv12 21.120; guarded21.301; prefixrigid22.241;
+rigid+scene20.665; adaptednative36.782; adaptednative+samecontact34.432.
+Guard improves v11 mean2.669mm(~11.1%),39/40wins. One regression:
+spatial-soft-task2-demo25 guard11.446vs v1111.272mm. It loses to rigid+scene on
+mean0.636mm and27/40episodes. Against native+samecontact guardwins36/40.
+ShapeRMSE v111.939->guard1.909; unguarded1.527; rigid2.057. Thus most apparent
+unguarded shape gain disappears under feasibility repair, but a small v11gain remains.
+Per-group guard/v11/rigid+scene(mm):
+object task1 17.501/24.664/17.007;
+object task2 13.116/15.127/13.108;
+spatial task1 11.735/12.575/10.015;
+spatial task2 42.854/43.517/42.531.
+Spatialtask2 remains hard; worstepisode spatial-soft-task2-demo24 is72.096mm.
+
+Fresh PhysTwin complete2-case marker mean(mm):
+v11 63.427; unguarded54.805; guarded60.395; official26.164; prefixrigid72.064.
+Guard improves both v11cases, mean3.032mm(~4.8%), but official wins both by large
+margins and push-sloth loses to rigid. Shape v1133.290->guard33.173, official14.594.
+Push full/validation optimization is abnormal despite finite forecasts; preserve
+that flag. See fresh-phystwin-audit.txt for all casewise values and diagnosis.
+
+FINAL PRIMARY INTERPRETATION
+The feasibility extension DOES improve paired means over our frozen v11 on BOTH
+fresh dataset strata. This is a qualified progress result, not best-method evidence:
+SoftVT's geometry-matched rigid baseline remains stronger on mean, and official
+PhysTwin remains much stronger. Only2new realtoy trajectories are in freshPhysTwin;
+knowncategories and correlated SoftVT assets limit generalization claims.
+This pattern agrees with priorcohorts: SoftVT gains over v11 but not best rigid,
+PhysTwin some relative improvement but large errors/officialbaseline losses.
+Do not pool datasetmeans, present unguarded inverted meshes as valid, or describe
+all prior good per-case results as preserved. Everyoriginal/guarded result stays.
+
+NEW MODEL-CLASS SELECTOR STATUS
+A separate later model-class experiment is frozen/running. Its scores were NOT
+inspected for this audit. All of its148results will be explicitly post-audit
+exploratory; this completed freshguard study remains the independent evidence
+for its own predeclared repair. No selector claim is made here.

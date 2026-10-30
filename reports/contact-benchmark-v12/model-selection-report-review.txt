@@ -1,0 +1,45 @@
+INDEPENDENT REPORT-SOURCE REVIEW — 2026-10-30
+Inspected model_selection_report.py only. NO partial model-selection scores read.
+
+Correct: every cohort explicitly post-audit exploratory; different datasetmetrics
+not pooled; finite means with framefailures; percase rows; standalonefamilies;
+selected-config/failuremetadata archived. Earlier/later cohort names do not claim
+new independence for thisselector. Declared family/adapter choices remain frozen.
+
+Recommended before finalreport:
+1. Enumerate required methods even if entirely absent; unionofpresentmethodnames
+   otherwise hides a whollymissing comparison. Report expected148/140SoftVT/8PT.
+2. Separate accounting_complete (allmembers plus terminal296jobs), selected_complete
+   (selectedforecast fullcoverage/validity), all_comparisons_complete (required
+   methods coverage). AllNaNunavailable standalonefamily must remain explicit,
+   not prevent accounting closure or masquerade as success.
+3. Add finite_metric_count, complete_only_mean, conditional-on-validframes flag.
+   Current finite mean can be based on partiallyfailed cases; completecount alone
+   does not show how mean differs from complete-only subset. Label both clearly.
+4. Per-case selected failedframe count/status and named worstcase. Compare selected
+   directly against priorguard,v11,strongrigid+scene,selectedrigidfamily,official/
+   native+samecontact using completepairs only, with pairedcount/wins/losses/gain.
+5. Add descriptive overall-within-dataset summaries only after allmembers accounted;
+   never combine rawSoftVT/PTmm. If including developmentcases, label that clearly;
+   preserve allseparatecohorts. Equalcaseweight within dataset, no framewiseCI.
+6. LaTextable should show complete/expected or explicit failurecolumns; available n
+   alone can visually hide unsuccessfuloutputs. Include key strongcomparators or
+   a clear accompanying comparison table, not only v11/guard/selected.
+7. Include hashes for percase metrics/metadata/protocol in finalarchive for stale
+   source detection. Finalverifier should validate reportcounts and sourcehashes.
+No reporting change may alter frozen selection/prediction/scoring code or choose
+candidate configurations from fullsuffixoutcomes. Root receives recommendations.
+
+IMPLEMENTATION FOLLOW-UP
+At root request, implemented these changes in unfrozen reporting source only.
+Preserved sequences/metadata and existing cohorts.datasets methodtable interface.
+accounting_complete requires148metricfiles and296terminaljobs; selected_complete
+requires every selected fullforecast valid; all_comparisons_complete additionally
+requires every mandatory baseline/standalone. complete alias is accounting AND
+selected; unavailable standalonefamilies remain visible failed comparisons.
+Overall native comparators expect120nondevelopmentSoftVT, othermethods140SoftVT;
+PhysTwin8. Overall dataset summaries generated only after accounting complete.
+Added sourcehashes, complete-only means, finitecounts, percasefailures/worstnames,
+strongbaseline paired comparisons and width-constrained LaTex coverage columns.
+Synthetic invalid/missing-method checks passed. Did NOT run build or inspect
+partial campaign scores. Root owns final invocation, verification and plots.

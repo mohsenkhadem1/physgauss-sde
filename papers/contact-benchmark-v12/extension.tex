@@ -1,14 +1,14 @@
 \documentclass[10pt]{article}
 \usepackage[margin=0.9in]{geometry}
-\usepackage{amsmath,amssymb,booktabs,graphicx,hyperref}
-\title{Object Frames and Explicit Static Contact for Position-Driven Deformation Prediction\\\large An isolated extension to the preserved v11 benchmarks}
+\usepackage{amsmath,amssymb,booktabs,graphicx,hyperref,placeins}
+\title{Object Frames, Contact, and Model Selection for Position-Driven Deformation Forecasting\\\large An extension to the preserved v11 benchmarks}
 \author{Research campaign working addendum}
 \date{October 2026}
 \begin{document}
 \maketitle
 
 \begin{abstract}
-We investigate whether separating rigid pose from shape and supplying explicit environmental contact geometry improves position-driven forecasts on SoftVTBench and PhysTwin. The extension retains the earlier finite-element model and adds corrections estimated only from an observed prefix. On SoftVTBench, a reduced contact integrator predicts free pose after release or prefix-detected detachment, using initial static scene meshes. This implementation freezes shape at separation; it does not solve coupled deformable contact. Evaluation preserves the original results and adds predeclared sequences not used for model development. All numerical claims below are generated from the final scored results, with missing outputs and failures accounted for explicitly.
+We investigate whether separating rigid pose from shape and supplying environmental contact geometry improves position-driven forecasts on SoftVTBench and PhysTwin. The extension retains the earlier finite-element model and adds corrections estimated only from an observed prefix. A deterministic local-volume guard constrains those corrections on the inherited mesh. On SoftVTBench, a reduced contact integrator predicts free pose using initial static scene meshes, with shape frozen at separation. A later exploratory selector compares rigid motion and two refitted deformable model families using independent prefix validation. Evaluation preserves the original results, adds predeclared trajectories for the guarded study, and reports the later selector separately as post-audit evidence. All numerical claims below are generated from complete scored cohorts, with missing outputs and failures accounted for explicitly. This is a conditional geometry-forecasting study, rather than a coupled deformable-contact or material-uncertainty identification system.
 \end{abstract}
 
 \section{Problem and relation to the preserved model}
@@ -41,9 +41,11 @@ At free-motion initialization, predicted nodes are rigidly aligned to the permit
 This is a split model: FEM supplies shape during held motion; rigid pose integration handles free motion and support. Shape is frozen at separation. Contact impulses do not feed back into an elastic solve. Layered heightfields omit vertical-wall collisions and general undercuts; scene bodies remain static. Thus this benchmark does not establish two-way multi-body dynamics, contact-induced elastic deformation, or guaranteed collision-free integration. Separate coupled-physics qualification experiments, if reported, are diagnostics and are not substituted for these benchmark predictions.
 
 \section{Evaluation protocol}
-Development uses SoftVTBench task~0 episodes~0--9 from each of two suites and PhysTwin \texttt{single\_lift\_sloth}. The preserved regression cohort comprises 40 SoftVTBench episodes (tasks~1--2, episodes~0--9, both suites) and the three previously examined PhysTwin sequences. The independent confirmation cohort comprises the next 40 SoftVTBench episodes (episodes~10--19) and PhysTwin \texttt{single\_lift\_zebra} and \texttt{double\_lift\_sloth}. Confirmation membership was fixed before downloading the two new PhysTwin cases and before prediction-error inspection. These are additional trajectories of known object categories, not proof of unseen-category generalization.
+Development uses SoftVTBench~\cite{softvtbench} task~0 episodes~0--9 from each of two suites and PhysTwin~\cite{phystwin} the single-lift sloth sequence. The preserved regression cohort comprises 40 SoftVTBench episodes (tasks~1--2, episodes~0--9, both suites) and the three previously examined PhysTwin sequences. The independent confirmation cohort comprises the next 40 SoftVTBench episodes (episodes~10--19) and PhysTwin single-lift zebra and double-lift sloth. Confirmation membership was fixed before downloading the two new PhysTwin cases and before prediction-error inspection. These are additional trajectories of known object categories, not proof of unseen-category generalization.
 
 SoftVTBench uses complete initial nodal geometry, the same 48 sparse tracked prefix nodes as v11, a 60\% observed prefix, and a 40\% forecast suffix. PhysTwin retains the authors' processed observations, controller trajectories, and original split. The fixed primary methods are the scene-contact/state variant for SoftVTBench and the prefix-selected object-frame adapter for PhysTwin. Other variants remain ablations.
+
+We repurpose SoftVTBench demonstration trajectories for conditional geometric forecasting; these errors are not the benchmark's original manipulation-policy success or safety scores. Official PhysTwin reference predictions and the locally adapted PhysTwin baseline have distinct labels throughout. Neither comparison establishes a full image-to-physics system ranking.
 
 The full forecast suffix is primary. SoftVTBench reports coordinate RMSE; PhysTwin reports the original manual-marker mean error. These different metrics are not pooled. Sequence means receive equal weight within each dataset. Rigid-aligned shape error, individual sequences, task groups, failed frames, and missing comparisons accompany the mean. A commanded-release phase is defined by inputs, not by actual future slipping or prediction quality. SoftVTBench's repeated episodes cover two main pastry assets across four task/suite groups; they are not independent object categories.
 
@@ -57,13 +59,45 @@ We retain failures and per-sequence regressions rather than replacing them with 
 
 A post-freeze topology audit found that empirical residual corrections can invert tetrahedra even when their inherited FEM trajectories remain admissible. The frozen results therefore describe point-geometry prediction, not physically admissible elastic states. A separately declared feasibility extension checks the original FEM elements and constrains corrections before contact integration; its outcomes must be reported separately from these preserved results.
 
+An evaluator-only motion diagnostic over all 148 declared sequences separates rigid motion from shape change using proper Kabsch alignment of shared visible point identities. The median suffix ratio of nonrigid vector RMS to total-motion RMS is 0.73\% on 140 SoftVTBench trajectories and 49.4\% on eight PhysTwin trajectories. Mean nonrigid vector RMS is 3.35\,mm and 44.82\,mm, respectively. These motion statistics help explain the strong rigid baseline on SoftVTBench; they are not mechanical strain energy or material-identifiability estimates, and tracking noise can contribute to the residual. The diagnostic was performed after predictor freeze and never selects a forecasting method.
+
 \paragraph{Reproducibility.}
 The campaign publishes frozen method hashes, input provenance, independent input-isolation tests, complete per-frame metric archives, model-selection metadata, and actual-versus-predicted geometry videos. Raw datasets and checkpoints remain local. The earlier paper directories and v11 evidence are preserved.
 
 \section{Separate post-audit feasibility extension}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\linewidth]{../../reports/contact-benchmark-v12/guarded-algorithm.png}
+\caption{Implemented guarded prediction path. Observed-prefix calibration and prescribed tool positions produce a geometric forecast. The local volume guard is applied before reduced static contact; it does not turn that split model into a coupled elastic-contact solver.}
+\end{figure}
 A later mesh audit detected inverted inherited tetrahedra in some residual-corrected v12 trajectories. The preceding frozen method and its geometric scores remain archived; low geometric error does not make those trajectories mechanically feasible. A separate deterministic guard uses the original reference tetrahedra and signed volume ratios $J$. It backtracks the residual toward a rigidly aligned inherited FEM shape with a fixed coefficient schedule, requiring $J>0.03+10^{-8}$ before subsequent contact and velocity computation. This is a local saved-frame geometry safeguard, not an equilibrium solve or a continuous-time injectivity guarantee. Correction-induced velocity and acceleration changes are reported.
 
 Re-evaluation of the original 106 sequences is explicitly post-audit secondary evidence. A separate 42-sequence cohort was declared before fetching its new PhysTwin data: SoftVTBench tasks 1--2, episodes 20--29 in both suites, and PhysTwin single-push sloth and double-lift zebra. These are new trajectories of known categories. The same frozen inference budgets and strong baselines are retained, including common scene postprocessing. No repaired-versus-original outcome is selected by future error.
 \IfFileExists{generated-feasibility-results.tex}{\input{generated-feasibility-results.tex}}{\noindent Feasibility-extension result tables are pending; no numeric outcome is claimed.}
 
+\FloatBarrier
+\section{Exploratory selection of physical model complexity}
+The numerical audit motivates a further, separately frozen experiment. A fitted global Gaussian potential can produce a large equilibrium-branch transition even with small equilibrium residuals and positive element volumes. Removing that term after fitting is not a valid remedy: parameters optimized with the term may be inappropriate without it. We therefore refit a second FEM family with only the Gaussian potential disabled. Gravity, material response, attachments, floor and the original compliant-support term remain present. A third, prefix-calibrated rigid family provides an explicit alternative when observed shape change is weak.
+
+For each sequence, the first 70\% of the permitted observation prefix independently fits each FEM family. The remaining 30\% selects jointly among the physical family and the same fixed pose/residual adapter shortlist. Every candidate receives the local-volume guard and the same applicable static-contact processing before validation. The selector uses observed-position coordinate RMSE, without manual-marker targets, material labels or force measurements. A candidate must improve on the reconstructed prior configuration by strictly more than 2\%; ties retain the exact previously saved guarded prediction. Any invalid validation frame invalidates the whole candidate. If all candidates fail validation, the default remains and selection failure is recorded explicitly. A newly selected full-prefix model that fails remains a reported failure.
+
+The selected configuration is then calibrated using the full permitted prefix and forecasts the unobserved suffix from prescribed positions. The rigid family has its own rigid anchor, so a failed deformable solve cannot invalidate it indirectly. Standalone family winners, selector choices, optimizer termination flags and per-case regressions accompany the selected-method scores. This experiment covers all 148 sequences and is entirely post-audit exploratory evidence: the earlier fresh-cohort designation does not transfer to this later model choice. It does not establish a permanent rigid/soft object classification or general coupled multi-object dynamics.
+\IfFileExists{generated-model-selection-results.tex}{\input{generated-model-selection-results.tex}}{\noindent Exploratory model-selection results are pending; no numeric outcome is claimed.}
+\par\FloatBarrier
+Across all 140 SoftVTBench sequences, mean forecast error decreases from 23.85\,mm for v11 to 21.15\,mm for the guarded extension and 20.90\,mm for model selection. The incremental gain is uneven: relative to the guarded extension, 41 sequences improve, 61 regress and 38 remain unchanged. The geometry-matched rigid baseline remains stronger at 20.51\,mm. On the 120 sequences with the adapted PhysTwin comparison, matched selector and adapted-baseline means are 21.83 and 35.30\,mm, respectively; this is a different cohort from the 140-sequence total.
+
+On eight PhysTwin sequences, mean error decreases from 48.91\,mm for v11 to 46.39\,mm for the guarded extension and 33.02\,mm for model selection. Four sequences improve over the guarded extension and four remain unchanged. Approximately 87\% of the aggregate incremental gain comes from the previously diagnosed single-lift zebra case, which improves from 131.00 to 38.05\,mm. Official PhysTwin remains better on all eight cases, averaging 21.14\,mm. The simple position-ridge baseline also has a lower PhysTwin mean, 29.70\,mm. These results support a useful repair of model mismatch, while broader transfer remains unconfirmed.
+
+All 148 selected forecasts are finite and retain positive tetrahedral volumes above the declared margin. Eight full-prefix and five shortened-prefix fits have abnormal optimizer termination flags; these remain disclosed rather than treated as converged optima. Standalone current-FEM forecasts are complete on 132/140 SoftVTBench and 7/8 PhysTwin cases; field-free forecasts are complete on 126/140 and 8/8, respectively. Their incomplete-cohort means are not full-coverage benchmark results. On the zebra case, an evaluator-only amendment records unavailable manual correspondence for the failed standalone current-FEM output without altering any saved prediction. Independent verification recomputes 592 forecast scores and checks all 296 new fits; a fixed 12-case replay reproduces selection metadata and forecast arrays exactly.
+\IfFileExists{../../reports/contact-benchmark-v12/model-selection-comparison.png}{
+\begin{figure}[ht]\centering
+\includegraphics[width=\linewidth]{../../reports/contact-benchmark-v12/model-selection-comparison.png}
+\caption{All complete sequence pairs for the exploratory selector. Each point compares the selected model with the previous guarded forecast. Dataset metrics are separate; any failed pairs are retained in the accompanying report.}
+\end{figure}}{}
+
+\FloatBarrier
+\begin{thebibliography}{9}
+\bibitem{phystwin} Hanxiao Jiang, Hao-Yu Hsu, Kaifeng Zhang, Hsin-Ni Yu, Shenlong Wang, and Yunzhu Li. \emph{PhysTwin: Physics-Informed Reconstruction and Simulation of Deformable Objects from Videos}. ICCV, 2025. \url{https://arxiv.org/abs/2503.17973}.
+\bibitem{softvtbench} Bowen Jing et al. \emph{SoftVTBench: A Safety-Aware Visuo-Tactile Benchmark for Physically Constrained Robotic Manipulation of Deformable Objects}. arXiv:2607.04234, 2026. \url{https://arxiv.org/abs/2607.04234}.
+\end{thebibliography}
 \end{document}

@@ -1,0 +1,475 @@
+MODEL-CLASS SELECTION — POST-AUDIT EXPLORATORY
+2026-10-30T16:38:45.688740+00:00
+ALL cohorts post-audit exploratory; no new independent generalization claim
+Original frozen studies remain unchanged. Candidates selected only with observed-prefix validation.
+Dataset metrics differ and are not pooled. Finite means, complete-only means and all missing/failure counts are separate.
+
+COHORT development (exploratory)
+Available 21/21; missing: []
+Chosen families {'rigid': 12, 'field_free': 5, 'current': 4}; changed 18; all-validation-failed fallback 0
+SoftVTBench — coordinate_rmse_mm
+method | available/expected | complete | finite metrics | finite mean mm | complete-only mean mm | median mm | shape mm | failed frames | wins/losses/pairs vs previous guarded
+contact_floor_state | 20/20 | 20 | 20 | 15.872 | 15.872 | 13.035 | 1.417 | 0 | 2/18/20
+contact_scene | 20/20 | 20 | 20 | 15.199 | 15.199 | 12.336 | 1.417 | 0 | 16/4/20
+contact_scene_state | 20/20 | 20 | 20 | 15.199 | 15.199 | 12.336 | 1.417 | 0 | 16/4/20
+control_rigid | 20/20 | 20 | 20 | 18.176 | 18.176 | 14.615 | 0.924 | 0 | 0/20/20
+feasible_contact_scene_state | 20/20 | 20 | 20 | 15.372 | 15.372 | 12.575 | 2.096 | 0 | 0/0/20
+feasible_object_frame | 20/20 | 20 | 20 | 16.091 | 16.091 | 13.207 | 1.651 | 0 | 5/15/20
+model_selection_current | 20/20 | 20 | 20 | 15.846 | 15.846 | 12.813 | 2.096 | 0 | 0/6/20
+model_selection_field_free | 20/20 | 13 | 13 | 15.599 | 15.599 | 12.742 | 1.281 | 350 | 7/6/13
+  CAUTION finite mean includes partial forecasts; valid-frame conditional, not full-coverage performance.
+  Failed/incomplete cases: [{"name": "object-soft-task0-demo0", "cohort": "development", "failed_frames": 53, "valid_frames": 0, "total_frames": 53, "finite_metric": false}, {"name": "object-soft-task0-demo2", "cohort": "development", "failed_frames": 51, "valid_frames": 0, "total_frames": 51, "finite_metric": false}, {"name": "object-soft-task0-demo6", "cohort": "development", "failed_frames": 50, "valid_frames": 0, "total_frames": 50, "finite_metric": false}, {"name": "spatial-soft-task0-demo3", "cohort": "development", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}, {"name": "spatial-soft-task0-demo4", "cohort": "development", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}, {"name": "spatial-soft-task0-demo6", "cohort": "development", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}, {"name": "spatial-soft-task0-demo7", "cohort": "development", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}]
+model_selection_rigid | 20/20 | 20 | 20 | 15.402 | 15.402 | 12.602 | 0.924 | 0 | 6/14/20
+model_selection_selected | 20/20 | 20 | 20 | 15.346 | 15.346 | 12.794 | 1.189 | 0 | 6/11/20
+object_frame | 20/20 | 20 | 20 | 15.849 | 15.849 | 12.923 | 1.094 | 0 | 5/15/20
+persistence | 20/20 | 20 | 20 | 160.207 | 160.207 | 164.851 | 0.924 | 0 | 0/20/20
+pose_reset | 20/20 | 20 | 20 | 15.987 | 15.987 | 13.207 | 1.652 | 0 | 6/14/20
+position_ridge | 20/20 | 20 | 20 | 118.115 | 118.115 | 96.122 | 4.817 | 0 | 0/20/20
+prefix_calibrated_rigid | 20/20 | 20 | 20 | 15.107 | 15.107 | 12.334 | 0.924 | 0 | 12/8/20
+rigid_scene_state | 20/20 | 20 | 20 | 15.402 | 15.402 | 12.602 | 0.924 | 0 | 6/14/20
+v11_fem | 20/20 | 20 | 20 | 18.024 | 18.024 | 14.460 | 1.652 | 0 | 0/20/20
+Selected against strong baselines: reference | wins/losses/ties | complete pairs | mean gain mm (positive better)
+feasible_contact_scene_state | 6/11/3 | 20 | 0.026
+v11_fem | 20/0/0 | 20 | 2.678
+prefix_calibrated_rigid | 8/12/0 | 20 | -0.239
+  Selected is WORSE on paired mean than prefix_calibrated_rigid
+model_selection_rigid | 6/2/12 | 20 | 0.055
+rigid_scene_state | 6/2/12 | 20 | 0.055
+Worst selected finite cases (failed-frame flags retained): [{"name": "object-soft-task0-demo2", "cohort": "development", "error_mm": 34.73967119406674, "failed_frames": 0}, {"name": "object-soft-task0-demo5", "cohort": "development", "error_mm": 32.31553767054706, "failed_frames": 0}, {"name": "object-soft-task0-demo4", "cohort": "development", "error_mm": 30.837622016427588, "failed_frames": 0}, {"name": "object-soft-task0-demo3", "cohort": "development", "error_mm": 22.028972804278798, "failed_frames": 0}, {"name": "spatial-soft-task0-demo6", "cohort": "development", "error_mm": 15.488484417515057, "failed_frames": 0}]
+Per case: name | selected | previous guarded | v11 | field-free | rigid (mm) | selected failed/total frames | fit terminal flags
+object-soft-task0-demo0 | 8.621 | 10.117 | 13.299 | NA | 8.621 | 0/53 | {"full": false, "validation": false}
+object-soft-task0-demo1 | 12.630 | 11.747 | 14.382 | 12.630 | 12.104 | 0/52 | {"full": false, "validation": false}
+object-soft-task0-demo2 | 34.740 | 34.652 | 35.662 | NA | 34.740 | 0/51 | {"full": false, "validation": false}
+object-soft-task0-demo3 | 22.029 | 21.840 | 24.160 | 22.029 | 22.150 | 0/52 | {"full": false, "validation": false}
+object-soft-task0-demo4 | 30.838 | 30.872 | 35.748 | 30.838 | 31.364 | 0/52 | {"full": false, "validation": false}
+object-soft-task0-demo5 | 32.316 | 33.281 | 38.973 | 32.316 | 33.008 | 0/52 | {"full": false, "validation": false}
+object-soft-task0-demo6 | 9.471 | 9.317 | 12.418 | NA | 9.471 | 0/50 | {"full": false, "validation": false}
+object-soft-task0-demo7 | 13.408 | 13.210 | 15.508 | 15.042 | 13.408 | 0/51 | {"full": false, "validation": false}
+object-soft-task0-demo8 | 12.958 | 12.876 | 17.325 | 12.754 | 12.958 | 0/53 | {"full": false, "validation": false}
+object-soft-task0-demo9 | 13.294 | 13.295 | 14.303 | 13.313 | 13.294 | 0/53 | {"full": false, "validation": false}
+spatial-soft-task0-demo0 | 7.944 | 7.680 | 10.150 | 7.616 | 7.944 | 0/48 | {"full": false, "validation": false}
+spatial-soft-task0-demo1 | 12.971 | 12.751 | 14.356 | 12.742 | 12.971 | 0/49 | {"full": false, "validation": false}
+spatial-soft-task0-demo2 | 12.246 | 11.778 | 17.368 | 11.906 | 12.246 | 0/51 | {"full": false, "validation": false}
+spatial-soft-task0-demo3 | 13.252 | 13.188 | 14.538 | NA | 13.252 | 0/49 | {"full": false, "validation": false}
+spatial-soft-task0-demo4 | 11.606 | 11.588 | 13.581 | NA | 11.606 | 0/49 | {"full": false, "validation": false}
+spatial-soft-task0-demo5 | 11.886 | 12.400 | 17.479 | 11.886 | 11.989 | 0/49 | {"full": false, "validation": false}
+spatial-soft-task0-demo6 | 15.488 | 15.488 | 16.116 | NA | 15.149 | 0/49 | {"full": false, "validation": false}
+spatial-soft-task0-demo7 | 11.219 | 11.219 | 13.792 | NA | 11.641 | 0/49 | {"full": false, "validation": false}
+spatial-soft-task0-demo8 | 8.916 | 9.046 | 9.316 | 8.580 | 8.916 | 0/49 | {"full": false, "validation": false}
+spatial-soft-task0-demo9 | 11.092 | 11.092 | 12.008 | 11.141 | 11.198 | 0/50 | {"full": false, "validation": false}
+PhysTwin — manual_track_mean_mm
+method | available/expected | complete | finite metrics | finite mean mm | complete-only mean mm | median mm | shape mm | failed frames | wins/losses/pairs vs previous guarded
+control_rigid | 1/1 | 1 | 1 | 161.365 | 161.365 | 161.365 | 28.206 | 0 | 0/1/1
+feasible_object_frame | 1/1 | 1 | 1 | 37.920 | 37.920 | 37.920 | 19.157 | 0 | 0/0/1
+model_selection_current | 1/1 | 1 | 1 | 37.116 | 37.116 | 37.116 | 19.156 | 0 | 1/0/1
+model_selection_field_free | 1/1 | 1 | 1 | 39.880 | 39.880 | 39.880 | 19.924 | 0 | 0/1/1
+model_selection_rigid | 1/1 | 1 | 1 | 75.252 | 75.252 | 75.252 | 28.214 | 0 | 0/1/1
+model_selection_selected | 1/1 | 1 | 1 | 37.116 | 37.116 | 37.116 | 19.156 | 0 | 1/0/1
+object_frame | 1/1 | 1 | 1 | 34.076 | 34.076 | 34.076 | 17.333 | 0 | 1/0/1
+official_phystwin | 1/1 | 1 | 1 | 24.926 | 24.926 | 24.926 | 17.421 | 0 | 1/0/1
+persistence | 1/1 | 1 | 1 | 87.216 | 87.216 | 87.216 | 28.206 | 0 | 0/1/1
+pose_reset | 1/1 | 1 | 1 | 37.147 | 37.147 | 37.147 | 19.175 | 0 | 1/0/1
+position_ridge | 1/1 | 1 | 1 | 49.410 | 49.410 | 49.410 | 14.377 | 0 | 0/1/1
+prefix_calibrated_rigid | 1/1 | 1 | 1 | 86.490 | 86.490 | 86.490 | 28.206 | 0 | 0/1/1
+v11_fem | 1/1 | 1 | 1 | 39.401 | 39.401 | 39.401 | 19.175 | 0 | 0/1/1
+Selected against strong baselines: reference | wins/losses/ties | complete pairs | mean gain mm (positive better)
+feasible_object_frame | 1/0/0 | 1 | 0.804
+v11_fem | 1/0/0 | 1 | 2.285
+prefix_calibrated_rigid | 1/0/0 | 1 | 49.374
+model_selection_rigid | 1/0/0 | 1 | 38.135
+official_phystwin | 0/1/0 | 1 | -12.190
+  Selected is WORSE on paired mean than official_phystwin
+Worst selected finite cases (failed-frame flags retained): [{"name": "single_lift_sloth", "cohort": "development", "error_mm": 37.116467565181104, "failed_frames": 0}]
+Per case: name | selected | previous guarded | v11 | field-free | rigid (mm) | selected failed/total frames | fit terminal flags
+single_lift_sloth | 37.116 | 37.920 | 39.401 | 39.880 | 75.252 | 0/26 | {"full": false, "validation": false}
+
+COHORT regression (exploratory)
+Available 43/43; missing: []
+Chosen families {'rigid': 11, 'current': 16, 'field_free': 16}; changed 27; all-validation-failed fallback 0
+SoftVTBench — coordinate_rmse_mm
+method | available/expected | complete | finite metrics | finite mean mm | complete-only mean mm | median mm | shape mm | failed frames | wins/losses/pairs vs previous guarded
+adapted_phystwin | 40/40 | 40 | 40 | 39.351 | 39.351 | 34.776 | 11.751 | 0 | 5/35/40
+adapted_phystwin_scene_state | 40/40 | 40 | 40 | 37.236 | 37.236 | 32.745 | 11.183 | 0 | 4/36/40
+contact_floor_state | 40/40 | 40 | 40 | 25.519 | 25.519 | 17.164 | 1.616 | 0 | 5/35/40
+contact_scene | 40/40 | 40 | 40 | 24.184 | 24.184 | 14.398 | 1.616 | 0 | 7/7/40
+contact_scene_state | 40/40 | 40 | 40 | 24.184 | 24.184 | 14.398 | 1.616 | 0 | 7/7/40
+control_rigid | 40/40 | 40 | 40 | 27.725 | 27.725 | 20.133 | 2.048 | 0 | 0/40/40
+feasible_contact_scene_state | 40/40 | 40 | 40 | 24.343 | 24.343 | 15.116 | 1.894 | 0 | 0/0/40
+feasible_object_frame | 40/40 | 40 | 40 | 26.084 | 26.084 | 19.745 | 1.922 | 0 | 5/35/40
+model_selection_current | 40/40 | 37 | 37 | 24.816 | 24.816 | 13.318 | 1.813 | 143 | 0/4/37
+  CAUTION finite mean includes partial forecasts; valid-frame conditional, not full-coverage performance.
+  Failed/incomplete cases: [{"name": "object-soft-task1-demo4", "cohort": "regression", "failed_frames": 47, "valid_frames": 0, "total_frames": 47, "finite_metric": false}, {"name": "object-soft-task1-demo5", "cohort": "regression", "failed_frames": 48, "valid_frames": 0, "total_frames": 48, "finite_metric": false}, {"name": "object-soft-task1-demo7", "cohort": "regression", "failed_frames": 48, "valid_frames": 0, "total_frames": 48, "finite_metric": false}]
+model_selection_field_free | 40/40 | 37 | 37 | 20.238 | 20.238 | 13.264 | 1.845 | 151 | 11/26/37
+  CAUTION finite mean includes partial forecasts; valid-frame conditional, not full-coverage performance.
+  Failed/incomplete cases: [{"name": "spatial-soft-task2-demo0", "cohort": "regression", "failed_frames": 50, "valid_frames": 0, "total_frames": 50, "finite_metric": false}, {"name": "spatial-soft-task2-demo3", "cohort": "regression", "failed_frames": 50, "valid_frames": 0, "total_frames": 50, "finite_metric": false}, {"name": "spatial-soft-task2-demo5", "cohort": "regression", "failed_frames": 51, "valid_frames": 0, "total_frames": 51, "finite_metric": false}]
+model_selection_rigid | 40/40 | 40 | 40 | 23.524 | 23.524 | 14.607 | 2.048 | 0 | 22/18/40
+model_selection_selected | 40/40 | 40 | 40 | 23.984 | 23.984 | 14.568 | 1.854 | 0 | 10/17/40
+object_frame | 40/40 | 40 | 40 | 25.890 | 25.890 | 18.785 | 1.694 | 0 | 5/35/40
+persistence | 40/40 | 40 | 40 | 150.657 | 150.657 | 157.649 | 2.048 | 0 | 1/39/40
+pose_reset | 40/40 | 40 | 40 | 25.439 | 25.439 | 18.583 | 1.922 | 0 | 15/25/40
+position_ridge | 40/40 | 40 | 40 | 207.792 | 207.792 | 161.569 | 2.416 | 0 | 0/40/40
+prefix_calibrated_rigid | 40/40 | 40 | 40 | 25.070 | 25.070 | 17.771 | 2.048 | 0 | 15/25/40
+rigid_scene_state | 40/40 | 40 | 40 | 23.524 | 23.524 | 14.607 | 2.048 | 0 | 22/18/40
+v11_fem | 40/40 | 40 | 40 | 26.967 | 26.967 | 21.110 | 1.922 | 0 | 0/40/40
+Selected against strong baselines: reference | wins/losses/ties | complete pairs | mean gain mm (positive better)
+feasible_contact_scene_state | 10/17/13 | 40 | 0.359
+v11_fem | 40/0/0 | 40 | 2.982
+prefix_calibrated_rigid | 27/13/0 | 40 | 1.086
+model_selection_rigid | 15/14/11 | 40 | -0.461
+  Selected is WORSE on paired mean than model_selection_rigid
+rigid_scene_state | 15/14/11 | 40 | -0.461
+  Selected is WORSE on paired mean than rigid_scene_state
+adapted_phystwin | 35/5/0 | 40 | 15.367
+adapted_phystwin_scene_state | 36/4/0 | 40 | 13.251
+Worst selected finite cases (failed-frame flags retained): [{"name": "spatial-soft-task2-demo3", "cohort": "regression", "error_mm": 76.85768851960756, "failed_frames": 0}, {"name": "spatial-soft-task2-demo5", "cohort": "regression", "error_mm": 71.41026488281783, "failed_frames": 0}, {"name": "spatial-soft-task2-demo7", "cohort": "regression", "error_mm": 61.18706648357231, "failed_frames": 0}, {"name": "spatial-soft-task2-demo0", "cohort": "regression", "error_mm": 60.22074763402547, "failed_frames": 0}, {"name": "spatial-soft-task2-demo9", "cohort": "regression", "error_mm": 59.72487885984462, "failed_frames": 0}]
+Per case: name | selected | previous guarded | v11 | field-free | rigid (mm) | selected failed/total frames | fit terminal flags
+object-soft-task1-demo0 | 16.285 | 16.793 | 24.079 | 16.566 | 16.285 | 0/48 | {"full": false, "validation": false}
+object-soft-task1-demo1 | 15.960 | 16.591 | 23.890 | 16.304 | 15.960 | 0/49 | {"full": false, "validation": false}
+object-soft-task1-demo2 | 17.025 | 17.811 | 24.606 | 16.944 | 17.025 | 0/49 | {"full": false, "validation": false}
+object-soft-task1-demo3 | 16.969 | 16.762 | 24.338 | 16.870 | 16.969 | 0/47 | {"full": false, "validation": false}
+object-soft-task1-demo4 | 17.697 | 21.911 | 25.216 | 16.629 | 17.697 | 0/47 | {"full": false, "validation": false}
+object-soft-task1-demo5 | 16.134 | 21.038 | 24.039 | 16.233 | 16.134 | 0/48 | {"full": false, "validation": false}
+object-soft-task1-demo6 | 17.574 | 17.600 | 24.753 | 16.442 | 17.574 | 0/48 | {"full": false, "validation": false}
+object-soft-task1-demo7 | 15.817 | 20.178 | 23.630 | 16.089 | 15.817 | 0/48 | {"full": false, "validation": false}
+object-soft-task1-demo8 | 17.686 | 17.934 | 25.063 | 17.393 | 17.686 | 0/48 | {"full": false, "validation": false}
+object-soft-task1-demo9 | 17.892 | 17.066 | 24.776 | 17.221 | 17.892 | 0/48 | {"full": false, "validation": false}
+object-soft-task2-demo0 | 13.018 | 13.018 | 15.171 | 13.069 | 13.287 | 0/48 | {"full": false, "validation": false}
+object-soft-task2-demo1 | 13.242 | 13.248 | 15.128 | 13.242 | 13.212 | 0/48 | {"full": false, "validation": false}
+object-soft-task2-demo2 | 13.264 | 13.262 | 15.131 | 13.264 | 13.119 | 0/49 | {"full": false, "validation": false}
+object-soft-task2-demo3 | 12.787 | 12.778 | 14.740 | 12.787 | 12.846 | 0/49 | {"full": false, "validation": false}
+object-soft-task2-demo4 | 12.986 | 12.971 | 15.014 | 12.986 | 13.173 | 0/48 | {"full": false, "validation": false}
+object-soft-task2-demo5 | 13.173 | 13.642 | 16.048 | 13.173 | 13.398 | 0/48 | {"full": false, "validation": false}
+object-soft-task2-demo6 | 12.777 | 12.777 | 14.745 | 12.782 | 12.801 | 0/49 | {"full": false, "validation": false}
+object-soft-task2-demo7 | 13.318 | 13.318 | 15.348 | 13.331 | 13.340 | 0/48 | {"full": false, "validation": false}
+object-soft-task2-demo8 | 13.152 | 13.146 | 15.097 | 13.152 | 13.149 | 0/49 | {"full": false, "validation": false}
+object-soft-task2-demo9 | 12.719 | 12.719 | 14.735 | 12.731 | 12.754 | 0/49 | {"full": false, "validation": false}
+spatial-soft-task1-demo0 | 12.576 | 12.478 | 13.513 | 12.576 | 10.665 | 0/53 | {"full": false, "validation": false}
+spatial-soft-task1-demo1 | 12.551 | 12.478 | 13.643 | 12.551 | 10.748 | 0/53 | {"full": false, "validation": false}
+spatial-soft-task1-demo2 | 12.673 | 12.651 | 13.546 | 12.673 | 9.135 | 0/56 | {"full": false, "validation": false}
+spatial-soft-task1-demo3 | 12.595 | 12.575 | 13.475 | 12.595 | 9.570 | 0/53 | {"full": false, "validation": false}
+spatial-soft-task1-demo4 | 12.819 | 12.779 | 13.722 | 12.819 | 9.313 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo5 | 12.165 | 12.124 | 13.229 | 12.165 | 10.601 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo6 | 12.971 | 12.895 | 20.119 | 12.971 | 10.697 | 0/53 | {"full": false, "validation": false}
+spatial-soft-task1-demo7 | 12.481 | 12.481 | 13.428 | 12.514 | 10.232 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo8 | 12.557 | 12.506 | 13.349 | 12.557 | 10.622 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo9 | 12.065 | 11.939 | 12.706 | 12.065 | 10.456 | 0/56 | {"full": false, "validation": false}
+spatial-soft-task2-demo0 | 60.221 | 60.221 | 60.553 | NA | 60.924 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo1 | 29.517 | 29.517 | 29.823 | 28.561 | 28.890 | 0/49 | {"full": false, "validation": false}
+spatial-soft-task2-demo2 | 20.224 | 20.224 | 22.100 | 21.191 | 20.467 | 0/49 | {"full": false, "validation": false}
+spatial-soft-task2-demo3 | 76.858 | 76.858 | 77.362 | NA | 77.834 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo4 | 58.949 | 58.949 | 60.138 | 58.974 | 59.743 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo5 | 71.410 | 71.410 | 73.724 | NA | 72.183 | 0/51 | {"full": false, "validation": false}
+spatial-soft-task2-demo6 | 54.540 | 54.540 | 54.876 | 54.544 | 55.224 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo7 | 61.187 | 61.187 | 61.309 | 61.207 | 61.241 | 0/51 | {"full": false, "validation": false}
+spatial-soft-task2-demo8 | 41.812 | 41.665 | 42.218 | 41.914 | 41.812 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo9 | 59.725 | 59.687 | 60.286 | 59.725 | 60.466 | 0/50 | {"full": false, "validation": false}
+PhysTwin — manual_track_mean_mm
+method | available/expected | complete | finite metrics | finite mean mm | complete-only mean mm | median mm | shape mm | failed frames | wins/losses/pairs vs previous guarded
+control_rigid | 3/3 | 3 | 3 | 130.729 | 130.729 | 114.670 | 16.239 | 0 | 0/3/3
+feasible_object_frame | 3/3 | 3 | 3 | 16.146 | 16.146 | 17.020 | 10.885 | 0 | 0/0/3
+model_selection_current | 3/3 | 3 | 3 | 15.150 | 15.150 | 14.310 | 10.811 | 0 | 3/0/3
+model_selection_field_free | 3/3 | 3 | 3 | 15.115 | 15.115 | 14.610 | 10.827 | 0 | 2/1/3
+model_selection_rigid | 3/3 | 3 | 3 | 67.617 | 67.617 | 55.210 | 16.217 | 0 | 0/3/3
+model_selection_selected | 3/3 | 3 | 3 | 16.146 | 16.146 | 17.020 | 10.885 | 0 | 0/0/3
+object_frame | 3/3 | 3 | 3 | 14.452 | 14.452 | 13.115 | 11.144 | 0 | 2/0/3
+official_phystwin | 3/3 | 3 | 3 | 13.155 | 13.155 | 13.081 | 10.368 | 0 | 3/0/3
+persistence | 3/3 | 3 | 3 | 69.334 | 69.334 | 38.724 | 16.239 | 0 | 0/3/3
+pose_reset | 3/3 | 3 | 3 | 16.504 | 16.504 | 17.318 | 10.933 | 0 | 0/2/3
+position_ridge | 3/3 | 3 | 3 | 17.060 | 17.060 | 18.562 | 11.960 | 0 | 1/2/3
+prefix_calibrated_rigid | 3/3 | 3 | 3 | 96.196 | 96.196 | 97.490 | 16.239 | 0 | 0/3/3
+v11_fem | 3/3 | 3 | 3 | 18.332 | 18.332 | 14.016 | 10.932 | 0 | 1/2/3
+Selected against strong baselines: reference | wins/losses/ties | complete pairs | mean gain mm (positive better)
+feasible_object_frame | 0/0/3 | 3 | 0.000
+v11_fem | 2/1/0 | 3 | 2.186
+prefix_calibrated_rigid | 3/0/0 | 3 | 80.050
+model_selection_rigid | 3/0/0 | 3 | 51.471
+official_phystwin | 0/3/0 | 3 | -2.991
+  Selected is WORSE on paired mean than official_phystwin
+Worst selected finite cases (failed-frame flags retained): [{"name": "single_lift_dinosor", "cohort": "regression", "error_mm": 18.11885638425362, "failed_frames": 0}, {"name": "double_stretch_sloth", "cohort": "regression", "error_mm": 17.019760001492934, "failed_frames": 0}, {"name": "double_stretch_zebra", "cohort": "regression", "error_mm": 13.299764716854657, "failed_frames": 0}]
+Per case: name | selected | previous guarded | v11 | field-free | rigid (mm) | selected failed/total frames | fit terminal flags
+double_stretch_sloth | 17.020 | 17.020 | 14.016 | 14.610 | 34.841 | 0/58 | {"full": false, "validation": false}
+single_lift_dinosor | 18.119 | 18.119 | 27.299 | 16.968 | 55.210 | 0/26 | {"full": false, "validation": false}
+double_stretch_zebra | 13.300 | 13.300 | 13.681 | 13.767 | 112.801 | 0/60 | {"full": false, "validation": false}
+
+COHORT untouched_confirmation (exploratory)
+Available 42/42; missing: []
+Chosen families {'rigid': 10, 'field_free': 18, 'current': 14}; changed 28; all-validation-failed fallback 0
+SoftVTBench — coordinate_rmse_mm
+method | available/expected | complete | finite metrics | finite mean mm | complete-only mean mm | median mm | shape mm | failed frames | wins/losses/pairs vs previous guarded
+adapted_phystwin | 40/40 | 40 | 40 | 36.289 | 36.289 | 34.214 | 11.478 | 0 | 0/40/40
+adapted_phystwin_scene_state | 40/40 | 40 | 40 | 34.243 | 34.243 | 32.366 | 10.820 | 0 | 0/40/40
+contact_floor_state | 40/40 | 40 | 40 | 21.766 | 21.766 | 15.640 | 1.542 | 0 | 4/36/40
+contact_scene | 40/40 | 40 | 40 | 20.522 | 20.522 | 13.706 | 1.542 | 0 | 9/1/40
+contact_scene_state | 40/40 | 40 | 40 | 20.522 | 20.522 | 13.706 | 1.542 | 0 | 9/1/40
+control_rigid | 40/40 | 40 | 40 | 24.132 | 24.132 | 16.616 | 2.043 | 0 | 0/40/40
+feasible_contact_scene_state | 40/40 | 40 | 40 | 20.678 | 20.678 | 13.706 | 1.915 | 0 | 0/0/40
+feasible_object_frame | 40/40 | 40 | 40 | 22.500 | 22.500 | 15.836 | 1.943 | 0 | 1/39/40
+model_selection_current | 40/40 | 38 | 38 | 20.746 | 20.746 | 13.682 | 1.860 | 95 | 0/1/38
+  CAUTION finite mean includes partial forecasts; valid-frame conditional, not full-coverage performance.
+  Failed/incomplete cases: [{"name": "object-soft-task1-demo10", "cohort": "untouched_confirmation", "failed_frames": 48, "valid_frames": 0, "total_frames": 48, "finite_metric": false}, {"name": "object-soft-task1-demo15", "cohort": "untouched_confirmation", "failed_frames": 47, "valid_frames": 0, "total_frames": 47, "finite_metric": false}]
+model_selection_field_free | 40/40 | 38 | 38 | 19.291 | 19.291 | 13.697 | 1.727 | 103 | 19/19/38
+  CAUTION finite mean includes partial forecasts; valid-frame conditional, not full-coverage performance.
+  Failed/incomplete cases: [{"name": "spatial-soft-task1-demo18", "cohort": "untouched_confirmation", "failed_frames": 54, "valid_frames": 0, "total_frames": 54, "finite_metric": false}, {"name": "spatial-soft-task2-demo11", "cohort": "untouched_confirmation", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}]
+model_selection_rigid | 40/40 | 40 | 40 | 19.905 | 19.905 | 13.762 | 2.043 | 0 | 20/20/40
+model_selection_selected | 40/40 | 40 | 40 | 20.431 | 20.431 | 13.705 | 1.899 | 0 | 11/16/40
+object_frame | 40/40 | 40 | 40 | 22.282 | 22.282 | 15.836 | 1.644 | 0 | 1/39/40
+persistence | 40/40 | 40 | 40 | 151.690 | 151.690 | 156.776 | 2.043 | 0 | 1/39/40
+pose_reset | 40/40 | 40 | 40 | 21.879 | 21.879 | 15.748 | 1.943 | 0 | 10/30/40
+position_ridge | 40/40 | 40 | 40 | 172.816 | 172.816 | 155.654 | 2.164 | 0 | 0/40/40
+prefix_calibrated_rigid | 40/40 | 40 | 40 | 21.526 | 21.526 | 16.409 | 2.043 | 0 | 13/27/40
+rigid_scene_state | 40/40 | 40 | 40 | 19.905 | 19.905 | 13.762 | 2.043 | 0 | 20/20/40
+v11_fem | 40/40 | 40 | 40 | 23.531 | 23.531 | 16.014 | 1.943 | 0 | 0/40/40
+Selected against strong baselines: reference | wins/losses/ties | complete pairs | mean gain mm (positive better)
+feasible_contact_scene_state | 11/16/13 | 40 | 0.247
+v11_fem | 40/0/0 | 40 | 3.100
+prefix_calibrated_rigid | 28/12/0 | 40 | 1.095
+model_selection_rigid | 14/16/10 | 40 | -0.526
+  Selected is WORSE on paired mean than model_selection_rigid
+rigid_scene_state | 14/16/10 | 40 | -0.526
+  Selected is WORSE on paired mean than rigid_scene_state
+adapted_phystwin | 40/0/0 | 40 | 15.858
+adapted_phystwin_scene_state | 40/0/0 | 40 | 13.811
+Worst selected finite cases (failed-frame flags retained): [{"name": "spatial-soft-task2-demo11", "cohort": "untouched_confirmation", "error_mm": 71.24479457406164, "failed_frames": 0}, {"name": "spatial-soft-task2-demo15", "cohort": "untouched_confirmation", "error_mm": 68.7197835090149, "failed_frames": 0}, {"name": "spatial-soft-task2-demo19", "cohort": "untouched_confirmation", "error_mm": 60.23107068644855, "failed_frames": 0}, {"name": "spatial-soft-task2-demo16", "cohort": "untouched_confirmation", "error_mm": 41.67181810873798, "failed_frames": 0}, {"name": "spatial-soft-task2-demo17", "cohort": "untouched_confirmation", "error_mm": 40.41799719884384, "failed_frames": 0}]
+Per case: name | selected | previous guarded | v11 | field-free | rigid (mm) | selected failed/total frames | fit terminal flags
+object-soft-task1-demo10 | 16.337 | 21.528 | 23.801 | 16.098 | 16.337 | 0/48 | {"full": false, "validation": false}
+object-soft-task1-demo11 | 16.022 | 16.034 | 24.018 | 16.125 | 16.022 | 0/48 | {"full": false, "validation": false}
+object-soft-task1-demo12 | 17.372 | 16.539 | 24.580 | 17.053 | 17.372 | 0/48 | {"full": false, "validation": false}
+object-soft-task1-demo13 | 16.450 | 16.981 | 24.019 | 15.865 | 16.450 | 0/48 | {"full": false, "validation": false}
+object-soft-task1-demo14 | 17.477 | 17.407 | 24.908 | 17.395 | 17.477 | 0/47 | {"full": false, "validation": false}
+object-soft-task1-demo15 | 16.349 | 21.435 | 24.712 | 17.337 | 16.349 | 0/47 | {"full": false, "validation": false}
+object-soft-task1-demo16 | 17.701 | 17.174 | 24.938 | 17.269 | 17.701 | 0/48 | {"full": false, "validation": false}
+object-soft-task1-demo17 | 17.566 | 17.331 | 24.544 | 17.046 | 17.566 | 0/47 | {"full": false, "validation": false}
+object-soft-task1-demo18 | 16.494 | 17.575 | 24.258 | 16.724 | 16.494 | 0/48 | {"full": false, "validation": false}
+object-soft-task1-demo19 | 17.049 | 16.946 | 24.551 | 16.513 | 17.049 | 0/49 | {"full": false, "validation": false}
+object-soft-task2-demo10 | 12.888 | 12.885 | 14.936 | 12.888 | 12.992 | 0/48 | {"full": false, "validation": false}
+object-soft-task2-demo11 | 13.592 | 13.420 | 15.546 | 13.592 | 13.697 | 0/47 | {"full": false, "validation": false}
+object-soft-task2-demo12 | 13.725 | 13.728 | 15.890 | 13.725 | 13.774 | 0/46 | {"full": false, "validation": false}
+object-soft-task2-demo13 | 12.952 | 12.955 | 14.847 | 12.952 | 13.050 | 0/49 | {"full": false, "validation": false}
+object-soft-task2-demo14 | 13.334 | 13.317 | 15.300 | 13.334 | 13.293 | 0/48 | {"full": false, "validation": false}
+object-soft-task2-demo15 | 13.685 | 13.685 | 15.782 | 13.408 | 13.348 | 0/48 | {"full": false, "validation": false}
+object-soft-task2-demo16 | 12.836 | 12.842 | 14.814 | 12.836 | 12.797 | 0/49 | {"full": false, "validation": false}
+object-soft-task2-demo17 | 12.926 | 12.895 | 14.971 | 12.926 | 13.131 | 0/48 | {"full": false, "validation": false}
+object-soft-task2-demo18 | 13.670 | 13.679 | 15.754 | 13.670 | 13.749 | 0/46 | {"full": false, "validation": false}
+object-soft-task2-demo19 | 13.280 | 13.280 | 15.299 | 13.270 | 13.266 | 0/48 | {"full": false, "validation": false}
+spatial-soft-task1-demo10 | 11.972 | 11.972 | 21.360 | 12.075 | 10.633 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo11 | 12.756 | 12.756 | 13.545 | 12.813 | 10.342 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo12 | 12.797 | 12.770 | 13.630 | 12.797 | 10.205 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo13 | 12.278 | 12.199 | 13.015 | 12.278 | 10.568 | 0/55 | {"full": false, "validation": false}
+spatial-soft-task1-demo14 | 12.104 | 12.059 | 12.918 | 12.104 | 10.514 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo15 | 13.072 | 13.039 | 13.854 | 13.072 | 10.461 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo16 | 12.650 | 12.632 | 13.508 | 12.650 | 9.509 | 0/55 | {"full": false, "validation": false}
+spatial-soft-task1-demo17 | 12.914 | 12.870 | 13.675 | 12.914 | 10.044 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo18 | 12.531 | 12.531 | 13.337 | NA | 10.688 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo19 | 12.700 | 12.700 | 13.567 | 12.700 | 9.415 | 0/55 | {"full": false, "validation": false}
+spatial-soft-task2-demo10 | 10.152 | 10.152 | 10.786 | 11.021 | 10.065 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo11 | 71.245 | 71.245 | 72.713 | NA | 71.682 | 0/49 | {"full": false, "validation": false}
+spatial-soft-task2-demo12 | 18.784 | 18.784 | 19.732 | 19.633 | 19.100 | 0/49 | {"full": false, "validation": false}
+spatial-soft-task2-demo13 | 14.991 | 14.991 | 16.138 | 14.894 | 15.115 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo14 | 37.751 | 38.095 | 39.184 | 37.751 | 38.452 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo15 | 68.720 | 69.243 | 70.723 | 68.720 | 69.525 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo16 | 41.672 | 41.672 | 42.238 | 41.608 | 41.820 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo17 | 40.418 | 40.418 | 41.731 | 40.422 | 40.531 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo18 | 25.807 | 25.127 | 26.128 | 25.807 | 25.211 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo19 | 60.231 | 60.231 | 62.002 | 59.791 | 60.408 | 0/49 | {"full": false, "validation": false}
+PhysTwin — manual_track_mean_mm
+method | available/expected | complete | finite metrics | finite mean mm | complete-only mean mm | median mm | shape mm | failed frames | wins/losses/pairs vs previous guarded
+control_rigid | 2/2 | 2 | 2 | 159.704 | 159.704 | 159.704 | 25.021 | 0 | 0/2/2
+feasible_object_frame | 2/2 | 2 | 2 | 81.985 | 81.985 | 81.985 | 18.665 | 0 | 0/0/2
+model_selection_current | 2/2 | 1 | 1 | 32.975 | 32.975 | 32.975 | 16.214 | 20 | 0/0/1
+  CAUTION finite mean includes partial forecasts; valid-frame conditional, not full-coverage performance.
+  Failed/incomplete cases: [{"name": "single_lift_zebra", "cohort": "untouched_confirmation", "failed_frames": 20, "valid_frames": 0, "total_frames": 20, "finite_metric": false}]
+model_selection_field_free | 2/2 | 2 | 2 | 40.457 | 40.457 | 40.457 | 16.717 | 0 | 1/1/2
+model_selection_rigid | 2/2 | 2 | 2 | 57.373 | 57.373 | 57.373 | 24.994 | 0 | 1/1/2
+model_selection_selected | 2/2 | 2 | 2 | 35.514 | 35.514 | 35.514 | 15.835 | 0 | 1/0/2
+object_frame | 2/2 | 2 | 2 | 80.184 | 80.184 | 80.184 | 17.401 | 0 | 1/0/2
+official_phystwin | 2/2 | 2 | 2 | 26.218 | 26.218 | 26.218 | 16.304 | 0 | 2/0/2
+persistence | 2/2 | 2 | 2 | 118.569 | 118.569 | 118.569 | 25.021 | 0 | 1/1/2
+pose_reset | 2/2 | 2 | 2 | 82.013 | 82.013 | 82.013 | 18.686 | 0 | 0/1/2
+position_ridge | 2/2 | 2 | 2 | 37.837 | 37.837 | 37.837 | 17.144 | 0 | 2/0/2
+prefix_calibrated_rigid | 2/2 | 2 | 2 | 90.148 | 90.148 | 90.148 | 25.021 | 0 | 1/1/2
+v11_fem | 2/2 | 2 | 2 | 85.016 | 85.016 | 85.016 | 18.688 | 0 | 0/1/2
+Selected against strong baselines: reference | wins/losses/ties | complete pairs | mean gain mm (positive better)
+feasible_object_frame | 1/0/1 | 2 | 46.472
+v11_fem | 2/0/0 | 2 | 49.503
+prefix_calibrated_rigid | 2/0/0 | 2 | 54.635
+model_selection_rigid | 2/0/0 | 2 | 21.860
+official_phystwin | 0/2/0 | 2 | -9.295
+  Selected is WORSE on paired mean than official_phystwin
+Worst selected finite cases (failed-frame flags retained): [{"name": "single_lift_zebra", "cohort": "untouched_confirmation", "error_mm": 38.05196940473023, "failed_frames": 0}, {"name": "double_lift_sloth", "cohort": "untouched_confirmation", "error_mm": 32.97503321248198, "failed_frames": 0}]
+Per case: name | selected | previous guarded | v11 | field-free | rigid (mm) | selected failed/total frames | fit terminal flags
+single_lift_zebra | 38.052 | 130.996 | 130.996 | 38.052 | 59.689 | 0/20 | {"full": false, "validation": false}
+double_lift_sloth | 32.975 | 32.975 | 39.037 | 42.861 | 55.057 | 0/19 | {"full": false, "validation": false}
+
+COHORT fresh_confirmation (exploratory)
+Available 42/42; missing: []
+Chosen families {'rigid': 14, 'field_free': 19, 'current': 9}; changed 33; all-validation-failed fallback 0
+SoftVTBench — coordinate_rmse_mm
+method | available/expected | complete | finite metrics | finite mean mm | complete-only mean mm | median mm | shape mm | failed frames | wins/losses/pairs vs previous guarded
+adapted_phystwin | 40/40 | 40 | 40 | 36.782 | 36.782 | 33.720 | 11.612 | 0 | 1/39/40
+adapted_phystwin_scene_state | 40/40 | 40 | 40 | 34.432 | 34.432 | 31.958 | 11.033 | 0 | 4/36/40
+contact_floor_state | 40/40 | 40 | 40 | 22.416 | 22.416 | 15.776 | 1.527 | 0 | 3/37/40
+contact_scene | 40/40 | 40 | 40 | 21.120 | 21.120 | 13.425 | 1.527 | 0 | 9/1/40
+contact_scene_state | 40/40 | 40 | 40 | 21.120 | 21.120 | 13.425 | 1.527 | 0 | 9/1/40
+control_rigid | 40/40 | 40 | 40 | 24.775 | 24.775 | 16.085 | 2.057 | 0 | 0/40/40
+feasible_contact_scene_state | 40/40 | 40 | 40 | 21.301 | 21.301 | 13.425 | 1.909 | 0 | 0/0/40
+feasible_object_frame | 40/40 | 40 | 40 | 22.877 | 22.877 | 15.440 | 1.939 | 0 | 2/38/40
+model_selection_current | 40/40 | 37 | 37 | 19.848 | 19.848 | 13.373 | 1.955 | 152 | 1/2/37
+  CAUTION finite mean includes partial forecasts; valid-frame conditional, not full-coverage performance.
+  Failed/incomplete cases: [{"name": "spatial-soft-task1-demo28", "cohort": "fresh_confirmation", "failed_frames": 54, "valid_frames": 0, "total_frames": 54, "finite_metric": false}, {"name": "spatial-soft-task2-demo24", "cohort": "fresh_confirmation", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}, {"name": "spatial-soft-task2-demo28", "cohort": "fresh_confirmation", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}]
+model_selection_field_free | 40/40 | 38 | 38 | 19.333 | 19.333 | 13.355 | 1.807 | 98 | 14/24/38
+  CAUTION finite mean includes partial forecasts; valid-frame conditional, not full-coverage performance.
+  Failed/incomplete cases: [{"name": "spatial-soft-task2-demo24", "cohort": "fresh_confirmation", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}, {"name": "spatial-soft-task2-demo28", "cohort": "fresh_confirmation", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}]
+model_selection_rigid | 40/40 | 40 | 40 | 20.665 | 20.665 | 13.402 | 2.057 | 0 | 27/13/40
+model_selection_selected | 40/40 | 40 | 40 | 21.069 | 21.069 | 13.368 | 1.874 | 0 | 14/17/40
+object_frame | 40/40 | 40 | 40 | 22.666 | 22.666 | 15.440 | 1.633 | 0 | 2/38/40
+persistence | 40/40 | 40 | 40 | 150.631 | 150.631 | 160.756 | 2.057 | 0 | 0/40/40
+pose_reset | 40/40 | 40 | 40 | 22.380 | 22.380 | 15.269 | 1.939 | 0 | 13/27/40
+position_ridge | 40/40 | 40 | 40 | 186.847 | 186.847 | 160.077 | 2.253 | 0 | 0/40/40
+prefix_calibrated_rigid | 40/40 | 40 | 40 | 22.241 | 22.241 | 15.980 | 2.057 | 0 | 16/24/40
+rigid_scene_state | 40/40 | 40 | 40 | 20.665 | 20.665 | 13.402 | 2.057 | 0 | 27/13/40
+v11_fem | 40/40 | 40 | 40 | 23.971 | 23.971 | 15.440 | 1.939 | 0 | 1/39/40
+Selected against strong baselines: reference | wins/losses/ties | complete pairs | mean gain mm (positive better)
+feasible_contact_scene_state | 14/17/9 | 40 | 0.232
+v11_fem | 39/1/0 | 40 | 2.901
+prefix_calibrated_rigid | 28/12/0 | 40 | 1.172
+model_selection_rigid | 11/16/13 | 40 | -0.404
+  Selected is WORSE on paired mean than model_selection_rigid
+rigid_scene_state | 11/16/13 | 40 | -0.404
+  Selected is WORSE on paired mean than rigid_scene_state
+adapted_phystwin | 40/0/0 | 40 | 15.712
+adapted_phystwin_scene_state | 37/3/0 | 40 | 13.362
+Worst selected finite cases (failed-frame flags retained): [{"name": "spatial-soft-task2-demo24", "cohort": "fresh_confirmation", "error_mm": 71.14707270506138, "failed_frames": 0}, {"name": "spatial-soft-task2-demo23", "cohort": "fresh_confirmation", "error_mm": 69.18342057527634, "failed_frames": 0}, {"name": "spatial-soft-task2-demo21", "cohort": "fresh_confirmation", "error_mm": 67.33830557122583, "failed_frames": 0}, {"name": "spatial-soft-task2-demo26", "cohort": "fresh_confirmation", "error_mm": 63.10016987852048, "failed_frames": 0}, {"name": "spatial-soft-task2-demo20", "cohort": "fresh_confirmation", "error_mm": 42.569087442018265, "failed_frames": 0}]
+Per case: name | selected | previous guarded | v11 | field-free | rigid (mm) | selected failed/total frames | fit terminal flags
+object-soft-task1-demo20 | 18.103 | 17.715 | 24.617 | 17.799 | 18.103 | 0/48 | {"full": false, "validation": false}
+object-soft-task1-demo21 | 17.269 | 17.494 | 25.258 | 16.694 | 17.269 | 0/49 | {"full": false, "validation": false}
+object-soft-task1-demo22 | 17.330 | 17.675 | 24.671 | 17.127 | 17.330 | 0/49 | {"full": false, "validation": false}
+object-soft-task1-demo23 | 16.204 | 20.474 | 24.056 | 16.663 | 16.204 | 0/47 | {"full": false, "validation": false}
+object-soft-task1-demo24 | 16.021 | 16.319 | 23.847 | 16.668 | 16.021 | 0/48 | {"full": false, "validation": false}
+object-soft-task1-demo25 | 16.481 | 16.657 | 24.252 | 16.617 | 16.481 | 0/48 | {"full": false, "validation": false}
+object-soft-task1-demo26 | 17.611 | 16.970 | 25.106 | 16.587 | 17.611 | 0/47 | {"full": false, "validation": false}
+object-soft-task1-demo27 | 16.569 | 18.003 | 25.367 | 17.004 | 16.569 | 0/47 | {"full": false, "validation": false}
+object-soft-task1-demo28 | 17.670 | 16.598 | 24.881 | 17.325 | 17.670 | 0/48 | {"full": false, "validation": false}
+object-soft-task1-demo29 | 16.813 | 17.106 | 24.587 | 16.560 | 16.813 | 0/47 | {"full": false, "validation": false}
+object-soft-task2-demo20 | 12.858 | 12.853 | 14.795 | 12.858 | 12.831 | 0/49 | {"full": false, "validation": false}
+object-soft-task2-demo21 | 12.936 | 12.938 | 14.948 | 12.936 | 13.062 | 0/49 | {"full": false, "validation": false}
+object-soft-task2-demo22 | 12.692 | 12.682 | 14.711 | 12.692 | 12.723 | 0/49 | {"full": false, "validation": false}
+object-soft-task2-demo23 | 13.361 | 13.370 | 15.245 | 13.361 | 13.163 | 0/49 | {"full": false, "validation": false}
+object-soft-task2-demo24 | 12.824 | 12.824 | 14.814 | 12.822 | 12.943 | 0/50 | {"full": false, "validation": false}
+object-soft-task2-demo25 | 13.375 | 13.373 | 15.337 | 13.375 | 13.371 | 0/48 | {"full": false, "validation": false}
+object-soft-task2-demo26 | 13.483 | 13.476 | 15.544 | 13.483 | 13.433 | 0/48 | {"full": false, "validation": false}
+object-soft-task2-demo27 | 13.349 | 13.725 | 15.876 | 13.349 | 13.474 | 0/48 | {"full": false, "validation": false}
+object-soft-task2-demo28 | 13.235 | 13.236 | 15.267 | 13.235 | 13.314 | 0/47 | {"full": false, "validation": false}
+object-soft-task2-demo29 | 12.731 | 12.681 | 14.732 | 12.731 | 12.764 | 0/49 | {"full": false, "validation": false}
+spatial-soft-task1-demo20 | 11.432 | 11.414 | 12.286 | 11.432 | 9.587 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo21 | 12.067 | 12.067 | 12.934 | 12.108 | 10.170 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo22 | 12.967 | 12.912 | 13.710 | 12.967 | 10.546 | 0/55 | {"full": false, "validation": false}
+spatial-soft-task1-demo23 | 12.804 | 12.736 | 13.559 | 12.804 | 10.516 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo24 | 12.526 | 12.489 | 13.335 | 12.526 | 10.326 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo25 | 9.290 | 9.203 | 10.100 | 9.290 | 8.593 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo26 | 11.279 | 11.279 | 12.016 | 11.342 | 10.173 | 0/56 | {"full": false, "validation": false}
+spatial-soft-task1-demo27 | 11.967 | 11.873 | 12.672 | 11.967 | 10.216 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo28 | 11.220 | 11.182 | 12.057 | 11.220 | 9.531 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task1-demo29 | 12.234 | 12.198 | 13.085 | 12.234 | 10.495 | 0/54 | {"full": false, "validation": false}
+spatial-soft-task2-demo20 | 42.569 | 42.569 | 45.041 | 42.616 | 42.684 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo21 | 67.338 | 67.338 | 68.300 | 67.366 | 68.130 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo22 | 23.842 | 23.839 | 24.283 | 23.842 | 24.089 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo23 | 69.183 | 69.183 | 70.574 | 69.185 | 69.970 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo24 | 71.147 | 72.096 | 72.196 | NA | 71.147 | 0/49 | {"full": false, "validation": false}
+spatial-soft-task2-demo25 | 11.446 | 11.446 | 11.272 | 11.622 | 10.530 | 0/51 | {"full": false, "validation": false}
+spatial-soft-task2-demo26 | 63.100 | 63.100 | 63.835 | 62.683 | 63.601 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo27 | 30.223 | 30.223 | 30.303 | 29.602 | 29.929 | 0/50 | {"full": false, "validation": false}
+spatial-soft-task2-demo28 | 36.168 | 38.849 | 39.149 | NA | 36.168 | 0/49 | {"full": false, "validation": false}
+spatial-soft-task2-demo29 | 9.063 | 9.895 | 10.214 | 9.948 | 9.063 | 0/50 | {"full": false, "validation": false}
+PhysTwin — manual_track_mean_mm
+method | available/expected | complete | finite metrics | finite mean mm | complete-only mean mm | median mm | shape mm | failed frames | wins/losses/pairs vs previous guarded
+control_rigid | 2/2 | 2 | 2 | 109.650 | 109.650 | 109.650 | 37.020 | 0 | 1/1/2
+feasible_object_frame | 2/2 | 2 | 2 | 60.395 | 60.395 | 60.395 | 33.173 | 0 | 0/0/2
+model_selection_current | 2/2 | 2 | 2 | 59.997 | 59.997 | 59.997 | 33.164 | 0 | 1/0/2
+model_selection_field_free | 2/2 | 2 | 2 | 52.868 | 52.868 | 52.868 | 32.738 | 0 | 2/0/2
+model_selection_rigid | 2/2 | 2 | 2 | 70.726 | 70.726 | 70.726 | 37.017 | 0 | 1/1/2
+model_selection_selected | 2/2 | 2 | 2 | 53.784 | 53.784 | 53.784 | 30.972 | 0 | 2/0/2
+object_frame | 2/2 | 2 | 2 | 54.805 | 54.805 | 54.805 | 25.483 | 0 | 2/0/2
+official_phystwin | 2/2 | 2 | 2 | 26.164 | 26.164 | 26.164 | 14.594 | 0 | 2/0/2
+persistence | 2/2 | 2 | 2 | 148.901 | 148.901 | 148.901 | 37.020 | 0 | 0/2/2
+pose_reset | 2/2 | 2 | 2 | 60.108 | 60.108 | 60.108 | 33.289 | 0 | 1/1/2
+position_ridge | 2/2 | 2 | 2 | 30.686 | 30.686 | 30.686 | 20.204 | 0 | 2/0/2
+prefix_calibrated_rigid | 2/2 | 2 | 2 | 72.064 | 72.064 | 72.064 | 37.020 | 0 | 1/1/2
+v11_fem | 2/2 | 2 | 2 | 63.427 | 63.427 | 63.427 | 33.290 | 0 | 0/2/2
+Selected against strong baselines: reference | wins/losses/ties | complete pairs | mean gain mm (positive better)
+feasible_object_frame | 2/0/0 | 2 | 6.611
+v11_fem | 2/0/0 | 2 | 9.643
+prefix_calibrated_rigid | 1/1/0 | 2 | 18.280
+model_selection_rigid | 1/0/1 | 2 | 16.942
+official_phystwin | 0/2/0 | 2 | -27.620
+  Selected is WORSE on paired mean than official_phystwin
+Worst selected finite cases (failed-frame flags retained): [{"name": "single_push_sloth", "cohort": "fresh_confirmation", "error_mm": 67.62669920129947, "failed_frames": 0}, {"name": "double_lift_zebra", "cohort": "fresh_confirmation", "error_mm": 39.94151644540635, "failed_frames": 0}]
+Per case: name | selected | previous guarded | v11 | field-free | rigid (mm) | selected failed/total frames | fit terminal flags
+single_push_sloth | 67.627 | 80.684 | 85.802 | 65.794 | 67.627 | 0/21 | {"full": false, "validation": false}
+double_lift_zebra | 39.942 | 40.107 | 41.052 | 39.942 | 73.826 | 0/18 | {"full": false, "validation": false}
+
+OVERALL WITHIN EACH DATASET — POST-AUDIT EXPLORATORY, DEVELOPMENT INCLUDED
+Equal sequence weights;140SoftVT episodes share assets;8PhysTwin cases. These are descriptive pooled WITHIN-dataset summaries, not independent generalization estimates.
+SoftVTBench — coordinate_rmse_mm
+method | available/expected | complete | finite metrics | finite mean mm | complete-only mean mm | median mm | shape mm | failed frames | wins/losses/pairs vs previous guarded
+adapted_phystwin | 120/120 | 120 | 120 | 37.474 | 37.474 | 34.195 | 11.614 | 0 | 6/114/120
+adapted_phystwin_scene_state | 120/120 | 120 | 120 | 35.303 | 35.303 | 32.373 | 11.012 | 0 | 8/112/120
+contact_floor_state | 140/140 | 140 | 140 | 22.182 | 22.182 | 15.565 | 1.541 | 0 | 14/126/140
+contact_scene | 140/140 | 140 | 140 | 20.978 | 20.978 | 13.372 | 1.541 | 0 | 41/13/140
+contact_scene_state | 140/140 | 140 | 140 | 20.978 | 20.978 | 13.372 | 1.541 | 0 | 41/13/140
+control_rigid | 140/140 | 140 | 140 | 24.492 | 24.492 | 16.116 | 1.889 | 0 | 0/140/140
+feasible_contact_scene_state | 140/140 | 140 | 140 | 21.145 | 21.145 | 13.372 | 1.933 | 0 | 0/0/140
+feasible_object_frame | 140/140 | 140 | 140 | 22.716 | 22.716 | 15.343 | 1.894 | 0 | 13/127/140
+model_selection_current | 140/140 | 132 | 132 | 20.893 | 20.893 | 13.344 | 1.909 | 390 | 1/13/132
+  CAUTION finite mean includes partial forecasts; valid-frame conditional, not full-coverage performance.
+  Failed/incomplete cases: [{"name": "object-soft-task1-demo4", "cohort": "regression", "failed_frames": 47, "valid_frames": 0, "total_frames": 47, "finite_metric": false}, {"name": "object-soft-task1-demo5", "cohort": "regression", "failed_frames": 48, "valid_frames": 0, "total_frames": 48, "finite_metric": false}, {"name": "object-soft-task1-demo7", "cohort": "regression", "failed_frames": 48, "valid_frames": 0, "total_frames": 48, "finite_metric": false}, {"name": "object-soft-task1-demo10", "cohort": "untouched_confirmation", "failed_frames": 48, "valid_frames": 0, "total_frames": 48, "finite_metric": false}, {"name": "object-soft-task1-demo15", "cohort": "untouched_confirmation", "failed_frames": 47, "valid_frames": 0, "total_frames": 47, "finite_metric": false}, {"name": "spatial-soft-task1-demo28", "cohort": "fresh_confirmation", "failed_frames": 54, "valid_frames": 0, "total_frames": 54, "finite_metric": false}, {"name": "spatial-soft-task2-demo24", "cohort": "fresh_confirmation", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}, {"name": "spatial-soft-task2-demo28", "cohort": "fresh_confirmation", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}]
+model_selection_field_free | 140/140 | 126 | 126 | 19.201 | 19.201 | 13.341 | 1.740 | 702 | 51/75/126
+  CAUTION finite mean includes partial forecasts; valid-frame conditional, not full-coverage performance.
+  Failed/incomplete cases: [{"name": "object-soft-task0-demo0", "cohort": "development", "failed_frames": 53, "valid_frames": 0, "total_frames": 53, "finite_metric": false}, {"name": "object-soft-task0-demo2", "cohort": "development", "failed_frames": 51, "valid_frames": 0, "total_frames": 51, "finite_metric": false}, {"name": "object-soft-task0-demo6", "cohort": "development", "failed_frames": 50, "valid_frames": 0, "total_frames": 50, "finite_metric": false}, {"name": "spatial-soft-task0-demo3", "cohort": "development", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}, {"name": "spatial-soft-task0-demo4", "cohort": "development", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}, {"name": "spatial-soft-task0-demo6", "cohort": "development", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}, {"name": "spatial-soft-task0-demo7", "cohort": "development", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}, {"name": "spatial-soft-task2-demo0", "cohort": "regression", "failed_frames": 50, "valid_frames": 0, "total_frames": 50, "finite_metric": false}, {"name": "spatial-soft-task2-demo3", "cohort": "regression", "failed_frames": 50, "valid_frames": 0, "total_frames": 50, "finite_metric": false}, {"name": "spatial-soft-task2-demo5", "cohort": "regression", "failed_frames": 51, "valid_frames": 0, "total_frames": 51, "finite_metric": false}, {"name": "spatial-soft-task1-demo18", "cohort": "untouched_confirmation", "failed_frames": 54, "valid_frames": 0, "total_frames": 54, "finite_metric": false}, {"name": "spatial-soft-task2-demo11", "cohort": "untouched_confirmation", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}, {"name": "spatial-soft-task2-demo24", "cohort": "fresh_confirmation", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}, {"name": "spatial-soft-task2-demo28", "cohort": "fresh_confirmation", "failed_frames": 49, "valid_frames": 0, "total_frames": 49, "finite_metric": false}]
+model_selection_rigid | 140/140 | 140 | 140 | 20.513 | 20.513 | 13.360 | 1.889 | 0 | 75/65/140
+model_selection_selected | 140/140 | 140 | 140 | 20.902 | 20.902 | 13.355 | 1.778 | 0 | 41/61/140
+object_frame | 140/140 | 140 | 140 | 22.504 | 22.504 | 15.343 | 1.576 | 0 | 13/127/140
+persistence | 140/140 | 140 | 140 | 152.309 | 152.309 | 158.828 | 1.889 | 0 | 2/138/140
+pose_reset | 140/140 | 140 | 140 | 22.198 | 22.198 | 15.269 | 1.894 | 0 | 44/96/140
+position_ridge | 140/140 | 140 | 140 | 179.004 | 179.004 | 155.001 | 2.641 | 0 | 0/140/140
+prefix_calibrated_rigid | 140/140 | 140 | 140 | 21.826 | 21.826 | 15.913 | 1.889 | 0 | 56/84/140
+rigid_scene_state | 140/140 | 140 | 140 | 20.513 | 20.513 | 13.360 | 1.889 | 0 | 75/65/140
+v11_fem | 140/140 | 140 | 140 | 23.852 | 23.852 | 15.829 | 1.894 | 0 | 1/139/140
+Selected against strong baselines: reference | wins/losses/ties | complete pairs | mean gain mm (positive better)
+feasible_contact_scene_state | 41/61/38 | 140 | 0.243
+v11_fem | 139/1/0 | 140 | 2.949
+prefix_calibrated_rigid | 91/49/0 | 140 | 0.924
+model_selection_rigid | 46/48/46 | 140 | -0.390
+  Selected is WORSE on paired mean than model_selection_rigid
+rigid_scene_state | 46/48/46 | 140 | -0.390
+  Selected is WORSE on paired mean than rigid_scene_state
+adapted_phystwin | 115/5/0 | 120 | 15.646
+adapted_phystwin_scene_state | 113/7/0 | 120 | 13.475
+Worst selected finite cases (failed-frame flags retained): [{"name": "spatial-soft-task2-demo3", "cohort": "regression", "error_mm": 76.85768851960756, "failed_frames": 0}, {"name": "spatial-soft-task2-demo5", "cohort": "regression", "error_mm": 71.41026488281783, "failed_frames": 0}, {"name": "spatial-soft-task2-demo11", "cohort": "untouched_confirmation", "error_mm": 71.24479457406164, "failed_frames": 0}, {"name": "spatial-soft-task2-demo24", "cohort": "fresh_confirmation", "error_mm": 71.14707270506138, "failed_frames": 0}, {"name": "spatial-soft-task2-demo23", "cohort": "fresh_confirmation", "error_mm": 69.18342057527634, "failed_frames": 0}]
+PhysTwin — manual_track_mean_mm
+method | available/expected | complete | finite metrics | finite mean mm | complete-only mean mm | median mm | shape mm | failed frames | wins/losses/pairs vs previous guarded
+control_rigid | 8/8 | 8 | 8 | 136.533 | 136.533 | 154.452 | 25.126 | 0 | 1/7/8
+feasible_object_frame | 8/8 | 8 | 8 | 46.390 | 46.390 | 35.448 | 19.436 | 0 | 0/0/8
+model_selection_current | 8/8 | 7 | 7 | 33.648 | 33.648 | 32.975 | 19.161 | 20 | 5/0/7
+  CAUTION finite mean includes partial forecasts; valid-frame conditional, not full-coverage performance.
+  Failed/incomplete cases: [{"name": "single_lift_zebra", "cohort": "untouched_confirmation", "failed_frames": 20, "valid_frames": 0, "total_frames": 20, "finite_metric": false}]
+model_selection_field_free | 8/8 | 8 | 8 | 33.984 | 33.984 | 38.966 | 18.915 | 0 | 5/3/8
+model_selection_rigid | 8/8 | 8 | 8 | 66.788 | 66.788 | 63.658 | 25.111 | 0 | 2/6/8
+model_selection_selected | 8/8 | 8 | 8 | 33.019 | 33.019 | 35.046 | 18.178 | 0 | 4/0/8
+object_frame | 8/8 | 8 | 8 | 43.426 | 43.426 | 31.724 | 17.067 | 0 | 6/0/8
+official_phystwin | 8/8 | 8 | 8 | 21.144 | 21.144 | 22.714 | 13.790 | 0 | 8/0/8
+persistence | 8/8 | 8 | 8 | 103.770 | 103.770 | 98.186 | 25.126 | 0 | 1/7/8
+pose_reset | 8/8 | 8 | 8 | 46.363 | 46.363 | 35.089 | 19.491 | 0 | 2/4/8
+position_ridge | 8/8 | 8 | 8 | 29.705 | 29.705 | 27.374 | 15.619 | 0 | 5/3/8
+prefix_calibrated_rigid | 8/8 | 8 | 8 | 87.438 | 87.438 | 88.115 | 25.126 | 0 | 2/6/8
+v11_fem | 8/8 | 8 | 8 | 48.911 | 48.911 | 39.219 | 19.491 | 0 | 1/6/8
+Selected against strong baselines: reference | wins/losses/ties | complete pairs | mean gain mm (positive better)
+feasible_object_frame | 4/0/4 | 8 | 13.371
+v11_fem | 7/1/0 | 8 | 15.892
+prefix_calibrated_rigid | 7/1/0 | 8 | 54.419
+model_selection_rigid | 7/0/1 | 8 | 33.769
+official_phystwin | 0/8/0 | 8 | -11.874
+  Selected is WORSE on paired mean than official_phystwin
+Worst selected finite cases (failed-frame flags retained): [{"name": "single_push_sloth", "cohort": "fresh_confirmation", "error_mm": 67.62669920129947, "failed_frames": 0}, {"name": "double_lift_zebra", "cohort": "fresh_confirmation", "error_mm": 39.94151644540635, "failed_frames": 0}, {"name": "single_lift_zebra", "cohort": "untouched_confirmation", "error_mm": 38.05196940473023, "failed_frames": 0}, {"name": "single_lift_sloth", "cohort": "development", "error_mm": 37.116467565181104, "failed_frames": 0}, {"name": "double_lift_sloth", "cohort": "untouched_confirmation", "error_mm": 32.97503321248198, "failed_frames": 0}]
+Execution {"complete": 296}
+Accounting complete: True; selected full forecasts complete: True; all required standalone/baseline comparisons complete: False
+Terminal failure markers mean accounted for, not a successful fit. Standalone unavailable families remain explicit failed outputs.

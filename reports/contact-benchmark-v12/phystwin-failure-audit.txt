@@ -1,0 +1,55 @@
+INDEPENDENT PHYSTWIN FAILURE AUDIT — 2026-10-30
+Case: single_lift_zebra, first independent confirmation cohort.
+No model tuning or aggregate reporting performed during this diagnosis.
+
+EVALUATION / REFERENCE CHECK
+Official split:66frames, observed[0,46), test[46,66). Downloaded final_data,
+manual markers and official reference each cover66frames. The original official
+manual-marker evaluator was independently reproduced directly on UNTRANSFORMED
+reference and marker arrays (nearest all initial vertices; per-frame meanL2).
+Result24.30380434973018mm exactly equals our score after applying diag(1,-1,-1)
+to both arrays. This proper orthogonal transform preserves distances. No split,
+axis, unit or official-case mismatch was found.
+Initial nearest-marker mismatch is2.212mm mean/4.689max for FEM vs1.058/2.461mm
+official. This small initialization discrepancy cannot explain the later130.996mm.
+
+CONSISTENT FORECAST FAILURE ACROSS METRICS
+FEM / selected object-frame / feasible guard marker mean:130.995672mm.
+Official PhysTwin marker mean:24.303804mm.
+FEM corresponding coordinate RMSE115.441732mm; meanL2 188.837699mm;
+one-way observed-to-predictedL1Chamfer165.113926mm; aligned shapeRMSE21.116292mm.
+Official corresponding coordinateRMSE18.079637mm, meanL2 27.659960mm,
+Chamfer15.450755mm, aligned shape14.255255mm. This is not a marker-only anomaly.
+
+IDENTIFIABLE TEMPORAL FAILURE
+At last observed frame45, FEM marker error16.084mm; first forecast46:18.165mm.
+At frame52, mean predicted node displacement between frames is244.83mm while
+manual marker motion is7.672mm and controller motion7.96mm. Predicted centroid
+moves[-159.011,-170.581,+61.983]mm. The rigid-aligned shape-change RMS is22.276mm,
+so there is both a large pose jump and deformation change. Subsequent marker
+error is181.929mm at55 and179.604mm at65; official23.537mm and33.809mm respectively.
+The frame52 equilibrium solver reports36iterations, residual2.583e-8 andminJ.334.
+Thus it found a locally feasible low-residual equilibrium that is observationally
+wrong. A quasistatic equilibrium-branch change under the fitted support/attachment
+energy is a plausible mechanism; this audit does not prove the unique cause.
+Finite convergence/positive volumes do not certify the correct physical branch.
+
+WHY ADAPTER / GUARD DID NOT RESCUE IT
+The separately fitted validation trajectory fails atframe32 with iteration-limit
+residual1.04218e-5. The frozen adapter records selection_unavailable and uses the
+unchanged base rather than calibrating around a failed active frame. This explains
+why selected object_frame equals FEM; it was not secretly chosen by test error.
+The full-prefix fit itself converged after79optimizer iterations; sampled prefix
+fitRMSE3.971mm, small residuals. Strong prefix fit still fails future forecasting.
+The feasibility guard modifiesZEROframes; all1379original tetrahedra remain
+positive, minimumJ.252020 across66frames. Its local-volume condition cannot detect
+or repair this large wrong-but-feasible pose/equilibrium branch.
+
+OTHER REQUESTED CASES / SCIENTIFIC INTERPRETATION
+The repaired sloth stretching result can worsen versus v11 because removing an
+inverted residual changes the geometry that previously reduced marker loss. It
+must be reported as a feasibility-versus-accuracy tradeoff, not a preserved gain.
+Double-lift-sloth's improved repaired error does not cancel this zebra failure.
+No aggregate or strong generalization claim should obscure individual cases.
+Next research would need trajectory/dynamics/branch consistency diagnostics and
+better interaction modeling; this audit recommends no after-test parameter tuning.

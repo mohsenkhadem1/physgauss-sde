@@ -90,13 +90,16 @@ def verify():
     if unfinished:raise AssertionError(('Unfinished jobs',unfinished))
     checks.append(dict(check='Every planned fitting job has terminal status',passed=True,total=len(jobs),failed=[j['index'] for j in jobs if j['state']=='failed']))
     fitting=[]
-    for path in sorted((BASE/'base').glob('*/*/fit.json')):
+    def job_name(j):
+        s=j['spec'];return s.get('case') or f"{s['subset']}-task{s['task']}-demo{s['episode']}"
+    fit_paths=[BASE/'base'/('validation' if j['validation'] else 'full')/job_name(j)/'fit.json' for j in jobs if j['kind']=='base']
+    for path in sorted(fit_paths):
         fit=json.loads(path.read_text());checkpoint=path.parent/'best.npz';saved=np.load(checkpoint)
         np.testing.assert_array_equal(saved['theta'],fit['best']['theta'])
         assert np.isfinite(saved['theta']).all() and (saved['selected_frames']<fit['fit_end']).all()
         fitting.append(dict(path=str(path.relative_to(ROOT)),tag=path.parent.parent.name,name=fit['name'],fit_end=fit['fit_end'],selected_frames=fit['selected_frames'],best=fit['best'],optimizer=fit['optimizer'],
             settings={k:fit[k] for k in ['field','contact','nonconvex','materials']},checkpoint_sha256=sha256(checkpoint),fit_sha256=sha256(path),state=fit['state']))
-    native=[json.loads(p.read_text()) for p in sorted((BASE/'native/confirmation').glob('*/fit.json'))]
+    native=[json.loads((BASE/'native/confirmation'/job_name(j)/'fit.json').read_text()) for j in jobs if j['kind']=='native']
     write_json(REPORT/'fitting-diagnostics.json',dict(fem=fitting,native=native,timeout_continuations=[j for j in jobs if j.get('timeout_repair_attempted')],interpretation='Fitted ratios and point estimates, not material identification or posterior calibration. Checkpoints/raw data remain local.'))
     checks.append(dict(check='Fitted parameter archive agrees with local checkpoints and observation cuts',passed=True,fem_fits=len(fitting),native_fits=len(native)))
     for video in sorted(REPORT.glob('*.mp4')):
