@@ -63,7 +63,7 @@ def main():
    tables.append(LABELS[method]+' & '+' & '.join(cells)+' \\\\')
   caption=('All 42 declared test objects.' if kind=='main' else 'Matched physical comparison on 18 objects selected before evaluation (six per cohort). Native physical components use our shared-interface adapters.')
   if kind=='incremental':caption="Incremental response error after subtracting each method's nominal-pose prediction, on the same matched 18-object subset."
-  tables+=['\\bottomrule','\\end{tabular}',f'\\caption{{Coordinate RMSE (mm), lower is better. {caption} Missing or incomplete results retain explicit counts. Object-level bootstrap intervals and familiar-direction queries are provided in the accompanying report.}}',f'\\label{{tab:{kind}}}','\\end{table*}']
+  tables+=['\\bottomrule','\\end{tabular}',f'\\caption{{Coordinate RMSE (mm), lower is better. {caption} Object-level bootstrap intervals and familiar-direction queries are provided in the accompanying report.}}',f'\\label{{tab:{kind}}}','\\end{table*}']
   (paper/f'generated-{kind}-table.tex').write_text('\n'.join(tables[first_line:])+'\n')
  (paper/'generated-tables.tex').write_text('\n'.join(tables)+'\n')
  sources=[BASE/'method-seal.json',BASE/'neural-selection.json']+list(OUT.glob('*-aggregate.json'))+[OUT/'reference-summary.json']

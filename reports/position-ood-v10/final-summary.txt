@@ -1,0 +1,62 @@
+Completed simulation campaign: position-conditioned deformation prediction
+
+The model receives three partial position observations and prescribed tool poses,
+not true forces or material labels. It infers material variation, compliant tool
+coupling, gravity direction and a spatial interaction field, then predicts settled
+shape under new tool translations and rotations. A further positional observation
+can refine the explanation and its predictive uncertainty.
+
+Completed evaluation
+42 independent primary test objects: 18 familiar parameters, 12 material shifts,
+12 environmental shifts. Physical-component comparisons use the same predeclared
+18-object subset. Nine familiar objects are reused for translation/probing; six
+additional objects test two unseen environmental force laws. All 394 primary job
+outputs, 36 force-law predictions and the complete acquisition study are present.
+All 93 reference fields pass their declared numerical qualification criteria.
+
+Key results (mean coordinate RMSE, mm)
+                         Familiar    Material shift    Environment shift
+Ours, all primary cases    0.068          0.087                0.067
+Neural, all local actions  0.119          0.402                0.216
+
+Matched six objects per cohort:
+Ours                       0.075          0.091                0.065
+PhysGaussian MPM adapter   0.310          0.364                0.303
+PhysTwin core adapter      0.860          1.495                1.061
+
+On nine transfer objects, one extra response reduces held-target error from
+0.314 to 0.084 mm (73.2%). The sensitivity policy selects the same action as the
+strong fixed policy on every object; random probing gives 0.163 mm. Mean interval
+coverage improves from 81.9% to 92.0% while mean half-width falls from 0.373 to
+0.157 mm. Six of nine objects reach 90% coordinate coverage after probing.
+Receiving the same response, material-indexed loading gives 0.297 mm versus
+0.084 mm for the spatial model. Before probing, neither frame is clearly better.
+
+Across the six unseen-force-law objects, new-motion errors are 0.075 mm for ours,
+0.288 mm for MPM and 0.798 mm for PhysTwin; translation errors are 0.330, 0.546
+and 0.859 mm, respectively. Individual law groups contain only three objects.
+
+Interpretation and scope
+The evidence supports position-driven prediction and useful one-response
+adaptation when material and environment are unknown. It does not establish an
+adaptive-policy advantage over the strong fixed probe, unique material recovery,
+or a general advantage over the complete published visual pipelines. Physical
+baselines are documented adaptations of official simulation components. The
+reference, our model and the neural training targets share a Neo-Hookean family;
+material OOD changes its coefficients and heterogeneity. Geometry, correspondence
+and density are known. Videos show actual-scale settled queries with camera
+orbits, not dynamic forecasts, impacts or drops. All optimizer termination messages
+and fixed-budget outcomes are retained in the compute report and supplement.
+
+Artifacts
+papers/position-ood-v10/paper.pdf
+papers/position-ood-v10/supplement.pdf
+papers/position-ood-v10/REPRODUCE.txt
+reports/position-ood-v10/test_id-4-actual-vs-predicted.mp4
+reports/position-ood-v10/test_material-2-actual-vs-predicted.mp4
+reports/position-ood-v10/force_law_test-0-actual-vs-predicted.mp4
+reports/position-ood-v10/force_law_test-3-actual-vs-predicted.mp4
+
+Raw datasets and network weights remain local as requested. Code, compact reports,
+paper sources/PDFs and videos are versioned. The paper is an anonymous research
+draft for author review; no conference submission has been performed.

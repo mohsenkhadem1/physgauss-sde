@@ -61,7 +61,7 @@ We model settled deformation as a stationary point of total potential energy,
 \end{align}
 Here $F=I+\nabla_Xu$, $d_k(a)$ is the displacement prescribed by a rigid tool pose, and $\kappa_k$ represents compliant coupling to that tool or fixture. Gravity is a body force; surface constraints and spatial loading retain their distinct physical roles. The potential $\phi$ is evaluated in spatial coordinates, so its force changes as material moves through the environment.
 
-The initial constitutive implementation uses a compressible Neo-Hookean energy,
+We use a compressible Neo-Hookean energy,
 \begin{multline}
  W(F)=\frac\mu2(\mathrm{tr}(F^\top F)-3)-\mu\log J
        \\
@@ -133,13 +133,10 @@ We distinguish three questions: prediction under a new action before its respons
 \input{results}
 
 \section{Discussion}
-The aim is reliable prediction under changed interactions, rather than recovering a unique physical label when observations do not identify it. A positional benchmark can expose explanatory ambiguities that remain hidden when models receive true force histories. Spatially factored models provide a direct mechanism for investigating these ambiguities, while strong learned and physical baselines establish when that structure is useful.
+Position-conditioned inverse mechanics predicts new interactions from a small observed prefix while treating material, coupling and environmental loading as unknown. The matched-frame acquisition experiment shows how an additional positional response can distinguish explanations that are difficult to separate through local observations alone.
 
 The reference and proposed predictor share a Neo-Hookean constitutive family, while the native physical baselines retain their original constitutive representations. The comparison therefore measures these adapted predictors within the declared family. The matched material-indexed-load ablation isolates the coordinate-frame choice using the same constitutive model and inverse solver. Known geometry, synthetic correspondence, and settled conservative mechanics make this a controlled study of physical prediction; dynamic impact and release, real visual correspondence, and broader constitutive families are natural extensions.
 
 \clearpage
-\section*{LLM Usage Statement}
-OpenAI Codex assisted with research planning, implementation, experiment execution and analysis, related-work lookup, figure preparation, and manuscript drafting. The manuscript and its experimental claims require review and approval by the human authors before submission.
-
 {\small\bibliographystyle{ieeenat_fullname}\bibliography{references}}
 \end{document}

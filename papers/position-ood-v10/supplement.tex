@@ -66,6 +66,10 @@ The selected ID-action and all-action neural training loops took 3.02 and 3.09 m
 
 The accompanying compute report separately accounts for post-acquisition optimization. It counts each distinct acquired action once per object, records reuse when fixed, random and adaptive policies choose the same action, and separates coarse screening from fine fitting and CPU from GPU execution. Recorded fit times sum optimizer wall times across screened layouts; they exclude lock waiting, prediction, uncertainty calculation and reference generation. Calibration and held-test adaptation costs remain separate. These measurements describe the executed computation, rather than the latency of a dedicated deployment.
 
+All 394 declared primary jobs completed. Median recorded job time for the 18 PhysTwin adaptations was 19.5 minutes, versus 239.2 minutes for the 18 MPM adaptations (ranges 14.8--24.9 and 111.5--398.7 minutes). The 54 primary fine-inference jobs took median 59.3 minutes on CPU (30 jobs) and 37.6 minutes on GPU (24 jobs). These are heterogeneous, concurrently executed jobs; timing includes each job's declared work and is not a controlled hardware comparison.
+
+Optimizer termination is recorded separately from prediction quality. Of the 54 primary fine-inference jobs, 53 reached the frozen iteration budget and one met the relative-objective stopping criterion. Of the 18 MPM fits, 17 met the parameter-step criterion and one reached its function-evaluation budget. PhysTwin used its fixed 100-epoch schedule. Evaluation uses the resulting frozen-budget predictions without extending individual test-case budgets. Numerical reference qualification concerns the forward equilibrium solutions, not global convergence of these inverse optimizers.
+
 The completed acquisition study contains 94 distinct fitting stages: 44 for calibration, 32 for held-test spatial inference and 18 for the matched material-indexed ablation. Across 47 coarse CPU stages, median recorded optimizer time is 6.7 minutes. The 22 fine CPU stages have median 83.9 minutes (range 39.9--123.5), and the 25 fine GPU stages have median 62.6 minutes (range 15.2--148.5). Each stage includes its screened layouts. These counts deduplicate shared policy actions. Different objects, layout counts and concurrent loads prevent interpreting the CPU/GPU figures as a controlled speed comparison; the compact acquisition compute report retains every stage and its source hash.
 
 The selected spatial-basis models had validation coordinate RMSE of $0.116$\,mm for ID-action training and $0.124$\,mm for all-action training, compared with $0.207$ and $0.237$\,mm for the MLP. In the PhysTwin development selection, log-stiffness regularization strengths $0$, $0.01$ and $0.1$ gave coordinate RMSE pooled over held actions of $1.048$, $0.816$ and $0.710$\,mm on development object 1. Selection therefore used predictive validation, rather than the smallest acquired-position residual. Final cohort tables instead average action-level RMSE within each object, as defined in the main protocol.
@@ -94,21 +98,23 @@ Each force-law group contains one object per attachment layout. Elasticity, mate
 
 All six extension references passed qualification: three used $n=6$ and three used $n=8$. The largest action-level spatial RMS change was $18.77\,\mu$m and the largest quadrature RMS change was $0.0444\,\mu$m. The minimum sampled deformation Jacobian was $0.832$. The six fields, observations and qualification records were hashed before extension inference began.
 
-\IfFileExists{generated-incremental-table.tex}{\input{generated-incremental-table}}{}
-\IfFileExists{generated-coverage-table.tex}{\input{generated-coverage-table}}{}
+\input{generated-incremental-table}
+\input{generated-coverage-table}
 
 \section{One-response acquisition results}
-\IfFileExists{figures/acquisition.pdf}{
+Figure~\ref{fig:acquisition} compares prediction error, coverage and interval width after one acquired response, alongside the matched-frame ablation.
 \begin{figure*}[t]
 \centering\includegraphics[width=\textwidth]{figures/acquisition.pdf}
 \caption{One-response adaptation on nine held objects. Error, predictive coverage and interval width are evaluated together, using independent calibration for each policy. Columns show means, points denote objects, and error bars show object-bootstrap intervals. The final panel compares spatial and material-indexed loading before and after the same acquired response.}
 \label{fig:acquisition}
 \end{figure*}
-}{}
 
 \section{Reproducibility and provenance}
 A pre-evaluation SHA-256 manifest freezes the inference implementation, benchmark configuration, object cohorts, transfer protocol, neural weights and native simulator sources. Numerical fields and rendered data remain local; code, compact reports and manuscript sources are versioned. The study uses CPU workers and GPUs 0--2 on a four-GPU workstation, retaining the fourth GPU for existing desktop use. Raw prediction files precede separate scoring. Object-level bootstrap comparisons use paired objects, not individual coordinates as independent replicates. Explicit completion counts accompany every declared cohort.
 
 \section{Scope}
 This experiment isolates environmental and material ambiguity for known object geometry, synthetic correspondence and settled conservative mechanics. It evaluates unseen positional interaction patterns, material/environment parameter shifts, and two environmental potential families outside the fitted model. Extensions to impact, changing external forces, arbitrary topology and real visual correspondence require additional validated data and observation models.
+\section*{LLM Usage Statement}
+OpenAI Codex assisted with research planning, implementation, experiment execution and analysis, related-work lookup, figure preparation, and manuscript drafting. The manuscript and its experimental claims require review and approval by the human authors before submission.
+
 \end{document}
