@@ -1,0 +1,182 @@
+CONTACT BENCHMARK V12 — INDEPENDENT BENCHMARK/DATA DECISION AUDIT
+Author: benchmark_audit_v12 agent. Date: 2026-10-30.
+Status: recommendation prepared before any v12 candidate scores.
+
+LOCAL EVIDENCE
+Six local SoftVTBench HDF5 shards each contain 100 episodes (demo_0 through
+numeric demo_99). They cover object-soft/spatial-soft tasks 0, 1, 2.
+Task 0 uses soft_pastry001; tasks 1/2 use soft_pastry002/003. Task groups and
+episodes are correlated, so these are not 40 independent objects.
+Only four PhysTwin sequences are local: single_lift_sloth (development),
+double_stretch_sloth, double_stretch_zebra, single_lift_dinosor (previous test).
+V11 measured all three previous tests; they are now regression benchmarks,
+not untouched confirmation for a v12 model designed after seeing their errors.
+
+EXACT RECOMMENDED COHORTS
+Development fitting/selection: SoftVT both suites task0 demos0–9 (20 sequences)
+and PhysTwin single_lift_sloth. Use original per-sequence observation prefixes.
+Optional development validation (still model-selection data): SoftVT both suites
+task0 demos10–19. Declare use before running; keep separate from final holdout.
+Regression: unchanged SoftVT both suites tasks1/2 demos0–9 (40) and the same
+three PhysTwin sequences (3). No dropping failures, slip, or release frames.
+New untouched confirmation: SoftVT both suites tasks1/2 demos10–19 (40).
+Use numeric HDF group IDs, not original_demo_id attribute, which varies widely.
+No untouched PhysTwin sequence exists locally. Either acquire a predeclared
+additional official sequence with original split, or describe PhysTwin evidence
+as repeated regression validation and avoid a new held-out-generalization claim.
+
+MODEL SELECTION / FREEZE
+Use development errors only to choose contact radius, friction bounds, pose
+regularization, stiffness priors, mesh settings and any model-selection gate.
+Per-sequence fitting uses only that sequence's observed prefix, as in v11.
+Freeze source hashes, hyperparameter grid, baseline inputs, phase rules and new
+cohort manifest before computing its target errors. Write candidates and the
+selection rule before experiments. Record every candidate and failures.
+If heldout/regression results motivate another model change, call it exploratory
+and do not call the revised score an untouched confirmation. Remaining demos
+20–99 are available for a later predeclared confirmation, not unlimited retries.
+Do not select between v11 and v12 using each test sequence's future score.
+A development-selected or prefix-crossvalidated gate is permissible, but report
+that gate and the standalone v12 results. Count its selection cost and inputs.
+
+PRIMARY METRICS / IMPROVEMENT DECISION
+Preserve exact v11 full-suffix metrics and masks: SoftVT coordinate RMSE in mm,
+PhysTwin manual marker mean in mm plus its Chamfer diagnostic. These are
+DIFFERENT metrics and must not be pooled as one raw-mm aggregate.
+Report equal sequence-weight means, paired deltas to v11, median, worst case,
+and per-task group means. Report compared counts and all solver failures.
+Require an overall mean improvement separately on each dataset to claim overall
+improvement on both. If only one improves, say exactly that. Report regressions
+in previous good cases (e.g. zebra/held manipulation), even if grand mean improves.
+For descriptive single-number selection on development only, normalize each
+sequence error by its frozen v11 error, aggregate within each dataset, then weight
+the two datasets equally. Do not let 40 SoftVT episodes swamp one PhysTwin case.
+Keep shape-after-rigid-alignment error and world pose/centroid error separate.
+Keep full suffix primary; commanded-hold and requested-release are secondary
+input-defined diagnostics. Never infer the phase from target slip/error.
+No frame-level confidence intervals treating frames as independent samples;
+report task/object grouping and the tiny three-case PhysTwin sample honestly.
+
+SCENE / CONTACT INPUT AUDIT
+SoftVT HDF exposes initial_state/rigid_object/<name>/root_pose and root_velocity,
+and states/rigid_object/<name>/root_pose over the entire future sequence.
+Only INITIAL state or observed-prefix environment geometry may enter prediction
+unless an entity is explicitly an externally prescribed control. Future moving
+obstacle states are labels, not permitted inputs to a coupled-object predictor.
+The soft_pastry*_tactile_proxy is a target-linked proxy. EXCLUDE it entirely:
+using its future pose leaks future target motion even though the path says rigid.
+Do not use target-language goal position as observed landing/contact geometry.
+Local scene_params.json provides placement data but not full collision surfaces.
+No relevant plate/basket USD/OBJ mesh was found under the local runs file tree
+by filename search. Poses alone do not establish real collision geometry. If
+approximating with planes/bowls, declare primitive geometry and choose dimensions
+from public asset metadata/mesh or development observation, never future targets.
+If v12 receives scene geometry absent from v11/PhysTwin, label the extra input
+and compare a geometry-matched contact/rigid baseline. Report a same-input
+ablation too, so gain from geometry is separated from new material inference.
+Rigid/deformable labels can be known in a simulation experiment; do not pretend
+they were inferred. More objects plus static contact does not demonstrate coupled
+dynamics unless the second movable object is predicted and independently scored.
+
+REQUIRED AUTOMATED INPUT ISOLATION CHECKS
+Poison future deformable coordinates AND future rigid root poses/velocities,
+all tactile proxy states, force/torque channels, material/success metadata,
+and manual marker trajectories; predictor payload and predictions must not change.
+Prefix observation and future prescribed gripper pose/width/command may change
+predictions. Hash consumed source arrays and record consumed channel allowlist.
+Store evaluator arrays separately; never expose evaluation dict to fit/rollout.
+For new holdouts, publish membership before evaluator access and archive hashes.
+
+PRESERVING THE PAPER
+Do not overwrite v11 code, reports, predictions or baseline tables. Publish v12
+as an extension and paired comparison, preserving every old result and numerical
+limitation. A rigid-pose/deformation decomposition is not evidence of material
+identification by itself. No uncertainty calibration or active probing claim
+follows from a lower geometric forecast error alone.
+
+FOLLOW-UP: UNTOUCHED PHYSTWIN CONFIRMATION ACQUIRED
+The parent approved two official cases selected from metadata: single_lift_zebra
+and double_lift_sloth. Official data_config.csv lists no further solid stretching
+case beyond the already examined two. Rope cases were not chosen because their
+filament topology requires a different mechanical discretization.
+Both cases were frozen in benchmark-protocol.json BEFORE downloading. Fetches
+used the existing official RemoteZip helper with archive CRC and SHA256 checks.
+Files and official references remain local. new-phystwin-input-manifest.json
+records sources/hashes. Only array sizes and split metadata were inspected:
+single_lift_zebra: 66 frames, train_end46, 4023 visible-track identities, 30 controls.
+double_lift_sloth: 62 frames, train_end43, 4949 identities, 30 controls in two groups.
+No future prediction errors were measured during selection/acquisition.
+These add new trajectories for known object categories, not unseen categories.
+
+PREFIX CONTACT-STATE CLASSIFIER / FALLBACK AUDIT
+A closed gripper command does not establish that the object remains attached.
+It is scientifically reasonable to infer attached, detached-moving, or resting
+from observed object and tool motion, provided the following constraints hold:
+1. Thresholds, window lengths, confidence scores, and guard tolerances must be
+   selected on the declared development20 + single_lift_sloth only. Never tune
+   using old benchmark suffix errors even though those errors are known.
+2. A classifier applied at train_end may inspect only frames strictly before
+   train_end. It cannot mark future transitions using actual future object motion.
+   If its state persists or changes predictively, state that assumption explicitly.
+3. Compare OBJECT-TOOL RELATIVE motion and world object motion. Slow world motion
+   alone cannot distinguish a static held object from a resting one. A detached
+   object need not be stationary, and a grip can slip while partially constrained.
+4. Use observed positions/visibility, not force/tactile channels, success flags,
+   future proxy/scene state or future target data. An uncertain state should be
+   represented/handled explicitly, not assigned from target behavior.
+5. Prefix temporal crossvalidation is a fair per-case model-selection rule ONLY
+   when every candidate is fit on the reduced earlier prefix and rolled out over
+   the hidden later prefix. Reusing parameters fit to the entire prefix to score
+   its last segment leaks validation observations and favors high-capacity fits.
+   Geometry calibration, contact classifier and attachment offset must also be
+   recomputed using only the earlier prefix. Caching the full-prefix adapter and
+   merely shortening observed[] does NOT suffice: grasp calibration can leak.
+6. Freeze the validation fraction (e.g. final quarter of observed prefix), minimum
+   frame count, allowed candidate set and tie/default rule on development. Then
+   choose using validation only; refit the chosen candidate on full observed
+   prefix. A v11 fallback must itself be evaluated under the same reduced-prefix
+   fit budget and geometry inputs. Report selected model and validation scores
+   per sequence, plus standalone v12 results alongside guarded results.
+7. A state/parameter estimated from the final available observation is legitimate
+   forecasting initialization, but disclose the distinction from v11's open-loop
+   rollout-from-t0. Include a v11 or rigid baseline with the same observed-prefix
+   reset to separate assimilation benefit from contact modeling benefit.
+8. If validation contains no release/contact switch, it cannot validate that
+   candidate's release dynamics. Do not extrapolate confidence from held-only
+   validation; report phase coverage and preserve all full-suffix results.
+
+INDEPENDENT IMPLEMENTATION REVIEW (before primary evaluation)
+Reviewed scripts/contact_benchmark_v12/{data,base_runner,experiment,
+contact_rollout,object_frame,scene,jobs}.py.
+- data.trim_prefix recalculates grasp and its object/tool calibration using only
+  the actual shortened observed prefix. Geometry and masks retain identity.
+- base_runner matches prior FEM: 300 PT nodes, nonconvex geometry, 6 materials;
+  SoftVT full nodal mesh and one material; field/contact true; 100 iterations,
+  36 sampled fit frames. Prefix-only feasible starts match prior repair. Release
+  uses corrected DynamicFEM and declared 5–160 adaptive substeps.
+- regression base paths reuse preserved v11 physical-release SoftVT and primary
+  PhysTwin. Independent validation always uses separately refitted earlier prefix.
+- object_frame selector has seven fixed candidates (none; pose/residual with
+  strength .25/.5/1), uses last30% of observed prefix validation, requires2% gain.
+  It receives no evaluation dictionary. The runner rejects such dictionaries.
+- scene loader permits only initial poses and a known collider-type allowlist;
+  target-linked tactile proxies are excluded. Asset geometry is public-source
+  privileged input, not inferred RGB geometry.
+- contact model honestly labels static layered heightfields and split rigid pose.
+  It freezes deformation at separation. No side-wall collisions, movable partner,
+  or two-way elastic contact response is implemented in this benchmark candidate.
+- parent predeclared contact_scene_state as SoftVT primary; independently selected
+  object_frame as PhysTwin primary. Other contact variants are ablations. Do not
+  choose a different contact variant per benchmark using its future score.
+- contact friction .5 and substeps10 currently fixed before primary scores; a
+  development numerical audit may revise substeps before source freeze.
+
+Independent tests/test_contact_input_isolation.py: 4 passed (10.81 seconds).
+Real task0 demos from both SoftVT suites were reloaded while future nodal and
+rigid states/force/tactile channels were poisoned. Full input payloads and all
+candidate outputs were identical. Public scene loading used a fixed surrogate
+mesh to isolate channel access from USD parsing; initial scene metadata matched.
+A separate poisoning cut inside the observed prefix verified shorter-prefix
+recalibration. PhysTwin development future tracks/manual markers were poisoned,
+short-prefix payloads and candidate outputs unchanged. Evaluator payload rejection
+also passes. No benchmark future prediction errors were calculated by these tests.

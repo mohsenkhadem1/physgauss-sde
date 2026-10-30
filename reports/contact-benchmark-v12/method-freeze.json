@@ -1,0 +1,33 @@
+{
+  "created_utc": "2026-10-30T14:04:39.195361+00:00",
+  "primary": {
+    "SoftVTBench": "contact_scene_state",
+    "PhysTwin": "object_frame"
+  },
+  "source_sha256": {
+    "scripts/contact_benchmark_v12/data.py": "380aab55ea003b23272a3fdfbf864d28ce742fdc50403f1bfa95161e2e5a991a",
+    "scripts/contact_benchmark_v12/object_frame.py": "f8766b7e0dc3fc70d43faedd096f5ffc55ab81797b15d102c07fe1354d7154b8",
+    "scripts/contact_benchmark_v12/contact_rollout.py": "2164cc07a64b47dff9628566ea667b033c3f72bea21d90cac7b2159e0a573f98",
+    "scripts/contact_benchmark_v12/scene.py": "f60f3287e62f38d547469730a2d46d476bc3637d4caaec6154c02ee4440b82f7",
+    "scripts/contact_benchmark_v12/experiment.py": "be1c05e52508edfca8c265f5b86980f0c5f943cdcabd768dd82f3e2cef5833c1",
+    "scripts/contact_benchmark_v12/base_runner.py": "afe7259645104f19bd44faab3d9f5164de0f10384036c6000250675fc1c81fa7",
+    "scripts/contact_benchmark_v12/native_runner.py": "536ef33721fc39fada2544c3dbed2cdd3504502785fe867ed36fccba9d43708d",
+    "scripts/external_benchmark/data.py": "58733334646dd40377890dd438c0300a8faa4491732540c6098a7ca97956e52c",
+    "scripts/external_benchmark/fem.py": "07a348cd303504858ae7d9b4622493a757ace53fe142c17c373eb7735c915ed2",
+    "scripts/external_benchmark/dynamic_fem.py": "11c9614ec98f80592c341c52448138904313e689dfa0c1ce8107b5a485000c31",
+    "scripts/external_benchmark/fit.py": "2d642caa372c858d92752db968db38183c50eeb45beee1766c340cabcb7a7e00",
+    "scripts/external_benchmark/evaluate.py": "e1668849aef9256a3340172de1c8747449cb31dac25a43ed2fd893f1bfe4b590",
+    "scripts/external_benchmark/native_softvt.py": "d9b7aef022dc0fbf60488eaf86dd372ea2336a1fab2e12979c2c089bc9c0093e",
+    "scripts/external_benchmark/calibrated_baseline.py": "10e648088152c95c0b6693aa97f08080669003370f854ddcdd2a7f3c09f31fd3"
+  },
+  "contact": {
+    "friction": 0.5,
+    "substeps_per_frame": 80,
+    "detachment_rule": "fixed prefix-only kinematic diagnostic",
+    "scene": "initial static mesh layered heightfield,2mm raster"
+  },
+  "selection": "Independent 70/30 chronological prefix validation,2percent required gain, refit chosen correction on full prefix",
+  "development_status": "20 of21 development evaluations available at decision freeze; final remaining case retained and will be evaluated unchanged",
+  "scope": "FEM shape plus reduced static-contact pose dynamics, shape frozen at separation. Elastic scene FEM and two-way coupled qualification are separate diagnostics.",
+  "decision": "No primary regression or untouched confirmation scores accessed before this freeze; all predefined ablations retained."
+}

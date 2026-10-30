@@ -1,0 +1,110 @@
+{
+  "scope": "Independent synthetic spring-lattice/rigid-sphere qualification; not benchmark predictor or ground-truth comparison",
+  "mechanics": "Equal/opposite unilateral penalty contact; Coulomb-capped viscous friction; rigid translation/spin; position-driven pusher",
+  "limitations": [
+    "Discrete node collisions",
+    "Finite penalty penetration",
+    "Explicit symplectic Euler",
+    "Spring lattice not calibrated FEM",
+    "Sphere rotational state is angular velocity; orientation immaterial for sphere geometry"
+  ],
+  "isolated": {
+    "dt": 0.0001,
+    "mode": "isolated",
+    "friction": 0.4,
+    "max_nonrigid_coordinate_rms_m": 0.00016965494683267017,
+    "sphere_displacement_m": 0.040552609051211025,
+    "max_penetration_m": 6.861507789761648e-05,
+    "contact_samples": 359,
+    "friction_work_j": -1.1382549178948431e-05,
+    "max_linear_momentum_error": 7.102972443793695e-18,
+    "max_angular_momentum_error": 3.5936947774826384e-18,
+    "final_sphere_velocity": [
+      0.08182725452685202,
+      -0.010607920950428737,
+      3.5975677723960424e-17
+    ]
+  },
+  "isolated_no_friction": {
+    "dt": 0.0001,
+    "mode": "isolated",
+    "friction": 0,
+    "max_nonrigid_coordinate_rms_m": 0.00016931964847507274,
+    "sphere_displacement_m": 0.0401843219217087,
+    "max_penetration_m": 6.867244430534478e-05,
+    "contact_samples": 354,
+    "friction_work_j": 0.0,
+    "max_linear_momentum_error": 7.102972443793695e-18,
+    "max_angular_momentum_error": 3.826159489951429e-18,
+    "final_sphere_velocity": [
+      0.08021267816654307,
+      -0.01570784005107517,
+      0.0
+    ]
+  },
+  "refinement": [
+    {
+      "dt": 0.0002,
+      "mode": "demo",
+      "friction": 0.4,
+      "max_nonrigid_coordinate_rms_m": 0.0018114473841130136,
+      "sphere_displacement_m": 0.11230028416872166,
+      "max_penetration_m": 0.0018034831508382462,
+      "contact_samples": 324,
+      "friction_work_j": -0.0005894566319901014,
+      "final_sphere_velocity": [
+        0.1488380797793525,
+        -3.3141108198944626e-15,
+        -0.30435961474735546
+      ],
+      "max_linear_momentum_change_external_forces": 0.02642225400000004,
+      "max_angular_momentum_change_external_forces": 0.001607675156421309
+    },
+    {
+      "dt": 0.0001,
+      "mode": "demo",
+      "friction": 0.4,
+      "max_nonrigid_coordinate_rms_m": 0.0018290477473345535,
+      "sphere_displacement_m": 0.08415341177676,
+      "max_penetration_m": 0.0018026255170115746,
+      "contact_samples": 458,
+      "friction_work_j": -0.00042133014149250503,
+      "final_sphere_velocity": [
+        0.1079713930466688,
+        4.909915077592115e-16,
+        -0.13705179441460388
+      ],
+      "max_linear_momentum_change_external_forces": 0.02635652700000011,
+      "max_angular_momentum_change_external_forces": 0.001193901525000002
+    },
+    {
+      "dt": 5e-05,
+      "mode": "demo",
+      "friction": 0.4,
+      "max_nonrigid_coordinate_rms_m": 0.001834348468977234,
+      "sphere_displacement_m": 0.10242261547352635,
+      "max_penetration_m": 0.0018027094509385812,
+      "contact_samples": 1256,
+      "friction_work_j": -0.0005485410956249141,
+      "final_sphere_velocity": [
+        0.13449972555917786,
+        1.184952017542244e-16,
+        -0.2575122377264948
+      ],
+      "max_linear_momentum_change_external_forces": 0.02632366350000013,
+      "max_angular_momentum_change_external_forces": 0.001676123135509608
+    }
+  ],
+  "final_state_rms_difference_to_finest_m": [
+    0.0010797186167385295,
+    0.0019979004415718454
+  ],
+  "gates": {
+    "linear_momentum": true,
+    "angular_momentum": true,
+    "friction_dissipative": true,
+    "contact_exercised": true,
+    "refinement_improves": false,
+    "finest_penetration_below_2mm": true
+  }
+}

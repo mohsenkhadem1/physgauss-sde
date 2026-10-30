@@ -1,0 +1,165 @@
+Independent physics and decision audit — v12
+==========================================
+Auditor: contact_audit_v12. Read-only inspection of frozen v11 mechanics,
+adapters, benchmark report, six local SoftVT HDF shards and PhysTwin processed
+fields. No frozen source or prior result modified.
+
+Decision recommendation
+-----------------------
+1. Preserve v11 as a sealed baseline. The highest-value small change is an
+object-frame transport/deformation separation, prefix-conditioned attachment
+calibration, and an explicit contact state. Keep original FEM deformation as an
+available candidate, rather than replacing all mechanics with rigid transport.
+2. Do not launch a fully coupled unknown-shape multi-soft-body model in this
+campaign. These datasets do not observe enough interacting geometry to validate
+it fairly. Add a minimal synthetic two-body/contact validation separately if
+implemented; distinguish that from external benchmark evidence.
+3. Select any candidate architecture/hyperparameters only on development data
+or nested observed-prefix forecasts. Previously inspected primary suffixes are
+regression benchmarks, not a new untouched test. Report all regressions.
+
+What is actually available
+--------------------------
+SoftVT HDF initial_state includes rigid_object/<name>/root_pose and root_velocity
+for bowl, plate, ramekin, basket and scene clutter; robot initial joints/root pose;
+initial deformable nodal positions. There are no collision meshes/dimensions in
+HDF. states/rigid_object includes future trajectories, which must NOT be used as
+input unless explicitly supplied prescribed motion in a separately labelled test.
+The tactile proxy is NOT valid object geometry or pose: object-task0 proxy z is
+-0.53 m while deformable nodes are near -0.012 to 0.022 m. Never use proxy pose to
+infer true attachment or shape. Initial state snapshots may contain sunk clutter.
+
+The public SoftVT source provides scene object asset paths and per-demo settings.
+Mesh assets are externally hosted (README eval-assets and upstream Tabero assets),
+not in the source checkout. Initial rigid poses plus correctly matched asset
+geometry could supply scene SDFs, but pose/scale/origin alignment must be checked
+visually before using contact. Avoid guessed plate/basket dimensions presented as
+measured geometry. Object-suite world z~0 and spatial-suite z~0.895 are legitimate
+different scene frames; robot base transform must stay per episode.
+
+PhysTwin final_data.pkl has controller_points, controller_mask, observed object
+tracks/visibility/motion-validity, surface_points and interior_points. It does
+not include a reconstructed external floor/gripper mesh or independent movable
+object geometry. Controller point clouds can support attachment neighborhoods;
+claiming exact gripper collision geometry would require new evidence.
+
+Mechanical issues in v11
+------------------------
+- Frame-invariant Neo-Hookean elasticity already tolerates rigid rotations. An
+explicit frame improves identification and transport conditioning, but does not
+create a new constitutive law. Enforce zero mean and zero infinitesimal rotational
+component in residual deformation, or use a Kabsch gauge, to avoid duplicate DOFs.
+- Original SoftVT adapter squeezes the whole object cross-section according to
+jaw width. The existing development local-pad alternative only moves local
+patches and preserves relative calibration. It is a reasonable candidate but
+must be validated; previous fine-step problems were not solved by it alone.
+- Attachment is permanently tied to material weights while command<0. This
+cannot express pre-command slip/drop. A learned prefix contact-state model can
+help; it cannot know a future unexpected slip without a predictive physical rule.
+- The floor is initial minimum object z, not measured table/container geometry.
+A unilateral plane cannot reproduce plate rim, basket bottom/walls, friction,
+sliding or moving obstacle reactions. In particular spatial-task2 is placement
+on a plate; current data omit target geometry from predictors.
+- World Gaussian and static pin represent external support, not intrinsic
+material. Do not retain a hidden positional tether during free rigid motion.
+- Corrected release removes that static gauge during inertia, but temporal
+convergence remains unresolved; all-finite trajectories are not sufficient.
+
+Practical implementable tiers
+----------------------------
+A. Lowest risk: fit transport R,p from the same observed sparse tracks; predict
+future transport from gripper trajectories/contact state; retain FEM deformation
+in the co-moving frame. At prefix end initialize actual observed position and
+velocity. Compare against calibrated rigid and unchanged FEM using identical
+information. Use smooth prefix-calibrated mixing only if selected before suffix
+scoring, not per-sequence best-of-test. This is hybrid prediction, not full contact.
+B. Local interaction: replace whole-span squeeze with local contact patches,
+limit tensile contact, allow tangential slip with a consistent friction law;
+retain explicit fixed clamps for clamped PhysTwin cases. Normal penalty/barrier
+needs geometric distance, not simply distance to the initial object surface.
+C. Scene contact: obtain verified initial static collider geometry and represent
+separate floor/container entities. Give identical additional geometry to contact
+baselines, or label the information advantage. Dynamic rigid obstacles require
+mass, inertia and equal/opposite impulses; prescribed static poses do not establish
+two-way coupling.
+
+Validation gates
+----------------
+- Objectivity: globally rotate/translate scene, controllers and gravity; predicted
+relative deformation and energies transform consistently. Rigid motion must not
+produce internal strain. Object-frame residual has no duplicate rigid component.
+- No-contact free fall: translated body has zero spurious horizontal acceleration;
+vertical motion follows gravity and no initial-position tether remains.
+- Contact onset/separation: zero tensile normal contact after separation, bounded
+penetration against known geometry; no pre-contact repulsion at arbitrary range.
+- Friction: zero friction preserves tangential momentum; finite friction opposes
+slip and never increases energy in a stationary environment.
+- Coupling: isolated two-body contact conserves total linear momentum; static
+support can absorb momentum but cannot inject energy without prescribed motion.
+- Resolution: dt, dt/2, dt/4 yield stable final trajectory/contact impulses, with
+explicit penetration and min-J statistics. Report incomplete reference solves.
+- Data audit: poison future object truth AND future rigid-state arrays; predictions
+must remain unchanged. No hidden force/tactile inputs. Added collider provenance
+must be hashed and all contact choices recorded before primary inference.
+- Regression: report full suffix and held/release phases on all 43 established
+sequences; mean/median/per-group/per-case errors and number of improved episodes.
+Retain deformation-only errors so an apparent win from rigid transport does not
+masquerade as better elasticity. Do not average incompatible metrics across sets.
+
+Recommended claim if tier A succeeds
+------------------------------------
+Object-centric decomposition improves position-driven geometry prediction while
+retaining a deformation model; explicit known contact can be an independently
+validated extension. It does not yet establish inferred friction/material
+identifiability, calibrated uncertainty, or general multi-body contact reasoning.
+
+Implemented geometry supplement
+-------------------------------
+scene.py now loads the actual public upstream basket, plate, bowl and ramekin
+USD meshes and initial HDF poses only. Public task config scales are essential:
+plate scale is .5, and the replaced bowl is .0001 in spatial task0. Runtime code
+franka_libero_env_cfg.py references USD with scale=obj['scale']; numeric USD
+coordinates are already appropriate meters despite authored metadata .01 units.
+We preserve runtime reference coordinates rather than applying an extra .01.
+
+StaticScene rasterizes distinct vertical triangle intersections at 2mm spacing,
+up to32 layers; query_surface(points,max_height=previous_z+tolerance) chooses the
+highest crossing below the supplied bound. This prevents a falling node already
+under a basket handle from being projected upward onto that handle. Normals are
+oriented upward, including reversed triangle winding; this is vertical support,
+not watertight solid inside/outside classification. Near-vertical triangles are
+excluded. Side walls, undercuts, swept lateral collision and moving obstacle
+reaction remain unsupported. Input floor remains the disclosed v11 approximation.
+
+4 tests pass: finite footprint/floor fallback, layered handle choice, sloping
+surface normal, and future rigid-pose poisoning. Actual initial development
+scenes loaded successfully and scene-geometry-audit.png was visually inspected.
+Per-scene JSONs record source URL, asset SHA256, config SHA256, units policy,
+initial pose path, scales, bounds and limitations. Downloaded USDs stay local in
+runs/contact-benchmark-v12/scene-assets. usd-core26.8 was installed in native env.
+
+Coupled synthetic qualification supplement
+-----------------------------------------
+Separate coupled_qualification.py implements a 27-node 50mm spring-lattice body
+and a movable rigid sphere with translation and angular velocity. Same-point
+contact applies equal/opposite forces and rigid torque. Pusher trajectory is the
+actuation input; gravity and fixed floor are explicit external influences. This
+is not used as the external benchmark prediction method.
+
+The initial low-damping 4000N/m penalty run failed timestep refinement despite
+bounded penetration. Its diagnostic is preserved in coupled-qualification-low-
+damping.json. Analytic critical normal damping (node mass for discrete contacts,
+rigid mass for sphere-floor) removed this instability in the qualification case.
+Final dt=.2/.1/.05ms final-state RMS differences to finest are7.23/2.75 micrometers.
+Maximum finest penetration is0.65mm, nonrigid coordinate RMS1.79mm, and sphere
+motion90.6mm. Isolated linear/angular momentum errors are at floating-point scale;
+friction work is negative. All6 declared gates pass and3 dedicated tests pass.
+These are final-state refinement and specific-scene checks, not a proof of
+convergence for arbitrary collisions. Discrete node contact can miss contacts
+between lattice samples; finite penalty penetration and spring-material
+approximation remain. Demo with external pusher/floor/gravity reports momentum
+change, not a conservation error. Only isolated tests assert conservation.
+
+The video is a simulated qualification animation, not an actual-versus-predicted
+benchmark comparison. It uses slowed playback (10fps for 25fps sampled frames),
+shared physical axis scale and a modest camera orbit. Geometry frame inspected.
