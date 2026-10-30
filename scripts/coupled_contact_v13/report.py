@@ -26,6 +26,12 @@ def summarize(rows):
 def main():
     output={'scope':'Controlled synthetic cross-interaction transfer, same constitutive family and shared scene inputs. Native spring-core adaptation is not full PhysTwin. Empirical baselines lack scene collision geometry.','splits':{}}
     lines=['COUPLED CONTACT v13 RESULTS','Lower errors are better. Means are per sequence; repeated interactions share objects.']
+    if (REPORT/'mesh-development-diagnostic.json').exists():
+        warning=('Development spatial audit failed: changing the reference mesh from 4 to 6 cells changes edge-drop trajectories by 12.13 and 29.72 mm. '
+                 'Reference-qualified below means only finite, penetration and timestep checks; it does not establish spatial accuracy. '
+                 'These are comparisons against the frozen discretized simulator, not validated physical ground truth.')
+        output['spatial_reference_warning']=warning
+        lines.extend(['',warning])
     for split in ['development','validation','reserved']:
         path=REPORT/f'{split}-results.json'
         if not path.exists():continue

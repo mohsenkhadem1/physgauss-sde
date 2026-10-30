@@ -1,0 +1,10 @@
+INDEPENDENT FIXED-VIDEO AUDIT
+All three videos were rerendered after the reference-panel spatial-audit warning was added. Full decode succeeded: 61 frames each, 1600x540, 25fps playback for 100Hz simulation samples. New hashes and first/middle/final contact sheets are in independent-video-decode.json.
+
+Viewed all three contact sheets at physical times0,0.30,0.60s. Common world axes and camera orbit are used across each clip. No per-method alignment or deformation amplification. Reference panels visibly state 'spatial audit failed'; these are diagnostic comparisons, not validated real-world ground truth.
+
+1. test0/curved: inferred FEM follows the direction of the pushed block but ends at a different position from the reference. Native spring core remains visibly displaced and elevated. Rigid prediction also misses the final placement. Curved obstacle is a sphere, not a bowl. Shapes are relatively blocklike in this view; do not describe this as a large demonstrated deformation win.
+2. test3/moving_sphere: the orange dynamic sphere separates from the block. The inferred FEM does not reproduce the final sphere/block separation in the reference; native and rigid predict visibly different body paths too. This demonstrates explicit coupled bodies but retains forecasting error.
+3. test7/edge_drop: reference rotates and falls beside the edge, while inferred FEM remains in a different elevated/tilted pose. Native failure is explicitly displayed in red rather than omitted. Rigid prediction also differs. This is a useful failure case, not a successful landing prediction.
+
+Renderer-source review: bounds are shared and include finite body extents, failed forecasts retain their panel, nonfinite frames are explicitly labeled, and frame counts are checked. The fine reference has not passed spatial convergence, so quantitative ranking remains a controlled diagnostic with that limitation. No claim about full PhysTwin is supported: the displayed spring model is an adapted force core with shared study contact/integration.

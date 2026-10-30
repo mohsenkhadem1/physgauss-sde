@@ -1,0 +1,66 @@
+COUPLED CONTACT v13: COMPLETED ORIGINAL STUDY, REFERENCE REPAIR ONGOING
+
+What we built
+A soft tetrahedral block now changes shape while exchanging forces with rigid
+tools, a floor, an edge, a curved obstacle and a freely moving sphere. Contact
+can move both bodies. The model observes noisy positions during one squeeze,
+sideways shear and release, chooses stiffness and friction from a fixed grid,
+then predicts four different interactions from their initial states and tool
+trajectories. It is not given future object motion or true material labels.
+
+What the original frozen experiment found
+All 56 forecast cases were retained: 8 development, 16 validation and 32 reserved.
+On the 32 reserved forecasts (8 material/friction combinations x 4 interactions):
+  Inferred FEM                 13.588 mm world-position RMSE; 32/32 complete
+  Fixed nominal FEM            15.729 mm; 32/32 complete
+  Rigid body + same contact    20.081 mm; 32/32 complete
+  True-parameter coarse FEM    12.047 mm; 32/32 complete
+  Adapted native spring core   33.374 mm; 20/32 complete, conditional mean
+  Position ridge               49.630 mm; 32/32 complete
+The inferred model beats rigid motion in 28/32 cases and nominal FEM in 25/32.
+Its mean improvement is 32.3% over rigid and 13.6% over nominal. Shape-only error
+improves more modestly:1.782 versus 1.915 mm for rigid. On 20 jointly completed
+native comparisons, inferred FEM averages 15.612 mm and wins 19/20. Native failures
+hit the shared positive-tetrahedron-volume guard. This is an adaptation using
+the authors' unchanged PhysTwin spring-force core with our contact/integrator,
+not the complete authors' method or an official PhysTwin benchmark ranking.
+
+Why this is not yet physical validation
+The reference passed timestep/penetration checks on 26/32 reserved cases; six
+failed cases remain visible. More seriously, a development spatial audit found
+that changing the reference mesh from 4 to 6 cells changes edge-drop motion by
+12.13 and 29.72 mm. Narrow support contact is poorly sampled by mesh vertices.
+Smaller time steps do not fix this geometry error. Thus the numbers above show
+prediction against a frozen discrete simulator, not validated physical truth.
+Inferred friction can compensate for numerical error, so accurate fitted motion
+does not establish correct material/friction recovery or calibrated uncertainty.
+
+What remains preserved and what is separate
+Independent audits recomputed 3502 main checks and 1564 nominal-baseline checks,
+with zero discrepancies. All 347 recorded v11/v12 files retain their hashes.
+The public SoftVTBench and PhysTwin dataset results from v12 are unchanged; this
+study does not establish a new improvement on those public benchmarks.
+Three video cases were fixed before outcomes and retain failures. Playback is
+4 x slower with common world axes, a moving camera and no deformation exaggeration.
+
+A new surface-contact extension is being developed separately. It integrates
+material surface patches and distributes equal/opposite forces and torques
+through the actual FEM interpolation. New reference meshes and contact sample
+spacing must pass fixed development consistency checks before a fresh frozen
+test. Eight new parameter combinations were declared before generation. See
+reports/coupled-surface-v13; a design declaration is not a completed result.
+
+Scope
+Controlled same-constitutive-family simulation transfer; known initial shape,
+density, gravity, scene geometry and future tool paths. Material combinations
+are within the fitted range. Interaction types differ from the calibration
+motion, but the four scene families were used in numerical development. No
+claim of unseen-category generalization, material-range extrapolation,
+calibrated uncertainty, active probing superiority or real-time speed follows.
+
+Evidence
+RESULTS.txt; summary.json; reserved-results.json; nominal-baseline-results.json
+independent-audit.json; nominal-baseline-audit.json; final-protocol-audit.txt
+mesh-development-diagnostic.json; physics-final-audit.txt; baseline-final-audit.txt
+test0-curved.mp4; test3-moving_sphere.mp4; test7-edge_drop.mp4
+Reproduction: scripts/coupled_contact_v13/README.txt

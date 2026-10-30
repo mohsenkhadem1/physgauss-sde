@@ -7,6 +7,24 @@ Maximum campaign time is configs/coupled_contact_v13.json; its stage field is
 initial setup metadata. Live progress is runs/coupled-contact-v13/stages.
 Prior v11/v12 source and evidence are preserved by prior-preservation.json.
 
+Post-freeze spatial audit
+-------------------------
+The original vertex-contact reference FAILED spatial consistency. In development,
+4-to-6-cell edge-drop trajectories differ by 12.13 and 29.72 mm even though
+timestep, volume and penetration checks pass. Area weighting alone does not
+resolve a narrow support footprint. Original results remain comparisons against
+that frozen simulator and must not be presented as validated physical truth.
+See mesh-development-diagnostic.json and physics-final-audit.txt.
+
+A separate surface-contact repair is under development in surface_*.py and
+reports/coupled-surface-v13. It integrates fixed material surface patches and
+distributes forces through the actual tetrahedral barycentric interpolation;
+equal/opposite rigid forces and torques are retained. The old source, runs and
+test cases are untouched. New geometry/contact compliance and eight fresh
+parameter combinations are declared in protocol-design.json. Time, mesh AND
+contact-quadrature consistency must be qualified before the new source freeze
+and reserved generation. A design file alone is not a completed experiment.
+
 Physics and task
 ----------------
 Compressible tetrahedral Neo-Hookean FEM, objective strain-rate damping,

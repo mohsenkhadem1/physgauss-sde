@@ -25,14 +25,27 @@ def main():
         with np.load(refpath) as d:reference=d['frames'].copy();times=d['times'].copy();faces=boundary(d['tets']);reference_centers=d['centers'].copy()
         with np.load(predpath) as d:predictions={k:d[k].copy() for k in d.files}
         coarse=build(scenario,cells=tuple(p['coarse_cells']));coarse_faces=boundary(coarse.tets)
-        methods=[('Reference FEM',reference,faces,reference_centers)]
+        reference_label='Reference FEM\n(spatial audit failed)' if (REPORT/'mesh-development-diagnostic.json').exists() else 'Reference FEM'
+        methods=[(reference_label,reference,faces,reference_centers)]
         for name,label in [('fem','Inferred FEM'),('native','Adapted spring core'),('rigid','Rigid + same contact')]:
             centers=None;q=BASE/'prediction'/object_id/scenario/name/'trajectory.npz'
             if q.exists():
                 with np.load(q) as d:centers=d['centers'].copy()
             methods.append((label,predictions.get(name),coarse_faces,centers))
         path=REPORT/f'{object_id}-{scenario}.mp4';fig=plt.figure(figsize=(16,5.4));axes=[fig.add_subplot(1,4,i+1,projection='3d') for i in range(4)]
-        allxyz=np.concatenate([x.reshape(-1,3) for _,x,_,_ in methods if x is not None]);low=np.min(allxyz,axis=0)-.02;high=np.max(allxyz,axis=0)+.02
+        points=[]
+        for _,x,_,centers in methods:
+            if x is not None:
+                if len(x)!=len(times):raise ValueError('Forecast frame count mismatch')
+                points.append(x.reshape(-1,3)[np.isfinite(x.reshape(-1,3)).all(1)])
+            if centers is not None:
+                if len(centers)!=len(times):raise ValueError('Body frame count mismatch')
+                for j,c in enumerate(coarse.colliders):
+                    if c.kind in ('sphere','box'):
+                        radius=c.radius if c.kind=='sphere' else c.half_extents
+                        points.extend([centers[:,j]-radius,centers[:,j]+radius])
+        allxyz=np.concatenate(points);allxyz=allxyz[np.isfinite(allxyz).all(1)]
+        low=np.min(allxyz,axis=0)-.02;high=np.max(allxyz,axis=0)+.02
         # Common world-coordinate view across all methods; no individual alignment.
         span=max(high-low);center=(high+low)/2;low=center-span/2;high=center+span/2
         writer=FFMpegWriter(fps=25,bitrate=2200,extra_args=['-threads','2'])
@@ -40,10 +53,11 @@ def main():
             for frame,t in enumerate(times):
                 for ax,(label,x,tri,centers) in zip(axes,methods):
                     ax.clear()
-                    if x is not None:
+                    if x is not None and np.isfinite(x[frame]).all():
                         ax.add_collection3d(Poly3DCollection(x[frame][tri],facecolor='#49a7ac',edgecolor='#23646a',linewidth=.35,alpha=.88))
                     else:ax.text2D(.1,.5,'Forecast failed',transform=ax.transAxes,color='red')
                     for j,c in enumerate(coarse.colliders):
+                        if np.isfinite(c.mass) and centers is None:continue
                         ccenter=centers[frame,j] if centers is not None else c.center
                         if c.name in command(scenario,t):ccenter=command(scenario,t)[c.name]['center']
                         if c.kind=='sphere':

@@ -1,4 +1,2069 @@
 {
   "scope": "Controlled synthetic cross-interaction transfer, same constitutive family and shared scene inputs. Native spring-core adaptation is not full PhysTwin. Empirical baselines lack scene collision geometry.",
-  "splits": {}
+  "splits": {
+    "development": {
+      "methods": {
+        "fem": {
+          "expected": 8,
+          "complete": 8,
+          "failures": [],
+          "coordinate_mean_mm": 13.832097642984337,
+          "shape_mean_mm": 1.771992252256149,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 8,
+          "qualified_reference_coordinate_mean_mm": 13.832097642984337
+        },
+        "native": {
+          "expected": 8,
+          "complete": 6,
+          "failures": [
+            {
+              "object": "dev0",
+              "scenario": "slide",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "dev0",
+              "scenario": "curved",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            }
+          ],
+          "coordinate_mean_mm": 40.017055564062176,
+          "shape_mean_mm": 2.576439255322409,
+          "mean_conditional_on_complete_cases": true,
+          "qualified_calibration_and_forecast_count": 6,
+          "qualified_reference_coordinate_mean_mm": 40.017055564062176
+        },
+        "rigid": {
+          "expected": 8,
+          "complete": 8,
+          "failures": [],
+          "coordinate_mean_mm": 22.64128518899818,
+          "shape_mean_mm": 2.169985730151841,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 8,
+          "qualified_reference_coordinate_mean_mm": 22.64128518899818
+        },
+        "position_ridge": {
+          "expected": 8,
+          "complete": 8,
+          "failures": [],
+          "coordinate_mean_mm": 53.33210026243152,
+          "shape_mean_mm": 8.201636438077871,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 8,
+          "qualified_reference_coordinate_mean_mm": 53.33210026243152
+        },
+        "position_rigid": {
+          "expected": 8,
+          "complete": 8,
+          "failures": [],
+          "coordinate_mean_mm": 52.83996398974881,
+          "shape_mean_mm": 2.1699857301518652,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 8,
+          "qualified_reference_coordinate_mean_mm": 52.83996398974881
+        },
+        "persistence": {
+          "expected": 8,
+          "complete": 8,
+          "failures": [],
+          "coordinate_mean_mm": 52.67496611618953,
+          "shape_mean_mm": 2.169985730151865,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 8,
+          "qualified_reference_coordinate_mean_mm": 52.67496611618953
+        },
+        "oracle": {
+          "expected": 8,
+          "complete": 8,
+          "failures": [],
+          "coordinate_mean_mm": 15.277371636750017,
+          "shape_mean_mm": 1.7871926929511655,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 8,
+          "qualified_reference_coordinate_mean_mm": 15.277371636750017
+        }
+      },
+      "fem_comparisons": {
+        "native": {
+          "pairs": 6,
+          "wins": 6,
+          "losses": 0,
+          "ties": 0,
+          "mean_gain_mm": 22.601791351153214
+        },
+        "rigid": {
+          "pairs": 8,
+          "wins": 7,
+          "losses": 1,
+          "ties": 0,
+          "mean_gain_mm": 8.80918754601384
+        },
+        "position_ridge": {
+          "pairs": 8,
+          "wins": 8,
+          "losses": 0,
+          "ties": 0,
+          "mean_gain_mm": 39.50000261944718
+        },
+        "position_rigid": {
+          "pairs": 8,
+          "wins": 8,
+          "losses": 0,
+          "ties": 0,
+          "mean_gain_mm": 39.007866346764466
+        },
+        "persistence": {
+          "pairs": 8,
+          "wins": 8,
+          "losses": 0,
+          "ties": 0,
+          "mean_gain_mm": 38.84286847320519
+        },
+        "oracle": {
+          "pairs": 8,
+          "wins": 3,
+          "losses": 5,
+          "ties": 0,
+          "mean_gain_mm": 1.4452739937656778
+        }
+      },
+      "expected": 8,
+      "present": 8,
+      "reference_qualified": 8,
+      "reference_failures": [],
+      "scenarios": {
+        "curved": {
+          "methods": {
+            "fem": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 11.127936718381797,
+              "shape_mean_mm": 1.1607876823698298,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 11.127936718381797
+            },
+            "native": {
+              "expected": 2,
+              "complete": 1,
+              "failures": [
+                {
+                  "object": "dev0",
+                  "scenario": "curved",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                }
+              ],
+              "coordinate_mean_mm": 50.21761164715314,
+              "shape_mean_mm": 1.910626344141402,
+              "mean_conditional_on_complete_cases": true,
+              "qualified_calibration_and_forecast_count": 1,
+              "qualified_reference_coordinate_mean_mm": 50.21761164715314
+            },
+            "rigid": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 17.664915818985985,
+              "shape_mean_mm": 1.4553545254047262,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 17.664915818985985
+            },
+            "position_ridge": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 54.796591198578966,
+              "shape_mean_mm": 9.54167902471032,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 54.796591198578966
+            },
+            "position_rigid": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 54.08718454912559,
+              "shape_mean_mm": 1.4553545254047175,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 54.08718454912559
+            },
+            "persistence": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 53.92295734593753,
+              "shape_mean_mm": 1.4553545254047173,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 53.92295734593753
+            },
+            "oracle": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 22.783045383288794,
+              "shape_mean_mm": 1.2005517353645916,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 22.783045383288794
+            }
+          },
+          "fem_comparisons": {
+            "native": {
+              "pairs": 1,
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 30.074926138980096
+            },
+            "rigid": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 6.5369791006041895
+            },
+            "position_ridge": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 43.66865448019716
+            },
+            "position_rigid": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 42.95924783074379
+            },
+            "persistence": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 42.79502062755574
+            },
+            "oracle": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 11.655108664906997
+            }
+          }
+        },
+        "edge_drop": {
+          "methods": {
+            "fem": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 24.93217218944254,
+              "shape_mean_mm": 3.7917242563330005,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 24.93217218944254
+            },
+            "native": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 56.3334791132745,
+              "shape_mean_mm": 4.2996438751282025,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 56.3334791132745
+            },
+            "rigid": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 36.91937743894183,
+              "shape_mean_mm": 4.306955416598652,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 36.91937743894183
+            },
+            "position_ridge": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 40.75986898712608,
+              "shape_mean_mm": 4.306955416598679,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 40.75986898712608
+            },
+            "position_rigid": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 40.75986898712608,
+              "shape_mean_mm": 4.306955416598679,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 40.75986898712608
+            },
+            "persistence": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 40.75986898712608,
+              "shape_mean_mm": 4.306955416598679,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 40.75986898712608
+            },
+            "oracle": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 25.412286454107917,
+              "shape_mean_mm": 4.027393565594613,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 25.412286454107917
+            }
+          },
+          "fem_comparisons": {
+            "native": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 31.40130692383196
+            },
+            "rigid": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 11.987205249499292
+            },
+            "position_ridge": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 15.82769679768354
+            },
+            "position_rigid": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 15.82769679768354
+            },
+            "persistence": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 15.82769679768354
+            },
+            "oracle": {
+              "pairs": 2,
+              "wins": 1,
+              "losses": 1,
+              "ties": 0,
+              "mean_gain_mm": 0.48011426466537666
+            }
+          }
+        },
+        "moving_sphere": {
+          "methods": {
+            "fem": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 9.742661457913488,
+              "shape_mean_mm": 1.195595025306911,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 9.742661457913488
+            },
+            "native": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 21.607501183941714,
+              "shape_mean_mm": 1.6812427126420515,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 21.607501183941714
+            },
+            "rigid": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 17.710274013239694,
+              "shape_mean_mm": 1.501810588055584,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 17.710274013239694
+            },
+            "position_ridge": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 58.42531368385228,
+              "shape_mean_mm": 9.458676030765133,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 58.42531368385228
+            },
+            "position_rigid": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 57.79935444881653,
+              "shape_mean_mm": 1.5018105880556292,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 57.79935444881653
+            },
+            "persistence": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 57.55585093019117,
+              "shape_mean_mm": 1.5018105880556294,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 57.55585093019117
+            },
+            "oracle": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 6.566838679952247,
+              "shape_mean_mm": 1.0724344817233369,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 6.566838679952247
+            }
+          },
+          "fem_comparisons": {
+            "native": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 11.864839726028224
+            },
+            "rigid": {
+              "pairs": 2,
+              "wins": 1,
+              "losses": 1,
+              "ties": 0,
+              "mean_gain_mm": 7.9676125553262045
+            },
+            "position_ridge": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 48.68265222593879
+            },
+            "position_rigid": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 48.05669299090304
+            },
+            "persistence": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 47.81318947227768
+            },
+            "oracle": {
+              "pairs": 2,
+              "wins": 0,
+              "losses": 2,
+              "ties": 0,
+              "mean_gain_mm": -3.175822777961241
+            }
+          }
+        },
+        "slide": {
+          "methods": {
+            "fem": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 9.525620206199529,
+              "shape_mean_mm": 0.9398620450148552,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 9.525620206199529
+            },
+            "native": {
+              "expected": 2,
+              "complete": 1,
+              "failures": [
+                {
+                  "object": "dev0",
+                  "scenario": "slide",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                }
+              ],
+              "coordinate_mean_mm": 34.00276114278748,
+              "shape_mean_mm": 1.5862360122525474,
+              "mean_conditional_on_complete_cases": true,
+              "qualified_calibration_and_forecast_count": 1,
+              "qualified_reference_coordinate_mean_mm": 34.00276114278748
+            },
+            "rigid": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 18.270573484825203,
+              "shape_mean_mm": 1.4158223905484029,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 18.270573484825203
+            },
+            "position_ridge": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 59.34662718016875,
+              "shape_mean_mm": 9.499235280237349,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 59.34662718016875
+            },
+            "position_rigid": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 58.713447973927025,
+              "shape_mean_mm": 1.415822390548434,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 58.713447973927025
+            },
+            "persistence": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 58.461187201503336,
+              "shape_mean_mm": 1.4158223905484337,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 58.461187201503336
+            },
+            "oracle": {
+              "expected": 2,
+              "complete": 2,
+              "failures": [],
+              "coordinate_mean_mm": 6.3473160296511075,
+              "shape_mean_mm": 0.8483909891221204,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 6.3473160296511075
+            }
+          },
+          "fem_comparisons": {
+            "native": {
+              "pairs": 1,
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 19.003528668218816
+            },
+            "rigid": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 8.744953278625673
+            },
+            "position_ridge": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 49.821006973969226
+            },
+            "position_rigid": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 49.18782776772749
+            },
+            "persistence": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 48.935566995303795
+            },
+            "oracle": {
+              "pairs": 2,
+              "wins": 0,
+              "losses": 2,
+              "ties": 0,
+              "mean_gain_mm": -3.178304176548421
+            }
+          }
+        }
+      },
+      "source_sha256": "bef79e624dce655e6a9105ded713d5189fc504a292d3a4d79dc60d2835a0d8e5"
+    },
+    "validation": {
+      "methods": {
+        "fem": {
+          "expected": 16,
+          "complete": 16,
+          "failures": [],
+          "coordinate_mean_mm": 10.952063470028776,
+          "shape_mean_mm": 1.62780474746398,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 15,
+          "qualified_reference_coordinate_mean_mm": 10.594103815460217
+        },
+        "native": {
+          "expected": 16,
+          "complete": 10,
+          "failures": [
+            {
+              "object": "val1",
+              "scenario": "slide",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "val1",
+              "scenario": "edge_drop",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "val1",
+              "scenario": "curved",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "val3",
+              "scenario": "slide",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "val3",
+              "scenario": "edge_drop",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "val3",
+              "scenario": "curved",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            }
+          ],
+          "coordinate_mean_mm": 29.70209755456952,
+          "shape_mean_mm": 1.81651906074999,
+          "mean_conditional_on_complete_cases": true,
+          "qualified_calibration_and_forecast_count": 10,
+          "qualified_reference_coordinate_mean_mm": 29.70209755456952
+        },
+        "rigid": {
+          "expected": 16,
+          "complete": 16,
+          "failures": [],
+          "coordinate_mean_mm": 18.52725719428614,
+          "shape_mean_mm": 1.7576402650047436,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 15,
+          "qualified_reference_coordinate_mean_mm": 18.153391851384708
+        },
+        "position_ridge": {
+          "expected": 16,
+          "complete": 16,
+          "failures": [],
+          "coordinate_mean_mm": 48.3967747898951,
+          "shape_mean_mm": 7.700695225815617,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 15,
+          "qualified_reference_coordinate_mean_mm": 49.63127511993986
+        },
+        "position_rigid": {
+          "expected": 16,
+          "complete": 16,
+          "failures": [],
+          "coordinate_mean_mm": 48.018654279786915,
+          "shape_mean_mm": 1.757640265004756,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 15,
+          "qualified_reference_coordinate_mean_mm": 49.227946575824475
+        },
+        "persistence": {
+          "expected": 16,
+          "complete": 16,
+          "failures": [],
+          "coordinate_mean_mm": 47.44177996924894,
+          "shape_mean_mm": 1.757640265004756,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 15,
+          "qualified_reference_coordinate_mean_mm": 48.6126139779173
+        },
+        "oracle": {
+          "expected": 16,
+          "complete": 16,
+          "failures": [],
+          "coordinate_mean_mm": 10.301453711036816,
+          "shape_mean_mm": 1.4043846269704443,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 15,
+          "qualified_reference_coordinate_mean_mm": 9.877784068974549
+        }
+      },
+      "fem_comparisons": {
+        "native": {
+          "pairs": 10,
+          "wins": 9,
+          "losses": 1,
+          "ties": 0,
+          "mean_gain_mm": 17.8833544969252
+        },
+        "rigid": {
+          "pairs": 16,
+          "wins": 14,
+          "losses": 2,
+          "ties": 0,
+          "mean_gain_mm": 7.575193724257365
+        },
+        "position_ridge": {
+          "pairs": 16,
+          "wins": 16,
+          "losses": 0,
+          "ties": 0,
+          "mean_gain_mm": 37.44471131986632
+        },
+        "position_rigid": {
+          "pairs": 16,
+          "wins": 16,
+          "losses": 0,
+          "ties": 0,
+          "mean_gain_mm": 37.06659080975815
+        },
+        "persistence": {
+          "pairs": 16,
+          "wins": 16,
+          "losses": 0,
+          "ties": 0,
+          "mean_gain_mm": 36.48971649922017
+        },
+        "oracle": {
+          "pairs": 16,
+          "wins": 8,
+          "losses": 4,
+          "ties": 4,
+          "mean_gain_mm": -0.6506097589919606
+        }
+      },
+      "expected": 16,
+      "present": 16,
+      "reference_qualified": 15,
+      "reference_failures": [
+        {
+          "object": "val3",
+          "scenario": "edge_drop",
+          "forecast_reasons": [
+            "Reference timestep difference exceeds limit"
+          ],
+          "calibration_reasons": []
+        }
+      ],
+      "scenarios": {
+        "curved": {
+          "methods": {
+            "fem": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 4.450077336134197,
+              "shape_mean_mm": 1.361372845669147,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 4.450077336134197
+            },
+            "native": {
+              "expected": 4,
+              "complete": 2,
+              "failures": [
+                {
+                  "object": "val1",
+                  "scenario": "curved",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                },
+                {
+                  "object": "val3",
+                  "scenario": "curved",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                }
+              ],
+              "coordinate_mean_mm": 32.97824657678655,
+              "shape_mean_mm": 1.4821829259112507,
+              "mean_conditional_on_complete_cases": true,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 32.97824657678655
+            },
+            "rigid": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 11.525567453648312,
+              "shape_mean_mm": 1.3058462116851972,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 11.525567453648312
+            },
+            "position_ridge": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 47.25609380785493,
+              "shape_mean_mm": 9.286045491648705,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 47.25609380785493
+            },
+            "position_rigid": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 46.66355375148577,
+              "shape_mean_mm": 1.3058462116851925,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 46.66355375148577
+            },
+            "persistence": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 46.097900308165556,
+              "shape_mean_mm": 1.3058462116851928,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 46.097900308165556
+            },
+            "oracle": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 4.324695957062317,
+              "shape_mean_mm": 0.9919176489946167,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 4.324695957062317
+            }
+          },
+          "fem_comparisons": {
+            "native": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 27.984354763086362
+            },
+            "rigid": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 7.075490117514115
+            },
+            "position_ridge": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 42.80601647172073
+            },
+            "position_rigid": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 42.21347641535158
+            },
+            "persistence": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 41.647822972031356
+            },
+            "oracle": {
+              "pairs": 4,
+              "wins": 2,
+              "losses": 1,
+              "ties": 1,
+              "mean_gain_mm": -0.12538137907188016
+            }
+          }
+        },
+        "edge_drop": {
+          "methods": {
+            "fem": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 26.026938537597246,
+              "shape_mean_mm": 2.790032368043243,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 3,
+              "qualified_reference_coordinate_mean_mm": 29.26209862061062
+            },
+            "native": {
+              "expected": 4,
+              "complete": 2,
+              "failures": [
+                {
+                  "object": "val1",
+                  "scenario": "edge_drop",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                },
+                {
+                  "object": "val3",
+                  "scenario": "edge_drop",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                }
+              ],
+              "coordinate_mean_mm": 63.7516219929367,
+              "shape_mean_mm": 3.2712796963423614,
+              "mean_conditional_on_complete_cases": true,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 63.7516219929367
+            },
+            "rigid": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 39.7540883791673,
+              "shape_mean_mm": 3.127297857569728,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 3,
+              "qualified_reference_coordinate_mean_mm": 44.960372059620525
+            },
+            "position_ridge": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 43.71118320845002,
+              "shape_mean_mm": 3.127297857569746,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 3,
+              "qualified_reference_coordinate_mean_mm": 48.32182099819215
+            },
+            "position_rigid": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 43.71118320845002,
+              "shape_mean_mm": 3.127297857569746,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 3,
+              "qualified_reference_coordinate_mean_mm": 48.32182099819215
+            },
+            "persistence": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 43.71118320845002,
+              "shape_mean_mm": 3.127297857569746,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 3,
+              "qualified_reference_coordinate_mean_mm": 48.32182099819215
+            },
+            "oracle": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 24.389818121628256,
+              "shape_mean_mm": 2.8402122776011502,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 3,
+              "qualified_reference_coordinate_mean_mm": 26.967591381514065
+            }
+          },
+          "fem_comparisons": {
+            "native": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 32.56940928454699
+            },
+            "rigid": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 13.72714984157006
+            },
+            "position_ridge": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 17.68424467085277
+            },
+            "position_rigid": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 17.68424467085277
+            },
+            "persistence": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 17.68424467085277
+            },
+            "oracle": {
+              "pairs": 4,
+              "wins": 2,
+              "losses": 1,
+              "ties": 1,
+              "mean_gain_mm": -1.6371204159689916
+            }
+          }
+        },
+        "moving_sphere": {
+          "methods": {
+            "fem": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 8.354576148814859,
+              "shape_mean_mm": 1.130788184492862,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 8.354576148814859
+            },
+            "native": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 16.86099768744064,
+              "shape_mean_mm": 1.6039597106761907,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 16.86099768744064
+            },
+            "rigid": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 11.680192460203793,
+              "shape_mean_mm": 1.2843714677195162,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 11.680192460203793
+            },
+            "position_ridge": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 50.85532661585063,
+              "shape_mean_mm": 9.148907937762129,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 50.85532661585063
+            },
+            "position_rigid": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 50.39150486550025,
+              "shape_mean_mm": 1.2843714677195508,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 50.39150486550025
+            },
+            "persistence": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 49.52493580221409,
+              "shape_mean_mm": 1.2843714677195506,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 49.52493580221409
+            },
+            "oracle": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 5.786680874058641,
+              "shape_mean_mm": 0.899612028067116,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 5.786680874058641
+            }
+          },
+          "fem_comparisons": {
+            "native": {
+              "pairs": 4,
+              "wins": 3,
+              "losses": 1,
+              "ties": 0,
+              "mean_gain_mm": 8.506421538625787
+            },
+            "rigid": {
+              "pairs": 4,
+              "wins": 2,
+              "losses": 2,
+              "ties": 0,
+              "mean_gain_mm": 3.3256163113889348
+            },
+            "position_ridge": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 42.50075046703577
+            },
+            "position_rigid": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 42.036928716685395
+            },
+            "persistence": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 41.170359653399224
+            },
+            "oracle": {
+              "pairs": 4,
+              "wins": 1,
+              "losses": 2,
+              "ties": 1,
+              "mean_gain_mm": -2.5678952747562165
+            }
+          }
+        },
+        "slide": {
+          "methods": {
+            "fem": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 4.976661857568801,
+              "shape_mean_mm": 1.2290255916506676,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 4.976661857568801
+            },
+            "native": {
+              "expected": 4,
+              "complete": 2,
+              "failures": [
+                {
+                  "object": "val1",
+                  "scenario": "slide",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                },
+                {
+                  "object": "val3",
+                  "scenario": "slide",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                }
+              ],
+              "coordinate_mean_mm": 18.058623828243036,
+              "shape_mean_mm": 1.1212132601439553,
+              "mean_conditional_on_complete_cases": true,
+              "qualified_calibration_and_forecast_count": 2,
+              "qualified_reference_coordinate_mean_mm": 18.058623828243036
+            },
+            "rigid": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 11.149180484125148,
+              "shape_mean_mm": 1.3130455230445335,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 11.149180484125148
+            },
+            "position_ridge": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 51.76449552742483,
+              "shape_mean_mm": 9.240529616281888,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 51.76449552742483
+            },
+            "position_rigid": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 51.30837529371163,
+              "shape_mean_mm": 1.3130455230445346,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 51.30837529371163
+            },
+            "persistence": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 50.43310055816612,
+              "shape_mean_mm": 1.3130455230445344,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 50.43310055816612
+            },
+            "oracle": {
+              "expected": 4,
+              "complete": 4,
+              "failures": [],
+              "coordinate_mean_mm": 6.704619891398047,
+              "shape_mean_mm": 0.885796553218894,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 6.704619891398047
+            }
+          },
+          "fem_comparisons": {
+            "native": {
+              "pairs": 2,
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 11.850165359741087
+            },
+            "rigid": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 6.172518626556348
+            },
+            "position_ridge": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 46.78783366985603
+            },
+            "position_rigid": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 46.33171343614283
+            },
+            "persistence": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 45.45643870059731
+            },
+            "oracle": {
+              "pairs": 4,
+              "wins": 3,
+              "losses": 0,
+              "ties": 1,
+              "mean_gain_mm": 1.7279580338292457
+            }
+          }
+        }
+      },
+      "source_sha256": "0487c60ac0521ede3558e650a80c24356b6fb97b2cc411bdb2c3eef065486314"
+    },
+    "reserved": {
+      "methods": {
+        "fem": {
+          "expected": 32,
+          "complete": 32,
+          "failures": [],
+          "coordinate_mean_mm": 13.58809320772599,
+          "shape_mean_mm": 1.7824878860139577,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 26,
+          "qualified_reference_coordinate_mean_mm": 13.662197677293118
+        },
+        "native": {
+          "expected": 32,
+          "complete": 20,
+          "failures": [
+            {
+              "object": "test1",
+              "scenario": "slide",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "test1",
+              "scenario": "edge_drop",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "test1",
+              "scenario": "curved",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "test3",
+              "scenario": "slide",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "test3",
+              "scenario": "edge_drop",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "test3",
+              "scenario": "curved",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "test5",
+              "scenario": "slide",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "test5",
+              "scenario": "edge_drop",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "test5",
+              "scenario": "curved",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "test7",
+              "scenario": "slide",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "test7",
+              "scenario": "edge_drop",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            },
+            {
+              "object": "test7",
+              "scenario": "curved",
+              "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+            }
+          ],
+          "coordinate_mean_mm": 33.37421027340558,
+          "shape_mean_mm": 1.9119485797041862,
+          "mean_conditional_on_complete_cases": true,
+          "qualified_calibration_and_forecast_count": 18,
+          "qualified_reference_coordinate_mean_mm": 35.44662791290897
+        },
+        "rigid": {
+          "expected": 32,
+          "complete": 32,
+          "failures": [],
+          "coordinate_mean_mm": 20.081009670546905,
+          "shape_mean_mm": 1.9148433431876883,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 26,
+          "qualified_reference_coordinate_mean_mm": 21.265755491901317
+        },
+        "position_ridge": {
+          "expected": 32,
+          "complete": 32,
+          "failures": [],
+          "coordinate_mean_mm": 49.63033582245538,
+          "shape_mean_mm": 7.595373508132542,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 26,
+          "qualified_reference_coordinate_mean_mm": 52.453492242243186
+        },
+        "position_rigid": {
+          "expected": 32,
+          "complete": 32,
+          "failures": [],
+          "coordinate_mean_mm": 49.30342767259938,
+          "shape_mean_mm": 1.9148433431877045,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 26,
+          "qualified_reference_coordinate_mean_mm": 52.13069609258574
+        },
+        "persistence": {
+          "expected": 32,
+          "complete": 32,
+          "failures": [],
+          "coordinate_mean_mm": 48.73758952593465,
+          "shape_mean_mm": 1.9148433431877045,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 26,
+          "qualified_reference_coordinate_mean_mm": 51.58088597031226
+        },
+        "oracle": {
+          "expected": 32,
+          "complete": 32,
+          "failures": [],
+          "coordinate_mean_mm": 12.04744840923555,
+          "shape_mean_mm": 1.6119754239799287,
+          "mean_conditional_on_complete_cases": false,
+          "qualified_calibration_and_forecast_count": 26,
+          "qualified_reference_coordinate_mean_mm": 12.432584729327882
+        }
+      },
+      "fem_comparisons": {
+        "native": {
+          "pairs": 20,
+          "wins": 19,
+          "losses": 1,
+          "ties": 0,
+          "mean_gain_mm": 17.76220131394616
+        },
+        "rigid": {
+          "pairs": 32,
+          "wins": 28,
+          "losses": 4,
+          "ties": 0,
+          "mean_gain_mm": 6.492916462820915
+        },
+        "position_ridge": {
+          "pairs": 32,
+          "wins": 31,
+          "losses": 1,
+          "ties": 0,
+          "mean_gain_mm": 36.042242614729396
+        },
+        "position_rigid": {
+          "pairs": 32,
+          "wins": 31,
+          "losses": 1,
+          "ties": 0,
+          "mean_gain_mm": 35.71533446487339
+        },
+        "persistence": {
+          "pairs": 32,
+          "wins": 31,
+          "losses": 1,
+          "ties": 0,
+          "mean_gain_mm": 35.14949631820867
+        },
+        "oracle": {
+          "pairs": 32,
+          "wins": 10,
+          "losses": 22,
+          "ties": 0,
+          "mean_gain_mm": -1.540644798490439
+        }
+      },
+      "expected": 32,
+      "present": 32,
+      "reference_qualified": 26,
+      "reference_failures": [
+        {
+          "object": "test1",
+          "scenario": "slide",
+          "forecast_reasons": [
+            "Reference timestep difference exceeds limit"
+          ],
+          "calibration_reasons": []
+        },
+        {
+          "object": "test1",
+          "scenario": "curved",
+          "forecast_reasons": [
+            "Reference timestep difference exceeds limit"
+          ],
+          "calibration_reasons": []
+        },
+        {
+          "object": "test1",
+          "scenario": "moving_sphere",
+          "forecast_reasons": [
+            "Reference timestep difference exceeds limit"
+          ],
+          "calibration_reasons": []
+        },
+        {
+          "object": "test5",
+          "scenario": "edge_drop",
+          "forecast_reasons": [
+            "Reference timestep difference exceeds limit"
+          ],
+          "calibration_reasons": []
+        },
+        {
+          "object": "test7",
+          "scenario": "edge_drop",
+          "forecast_reasons": [
+            "base penetration exceeds limit",
+            "half-dt penetration exceeds limit",
+            "Reference timestep difference exceeds limit"
+          ],
+          "calibration_reasons": []
+        },
+        {
+          "object": "test7",
+          "scenario": "moving_sphere",
+          "forecast_reasons": [
+            "base penetration exceeds limit",
+            "half-dt penetration exceeds limit"
+          ],
+          "calibration_reasons": []
+        }
+      ],
+      "scenarios": {
+        "curved": {
+          "methods": {
+            "fem": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 7.362887806680257,
+              "shape_mean_mm": 1.417373027242978,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 7,
+              "qualified_reference_coordinate_mean_mm": 7.5199407788043375
+            },
+            "native": {
+              "expected": 8,
+              "complete": 4,
+              "failures": [
+                {
+                  "object": "test1",
+                  "scenario": "curved",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                },
+                {
+                  "object": "test3",
+                  "scenario": "curved",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                },
+                {
+                  "object": "test5",
+                  "scenario": "curved",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                },
+                {
+                  "object": "test7",
+                  "scenario": "curved",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                }
+              ],
+              "coordinate_mean_mm": 38.031182502048146,
+              "shape_mean_mm": 1.5215709809418123,
+              "mean_conditional_on_complete_cases": true,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 38.031182502048146
+            },
+            "rigid": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 13.204579597419858,
+              "shape_mean_mm": 1.5366465674349408,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 7,
+              "qualified_reference_coordinate_mean_mm": 13.079018013654585
+            },
+            "position_ridge": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 49.209349393819195,
+              "shape_mean_mm": 9.127607675408287,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 7,
+              "qualified_reference_coordinate_mean_mm": 50.65860295532335
+            },
+            "position_rigid": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 48.708308183876355,
+              "shape_mean_mm": 1.5366465674349448,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 7,
+              "qualified_reference_coordinate_mean_mm": 50.1591106008976
+            },
+            "persistence": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 48.09284584911036,
+              "shape_mean_mm": 1.5366465674349443,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 7,
+              "qualified_reference_coordinate_mean_mm": 49.600591016907956
+            },
+            "oracle": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 10.44083964052752,
+              "shape_mean_mm": 1.2718045756586143,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 7,
+              "qualified_reference_coordinate_mean_mm": 11.097382843263182
+            }
+          },
+          "fem_comparisons": {
+            "native": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 27.12464275477692
+            },
+            "rigid": {
+              "pairs": 8,
+              "wins": 8,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 5.8416917907396
+            },
+            "position_ridge": {
+              "pairs": 8,
+              "wins": 8,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 41.84646158713893
+            },
+            "position_rigid": {
+              "pairs": 8,
+              "wins": 8,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 41.3454203771961
+            },
+            "persistence": {
+              "pairs": 8,
+              "wins": 8,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 40.729958042430106
+            },
+            "oracle": {
+              "pairs": 8,
+              "wins": 5,
+              "losses": 3,
+              "ties": 0,
+              "mean_gain_mm": 3.077951833847264
+            }
+          }
+        },
+        "edge_drop": {
+          "methods": {
+            "fem": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 24.263427456463567,
+              "shape_mean_mm": 3.0213132871664308,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 6,
+              "qualified_reference_coordinate_mean_mm": 25.20448676179299
+            },
+            "native": {
+              "expected": 8,
+              "complete": 4,
+              "failures": [
+                {
+                  "object": "test1",
+                  "scenario": "edge_drop",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                },
+                {
+                  "object": "test3",
+                  "scenario": "edge_drop",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                },
+                {
+                  "object": "test5",
+                  "scenario": "edge_drop",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                },
+                {
+                  "object": "test7",
+                  "scenario": "edge_drop",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                }
+              ],
+              "coordinate_mean_mm": 64.69668013168028,
+              "shape_mean_mm": 3.419180572624971,
+              "mean_conditional_on_complete_cases": true,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 64.69668013168028
+            },
+            "rigid": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 37.72474845395965,
+              "shape_mean_mm": 3.167117273498053,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 6,
+              "qualified_reference_coordinate_mean_mm": 41.63747117903612
+            },
+            "position_ridge": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 41.824809676621314,
+              "shape_mean_mm": 3.167117273498076,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 6,
+              "qualified_reference_coordinate_mean_mm": 45.328275416671566
+            },
+            "position_rigid": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 41.824809676621314,
+              "shape_mean_mm": 3.167117273498076,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 6,
+              "qualified_reference_coordinate_mean_mm": 45.328275416671566
+            },
+            "persistence": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 41.824809676621314,
+              "shape_mean_mm": 3.167117273498076,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 6,
+              "qualified_reference_coordinate_mean_mm": 45.328275416671566
+            },
+            "oracle": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 24.630849380691238,
+              "shape_mean_mm": 2.8599973755161376,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 6,
+              "qualified_reference_coordinate_mean_mm": 26.07070159614125
+            }
+          },
+          "fem_comparisons": {
+            "native": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 38.405361586223734
+            },
+            "rigid": {
+              "pairs": 8,
+              "wins": 7,
+              "losses": 1,
+              "ties": 0,
+              "mean_gain_mm": 13.461320997496081
+            },
+            "position_ridge": {
+              "pairs": 8,
+              "wins": 7,
+              "losses": 1,
+              "ties": 0,
+              "mean_gain_mm": 17.56138222015774
+            },
+            "position_rigid": {
+              "pairs": 8,
+              "wins": 7,
+              "losses": 1,
+              "ties": 0,
+              "mean_gain_mm": 17.56138222015774
+            },
+            "persistence": {
+              "pairs": 8,
+              "wins": 7,
+              "losses": 1,
+              "ties": 0,
+              "mean_gain_mm": 17.56138222015774
+            },
+            "oracle": {
+              "pairs": 8,
+              "wins": 3,
+              "losses": 5,
+              "ties": 0,
+              "mean_gain_mm": 0.36742192422767067
+            }
+          }
+        },
+        "moving_sphere": {
+          "methods": {
+            "fem": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 12.367161023699337,
+              "shape_mean_mm": 1.3612164665502673,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 6,
+              "qualified_reference_coordinate_mean_mm": 12.536400490071065
+            },
+            "native": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 19.88749630099526,
+              "shape_mean_mm": 1.7407042627845228,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 6,
+              "qualified_reference_coordinate_mean_mm": 21.609177895368674
+            },
+            "rigid": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 14.974662705860172,
+              "shape_mean_mm": 1.4870304235755794,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 6,
+              "qualified_reference_coordinate_mean_mm": 17.502419381499003
+            },
+            "position_ridge": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 53.342516075339866,
+              "shape_mean_mm": 9.005512517152033,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 6,
+              "qualified_reference_coordinate_mean_mm": 57.37483958293475
+            },
+            "position_rigid": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 52.93897308461432,
+              "shape_mean_mm": 1.487030423575618,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 6,
+              "qualified_reference_coordinate_mean_mm": 57.01196553160884
+            },
+            "persistence": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 52.11908808601673,
+              "shape_mean_mm": 1.4870304235756184,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 6,
+              "qualified_reference_coordinate_mean_mm": 56.20847985628997
+            },
+            "oracle": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 6.487057693526553,
+              "shape_mean_mm": 1.2168894217166581,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 6,
+              "qualified_reference_coordinate_mean_mm": 6.869072160714941
+            }
+          },
+          "fem_comparisons": {
+            "native": {
+              "pairs": 8,
+              "wins": 7,
+              "losses": 1,
+              "ties": 0,
+              "mean_gain_mm": 7.520335277295923
+            },
+            "rigid": {
+              "pairs": 8,
+              "wins": 5,
+              "losses": 3,
+              "ties": 0,
+              "mean_gain_mm": 2.6075016821608354
+            },
+            "position_ridge": {
+              "pairs": 8,
+              "wins": 8,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 40.97535505164053
+            },
+            "position_rigid": {
+              "pairs": 8,
+              "wins": 8,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 40.57181206091497
+            },
+            "persistence": {
+              "pairs": 8,
+              "wins": 8,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 39.75192706231739
+            },
+            "oracle": {
+              "pairs": 8,
+              "wins": 0,
+              "losses": 8,
+              "ties": 0,
+              "mean_gain_mm": -5.880103330172785
+            }
+          }
+        },
+        "slide": {
+          "methods": {
+            "fem": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 10.358896544060789,
+              "shape_mean_mm": 1.330048763096154,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 7,
+              "qualified_reference_coordinate_mean_mm": 10.876032949543779
+            },
+            "native": {
+              "expected": 8,
+              "complete": 4,
+              "failures": [
+                {
+                  "object": "test1",
+                  "scenario": "slide",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                },
+                {
+                  "object": "test3",
+                  "scenario": "slide",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                },
+                {
+                  "object": "test5",
+                  "scenario": "slide",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                },
+                {
+                  "object": "test7",
+                  "scenario": "slide",
+                  "reason": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+                }
+              ],
+              "coordinate_mean_mm": 24.368196131308952,
+              "shape_mean_mm": 1.1375828193851023,
+              "mean_conditional_on_complete_cases": true,
+              "qualified_calibration_and_forecast_count": 4,
+              "qualified_reference_coordinate_mean_mm": 24.368196131308952
+            },
+            "rigid": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 14.420047924947935,
+              "shape_mean_mm": 1.4685791082421802,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 7,
+              "qualified_reference_coordinate_mean_mm": 15.216739047234496
+            },
+            "position_ridge": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 54.14466814404116,
+              "shape_mean_mm": 9.08125656647177,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 7,
+              "qualified_reference_coordinate_mean_mm": 56.13741251620304
+            },
+            "position_rigid": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 53.74161974528555,
+              "shape_mean_mm": 1.4685791082421793,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 7,
+              "qualified_reference_coordinate_mean_mm": 55.74898264446621
+            },
+            "persistence": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 52.91361449199022,
+              "shape_mean_mm": 1.4685791082421793,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 7,
+              "qualified_reference_coordinate_mean_mm": 54.954052353141954
+            },
+            "oracle": {
+              "expected": 8,
+              "complete": 8,
+              "failures": [],
+              "coordinate_mean_mm": 6.631046922196885,
+              "shape_mean_mm": 1.099210323028304,
+              "mean_conditional_on_complete_cases": false,
+              "qualified_calibration_and_forecast_count": 7,
+              "qualified_reference_coordinate_mean_mm": 6.846697216935077
+            }
+          },
+          "fem_comparisons": {
+            "native": {
+              "pairs": 4,
+              "wins": 4,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 8.240331674138318
+            },
+            "rigid": {
+              "pairs": 8,
+              "wins": 8,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 4.0611513808871464
+            },
+            "position_ridge": {
+              "pairs": 8,
+              "wins": 8,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 43.78577159998037
+            },
+            "position_rigid": {
+              "pairs": 8,
+              "wins": 8,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 43.382723201224756
+            },
+            "persistence": {
+              "pairs": 8,
+              "wins": 8,
+              "losses": 0,
+              "ties": 0,
+              "mean_gain_mm": 42.554717947929426
+            },
+            "oracle": {
+              "pairs": 8,
+              "wins": 2,
+              "losses": 6,
+              "ties": 0,
+              "mean_gain_mm": -3.727849621863906
+            }
+          }
+        }
+      },
+      "source_sha256": "916b037f821b07739a853780de167297d5b22f165630a2f176187ae59f6b6bc9"
+    }
+  },
+  "spatial_reference_warning": "Development spatial audit failed: changing the reference mesh from 4 to 6 cells changes edge-drop trajectories by 12.13 and 29.72 mm. Reference-qualified below means only finite, penetration and timestep checks; it does not establish spatial accuracy. These are comparisons against the frozen discretized simulator, not validated physical ground truth."
 }

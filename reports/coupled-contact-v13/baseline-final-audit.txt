@@ -1,0 +1,138 @@
+BASELINE FINAL AUDIT (evaluator only; status below)
+Frozen source mismatches: []
+Author PhysTwin checkout: 81c718790a37e5e0102eb77af2c6edd34a9db25f; eval_springs AST identical: True
+Full local spring source SHA256: d89b30d871c5ffe8aed67fabd3624d8c6a9b80b41da4ed4a106afb7da9f13ac7
+Native label: PhysTwin native spring-force core + shared v13 contact/integrator; NOT full PhysTwin.
+Native original supports multi-object particle collision. This comparison replaces its optimizer, graph, mass convention, collision and integrator.
+Equal 35 scalar-scale/friction hypotheses for FEM and native; rigid has 5 friction hypotheses. Same initial nodes, lumped masses, contact geometry, area weighting, time step and positive-J guard.
+Native effective spring scale is not FEM Young modulus. Native7point log grid 1e3–1e6; FEM7point grid2e3–1.8e4. Same count does not imply identical expressivity or equal viable candidates.
+The reference is finer-mesh same-constitutive-family FEM, favoring the FEM model family. Neither official PhysTwin nor real-data generalization is measured.
+Empirical position baselines see positions, tool kinematics and time; they do not receive scene collision geometry. Rigid/native shared-contact baselines address that difference.
+
+LIBRARY ACCOUNTING
+fem: 35/35 accounted; 35 success; 0 failures
+  Failure reasons: {}
+  Successful scale/friction candidates: [(2000.0, 0.0), (2000.0, 0.2), (2000.0, 0.4), (2000.0, 0.6), (2000.0, 0.8), (3000.0, 0.0), (3000.0, 0.2), (3000.0, 0.4), (3000.0, 0.6), (3000.0, 0.8), (4500.0, 0.0), (4500.0, 0.2), (4500.0, 0.4), (4500.0, 0.6), (4500.0, 0.8), (6500.0, 0.0), (6500.0, 0.2), (6500.0, 0.4), (6500.0, 0.6), (6500.0, 0.8), (9000.0, 0.0), (9000.0, 0.2), (9000.0, 0.4), (9000.0, 0.6), (9000.0, 0.8), (13000.0, 0.0), (13000.0, 0.2), (13000.0, 0.4), (13000.0, 0.6), (13000.0, 0.8), (18000.0, 0.0), (18000.0, 0.2), (18000.0, 0.4), (18000.0, 0.6), (18000.0, 0.8)]
+native: 35/35 accounted; 14 success; 21 failures
+  Failure reasons: {"FloatingPointError('Step inverted/degenerate FEM element; reduce dt')": 21}
+  Successful scale/friction candidates: [(31622.776601683792, 0.2), (100000.0, 0.2), (100000.0, 0.4), (100000.0, 0.6), (100000.0, 0.8), (316227.7660168379, 0.0), (316227.7660168379, 0.2), (316227.7660168379, 0.4), (316227.7660168379, 0.6), (1000000.0, 0.0), (1000000.0, 0.2), (1000000.0, 0.4), (1000000.0, 0.6), (1000000.0, 0.8)]
+rigid: 5/5 accounted; 5 success; 0 failures
+  Failure reasons: {}
+  Successful scale/friction candidates: [(6000.0, 0.0), (6000.0, 0.2), (6000.0, 0.4), (6000.0, 0.6), (6000.0, 0.8)]
+Native spring particles have no tetrahedral volume constraint; common positive-J rejection is a study-specific constraint, not evidence that the authors full method fails.
+
+CALIBRATION SELECTIONS
+development dev0 fem: scale=6500, friction=0.6, calibrationRMSE=0.4947mm, scaleEdge=False, frictionEdge=False, finiteCandidates=35/35, argminVerified=True
+development dev0 native: scale=100000, friction=0.6, calibrationRMSE=1.5957mm, scaleEdge=False, frictionEdge=False, finiteCandidates=14/35, argminVerified=True
+development dev0 rigid: scale=6000, friction=0.8, calibrationRMSE=3.2907mm, scaleEdge=True, frictionEdge=True, finiteCandidates=5/5, argminVerified=True
+development dev1 fem: scale=3000, friction=0.2, calibrationRMSE=0.9614mm, scaleEdge=False, frictionEdge=False, finiteCandidates=35/35, argminVerified=True
+development dev1 native: scale=100000, friction=0.4, calibrationRMSE=3.0082mm, scaleEdge=False, frictionEdge=False, finiteCandidates=14/35, argminVerified=True
+development dev1 rigid: scale=6000, friction=0.2, calibrationRMSE=2.5849mm, scaleEdge=True, frictionEdge=False, finiteCandidates=5/5, argminVerified=True
+validation val0 fem: scale=4500, friction=0.2, calibrationRMSE=0.9184mm, scaleEdge=False, frictionEdge=False, finiteCandidates=35/35, argminVerified=True
+validation val0 native: scale=100000, friction=0.4, calibrationRMSE=1.7702mm, scaleEdge=False, frictionEdge=False, finiteCandidates=14/35, argminVerified=True
+validation val0 rigid: scale=6000, friction=0.8, calibrationRMSE=2.5368mm, scaleEdge=True, frictionEdge=True, finiteCandidates=5/5, argminVerified=True
+validation val1 fem: scale=4500, friction=0.8, calibrationRMSE=0.5942mm, scaleEdge=False, frictionEdge=True, finiteCandidates=35/35, argminVerified=True
+validation val1 native: scale=100000, friction=0.8, calibrationRMSE=1.7057mm, scaleEdge=False, frictionEdge=True, finiteCandidates=14/35, argminVerified=True
+validation val1 rigid: scale=6000, friction=0.8, calibrationRMSE=3.8479mm, scaleEdge=True, frictionEdge=True, finiteCandidates=5/5, argminVerified=True
+validation val2 fem: scale=6500, friction=0.2, calibrationRMSE=0.8315mm, scaleEdge=False, frictionEdge=False, finiteCandidates=35/35, argminVerified=True
+validation val2 native: scale=100000, friction=0.4, calibrationRMSE=2.2696mm, scaleEdge=False, frictionEdge=False, finiteCandidates=14/35, argminVerified=True
+validation val2 rigid: scale=6000, friction=0.2, calibrationRMSE=2.2866mm, scaleEdge=True, frictionEdge=False, finiteCandidates=5/5, argminVerified=True
+validation val3 fem: scale=9000, friction=0.8, calibrationRMSE=0.4052mm, scaleEdge=False, frictionEdge=True, finiteCandidates=35/35, argminVerified=True
+validation val3 native: scale=100000, friction=0.8, calibrationRMSE=1.5527mm, scaleEdge=False, frictionEdge=True, finiteCandidates=14/35, argminVerified=True
+validation val3 rigid: scale=6000, friction=0.8, calibrationRMSE=3.6769mm, scaleEdge=True, frictionEdge=True, finiteCandidates=5/5, argminVerified=True
+reserved test0 fem: scale=4500, friction=0.2, calibrationRMSE=0.6072mm, scaleEdge=False, frictionEdge=False, finiteCandidates=35/35, argminVerified=True
+reserved test0 native: scale=100000, friction=0.4, calibrationRMSE=2.3578mm, scaleEdge=False, frictionEdge=False, finiteCandidates=14/35, argminVerified=True
+reserved test0 rigid: scale=6000, friction=0.8, calibrationRMSE=2.4630mm, scaleEdge=True, frictionEdge=True, finiteCandidates=5/5, argminVerified=True
+reserved test1 fem: scale=4500, friction=0.8, calibrationRMSE=0.7184mm, scaleEdge=False, frictionEdge=True, finiteCandidates=35/35, argminVerified=True
+reserved test1 native: scale=100000, friction=0.8, calibrationRMSE=1.8678mm, scaleEdge=False, frictionEdge=True, finiteCandidates=14/35, argminVerified=True
+reserved test1 rigid: scale=6000, friction=0.8, calibrationRMSE=3.7128mm, scaleEdge=True, frictionEdge=True, finiteCandidates=5/5, argminVerified=True
+reserved test2 fem: scale=6500, friction=0.2, calibrationRMSE=0.6152mm, scaleEdge=False, frictionEdge=False, finiteCandidates=35/35, argminVerified=True
+reserved test2 native: scale=100000, friction=0.4, calibrationRMSE=2.5606mm, scaleEdge=False, frictionEdge=False, finiteCandidates=14/35, argminVerified=True
+reserved test2 rigid: scale=6000, friction=0.2, calibrationRMSE=2.2622mm, scaleEdge=True, frictionEdge=False, finiteCandidates=5/5, argminVerified=True
+reserved test3 fem: scale=6500, friction=0.8, calibrationRMSE=0.6788mm, scaleEdge=False, frictionEdge=True, finiteCandidates=35/35, argminVerified=True
+reserved test3 native: scale=100000, friction=0.8, calibrationRMSE=1.6765mm, scaleEdge=False, frictionEdge=True, finiteCandidates=14/35, argminVerified=True
+reserved test3 rigid: scale=6000, friction=0.8, calibrationRMSE=3.8737mm, scaleEdge=True, frictionEdge=True, finiteCandidates=5/5, argminVerified=True
+reserved test4 fem: scale=9000, friction=0.2, calibrationRMSE=0.7488mm, scaleEdge=False, frictionEdge=False, finiteCandidates=35/35, argminVerified=True
+reserved test4 native: scale=100000, friction=0.4, calibrationRMSE=2.9373mm, scaleEdge=False, frictionEdge=False, finiteCandidates=14/35, argminVerified=True
+reserved test4 rigid: scale=6000, friction=0.2, calibrationRMSE=2.1781mm, scaleEdge=True, frictionEdge=False, finiteCandidates=5/5, argminVerified=True
+reserved test5 fem: scale=9000, friction=0.8, calibrationRMSE=0.5632mm, scaleEdge=False, frictionEdge=True, finiteCandidates=35/35, argminVerified=True
+reserved test5 native: scale=100000, friction=0.8, calibrationRMSE=1.5834mm, scaleEdge=False, frictionEdge=True, finiteCandidates=14/35, argminVerified=True
+reserved test5 rigid: scale=6000, friction=0.8, calibrationRMSE=3.7983mm, scaleEdge=True, frictionEdge=True, finiteCandidates=5/5, argminVerified=True
+reserved test6 fem: scale=13000, friction=0.2, calibrationRMSE=0.8029mm, scaleEdge=False, frictionEdge=False, finiteCandidates=35/35, argminVerified=True
+reserved test6 native: scale=100000, friction=0.4, calibrationRMSE=3.3331mm, scaleEdge=False, frictionEdge=False, finiteCandidates=14/35, argminVerified=True
+reserved test6 rigid: scale=6000, friction=0.4, calibrationRMSE=2.1184mm, scaleEdge=True, frictionEdge=False, finiteCandidates=5/5, argminVerified=True
+reserved test7 fem: scale=9000, friction=0.8, calibrationRMSE=0.5427mm, scaleEdge=False, frictionEdge=True, finiteCandidates=35/35, argminVerified=True
+reserved test7 native: scale=100000, friction=0.8, calibrationRMSE=1.5769mm, scaleEdge=False, frictionEdge=True, finiteCandidates=14/35, argminVerified=True
+reserved test7 rigid: scale=6000, friction=0.8, calibrationRMSE=3.7626mm, scaleEdge=True, frictionEdge=True, finiteCandidates=5/5, argminVerified=True
+Rigid scaleEdge is uninformative because rigid has a single unused scale.
+
+DEVELOPMENT BASELINE COMPARISONS
+Cases 8/8; jointly qualified references 8
+fem: complete 8/8, coordinate mean mm=13.832097642984337, rigid-aligned shape mean mm=1.7719922522561493; means conditional if incomplete
+native: complete 6/8, coordinate mean mm=40.017055564062176, rigid-aligned shape mean mm=2.576439255322409; means conditional if incomplete
+  unavailable dev0/slide: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable dev0/curved: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+rigid: complete 8/8, coordinate mean mm=22.641285188998175, rigid-aligned shape mean mm=2.169985730151841; means conditional if incomplete
+position_ridge: complete 8/8, coordinate mean mm=53.33210026243152, rigid-aligned shape mean mm=8.20163643807787; means conditional if incomplete
+position_rigid: complete 8/8, coordinate mean mm=52.83996398974881, rigid-aligned shape mean mm=2.169985730151865; means conditional if incomplete
+persistence: complete 8/8, coordinate mean mm=52.67496611618952, rigid-aligned shape mean mm=2.169985730151865; means conditional if incomplete
+oracle: complete 8/8, coordinate mean mm=15.277371636750017, rigid-aligned shape mean mm=1.7871926929511657; means conditional if incomplete
+Paired FEM versus native: n=6, FEMmean=17.415264mm baselineMean=40.017056mm, FEMwins=6, losses=0, ties=0
+Paired FEM versus rigid: n=8, FEMmean=13.832098mm baselineMean=22.641285mm, FEMwins=7, losses=1, ties=0
+Paired FEM versus oracle: n=8, FEMmean=13.832098mm baselineMean=15.277372mm, FEMwins=3, losses=5, ties=0
+native calibration edge hits: scale 0/2, friction 0/2
+rigid calibration edge hits: scale 2/2, friction 1/2
+
+VALIDATION BASELINE COMPARISONS
+Cases 16/16; jointly qualified references 15
+fem: complete 16/16, coordinate mean mm=10.952063470028774, rigid-aligned shape mean mm=1.6278047474639799; means conditional if incomplete
+native: complete 10/16, coordinate mean mm=29.702097554569526, rigid-aligned shape mean mm=1.81651906074999; means conditional if incomplete
+  unavailable val1/slide: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable val1/edge_drop: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable val1/curved: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable val3/slide: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable val3/edge_drop: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable val3/curved: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+rigid: complete 16/16, coordinate mean mm=18.52725719428614, rigid-aligned shape mean mm=1.7576402650047436; means conditional if incomplete
+position_ridge: complete 16/16, coordinate mean mm=48.3967747898951, rigid-aligned shape mean mm=7.7006952258156165; means conditional if incomplete
+position_rigid: complete 16/16, coordinate mean mm=48.018654279786915, rigid-aligned shape mean mm=1.7576402650047558; means conditional if incomplete
+persistence: complete 16/16, coordinate mean mm=47.44177996924894, rigid-aligned shape mean mm=1.7576402650047558; means conditional if incomplete
+oracle: complete 16/16, coordinate mean mm=10.301453711036816, rigid-aligned shape mean mm=1.4043846269704443; means conditional if incomplete
+Paired FEM versus native: n=10, FEMmean=11.818743mm baselineMean=29.702098mm, FEMwins=9, losses=1, ties=0
+Paired FEM versus rigid: n=16, FEMmean=10.952063mm baselineMean=18.527257mm, FEMwins=14, losses=2, ties=0
+Paired FEM versus oracle: n=16, FEMmean=10.952063mm baselineMean=10.301454mm, FEMwins=8, losses=4, ties=4
+native calibration edge hits: scale 0/4, friction 2/4
+rigid calibration edge hits: scale 4/4, friction 3/4
+
+RESERVED BASELINE COMPARISONS
+Cases 32/32; jointly qualified references 26
+fem: complete 32/32, coordinate mean mm=13.588093207725988, rigid-aligned shape mean mm=1.7824878860139575; means conditional if incomplete
+native: complete 20/32, coordinate mean mm=33.37421027340558, rigid-aligned shape mean mm=1.9119485797041862; means conditional if incomplete
+  unavailable test1/slide: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable test1/edge_drop: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable test1/curved: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable test3/slide: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable test3/edge_drop: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable test3/curved: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable test5/slide: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable test5/edge_drop: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable test5/curved: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable test7/slide: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable test7/edge_drop: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+  unavailable test7/curved: FloatingPointError('Step inverted/degenerate FEM element; reduce dt')
+rigid: complete 32/32, coordinate mean mm=20.081009670546905, rigid-aligned shape mean mm=1.9148433431876883; means conditional if incomplete
+position_ridge: complete 32/32, coordinate mean mm=49.63033582245538, rigid-aligned shape mean mm=7.595373508132543; means conditional if incomplete
+position_rigid: complete 32/32, coordinate mean mm=49.30342767259938, rigid-aligned shape mean mm=1.9148433431877048; means conditional if incomplete
+persistence: complete 32/32, coordinate mean mm=48.73758952593466, rigid-aligned shape mean mm=1.9148433431877048; means conditional if incomplete
+oracle: complete 32/32, coordinate mean mm=12.04744840923555, rigid-aligned shape mean mm=1.6119754239799287; means conditional if incomplete
+Paired FEM versus native: n=20, FEMmean=15.612009mm baselineMean=33.374210mm, FEMwins=19, losses=1, ties=0
+Paired FEM versus rigid: n=32, FEMmean=13.588093mm baselineMean=20.081010mm, FEMwins=28, losses=4, ties=0
+Paired FEM versus oracle: n=32, FEMmean=13.588093mm baselineMean=12.047448mm, FEMwins=10, losses=22, ties=0
+native calibration edge hits: scale 0/8, friction 4/8
+rigid calibration edge hits: scale 8/8, friction 5/8
+
+ACCOUNTING COMPLETE: True
+Selection argmin mismatches: []
+Independent calibration score replay mismatches: []
+Visual source audit: four panels use shared world limits and camera orbit; 100Hz saved samples at25fps are4xslow. Fixed curved case is a spherical obstacle, not bowl/container. Renderer missing/nonfinite frames and scene bounds should be explicitly checked in final visual QA.
+No forecast outcomes used to edit models, grids or selection. Audit generated from immutable result files; incomplete jobs remain pending rather than omitted.

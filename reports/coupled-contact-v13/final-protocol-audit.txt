@@ -1,0 +1,76 @@
+FINAL INDEPENDENT PROTOCOL/EVIDENCE AUDIT: ORIGINAL VERTEX-CONTACT v13
+
+Outcome
+The frozen original study completed all 14 objects and56declared cross-interaction
+forecasts (development 8, validation 16, reserved 32). Independent reconstruction
+passes 3502 checks with zero errors. The supplementary fixed-nominal baseline
+passes 1564 checks over all 56 cases. All347archived v12 files retain their hashes.
+No source or test-case substitution was needed to obtain these audit passes.
+Audit success means recorded calculations/accounting match saved artifacts; it
+does NOT mean the underlying reference is spatially accurate.
+
+Reserved evidence: eight objects, four interactions each
+Inferred FEM completes 32/32 forecasts with 13.588 mm mean world-coordinate RMSE.
+Matched rigid contact completes 32/32 at 20.081 mm; inferred FEM wins 28 and loses 4.
+Fixed nominal FEM completes 32/32 at 15.729 mm; inference improves the mean by
+2.141 mm (about13.6%), with 25 wins and 7 losses. True-parameter coarse FEM averages
+12.047 mm, showing that even known material parameters leave substantial
+coarse-grid/contact prediction error.
+
+Native spring-core adaptation completes 20/32reserved forecasts. Its 33.374 mm
+mean is conditional on those 20; the paired inferred-FEM gain on the same 20 is
+17.762 mm, with 19 wins and 1 loss. Do not compare its conditional mean directly to
+FEM's full 32 case mean or label this adaptation official PhysTwin. The twelve
+native failures remain in accounting. Position ridge averages 49.630 mm over 32,
+but it lacks scene collision geometry; this is a simple contextual comparison,
+not an equal-physics baseline.
+
+FEM world-coordinate means by reserved interaction:
+slide 10.359 mm; edge-drop 24.263 mm; curved 7.363 mm; moving-sphere 12.367 mm.
+Corresponding rigid-aligned shape errors are 1.330,3.021,1.417,1.361 mm. These
+separate shape prediction from object placement. The edge case remains the
+largest world-position error and has independent spatial-reference concerns.
+
+Numerical qualification and spatial limitation
+Joint calibration/forecast numerical gates pass 8/8development,15/16validation,
+and 26/32reserved cases. Six reserved forecast references fail declared gates:
+test1 slide/curved/moving-sphere exceed timestep discrepancy; test5 edge-drop
+exceeds timestep discrepancy; test7 edge-drop exceeds penetration and timestep
+limits; test7 moving-sphere exceeds penetration limits. These cases remain in
+the full result table; qualified-only means must be explicitly labeled.
+
+More importantly, passing temporal gates DOES NOT establish spatial reference
+accuracy. A separate development-only known-parameter body-mesh4-versus6 audit
+finds edge-drop trajectory discrepancies 12.13 mm and 29.72 mm on the two materials,
+with final orientation differences 57.15 and 105.64 degrees. Curved-contact spatial
+differences are 0.872 and 2.497 mm. Vertex sampling of a narrow edge changes contact
+and tipping branches as the body mesh changes. A time-converged trajectory may
+therefore be an accurate integration of a spatially inadequate contact model.
+Neither the 26 temporally qualified reserved cases nor the saved positive-volume
+checks justify a blanket continuum-accurate reference claim.
+
+Interpretation
+The original study establishes executable nonlinear deformable/rigid coupling,
+position-only parameter-grid fitting and controlled cross-interaction transfer
+against the declared discrete reference. Parameter fitting has a measurable,
+nonuniform benefit over a fixed-parameter model. It does not establish unbiased
+material recovery, calibrated uncertainty, a general multi-deformable simulator,
+or superiority on SoftVTBench/official PhysTwin. No new external dataset rerun
+occurs here; old public benchmark evidence remains preserved separately.
+
+A separately declared surface-quadrature extension is scientifically appropriate.
+It must qualify both quadrature and body-resolution consistency on development,
+freeze all decisions before fresh reserved data, and report remaining spatial
+sensitivity. Its results cannot overwrite or retroactively validate the original
+vertex-contact references. Increasing contact stiffness or shifting the edge
+geometry must be shared by every new method; matched vertex ablations must
+recompute their 35calibration hypotheses under that same new scene.
+
+Audit mechanics
+Parameter choices were reconstructed independently from every saved calibration
+observation/mask and all hypothesis losses. World/shape/moving-body errors were
+recomputed from saved arrays; tetrahedral determinants checked independently;
+reference qualification and complete case identities checked. Substep penetration
+and minimum-volume logs were threshold-checked but unsaved substeps were not
+independently replayed. Uncertainty and inference identifiability remain separate
+questions from reproducible scoring.
