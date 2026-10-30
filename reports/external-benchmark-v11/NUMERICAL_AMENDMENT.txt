@@ -55,3 +55,25 @@ meet the 0.25 mm criterion. Neither a converged time step nor a validated releas
 reference is claimed. The separately reported adaptive predictions remain the
 5-step-plus-failure-subdivision stability repair. The positive-volume extension
 is diagnostic only and does not replace the frozen primary model.
+
+Additional comparison: prefix_calibrated_rigid is a stronger kinematic baseline
+added after the first primary results. It estimates the object/tool rigid offset
+from the last observed prefix frame, then follows known future tool positions
+with the same initial-floor ballistic release assumption. It never reads future
+object geometry. It is reported as an additional baseline, not a pre-frozen
+method. The local-finger-contact candidate was tested on development episodes
+only and was not promoted to the primary cohort; its fine-step release diagnostic
+also did not establish temporal convergence.
+
+Physical release correction, applied uniformly after the frozen comparison:
+final energy review identified that the static 1e-5 rest-position gauge spring
+remained active during inertial release. With a small inferred mass, this creates
+an artificial restoring force toward the initial location. dynamic_fem.py removes
+ONLY that numerical gauge term when inertia is active; inertia itself removes
+the free rigid-body nullspace. All material, gravity, world-potential, contact and
+attachment terms and every fitted parameter remain unchanged. A translated-body
+free-fall test verifies zero artificial horizontal acceleration and the expected
+gravity acceleration. This correction is applied to all 40 SoftVTBench cases and
+both FEM variants, with separately named physical_release_ results. The original
+fixed-step and adaptive-only results remain available. No target-error threshold
+selects the correction or which cases receive it.

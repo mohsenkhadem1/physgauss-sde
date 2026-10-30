@@ -100,3 +100,15 @@ def test_positive_volume_extension_has_consistent_tangent():
     automatic=torch.autograd.functional.hessian(lambda y:m.evaluate(y,theta,0)[0],x).reshape(m.ndof,m.ndof)
     assert torch.allclose(residual,gradient,atol=1e-9,rtol=1e-8)
     assert torch.allclose(hessian,automatic,atol=1e-8,rtol=1e-8)
+
+
+def test_released_translated_body_has_no_artificial_restoring_force():
+    from scripts.external_benchmark.dynamic_fem import DynamicFEM
+    data=fixture();data['attachment_active'][:]=0
+    model=DynamicFEM(data,device='cpu',field=False)
+    theta=model.t([-5,2,3,0,0]);dt=.01
+    initial=model.rest+model.t([3.,2.,1.]);model.inertial_target=initial;model.inertial_dt=dt
+    prediction,_,diagnostic=model.solve(theta,0,initial)
+    displacement=((prediction-initial)*model.mass[:,None]).sum(0).numpy()*model.scale
+    assert np.allclose(displacement,[0,0,-9.81*dt**2],atol=1e-9,rtol=1e-5)
+    assert diagnostic['residual']<1e-7

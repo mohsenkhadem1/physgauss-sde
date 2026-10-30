@@ -1,0 +1,165 @@
+EXTERNAL DEFORMATION BENCHMARK v11
+Completed: 2026-10-30T12:53:17.073141+00:00
+
+Main findings
+PhysTwin: our mean manual-marker error is 18.33 mm, versus 13.16 mm for the official reference.
+The additional world-space potential improves our own ablation from 20.47 to 18.33 mm (10.4%) across these three cases.
+SoftVTBench full-suffix position RMSE: corrected FEM 26.97 mm; adapted PhysTwin 39.35 mm; calibrated rigid 25.07 mm.
+Commanded-hold position RMSE: corrected FEM 18.79 mm; adapted PhysTwin 32.15 mm; calibrated rigid 16.47 mm.
+Corrected FEM produced 40/40 complete sequences with 0 failed forecast frames. This establishes finite forecasts, not converged release dynamics.
+
+What was done
+The material-reference/world-boundary model now runs on two external datasets.
+It learns physical ratios from an observed motion prefix and predicts the later
+object shape using recorded future tool positions, without true force or material
+labels. Initial geometry is provided. This is future geometry prediction after
+per-sequence fitting, not zero-shot prediction or an RGB reconstruction result.
+
+Cohort: 40 SoftVTBench episodes (2 suites x 2 reserved tasks x 10 episodes),
+and 3 reserved PhysTwin sequences. Development cases are excluded from these
+results. Configurations were frozen and pushed before primary scoring.
+
+Methods: persistence, rigid tool transport, prefix-calibrated rigid transport,
+position ridge regression, full FEM,
+FEM without its additional world-space Gaussian potential, official released
+PhysTwin predictions on its data, and adapted native PhysTwin on SoftVTBench.
+
+Mean sequence errors (mm; lower is better)
+
+PhysTwin / full
+Method                          position RMSE   shape RMSE  manual track  failed frames    present
+control_rigid                          82.966       16.239       130.729              0    3/3    
+material_world_fem                     14.453       10.932        18.332              0    3/3    
+no_world_potential_fem                 14.077       10.968        20.470              0    3/3    
+official_phystwin                      12.179       10.368        13.155              0    3/3    
+persistence                            42.774       16.239        69.334              0    3/3    
+position_ridge                         14.598       11.960        17.060              0    3/3    
+prefix_calibrated_rigid                44.325       16.239        96.196              0    3/3    
+
+SoftVTBench / full
+Method                          position RMSE   shape RMSE  manual track  failed frames    present
+adapted_phystwin                       39.351       11.751             -              0   40/40   
+adaptive_material_world_fem            50.728        1.922             -              0   40/40   
+adaptive_no_world_potential_fem         55.038        1.785             -              0   40/40   
+control_rigid                          27.725        2.048             -              0   40/40   
+material_world_fem                     47.509        1.914             -             47   40/40   
+no_world_potential_fem                 49.021        1.775             -             54   40/40   
+persistence                           150.657        2.048             -              0   40/40   
+FEM: corrected release                 26.967        1.922             -              0   40/40   
+Ablation: corrected release            26.754        1.785             -              0   40/40   
+position_ridge                        207.792        2.416             -              0   40/40   
+prefix_calibrated_rigid                25.070        2.048             -              0   40/40   
+
+SoftVTBench / commanded_hold
+Method                          position RMSE   shape RMSE  manual track  failed frames    present
+adapted_phystwin                       32.148       11.228             -              0   40/40   
+adaptive_material_world_fem            18.787        1.908             -              0   40/40   
+adaptive_no_world_potential_fem         18.733        1.736             -              0   40/40   
+control_rigid                          19.626        2.076             -              0   40/40   
+material_world_fem                     18.787        1.908             -              0   40/40   
+no_world_potential_fem                 18.733        1.736             -              0   40/40   
+persistence                           145.625        2.076             -              0   40/40   
+FEM: corrected release                 18.787        1.908             -              0   40/40   
+Ablation: corrected release            18.733        1.736             -              0   40/40   
+position_ridge                        190.694        2.215             -              0   40/40   
+prefix_calibrated_rigid                16.469        2.076             -              0   40/40   
+
+SoftVTBench / commanded_release
+Method                          position RMSE   shape RMSE  manual track  failed frames    present
+adapted_phystwin                       66.548       13.563             -              0   40/40   
+adaptive_material_world_fem           165.571        1.968             -              0   40/40   
+adaptive_no_world_potential_fem        184.967        1.965             -              0   40/40   
+control_rigid                          58.392        1.958             -              0   40/40   
+material_world_fem                    165.050        1.851             -             47   40/40   
+no_world_potential_fem                196.763        1.970             -             54   40/40   
+persistence                           170.609        1.958             -              0   40/40   
+FEM: corrected release                 57.632        1.970             -              0   40/40   
+Ablation: corrected release            56.940        1.964             -              0   40/40   
+position_ridge                        271.844        3.115             -              0   40/40   
+prefix_calibrated_rigid                57.349        1.958             -              0   40/40   
+
+PhysTwin per-sequence manual marker errors (mm)
+Case                              Our FEM  Official PT        Ridge
+double_stretch_sloth               14.016        9.754        7.900
+single_lift_dinosor                27.299       16.631       18.562
+double_stretch_zebra               13.681       13.081       24.719
+
+SoftVTBench per-group full-suffix position RMSE (mm)
+Group                           Corrected FEM   Adapted PT   Calibrated rigid
+object-soft-task1                      24.439       45.611             20.175
+object-soft-task2                      15.116       23.428             15.696
+spatial-soft-task1                     14.073       33.918             10.376
+spatial-soft-task2                     54.239       54.446             54.033
+
+Execution coverage
+126/126 planned fitting jobs completed.
+44 jobs used the declared prefix-only feasible-start repair; 44 of those completed.
+Original failed initialization logs remain in the job records. A job completing
+means it saved a fitted checkpoint and prediction; it does not prove global
+optimizer convergence or correct material recovery. Per-fit optimizer stopping
+reasons are retained in results.json.gz (lossless JSON archive).
+PhysTwin: median nonrigid/total motion ratio 0.7010; mean fraction of forecast frames with tool coordinates outside prefix ranges (+1 mm margin) 0.801.
+SoftVTBench: median nonrigid/total motion ratio 0.0123; mean fraction of forecast frames with tool coordinates outside prefix ranges (+1 mm margin) 0.906.
+
+Release integration corrections
+The physical_release_ rows remove the artificial static rest-position gauge
+spring during inertial release. That spring is a numerical device, not a
+physical restoring force. Inertia already fixes the free rigid-body modes.
+Every fitted parameter and the physical energy terms stay unchanged. A
+translated-body free-fall test checks the correction. It is applied to all
+40 episodes and both FEM variants; earlier variants remain in the table.
+The adaptive_ FEM rows are post-freeze numerical refinements of every selected
+SoftVTBench episode, with identical fitted parameters. Substeps increase only
+when the nonlinear solver fails. No target error selects a step size. Original
+fixed-step results remain in the table above. See NUMERICAL_AMENDMENT.txt.
+The original release formulation did NOT establish converged release
+dynamics: the original fine-step solver failed; a positive-volume diagnostic
+extension ran but showed up to 17.5 mm change against a finer discretization.
+Adaptive finite predictions therefore demonstrate stability, not temporal
+convergence or a validated dynamics reference.
+The corrected-release development audit also failed to obtain a complete
+fine-step reference. Its translated-body free-fall check passes, but general
+release temporal convergence remains unestablished.
+
+Interpretation and scope
+Position RMSE measures location plus deformation. Shape RMSE removes the best
+rigid alignment, isolating shape difference. PhysTwin manual marker distance
+and one-way L1 Chamfer are also reported; dense processed track errors are an
+additional diagnostic and can include tracking noise. Different metrics must
+not be substituted when a method loses on one but wins on another.
+SoftVTBench phase intervals use only tool commands and positions. The JSON key
+held_grasp means commanded hold, not verified physical attachment: an object
+can slip or drop while the gripper command remains closed. released likewise
+means commanded release. These phases must not be confused with true contact.
+Full-suffix results remain primary. No future target error was used to exclude
+frames. No new container/contact geometry is supplied after release.
+The FEM assumes quasistatic held-grasp motion and treats the initial observed
+shape as stress-free. PhysTwin uses spring-mass dynamics and its own mesh.
+These representation differences are material to interpretation.
+These runs are point-estimate predictions; they do not establish calibrated
+physical uncertainty, active probing superiority, or unseen-force-family OOD.
+SoftVTBench observations are privileged sparse node geometry, not noisy camera
+tracks. Its official manipulation-policy success-rate leaderboard is not used.
+All means weight sequences equally. Errors condition on finite predictions;
+missing methods and failed frames are separately retained. Forty episodes
+cover two pastry assets in four suite/task groups, not forty independent objects.
+
+Reliability and reproduction
+Ten numerical tests cover analytic energy derivatives, Hessians, material
+features, implicit adjoints, contact and inertia. The in-memory target-poisoning
+audit confirms that future truth/manual markers cannot change predictor inputs.
+frozen-protocol.json lists exact jobs and core source hashes; results.json.gz
+contains every frame score, job status, fitted parameters and prediction hashes.
+Raw datasets and large checkpoints remain local under runs/. Videos are
+shared-scale geometry playbacks with original frame rates and fitting/test
+labels. They are not raw RGB or photorealistic renderings.
+Videos: primary-double_stretch_sloth.mp4; physical-release-object-soft-task1-demo0.mp4;
+physical-release-spatial-soft-task2-demo0.mp4. The additional
+adaptive-spatial-soft-task1-demo2.mp4 compares a selected numerical failure
+case before/after adaptive stepping; it is a failure diagnostic, not a randomly
+selected representative example.
+
+References: https://github.com/TuojingAI/SoftVTBench
+            https://huggingface.co/datasets/Arthur12137/SoftVTBench
+            https://github.com/Jianghanxiao/PhysTwin
+            https://huggingface.co/datasets/Jianghanxiao/PhysTwin

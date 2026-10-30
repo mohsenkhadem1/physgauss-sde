@@ -7,12 +7,16 @@ from scripts.external_benchmark.common import *
 from scripts.external_benchmark.data import softvt,predictor_payload
 from scripts.external_benchmark.fem import ExternalFEM
 
-def run(subset,task,episode,source_tag):
+def run(subset,task,episode,source_tag,physical_release=False):
     check_deadline();data=softvt(subset,task,episode);src=BASE/'fits'/source_tag/data['name']
-    tag='adaptive' if source_tag=='primary' else 'adaptive-no-field';out=BASE/'fits'/tag/data['name'];out.mkdir(exist_ok=True,parents=True)
+    prefix='physical-release' if physical_release else 'adaptive';tag=prefix if source_tag=='primary' else prefix+'-no-field';out=BASE/'fits'/tag/data['name'];out.mkdir(exist_ok=True,parents=True)
     fit=json.loads((src/'fit.json').read_text());theta=np.load(src/'best.npz')['theta'];save_provenance(out,data)
     shutil.copyfile(src/'best.npz',out/'best.npz');fit['prediction_refinement']='Adaptive release step subdivision, no refitting';write_json(out/'fit.json',fit)
-    model=ExternalFEM(predictor_payload(data),device='cpu',field=fit['field'],contact=fit['contact'],materials=fit['materials'])
+    model_class=ExternalFEM
+    if physical_release:
+        from scripts.external_benchmark.dynamic_fem import DynamicFEM
+        model_class=DynamicFEM
+    model=model_class(predictor_payload(data),device='cpu',field=fit['field'],contact=fit['contact'],materials=fit['materials'])
     th=model.t(theta);x=None;velocity=None;pred=[];diagnostics=[];failed=[];subdivisions=[]
     for frame in range(len(data['times'])):
         check_deadline();release=frame>data['grasp'] and data['gripper_command'][frame]>0
@@ -40,9 +44,9 @@ def run(subset,task,episode,source_tag):
             failed.append(dict(frame=frame,reason=str(error)));points=np.full_like(data['nodes'],np.nan);d=dict(failed=True)
         pred.append(points);diagnostics.append(d)
     np.savez_compressed(out/'prediction.npz',predicted=np.array(pred),nodes=data['nodes'],theta=theta)
-    write_json(out/'prediction.json',dict(frames=len(pred),failed_frames=failed,diagnostics=diagnostics,adaptive_subdivisions=subdivisions,source_parameters=str(src/'best.npz'),source_parameters_sha256=sha256(src/'best.npz')))
+    write_json(out/'prediction.json',dict(frames=len(pred),failed_frames=failed,diagnostics=diagnostics,adaptive_subdivisions=subdivisions,source_parameters=str(src/'best.npz'),source_parameters_sha256=sha256(src/'best.npz'),static_gauge_removed_during_dynamics=physical_release))
     print(data['name'],tag,'failed',len(failed),'refined_frames',len(subdivisions),flush=True)
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--subset',required=True);p.add_argument('--task',type=int,required=True);p.add_argument('--episode',type=int,required=True);p.add_argument('--source-tag',choices=['primary','primary-no-field'],required=True);a=p.parse_args()
-    run(a.subset,a.task,a.episode,a.source_tag)
+    p=argparse.ArgumentParser();p.add_argument('--subset',required=True);p.add_argument('--task',type=int,required=True);p.add_argument('--episode',type=int,required=True);p.add_argument('--source-tag',choices=['primary','primary-no-field'],required=True);p.add_argument('--physical-release',action='store_true');a=p.parse_args()
+    run(a.subset,a.task,a.episode,a.source_tag,a.physical_release)

@@ -6,9 +6,11 @@ import numpy as np,torch
 from scripts.external_benchmark.common import *
 from scripts.external_benchmark.data import softvt,predictor_payload
 from scripts.external_benchmark.fem import ExternalFEM
-p=argparse.ArgumentParser();p.add_argument('--positive-volume',action='store_true');p.add_argument('--local-grip',action='store_true');p.add_argument('--source-tag',default='calibrated-dev');p.add_argument('--output',default='development-time-step-audit');args=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--physical-release',action='store_true');p.add_argument('--positive-volume',action='store_true');p.add_argument('--local-grip',action='store_true');p.add_argument('--source-tag',default='calibrated-dev');p.add_argument('--output',default='development-time-step-audit');args=p.parse_args()
 if args.positive_volume:
     from scripts.external_benchmark.fem_positive_volume import PositiveVolumeFEM as ExternalFEM
+if args.physical_release:
+    from scripts.external_benchmark.dynamic_fem import DynamicFEM as ExternalFEM
 if args.local_grip:
     from scripts.external_benchmark.contact_adapter import softvt
 

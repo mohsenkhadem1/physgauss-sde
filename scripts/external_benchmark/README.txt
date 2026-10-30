@@ -84,7 +84,8 @@ Reproduction
    campaign processes with matching PID start times.
 5. After all jobs finish, run scripts/external_benchmark/aggregate.py. It verifies
    frozen prediction/scoring source hashes, scores all 43 selected sequences and
-   keeps failures and missing jobs explicit. CPU tests:
+   keeps failures and missing jobs explicit. The complete JSON is published as
+   results.json.gz; results.json is the local uncompressed mirror. CPU tests:
    OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 runs/phystwin-env/bin/python -m pytest
    tests/test_external_fem.py -q
 6. render.py makes shared-scale actual/predicted point-cloud videos. These are
@@ -107,3 +108,14 @@ https://huggingface.co/datasets/Arthur12137/SoftVTBench
 https://github.com/Jianghanxiao/PhysTwin
 https://huggingface.co/datasets/Jianghanxiao/PhysTwin
 Data and upstream code retain their original licenses and attribution.
+
+Release correction and reporting variants
+----------------------------------------
+The physical_release_ results remove the static rest-position gauge spring when
+inertia is active. This prevents an artificial restoring force after release,
+without changing fitted parameters or physical energy terms. All 40 episodes
+and both FEM variants receive this correction. The primary and adaptive-only
+variants remain in the results archive. dynamic_fem.py implements the correction;
+the translated-body free-fall test verifies it. General release temporal
+convergence remains unestablished. The positive-volume solver and localized
+gripper adapter are development diagnostics, not promoted production models.

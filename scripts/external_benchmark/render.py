@@ -9,7 +9,7 @@ from scripts.external_benchmark.evaluate import expand_prediction,baselines
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--dataset',choices=['phystwin','softvt'],required=True);p.add_argument('--case',default='single_lift_sloth');p.add_argument('--nodes',type=int,default=240)
-    p.add_argument('--subset',default='object-soft');p.add_argument('--task',type=int,default=0);p.add_argument('--episode',type=int,default=0);p.add_argument('--tag',default='primary');p.add_argument('--native-tag',default='primary');p.add_argument('--baseline',choices=['rigid','phystwin'],default='phystwin');a=p.parse_args()
+    p.add_argument('--subset',default='object-soft');p.add_argument('--task',type=int,default=0);p.add_argument('--episode',type=int,default=0);p.add_argument('--tag',default='primary');p.add_argument('--native-tag',default='primary');p.add_argument('--baseline',choices=['rigid','phystwin','original-fem'],default='phystwin');a=p.parse_args()
     data=phystwin(a.case,a.nodes) if a.dataset=='phystwin' else softvt(a.subset,a.task,a.episode)
     folder=BASE/'fits'/a.tag/data['name'];fit=json.loads((folder/'fit.json').read_text())
     raw=np.load(folder/'prediction.npz')['predicted'];pred=expand_prediction(data,raw)[:,:len(data['evaluation']['points'][0])]
@@ -25,6 +25,10 @@ if __name__=='__main__':
             path=BASE/'native'/a.native_tag/data['name']/'prediction.npz'
             control=np.load(path)['predicted'][:len(pred)]
             baseline_title='Adapted PhysTwin prediction'
+    if a.baseline=='original-fem':
+        path=BASE/'fits/primary'/data['name']/'prediction.npz'
+        control=expand_prediction(data,np.load(path)['predicted'])[:len(pred),:len(truth[0])]
+        baseline_title='Original fixed-step FEM'
     # Camera framing may use evaluator geometry; no predictor receives it.
     finite=np.concatenate([truth.reshape(-1,3),pred.reshape(-1,3),control.reshape(-1,3)]);finite=finite[np.isfinite(finite).all(1)]
     center=(finite.min(0)+finite.max(0))/2;radius=np.linalg.norm(finite-center,axis=1).max();scale=240/max(radius,1e-3)

@@ -1,5 +1,5 @@
 """Score every preregistered sequence; preserve failed jobs and numerical failures."""
-import sys,json,pickle,argparse
+import sys,json,pickle,argparse,gzip
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 import numpy as np
@@ -12,7 +12,7 @@ def evaluate(data):
     fit_end=data['train_end'];end=len(data['times']);predictions=baselines(data,fit_end);predictions['prefix_calibrated_rigid']=calibrated_rigid(data)
     paths={};missing=[];diagnostics={}
     variants=[('primary','material_world_fem'),('primary-no-field','no_world_potential_fem')]
-    if data['dataset']=='SoftVTBench':variants += [('adaptive','adaptive_material_world_fem'),('adaptive-no-field','adaptive_no_world_potential_fem')]
+    if data['dataset']=='SoftVTBench':variants += [('adaptive','adaptive_material_world_fem'),('adaptive-no-field','adaptive_no_world_potential_fem'),('physical-release','physical_release_material_world_fem'),('physical-release-no-field','physical_release_no_world_potential_fem')]
     for tag,method in variants:
         folder=BASE/'fits'/tag/data['name'];path=folder/'prediction.npz'
         if path.exists():
@@ -71,6 +71,7 @@ def main():
             for segment in ['held_grasp','released']:summaries[dataset][segment]=summarize(selected,segment)
     result=dict(created_utc=datetime.now(timezone.utc).isoformat(),partial=a.partial,aggregation='Equal weight per sequence; frame means within each sequence. Errors conditional on numerically valid frames; failures and missing jobs retained explicitly. No confidence claims from correlated frames.',summaries=summaries,sequences=rows,job_status=statuses)
     write_json((BASE/'partial-results.json') if a.partial else (REPORT/'results.json'),result)
+    if not a.partial:(REPORT/'results.json.gz').write_bytes(gzip.compress((REPORT/'results.json').read_bytes(),compresslevel=9,mtime=0))
     print(json.dumps(summaries,indent=2))
 
 if __name__=='__main__':main()

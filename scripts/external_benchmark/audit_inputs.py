@@ -48,5 +48,15 @@ def poison(file,*args,**kwargs):
 with patch('pickle.load',poison):poisoned=phystwin('single_lift_sloth',300)
 identical(predictor_payload(original),predictor_payload(poisoned))
 rows.append(dict(dataset='PhysTwin',name=original['name'],check='Future object tracks and all manual marker targets replaced by 1e6; predictor payload exactly unchanged',passed=True))
+from scripts.external_benchmark.contact_adapter import softvt as local_softvt
+from scripts.external_benchmark.calibrated_baseline import calibrated_rigid
+for adapter,label in [(softvt,'original'),(local_softvt,'local-contact development candidate')]:
+    for subset in ['object-soft','spatial-soft']:
+        original=adapter(subset,0,1);real_file=h5py.File
+        with patch('h5py.File',lambda *args,**kwargs:File(real_file(*args,**kwargs),original['train_end'])):
+            poisoned=adapter(subset,0,1)
+        identical(predictor_payload(original),predictor_payload(poisoned))
+        assert np.array_equal(calibrated_rigid(original),calibrated_rigid(poisoned))
+        rows.append(dict(dataset='SoftVTBench',name=original['name'],adapter=label,check='Future target poisoning leaves predictor payload and prefix-calibrated rigid prediction exactly unchanged',passed=True))
 write_json(REPORT/'input-isolation-audit.json',rows)
 print(json.dumps(rows,indent=2))

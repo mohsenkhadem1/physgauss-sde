@@ -516,3 +516,31 @@ three development objects and six test objects; optional workers 3–5 start the
 second test trio concurrently, protected by per-fit locks. Finalization waits for
 completed inference and bridge jobs, performs a finer posterior audit, and writes
 the report and videos. No real-hardware work is included.
+
+### External dataset prediction benchmark (v11)
+
+The position-driven FEM now runs on **40 SoftVTBench episodes and three PhysTwin
+sequences**, with observed-prefix fitting, held-out future motion, and no true
+force or material labels. All 126 fitting jobs completed. Corrected release
+integration supplies complete finite forecasts for all 40 simulation episodes;
+the original fixed-step failures are retained separately.
+
+The world-space potential improves our PhysTwin marker-error ablation by **10.4%**
+(20.47 to 18.33 mm); the official reference is better at 13.16 mm. On SoftVTBench,
+our full-suffix position RMSE is **26.97 mm**, versus 39.35 mm for the adapted
+PhysTwin baseline and 25.07 mm for calibrated rigid motion. During commanded
+holds, the corresponding errors are 18.79, 32.15 and 16.47 mm. The correction removes a static numerical tether during inertial release.
+Release temporal convergence remains unestablished; finite output does not establish physical convergence.
+SoftVTBench geometry is privileged, and these are not policy-leaderboard results.
+
+[Full report](reports/external-benchmark-v11/RESULTS.txt) ·
+[Complete results archive](reports/external-benchmark-v11/results.json.gz) ·
+[Protocol and amendments](reports/external-benchmark-v11/NUMERICAL_AMENDMENT.txt) ·
+[Implementation and reproduction](scripts/external_benchmark/README.txt)
+
+[PhysTwin actual/predicted video](reports/external-benchmark-v11/primary-double_stretch_sloth.mp4) ·
+[SoftVTBench actual/predicted video](reports/external-benchmark-v11/physical-release-object-soft-task1-demo0.mp4) ·
+[Numerical repair example](reports/external-benchmark-v11/adaptive-spatial-soft-task1-demo2.mp4)
+
+The videos show shared-scale geometry, including failures. Raw datasets and large
+checkpoints remain local under `runs/external-benchmark-v11/`.
