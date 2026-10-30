@@ -52,13 +52,14 @@ Read reports/position-ood-v10/release-readiness.json. Its checks distinguish
 missing results from invalid outputs and verify earlier sealed studies too.
 Passing automated checks still requires manual scientific and visual review.
 There are 394 declared primary output paths. Job-status counts can be lower
-because twelve calibration coarse fits were reused. Acquisition and force-law
+because some completed calibration outputs were reused. Acquisition and force-law
 deliverables are checked separately; 394 alone does not establish completion.
 
 Regenerate reports from a COMPLETE local prediction set
   .venv/bin/python scripts/position_ood/publication.py
   .venv/bin/python scripts/position_ood/compute_report.py
   .venv/bin/python scripts/position_ood/neural_report.py
+  .venv/bin/python scripts/position_ood/active_calibration.py --task evaluate
   .venv/bin/python scripts/position_ood/publication_uncertainty.py
   .venv/bin/python scripts/position_ood/figure_active.py
   .venv/bin/python scripts/position_ood/qualitative.py --video
@@ -70,6 +71,19 @@ cohort results. Uncertainty figures require complete calibrated acquisition
 reports. Force-law reporting requires all six objects and all six predictors.
 Its optional --wait mode remains deadline bounded; a complete stored result set
 can be re-reported after the experiment deadline without launching simulations.
+
+Completed acquisition artifacts
+  transfer_test-active-results.json          All nine objects and all policies
+  uncertainty-publication-summary.json      Means, intervals and 147 input hashes
+  transfer_test-matched-frame-comparison.json Same-response coordinate-frame study
+  acquisition-compute-report.json           94 distinct fitting stages, 115 hashes
+
+These paths are relative to reports/position-ood-v10. The standalone acquisition
+compute report is the acquisition object in compute-report.json, retained after
+all acquisition stages completed. Rebuilding compute_report.py regenerates that
+same accounting from saved fit records. Shared actions are counted once, not once
+per policy. The active-results report supplies per-object errors and coverage;
+the publication summary supplies the source manifest used by the figure/table.
 
 Video rendering uses the native environment internally. Panels share one camera
 center and pixels-per-metre scale, with 50 mm scale bars. These videos show orbit
