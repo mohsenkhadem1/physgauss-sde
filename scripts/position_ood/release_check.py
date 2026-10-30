@@ -115,6 +115,29 @@ def main():
         return dict(objects=9, policies=3, matched_frame_ablation=True)
     check('complete_acquisition_comparison', acquisition)
 
+    def compute_accounting():
+        data = json.loads((OUT/'compute-report.json').read_text())
+        assert data['declared_jobs'] == 394 and data['states'] == {'complete': 394}
+        active = data['acquisition']
+        assert active['complete'] and not active['missing_choices']
+        expected = set()
+        for split, count in [('transfer_calibration', 12), ('transfer_test', 9)]:
+            for i in range(count):
+                choices = json.loads((BASE/f'active-jobs/{split}-{i}-choices.json').read_text())['actions']
+                for action in set(choices.values()):
+                    for method in ['joint', 'extrapolated']:
+                        expected.add((split, i, method, action))
+                if split == 'transfer_test':
+                    for method in ['material_frame', 'extrapolated_material_frame']:
+                        expected.add((split, i, method, choices['adaptive']))
+        keys = [(r['split'], r['object'], r['method'], r['action']) for r in active['rows']]
+        assert len(keys) == len(expected) and set(keys) == expected
+        assert all(r['complete'] and np.isfinite(r['fit_wall_seconds'])
+                   and r['fit_wall_seconds'] >= 0 for r in active['rows'])
+        hash_map(ROOT, active['source_hashes'])
+        return dict(primary_jobs=394, distinct_postprobe_fit_stages=len(keys))
+    check('complete_compute_accounting', compute_accounting)
+
     for split, count in [('test_id', 18), ('test_material', 12), ('test_environment', 12)]:
         def cohort(split=split, count=count):
             for kind, expected in [('main', count), ('matched', 6)]:

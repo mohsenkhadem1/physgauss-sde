@@ -48,6 +48,7 @@ def main():
                 verify()
                 run('publication_uncertainty.py')
                 run('figure_active.py')
+                run('compute_report.py')
                 completed.add('acquisition')
         write(state, dict(completed_stages=sorted(completed),
                           expected_stages=['acquisition', 'prediction'],
