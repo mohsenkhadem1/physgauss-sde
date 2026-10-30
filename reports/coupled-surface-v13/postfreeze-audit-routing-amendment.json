@@ -1,0 +1,35 @@
+{
+  "declared_utc": "2026-10-30T20:47:06.563583+00:00",
+  "scope": "Audit traversal and finish entrypoint only; no scientific source, simulation, target, cohort, threshold or frozen protocol change",
+  "reason": "Original frozen verify_settings recursively traverses non-production development complete.json files with legacy list-valued job fields, causing a type error. Supervisor completion markers are also not simulation job artifacts.",
+  "original_method_freeze_sha256": "a22a07dd027af49d7e7b1783f26fbf3e72f33be67471eb10824d054a0a53820e",
+  "additive_source_sha256": {
+    "scripts/coupled_contact_v13/surface_verify_scoped.py": "5027f6de9e9113a99213af626203dc44b2dd67034926a3fd7d0be49cdb54f19e",
+    "scripts/coupled_contact_v13/surface_finish_scoped.py": "bd97d69be888822d8707ad0378f40098204130b543ae5cf113e403220f6d4c9b",
+    "tests/test_surface_postfreeze_routing_v13.py": "e2f9aecf5bef0a436049db9e7b34a04f213de6114b2aa1a8aa1cbd1513e8927f"
+  },
+  "production_roots": [
+    "library",
+    "reference",
+    "reference-refinement",
+    "reference-spatial",
+    "prediction"
+  ],
+  "exclusions": "Legacy development/benchmark-transfer subtrees and top-level supervisor markers are outside production job provenance. Ablation retains its existing explicit-subtree verifier. No failed production completion record is excluded.",
+  "unchanged_scientific_sources": true,
+  "original_source_count": 77,
+  "original_protocol_sha256": "369cfd4fac166a1357553c96fe9938085214a885cc82bb6f643b0e23763f9605",
+  "original_qualification_sha256": "5d1c2f6e7710c625b9a2ecb2a87fffd2451a79c59e2b7ba27386745f031941da",
+  "tests": {
+    "command": "runs/phystwin-env/bin/python -m pytest -q tests/test_surface_postfreeze_routing_v13.py",
+    "passed": 2,
+    "coverage": [
+      "All five production roots, including failed completion statuses, remain audited",
+      "Legacy list-valued development job and supervisor marker do not enter production traversal",
+      "Corrupted failed production protocol hash is still detected",
+      "Finish stages differ only at verifier entrypoint; original deadline function and freeze calls retained"
+    ]
+  },
+  "orchestration": "Replacement finish wrapper privately loads original frozen finish module, changes only surface_verify stage to surface_verify_scoped, and checks additive amendment hashes before original per-stage freeze checks. Production service continues unchanged.",
+  "deadline_utc": "2026-10-31T05:01:31+00:00"
+}

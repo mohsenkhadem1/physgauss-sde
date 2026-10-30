@@ -1,0 +1,18 @@
+PHYSICS QUALIFICATION DECISION — 2026-10-30 20:44 UTC
+
+Qualified development scope
+The consistent P1 mass, nonlinear tetrahedral FEM and clipped surface-contact implementation has qualified development evidence for squeeze calibration and three forecast families: sliding, curved-obstacle interaction and a movable rigid sphere. Selected primary/companion meshes are8/10 for squeeze, slide and curved;12/10 for moving sphere. Reference base/half timesteps are25/12.5 microseconds. Predictor cells4 uses12.5 microseconds. Exact selected-step predictor friction/sphere refinements pass all eight tests, with maximum world coordinate RMS0.0333 mm and payload-center RMS0.0289 mm. The source-verified aggregate derives qualification from expected material coverage, spatial, temporal, contact and endpoint evidence; it is not a hand-set success flag.
+
+These checks establish bounded two-resolution consistency for the stated development settings, not continuum convergence or real-world model correctness. The fresh study retains per-case temporal and spatial companion checks. Coarse predictor oracle bias remains several millimeters in some interactions, so material/friction fitting can absorb discretization error. Parameter estimates should not be presented as uniquely identifiable or calibrated physical uncertainty solely from these tests.
+
+Unqualified sharp-support stress
+Sharp12/16 at a common12.5 microsecond step still differs by5.785/9.544 mm world coordinate RMS and0.969/3.233 mm rigid-aligned shape RMS (stiff/soft development materials). The stiff16-cell25-to12.5 microsecond temporal check also fails0.25 mm at0.650 mm. Sharp drop remains an explicitly unqualified stress family; its reserved cases must remain visible and outside the narrowed primary aggregate. No thresholds were relaxed.
+
+Rounded-support diagnostic, not adopted
+A separately declared capsule rail preserved support dimensions/top height, initial block geometry, gravity and substantial deformation. Surface quadrature passed, but8/12 spatial checks failed. The single prospective12/16 fallback also fails: world5.785/3.698 mm; aligned shape1.051/2.166 mm; dense surface checks fail too. Capsule12 time12.5-to6.25 microseconds fails for the stiff material at1.098 mm, while the soft case passes0.00218 mm. Smoothing alone therefore did not establish a trustworthy drop reference. The unused16-cell halfstep job was explicitly cancelled after the temporal failure, with a separate cancellation record; cancellation is not a numerical failure result. No further mesh or geometry search was performed.
+
+Scope decision
+Root adopted the prospectively audited narrower primary cohort of all24 reserved slide/curved/moving-sphere forecasts, retaining all40 forecast rows and all reference diagnostics. The sharp drop stress rows remain exploratory, not silently omitted. The global physics all_gates_pass remains false because the drop requirement is unresolved. Original published v13 results and failed development pilots remain unchanged.
+
+Remaining model limits
+The model is a research FEM simulator with penalty contact, regularized Coulomb friction and prescribed position/velocity tools. It has no continuous collision detection, self-contact or general deformable-deformable scene solver. Force/torque consistency and passive friction are tested, but those properties alone do not validate arbitrary contact transients. The current work supplies a more carefully qualified simulation benchmark and physical model; it does not by itself demonstrate a Gaussian reconstruction transfer result or superiority on external vision datasets.
