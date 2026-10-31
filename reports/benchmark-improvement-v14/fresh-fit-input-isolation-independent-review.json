@@ -1,0 +1,45 @@
+{
+  "checked_utc": "2026-10-31T06:45:33.494119+00:00",
+  "source_review_status": "Completedcache/export/cohortguards now fixed; productionwrapper and mutationtests passed; continuationcontract check requested.",
+  "settings": [
+    "Matchesv12base_runner: field/contact enabled,nonconvexfalse,materials1,100maxiterations/36frames andsamefeasibleoptimizer/rollout.",
+    "Deadline fixed2026-10-31T18:36:34UTC; workers bound subprocessfit2400s andcontinuation1800s byremainingtime.",
+    "Specs exactly2suites\u00d7tasks1/2\u00d7episodes30\u201339; independentfull/short fits.",
+    "Exporter HDF reads objectprefix only,knownfuturecontrols andinitialstaticgeometry; fitter payload has no evaluator."
+  ],
+  "requested_hardening": [
+    "Verify cachedcomplete input/source/settings ratherthan existenceonly.",
+    "Verify export.json filehashes onreuse.",
+    "Validate declaredfreshcase identity and reject evaluator keys explicitly.",
+    "Label checkpoint continuation as early-stop/nonconverged,100maxiterations ratherthan100completediterations."
+  ],
+  "target_mutation_test": {
+    "path": "tests/test_softvt_target_isolation_v14.py",
+    "passed": true,
+    "tests": 4,
+    "seconds": 27.16,
+    "scope": "Fixed development object-soft-task0-demo0 only. Adversarial futureobjectstate mutation before raw-prefix export; serialized payloads bitwiseequal; actual fullsoftvt_slip andsoftvt_overlap forecasts andmetadata bitwiseequal under bothoriginalcontact_scene_state andarchivedselectoranchors. Knownfuturecommands fixed. No FEMfit or nondevelopment outcomeaccess."
+  },
+  "source_sha256": {
+    "scripts/benchmark_improvement_v14/fresh_fit.py": "8468230e65fbe02494056762e197c0828162fe9121477c9a91c1c999b2698f55",
+    "scripts/benchmark_improvement_v14/fresh_jobs.py": "38fa5e1428de62adaac7f2be257d3ec2cafac36f92d0f45230ee9f021d61f9dc",
+    "scripts/benchmark_improvement_v14/common.py": "a07027c2103874500beac2234a6d3b979336a605275b752a47a49ff31a29ae0c",
+    "scripts/benchmark_improvement_v14/softvt_slip.py": "b9e79e02598c9d88d4a813862fa6bc5dc9d71d107c425466fdd02277e763057b",
+    "scripts/benchmark_improvement_v14/softvt_overlap.py": "b23c2c572d6e18ed51e1ad273b9fbb18a36186bb56effb2ba1c7350b3771bd22",
+    "scripts/prefix_ridge_switch_v13/inputs.py": "4baf53e56c2a237353d73861d949a1bc7f0538708862b79194bfa06cd41c358a",
+    "tests/test_softvt_target_isolation_v14.py": "506da6e8b9fe9f9d9107675f385597a477cfd55caf34d961e4b9b93f0258f483",
+    "scripts/benchmark_improvement_v14/softvt_predict.py": "5877a1d8547b602a13be8eac8cb26f769f8ac173ce9549b171d0ef5d29f6541c"
+  },
+  "production_wrapper_review": {
+    "passed": true,
+    "strict_inputs": true,
+    "exact_original_fallback": true,
+    "scope": "Pure predictor cannot authenticate baseline identity from arrays; runner must bind originalcontact_scene_state provenance. Final candidate is simple_slip, not rejectedoverlap.",
+    "mutation_tests": "2productionwrapper cases passed13.99s,4slip/overlap cases passed27.16s; all use developmentdemo0 and bothoriginal/selectoranchors for isolation only."
+  },
+  "remaining_before_freeze": [
+    "Continuation must compare saved provenance contract to current contract; root notified.",
+    "Final runner/freeze must bind original anchor and all dependency hashes, prohibit nondevelopment evaluator access before predictions."
+  ],
+  "updated_utc": "2026-10-31T06:46:38.853321+00:00"
+}
