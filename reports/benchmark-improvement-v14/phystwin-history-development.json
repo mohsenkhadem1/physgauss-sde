@@ -1,0 +1,54 @@
+{
+  "plan": {
+    "case": "single_lift_sloth",
+    "grid": [
+      0.0,
+      0.033,
+      0.067,
+      0.1,
+      0.2,
+      0.4
+    ],
+    "rule": "Choose lag by first70%SHORT\u2192last30%SHORT; refit entireSHORT; require outer41:59 RMSE<.98original; fixedchosenlag refitFULL if pass",
+    "ridge": 0.1,
+    "initial_reference": "Preserve original expanded frame0",
+    "sources": {
+      "scripts/benchmark_improvement_v14/phystwin_control_history_development.py": "35412dedab0787952048eb51f5484d31b06794dc397f4114dc3930c870f625ab",
+      "scripts/benchmark_improvement_v14/phystwin_control_history.py": "d5160048f37100339fb5a96310f820658449a7a472b7c0e89088df790f830b1f"
+    }
+  },
+  "lag_seconds": 0.067,
+  "inner_selection": {
+    "inner_cut": 28,
+    "fit_end": 41,
+    "lag_grid_seconds": [
+      0.0,
+      0.033,
+      0.067,
+      0.1,
+      0.2,
+      0.4
+    ],
+    "validation_rmse_mm": [
+      5.469259050132894,
+      5.159618527849878,
+      5.150946561200254,
+      5.27589493124351,
+      5.575193044035772,
+      5.845641958852352
+    ]
+  },
+  "outer_validation_original_mm": 13.938729085992833,
+  "outer_validation_history_mm": 8.74593779546232,
+  "passes_two_percent": true,
+  "suffix": {
+    "mean_l2_mm": 36.14263227444773,
+    "coordinate_rmse_mm": 23.632106421265995,
+    "aligned_shape_rmse_mm": 14.066415567060012,
+    "observed_to_predicted_chamfer_l1_mm": 11.825456634692385,
+    "total_frames": 26,
+    "valid_frames": 26,
+    "failed_frames": 0,
+    "manual_track_mean_mm": 65.98380889773932
+  }
+}

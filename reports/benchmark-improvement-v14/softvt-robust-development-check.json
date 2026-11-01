@@ -1,0 +1,222 @@
+{
+  "scope": "Validity-only inspection of already exposed180SoftVT inputs/predictions; no evaluator or score files opened, no error-based tuning",
+  "inspected": 180,
+  "trigger_cases": [
+    {
+      "name": "object-soft-task2-demo31",
+      "cohort": "prospective_softvt_confirmation",
+      "nonfinite_frames": [
+        58,
+        60,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106
+      ],
+      "prediction_sha256": "b98cb8455b03d87517bcd39b78da0c838eefe41e33dc4ac6dd8f0d74852176bd"
+    }
+  ],
+  "tested_case": "object-soft-task2-demo31",
+  "result_finite": true,
+  "initial_exact": true,
+  "fallback_applied": true,
+  "metadata": {
+    "method": "validity_triggered_rigid_contact_fallback",
+    "trigger": "Any nonfinite original nodal frame; no target/error/case-identity selection",
+    "original_nonfinite_frames": [
+      58,
+      60,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106
+    ],
+    "original_metadata": {
+      "method": "simple_slip_original_anchor",
+      "fallback": "Original baseline contains nonfinite frames; preserved exactly",
+      "fallback_to_original": true
+    },
+    "fallback_applied": true,
+    "failure_retained": false,
+    "contact": {
+      "model": "split FEM shape / rigid contact pose; shape frozen at separation",
+      "fit_end": 70,
+      "attachment_state": {
+        "state": "kinematically_attached",
+        "attachment_confidence": 1.0,
+        "commanded_active": true,
+        "window": [
+          62,
+          69
+        ],
+        "source": "observed prefix/tool kinematics only",
+        "tool_motion_rms_m": 0.05784486768311183,
+        "object_motion_rms_m": 0.05801156212681216,
+        "relative_discrepancy_rms_m": 0.0003420073196186937
+      },
+      "detect_detachment": true,
+      "friction": 0.5,
+      "substeps": 80,
+      "diagnostics": [
+        {
+          "frame": 107,
+          "contact_substeps": 0,
+          "max_preprojection_penetration_m": 0.0
+        },
+        {
+          "frame": 108,
+          "contact_substeps": 0,
+          "max_preprojection_penetration_m": 0.0
+        },
+        {
+          "frame": 109,
+          "contact_substeps": 0,
+          "max_preprojection_penetration_m": 0.0
+        },
+        {
+          "frame": 110,
+          "contact_substeps": 65,
+          "max_preprojection_penetration_m": 0.0005519555620754624
+        },
+        {
+          "frame": 111,
+          "contact_substeps": 80,
+          "max_preprojection_penetration_m": 0.000678137991006844
+        },
+        {
+          "frame": 112,
+          "contact_substeps": 80,
+          "max_preprojection_penetration_m": 8.860950842852749e-05
+        },
+        {
+          "frame": 113,
+          "contact_substeps": 80,
+          "max_preprojection_penetration_m": 6.783309004017475e-06
+        },
+        {
+          "frame": 114,
+          "contact_substeps": 80,
+          "max_preprojection_penetration_m": 5.700106015376141e-06
+        },
+        {
+          "frame": 115,
+          "contact_substeps": 80,
+          "max_preprojection_penetration_m": 5.446893664735192e-06
+        },
+        {
+          "frame": 116,
+          "contact_substeps": 80,
+          "max_preprojection_penetration_m": 5.4067801519772085e-06
+        }
+      ],
+      "scene": {
+        "model": "initial static mesh layered heightfields",
+        "spacing_m": 0.002,
+        "floor_m": -0.011709664948284626,
+        "floor_provenance": "initial object min-z fallback from v11; not measured table surface",
+        "limitations": [
+          "No undercuts",
+          "No vertical side-wall collision",
+          "Static colliders; no two-way dynamics",
+          "Nearest raster query"
+        ],
+        "objects": [
+          {
+            "name": "basket_1",
+            "pose": [
+              -0.010346215218305588,
+              0.25345492362976074,
+              -0.012985456734895706,
+              0.707266092300415,
+              -0.006984828505665064,
+              0.0056480541825294495,
+              0.7068902254104614
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ],
+            "bounds": [
+              [
+                -0.09192600617822363,
+                0.1692633867468761,
+                -0.011896387507845652
+              ],
+              [
+                0.07026872421902655,
+                0.3426327310819889,
+                0.13492075985183785
+              ]
+            ],
+            "provenance": {
+              "asset": "basket",
+              "source_url": "https://huggingface.co/datasets/NathanWu7/Isaaclab_Libero/resolve/main/USD/basket/basket.usd",
+              "local_path": "runs/contact-benchmark-v12/scene-assets/basket.usd",
+              "sha256": "ff4448a47c5c5b3919902c359484a42a80cc37152c6ede0df41c2cb1cd4d4993",
+              "stage_meters_per_unit": 0.01,
+              "units_policy": "Numeric USD reference coordinates, same as Isaac runtime; no metadata unit conversion",
+              "license_notice": "Upstream asset terms apply; raw USD assets remain local; see upstream dataset card",
+              "config_path": "runs/third_party/SoftVTBench/configs/object_soft/libero_object.json",
+              "config_sha256": "ed8bf34970003dc086d3fbee43cabb435f343b0906d54dd0c2e6787f7d34b1dd",
+              "pose_source": "initial_state/rigid_object/basket_1/root_pose"
+            }
+          }
+        ]
+      }
+    },
+    "initial_reference": "Original frame0",
+    "scope": "Entire trajectory uses prefix-calibrated rigid model with static contact; no deformable accuracy claim. Finite original trajectories use unchanged frozen v14 predictor."
+  },
+  "evidence_sha256": {
+    "scripts/benchmark_improvement_v14/softvt_robust.py": "d2aabf15ad1350f497925f62925466d3ad18da7b7f0a6d073be4241273be9d74",
+    "tests/test_softvt_robust_v14.py": "742b3d836869b293afae876bbb51737e3e1b2695024807f7d1af5923f8a27272",
+    "runs/benchmark-improvement-v14/evaluation/prospective_softvt_confirmation/object-soft-task2-demo31/predictions.npz": "b98cb8455b03d87517bcd39b78da0c838eefe41e33dc4ac6dd8f0d74852176bd",
+    "runs/benchmark-improvement-v14/inputs/object-soft-task2-demo31/full.npz": "fd2f911cfcab621dab03fc34aee6d145861223653f6e58759cb9fdf2de337e73",
+    "runs/benchmark-improvement-v14/inputs/object-soft-task2-demo31/full.json": "384c9044b91183686a6bb789dd88f015f23305ae852c65871c137ddf3815dee2",
+    "runs/benchmark-improvement-v14/inputs/object-soft-task2-demo31/scene.npz": "4e86f2d786034ad9380afc3531f4a57574ffbf458f39f03695978c44eb74fb44",
+    "runs/benchmark-improvement-v14/inputs/object-soft-task2-demo31/scene.json": "b6dc3ee525dd9afb9164e79f756c7f796c8cf6cfa933509d74e4ff18c853ca5c",
+    "runs/benchmark-improvement-v14/robust-development/object-soft-task2-demo31/predictions.npz": "00ddbd9c3d013b1a82bff3039f751c42dbfa0c2f80b2313b0290b37fffa97091",
+    "runs/benchmark-improvement-v14/robust-development/object-soft-task2-demo31/metadata.json": "bbbea3bca4d984def6620751c1bed2f7c73a66ccd6e9992ec1effcfd6d85216f"
+  }
+}

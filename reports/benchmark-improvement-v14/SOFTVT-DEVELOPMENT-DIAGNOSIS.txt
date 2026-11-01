@@ -1,0 +1,11 @@
+Exploratory comparator: archived v12 model_selection_selected, not rejected v13 guarded ridge. Also compare prefix_calibrated_rigid, which is stronger in the historical aggregate. No non-development outcome used in this diagnosis.
+
+Development cohort:20 task0 episodes0–9 across object-soft and spatial-soft. All20 terminal-prefix attachment classifiers report kinematically_attached. Worst archived selected cases object-soft-demo2/5 have34.740/32.316mm coordinate errors but0.901/0.394mm aligned-shape errors. The dominant failure is object pose and uncommanded release, not large shape error.
+
+For demo2, truth centroid z falls .170→.030m during frames99→107 while gripper command remains closed(-1), width.016m. Archived selected centroid stays .197→.173m. Demo5 similarly falls .180→.028m while archived selected remains .189→.179m. Ordinary commanded release arrives later. These are DEVELOPMENT target observations, not predictor inputs.
+
+Proposed fixed development law: fit relative observed centroid motion in controller frame over last8 active observed frames; retain gravity-direction slip only. Propagate terminal observed centroid and slip while preserving inherited nodal shape. After accumulated extrapolated slip exceeds half initial-object extent along this direction, release to unchanged v12 static-contact pose integration. No true attachment/material/force labels. This is a reduced empirical attachment-overlap approximation: exact finger collision geometry is unavailable. No claim physical slip identifiability.
+
+Inputs remain privileged initial FEM geometry, observed prefix points, known future EEF/gripper commands and static scene geometry. This is not an image-only official SoftVT policy input contract. The prototype preserves historical sources/results and is evaluated only on development before any method freeze. Half extent and8frame window are fixed before this run; no suffix-specific tuning.
+
+Original frozen SoftVT primary is contact_scene_state; its development mean is15.198853mm. Separate direct-anchor prototype checks are running against it, not merely treating the exploratory selector as accepted primary.

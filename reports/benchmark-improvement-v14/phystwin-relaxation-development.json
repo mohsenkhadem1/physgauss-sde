@@ -1,0 +1,59 @@
+{
+  "plan": {
+    "case": "single_lift_sloth",
+    "version": "Filter nonrigid deformation in inherited moving rigid material frame; keep rigid pose unchanged",
+    "grid": [
+      0.0,
+      0.033,
+      0.067,
+      0.1,
+      0.2,
+      0.4
+    ],
+    "fit_interval": [
+      0,
+      41
+    ],
+    "validation_interval": [
+      41,
+      59
+    ],
+    "source_sha256": {
+      "scripts/benchmark_improvement_v14/phystwin_relaxation_development.py": "2b808439eac91007dd7f45fdadacf83c932e665a51375451b56bf028e29b5df3",
+      "scripts/benchmark_improvement_v14/phystwin_relaxation.py": "9b4bba256f501f9bbcf31244876fa05f32fb69ff3a0e5193ed31f8fe080730e1"
+    },
+    "input_sha256": {
+      "runs/benchmark-improvement-v14/phystwin-control-development/predictions.npz": "5d7cce6f60e2e6c01f4a37e15278ad3e72005470f259457257498c4b98a2862c"
+    },
+    "scope": "Development only; original adapter config historically selected on same41:59 interval, relaxation time fitted strictly0:41"
+  },
+  "short_fit": {
+    "method": "causal_material_deformation_relaxation",
+    "tau_seconds": 0.0,
+    "grid_seconds": [
+      0.0,
+      0.033,
+      0.067,
+      0.1,
+      0.2,
+      0.4
+    ],
+    "prefix_coordinate_rmse_mm": [
+      2.477218301439467,
+      2.481605430135754,
+      2.5073672233881905,
+      2.5435110017404186,
+      2.6798706818623934,
+      2.9316663180258358
+    ],
+    "fit_end": 41,
+    "initial_preserved": true,
+    "scope": "Empirical viscoelastic relaxation of nonrigid equilibrium only; inherited rigid motion unchanged; no force/material identification"
+  },
+  "validation_coordinate_mm": {
+    "original": 13.938729085992833,
+    "candidate": 13.938729085992833
+  },
+  "strict_two_percent_pass": false,
+  "decision": "Stop branch; original retained; no suffix evaluation"
+}

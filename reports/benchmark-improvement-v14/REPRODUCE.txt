@@ -1,0 +1,32 @@
+VERIFIED CAMPAIGN SNAPSHOT
+
+Run from the repository root with the original local datasets and runs/ artifacts available.
+Raw datasets and prediction arrays are intentionally not published. A code-only clone cannot
+recompute raw metrics without acquiring those inputs. Protocol, inventory, freeze and audit
+files record their hashes. Historical files and all frozen model sources remain unchanged.
+
+Large derived JSON reports are published as deterministic .json.gz files. Consult
+compressed-reports.json; run gzip -dk path/to/report.json.gz and verify its decompressed SHA-256.
+
+Python environment: runs/phystwin-env/bin/python. Set OMP_NUM_THREADS=1,
+OPENBLAS_NUM_THREADS=1 and MKL_NUM_THREADS=1 for each command.
+
+1. python scripts/benchmark_improvement_v14/summarize_gaussian.py
+2. python scripts/benchmark_improvement_v14/finish_audit.py softvt
+3. python scripts/benchmark_improvement_v14/finish_audit.py phystwin
+4. python scripts/benchmark_improvement_v14/finish_audit.py gaussian
+5. python -m pytest -q tests/*v14.py
+6. python scripts/benchmark_improvement_v14/finish_report.py
+
+finish_audit.py authorizes only an audit with a one-hour runtime limit. It substitutes the
+expired campaign time check in process memory, while all source hashes and forecast/input
+checks remain enforced. It cannot launch a fit or forecast. Do not edit frozen common.py,
+configuration, protocols or model sources to resume an expired campaign.
+
+The report builder requires successful audit JSON files and the saved finish-tests.log.
+Videos have frame-count/fps/full-decode checks and first/middle/last visual review; the visual
+review is not a claim that a human watched every frame. Predictor outputs are never changed
+by rendering. See each video directory's provenance.json, machine-qa.json and visual-qa.json.
+
+The carrier Gaussian freeze-proposal is unfinished development evidence. It is not an
+authorized final freeze or a completed benchmark run. No post-score family selection occurs.

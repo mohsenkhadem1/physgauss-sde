@@ -1,0 +1,11 @@
+Frozen-candidate recommendation: scripts.benchmark_improvement_v14.softvt_slip.predict(full, contact_scene_state, {"scene":scene,"window":8}) -> (nodal prediction, metadata).
+
+Export: prefix_ridge_switch_v13.inputs.load_pair(spec), save_payload(full/short), save_scene(full). Keep raw HDF evaluator quarantined. Forecast process only loads saved payload/scene. FULL and SHORT geometry and observations must match old original recipe.
+
+Fresh base: fit current v12 mechanics independently on FULL and SHORT prefix,80fits total for40cases. Import isolated original experiment.predict(full,full_FEM,short_FEM,short,scene), retain original contact_scene_state and metadata. Feed exactly that candidate to slip.predict. Fieldfree/selector families are unnecessary. Preserve originalcontact and prefixcalibratedrigid baselines, independently scored only after all forecasts persist.
+
+Old base_runner has expired historical deadline and old output paths: do not execute directly or edit it. Root new isolated adapter must override deadline/output/load bindings to current campaign and safe saved payloads. Both full andshort predictors require full command horizon but observations endat respectivecuts.
+
+CPUfit historical20development timings: FULL median91s,max687s; SHORT median29s,max235s. Candidate20rollouts~3min singleCPU.40fresh candidates~6min singleCPU plus fitting. All are estimates, not budget promises.
+
+Original direct-anchor dev result:13.668378mm vs original15.198853, exploratoryselected15.346185,strongprefixrigid15.106900.17wins3losses. Shape unchanged1.417187vs1.417063; prefixrigidshape.923622 stronger. Accumulated-overlap refinement15.245176mm rejected; premature demo5release99vs107. No heldout tuning.
