@@ -1,0 +1,11 @@
+Development-only RGB-D numerical discrepancy diagnosis
+
+All 96 comparisons use the same world/action at n4 and n6, with the fixed public nominal covariance; no noise changes.
+Median D²: 0.029012; maximum: 783.119314. 40 exceed 1; 31 exceed 10.
+
+Initial weak-stretch views have negligible discrepancies. Large differences occur after actions; the worst comparison changes only eight silhouette pixels, with 4.42 micrometres overlapping depth RMS. Its depth-feature D² is 778.96.
+The discrepancy is dominated by silhouette/background depth features. This suggests rasterization sensitivity, but these comparisons combine mechanical and rendering approximation and do not isolate causation.
+A targeted supersampling/resolution convergence experiment is needed before trusting action likelihoods. Do not reinterpret this as a posterior-grid error alone or inflate the declared noise to hide it.
+No full-bank rerender, sensor adjustment, or reserved-world access was performed.
+
+Evidence: reports/physical-refinement-v15/render-discrepancy.json

@@ -1,0 +1,19 @@
+DEVELOPMENT RENDERER QUALIFICATION — 2x AND 4x PIXEL FOOTPRINT SAMPLING
+
+No production remedy adopted. Existing renderer, prediction banks and sensor covariance are unchanged.
+20 fixed world/action/camera comparisons, each with n4 and n6 geometry; 80 new renders. Initial and oblique controls were included alongside previously identified problematic views.
+
+factor | median mesh D² | maximum mesh D²
+1 | 0.431409 | 783.119314
+2 | 0.633440 | 4.671548
+4 | 0.073373 | 7.695482
+
+The previously worst case (development-3, opposed translation, left view) improves from D²=783.119314 to .002611 (2x) and .000664 (4x). This demonstrates rasterization sensitivity in the original large discrepancy.
+However, fixed-geometry 2x→4x feature changes have median D²=126.517280 and maximum D²=1006.966692 under the unchanged public nominal covariance. Therefore 4x is NOT qualified as a converged image-feature approximation. Low inter-mesh mismatch alone would be misleading.
+
+The tested footprint integrates the existing RGB and far-clipped depth signals before fixed tile feature extraction. It is not a validated physical model of mixed depth returns at silhouettes. Uniform sample centers preserve camera field of view; no noise inflation or physical-state changes were used.
+Cost: 22.40s total on four single-thread workers; mean per render .956s at2x and1.039s at4x.
+Next useful step is a bounded fixed-geometry sampling convergence check or exact/adaptive projected-area integration; do not rerender/adopt the full bank until an observation approximation is qualified.
+
+Evidence SHA256: 41af750b4b09a1e47f1647fa55e7bc7ff1c1b718b039ec3acd0cf39d534e02be
+Focused tests: tests/test_physical_refinement_supersampling_v15.py — 2 passed (1.72s).

@@ -1,0 +1,55 @@
+Physical-refinement-v15 execution record
+
+Workspace: /home/bayespc2/vscode/guassianSDE
+Mechanical/runtime Python: .venv/bin/python (includes torch and pyamg).
+Set OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1.
+GPU queues use only cuda:0, cuda:1, cuda:2. GPU3 is not used.
+Package versions and exact source/input hashes are in method-freeze.json.
+
+Protocol:
+ reports/physical-refinement-v15/final-protocol.json
+ SHA256 05ffe8467e9d9767d9f9bf60b642ee2c72ef2ea2f2139f48a3613d3a2fd9e2ea
+Method freeze:
+ reports/physical-refinement-v15/method-freeze.json
+ SHA256 b08636a499bb7203bc26d093c1eee85e1f29275ce037aee2a45971b04d77a083
+
+The four execution stages, in order, use these shared arguments:
+ --protocol reports/physical-refinement-v15/final-protocol.json
+ --protocol-sha256 05ffe8467e9d9767d9f9bf60b642ee2c72ef2ea2f2139f48a3613d3a2fd9e2ea
+ --freeze reports/physical-refinement-v15/method-freeze.json
+ --freeze-sha256 b08636a499bb7203bc26d093c1eee85e1f29275ce037aee2a45971b04d77a083
+
+1. .venv/bin/python scripts/physical_refinement_v15/reserved_worlds_queue.py
+2. .venv/bin/python scripts/physical_refinement_v15/reserved_measurements.py --execute
+3. .venv/bin/python scripts/physical_refinement_v15/reserved_forecasts.py
+4. .venv/bin/python scripts/physical_refinement_v15/reserved_scores.py
+
+Append the shared arguments to each command. The publication includes the code,
+protocol, reports, provenance and videos. Raw NPZ simulation states, observations
+and forecast weights remain local under runs/physical-refinement-v15/ by request.
+Large published JSON reports may be stored as .json.gz; gzip decompression
+recovers the original bytes and original SHA256. publication-inventory.json maps
+published paths to original source paths.
+
+Do not overwrite the completed experiment. Packet generation, forecast and
+score stages deliberately refuse to replace completed outputs. On this machine,
+the reporting-only independent_results_audit.py rechecks saved artifacts.
+Regeneration from scratch elsewhere requires rebuilding development hypotheses,
+rendering banks and response predictions first, then a NEW run namespace and
+freeze. Do not claim that a newly generated run is the original sealed run or
+that byte-level hashes must match across devices/dependency versions.
+
+Development source entry points are mechanics_pilot.py, mechanics_qualification.py,
+development_mechanics_queue.py, development_worlds_queue.py,
+development_quadrature_queue.py, development_gradient9_queue.py,
+development_gradient17_queue.py, render_bank.py, world_render_bank.py,
+render_extra_bank.py, render_gradient17_bank.py, development_quadrature.py,
+gradient_quadrature_check.py, development_policy.py and its follow-on. Their
+prospective plans and completion reports document the executed settings.
+response_prediction_queue.py commits model responses to the four new commands
+before private test worlds are generated.
+
+Unit/integration validation:
+ .venv/bin/python -m pytest -q tests/test_physical_refinement*
+The frozen pre-evaluation suite passed64 tests. Later reporting helpers have
+separate synthetic checks and do not alter the frozen inference method.

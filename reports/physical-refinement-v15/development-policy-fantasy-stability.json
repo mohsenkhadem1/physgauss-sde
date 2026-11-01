@@ -1,0 +1,1968 @@
+{
+  "scope": "Limited fantasy stability audit at four worlds/two tracks/repeat zero.\nNo policies retuned: replay the original two decision histories, score256\nfantasies under original and independent seed, compare choices and MCSE.\n",
+  "input_report_sha256": "3c19c21086c8aec94a30519fef0c62f6efa2eb3b5bb0007ca127a592487cc3c6",
+  "source_sha256": {
+    "scripts/physical_refinement_v15/development_policy.py": "4d231799a2b6fc4b2f7f2916105d5aba8f97ae06d67b0ae71a0b8a8e26a1fdd9",
+    "scripts/physical_refinement_v15/belief.py": "0fa9d623f4471a754f26b794a3343d67bf73e24773858a8695ba0ed080b6b5b6",
+    "scripts/physical_refinement_v15/risk.py": "c8cd02af921f29a5c0d245b277d18a4354ebde07e0b85f994ffcd39e0887901b",
+    "scripts/physical_refinement_v15/banks.py": "7078af0e558c3d7cf90e8c7852ea42f3a20cccb357ce2f277642008a8cfbbc67",
+    "scripts/physical_refinement_v15/posterior.py": "79d7151ef41f031c76ba24b339aa5b8d6d12f74e32aa012d68d7df7341968324",
+    "scripts/physical_refinement_v15/development_data.py": "063676aa965d7ada347f448fdd8306d6e9d46735a856291f0507207d5ace29fd",
+    "scripts/physical_refinement_v15/quadrature.py": "e7f434601d668bdc603c33f4134c082c7ef38f4eb586f08ea79701d0c5b6efff",
+    "scripts/physical_refinement_v15/study.py": "ab1dee4d78db5ccfd839b965478e80238e15ac458d8e5ca77892503f8f3d49a2",
+    "scripts/physical_refinement_v15/predictive_scores.py": "e4c9f9e019693783f59eb5134022b7c014dd8c1950fd425a2bf1bfe5235a4782",
+    "scripts/physical_refinement_v15/development_policy_stability.py": "74f789c8c72b0f34276382f1348354ffe75e891a7603af3e7037ba84583284db"
+  },
+  "evidence_sha256": {
+    "runs/physical-refinement-v15/development/world-render-bank/development-0/n6/initial/left.npz": "54e4bacc9f11d542101e506faba7976ede73780edaba0ac7c134df15fc7b458e",
+    "runs/physical-refinement-v15/development/world-render-bank/development-0/n6/initial/complete.json": "8766a07973c0b952a6d2a370f53ff2eaba32fff85f6cab5825bed5adc6a0c88a",
+    "runs/physical-refinement-v15/development/world-render-bank/development-0/n6/probe_left_bend/left.npz": "a5eed8d2c233398d2c8fb0a1adc3a8375bd5bf4549a596e4130b238202cc7fb0",
+    "runs/physical-refinement-v15/development/world-render-bank/development-0/n6/probe_left_bend/complete.json": "05c26e120f4b29084fce480adb3bb380e72ce3d4f1faca14fa06791330ff516c",
+    "runs/physical-refinement-v15/development/world-render-bank/development-0/n6/probe_right_bend/left.npz": "29f02c1a3bbf9f36608bb567eb36d4c77bbc12613fdee4fd08671814ac688839",
+    "runs/physical-refinement-v15/development/world-render-bank/development-0/n6/probe_right_bend/complete.json": "cc5b4d359263f46836f5dfe5bf2e0e976662b6ce9a04c6a384b1edce21afb49c",
+    "runs/physical-refinement-v15/development/worlds/development-0/n6/pose-002/reaction-wrench.npz": "2b33b54e3e97b52daadfc8d227e06ef08efb83e0bf4daf5ea2dfed44daf1f535",
+    "runs/physical-refinement-v15/development/worlds/development-0/n6/pose-002/complete.json": "717685db92f820aea289121accd2a384330d96354edb1778dab87eceecfa9d65",
+    "runs/physical-refinement-v15/development/worlds/development-0/n6/pose-004/reaction-wrench.npz": "db28710344ed6283b153905044ae41a0331e41af124c07e3c8b023a44aef35ed",
+    "runs/physical-refinement-v15/development/worlds/development-0/n6/pose-004/complete.json": "f54fe89ac6a06d9f322e8a1f23aeead9ee19e78114e5d71326f165ab8af929cd",
+    "runs/physical-refinement-v15/development/world-render-bank/development-1/n6/initial/left.npz": "966f9e303e37cc069ebaf6e4b1dcd89c23daeef84ad09891650deb439e1e957f",
+    "runs/physical-refinement-v15/development/world-render-bank/development-1/n6/initial/complete.json": "5003448f02a7706b48dcb8e5f7174b0cd5f93969c962ee17931b1ab0e1c6da4c",
+    "runs/physical-refinement-v15/development/world-render-bank/development-1/n6/probe_left_twist/left.npz": "4e90e046ce8f2d3a4049bd4435745c0646bf8aa9c76550e772e063f8704cd9d1",
+    "runs/physical-refinement-v15/development/world-render-bank/development-1/n6/probe_left_twist/complete.json": "376da747a69475e70328d1395b190708290c58b83525a263a1ae24dea5143eab",
+    "runs/physical-refinement-v15/development/world-render-bank/development-1/n6/probe_left_bend/left.npz": "9bec698ccb382c162b4209c85e67d5a1f4c28337890b0ab874cf6958d0315026",
+    "runs/physical-refinement-v15/development/world-render-bank/development-1/n6/probe_left_bend/complete.json": "5153d133dd24b994f9fea1abe4d4ace732319837c746a1ac6b6b0093cd40905f",
+    "runs/physical-refinement-v15/development/worlds/development-1/n6/pose-002/reaction-wrench.npz": "a45ff20a579dbc60f23d35d62c0c6ba9c6100a1b190dccf91ee4fccb3394308c",
+    "runs/physical-refinement-v15/development/worlds/development-1/n6/pose-002/complete.json": "e56e2d851ee2ac94d2e66599aaf4ec8bf9af429dbb8a938824f6d1a09938438c",
+    "runs/physical-refinement-v15/development/world-render-bank/development-1/n6/probe_right_bend/left.npz": "076e503ac04ac6cb61bf913ff6abab9bcb2a02d80edf44e36baa801cfbbd8a6d",
+    "runs/physical-refinement-v15/development/world-render-bank/development-1/n6/probe_right_bend/complete.json": "066786c70a6a9159bdb226040555eb265f30f320b3d1c87e7a8a03066eca87cd",
+    "runs/physical-refinement-v15/development/worlds/development-1/n6/pose-004/reaction-wrench.npz": "07c227033aadd8d0256e982942e6c51f175aa1df6df980d3c89e0684fd5fc6df",
+    "runs/physical-refinement-v15/development/worlds/development-1/n6/pose-004/complete.json": "ec591f3b54ca6c12c55f1992cf31c967a20668e6757222c1b55a2871be14d6f5",
+    "runs/physical-refinement-v15/development/world-render-bank/development-2/n6/initial/oblique.npz": "afda7a9f510426f4a1e660d640263429fb817cc34befd20b22de2fdb32aeef4c",
+    "runs/physical-refinement-v15/development/world-render-bank/development-2/n6/initial/complete.json": "a962392355bcc2b6752afda136f4e42749faf720e83d7e1b49e9430357a07d42",
+    "runs/physical-refinement-v15/development/world-render-bank/development-2/n6/probe_left_bend/left.npz": "d4e9f2cece87ed46e1e2984d2e5e7d40cd57a7f1f179b7263d23f95dd6669a9e",
+    "runs/physical-refinement-v15/development/world-render-bank/development-2/n6/probe_left_bend/complete.json": "8109e54f4461c48f285244e02f05227dcd27c7431979ebf116dfb6a34e1d9f8d",
+    "runs/physical-refinement-v15/development/world-render-bank/development-2/n6/probe_right_bend/left.npz": "7d7829093ec2f6976b3d033b197593546f020bd3e7499a400e1a6822799fa05c",
+    "runs/physical-refinement-v15/development/world-render-bank/development-2/n6/probe_right_bend/complete.json": "ed83af783e150d2c8438aa8eb5617f2bbc53fc60eba3b12e5334bb234700b6d7",
+    "runs/physical-refinement-v15/development/worlds/development-2/n6/pose-002/reaction-wrench.npz": "dd1c75de67062784b95ff76477f9ba4ed1000fe90dc73474d661934800470936",
+    "runs/physical-refinement-v15/development/worlds/development-2/n6/pose-002/complete.json": "b2bb5df197bc78d3938a037f4d95034d349a41caca4b2d1e71f98d9fd3565ddb",
+    "runs/physical-refinement-v15/development/worlds/development-2/n6/pose-004/reaction-wrench.npz": "72bf70bfd75fecefb2f247876fad3404eb8d15cf71e173b629ddb771d376ad08",
+    "runs/physical-refinement-v15/development/worlds/development-2/n6/pose-004/complete.json": "5de6c5bbc83c1f3ba18a1d3831b625989495b89960cd0c5df428fff6ee39897e",
+    "runs/physical-refinement-v15/development/world-render-bank/development-3/n6/initial/oblique.npz": "c6d46bc14fdade6753b772f3f1ddf99ecc959c27d8dec51cac0b8cef9a4ecf25",
+    "runs/physical-refinement-v15/development/world-render-bank/development-3/n6/initial/complete.json": "60866cbe2fbb7ee3541530efa153032a6398d9fc495b6b9a7c1b2fd90be1fd3b",
+    "runs/physical-refinement-v15/development/world-render-bank/development-3/n6/probe_left_bend/left.npz": "ddf0802e73c118df98c1112663a2b5798a328c7efd6275360d05cf4e66cd016c",
+    "runs/physical-refinement-v15/development/world-render-bank/development-3/n6/probe_left_bend/complete.json": "b1afff5cb7ea49ca8779afabcfc35fd5daaed092dc88788b9207b46bae75e38d",
+    "runs/physical-refinement-v15/development/world-render-bank/development-3/n6/probe_right_bend/left.npz": "8c2846e5d70a09a2cd0d7293b3678b8212864cd18d23b44c53d6d1d5bb45eba0",
+    "runs/physical-refinement-v15/development/world-render-bank/development-3/n6/probe_right_bend/complete.json": "e985150680fe85a4ce43d9483663a91f1409e182759b6594da09d48dec2fad05",
+    "runs/physical-refinement-v15/development/worlds/development-3/n6/pose-002/reaction-wrench.npz": "f7c4446030338f824e06d64249e108772a9a357a7416273e128c7fb035eb2172",
+    "runs/physical-refinement-v15/development/worlds/development-3/n6/pose-002/complete.json": "432c6df63355aef8d335ec2ffe79e66db622c0baa1e4e4f661e05516924c1708",
+    "runs/physical-refinement-v15/development/worlds/development-3/n6/pose-004/reaction-wrench.npz": "9e50f5dd38ba5f8d939106bc9392a956c34adf14ffc932963fac912ca1c5161d",
+    "runs/physical-refinement-v15/development/worlds/development-3/n6/pose-004/complete.json": "71df9a52d72af7600ace131df4953d718d37eeb6533ed0bfb2d419d0f1904f89"
+  },
+  "comparisons": 32,
+  "agreements": 32,
+  "rows": [
+    {
+      "world": "development-0",
+      "track": "V",
+      "repeat": 0,
+      "step": 1,
+      "history": [],
+      "original_selected": "probe_left_bend",
+      "selected": "probe_left_bend",
+      "agrees": true,
+      "seed": 710001,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_right": 0.0015490411125458996,
+          "view_oblique": 0.03411063078948291,
+          "probe_left_twist": 0.019034944192069452,
+          "probe_right_twist": 0.037429766615587876,
+          "probe_left_bend": 0.07023924779907004,
+          "probe_right_bend": 0.06078859033391218
+        },
+        "monte_carlo_diagnostics": {
+          "view_right": {
+            "standard_error": 8.708890955082842e-05,
+            "expected_effective_sample_size": 2602.3967804849144,
+            "fantasies": 256,
+            "seed": 710001
+          },
+          "view_oblique": {
+            "standard_error": 0.0014085062584139167,
+            "expected_effective_sample_size": 1538.30205491283,
+            "fantasies": 256,
+            "seed": 710001
+          },
+          "probe_left_twist": {
+            "standard_error": 0.0027839861246607405,
+            "expected_effective_sample_size": 958.1507754113949,
+            "fantasies": 256,
+            "seed": 710001
+          },
+          "probe_right_twist": {
+            "standard_error": 0.002138729964924678,
+            "expected_effective_sample_size": 828.1761276668038,
+            "fantasies": 256,
+            "seed": 710001
+          },
+          "probe_left_bend": {
+            "standard_error": 0.0012924230481817331,
+            "expected_effective_sample_size": 309.101428502456,
+            "fantasies": 256,
+            "seed": 710001
+          },
+          "probe_right_bend": {
+            "standard_error": 0.0014594777305969645,
+            "expected_effective_sample_size": 553.4958158836157,
+            "fantasies": 256,
+            "seed": 710001
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-0",
+      "track": "V",
+      "repeat": 0,
+      "step": 1,
+      "history": [],
+      "original_selected": "probe_left_bend",
+      "selected": "probe_left_bend",
+      "agrees": true,
+      "seed": 1710001,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_right": 0.0016199332641243843,
+          "view_oblique": 0.03357759483489801,
+          "probe_left_twist": 0.02624664879586889,
+          "probe_right_twist": 0.036668643605576826,
+          "probe_left_bend": 0.07174731343561591,
+          "probe_right_bend": 0.06100978695380457
+        },
+        "monte_carlo_diagnostics": {
+          "view_right": {
+            "standard_error": 8.76150375836749e-05,
+            "expected_effective_sample_size": 2602.397487531941,
+            "fantasies": 256,
+            "seed": 1710001
+          },
+          "view_oblique": {
+            "standard_error": 0.0013199096382374412,
+            "expected_effective_sample_size": 1627.2789325963581,
+            "fantasies": 256,
+            "seed": 1710001
+          },
+          "probe_left_twist": {
+            "standard_error": 0.00257206779907222,
+            "expected_effective_sample_size": 894.1161622719541,
+            "fantasies": 256,
+            "seed": 1710001
+          },
+          "probe_right_twist": {
+            "standard_error": 0.001997910803696701,
+            "expected_effective_sample_size": 838.8469426406741,
+            "fantasies": 256,
+            "seed": 1710001
+          },
+          "probe_left_bend": {
+            "standard_error": 0.0012342304935661368,
+            "expected_effective_sample_size": 343.9036725798842,
+            "fantasies": 256,
+            "seed": 1710001
+          },
+          "probe_right_bend": {
+            "standard_error": 0.0013289837582659344,
+            "expected_effective_sample_size": 513.6534605442511,
+            "fantasies": 256,
+            "seed": 1710001
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-0",
+      "track": "V",
+      "repeat": 0,
+      "step": 2,
+      "history": [
+        "probe_left_bend"
+      ],
+      "original_selected": "probe_right_bend",
+      "selected": "probe_right_bend",
+      "agrees": true,
+      "seed": 710002,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_right": 0.0025343692255485177,
+          "view_oblique": 0.016761030441636682,
+          "probe_left_twist": 0.018633911369045526,
+          "probe_right_twist": 0.018986653910186398,
+          "probe_right_bend": 0.021679246578977997
+        },
+        "monte_carlo_diagnostics": {
+          "view_right": {
+            "standard_error": 0.0004909852663162989,
+            "expected_effective_sample_size": 196.37111296075267,
+            "fantasies": 256,
+            "seed": 710002
+          },
+          "view_oblique": {
+            "standard_error": 0.0004190224033877508,
+            "expected_effective_sample_size": 132.72212647491193,
+            "fantasies": 256,
+            "seed": 710002
+          },
+          "probe_left_twist": {
+            "standard_error": 0.0002621681772622231,
+            "expected_effective_sample_size": 201.20961953170394,
+            "fantasies": 256,
+            "seed": 710002
+          },
+          "probe_right_twist": {
+            "standard_error": 0.00022208805034509192,
+            "expected_effective_sample_size": 200.0257904618183,
+            "fantasies": 256,
+            "seed": 710002
+          },
+          "probe_right_bend": {
+            "standard_error": 0.0002454936373431707,
+            "expected_effective_sample_size": 79.03255695909503,
+            "fantasies": 256,
+            "seed": 710002
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-0",
+      "track": "V",
+      "repeat": 0,
+      "step": 2,
+      "history": [
+        "probe_left_bend"
+      ],
+      "original_selected": "probe_right_bend",
+      "selected": "probe_right_bend",
+      "agrees": true,
+      "seed": 1710002,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_right": 0.0011254209482008475,
+          "view_oblique": 0.0168156834184,
+          "probe_left_twist": 0.019129419299669492,
+          "probe_right_twist": 0.01929320461201097,
+          "probe_right_bend": 0.022573369822616214
+        },
+        "monte_carlo_diagnostics": {
+          "view_right": {
+            "standard_error": 0.0004312022956810822,
+            "expected_effective_sample_size": 208.691676263692,
+            "fantasies": 256,
+            "seed": 1710002
+          },
+          "view_oblique": {
+            "standard_error": 0.00046861100051244086,
+            "expected_effective_sample_size": 139.27213202198098,
+            "fantasies": 256,
+            "seed": 1710002
+          },
+          "probe_left_twist": {
+            "standard_error": 0.00024182549941102603,
+            "expected_effective_sample_size": 194.09545095314164,
+            "fantasies": 256,
+            "seed": 1710002
+          },
+          "probe_right_twist": {
+            "standard_error": 0.00022142671159909992,
+            "expected_effective_sample_size": 194.32611238661136,
+            "fantasies": 256,
+            "seed": 1710002
+          },
+          "probe_right_bend": {
+            "standard_error": 0.0002299990487244729,
+            "expected_effective_sample_size": 79.03253761826153,
+            "fantasies": 256,
+            "seed": 1710002
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-0",
+      "track": "VF",
+      "repeat": 0,
+      "step": 1,
+      "history": [],
+      "original_selected": "probe_right_bend",
+      "selected": "probe_right_bend",
+      "agrees": true,
+      "seed": 711001,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_right": 0.0013987426801938983,
+          "view_oblique": 0.03519774955197972,
+          "probe_left_twist": 0.1163658198585781,
+          "probe_right_twist": 0.12704251853101672,
+          "probe_left_bend": 0.16865191708978233,
+          "probe_right_bend": 0.1719958173166689
+        },
+        "monte_carlo_diagnostics": {
+          "view_right": {
+            "standard_error": 8.818408133048386e-05,
+            "expected_effective_sample_size": 2602.0471025286533,
+            "fantasies": 256,
+            "seed": 711001
+          },
+          "view_oblique": {
+            "standard_error": 0.001436954196878837,
+            "expected_effective_sample_size": 1599.5599353778034,
+            "fantasies": 256,
+            "seed": 711001
+          },
+          "probe_left_twist": {
+            "standard_error": 0.0029203206611472152,
+            "expected_effective_sample_size": 120.38242267995167,
+            "fantasies": 256,
+            "seed": 711001
+          },
+          "probe_right_twist": {
+            "standard_error": 0.0020329115466029687,
+            "expected_effective_sample_size": 104.22808958594368,
+            "fantasies": 256,
+            "seed": 711001
+          },
+          "probe_left_bend": {
+            "standard_error": 0.00042382614409777064,
+            "expected_effective_sample_size": 26.410048908706433,
+            "fantasies": 256,
+            "seed": 711001
+          },
+          "probe_right_bend": {
+            "standard_error": 0.00011037873470752639,
+            "expected_effective_sample_size": 26.90484720390512,
+            "fantasies": 256,
+            "seed": 711001
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-0",
+      "track": "VF",
+      "repeat": 0,
+      "step": 1,
+      "history": [],
+      "original_selected": "probe_right_bend",
+      "selected": "probe_right_bend",
+      "agrees": true,
+      "seed": 1711001,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_right": 0.0014005709016665523,
+          "view_oblique": 0.03398144163051551,
+          "probe_left_twist": 0.11976161275772204,
+          "probe_right_twist": 0.12667151258870057,
+          "probe_left_bend": 0.16898535018424973,
+          "probe_right_bend": 0.17200029967985153
+        },
+        "monte_carlo_diagnostics": {
+          "view_right": {
+            "standard_error": 9.394001063905642e-05,
+            "expected_effective_sample_size": 2601.5927965735873,
+            "fantasies": 256,
+            "seed": 1711001
+          },
+          "view_oblique": {
+            "standard_error": 0.0014494325182167014,
+            "expected_effective_sample_size": 1590.7936138631112,
+            "fantasies": 256,
+            "seed": 1711001
+          },
+          "probe_left_twist": {
+            "standard_error": 0.0027660825335789232,
+            "expected_effective_sample_size": 123.26869762837066,
+            "fantasies": 256,
+            "seed": 1711001
+          },
+          "probe_right_twist": {
+            "standard_error": 0.00201278777092848,
+            "expected_effective_sample_size": 103.76358361128041,
+            "fantasies": 256,
+            "seed": 1711001
+          },
+          "probe_left_bend": {
+            "standard_error": 0.00025551015736310353,
+            "expected_effective_sample_size": 28.156469208629176,
+            "fantasies": 256,
+            "seed": 1711001
+          },
+          "probe_right_bend": {
+            "standard_error": 0.00010978199907471399,
+            "expected_effective_sample_size": 23.894600787366965,
+            "fantasies": 256,
+            "seed": 1711001
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-0",
+      "track": "VF",
+      "repeat": 0,
+      "step": 2,
+      "history": [
+        "probe_right_bend"
+      ],
+      "original_selected": "probe_left_bend",
+      "selected": "probe_left_bend",
+      "agrees": true,
+      "seed": 711002,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_right": 1.6488023626519593e-05,
+          "view_oblique": 1.6489984431598648e-05,
+          "probe_left_twist": 0.00013864208333924966,
+          "probe_right_twist": 0.0001359809325378137,
+          "probe_left_bend": 0.00017549552010119422
+        },
+        "monte_carlo_diagnostics": {
+          "view_right": {
+            "standard_error": 3.054956013435009e-11,
+            "expected_effective_sample_size": 6.826160818952895,
+            "fantasies": 256,
+            "seed": 711002
+          },
+          "view_oblique": {
+            "standard_error": 6.865688977917952e-10,
+            "expected_effective_sample_size": 6.826160084068541,
+            "fantasies": 256,
+            "seed": 711002
+          },
+          "probe_left_twist": {
+            "standard_error": 2.8302862454784185e-07,
+            "expected_effective_sample_size": 6.186421395204734,
+            "fantasies": 256,
+            "seed": 711002
+          },
+          "probe_right_twist": {
+            "standard_error": 3.0775814567194385e-06,
+            "expected_effective_sample_size": 6.179022746093837,
+            "fantasies": 256,
+            "seed": 711002
+          },
+          "probe_left_bend": {
+            "standard_error": 1.8211941804343378e-10,
+            "expected_effective_sample_size": 5.980380601906944,
+            "fantasies": 256,
+            "seed": 711002
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-0",
+      "track": "VF",
+      "repeat": 0,
+      "step": 2,
+      "history": [
+        "probe_right_bend"
+      ],
+      "original_selected": "probe_left_bend",
+      "selected": "probe_left_bend",
+      "agrees": true,
+      "seed": 1711002,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_right": 1.6488019259143612e-05,
+          "view_oblique": 1.6489138805215386e-05,
+          "probe_left_twist": 0.00013915637210036515,
+          "probe_right_twist": 0.00013679734780032703,
+          "probe_left_bend": 0.00017549577263661434
+        },
+        "monte_carlo_diagnostics": {
+          "view_right": {
+            "standard_error": 2.8992929308417557e-11,
+            "expected_effective_sample_size": 6.8261608205897355,
+            "fantasies": 256,
+            "seed": 1711002
+          },
+          "view_oblique": {
+            "standard_error": 1.0628844552555844e-09,
+            "expected_effective_sample_size": 6.826160401003463,
+            "fantasies": 256,
+            "seed": 1711002
+          },
+          "probe_left_twist": {
+            "standard_error": 6.366492998385745e-08,
+            "expected_effective_sample_size": 6.170219738340524,
+            "fantasies": 256,
+            "seed": 1711002
+          },
+          "probe_right_twist": {
+            "standard_error": 2.1005777405378926e-06,
+            "expected_effective_sample_size": 6.174427868866902,
+            "fantasies": 256,
+            "seed": 1711002
+          },
+          "probe_left_bend": {
+            "standard_error": 1.707450414261448e-10,
+            "expected_effective_sample_size": 5.967336162706869,
+            "fantasies": 256,
+            "seed": 1711002
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-1",
+      "track": "V",
+      "repeat": 0,
+      "step": 1,
+      "history": [],
+      "original_selected": "probe_left_bend",
+      "selected": "probe_left_bend",
+      "agrees": true,
+      "seed": 720001,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_right": 0.0014937992502319923,
+          "view_oblique": 0.03499544590574991,
+          "probe_left_twist": 0.02116460184485692,
+          "probe_right_twist": 0.037062838232520344,
+          "probe_left_bend": 0.07125131569533552,
+          "probe_right_bend": 0.05875860614537798
+        },
+        "monte_carlo_diagnostics": {
+          "view_right": {
+            "standard_error": 9.529813167590486e-05,
+            "expected_effective_sample_size": 2605.9751945424546,
+            "fantasies": 256,
+            "seed": 720001
+          },
+          "view_oblique": {
+            "standard_error": 0.001398866939975577,
+            "expected_effective_sample_size": 1556.6605948351869,
+            "fantasies": 256,
+            "seed": 720001
+          },
+          "probe_left_twist": {
+            "standard_error": 0.002675721830501773,
+            "expected_effective_sample_size": 936.8214673370876,
+            "fantasies": 256,
+            "seed": 720001
+          },
+          "probe_right_twist": {
+            "standard_error": 0.0021858055861706236,
+            "expected_effective_sample_size": 769.2928359962641,
+            "fantasies": 256,
+            "seed": 720001
+          },
+          "probe_left_bend": {
+            "standard_error": 0.0012796297319043915,
+            "expected_effective_sample_size": 313.4491321883857,
+            "fantasies": 256,
+            "seed": 720001
+          },
+          "probe_right_bend": {
+            "standard_error": 0.0014347149446371891,
+            "expected_effective_sample_size": 520.7056831682994,
+            "fantasies": 256,
+            "seed": 720001
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-1",
+      "track": "V",
+      "repeat": 0,
+      "step": 1,
+      "history": [],
+      "original_selected": "probe_left_bend",
+      "selected": "probe_left_bend",
+      "agrees": true,
+      "seed": 1720001,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_right": 0.001407123915596165,
+          "view_oblique": 0.03299708726234429,
+          "probe_left_twist": 0.024580232259348515,
+          "probe_right_twist": 0.036307308024284723,
+          "probe_left_bend": 0.07143816660853122,
+          "probe_right_bend": 0.06245582835182251
+        },
+        "monte_carlo_diagnostics": {
+          "view_right": {
+            "standard_error": 8.687592619415193e-05,
+            "expected_effective_sample_size": 2606.6091517969426,
+            "fantasies": 256,
+            "seed": 1720001
+          },
+          "view_oblique": {
+            "standard_error": 0.0012970613244327191,
+            "expected_effective_sample_size": 1648.3985066222244,
+            "fantasies": 256,
+            "seed": 1720001
+          },
+          "probe_left_twist": {
+            "standard_error": 0.002653187136309148,
+            "expected_effective_sample_size": 915.5963761022952,
+            "fantasies": 256,
+            "seed": 1720001
+          },
+          "probe_right_twist": {
+            "standard_error": 0.0018738544238856513,
+            "expected_effective_sample_size": 813.9187776432707,
+            "fantasies": 256,
+            "seed": 1720001
+          },
+          "probe_left_bend": {
+            "standard_error": 0.0012282749005033695,
+            "expected_effective_sample_size": 349.7449116781068,
+            "fantasies": 256,
+            "seed": 1720001
+          },
+          "probe_right_bend": {
+            "standard_error": 0.0013477981375969968,
+            "expected_effective_sample_size": 460.25143882672614,
+            "fantasies": 256,
+            "seed": 1720001
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-1",
+      "track": "V",
+      "repeat": 0,
+      "step": 2,
+      "history": [
+        "probe_left_bend"
+      ],
+      "original_selected": "probe_left_twist",
+      "selected": "probe_left_twist",
+      "agrees": true,
+      "seed": 720002,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_right": 1.0031065619539234e-05,
+          "view_oblique": 1.3113665141445104e-05,
+          "probe_left_twist": 0.0003947228411915383,
+          "probe_right_twist": 4.6268302052433275e-05,
+          "probe_right_bend": -5.546828355787112e-11
+        },
+        "monte_carlo_diagnostics": {
+          "view_right": {
+            "standard_error": 2.408756073189541e-08,
+            "expected_effective_sample_size": 101.5844199119851,
+            "fantasies": 256,
+            "seed": 720002
+          },
+          "view_oblique": {
+            "standard_error": 3.4063946899278236e-06,
+            "expected_effective_sample_size": 101.72824651856739,
+            "fantasies": 256,
+            "seed": 720002
+          },
+          "probe_left_twist": {
+            "standard_error": 0.00010140347356905745,
+            "expected_effective_sample_size": 80.66968295117186,
+            "fantasies": 256,
+            "seed": 720002
+          },
+          "probe_right_twist": {
+            "standard_error": 1.883129159113286e-05,
+            "expected_effective_sample_size": 101.73288083202364,
+            "fantasies": 256,
+            "seed": 720002
+          },
+          "probe_right_bend": {
+            "standard_error": 3.9777324816191074e-07,
+            "expected_effective_sample_size": 101.62896530092127,
+            "fantasies": 256,
+            "seed": 720002
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-1",
+      "track": "V",
+      "repeat": 0,
+      "step": 2,
+      "history": [
+        "probe_left_bend"
+      ],
+      "original_selected": "probe_left_twist",
+      "selected": "probe_left_twist",
+      "agrees": true,
+      "seed": 1720002,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_right": 1.0070002433750674e-05,
+          "view_oblique": 1.492904079229354e-05,
+          "probe_left_twist": 0.0003860156562972886,
+          "probe_right_twist": 3.38229622379121e-05,
+          "probe_right_bend": 6.670591948086538e-08
+        },
+        "monte_carlo_diagnostics": {
+          "view_right": {
+            "standard_error": 2.3452261830982746e-08,
+            "expected_effective_sample_size": 101.58770434046895,
+            "fantasies": 256,
+            "seed": 1720002
+          },
+          "view_oblique": {
+            "standard_error": 3.4825583312376656e-06,
+            "expected_effective_sample_size": 101.8786645636878,
+            "fantasies": 256,
+            "seed": 1720002
+          },
+          "probe_left_twist": {
+            "standard_error": 0.00010113689074075472,
+            "expected_effective_sample_size": 80.61481301585755,
+            "fantasies": 256,
+            "seed": 1720002
+          },
+          "probe_right_twist": {
+            "standard_error": 2.0445864795360534e-05,
+            "expected_effective_sample_size": 100.33604063249666,
+            "fantasies": 256,
+            "seed": 1720002
+          },
+          "probe_right_bend": {
+            "standard_error": 3.6952283379632076e-07,
+            "expected_effective_sample_size": 101.63404257444707,
+            "fantasies": 256,
+            "seed": 1720002
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-1",
+      "track": "VF",
+      "repeat": 0,
+      "step": 1,
+      "history": [],
+      "original_selected": "probe_right_bend",
+      "selected": "probe_right_bend",
+      "agrees": true,
+      "seed": 721001,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_right": 0.0015758885281193357,
+          "view_oblique": 0.035326258834260174,
+          "probe_left_twist": 0.12027578121322267,
+          "probe_right_twist": 0.12587945014045698,
+          "probe_left_bend": 0.16784234910343304,
+          "probe_right_bend": 0.17162961609460958
+        },
+        "monte_carlo_diagnostics": {
+          "view_right": {
+            "standard_error": 8.910048202939356e-05,
+            "expected_effective_sample_size": 2606.579196863869,
+            "fantasies": 256,
+            "seed": 721001
+          },
+          "view_oblique": {
+            "standard_error": 0.0014366273973744758,
+            "expected_effective_sample_size": 1575.4058187322812,
+            "fantasies": 256,
+            "seed": 721001
+          },
+          "probe_left_twist": {
+            "standard_error": 0.0029420194566669336,
+            "expected_effective_sample_size": 117.4045190370794,
+            "fantasies": 256,
+            "seed": 721001
+          },
+          "probe_right_twist": {
+            "standard_error": 0.002166749499093977,
+            "expected_effective_sample_size": 104.242362122568,
+            "fantasies": 256,
+            "seed": 721001
+          },
+          "probe_left_bend": {
+            "standard_error": 0.0003520619381610575,
+            "expected_effective_sample_size": 29.840922127019923,
+            "fantasies": 256,
+            "seed": 721001
+          },
+          "probe_right_bend": {
+            "standard_error": 0.00011742322197514092,
+            "expected_effective_sample_size": 21.870070024445447,
+            "fantasies": 256,
+            "seed": 721001
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-1",
+      "track": "VF",
+      "repeat": 0,
+      "step": 1,
+      "history": [],
+      "original_selected": "probe_right_bend",
+      "selected": "probe_right_bend",
+      "agrees": true,
+      "seed": 1721001,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_right": 0.0015790773423582814,
+          "view_oblique": 0.03262534947585455,
+          "probe_left_twist": 0.11492474196981282,
+          "probe_right_twist": 0.12340583758719403,
+          "probe_left_bend": 0.16884990207410086,
+          "probe_right_bend": 0.17149382890094894
+        },
+        "monte_carlo_diagnostics": {
+          "view_right": {
+            "standard_error": 9.011860616334775e-05,
+            "expected_effective_sample_size": 2606.26609737279,
+            "fantasies": 256,
+            "seed": 1721001
+          },
+          "view_oblique": {
+            "standard_error": 0.0014132025348419356,
+            "expected_effective_sample_size": 1644.2538827555416,
+            "fantasies": 256,
+            "seed": 1721001
+          },
+          "probe_left_twist": {
+            "standard_error": 0.0029970653743940437,
+            "expected_effective_sample_size": 120.06310093708485,
+            "fantasies": 256,
+            "seed": 1721001
+          },
+          "probe_right_twist": {
+            "standard_error": 0.0020859249600856337,
+            "expected_effective_sample_size": 100.57275354988883,
+            "fantasies": 256,
+            "seed": 1721001
+          },
+          "probe_left_bend": {
+            "standard_error": 0.00024671703411319743,
+            "expected_effective_sample_size": 25.36911919245995,
+            "fantasies": 256,
+            "seed": 1721001
+          },
+          "probe_right_bend": {
+            "standard_error": 0.00010581381335838064,
+            "expected_effective_sample_size": 26.521555849254845,
+            "fantasies": 256,
+            "seed": 1721001
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-1",
+      "track": "VF",
+      "repeat": 0,
+      "step": 2,
+      "history": [
+        "probe_right_bend"
+      ],
+      "original_selected": "probe_left_bend",
+      "selected": "probe_left_bend",
+      "agrees": true,
+      "seed": 721002,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_right": 0.0015446175254821015,
+          "view_oblique": 0.0015997770613480206,
+          "probe_left_twist": 0.002271690243968504,
+          "probe_right_twist": 0.0035858974165403354,
+          "probe_left_bend": 0.0050261821231369205
+        },
+        "monte_carlo_diagnostics": {
+          "view_right": {
+            "standard_error": 3.745135520636278e-06,
+            "expected_effective_sample_size": 33.77861958020138,
+            "fantasies": 256,
+            "seed": 721002
+          },
+          "view_oblique": {
+            "standard_error": 7.316853969583086e-06,
+            "expected_effective_sample_size": 33.31515397363614,
+            "fantasies": 256,
+            "seed": 721002
+          },
+          "probe_left_twist": {
+            "standard_error": 6.928740596453925e-05,
+            "expected_effective_sample_size": 18.560492413415396,
+            "fantasies": 256,
+            "seed": 721002
+          },
+          "probe_right_twist": {
+            "standard_error": 5.6416136422949865e-05,
+            "expected_effective_sample_size": 12.86011687795414,
+            "fantasies": 256,
+            "seed": 721002
+          },
+          "probe_left_bend": {
+            "standard_error": 9.508650860937094e-06,
+            "expected_effective_sample_size": 6.1994928297941465,
+            "fantasies": 256,
+            "seed": 721002
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-1",
+      "track": "VF",
+      "repeat": 0,
+      "step": 2,
+      "history": [
+        "probe_right_bend"
+      ],
+      "original_selected": "probe_left_bend",
+      "selected": "probe_left_bend",
+      "agrees": true,
+      "seed": 1721002,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_right": 0.001542908610926673,
+          "view_oblique": 0.0016129533083341118,
+          "probe_left_twist": 0.0023090404731535294,
+          "probe_right_twist": 0.00360419640780163,
+          "probe_left_bend": 0.005034963234850434
+        },
+        "monte_carlo_diagnostics": {
+          "view_right": {
+            "standard_error": 3.7119002775594107e-06,
+            "expected_effective_sample_size": 33.77680494900973,
+            "fantasies": 256,
+            "seed": 1721002
+          },
+          "view_oblique": {
+            "standard_error": 8.389250569178864e-06,
+            "expected_effective_sample_size": 33.26030771558303,
+            "fantasies": 256,
+            "seed": 1721002
+          },
+          "probe_left_twist": {
+            "standard_error": 7.35897543945222e-05,
+            "expected_effective_sample_size": 18.99655909991283,
+            "fantasies": 256,
+            "seed": 1721002
+          },
+          "probe_right_twist": {
+            "standard_error": 5.246942012544126e-05,
+            "expected_effective_sample_size": 12.896173867205997,
+            "fantasies": 256,
+            "seed": 1721002
+          },
+          "probe_left_bend": {
+            "standard_error": 8.031780349948849e-06,
+            "expected_effective_sample_size": 6.041366811376593,
+            "fantasies": 256,
+            "seed": 1721002
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-2",
+      "track": "V",
+      "repeat": 0,
+      "step": 1,
+      "history": [],
+      "original_selected": "probe_left_bend",
+      "selected": "probe_left_bend",
+      "agrees": true,
+      "seed": 730001,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_left": 8.8856587844772e-07,
+          "view_right": -1.0594074693059301e-05,
+          "probe_left_twist": 0.017417278290698696,
+          "probe_right_twist": 0.03418475843542654,
+          "probe_left_bend": 0.05612193130639312,
+          "probe_right_bend": 0.04494854007833967
+        },
+        "monte_carlo_diagnostics": {
+          "view_left": {
+            "standard_error": 1.9367731760738615e-05,
+            "expected_effective_sample_size": 2041.1252432915926,
+            "fantasies": 256,
+            "seed": 730001
+          },
+          "view_right": {
+            "standard_error": 9.396021779685992e-05,
+            "expected_effective_sample_size": 2042.026835474444,
+            "fantasies": 256,
+            "seed": 730001
+          },
+          "probe_left_twist": {
+            "standard_error": 0.0019733131836286552,
+            "expected_effective_sample_size": 462.82296946809845,
+            "fantasies": 256,
+            "seed": 730001
+          },
+          "probe_right_twist": {
+            "standard_error": 0.0017605465272823098,
+            "expected_effective_sample_size": 427.38028150916455,
+            "fantasies": 256,
+            "seed": 730001
+          },
+          "probe_left_bend": {
+            "standard_error": 0.0009817752700035597,
+            "expected_effective_sample_size": 186.25936924088467,
+            "fantasies": 256,
+            "seed": 730001
+          },
+          "probe_right_bend": {
+            "standard_error": 0.0012120921875028645,
+            "expected_effective_sample_size": 240.85943055916374,
+            "fantasies": 256,
+            "seed": 730001
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-2",
+      "track": "V",
+      "repeat": 0,
+      "step": 1,
+      "history": [],
+      "original_selected": "probe_left_bend",
+      "selected": "probe_left_bend",
+      "agrees": true,
+      "seed": 1730001,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_left": 1.376890052362089e-06,
+          "view_right": -4.922330797426809e-05,
+          "probe_left_twist": 0.01779221800100686,
+          "probe_right_twist": 0.033191932849358924,
+          "probe_left_bend": 0.05421875983720335,
+          "probe_right_bend": 0.044970651100504765
+        },
+        "monte_carlo_diagnostics": {
+          "view_left": {
+            "standard_error": 2.003685268210018e-05,
+            "expected_effective_sample_size": 2039.7287224571141,
+            "fantasies": 256,
+            "seed": 1730001
+          },
+          "view_right": {
+            "standard_error": 9.986763827529483e-05,
+            "expected_effective_sample_size": 2041.9602477439332,
+            "fantasies": 256,
+            "seed": 1730001
+          },
+          "probe_left_twist": {
+            "standard_error": 0.001952344167182262,
+            "expected_effective_sample_size": 474.07993606645846,
+            "fantasies": 256,
+            "seed": 1730001
+          },
+          "probe_right_twist": {
+            "standard_error": 0.0017028156872275037,
+            "expected_effective_sample_size": 443.79558166110473,
+            "fantasies": 256,
+            "seed": 1730001
+          },
+          "probe_left_bend": {
+            "standard_error": 0.0009817232841256222,
+            "expected_effective_sample_size": 195.95744485693405,
+            "fantasies": 256,
+            "seed": 1730001
+          },
+          "probe_right_bend": {
+            "standard_error": 0.001296790730890551,
+            "expected_effective_sample_size": 212.8686256815604,
+            "fantasies": 256,
+            "seed": 1730001
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-2",
+      "track": "V",
+      "repeat": 0,
+      "step": 2,
+      "history": [
+        "probe_left_bend"
+      ],
+      "original_selected": "probe_right_bend",
+      "selected": "probe_right_bend",
+      "agrees": true,
+      "seed": 730002,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_left": 1.72789383946264e-05,
+          "view_right": 3.771473044647685e-07,
+          "probe_left_twist": 0.011357178968496265,
+          "probe_right_twist": 0.011156666507103377,
+          "probe_right_bend": 0.012145230841004962
+        },
+        "monte_carlo_diagnostics": {
+          "view_left": {
+            "standard_error": 3.118579494673114e-05,
+            "expected_effective_sample_size": 203.98573304861668,
+            "fantasies": 256,
+            "seed": 730002
+          },
+          "view_right": {
+            "standard_error": 4.860563533136354e-06,
+            "expected_effective_sample_size": 204.06389104552136,
+            "fantasies": 256,
+            "seed": 730002
+          },
+          "probe_left_twist": {
+            "standard_error": 0.00027320787233690174,
+            "expected_effective_sample_size": 83.52960631290917,
+            "fantasies": 256,
+            "seed": 730002
+          },
+          "probe_right_twist": {
+            "standard_error": 0.0002461459657265381,
+            "expected_effective_sample_size": 148.38969723220407,
+            "fantasies": 256,
+            "seed": 730002
+          },
+          "probe_right_bend": {
+            "standard_error": 0.00024435899163646155,
+            "expected_effective_sample_size": 79.03253283490359,
+            "fantasies": 256,
+            "seed": 730002
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-2",
+      "track": "V",
+      "repeat": 0,
+      "step": 2,
+      "history": [
+        "probe_left_bend"
+      ],
+      "original_selected": "probe_right_bend",
+      "selected": "probe_right_bend",
+      "agrees": true,
+      "seed": 1730002,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_left": 3.883512821074229e-05,
+          "view_right": 6.005147939467975e-07,
+          "probe_left_twist": 0.01113540948109476,
+          "probe_right_twist": 0.011095881420102413,
+          "probe_right_bend": 0.011937399225799075
+        },
+        "monte_carlo_diagnostics": {
+          "view_left": {
+            "standard_error": 3.055317621066029e-05,
+            "expected_effective_sample_size": 203.86757585844623,
+            "fantasies": 256,
+            "seed": 1730002
+          },
+          "view_right": {
+            "standard_error": 4.6777038034266425e-06,
+            "expected_effective_sample_size": 204.06321577435722,
+            "fantasies": 256,
+            "seed": 1730002
+          },
+          "probe_left_twist": {
+            "standard_error": 0.00026235976010080254,
+            "expected_effective_sample_size": 84.2044873541405,
+            "fantasies": 256,
+            "seed": 1730002
+          },
+          "probe_right_twist": {
+            "standard_error": 0.00021757797300889713,
+            "expected_effective_sample_size": 149.08176935343477,
+            "fantasies": 256,
+            "seed": 1730002
+          },
+          "probe_right_bend": {
+            "standard_error": 0.0002363286531031172,
+            "expected_effective_sample_size": 79.03253415500602,
+            "fantasies": 256,
+            "seed": 1730002
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-2",
+      "track": "VF",
+      "repeat": 0,
+      "step": 1,
+      "history": [],
+      "original_selected": "probe_right_bend",
+      "selected": "probe_right_bend",
+      "agrees": true,
+      "seed": 731001,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_left": -4.938964703540805e-06,
+          "view_right": -8.250392264168955e-05,
+          "probe_left_twist": 0.10552005849356835,
+          "probe_right_twist": 0.12139867731424761,
+          "probe_left_bend": 0.1475930383968683,
+          "probe_right_bend": 0.1496869819464704
+        },
+        "monte_carlo_diagnostics": {
+          "view_left": {
+            "standard_error": 1.9043965935754976e-05,
+            "expected_effective_sample_size": 2040.1137737212593,
+            "fantasies": 256,
+            "seed": 731001
+          },
+          "view_right": {
+            "standard_error": 9.488295826718987e-05,
+            "expected_effective_sample_size": 2042.2875977661593,
+            "fantasies": 256,
+            "seed": 731001
+          },
+          "probe_left_twist": {
+            "standard_error": 0.0023502691451013956,
+            "expected_effective_sample_size": 79.02519702951227,
+            "fantasies": 256,
+            "seed": 731001
+          },
+          "probe_right_twist": {
+            "standard_error": 0.0013592625000394777,
+            "expected_effective_sample_size": 71.43175230545995,
+            "fantasies": 256,
+            "seed": 731001
+          },
+          "probe_left_bend": {
+            "standard_error": 0.0001659934199710377,
+            "expected_effective_sample_size": 20.79508351407616,
+            "fantasies": 256,
+            "seed": 731001
+          },
+          "probe_right_bend": {
+            "standard_error": 7.746810459215896e-05,
+            "expected_effective_sample_size": 15.024440223104419,
+            "fantasies": 256,
+            "seed": 731001
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-2",
+      "track": "VF",
+      "repeat": 0,
+      "step": 1,
+      "history": [],
+      "original_selected": "probe_right_bend",
+      "selected": "probe_right_bend",
+      "agrees": true,
+      "seed": 1731001,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_left": -3.2714065013399705e-06,
+          "view_right": -0.00011567795186604455,
+          "probe_left_twist": 0.10582006375324676,
+          "probe_right_twist": 0.119544163310211,
+          "probe_left_bend": 0.14757123881896977,
+          "probe_right_bend": 0.1496383362259035
+        },
+        "monte_carlo_diagnostics": {
+          "view_left": {
+            "standard_error": 2.4100497358212662e-05,
+            "expected_effective_sample_size": 2038.8554382449458,
+            "fantasies": 256,
+            "seed": 1731001
+          },
+          "view_right": {
+            "standard_error": 0.00011391053141156722,
+            "expected_effective_sample_size": 2041.4771745464818,
+            "fantasies": 256,
+            "seed": 1731001
+          },
+          "probe_left_twist": {
+            "standard_error": 0.0022555055943931993,
+            "expected_effective_sample_size": 76.38896101902158,
+            "fantasies": 256,
+            "seed": 1731001
+          },
+          "probe_right_twist": {
+            "standard_error": 0.0013421459758428513,
+            "expected_effective_sample_size": 73.15286803166143,
+            "fantasies": 256,
+            "seed": 1731001
+          },
+          "probe_left_bend": {
+            "standard_error": 0.00016694768895856617,
+            "expected_effective_sample_size": 19.400729429632918,
+            "fantasies": 256,
+            "seed": 1731001
+          },
+          "probe_right_bend": {
+            "standard_error": 9.109638083252803e-05,
+            "expected_effective_sample_size": 14.904557865215317,
+            "fantasies": 256,
+            "seed": 1731001
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-2",
+      "track": "VF",
+      "repeat": 0,
+      "step": 2,
+      "history": [
+        "probe_right_bend"
+      ],
+      "original_selected": "probe_left_bend",
+      "selected": "probe_left_bend",
+      "agrees": true,
+      "seed": 731002,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_left": -2.426392012145808e-10,
+          "view_right": -3.4962703216559644e-10,
+          "probe_left_twist": 0.0001733282064730561,
+          "probe_right_twist": 0.00017315013158457823,
+          "probe_left_bend": 0.0002611469189713931
+        },
+        "monte_carlo_diagnostics": {
+          "view_left": {
+            "standard_error": 8.379031757803779e-10,
+            "expected_effective_sample_size": 5.536347214471094,
+            "fantasies": 256,
+            "seed": 731002
+          },
+          "view_right": {
+            "standard_error": 2.4538916797121223e-09,
+            "expected_effective_sample_size": 5.536347345738966,
+            "fantasies": 256,
+            "seed": 731002
+          },
+          "probe_left_twist": {
+            "standard_error": 2.1951919042672092e-09,
+            "expected_effective_sample_size": 4.855617442864064,
+            "fantasies": 256,
+            "seed": 731002
+          },
+          "probe_right_twist": {
+            "standard_error": 4.401207513065995e-08,
+            "expected_effective_sample_size": 4.854515858238125,
+            "fantasies": 256,
+            "seed": 731002
+          },
+          "probe_left_bend": {
+            "standard_error": 6.922155800224297e-09,
+            "expected_effective_sample_size": 4.465708787879323,
+            "fantasies": 256,
+            "seed": 731002
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-2",
+      "track": "VF",
+      "repeat": 0,
+      "step": 2,
+      "history": [
+        "probe_right_bend"
+      ],
+      "original_selected": "probe_left_bend",
+      "selected": "probe_left_bend",
+      "agrees": true,
+      "seed": 1731002,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_left": -3.784604543178006e-10,
+          "view_right": -7.796890727384989e-10,
+          "probe_left_twist": 0.0001733301873188318,
+          "probe_right_twist": 0.00017313077476581885,
+          "probe_left_bend": 0.00026111394488280903
+        },
+        "monte_carlo_diagnostics": {
+          "view_left": {
+            "standard_error": 8.405456282352596e-10,
+            "expected_effective_sample_size": 5.536347338808003,
+            "fantasies": 256,
+            "seed": 1731002
+          },
+          "view_right": {
+            "standard_error": 2.5456518927160076e-09,
+            "expected_effective_sample_size": 5.5363474816508855,
+            "fantasies": 256,
+            "seed": 1731002
+          },
+          "probe_left_twist": {
+            "standard_error": 7.48875289044082e-10,
+            "expected_effective_sample_size": 4.850346691117782,
+            "fantasies": 256,
+            "seed": 1731002
+          },
+          "probe_right_twist": {
+            "standard_error": 4.4867956129694126e-08,
+            "expected_effective_sample_size": 4.8496020022282735,
+            "fantasies": 256,
+            "seed": 1731002
+          },
+          "probe_left_bend": {
+            "standard_error": 4.3204002892383106e-08,
+            "expected_effective_sample_size": 4.461728716563153,
+            "fantasies": 256,
+            "seed": 1731002
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-3",
+      "track": "V",
+      "repeat": 0,
+      "step": 1,
+      "history": [],
+      "original_selected": "probe_left_bend",
+      "selected": "probe_left_bend",
+      "agrees": true,
+      "seed": 740001,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_left": -1.8251270701250748e-05,
+          "view_right": -1.7203344381287733e-05,
+          "probe_left_twist": 0.013795321968883573,
+          "probe_right_twist": 0.017489142236452287,
+          "probe_left_bend": 0.03164278043202349,
+          "probe_right_bend": 0.02438877202974813
+        },
+        "monte_carlo_diagnostics": {
+          "view_left": {
+            "standard_error": 5.3786483872742556e-05,
+            "expected_effective_sample_size": 1412.3971643053385,
+            "fantasies": 256,
+            "seed": 740001
+          },
+          "view_right": {
+            "standard_error": 3.9939263140293285e-05,
+            "expected_effective_sample_size": 1412.669029841986,
+            "fantasies": 256,
+            "seed": 740001
+          },
+          "probe_left_twist": {
+            "standard_error": 0.00201752239014714,
+            "expected_effective_sample_size": 403.5035254628886,
+            "fantasies": 256,
+            "seed": 740001
+          },
+          "probe_right_twist": {
+            "standard_error": 0.0015355275722082288,
+            "expected_effective_sample_size": 316.8504348642658,
+            "fantasies": 256,
+            "seed": 740001
+          },
+          "probe_left_bend": {
+            "standard_error": 0.0008719346579323676,
+            "expected_effective_sample_size": 195.07326998345965,
+            "fantasies": 256,
+            "seed": 740001
+          },
+          "probe_right_bend": {
+            "standard_error": 0.000814323202507168,
+            "expected_effective_sample_size": 140.0770035789414,
+            "fantasies": 256,
+            "seed": 740001
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-3",
+      "track": "V",
+      "repeat": 0,
+      "step": 1,
+      "history": [],
+      "original_selected": "probe_left_bend",
+      "selected": "probe_left_bend",
+      "agrees": true,
+      "seed": 1740001,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_left": 8.465757025333904e-05,
+          "view_right": 6.983551681367711e-05,
+          "probe_left_twist": 0.012498109058555959,
+          "probe_right_twist": 0.014033364495019497,
+          "probe_left_bend": 0.03106301796549281,
+          "probe_right_bend": 0.023856473979644695
+        },
+        "monte_carlo_diagnostics": {
+          "view_left": {
+            "standard_error": 5.3107545833598384e-05,
+            "expected_effective_sample_size": 1409.5719147673453,
+            "fantasies": 256,
+            "seed": 1740001
+          },
+          "view_right": {
+            "standard_error": 4.046159571377981e-05,
+            "expected_effective_sample_size": 1410.9407337345951,
+            "fantasies": 256,
+            "seed": 1740001
+          },
+          "probe_left_twist": {
+            "standard_error": 0.0020209529036922013,
+            "expected_effective_sample_size": 416.81191254813155,
+            "fantasies": 256,
+            "seed": 1740001
+          },
+          "probe_right_twist": {
+            "standard_error": 0.0016486165501685749,
+            "expected_effective_sample_size": 328.78089178182836,
+            "fantasies": 256,
+            "seed": 1740001
+          },
+          "probe_left_bend": {
+            "standard_error": 0.0007950298503559686,
+            "expected_effective_sample_size": 209.37547752488297,
+            "fantasies": 256,
+            "seed": 1740001
+          },
+          "probe_right_bend": {
+            "standard_error": 0.0008467514058021549,
+            "expected_effective_sample_size": 122.14069772676923,
+            "fantasies": 256,
+            "seed": 1740001
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-3",
+      "track": "V",
+      "repeat": 0,
+      "step": 2,
+      "history": [
+        "probe_left_bend"
+      ],
+      "original_selected": "probe_right_bend",
+      "selected": "probe_right_bend",
+      "agrees": true,
+      "seed": 740002,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_left": 3.546063858078218e-09,
+          "view_right": 1.719448858847946e-09,
+          "probe_left_twist": 1.194450950511405e-06,
+          "probe_right_twist": 8.51326222403527e-06,
+          "probe_right_bend": 4.540228121452703e-05
+        },
+        "monte_carlo_diagnostics": {
+          "view_left": {
+            "standard_error": 6.825942872900885e-09,
+            "expected_effective_sample_size": 79.13026302795251,
+            "fantasies": 256,
+            "seed": 740002
+          },
+          "view_right": {
+            "standard_error": 1.2913912127732922e-08,
+            "expected_effective_sample_size": 79.13027306061824,
+            "fantasies": 256,
+            "seed": 740002
+          },
+          "probe_left_twist": {
+            "standard_error": 3.052382719070903e-08,
+            "expected_effective_sample_size": 79.1150392062296,
+            "fantasies": 256,
+            "seed": 740002
+          },
+          "probe_right_twist": {
+            "standard_error": 1.6807828294216445e-06,
+            "expected_effective_sample_size": 80.02344615813396,
+            "fantasies": 256,
+            "seed": 740002
+          },
+          "probe_right_bend": {
+            "standard_error": 3.7209982561705456e-05,
+            "expected_effective_sample_size": 79.0336703073946,
+            "fantasies": 256,
+            "seed": 740002
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-3",
+      "track": "V",
+      "repeat": 0,
+      "step": 2,
+      "history": [
+        "probe_left_bend"
+      ],
+      "original_selected": "probe_right_bend",
+      "selected": "probe_right_bend",
+      "agrees": true,
+      "seed": 1740002,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_left": 3.579103804995931e-09,
+          "view_right": -4.2374224045534266e-09,
+          "probe_left_twist": 1.0535375112142404e-06,
+          "probe_right_twist": 7.000358809940534e-06,
+          "probe_right_bend": 8.154406550113361e-06
+        },
+        "monte_carlo_diagnostics": {
+          "view_left": {
+            "standard_error": 6.376802011395453e-09,
+            "expected_effective_sample_size": 79.13026436533288,
+            "fantasies": 256,
+            "seed": 1740002
+          },
+          "view_right": {
+            "standard_error": 1.183737441359738e-08,
+            "expected_effective_sample_size": 79.13031416363773,
+            "fantasies": 256,
+            "seed": 1740002
+          },
+          "probe_left_twist": {
+            "standard_error": 1.1498657802492004e-07,
+            "expected_effective_sample_size": 79.11900577428445,
+            "fantasies": 256,
+            "seed": 1740002
+          },
+          "probe_right_twist": {
+            "standard_error": 4.959767769289071e-07,
+            "expected_effective_sample_size": 79.04558861545598,
+            "fantasies": 256,
+            "seed": 1740002
+          },
+          "probe_right_bend": {
+            "standard_error": 3.2637790713169994e-08,
+            "expected_effective_sample_size": 79.04051112237012,
+            "fantasies": 256,
+            "seed": 1740002
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-3",
+      "track": "VF",
+      "repeat": 0,
+      "step": 1,
+      "history": [],
+      "original_selected": "probe_right_bend",
+      "selected": "probe_right_bend",
+      "agrees": true,
+      "seed": 741001,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_left": -4.463125322611483e-05,
+          "view_right": -2.9445561599691352e-05,
+          "probe_left_twist": 0.11249118182066402,
+          "probe_right_twist": 0.11350890505495423,
+          "probe_left_bend": 0.13121340436123002,
+          "probe_right_bend": 0.13533557537200044
+        },
+        "monte_carlo_diagnostics": {
+          "view_left": {
+            "standard_error": 5.187359132194659e-05,
+            "expected_effective_sample_size": 1413.251262566455,
+            "fantasies": 256,
+            "seed": 741001
+          },
+          "view_right": {
+            "standard_error": 3.799262112733833e-05,
+            "expected_effective_sample_size": 1412.864049101951,
+            "fantasies": 256,
+            "seed": 741001
+          },
+          "probe_left_twist": {
+            "standard_error": 0.0017045189857427324,
+            "expected_effective_sample_size": 69.30317101975157,
+            "fantasies": 256,
+            "seed": 741001
+          },
+          "probe_right_twist": {
+            "standard_error": 0.0013156460952330898,
+            "expected_effective_sample_size": 53.40866326671987,
+            "fantasies": 256,
+            "seed": 741001
+          },
+          "probe_left_bend": {
+            "standard_error": 0.00023385402232407813,
+            "expected_effective_sample_size": 26.251154146353173,
+            "fantasies": 256,
+            "seed": 741001
+          },
+          "probe_right_bend": {
+            "standard_error": 3.0823448277635274e-05,
+            "expected_effective_sample_size": 8.618122909233566,
+            "fantasies": 256,
+            "seed": 741001
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-3",
+      "track": "VF",
+      "repeat": 0,
+      "step": 1,
+      "history": [],
+      "original_selected": "probe_right_bend",
+      "selected": "probe_right_bend",
+      "agrees": true,
+      "seed": 1741001,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_left": 8.638090793942454e-05,
+          "view_right": 8.392241162302804e-05,
+          "probe_left_twist": 0.11540134127331399,
+          "probe_right_twist": 0.11309895710768342,
+          "probe_left_bend": 0.13128318355584867,
+          "probe_right_bend": 0.1351952854671863
+        },
+        "monte_carlo_diagnostics": {
+          "view_left": {
+            "standard_error": 4.8983125420659395e-05,
+            "expected_effective_sample_size": 1409.6001131298135,
+            "fantasies": 256,
+            "seed": 1741001
+          },
+          "view_right": {
+            "standard_error": 3.55259114487836e-05,
+            "expected_effective_sample_size": 1410.8222637044241,
+            "fantasies": 256,
+            "seed": 1741001
+          },
+          "probe_left_twist": {
+            "standard_error": 0.0014898526759967708,
+            "expected_effective_sample_size": 69.39983692307271,
+            "fantasies": 256,
+            "seed": 1741001
+          },
+          "probe_right_twist": {
+            "standard_error": 0.0015104205672681358,
+            "expected_effective_sample_size": 53.40611855565362,
+            "fantasies": 256,
+            "seed": 1741001
+          },
+          "probe_left_bend": {
+            "standard_error": 0.000261556209655881,
+            "expected_effective_sample_size": 26.013526068221623,
+            "fantasies": 256,
+            "seed": 1741001
+          },
+          "probe_right_bend": {
+            "standard_error": 8.185663196865533e-05,
+            "expected_effective_sample_size": 8.264921799945963,
+            "fantasies": 256,
+            "seed": 1741001
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-3",
+      "track": "VF",
+      "repeat": 0,
+      "step": 2,
+      "history": [
+        "probe_right_bend"
+      ],
+      "original_selected": "probe_left_bend",
+      "selected": "probe_left_bend",
+      "agrees": true,
+      "seed": 741002,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_left": -2.3256895500253712e-11,
+          "view_right": -1.2470465257964094e-11,
+          "probe_left_twist": 0.00015542517978437833,
+          "probe_right_twist": 0.00015542394082703476,
+          "probe_left_bend": 0.00020271146132072045
+        },
+        "monte_carlo_diagnostics": {
+          "view_left": {
+            "standard_error": 5.6327272122909484e-11,
+            "expected_effective_sample_size": 6.110356131506936,
+            "fantasies": 256,
+            "seed": 741002
+          },
+          "view_right": {
+            "standard_error": 3.656209508668369e-11,
+            "expected_effective_sample_size": 6.110356073934545,
+            "fantasies": 256,
+            "seed": 741002
+          },
+          "probe_left_twist": {
+            "standard_error": 2.5938628063442545e-09,
+            "expected_effective_sample_size": 5.402729270650285,
+            "fantasies": 256,
+            "seed": 741002
+          },
+          "probe_right_twist": {
+            "standard_error": 2.581281241845848e-09,
+            "expected_effective_sample_size": 5.40248161914691,
+            "fantasies": 256,
+            "seed": 741002
+          },
+          "probe_left_bend": {
+            "standard_error": 5.778417551313413e-09,
+            "expected_effective_sample_size": 5.168350321221977,
+            "fantasies": 256,
+            "seed": 741002
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    },
+    {
+      "world": "development-3",
+      "track": "VF",
+      "repeat": 0,
+      "step": 2,
+      "history": [
+        "probe_right_bend"
+      ],
+      "original_selected": "probe_left_bend",
+      "selected": "probe_left_bend",
+      "agrees": true,
+      "seed": 1741002,
+      "fantasies": 256,
+      "acquisition": {
+        "policy": "physical_risk",
+        "estimated_scores": {
+          "view_left": 2.1205725837514222e-12,
+          "view_right": 1.8571048125156877e-11,
+          "probe_left_twist": 0.00015542469055525443,
+          "probe_right_twist": 0.00015542397569315492,
+          "probe_left_bend": 0.00020271406324226456
+        },
+        "monte_carlo_diagnostics": {
+          "view_left": {
+            "standard_error": 5.309128349180736e-11,
+            "expected_effective_sample_size": 6.110356088985859,
+            "fantasies": 256,
+            "seed": 1741002
+          },
+          "view_right": {
+            "standard_error": 3.260297210498529e-11,
+            "expected_effective_sample_size": 6.110356181909915,
+            "fantasies": 256,
+            "seed": 1741002
+          },
+          "probe_left_twist": {
+            "standard_error": 2.4770457014501408e-09,
+            "expected_effective_sample_size": 5.402635736405926,
+            "fantasies": 256,
+            "seed": 1741002
+          },
+          "probe_right_twist": {
+            "standard_error": 2.802827326838681e-09,
+            "expected_effective_sample_size": 5.403670098713137,
+            "fantasies": 256,
+            "seed": 1741002
+          },
+          "probe_left_bend": {
+            "standard_error": 6.158905945159874e-09,
+            "expected_effective_sample_size": 5.174283248072486,
+            "fantasies": 256,
+            "seed": 1741002
+          }
+        },
+        "interpretation": "Model-based design score, not measured improvement or calibrated uncertainty"
+      }
+    }
+  ]
+}

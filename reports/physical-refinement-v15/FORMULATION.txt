@@ -1,0 +1,110 @@
+Physical accuracy beyond visual agreement
+
+Lay explanation
+
+Imagine two soft blocks that look and bend almost identically when a gripper
+moves them to a particular position. One can still require twice as much force
+as the other. A realistic-looking reconstruction can therefore predict the wrong
+interaction. We keep several explanations of the object, predict what each would
+do, and use an additional camera view or a controlled movement to distinguish
+them. We judge success by predictions of other movements that were not used to
+fit or choose the measurement.
+
+An extra view can reveal a hidden attachment. An interaction can reveal internal
+material differences that no static view can show. Measuring the resulting
+reaction provides information that object position alone may never contain.
+However, agreement among our candidate explanations is not automatically reliable
+confidence: all candidates may share the same approximation or omit the truth.
+
+Technical formulation
+
+Let theta contain the material-gradient parameter, common stiffness scale,
+fixture/material ratio and attachment layout. Let p denote prescribed left/right
+tool translations and orientations. For each physical hypothesis solve
+
+  u_theta(p) = argmin_u [elastic_energy_theta(u)
+                        + attachment_energy_theta(u,p)].
+
+The elastic model is Q2 Neo-Hookean, with a smooth rest-frame material field and
+smooth Robin attachment footprints. Every probe independently resets to the
+initial equilibrium. There is no gravity/external load in this controlled study.
+The reaction on the controller is the negative derivative of energy with respect
+to tool pose, under the solver's declared wrench convention.
+
+The same hypothesis provides both observations and responses:
+
+  visual prediction:  h_v(theta,p,c) = features(render(u_theta(p),camera c));
+  mechanical response: z(theta,p) = [deformation, force, torque].
+
+Posterior-mean responses are statistical predictions and need not themselves
+satisfy mechanical equilibrium. Same-hypothesis rendering/mechanics comparisons
+use individual hypotheses, including the highest-node-weight control.
+
+The renderer uses known geometry/appearance and explicit visibility. It is not
+learned Gaussian scene reconstruction. A weighted finite ensemble approximates
+physical uncertainty. Given consumed observations D, its weights are
+
+  w_i(D) proportional to w_i(prior) * product_j likelihood(y_j | theta_i,p_j,c_j).
+
+Each update is recomputed from the original prior and each observation exactly
+once. The synthetic likelihood acts on64 RGB-D features; the separate reaction
+track appends six wrench components only after probes. Unselected actual
+measurements are unavailable through the policy request interface.
+
+Define mechanical predictive risk on three PUBLIC DESIGN actions A_d:
+
+  R(D) = average_{p in A_d} (1/d_z) trace Cov_{theta~w(D)}[S z(theta,p)].
+
+S encodes declared engineering units and relative weights: deformation0.5,
+force0.25, torque0.25, normalized by1mm,0.1N,0.01Nm and block dimension.
+For block b of dimension d_b, S has diagonal sqrt(d_z*w_b/d_b)/unit_b;
+d_z=249 is the response-coordinate count per action. Thus the objective is
+the weighted sum of the three blockwise mean variances in declared units.
+These choices are an acquisition utility, not a universal physical-fidelity score.
+Report each physical error separately in its actual units.
+
+For candidate measurement q (view or prescribed position probe), choose
+
+  q* = argmax_q { R(D) - E_{y~model(q,D)} R(D union {(q,y)}) }.
+
+The expectation uses128 common-random-number fantasies. A separate32-comparison
+development audit checks sensitivity to256 fantasies and an independent seed.
+The policy never reads actual held response outcomes or uses held response poses
+as its risk-design bank. A view and a probe each cost one observation packet;
+this does not imply equal execution time, energy or hardware cost.
+
+Physical accuracy is evaluated EXTERNALLY to this risk:
+
+  error(D) = loss(predict(D,p_test), simulated_reference(p_test)),
+
+where all four p_test commands differ from fitting, query and design commands.
+Compute world-coordinate and rigid-aligned shape errors separately, as well as
+force and torque errors. Compare budget0/1/2, best development-selected fixed
+schedules, exact random expectations, visual uncertainty and mechanical risk.
+Score marginal predictive CRPS, empirical90% coverage and interval width.
+Compare predicted risk reduction with realized error reduction, recognizing that
+design and response actions differ. Twelve independent worlds are the replication
+unit; four noise repeats are averaged within each world before paired bootstrap.
+
+Exact ambiguity control
+
+With geometry, material gradient and fixture ratio fixed and zero external loads,
+multiplying both elastic and attachment stiffness by
+a common positive factor s multiplies the complete energy by s. Its minimizing
+displacement is unchanged, whereas the reaction wrench is multiplied by s.
+Thus identical images and prescribed positions cannot identify absolute common
+stiffness in this setting. A reaction measurement can distinguish it. This is an
+identifiability limit, not a failure to train a larger network.
+
+What this study can establish
+
+Actual improvements on independent response motions establish useful information
+acquisition. Beating equally budgeted fixed/random controls would additionally
+support the adaptive selection rule; if it does not, we report measurement benefit
+without adaptive superiority. Good image fit or small model variance alone proves
+neither. Current failed posterior/renderer convergence checks remain explicit, so
+this is an exploratory finite-model study, not a calibrated reference posterior.
+The acquisition mathematics is established model-based experimental design; any
+research contribution must rest on the physical/visual ambiguity formulation,
+controlled evaluation and demonstrated behavior, not a claim to invent Bayes'
+rule or variance reduction.

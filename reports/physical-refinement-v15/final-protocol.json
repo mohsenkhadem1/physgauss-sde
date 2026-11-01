@@ -1,0 +1,334 @@
+{
+  "role": "prospective_exploratory_reserved_protocol",
+  "version": 1,
+  "scope": "Controlled synthetic finite physical-belief refinement, known geometry/appearance; unresolved observation discretization and continuous-posterior convergence retained",
+  "reserved_worlds": [
+    {
+      "name": "reserved-00",
+      "initial_camera": "left"
+    },
+    {
+      "name": "reserved-01",
+      "initial_camera": "left"
+    },
+    {
+      "name": "reserved-02",
+      "initial_camera": "left"
+    },
+    {
+      "name": "reserved-03",
+      "initial_camera": "left"
+    },
+    {
+      "name": "reserved-04",
+      "initial_camera": "left"
+    },
+    {
+      "name": "reserved-05",
+      "initial_camera": "left"
+    },
+    {
+      "name": "reserved-06",
+      "initial_camera": "oblique"
+    },
+    {
+      "name": "reserved-07",
+      "initial_camera": "oblique"
+    },
+    {
+      "name": "reserved-08",
+      "initial_camera": "oblique"
+    },
+    {
+      "name": "reserved-09",
+      "initial_camera": "oblique"
+    },
+    {
+      "name": "reserved-10",
+      "initial_camera": "oblique"
+    },
+    {
+      "name": "reserved-11",
+      "initial_camera": "oblique"
+    }
+  ],
+  "truth_seed": 931131,
+  "truth_distribution": {
+    "gradient_uniform": [
+      -0.75,
+      0.75
+    ],
+    "common_scale_log_uniform": [
+      0.78,
+      1.47
+    ],
+    "layouts": [
+      "parallel_lower",
+      "crossed"
+    ],
+    "fixture_ratios": [
+      0.75,
+      1.25
+    ],
+    "E_base": 12000,
+    "K_base": 6000
+  },
+  "measurement_seed": 931127,
+  "noise_repeats": 4,
+  "policy_seed": 720001,
+  "fantasies": 128,
+  "gradient_count": 17,
+  "scale_count": 97,
+  "tracks": [
+    "V",
+    "VF"
+  ],
+  "primary_budget": 2,
+  "secondary_budgets": [
+    0,
+    1
+  ],
+  "fixed_sequences": [
+    {
+      "initial_camera": "left",
+      "track": "V",
+      "category": "views",
+      "sequence": [
+        "view_right",
+        "view_oblique"
+      ]
+    },
+    {
+      "initial_camera": "left",
+      "track": "V",
+      "category": "mixed",
+      "sequence": [
+        "view_oblique",
+        "probe_right_twist"
+      ]
+    },
+    {
+      "initial_camera": "left",
+      "track": "V",
+      "category": "probes",
+      "sequence": [
+        "probe_right_twist",
+        "probe_right_bend"
+      ]
+    },
+    {
+      "initial_camera": "left",
+      "track": "VF",
+      "category": "views",
+      "sequence": [
+        "view_right",
+        "view_oblique"
+      ]
+    },
+    {
+      "initial_camera": "left",
+      "track": "VF",
+      "category": "mixed",
+      "sequence": [
+        "view_right",
+        "probe_left_bend"
+      ]
+    },
+    {
+      "initial_camera": "left",
+      "track": "VF",
+      "category": "probes",
+      "sequence": [
+        "probe_left_bend",
+        "probe_right_bend"
+      ]
+    },
+    {
+      "initial_camera": "oblique",
+      "track": "V",
+      "category": "views",
+      "sequence": [
+        "view_left",
+        "view_right"
+      ]
+    },
+    {
+      "initial_camera": "oblique",
+      "track": "V",
+      "category": "mixed",
+      "sequence": [
+        "view_left",
+        "probe_left_twist"
+      ]
+    },
+    {
+      "initial_camera": "oblique",
+      "track": "V",
+      "category": "probes",
+      "sequence": [
+        "probe_left_bend",
+        "probe_right_bend"
+      ]
+    },
+    {
+      "initial_camera": "oblique",
+      "track": "VF",
+      "category": "views",
+      "sequence": [
+        "view_left",
+        "view_right"
+      ]
+    },
+    {
+      "initial_camera": "oblique",
+      "track": "VF",
+      "category": "mixed",
+      "sequence": [
+        "view_right",
+        "probe_right_bend"
+      ]
+    },
+    {
+      "initial_camera": "oblique",
+      "track": "VF",
+      "category": "probes",
+      "sequence": [
+        "probe_right_twist",
+        "probe_right_bend"
+      ]
+    },
+    {
+      "initial_camera": "left",
+      "track": "V",
+      "sequence": [
+        "view_oblique",
+        "probe_right_twist"
+      ],
+      "category": "all"
+    },
+    {
+      "initial_camera": "left",
+      "track": "VF",
+      "sequence": [
+        "probe_left_bend",
+        "probe_right_bend"
+      ],
+      "category": "all"
+    },
+    {
+      "initial_camera": "oblique",
+      "track": "V",
+      "sequence": [
+        "probe_left_bend",
+        "probe_right_bend"
+      ],
+      "category": "all"
+    },
+    {
+      "initial_camera": "oblique",
+      "track": "VF",
+      "sequence": [
+        "probe_right_twist",
+        "probe_right_bend"
+      ],
+      "category": "all"
+    }
+  ],
+  "fixed_budget_one": [
+    {
+      "initial_camera": "left",
+      "track": "V",
+      "query": "probe_right_twist"
+    },
+    {
+      "initial_camera": "left",
+      "track": "VF",
+      "query": "probe_left_bend"
+    },
+    {
+      "initial_camera": "oblique",
+      "track": "V",
+      "query": "probe_left_twist"
+    },
+    {
+      "initial_camera": "oblique",
+      "track": "VF",
+      "query": "probe_right_bend"
+    }
+  ],
+  "random_control": "Exact expected error over all15 distinct unordered pairs; random-probes over6 probe-only pairs. Budgetone uniform over six singles. Same measurement packets for every policy. No average-prediction shortcut.",
+  "observation_model": {
+    "renderer": "original factor1 deterministic RGB-D z-buffer",
+    "feature_count": 64,
+    "features": "4x4 tile RGB/depth means, far background1m",
+    "covariance": "Fixed public nominal action/camera covariance, not truth-conditioned",
+    "depth_sd_m": 0.0003,
+    "rgb_sd": 0.005,
+    "force_sd_N": 0.01,
+    "torque_sd_Nm": 0.001,
+    "views": "Initial weak-stretch state, two alternative camera poses",
+    "probes": "Four prescribed tool-position commands, fixed left camera, independent reset",
+    "VF": "Right-tool six-dimensional reaction wrench only on probe packets",
+    "budget_semantics": "One settled observation packet perquery; not equal physicaltime orenergy"
+  },
+  "targets": {
+    "source": "scripts/physical_refinement_v15/response_actions.py",
+    "count": 4,
+    "semantics": "New direction/axis/composition of position-controlled commands; no contact, impact, force-control or unknown-geometry generalization claim"
+  },
+  "point_metrics": [
+    "coordinate_rmse_mm",
+    "aligned_shape_rmse_mm",
+    "reaction_force_rmse_N",
+    "reaction_torque_rmse_Nm"
+  ],
+  "acquisition_utility": {
+    "source": "banks.mechanical_design, three development-only actions",
+    "shape_weight": 0.5,
+    "force_weight": 0.25,
+    "torque_weight": 0.25,
+    "shape_scale_m": 0.001,
+    "force_scale_N": 0.1,
+    "torque_scale_Nm": 0.01
+  },
+  "uncertainty_metrics": [
+    "Marginal CRPS in raw physical units",
+    "Central90 coordinatewise empirical coverage",
+    "Intervalwidth",
+    "Predicted versus realized risk reduction; measured on held responses with transfer caveat"
+  ],
+  "unit_of_replication": "12 independent worlds; average4 coupled noise repeats within each world before paired bootstrap",
+  "bootstrap": {
+    "seed": 931137,
+    "replicates": 10000,
+    "interval": [
+      0.025,
+      0.975
+    ]
+  },
+  "claims": [
+    "Test actual unseen-response improvement after information acquisition",
+    "Separate measurement benefit from adaptive policy superiority",
+    "Visualagreement does not certify reactions or calibrated physical uncertainty"
+  ],
+  "nonclaims": [
+    "Converged continuous reference posterior",
+    "Calibrated uncertainty without empirical support",
+    "Validated physical camera likelihood",
+    "Improvement on old two benchmarks from this separate controlled study",
+    "Learned Gaussian reconstruction in this controlled study"
+  ],
+  "freeze_requires": [
+    "All response-prediction corner qualification passes",
+    "Independent source review",
+    "Frozen runtime dependencies and bank inputs",
+    "All forecasts committed before response scoring",
+    "All declared worlds and failures reported"
+  ],
+  "development_evidence_sha256": {
+    "reports/physical-refinement-v15/development-policy-g17-s97.json": "3c19c21086c8aec94a30519fef0c62f6efa2eb3b5bb0007ca127a592487cc3c6",
+    "reports/physical-refinement-v15/development-policy-g17-s97-followon.json": "854803980324f70a993cb797b758bdb09d1287eec444f6807591c8ddb1c75b4e",
+    "reports/physical-refinement-v15/development-policy-fantasy-stability.json": "c22f2b851954b35a684ba2eb3ad6baf89961b7ebf5e14084c95fdbf401ff69b3",
+    "reports/physical-refinement-v15/FINITE-ENSEMBLE-SCOPE.txt": "eb2a97dd275d291c2609dab0d66516956eb067138c40829b8871ad0d1d5bdc4b"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "status": "development_only_not_a_test_freeze",
+  "created_utc": "2026-11-01T20:32:46.208812+00:00",
+  "objective": "Measure and reduce error on unseen position-controlled physical interactions through views and probes",
+  "reuse": [
+    "SmoothMaterialFixture nonlinear position-driven mechanics",
+    "Existing Gaussian material-attached renderer plus actual RGB-D sensor adapter",
+    "experiments.gaussian_active_design weighted physical hypotheses and predictive risk"
+  ],
+  "primary_scope": "Quasistatic deformation and reaction, not impact/friction-generalization claims",
+  "ambiguities": [
+    "Occluded support footprint location, resolved through actual new-view RGB-D visibility",
+    "Hidden material heterogeneity with identical static appearance, resolved through position-controlled deformation"
+  ],
+  "measurement_tracks": {
+    "vision_only": "RGB-D and prescribed tool positions; material ratios may be identifiable, absolute stiffness is not guaranteed",
+    "reaction_augmented": "Same position inputs with explicit reaction-force measurement; compare only modality-matched policies"
+  },
+  "acquisition_budgets": [
+    0,
+    1,
+    2
+  ],
+  "policies": [
+    "no_acquisition",
+    "development_selected_fixed_sequence",
+    "uniform_random_without_replacement",
+    "visual_predictive_uncertainty",
+    "mechanical_predictive_risk"
+  ],
+  "controls": [
+    "Passive views of identical rest geometry must not identify hidden material",
+    "Homogeneous global stiffness scaling under zero known loads leaves position-controlled geometry unchanged but changes reactions",
+    "Identical initial belief implies identical first action; adaptive claim requires conditioned sequential evidence",
+    "Probe runs reset to same initial equilibrium; no unmodeled persistent contact history"
+  ],
+  "metrics": [
+    "RGB/depth prediction on held views",
+    "world position and rigid-aligned deformation separately",
+    "reaction-force response in declared observable setting",
+    "predictive coverage and proper scores; interval width separate from measured error",
+    "actual held-response improvement versus predicted risk reduction",
+    "numerical failures and full declared cohort coverage"
+  ],
+  "gates": [
+    "Development-only mechanics mesh/order/refinement and sensor visibility qualification",
+    "Choose design/query distribution without final test-response access",
+    "Freeze hypotheses, likelihood/noise, policies, fixed baseline, splits and code",
+    "Generate and seal independent test truths/responses after protocol commitment",
+    "Only selected query observation released to each policy; no actual unselected outcomes available",
+    "Report independent object-level paired comparisons and every declared failure"
+  ],
+  "resources": {
+    "gpu_indices": [
+      0,
+      1,
+      2
+    ],
+    "gpu3_and_unrelated_jobs_untouched": true,
+    "raw_data_local_only": true
+  },
+  "planned_roles": {
+    "mechanics": "coupled_physics_v13",
+    "sensor_renderer": "benchmark_adapter_v13",
+    "independent_protocol": "protocol_audit_v13",
+    "integration_inference": "root"
+  },
+  "nonclaims": [
+    "No unique-parameter recovery from unidentifiable measurements",
+    "No physical improvement inferred from posterior shrinkage alone",
+    "No novel-active-policy superiority assumed before evaluation",
+    "No physically accurate rendering claim established by cartoon or pointcloud preview"
+  ]
+}

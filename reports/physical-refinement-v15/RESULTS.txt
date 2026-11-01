@@ -1,0 +1,144 @@
+Physical accuracy beyond visual agreement — completed primary test
+
+The controlled test supports a useful information-acquisition result: additional
+position-controlled interactions greatly improve predictions of other motions.
+Physical-risk selection beats several frozen controls. A subsequent robustness
+check finds that a camera-independent fixed two-bend sequence explains most
+reaction-assisted gains and performs better on average. Adaptivity is therefore
+not established as necessary. Predictive intervals are severely overconfident.
+
+Test design
+Twelve independent simulated objects, four noise repeats per object, two
+observation tracks, and four held commands: a new bending axis, mixed axes,
+reversed twist and compression with shear. All commands are positions/orientations.
+Force/torque are predicted outputs; only the separate VF track measures reactions
+after probes. All2688 policy forecasts were committed before scoring. Repeats
+are averaged within each object for paired bootstrap intervals.
+
+The method and inputs were frozen before any reserved object was generated.
+The same finite physical hypothesis determines deformation, rendering and reaction.
+Geometry and appearance are known in this controlled study. This is a synthetic
+finite-model experiment, separate from the earlier two-dataset benchmarks.
+
+Primary held-response errors (lower is better)
+Shape is best-rigid-aligned RMSE; force and torque are right-tool component RMSE.
+Each value averages48 object/repeat evaluations, covering allfour held commands.
+
+V: RGB-D observations only
+Policy                     Shape mm      Force N      Torque Nm
+Initial observation          0.110313     0.038363    0.0023345
+Two additional views         0.089198     0.036249    0.0024776
+Random probe pair            0.039541     0.031473    0.0019819
+Frozen best fixed pair       0.026322     0.030395    0.0018039
+Visual uncertainty           0.022851     0.033256    0.0020874
+Physical predictive risk     0.009852     0.028788    0.0016899
+
+VF: RGB-D plus reaction force/torque on probes
+Policy                     Shape mm      Force N      Torque Nm
+Initial observation          0.110313     0.038363    0.0023345
+Two additional views         0.089198     0.036249    0.0024776
+Random probe pair            0.032707     0.007130    0.0006817
+Frozen best fixed pair       0.015157     0.004459    0.0002438
+Visual uncertainty           0.014854     0.004016    0.0002319
+Physical predictive risk     0.012040     0.003623    0.0002393
+
+VF physical-risk improvements from initial: shape89.1%, force90.6%, torque89.8%.
+Compared with frozen fixed: shape20.6% and force18.7% lower.
+
+Interpretation of the comparisons
+The two additional views reduce shape error by about19%, but do little for force
+and slightly worsen average torque error. Vision-only probing makes shape
+prediction very accurate while leaving appreciable force uncertainty/error.
+Reaction measurements strongly improve reaction prediction. This matches the
+exact common-stiffness ambiguity: identical position-controlled geometry can
+produce different forces when all material/fixture stiffnesses scale together.
+
+Secondary same-hypothesis visual/physical comparison
+Across all12 worlds at repeat0, the initial highest-weight physical scenes fit
+the clean reference image at the observed camera extremely closely: foreground-
+union RGB RMSE averages0.000621 on a0–1 scale. Yet those same hypotheses have
+0.05033N mean force error on the held motions. After acquisition, V has held-view
+RGB error0.00605 and force error0.02961N; VF has slightly larger RGB error0.00737
+but much smaller force error0.00458N. Comparable visual agreement therefore does
+not determine accurate reactions. These are highest-node-weight scene metrics,
+separate from the primary posterior-mean table above, and compare CLEAN renders;
+the inference likelihood instead observes noisy64-tile features.
+This diagnostic was declared while automated primary scoring was running, before
+the assistant inspected numeric results. It is secondary analysis, not part of
+the earlier method freeze. Every world is included; no case selection is used.
+
+V physical risk improves shape over fixed-all by0.01647mm; the paired12-world
+bootstrap95% interval is[-0.03018,-0.00436]mm for active-minus-fixed error.
+Its combined physical-loss advantage over fixed-all remains inconclusive.
+VF physical risk improves force over fixed-all by0.000836N, interval
+[-0.001824,-0.0000678]N. Its combined-loss interval is narrowly below zero.
+However, VF visual uncertainty has slightly lower mean combined loss
+(0.000994 versus0.001045); their paired interval includes either method winning.
+These are small-cohort exploratory comparisons, not universal policy superiority.
+
+Post-hoc secondary robustness check: a simpler fixed baseline
+The primary fixed schedules were selected separately for each initial camera.
+After inspecting the result, we additionally selected one camera-independent
+probe pair per track using ONLY the original development outcomes, then scored
+its already committed reserved forecasts. This secondary comparator was not
+part of the earlier protocol; no new fitting data or test-based pair selection
+was used. In VF, the selected constant left-bend/right-bend pair has shape error
+0.01055mm, force error0.00341N and combined loss0.000899, all lower than active
+selection's0.01204mm,0.00362N and0.001045. Active has two combined-loss losses
+and ten ties across the12 worlds. Thus effective probing, rather than reliable
+adaptive intelligence, explains most VF benefit. In V, active remains better
+than its development-selected global fixed pair in mean shape and combined loss.
+See posthoc-global-fixed-probe.txt for the full diagnostic and its timing label.
+
+Across12 worlds, VF physical risk improves combined loss over initial in12/12.
+Against fixed-all it wins5, loses1 and ties6; against visual uncertainty it wins5,
+loses4 and ties3 (near-tie tolerance1e-12). V improves initial in11/12; its one
+worsening case is retained. Random baselines are exact averages of pair errors,
+not a lucky random draw or an average forecast.
+
+Uncertainty result — point accuracy improves, calibration fails
+Nominal90% marginal shape coverage starts at95.1%. After physical-risk acquisition
+it is only5.87% in V and3.66% in VF. These are coordinatewise empirical coverage
+rates, not percentages of independent objects. VF force and torque coverage are
+68.1% and61.8%. Intervals become narrower than the remaining errors justify.
+CRPS improves substantially, showing better average marginal predictive scores,
+but that does not rescue calibration. Width, coverage and point error must remain
+separate. The risk criterion can be useful as a ranking heuristic without its
+internal variance being a trustworthy confidence estimate.
+
+Physical signal and numerical qualification
+All48 held object/action states contain nonrigid deformation: its RMS ranges
+from0.312 to1.337mm, averaging0.879mm. After removing best rigid motion, the
+remaining RMS is18.6–64.5% of total motion, averaging47.9%. This addresses the
+earlier single-case0.17% deformation diagnostic with a whole-cohort measurement.
+All108 reserved mesh comparisons pass. Held field n4/n6 differences average
+3.10micrometres and reach5.95micrometres; final10–12micrometre shape errors
+should be interpreted in that numerical-resolution context.
+
+The last gradient posterior refinement failed, and the bounded renderer
+supersampling check did not establish feature convergence. Both failures remain
+published. There is no claim of a converged continuous posterior, calibrated
+physical-camera likelihood, real-world micrometre accuracy, or learned Gaussian
+scene reconstruction from this controlled test.
+
+Independent audit and preservation
+The pre-evaluation suite passed64 tests. The independent results audit passed
+49,714 checks, including raw-array metrics, proper-score subsets, random means,
+paired world bootstraps, measurement receipts, numerical checks and preservation.
+All421 pinned earlier artifacts remain unchanged. Raw data and forecast weights
+stay local; code, derived reports and videos form the publication package.
+
+Where this leaves the research idea
+We now have a concrete formulation and an independently tested example of
+information improving physical predictions. The useful result is strongest for
+probing with reactions. The next scientific obstacle is reliable predictive
+uncertainty under numerical/model mismatch. A stronger architecture alone would
+not repair that evidence gap. The current numerical and coverage diagnostics
+provide specific targets for a subsequent, separately frozen study.
+
+See FORMULATION.txt for the algorithm; REPRODUCE.txt for execution/provenance;
+reserved-scores.json(.gz) for every outcome; result-figures/ for comparison plots;
+per-world-policy-comparison.txt for winners/losses; response-deformation-audit.json
+for the full deformation signal; and the video/secondary visual reports for
+same-hypothesis image/mechanics comparisons. Secondary visual analysis is
+explicitly distinguished from the earlier frozen primary protocol.

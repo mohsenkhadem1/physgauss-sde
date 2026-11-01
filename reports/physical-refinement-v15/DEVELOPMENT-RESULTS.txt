@@ -1,0 +1,52 @@
+Development checkpoint, before independent reserved evaluation
+
+Question: can additional observations improve physical predictions even when
+the initial scene already looks plausible? The latent variables are material
+heterogeneity, common stiffness scale, fixture/material ratio and attachment
+layout. Inputs are tool positions/orientations and RGB-D; one separate track
+also observes reaction force and torque after a probe. Predictions include
+deformation and reaction on new prescribed motions.
+
+The model keeps a finite weighted set of physical hypotheses. Each hypothesis
+uses the same mechanics to generate its geometry, rendering and reactions.
+New views or probes reweight hypotheses. The proposed acquisition rule chooses
+the next observation by expected reduction of mechanical predictive variance
+on three public design motions. Actual test motions are separate.
+
+Four development worlds, four coupled noise repeats, two acquisitions:
+
+                                      Vision-only       Vision + reactions
+Initial shape RMSE (mm)                    0.20147             0.20147
+Physical-risk shape RMSE (mm)              0.03513             0.02257
+Initial force RMSE (N)                     0.03063             0.03063
+Physical-risk force RMSE (N)               0.02396             0.00323
+Initial normalized physical loss          0.06767             0.06767
+Physical-risk loss                        0.04532             0.00142
+Best development-selected fixed loss      0.03280             0.00129
+
+These are in-sample development diagnostics, not a final test or population
+claim. Fixed schedules were deliberately selected on development and are strong
+controls. The adaptive method does not beat them here. The limited Monte Carlo
+stability audit agreed in all32 comparisons, so this is not just an unstable
+fantasy-seed ranking.
+
+The important failure: marginal shape90% coverage falls from about95.7% initially
+to6.3% with vision-only acquisition and17.5% with reaction-assisted acquisition.
+Thus smaller point error does not imply reliable confidence. We retain this
+failure rather than interpreting narrow intervals as physical certainty.
+
+The independent saved-array audit passes232 mechanical refinement comparisons.
+The full63-test task suite passes in the mechanics .venv. A first test invocation
+in the inference-only environment passed62 tests but could not run one mechanics
+test because pyamg is absent there; rerunning in the mechanics environment passed.
+All421 pinned earlier project artifacts remain unchanged.
+
+Known unresolved approximations: gradient posterior integration did not converge
+at the last declared refinement, and fixed-state rendered features did not
+converge under the bounded supersampling check. The final study therefore uses
+an explicitly approximate finite model and synthetic observation operator.
+It does not claim calibrated inference or validated camera accuracy.
+
+Next: freeze, generate12 independent continuous off-grid worlds, commit every
+policy forecast, then score four reserved response motions. Report fixed/random
+controls, empirical coverage/proper scores and all failures. Raw data stay local.

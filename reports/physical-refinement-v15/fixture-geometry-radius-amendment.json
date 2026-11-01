@@ -1,0 +1,15 @@
+{
+  "scope": "Development-only polygon-area correction; oldpilot images/reports untouched",
+  "prior_source_archive": "reports/physical-refinement-v15/fixture-geometry-v1-source.txt",
+  "prior_source_sha256": "2b41c2ac20c977f6e335122aa01a8a8ad0c10b1891f7f9e76b4b5cfc3a886fe9",
+  "correction": "Octagon area=2sqrt(2)r\u00b2. Newradius=sqrt(targetarea/(2sqrt(2))) instead of circularpi factor. Normalized density unchanged; actualmesh crosssections now match declaredtotalarea.",
+  "new_evidence_sha256": {
+    "scripts/physical_refinement_v15/fixture_geometry.py": "d2eb960c05e6a924a210739359c5631672c3dce1bd415aed28d20c4e7035b785",
+    "tests/test_physical_refinement_observations_v15.py": "be271b1e850484b7f382e1d0876ca61de50fc579491d7c24127a17f0fa027ba4",
+    "reports/physical-refinement-v15/graded-observation-pilot-v2/report.json": "d5c45c2dcc9eac1f40d680c2356cf62b91200827c88412db831940a729925639",
+    "reports/physical-refinement-v15/state-observation-pilot-v2/report.json": "e9e0047c39a401e89a4be677b0e6d8b21b19cd0322a59893f5232b44695d59dd"
+  },
+  "test_command": "OPENBLAS_NUM_THREADS=1 runs/phystwin-env/bin/python -m pytest -q tests/test_physical_refinement_observations_v15.py",
+  "test_result": "5 passed in1.54s",
+  "scope_clarification": "Knowngeometry/fixedappearance RGBD observation baseline; not learnedGaussianreconstruction. Graded effectiveattachmentdensity prior, notresolvedisotropicligamentmechanics."
+}

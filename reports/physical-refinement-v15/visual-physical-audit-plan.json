@@ -1,0 +1,52 @@
+{
+  "created_utc": "2026-11-01T21:48:50.575635+00:00",
+  "role": "prospective_secondary_reporting_diagnostic",
+  "worlds": [
+    "reserved-00",
+    "reserved-01",
+    "reserved-02",
+    "reserved-03",
+    "reserved-04",
+    "reserved-05",
+    "reserved-06",
+    "reserved-07",
+    "reserved-08",
+    "reserved-09",
+    "reserved-10",
+    "reserved-11"
+  ],
+  "repeat": 0,
+  "tracks": [
+    "V",
+    "VF"
+  ],
+  "policy": "physical_risk",
+  "budgets": [
+    0,
+    2
+  ],
+  "states": [
+    "initial",
+    "held_response_0",
+    "held_response_1",
+    "held_response_2",
+    "held_response_3"
+  ],
+  "camera": "Initial observed camera from protocol; all held states fixed oblique bank camera256x192/f250",
+  "metrics": [
+    "rgb_rmse",
+    "joint_foreground_depth_rmse_m",
+    "silhouette_iou"
+  ],
+  "physical": "Exact same highest-weight quadrature node as highest_weight_metrics; common scale changes wrench, not rendered geometry",
+  "selection": "Every declared case/track/budget; no filtering on qualification, success or error. Missing artifacts abort complete audit and remain explicit.",
+  "plots": [
+    "initial_image_fit_vs_held_force_and_torque_error",
+    "before_after_held_image_and_mechanical_error"
+  ],
+  "workers": 4,
+  "limitations": "Secondary reporting outside frozen primary scores. Known appearance/geometry, not learned reconstruction. RGB-D raster mismatch remains; highest-weight scene metrics are not posterior mean metrics.",
+  "source_sha256": {
+    "scripts/physical_refinement_v15_reporting/visual_physical_audit.py": "d8ec35442d03fba7e88d01f39c092123d1c151a14f5b3f6fb3f1cc692a9c1aba"
+  }
+}
