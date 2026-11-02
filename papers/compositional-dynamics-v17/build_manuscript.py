@@ -36,14 +36,26 @@ cohort=read('fresh-cohort-geometry-recovery-results.json',False)or read('fresh-c
 appearance=read('matched-appearance-inference-recovery/dynamic-results.json',False)
 damping=read('native-zero-damping-results.json',False)
 cohort_images=read('fresh-cohort-appearance-results.json',False)
+paired_images=read('fresh-cohort-appearance-paired-summary.json',False)
 sensitivity=read('fresh-cohort-reference-sensitivity.json',False)
+robustness=read('fresh-cohort-reference-robustness-posthoc.json',False)
 if development:read('matched-forecast-development-final-independent-audit.json')
 if appearance:read('matched-appearance-development-final-independent-audit.json')
 if damping:read('native-zero-damping-final-independent-audit.json')
+if cohort:
+ read('fresh-cohort-geometry-final-independent-audit.json')
+ read('fresh-cohort-shared-final-independent-audit.json')
+ read('native-cohort-recovery-prediction-audit.json')
+if cohort_images:read('fresh-cohort-appearance-final-independent-audit.json')
+if sensitivity:read('fresh-cohort-reference-sensitivity-final-independent-audit.json')
+if robustness:read('fresh-cohort-reference-robustness-final-independent-audit.json')
 text('Physical accuracy beyond<br/>plausible dynamic rendering','TitleV17')
-text('Working research supplement | Simulation study | 2 November 2026','CaptionV17')
+text('Research supplement | Simulation study | 2 November 2026','CaptionV17')
 title('Research question')
 text('A model can reconstruct observed motion and render an attractive scene while predicting the wrong response to a new load. We test these two abilities separately: future physical response under larger drops, and image quality from observed and new camera positions. Better physical prediction with comparable or slightly worse rendering is the target outcome, not a premise of the evaluation.')
+if cohort and paired_images:
+ ours=cohort['summary']['ours']['conditional_paired_complete_case_mean'];baseline=cohort['summary']['native_phystwin']['conditional_paired_complete_case_mean'];images=paired_images['means']
+ text(f"On six paired forecasts across three fresh worlds, mean motion error is {1000*ours['world_point_rms_m']:.2f} mm versus {1000*baseline['world_point_rms_m']:.2f} mm for native PhysTwin; deformation error is {1000*ours['shape_point_rms_m']:.2f} versus {1000*baseline['shape_point_rms_m']:.2f} mm. Held-view foreground PSNR is {images['shared_q2']['psnr_foreground_union_db']:.2f} versus {images['native']['psnr_foreground_union_db']:.2f} dB. Our forecasts complete eight of eight cases; native completes six. These conditional results use the same initial appearance and finite-resolution synthetic references.")
 title('Representation and prediction')
 text('The representation separates material response, interactions and appearance. A shared neural bulk-energy model maps deformation and material descriptors to strain energy. Spatial material points move through a consistent-mass finite-element dynamic solver. Contact geometry supplies normal contact forces through a finite compliant law; prescribed tools supply position boundary conditions. A Gaussian appearance model is attached to material coordinates and transported with the deformation gradient.')
 text('U(x,z) = integral W(F(x), z) dV + U_contact + U_tools<br/>M x_ddot = -dU/dx + M g<br/>mu_t = x_t(q) + F_t(q) offset<br/>Sigma_t = F_t(q) Sigma_0 F_t(q)^T','EquationV17')
@@ -58,7 +70,7 @@ table([['Example','Observed behavior','Evidence scope'],['Position-controlled cy
 text('Videos show saved integrator states at physical scale. Slow motion is labeled; displacement is not magnified. Striker and compression demonstrations are not presented as learned-prediction benchmark wins.','CaptionV17')
 page();title('Numerical evidence and framework controls')
 text('Refinement errors below use coordinate RMS. Forecast tables use vector RMS, which is sqrt(3) times coordinate RMS for the same weights.', 'CaptionV17')
-table([['Reference check','Measured difference','Conclusion'],['Smooth compression n3 to n4','53.2 um world/shape coordinate RMS','Pass for this controlled family'],['20 mm conservative drop n6 to n8','143.45 um world; 141.66 um shape','Full declared refinement conjunction passes'],['Abrupt 20% release n6 to n8','211.08 um shape; 150 um gate','Unqualified; failure retained'],['Stronger abrupt release/drop exploration','Four guard failures; finite striker completes','No relaxed guards or replacement cases']], [2.35*inch,2.4*inch,2.15*inch])
+table([['Reference check','Measured difference','Conclusion'],['Smooth compression n3 to n4','53.2 um world/shape coordinate RMS','Pass for this controlled cycle'],['20 mm conservative drop n6 to n8','143.45 um world; 141.66 um shape','Full declared refinement conjunction passes'],['Abrupt 20% release n6 to n8','211.08 um shape; 150 um gate','Unqualified; failure retained'],['Stronger abrupt release/drop exploration','Four guard failures; finite striker completes','No relaxed guards or replacement cases']], [2.35*inch,2.4*inch,2.15*inch])
 text('Small energy drift alone does not qualify a simulation. The drop and controlled-cycle checks compare time step, spatial resolution, quadrature and orientation preservation; contact-event checks additionally apply to the drop. The controlled cycle has no floor impact. The qualified 20 mm stable Neo-Hookean drop does not automatically qualify the new MR/Yeoh materials or higher impacts. The fresh study therefore reports finite-resolution teacher sensitivity explicitly.')
 text('Native Newton 1.7 / Warp 1.18 controls and the actual PhysTwin author simulator were executed. Newton development runs expose unresolved mesh/time and numerical-dissipation effects and are not used as a superior truth source. The main inferred-physics comparison uses author PhysTwin, with unchanged force and integration functions, known SI masses and a preserved fitted spring graph.')
 table([['Native calibration configuration','Coordinate RMSE (mm)'],*[[{'original125':'125 points, 20 CMA / 200 epochs','capacity729':'729 points, 20 CMA / 200 epochs','extended125':'125 points, 100 CMA / 1000 epochs'}[r['variant']],f"{r['coordinate_rmse_mm']:.5f}"]for r in native['rows']if r['complete']]], [4.7*inch,2.2*inch])
@@ -102,19 +114,32 @@ if cohort:
     values.append(f'{1000*value:.3f}'if value is not None else'unavailable')
   rows.append([case['world_id']+' / '+case['role'].replace('forecast-',''),*values])
  table(rows,[2.1*inch,1.2*inch,1.2*inch,1.2*inch,1.2*inch])
- rows=[['Fresh method','Paired coverage','All-eight world RMS(mm)']]
+ rows=[['Fresh method','Completed','Paired coverage','All-eight paired world RMS(mm)']]
  for name,result in cohort['summary'].items():
-  value=result['primary_all_eight_mean'];rows.append([name,f"{result['paired_complete_forecasts']}/8",f"{1000*value['world_point_rms_m']:.4f}"if value else'unavailable'])
- table(rows,[3.3*inch,1.8*inch,1.8*inch])
+  value=result['primary_all_eight_mean'];complete=sum(bool(c['methods'].get(name,{}).get('completed'))for c in cohort['rows']);rows.append(['Ours'if name=='ours'else'Native PhysTwin',f'{complete}/8',f"{result['paired_complete_forecasts']}/8",f"{1000*value['world_point_rms_m']:.4f}"if value else'unavailable'])
+ table(rows,[2.3*inch,1.3*inch,1.3*inch,2.0*inch])
  text('Unavailable is a failed or missing prediction/reference, never zero error. Each physical metric uses the complete saved sequence at matching times; only the shape metric removes proper rigid motion. The eight rows are two loads on each of four worlds, not eight independent objects.','CaptionV17')
  for name,label in [('ours','Ours'),('native_phystwin','Native PhysTwin')]:
   result=cohort['summary'][name];m=result['conditional_paired_complete_case_mean'];n=result['paired_complete_forecasts']
   if n:
    text(f"{label}: on the same {n}/8 available paired forecasts only, mean world error is {1000*m['world_point_rms_m']:.3f} mm and mean shape error is {1000*m['shape_point_rms_m']:.3f} mm. These are conditional summaries; they do not substitute for an all-eight result.")
  if sensitivity:
-  passed=sum(c['passed']for c in sensitivity['comparisons'])
-  text(f"Reference sensitivity: {sensitivity['completed_jobs']}/20 declared simulations completed; {passed}/{len(sensitivity['comparisons'])} declared spatial/time comparisons passed. The subset checks the 80 mm drop at n4/n6 and both time steps, plus calibration spatial consistency. It does not certify every material/load or provide a continuum solution.")
+  spatial=[c for c in sensitivity['comparisons']if c['kind']=='spatial'];temporal=[c for c in sensitivity['comparisons']if c['kind']=='temporal']
+  text(f"Reference sensitivity: {sensitivity['completed_jobs']}/20 declared simulations completed. Spatial checks passed {sum(c['passed']for c in spatial)}/{len(spatial)}; time-step checks passed {sum(c['passed']for c in temporal)}/{len(temporal)}. The subset checks the 80 mm drop at n4/n6 and both time steps, plus calibration spatial consistency. It does not provide a continuum solution.")
+ text('Native world-3 fitting stopped during graph initialization, leaving both forecasts unavailable. Our four selected fits used the fixed calibration budget; only one of the sixteen coarse/fine family optimizations reported convergence. Completed forecasts and optimizer convergence are distinct outcomes.','CaptionV17')
 else:text('Fresh cohort generation, inference and prediction are active. Final physical and rendering tables remain pending; the previous successful benchmark artifacts are preserved.')
+if robustness:
+ page();title('Reference-resolution robustness')
+ text('After the declared spatial checks failed, a secondary diagnostic evaluates the same frozen predictions against the already generated finer references. It uses both prospectively fixed subset worlds and the 80 mm load. This is post-hoc analysis, with no refitting, new simulations or replacement of the primary n4 scores.')
+ rows=[['World / reference','Ours world mm','Native world mm','Ours shape mm','Native shape mm']]
+ for case in robustness['rows']:
+  values=[]
+  for metric in ('world_point_rms_m','shape_point_rms_m'):
+   for method in ('ours','native_phystwin'):
+    v=case['methods'][method].get(metric);values.append(f'{1000*v:.3f}'if v is not None else'unavailable')
+  rows.append([case['world_id']+' / '+case['reference'].replace('_',' '),*values])
+ table(rows,[2.1*inch,1.2*inch,1.2*inch,1.2*inch,1.2*inch])
+ text('Absolute errors depend on reference resolution. These rows permit a direct check of whether the method ordering changes with finer space/time discretization. A stable ordering does not repair the failed spatial qualification or establish continuum accuracy. The experiment remains a comparison of matched-observation configurations on finite-resolution synthetic dynamics.')
 if cohort_images:
  page();title('Fresh cohort: new-view image prediction')
  rows=[['World / method','Scored / expected','Foreground PSNR','Foreground SSIM','IoU']]
@@ -142,5 +167,5 @@ if development:
  text('[3] Project protocols, raw-to-report hashes, independent audits and reproduction commands: reports/compositional-dynamics-v17. Earlier method and benchmark evidence: papers/compositional-neural-mechanics-v16. New raw datasets and trained checkpoints remain local.', 'CaptionV17')
 OUT.parent.mkdir(parents=True,exist_ok=True)
 SimpleDocTemplate(str(OUT),pagesize=(8.5*inch,11*inch),leftMargin=.65*inch,rightMargin=.65*inch,topMargin=.55*inch,bottomMargin=.6*inch,title='Physical accuracy beyond plausible dynamic rendering',author='physgauss-sde research campaign').build(story,onFirstPage=footer,onLaterPages=footer)
-meta=dict(output=str(OUT.relative_to(ROOT)),sha256=hashlib.sha256(OUT.read_bytes()).hexdigest(),evidence_sha256=EVIDENCE,development_scored=development is not None,fresh_cohort_scored=cohort is not None,scope='Working dynamic extension; pending studies explicitly labeled, no final rendering-parity claim.')
+meta=dict(output=str(OUT.relative_to(ROOT)),sha256=hashlib.sha256(OUT.read_bytes()).hexdigest(),evidence_sha256=EVIDENCE,development_scored=development is not None,fresh_cohort_scored=cohort is not None,scope='Dynamic simulation supplement; matched-observation finite-resolution comparison, with coverage and reference sensitivity retained.')
 Path(__file__).with_name('manuscript-evidence.json').write_text(json.dumps(meta,indent=2)+'\n');print(json.dumps(meta|{'evidence_sha256':f'{len(EVIDENCE)}sources'}))

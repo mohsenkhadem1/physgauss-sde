@@ -1,104 +1,87 @@
-ACTIVE CAMPAIGN: LARGE DEFORMATION, DROPS, BOUNCES AND IMPACTS
-2 November 2026, checkpoint19:40UTC. Goal remains active; no final benchmark claim.
+V17 DYNAMIC EXTENSION: COMPUTATION AND INDEPENDENT AUDITS COMPLETE
+2 November 2026. Release contents: audited results, videos and paper.
 
-Completed examples:
-- Smooth position compression/hold/unload:30%commanded tool closure produces
-  22.7%material shortening. Six mesh/time/quadrature states pass qualification;
-  n3-to4 world/shape coordinate RMS53.2um. Qualification is specific to this cycle.
-- Finite80g sphere impact: actual coupled bend/rebound,13.6%local compression.
-- Physical-viscosity40mm drop: impact/rebound/settling through0.75s. Half-step
-  recovery still running; no full spatial qualification claim.
-- Frozen learned-law dynamic pilot predicts4cm drops on a coarse shared mesh:
-  MR/Yeoh worldpointRMS0.1973/0.0654mm; known material inputs, not inference.
-  All four abrupt-release failures retained. No continuum-reference claim.
-Videos are local in runs/compositional-dynamics-v17, named position-compression-
-development.mp4, finite-striker-development.mp4, drop-bounce-settle-development.mp4,
-and mr-drop-teacher-vs-learned-development.mp4. Actual saved states, no amplitude
-magnification; slow motion explicit. Video decode and visual checks recorded.
+What we built
 
-Native comparisons:
-- Actual Newton1.7/Warp1.18 solver12development runs completed and audited;
-  mesh/time/dissipation checks prevent treating them as qualified truth.
-- Actual author PhysTwin fit/replay/GS runs use commit81c7187, isolated native
-  environment, public known mass, same masked3D calibration observations.
-- Three native configurations completed. Calibration-only selection chose125
-  points/max100CMA/1000epochs, coordinateRMSE1.31495mm vs1.32349 original20/200
-  and1.32383 with729points. All variants and forecasts retained. This was final
-  native tuning; fresh cohort recipe is fixed.
-- Our coarse inferred fit completed102candidates, forecast committed. Finer n3
-  fit is running because calibration-only oracle forward diagnosis exposed
-  n2discretization error. Both family searches retained; no held-score tuning.
-- Shared initial learned appearance:10119 finite Gaussians after author10000-step
-  schedule, three initial views. Dynamic rendering and held-view scoring pending
-  all prediction seals. Staticpilot is not evidence of rendering parity.
+The new examples include compression and recovery with 22.7% material shortening,
+a finite 80 g sphere impact with bending and rebound, and a viscous drop that
+bounces and settles. Stronger simulations that failed numerical checks remain
+recorded. The compression cycle passed its own mesh, time-step and quadrature
+checks; that qualification does not automatically apply to every example.
 
-FRESH COHORT LAUNCHED19:39UTC:
-- Four opaque worlds, balanced MR/Yeoh families, unknown scale/shape/finite
-  contact compliance. Same known box and0.27kg mass, gravity9.8.
-- One10mm/0.20s observed calibration perworld. Forecast40/80mm drops for0.30s;
-  eight forecasts are four independent worlds, not eight independent objects.
--20reference jobs: primary n4 plus declared n6/time sensitivity subset.
-- Public exporter provides noiseless oracle3D tracks with raster visibility;
-  this is not end-to-end raw-video reconstruction.
-- CPU8 shared fitting overlaps sequential nativeGPU0 fitting; referenceGPU0/2
-  andCPU lanes use available headroom. GPU3/unrelated jobs untouched.
-- Exact protocol542e045a... / freeze17053e41... independently approved185checks,
-  20tests,152sources+11inputs. All16 method/query attempts must commit before
-  evaluator opens target arrays. Full hashes in fresh-cohort-launch-bindings.json.
-- Units: compositional-v17-fresh-cohort-generation (2h cap),
-  compositional-v17-fresh-cohort-pipeline (5h cap). Durable stage logs and source
-  pins; do not relaunch or modify frozen files while jobs run.
+The fresh benchmark contains four material/contact worlds. Each method observes
+a 10 mm calibration drop, then predicts 40 mm and 80 mm drops without refitting.
+Inputs are known geometry, mass and gravity plus visible oracle 3D tracks. Hidden
+material/contact labels and future motion are withheld. This is not end-to-end
+inference from raw video.
 
-Interpretation and outstanding work:
-- Seek better physical forecasts with comparable/slightly worse images; outcome
-  not assumed. Report world/shape errors, deformation, sampled penetration/volume/
-  bounce events separately from foregroundPSNR/SSIM, IoU and depth coverage.
-- Native equal-mass125grid has1.5x continuum rest inertia (729grid1.25x). This is
-  a matched-observation/total-mass configuration comparison; gains may reflect
-  representation, mass/contact discretization, prior and inference jointly.
-- Four-world cohort is finite-resolution load-magnitude extrapolation, not unseen
-  interaction-type, real-world or broadSOTA proof. Preserve all failed references
-  and forecasts; no replacement or survivor-only primary mean.
-- Finish fine development fit/forecast, then gated geometry and shared native-GS
-  evaluation/video. Finish fresh cohort, sensitivity audit, rendering, final
-  report/manuscript update and code/report/video publication. Raw datasets local.
-- Original8531tracked blobs/fourv16checkpoints remain protected; old results and
-  manuscripts preserved. One unrelated user deletion is deliberately untouched.
+We used the actual PhysTwin author implementation for fitting, physics and
+Gaussian rendering. Its recipe was selected using development calibration only,
+before the fresh worlds were generated. Twelve native Newton development runs
+are reported separately as numerical controls, not a matched superiority claim.
 
-Checkpoint20:07UTC:
-- Published active-campaign code/reports/videos as cac026a8e8f93805b815651904e3c0e9e6cd3cef.
-- Fine refinement finished:20mmdrop passes full conjunction; abruptrelease fails.
-  Independent audit445checks. This does not qualify fresh higherdrop references.
-- All4fresh calibrations exported; sharedCPU8fitting running. Original native
-  fits all stopped BEFORE optimization at missingCUDA_VISIBLE_DEVICES guard.
-  Original8failedforecast commits preserved. Audited operational recovery now
-  trains normally in native-recovery using explicitGPU0, unchanged recipe/data,
-  fresh output/cwd and originaldeadline. No numerical retuning or target access.
-- Reporting amendment0f788f0e... pins161sources and recovery mapping. Recovered
-  evaluator must run before original frozen failure-ledger evaluation.
-- Fine development fit62/64evaluations; watcher automatically prepares/runs its
-  forecast after fit exit. Wait for all5development prediction seals before
-  geometry/image target access. Auditor watching fit/forecast independently.
-- Working4pagePDF at output/pdf/compositional-dynamics-v17.pdf, visually checked.
-  It marks final forecast/render tables pending; rebuild after completed scores.
+Fresh results
 
-Checkpoint20:45UTC (supersedes earlier running/pending development entries):
-- Development fine fit/forecast complete and independently audited. World vector
-  RMS0.2746mm versus selected native9.5181mm; shape0.2156 versus2.3036mm.
-  One development block; same-n3 teacher for fine method, not a population result.
-- Shared initial native-GS held-view foregroundPSNR19.38 vs13.82dB and SSIM
-  0.765 vs0.598. All260predicted images sealed before target access;1094audit
-  checks. Outer no_grad operational recovery fixed nonleaf deepcopy without
-  changing transport/numerics. Images measure motion+transport jointly.
-- Posthoc zero-damping native diagnostic improves worlderror6.1469mm but worsens
-  shape2.7608mm. No tuning or fresh recipe changes follow this diagnostic.
-- Viscous halfstep recovery complete/audited133checks: drop/striker temporal
-  trajectory differences nanometres; spatial qualification still unestablished.
-- New actual/ours/native fixed-view native-GS and50degree camera-orbit videos
-  decoded/visually checked. Working6pagePDF now includes development tables.
-- Fresh native recovery8/8 attempts terminal,6successful predictions; world3
-  fit failed with empty spring graph, both failed forecasts retained. Shared coarse192/192 and fine
- 48/256 evaluations complete at20:43UTC; generation/fitting remain active.
-- Fresh reference targets remain unopened for scoring. All16original+8recovered
-  seals required; then inference-context wrapper prepares/predicts2480image slots
-  before reference images. Reporting amendments pin all sources.
+Our method completed all eight forecasts. PhysTwin completed six; an empty graph
+during fitting on world 3 left its two forecasts unavailable. Both failures remain
+in the reports, coverage counts and videos.
+
+On the same six successful paired forecasts across three worlds:
+- Motion vector RMS: 1.146 mm for ours versus 13.771 mm for native PhysTwin.
+- Rigid-aligned deformation RMS: 1.085 mm versus 2.936 mm.
+- New-view foreground PSNR: 18.734 dB versus 12.842 dB.
+- New-view foreground SSIM: 0.7473 versus 0.5770.
+- Silhouette IoU: 0.9562 versus 0.7950.
+- Joint-visible depth RMSE: 5.478 mm versus 14.557 mm.
+
+These are conditional paired comparisons, not an all-eight paired mean. Both
+methods start with the same learned Gaussian appearance. Image differences
+include motion prediction and Gaussian transport jointly. All 2,480 image slots
+are recorded: 2,170 successful images and 310 unavailable native images.
+
+The shared fits used 192 coarse and 254 of at most 256 fine evaluations, plus 216
+cached responses. One fine search stopped early. Only one of sixteen optimizers
+reported convergence; completed forecasts do not imply converged material
+estimates. No model tuning followed the fresh test scores.
+
+Reference reliability
+
+All 20 reference simulations completed and passed their individual energy,
+Jacobian and penetration checks. All four time-step comparisons passed, but all
+four spatial comparisons failed. The benchmark therefore uses finite-resolution
+synthetic targets, not continuum-qualified truth.
+
+A post-hoc diagnostic tested the same frozen predictions against existing n4,
+n6 and half-step n6 references on both fixed 80 mm cases. Our lower world and
+shape errors persisted at every checked resolution. Absolute errors changed
+with resolution; the primary scores and failed spatial qualification are retained.
+
+Deliverables
+
+papers/compositional-dynamics-v17/report.pdf is the nine-page evidence-linked
+supplement. Every page was rendered and visually checked. The prior v16 paper,
+results and checkpoints remain protected.
+
+fresh-cohort-videos-v2/ contains all eight actual/ours/native comparison videos
+and previews. Each shows 31 saved frames from the same held camera, with labeled
+10x slow playback and no displacement magnification. Native world 3 has explicit
+unavailable panels. All videos were decoded and visually checked. The first draft
+is preserved; v2 only clips the floor guide to the image viewport.
+
+Other examples in videos/:
+- development-orbit-actual-ours-native-v2.mp4: a 50-degree camera orbit.
+- position-compression-development.mp4: visible compression and recovery.
+- finite-striker-development.mp4: coupled impact and rebound.
+- drop-bounce-settle-development.mp4: dropping, bouncing and settling.
+
+final-results-summary.json indexes the audited scores and paper. Full case-level
+values, protocols, failures, source hashes and independent audits are retained.
+
+Interpretation
+
+This is a promising matched-observation dynamic prediction improvement over the
+selected native PhysTwin configuration, with better predicted-view quality on
+paired cases. It does not establish broad SOTA performance, real-world accuracy,
+unseen interaction or geometry generalization, calibrated uncertainty or active
+probing. Raw datasets and checkpoints stay local. CPU and shared GPUs 0-2 were
+used without stopping unrelated jobs or using GPU 3 for this campaign.
