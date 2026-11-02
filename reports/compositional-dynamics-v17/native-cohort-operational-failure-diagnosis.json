@@ -1,0 +1,36 @@
+{
+  "scope": "Read-only operational diagnosis; no source modification or rerun. No forecast targets accessed.",
+  "cause": "cohort_pipeline.child inherits CUDA_VISIBLE_DEVICES instead of setting explicit physical GPU0; unchanged budget_fit.guard rejects before output creation or fitting.",
+  "secondary_retry_issue": "Per-world native-cwd was created before guard; original fit_world refuses reuse. Preserve it and all failed records, use separately reviewed recovery namespace.",
+  "rows": [
+    {
+      "world": "world-0",
+      "exit_code": 1,
+      "seconds": 0.16539883613586426,
+      "error": "RuntimeError: Physical GPU0 only",
+      "optimization_started": false
+    },
+    {
+      "world": "world-1",
+      "exit_code": 1,
+      "seconds": 0.16559338569641113,
+      "error": "RuntimeError: Physical GPU0 only",
+      "optimization_started": false
+    }
+  ],
+  "evidence_sha256": {
+    "runs/compositional-dynamics-v17/fresh-cohort/pipeline/stages/native-fit-world-0/status.json": "e4b09d7c2bf6e06b191bfe0e9cf1638f7aa6fc0ae1b8afd648768095802b5e55",
+    "runs/compositional-dynamics-v17/fresh-cohort/pipeline/stages/native-fit-world-0/output.log": "b5511dd0b705b887f891571b8c986cff63fb63d9d3f9395c5ceedab529f0ef2b",
+    "runs/compositional-dynamics-v17/fresh-cohort/pipeline/stages/native-fit-world-0/request.json": "a77d6f7225f3ecb14b7ed050e2102cd110e3802cd2b434cc637810d09cbeffa3",
+    "runs/compositional-dynamics-v17/fresh-cohort/pipeline/stages/native-fit-world-1/status.json": "1abdd4a3078846b4eb9634539ecb95813984a2bf1c23f6bdac10b300a57f6567",
+    "runs/compositional-dynamics-v17/fresh-cohort/pipeline/stages/native-fit-world-1/output.log": "b5511dd0b705b887f891571b8c986cff63fb63d9d3f9395c5ceedab529f0ef2b",
+    "runs/compositional-dynamics-v17/fresh-cohort/pipeline/stages/native-fit-world-1/request.json": "8585f579e6c5c74829d023e595a9b94bd4a0dac0ca42dca45b505c7c917a75cd"
+  },
+  "recommended_environment": {
+    "CUDA_VISIBLE_DEVICES": "0",
+    "PYNPUT_BACKEND": "dummy",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "method_change_required": false
+}

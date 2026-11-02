@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "checks": 133,
+  "errors": [],
+  "created_unix": 1793650336.5268521,
+  "evidence_sha256": {
+    "reports/compositional-dynamics-v17/viscous-recovery-plan.json": "5c9f831ad811d231fa253a6c9867388704f539a0499b9ff86937d02e550699fb",
+    "reports/compositional-dynamics-v17/viscous-recovery-results.json": "698255ab19035bd52768079309f73a32837a70e0c887a29981eaad98d8b5f500",
+    "reports/compositional-dynamics-v17/viscous-development-results.json": "4db06ea62748cfd26fc36500fc088852f839c0089c3f07ef9717081daeddd409",
+    "reports/compositional-dynamics-v17/viscous-recovery-combined-inputs.json": "21e3e1bba9613a973f1e7b0feaa07b38ed5fef89ceef2d2a9694a7f8fb29743d",
+    "reports/compositional-dynamics-v17/viscous-recovery-analysis.json": "fa64bdbde9bcba024b60b8c170e04e8a388a9a6afd7010e22e620142566a6f16",
+    "runs/compositional-dynamics-v17/viscous-recovery/runtime-input-freeze.json": "8179d56d4bf9b7bd27f7d239fed9f7a0547117c8420752c6a4554f6f30dd47c8",
+    "runs/compositional-dynamics-v17/viscous-development/drop-40mm-dt0.00002500/trajectory.npz": "84a30b35e6c5ab3a27a79546334a563887dad33725144220a94c160cadd61b5e",
+    "runs/compositional-dynamics-v17/viscous-development/finite-striker-dt0.00002500/trajectory.npz": "ee984ec6bc6512704b7f1618d5639905d31dc41cc6bd353a8ffe300623d0ace4",
+    "runs/compositional-dynamics-v17/viscous-recovery/drop-40mm-dt0.00001250/trajectory.npz": "1a3f7d8af3501787b8a3349be91ba6e5dad4f21977c7e0f508ac6ef2ceea987c",
+    "runs/compositional-dynamics-v17/viscous-development/drop-40mm-dt0.00001250/trajectory.npz": "ca95db54ee340baed1434d1811e7fe73fe10a3e065d08ddaacb9e39e024823e1",
+    "runs/compositional-dynamics-v17/viscous-recovery/finite-striker-dt0.00001250/trajectory.npz": "4f4fbc2fc007fcf0990ed127e688b5b8dd649ec72050d10c7f1fa9ef0759c448",
+    "runs/compositional-dynamics-v17/viscous-development/finite-striker-dt0.00001250/trajectory.npz": "3a49ef837d30e34ad95fd81153fd2f72b78a97fe2b5583570f23110bf6b2e83f"
+  },
+  "comparisons": [
+    {
+      "family": "drop-40mm",
+      "a": "drop-40mm-dt0.00002500",
+      "b": "drop-40mm-dt0.00001250",
+      "passed": true,
+      "world_coordinate_RMS_m": 4.39630925354828e-09,
+      "shape_coordinate_RMS_m": 3.4057762084705423e-09,
+      "checks": {
+        "world_coordinate": true,
+        "shape_coordinate": true,
+        "both_diagnostic_gates": true
+      }
+    },
+    {
+      "family": "finite-striker",
+      "a": "finite-striker-dt0.00002500",
+      "b": "finite-striker-dt0.00001250",
+      "passed": true,
+      "world_coordinate_RMS_m": 1.5543808877381685e-09,
+      "shape_coordinate_RMS_m": 1.118042940543713e-09,
+      "checks": {
+        "world_coordinate": true,
+        "shape_coordinate": true,
+        "both_diagnostic_gates": true
+      },
+      "sphere_center_coordinate_RMS_m": 6.662821799033806e-09
+    }
+  ],
+  "scope": "All4combined trajectories,2original failed prefixes,source/runtime/retry selection audited. Independent E+D,J,depth,proper-rigid shape/world RMS and descriptive impulse recomputation. Both temporal pairs pass; no spatial qualification or measured-material claim. Original failures preserved; same initial-state restarts, no stitching.",
+  "source_sha256": {
+    "scripts/compositional_neural_mechanics_reporting/v17_viscous_recovery_independent_audit.py": "cede29661c40e7d40a4a8221e23b53c0d16654394ebc4d7c5d3199509c551e05"
+  }
+}

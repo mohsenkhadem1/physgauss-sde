@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "checks": 84,
+  "errors": [],
+  "timestamp_utc": "2026-11-02T20:30:13.006346+00:00",
+  "report_sha256": "015a69a96833fac117030eff005c5f8843e951e9320346e19cd38445ae7f8d3b",
+  "evidence_sha256": {
+    "reports/compositional-dynamics-v17/native-zero-damping-plan.json": "2be07fcbce4c4c566da84bac183cc2e8d9abcd49711b50530c5ee19de0a5f49b",
+    "reports/compositional-dynamics-v17/native-zero-damping-calibration-plan.json": "5602e02c7153ca46ad378644e35b745eab6392244b1c94aebe1a144433b85005",
+    "runs/compositional-dynamics-v17/native-zero-damping/calibration/complete.json": "dbef8c90016f4b2e8a49bc0a0aecc01d71ace389d8ba2433b687b2d48b863ec7",
+    "runs/compositional-dynamics-v17/native-zero-damping/calibration/prediction.npz": "7cb18d5991119517d84e941a6f5be11eb8b0e27be301d312ba7ae84ca7c6246e",
+    "reports/compositional-dynamics-v17/native-zero-damping-forecast-plan.json": "637e5a7e89d832b9b02f4f5cc499954f2fb28918c41b795e63376c80ed6540ec",
+    "runs/compositional-dynamics-v17/native-zero-damping/forecast/complete.json": "a5a1e78f378748f1c0804d32242b5c14df267d292a68cf68dd02d92d88220b97",
+    "runs/compositional-dynamics-v17/native-zero-damping/forecast/prediction.npz": "de94828869ac0ddbd8d3bd14aaa7f5e4389306029c0470c958cadc781fe0a14e",
+    "runs/compositional-dynamics-v17/native-phystwin-budget-calibration/complete.json": "3c5b209bc9589e06eed4cfb91ebbb2bbf796b85a45c5e3fc053bfcf190125c46",
+    "runs/compositional-dynamics-v17/native-phystwin-budget-calibration/prediction.npz": "e49a99933f14d8e057d1f68d24503e982e85b6f2ed63175232224ae7e7985b79",
+    "runs/compositional-dynamics-v17/native-phystwin-budget-forecast/complete.json": "57bf733ef11961be5c61f0f2cfc3cc99cceaa65ef0e3ff89e30114a9fa7e6e3e",
+    "runs/compositional-dynamics-v17/native-phystwin-budget-forecast/prediction.npz": "f596075e6044aaca69245f3f7f599399c18377ca7ba3e3c6db86f88f9cb9f466",
+    "runs/compositional-dynamics-v17/calibration-public/metadata.json": "ea2a79750c90b64a3afffaeeeb63323cfdaf5546f55feac41312a022abc34415",
+    "runs/compositional-dynamics-v17/calibration-public/observations.npz": "b8a487b1652164daeffca20c0500d34c93fe636f99272ddad81079b005acbf8a",
+    "runs/compositional-dynamics-v17/calibration-development/forecast/complete.json": "84b3b5d339d9a90c85a6f832e121c30e587dc0652c49c32f6589520ed8d6d6b5",
+    "runs/compositional-dynamics-v17/calibration-development/forecast/trajectory.npz": "450e2137c0a00e3314f619e80da3d0e3a0b3180471a09b03b91b2a5d11e056af"
+  },
+  "independent_metrics": {
+    "primary": {
+      "calibration_coordinate_rmse_mm": 1.314948342336272,
+      "world_mm": 9.518114612890727,
+      "shape_mm": 2.3036242045550717,
+      "fall80ms_mm": 25.6214936320879
+    },
+    "zero_drag_and_dashpot": {
+      "calibration_coordinate_rmse_mm": 1.2057076288884918,
+      "world_mm": 6.146932214519649,
+      "shape_mm": 2.7607848847134178,
+      "fall80ms_mm": 31.36979013073201
+    }
+  },
+  "interpretation": "Combined damping removal restores near-ballistic precontact fall and reduces coordinate calibration/world forecast error, but aligned shape error worsens. Thus learned damping explains part of translation/rebound discrepancy; it does not explain all physical errors or isolate drag from dashpot. Post-hoc one-object diagnostic, no refit/selection or fresh-cohort recipe change.",
+  "fresh_targets_accessed": false
+}

@@ -3,7 +3,7 @@ import argparse,json
 from pathlib import Path
 import numpy as np
 from scripts.compositional_dynamics_v17 import matched_appearance_native_resolution as fit
-from scripts.compositional_dynamics_v17.cohort_geometry_evaluation import committed
+from scripts.compositional_dynamics_v17_reporting.cohort_recovery_evaluation import committed
 ROOT=fit.ROOT; sha=fit.sha;read=fit.read;write=fit.write
 BASE=ROOT/'runs/compositional-dynamics-v17/fresh-cohort-appearance'
 PLAN=ROOT/'reports/compositional-dynamics-v17/fresh-cohort-appearance-plan.json'
@@ -13,6 +13,8 @@ def prepare(bindings):
     protocol,attempts,evidence=committed(bindings) # All16, including explicit failures; no references.
     fit.guard();appearance=read(fit.BASE/'training-complete.json')
     if not appearance['complete']or appearance['gaussian_count']<=0:raise ValueError('Valid appearance required')
+    contract=protocol['metrics']
+    if appearance['checkpoint']!=contract['appearance_checkpoint']or appearance['checkpoint_sha256']!=contract['appearance_checkpoint_sha256']or str(fit.DESIGN.relative_to(ROOT))!=contract['camera_design']:raise ValueError('Appearance differs from frozen cohort contract')
     cp=ROOT/appearance['checkpoint']
     if sha(cp)!=appearance['checkpoint_sha256']:raise ValueError('Appearance changed')
     evidence[str(cp.relative_to(ROOT))]=sha(cp)
@@ -32,10 +34,10 @@ def prepare(bindings):
                         evidence[str(f.relative_to(ROOT))]=sha(f)
                 else:failed[method]=row['record'].get('error','Incomplete physical forecast')
             root='runs/compositional-dynamics-v17/fresh-cohort'
-            queries.append(dict(world_id=world,role=role,methods=methods,failed=failed,native_directory=f'{root}/native/{world}/forecasts/{role}',native_array='prediction.npz',ours_directory=f'{root}/shared-forecast/{world}/{role}',q2_n=3,geometry_dimensions_m=protocol['generator_settings']['dimensions_m'],times_s=(np.arange(31)*.01).tolist(),cameras=read(fit.DESIGN)['cameras'],checkpoint=appearance['checkpoint']))
+            queries.append(dict(world_id=world,role=role,methods=methods,failed=failed,native_directory=str(next(r['array'].parent for r in rows if r['method']=='native_phystwin').relative_to(ROOT)),native_array='prediction.npz',ours_directory=f'{root}/shared-forecast/{world}/{role}',q2_n=3,geometry_dimensions_m=protocol['generator_settings']['dimensions_m'],times_s=(np.arange(31)*.01).tolist(),cameras=read(fit.DESIGN)['cameras'],checkpoint=appearance['checkpoint']))
     from scripts.compositional_neural_mechanics.gravity_inference_pilot import closure
     sources=closure([Path(__file__),ROOT/'scripts/compositional_dynamics_v17/cohort_appearance_transport.py',ROOT/'scripts/compositional_dynamics_v17/cohort_appearance_score.py'])+list(fit.AUTHOR.rglob('*.py'))
-    write(PLAN,dict(bindings=bindings,queries=queries,source_sha256={str(f.relative_to(ROOT)):sha(f)for f in sources},input_sha256=evidence,expected_queries=8,expected_image_slots=2480,scope='Four fresh worlds, two loads; same learned initial Gaussian appearance, native K16 versus Q2 F-covariance transport. Not full native reconstruction. All failures retained; finite-resolution references, no continuum qualification.',target_gate='All16 physical commits before preparation; all2480 image slots committed success/failure before any target rendering.'))
+    write(PLAN,dict(bindings=bindings,queries=queries,source_sha256={str(f.relative_to(ROOT)):sha(f)for f in sources},input_sha256=evidence,expected_queries=8,expected_image_slots=2480,scope='Four fresh worlds, two loads; same learned initial Gaussian appearance, native K16 versus Q2 F-covariance transport. Not full native reconstruction. All failures retained; finite-resolution references, no continuum qualification.',target_gate='All16 original physical commits plus eight explicit operational recovery commits before preparation; all2480 image slots committed success/failure before any target rendering.'))
 
 def guard():
     p=read(PLAN)
@@ -48,22 +50,23 @@ def guard():
 def predict():
     p=guard()
     if BASE.exists():raise ValueError('Preserve previous predictions')
-    BASE.mkdir(parents=True);ledger=[]
+    BASE.mkdir(parents=True);ledger=[];query_evidence=[]
     from scripts.compositional_dynamics_v17.cohort_appearance_transport import render_query
     for query in p['queries']:
-        rendered={};error=None
+        rendered={};error=None;result=None
         try:
             if query['methods']:
                 result=render_query(query,BASE/query['world_id']/query['role'])
                 rendered={(r['method'],r['frame'],r['camera']):r for r in result['records']}
         except Exception as exc:error=repr(exc)
+        query_evidence.append(dict(world_id=query['world_id'],query=query['role'],completed=result is not None,gaussian_count=result['gaussians']if result else None,initial_rgb_max_difference=result['initial_rgb_max_difference']if result else None,error=error,initial_parity_available=result is not None and len(query['methods'])==2))
         for method in ['native','shared_q2']:
             for frame,t in enumerate(query['times_s']):
                 for camera in query['cameras']:
                     key=(method,frame,camera['name']);record=rendered.get(key)
                     ledger.append(dict(world_id=query['world_id'],query=query['role'],method=method,frame=frame,time_s=t,camera=camera['name'],role=camera['role'],completed=record is not None,prediction=record,error=None if record else query['failed'].get(method,error or 'Render unavailable')))
         write(BASE/'progress.json',dict(plan_sha256=sha(PLAN),rows=ledger))
-    guard();write(BASE/'prediction-commit.json',dict(plan_sha256=sha(PLAN),expected=2480,rows=ledger,reference_images_read=False))
+    guard();write(BASE/'prediction-commit.json',dict(plan_sha256=sha(PLAN),expected=2480,rows=ledger,query_evidence=query_evidence,reference_images_read=False))
 
 def prediction_gate():
     p=guard();c=read(BASE/'prediction-commit.json')

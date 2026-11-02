@@ -1,0 +1,242 @@
+{
+  "source_sha256": {
+    "scripts/compositional_dynamics_v17/viscous_analysis.py": "8d55e7b0b3dd62558a9a086418cbc37bd8271aa288fecf6012628bcfb1233029",
+    "scripts/compositional_dynamics_v17/sequence_metrics.py": "a5ca941ed9f466d0207d26263d3c3c65596944233d4ae7084ebaebf844df934b",
+    "scripts/compositional_dynamics_v17/viscous_recovery_analysis.py": "a0b7e1f00cf9eb43080f791304cb2a795d5267c36141971a19041e3a089caa1e"
+  },
+  "input_sha256": {
+    "reports/compositional-dynamics-v17/viscous-recovery-combined-inputs.json": "21e3e1bba9613a973f1e7b0feaa07b38ed5fef89ceef2d2a9694a7f8fb29743d",
+    "reports/compositional-dynamics-v17/viscous-recovery-plan.json": "5c9f831ad811d231fa253a6c9867388704f539a0499b9ff86937d02e550699fb",
+    "runs/compositional-dynamics-v17/viscous-development/drop-40mm-dt0.00002500/trajectory.npz": "84a30b35e6c5ab3a27a79546334a563887dad33725144220a94c160cadd61b5e",
+    "runs/compositional-dynamics-v17/viscous-development/finite-striker-dt0.00002500/trajectory.npz": "ee984ec6bc6512704b7f1618d5639905d31dc41cc6bd353a8ffe300623d0ace4",
+    "runs/compositional-dynamics-v17/viscous-recovery/drop-40mm-dt0.00001250/trajectory.npz": "1a3f7d8af3501787b8a3349be91ba6e5dad4f21977c7e0f508ac6ef2ceea987c",
+    "runs/compositional-dynamics-v17/viscous-recovery/finite-striker-dt0.00001250/trajectory.npz": "4f4fbc2fc007fcf0990ed127e688b5b8dd649ec72050d10c7f1fa9ef0759c448",
+    "reports/compositional-dynamics-v17/viscous-development-results.json": "4db06ea62748cfd26fc36500fc088852f839c0089c3f07ef9717081daeddd409",
+    "reports/compositional-dynamics-v17/viscous-recovery-results.json": "698255ab19035bd52768079309f73a32837a70e0c887a29981eaad98d8b5f500",
+    "runs/compositional-dynamics-v17/viscous-recovery/runtime-input-freeze.json": "8179d56d4bf9b7bd27f7d239fed9f7a0547117c8420752c6a4554f6f30dd47c8"
+  },
+  "rows": {
+    "drop-40mm-dt0.00002500": {
+      "completed": true,
+      "error": null,
+      "energy_balance_relative": 0.00012070695524749407,
+      "dissipated_J": 0.10674163291118327,
+      "initial_energy_J": 0.0,
+      "final_mechanical_energy_J": -0.10675442157167754,
+      "contact_impulse_on_rigid_Ns": [
+        0.0,
+        0.0,
+        -1.9864961345294225
+      ],
+      "contact_on_times_s": [
+        0.090325,
+        0.16245
+      ],
+      "contact_off_times_s": [
+        0.118775
+      ],
+      "scope": "Contact toggles are not separately counted as bounces; impulse integration is descriptive trapezoidal sampled ledger, not integrator midpoint impulse."
+    },
+    "finite-striker-dt0.00002500": {
+      "completed": true,
+      "error": null,
+      "energy_balance_relative": 5.797909809028556e-06,
+      "dissipated_J": 0.030328909646186807,
+      "initial_energy_J": 0.04,
+      "final_mechanical_energy_J": 0.009670858437420835,
+      "contact_impulse_on_rigid_Ns": [
+        1.1285609428696791e-18,
+        3.5330734449515935e-18,
+        0.11347286173291962
+      ],
+      "contact_on_times_s": [
+        0.025075
+      ],
+      "contact_off_times_s": [
+        0.12555
+      ],
+      "scope": "Contact toggles are not separately counted as bounces; impulse integration is descriptive trapezoidal sampled ledger, not integrator midpoint impulse."
+    },
+    "drop-40mm-dt0.00001250": {
+      "completed": true,
+      "error": null,
+      "energy_balance_relative": 2.4059612867851478e-05,
+      "dissipated_J": 0.10675274716007808,
+      "initial_energy_J": 0.0,
+      "final_mechanical_energy_J": -0.10675442157167754,
+      "contact_impulse_on_rigid_Ns": [
+        0.0,
+        0.0,
+        -1.9865214921184569
+      ],
+      "contact_on_times_s": [
+        0.0903125,
+        0.1624375
+      ],
+      "contact_off_times_s": [
+        0.118775
+      ],
+      "scope": "Contact toggles are not separately counted as bounces; impulse integration is descriptive trapezoidal sampled ledger, not integrator midpoint impulse."
+    },
+    "finite-striker-dt0.00001250": {
+      "completed": true,
+      "error": null,
+      "energy_balance_relative": 1.4011371190017496e-06,
+      "dissipated_J": 0.030329086913801692,
+      "initial_energy_J": 0.04,
+      "final_mechanical_energy_J": 0.009670857040713552,
+      "contact_impulse_on_rigid_Ns": [
+        3.749671716390342e-18,
+        -4.23170124091841e-19,
+        0.11347346788457575
+      ],
+      "contact_on_times_s": [
+        0.025075
+      ],
+      "contact_off_times_s": [
+        0.1255375
+      ],
+      "scope": "Contact toggles are not separately counted as bounces; impulse integration is descriptive trapezoidal sampled ledger, not integrator midpoint impulse."
+    }
+  },
+  "comparisons": [
+    {
+      "family": "drop-40mm",
+      "a": "drop-40mm-dt0.00002500",
+      "b": "drop-40mm-dt0.00001250",
+      "passed": true,
+      "world_coordinate_RMS_m": 4.39630925354828e-09,
+      "shape_coordinate_RMS_m": 3.4057762084705423e-09,
+      "checks": {
+        "world_coordinate": true,
+        "shape_coordinate": true,
+        "both_diagnostic_gates": true
+      }
+    },
+    {
+      "family": "finite-striker",
+      "a": "finite-striker-dt0.00002500",
+      "b": "finite-striker-dt0.00001250",
+      "passed": true,
+      "world_coordinate_RMS_m": 1.5543808877381685e-09,
+      "shape_coordinate_RMS_m": 1.118042940543713e-09,
+      "checks": {
+        "world_coordinate": true,
+        "shape_coordinate": true,
+        "both_diagnostic_gates": true
+      },
+      "sphere_center_coordinate_RMS_m": 6.662821799033806e-09
+    }
+  ],
+  "all_temporal_diagnostics_pass": true,
+  "reference_qualified": false,
+  "scope": "Distinct synthetic viscosity+explicit midpoint, not isolated damping ablation or measured material. Fixed predeclared timestep/energy/J/depth diagnostics; no spatial qualification. All failed prefixes retained.",
+  "restart_prefix_replay": {
+    "drop-40mm-dt0.00001250": {
+      "times_s": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "u": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "velocities": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "surface_frames": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "sphere_centers_m": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "sphere_velocities_m_s": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "sphere_omega_rad_s": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "tool_wrenches_N_Nm": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "ledger": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      }
+    },
+    "finite-striker-dt0.00001250": {
+      "times_s": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "u": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "velocities": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "surface_frames": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "sphere_centers_m": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "sphere_velocities_m_s": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "sphere_omega_rad_s": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "tool_wrenches_N_Nm": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "ledger": {
+        "prefix_covered": true,
+        "exact_equal": true,
+        "max_abs_difference": 0.0
+      }
+    }
+  },
+  "source_for_cases": {
+    "drop-40mm-dt0.00002500": "original",
+    "finite-striker-dt0.00002500": "original",
+    "drop-40mm-dt0.00001250": "recovery",
+    "finite-striker-dt0.00001250": "recovery"
+  },
+  "original_incomplete_names": [
+    "drop-40mm-dt0.00001250",
+    "finite-striker-dt0.00001250"
+  ],
+  "original_failures_preserved": true,
+  "recovery_scope": "Same fixed physical model and integrator from initial state; original incomplete attempts preserved. No best-of numerical or outcome selection."
+}
