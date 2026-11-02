@@ -1,0 +1,52 @@
+Implemented pilot interfaces
+
+native_phystwin_inputs.export_prefix(
+ initial_tracked_m, observed_prefix_m, visible_prefix,
+ controller_commands_m, other_surface_m, interior_m,
+ object_masses_kg, frame_dt_s)
+ -> native RealData dictionary + metadata.
+All arrays use SI world coordinates. Only observedprefix object positions are
+accepted; fullcontroller commands are public inputs. Unknown suffixobjectpoints
+are initialreference placeholders with visibility/motionvalid false. Knowninitial
+geometry is common to both methods. The API has no material/interfacefamily label
+or futureobjecttarget argument. Firstframe knowngeometry correspondence is checked.
+Native apply_known_object_masses wraps only the _init_start mass output, preserving
+native vertices, graph, rest lengths and kinematiccontroller masses. This exporter
+is tested but no matched nativeper-scene parameterfit has run yet.
+
+Next mechanical fit integration (requires frozen matched dynamic protocol)
+Subclass native trainer only for input/mass/headless adapters; retain native graph
+construction, per-spring optimizer, force, integration and collision semantics.
+Set common9.8gravity and SI springbounds/configuration before fitting. Bothmodels
+receive the same measured position-commanded compression/indentation prefix,
+visibility/clock and knowngeometry/mass. Sharedlaw model infers continuouslatents
+and, unless globallyknown byexperimentdesign, selects family using onlyprefix.
+Keep trainingcoupons/prior advantage separate from per-scene data/compute budget.
+Freeze per-scene fitted state before held drop/impact simulation. Never invoke
+native training/testvisualizers with genuine futureobjecttracks. An adapterclaim
+must name any omitted nativeoptimization stage; fullPhysTwin label is conditional
+on faithful native fitting and rollout, not just unchanged springkernel use.
+
+native_appearance_pilot stages
+projection: syntheticpoint calibration only; no bodyheldimages.
+prepare: procedural staticbody fourallowed848x480 RGBD images; neutralgray known
+surfacepoint initialization; exactsource/input/camera/budget manifest.
+train: exactindependentapproval+sourceguard; unchanged author gs_train CLI,
+1000iterations/999optimizerupdates, finalsavediterate, processgroup900scap GPU0.
+predict: load finalnativeGS; save all4train+2held predictedRGBA/depth and hashes.
+score: onlyafter exact6predictioncommit validation, generateheldreferenceimages
+and report officialSSIM/PSNR/bodyunion/IoU/depth with missingdepthcounts.
+No checkpoint selection from heldviews. Sameelevation twoheldviews do not test
+arbitraryview appearance. Nativefittedappearance success/failure says nothing
+about dynamicphysicalprediction or fullinversepipeline replication.
+
+Potential commonappearance controlled ablation, not yet implemented
+Use the SAME trainedauthorGS appearancecheckpoint and fixedmaterialattachment map
+for both physical trajectories, so appearance capacity/observations are equal.
+Transport Gaussian centers using each predicted materialmotion (native binding
+or explicitly declared commonbinding); never apply residualimage warps to improve
+physicalprediction scores. If commonbinding differs from nativePhysTwinLBS, label
+that as commonappearance ablation and retain nativebinding/native-renderer result
+separately. Compare physicalsurface position/velocity/impulses before rendering;
+image errors never substitute for physical accuracy. Attachment/binding rules
+must be chosen on development before helddynamiccases.

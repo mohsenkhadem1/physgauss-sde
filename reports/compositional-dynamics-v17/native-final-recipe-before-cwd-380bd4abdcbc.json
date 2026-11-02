@@ -1,0 +1,47 @@
+{
+  "frozen_utc": "2026-11-02T19:28:22.694015+00:00",
+  "selected_variant": "extended125",
+  "recipe": {
+    "cma_generations": 100,
+    "epochs": 1000,
+    "cma_stopping": "author default early stopping,100is maximum",
+    "seed": 42,
+    "dt_s": 2.5e-05,
+    "substeps": 400,
+    "frame_dt_s": 0.01,
+    "calibration_frames": 21,
+    "tracked_points": 98,
+    "interior_points": 27,
+    "initial_graph_radius_m": 0.04,
+    "checkpoint_selection": "author prefix-loss best checkpoint",
+    "physical_gpu": 0
+  },
+  "selection_rule": "Global calibration-only choice among125/20+200,729/20+200,125/100+1000 using mean squared visible scalar-coordinate error,frames1..20. No held or logged-training-loss selection.",
+  "calibration_only": true,
+  "held_reference_read": false,
+  "scope": "Final global native recipe after the ONE final budget control; no further budget tuning. All three variants retained.",
+  "comparison_sha256": "978e82fac3ffe8eda7293832c4a3ec86130c5ae81db66799b97e6d58fa5f6857",
+  "selected_fit_source": "scripts/compositional_dynamics_v17/native_phystwin_budget_fit.py",
+  "selected_fit_source_sha256": "cf53c94ea64607db75f38d475f9e2e0414fcf95881d19025387c331c6e75d5c1",
+  "cohort_adapter_sha256": "87d8366b080832e161c9261a53a8509d5749025cf96ebc04af731c77629383f6",
+  "variant_forecasts": {
+    "original125": {
+      "commit": "runs/compositional-dynamics-v17/native-phystwin-graph-recovery/recovery-complete.json",
+      "commit_sha256": "0eae12f0c493e5bf30baa5b3aebc4e3453ca716c46a64b096cc72f7f9a2c06e5",
+      "array": "runs/compositional-dynamics-v17/native-phystwin-graph-recovery/forecast.npz",
+      "array_sha256": "47abe9fb03968f86d9fdfc5fee9516a948862043ddbd55b0f4bedfb878838289"
+    },
+    "capacity729": {
+      "commit": "runs/compositional-dynamics-v17/native-phystwin-capacity-forecast/complete.json",
+      "commit_sha256": "c493e3d5d37a543d3163159e7d6e9feb251803cc09467449b96af0ff0abf701a",
+      "array": "runs/compositional-dynamics-v17/native-phystwin-capacity-forecast/prediction.npz",
+      "array_sha256": "d884257f4a90b32b6a004dfd3dda1ef6528e21cb66fae16a80d71ed7d19ef5c2"
+    },
+    "extended125": {
+      "commit": "runs/compositional-dynamics-v17/native-phystwin-budget-forecast/complete.json",
+      "commit_sha256": "57bf733ef11961be5c61f0f2cfc3cc99cceaa65ef0e3ff89e30114a9fa7e6e3e",
+      "array": "runs/compositional-dynamics-v17/native-phystwin-budget-forecast/prediction.npz",
+      "array_sha256": "f596075e6044aaca69245f3f7f599399c18377ca7ba3e3c6db86f88f9cb9f466"
+    }
+  }
+}

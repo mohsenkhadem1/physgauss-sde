@@ -1,0 +1,31 @@
+Development native PhysTwin fitting preflight (not yet a comparative result)
+
+The estimator receives the same 21-frame 100-Hz, visibility-masked calibration
+tracks as the shared-law estimator: 98 surface points, 27 known interior points,
+known mass, geometry, floor and gravity. These are synthetic oracle 3D tracks,
+not reconstructed RGB observations. No material family/parameters or held-motion
+tracks are supplied. The held experiment resets the undeformed initial geometry
+and zero velocity at the public larger floor gap.
+
+The clean author checkout supplies the graph construction, spring/dashpot forces,
+ground collision, integration, CMA optimization, per-spring gradient training,
+loss and checkpoint choice. Wrappers replace presentation/logging only, translate
+the floor to native z=0, supply SI masses and convert dimensional coefficient
+priors consistently. Uniform native masses and spring/contact/damping laws differ
+from the continuum reference. This is a documented data/config adaptation of the
+native physics pipeline; it is not the full video-to-geometry-to-Gaussians pipeline.
+
+Author command defaults: CMA20 generations followed by real.yaml200 epochs.
+The author's prefix-loss selected checkpoint is used. Known particle spacing
+sets initial connection radius0.04m within the unchanged0.01–0.05m CMA search.
+No choice is made from held-motion error. Any nonfinite candidate or exception
+stops and preserves the development run; no finite invented penalty is supplied.
+
+Actual kernel dimensional test: scaling mass, spring-force coefficient, dashpot
+and spring clamps together by0.00216 preserves positions within3.5e-10m and
+velocities within1.2e-7m/s. An earlier check omitted scaled clamp bounds and failed;
+its log remains preserved. This test concerns units, not constitutive equivalence.
+
+The independently audited1000-step static appearance pilot is separate. A final
+rendering comparison requires matched learned appearance budgets and fresh views;
+static pilot results do not establish full native dynamic appearance accuracy.

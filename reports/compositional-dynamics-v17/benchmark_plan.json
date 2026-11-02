@@ -1,0 +1,93 @@
+{
+  "status": "PROSPECTIVE_DESIGN_NOT_BENCHMARK_FREEZE",
+  "scope": "Dynamic physicalaccuracy and separate renderer comparison; no assumed superiority",
+  "document_sha256": "3510267b98888360c1df71329581beeacac79a79652cb4318240db4ae352bc86",
+  "frameworks": [
+    {
+      "name": "Newton",
+      "version": "1.7.0",
+      "warp": "1.18.0",
+      "runtime": "runs/operator-dev/newton-runtime-v01/env/bin/python",
+      "native": true,
+      "material": "stableNeoHookean,lambdaNH=lambdaLame+mu",
+      "smoke": "native-newton-smoke.json"
+    },
+    {
+      "name": "PhysTwin",
+      "commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+      "clean_export": "runs/compositional-dynamics-v17/PhysTwin-author",
+      "native_scope": "fullgraph/optimizer/integrator/collision only when preserved",
+      "render_environment": "runs/compositional-dynamics-v17/render-env",
+      "render_status": "Native author default gsplat forward/backward PASS; full appearance training pending",
+      "physics_smoke": "native-phystwin-physics-smoke.json",
+      "render_smoke": "native-phystwin-render-smoke.json"
+    },
+    {
+      "name": "IsaacSim",
+      "version": "6.2.0.0",
+      "runtime": "/home/bayespc2/vscode/deformable worldmodel/.venv/bin/python",
+      "native": true,
+      "status": "installed, newGPU-safe adapter required"
+    },
+    {
+      "name": "SoftVTBench",
+      "commit": "58056111f01e05bf1a4ae1dee75db4e3d9e7c5be",
+      "role": "dataset/task benchmark, not predictor",
+      "input_caveat": "FEMstates evaluator-only; old initial-node task privilegedgeometry"
+    }
+  ],
+  "tiers": [
+    "exactstableNHsolvercontrol",
+    "restrictedfamily-vs-sharedlawtransfer",
+    "unknownparameteridenticalprefix",
+    "commonrendererphysicalstate",
+    "nativeappearanceheldview"
+  ],
+  "resource_policy": {
+    "raw": "local",
+    "GPU": [
+      0,
+      1,
+      2
+    ],
+    "forbidden_GPU": [
+      3
+    ],
+    "frozen_v16": "untouched"
+  },
+  "old_source_evidence_sha256": {
+    "scripts/compositional_dynamics_v17/native_newton_smoke.py": "a48e6c8926bd964c7c3d0ea1e793486513fd50108f8db99c4bd9ab0cb4f15012",
+    "scripts/coupled_contact_v13/native_adapter.py": "389d21463c9a026ee4ed98a35a6772008bea39fd468ed8f17458d6f9af5f4173",
+    "experiments/campaign_newton_vbd_transient_v02.py": "9cf90eae34dcf4c2107bcfa359cb6ed5f6c12531cfd5dd6b7a4eff4ad0e0ea61",
+    "experiments/campaign_newton_contact_controls_v04.py": "b547999dc990e09cf4810649b9cfbd70b232b93b43d88726553a0214143310cd",
+    "experiments/isaac_solver_ablation_worker.py": "9b5c17d607064b6c9df1759405605c22c16eafc3653bbbe99563780ec68f28fd",
+    "reports/coupled-surface-v13/full-benchmark-transfer-input-audit.txt": "59bc64e0bf9d064df61b7620e1895b3ce4edc54dba8bd2f62f3a6cd9f8b8f2bb",
+    "runs/gaussian-campaign-v01/newton-block-contact-v02/summary.json": "73aacdaf0c9352555ab28e713e2388f1a2464f044bf2aeb018eff0f28ffe5831",
+    "runs/gaussian-campaign-v01/newton-vbd-probe-v02/summary.json": "e367affc72f3ab4ec22972e2be360df7865c374d4065b63667d1af525004e56a",
+    "runs/gaussian-campaign-v01/newton-contact-controls-v04/summary.json": "807b260bae8ef37b70180d9a3e982d68621d87157022385f4893ebc74d67f6e0",
+    "runs/operator-dev/newton-runtime-v01/env/lib/python3.12/site-packages/newton/_src/solvers/vbd/solver_vbd.py": "52d9de6f8cc662a95b4c55eaa657c3eedf5f6a6da699109dd9c2de36e36b932f",
+    "runs/operator-dev/newton-runtime-v01/env/lib/python3.12/site-packages/newton/_src/solvers/vbd/particle_vbd_kernels.py": "79a5075c62d53b2888858c3380bdae4a1b4f5c9a284a09206c88e37918c1241e",
+    "runs/operator-dev/newton-runtime-v01/env/lib/python3.12/site-packages/newton/_src/sim/builder.py": "baa975f5c90a3fb1e906829c5a7748649729d842e88f2ae7015b2f15c6c03f60"
+  },
+  "official_sources": [
+    "https://newton-physics.github.io/newton/1.7.0/solvers/vbd.html",
+    "https://github.com/newton-physics/newton/releases/tag/v1.7.0",
+    "https://github.com/newton-physics/newton/blob/v1.7.0/newton/_src/solvers/vbd/particle_vbd_kernels.py",
+    "https://github.com/Jianghanxiao/PhysTwin",
+    "https://openaccess.thecvf.com/content/ICCV2025/papers/Jiang_PhysTwin_Physics-Informed_Reconstruction_and_Simulation_of_Deformable_Objects_from_Videos_ICCV_2025_paper.pdf",
+    "https://huggingface.co/datasets/Jianghanxiao/PhysTwin/blob/main/gaussian_output.zip",
+    "https://nvidia-omniverse.github.io/PhysX/physx/5.7.0/docs/DeformableBodyOverview.html",
+    "https://docs.omniverse.nvidia.com/kit/docs/omni_physics/latest/dev_guide/deformables/deformable_migration.html",
+    "https://github.com/TuojingAI/SoftVTBench"
+  ],
+  "native_contact_caveat": "Global Newton N/m particle contact stiffness is not identical to4e7 N/m3 surface-integrated pressure law; no silent unit-equating or claim pure integrator comparison.",
+  "required_phystwin_comparison": {
+    "required_for_claim": "better physics than PhysTwin",
+    "information": "matched compression/indentation observed prefix, initialgeometry, visibility,times,positioncommands; both inferunknownparameters",
+    "forbidden": "oracle descriptors to ours while PhysTwin infers; futureforce/shape access",
+    "oracle_controls_are_not_substitute": true
+  },
+  "final_native_comparison_gravity_m_s2": 9.8,
+  "inference_family_policy": "Infer/select from matched prefix with frozen rule, or explicitly global known-family conditional track; never privileged per-object labels.",
+  "training_budget_policy": "Separate coupon pretraining data/compute from per-scene calibration budget."
+}

@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "errors": [],
+  "plan_sha256": "45e17c7eb2b77c4b4e76ef02533563e7a7b1c8183735cf8bed7c8b1a4d0f13e2",
+  "timestamp_utc": "2026-11-02T18:18:15.116262+00:00",
+  "evidence_sha256": {
+    "scripts/compositional_dynamics_v17/native_phystwin_graph_recovery.py": "9cc197f6730b2a3dff8e233c544dceb653065ef0db551fd678ddb995e5b2a938",
+    "tests/test_native_phystwin_graph_recovery_v17.py": "6f9bb72cedf793feeba5d8888ea79bd2810aa712a5ede26e1b118a1e1792d648",
+    "reports/compositional-dynamics-v17/native-phystwin-fit-plan.json": "1511466b0869819e03fa7f5ed7ec60e7e6626fd5931bc54d84199aa757be2cea",
+    "runs/compositional-dynamics-v17/native-phystwin-calibration/fit-complete.json": "2ba2d01ad8ef41fd9a2c29e4a2ea732507a57927b5f54804637d6a2ef72a00e6",
+    "runs/compositional-dynamics-v17/native-phystwin-calibration/predict-complete.json": "28a8b44548bbb67848dc0d1cca216cc4f798615f1590802ed211d3f438875cc0",
+    "runs/compositional-dynamics-v17/native-phystwin-calibration/prefix.pkl": "2ffc9dd913015cb5fe7861fc08f4374d346b299a705a2fd7e2e7328ebd523733",
+    "runs/compositional-dynamics-v17/native-phystwin-calibration/fitted-spring-endpoints.npy": "514c4cd22313f305ce37c8ff3aaef6aa8031cff8caa62822dfe752468c1eb85f",
+    "runs/compositional-dynamics-v17/native-phystwin-calibration/optimal_params.pkl": "207b94fbdaa62bc6717ac4e3557bf4107a622431778cedde0ca1510872791492",
+    "runs/compositional-dynamics-v17/native-phystwin-calibration/train/best_199.pth": "5fd337d68f02deec5134d484942af914456449ef5a59a1c760bd8ad67fb382b6"
+  },
+  "review": [
+    "Private clone of frozen native predictor; original outputs unchanged.",
+    "Reconstruct graph from exact fitted prefix initial coordinates, require exact saved edge ordering, preserve graph rest lengths/masses then substitute only public reset positions.",
+    "Original checkpoint and optimizer state reused without refit. Frozen native predictor still verifies parent source/input and checkpoint identities.",
+    "GPU0 external300s cgroup required. No target access; separate prediction commit before scoring."
+  ],
+  "scope": "Correct transport of fixed trained graph across public floor-relative coordinate reset; original failed graph reconstruction retained."
+}

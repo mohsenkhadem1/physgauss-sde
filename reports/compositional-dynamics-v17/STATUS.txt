@@ -1,0 +1,66 @@
+ACTIVE CAMPAIGN: LARGE DEFORMATION, DROPS, BOUNCES AND IMPACTS
+2 November 2026, checkpoint19:40UTC. Goal remains active; no final benchmark claim.
+
+Completed examples:
+- Smooth position compression/hold/unload:30%commanded tool closure produces
+  22.7%material shortening. Six mesh/time/quadrature states pass qualification;
+  n3-to4 world/shape coordinate RMS53.2um. Qualification is specific to this cycle.
+- Finite80g sphere impact: actual coupled bend/rebound,13.6%local compression.
+- Physical-viscosity40mm drop: impact/rebound/settling through0.75s. Half-step
+  recovery still running; no full spatial qualification claim.
+- Frozen learned-law dynamic pilot predicts4cm drops on a coarse shared mesh:
+  MR/Yeoh worldpointRMS0.1973/0.0654mm; known material inputs, not inference.
+  All four abrupt-release failures retained. No continuum-reference claim.
+Videos are local in runs/compositional-dynamics-v17, named position-compression-
+development.mp4, finite-striker-development.mp4, drop-bounce-settle-development.mp4,
+and mr-drop-teacher-vs-learned-development.mp4. Actual saved states, no amplitude
+magnification; slow motion explicit. Video decode and visual checks recorded.
+
+Native comparisons:
+- Actual Newton1.7/Warp1.18 solver12development runs completed and audited;
+  mesh/time/dissipation checks prevent treating them as qualified truth.
+- Actual author PhysTwin fit/replay/GS runs use commit81c7187, isolated native
+  environment, public known mass, same masked3D calibration observations.
+- Three native configurations completed. Calibration-only selection chose125
+  points/max100CMA/1000epochs, coordinateRMSE1.31495mm vs1.32349 original20/200
+  and1.32383 with729points. All variants and forecasts retained. This was final
+  native tuning; fresh cohort recipe is fixed.
+- Our coarse inferred fit completed102candidates, forecast committed. Finer n3
+  fit is running because calibration-only oracle forward diagnosis exposed
+  n2discretization error. Both family searches retained; no held-score tuning.
+- Shared initial learned appearance:10119 finite Gaussians after author10000-step
+  schedule, three initial views. Dynamic rendering and held-view scoring pending
+  all prediction seals. Staticpilot is not evidence of rendering parity.
+
+FRESH COHORT LAUNCHED19:39UTC:
+- Four opaque worlds, balanced MR/Yeoh families, unknown scale/shape/finite
+  contact compliance. Same known box and0.27kg mass, gravity9.8.
+- One10mm/0.20s observed calibration perworld. Forecast40/80mm drops for0.30s;
+  eight forecasts are four independent worlds, not eight independent objects.
+-20reference jobs: primary n4 plus declared n6/time sensitivity subset.
+- Public exporter provides noiseless oracle3D tracks with raster visibility;
+  this is not end-to-end raw-video reconstruction.
+- CPU8 shared fitting overlaps sequential nativeGPU0 fitting; referenceGPU0/2
+  andCPU lanes use available headroom. GPU3/unrelated jobs untouched.
+- Exact protocol542e045a... / freeze17053e41... independently approved185checks,
+  20tests,152sources+11inputs. All16 method/query attempts must commit before
+  evaluator opens target arrays. Full hashes in fresh-cohort-launch-bindings.json.
+- Units: compositional-v17-fresh-cohort-generation (2h cap),
+  compositional-v17-fresh-cohort-pipeline (5h cap). Durable stage logs and source
+  pins; do not relaunch or modify frozen files while jobs run.
+
+Interpretation and outstanding work:
+- Seek better physical forecasts with comparable/slightly worse images; outcome
+  not assumed. Report world/shape errors, deformation, sampled penetration/volume/
+  bounce events separately from foregroundPSNR/SSIM, IoU and depth coverage.
+- Native equal-mass125grid has1.5x continuum rest inertia (729grid1.25x). This is
+  a matched-observation/total-mass configuration comparison; gains may reflect
+  representation, mass/contact discretization, prior and inference jointly.
+- Four-world cohort is finite-resolution load-magnitude extrapolation, not unseen
+  interaction-type, real-world or broadSOTA proof. Preserve all failed references
+  and forecasts; no replacement or survivor-only primary mean.
+- Finish fine development fit/forecast, then gated geometry and shared native-GS
+  evaluation/video. Finish fresh cohort, sensitivity audit, rendering, final
+  report/manuscript update and code/report/video publication. Raw datasets local.
+- Original8531tracked blobs/fourv16checkpoints remain protected; old results and
+  manuscripts preserved. One unrelated user deletion is deliberately untouched.

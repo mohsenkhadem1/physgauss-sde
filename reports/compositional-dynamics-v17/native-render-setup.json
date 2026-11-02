@@ -1,0 +1,82 @@
+{
+  "time_utc": "2026-11-02T16:27:52.453027+00:00",
+  "scope": "Isolated dependency setup; copied original environment without modifying it; clean git archive author source. Native trained end-to-end evaluation not yet executed.",
+  "environment": "runs/compositional-dynamics-v17/render-env",
+  "base_environment_unchanged": "runs/phystwin-env",
+  "author_commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+  "torch": "2.4.0+cu121",
+  "gsplat": "1.4.0",
+  "pytorch3d": "0.7.8 official py310_cu121_pyt240 wheel",
+  "toolchain_read_only": "/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/env",
+  "CUDA": "12.1.105",
+  "CXX": "GCC11.4.0",
+  "CUDA_ARCH": "7.5",
+  "compile_workers": 2,
+  "source_copy_note": "Copy exit1 only because concurrent import created destination __pycache__; subsequent non-cache regular-file size census found zero missing/mismatched files.",
+  "artifact_sha256": {
+    "runs/compositional-dynamics-v17/render-environment-freeze.txt": "9165b27557438aacf72281f210da544a77dc7d81eab7aa136e9910e2413f2aba",
+    "runs/compositional-dynamics-v17/gs-build.log": "5ea5de378aa137c5142f121df7205edec8a9131c25db6c6ce35af89ea10b4363",
+    "runs/compositional-dynamics-v17/gsplat-ninja-resume.log": "ceacb0ee6f359019af96e5fa2d7f7f03e771c1b0ffa927d423bde13545aee309",
+    "runs/compositional-dynamics-v17/native-render-smoke-final.log": "e4781a008d6560a20f03140a21ff3ed8de2a7069dc5dce1c34850d81c75919a7",
+    "reports/compositional-dynamics-v17/native-phystwin-render-smoke.json": "e4781a008d6560a20f03140a21ff3ed8de2a7069dc5dce1c34850d81c75919a7",
+    "reports/compositional-dynamics-v17/native-phystwin-physics-smoke.json": "3054862fe757d26bbf621dcb45d9cb2d702375b4d4f33912314f02cee0637d5b"
+  },
+  "installed_versions": {
+    "torch": "2.4.0+cu121",
+    "torchvision": "0.19.0+cu121",
+    "numpy": "1.26.4",
+    "gsplat": "1.4.0",
+    "pytorch3d": "0.7.8",
+    "kornia": "0.7.4",
+    "kornia-rs": "0.1.9",
+    "plyfile": "1.1",
+    "ninja": "1.11.1.3",
+    "diff-gaussian-rasterization": "0.0.0",
+    "simple-knn": "0.0.0"
+  },
+  "clean_author_imports": [
+    "gaussian_splatting.gaussian_renderer",
+    "gs_render"
+  ],
+  "gsplat_first_jit_attempt": {
+    "exit_code": 124,
+    "cap_seconds": 600,
+    "compiled_objects": 16,
+    "compiler_error_seen": false,
+    "recovery": "Verified no remaining compiler process, removed stale extension lock, resumed identical source/settings using cached objects with another600s cap; first log retained.",
+    "recovery_correction": "Second identical script attempt unexpectedly rebuilt from scratch: gsplat1.4 backend deletes incomplete build directories. If capped again, continue ninja directly from generated build.ninja before importing backend, then rerun unchanged smoke. No package code modified."
+  },
+  "extra_native_import_dependencies": {
+    "pynput": "1.7.6",
+    "python-xlib": "0.33",
+    "einops": "0.8.0"
+  },
+  "native_physics_launch_environment": {
+    "PYNPUT_BACKEND": "dummy",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "CUDA_VISIBLE_DEVICES": "0 (set by smoke beforeimports)"
+  },
+  "gsplat_second_attempt": {
+    "stopped_exit": 143,
+    "reason": "backend deletes incomplete build; stopped own attempt to continue generated ninja directly preserving objects",
+    "ninja_cap_seconds": 900,
+    "workers": 2
+  },
+  "image_metric_dependencies": {
+    "scikit-image": "0.25.2",
+    "lazy-loader": "0.4",
+    "tifffile": "2025.5.10",
+    "method": "no-deps; Torch/NumPy/SciPy unchanged",
+    "official_ssim_identity_test": 1.0,
+    "official_docs": "https://scikit-image.org/docs/0.25.x/api/skimage.metrics.html#skimage.metrics.structural_similarity"
+  },
+  "status": "Native author simulator step and defaultgsplat render forward/backward PASS; full inverse/trained appearance benchmark pending",
+  "gsplat_ninja_completion": {
+    "exit_code": 0,
+    "workers": 2,
+    "cap_seconds": 900,
+    "completed_objects": 25
+  },
+  "render_image_review": "Three colored Gaussian spots on white background, expected128x96 output; inspected visually; no appearance-quality claim."
+}

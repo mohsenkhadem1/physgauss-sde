@@ -1,0 +1,27 @@
+PROSPECTIVE DISTINCT SYNTHETIC VISCOELASTIC MATERIAL, DEVELOPMENT ONLY
+
+Original conservative stronger cases and all failures remain unchanged. Fixed
+eta=20 Pa*s, zeta=40 Pa*s are prescribed synthetic constitutive parameters, not
+measured material properties or fitted restitution. At stable-NH shear modulus
+4444 Pa, eta/mu=4.5ms. No global drag, contact damping, altered restitution, or
+Jacobian-guard relaxation. Viscosity is a separate physical-model hypothesis.
+
+D=sym(grad_X(v) F^-1), sigma=2eta dev(D)+zeta tr(D)I;
+P=J sigma F^-T. Reference-volume dissipated power=J sigma:D>=0.
+Objectivity, zero rigid-motion stress, internal force/torque conservation and
+stress-power work conjugacy tested. Explicit midpoint uses actual midpoint
+positions AND velocities for both elastic/contact and viscous forces; finite
+sphere response is advanced at that same stage. No conservative Verlet formula
+is silently reused for velocity-dependent forces.
+
+Drop40mm/.75s and finite80g striker1m/s/.20s, same block geometry, stable-NH law,
+supports, gravity and contact as stronger-development. Each dt25 and12.5us,
+n3 q3 surface8. All four attempts recorded, CPU2 whole-stage3600s. Paired
+sequence coordinateRMS world<=.300mm, shape<=.150mm, energy+dissipation balance
+<=1%, J>.1 and dense penetration<=1.2mm remain diagnostics; no spatial reference
+qualification inferred. Record every physical energy and cumulative dissipation
+separately. Actual force/impulse/apex evidence and failed prefixes remain visible.
+
+This tests whether a plausible explicit dissipative model yields useful impacts,
+not whether the conservative failures have been repaired or a real material fit.
+A later smooth prescribed compression ramp requires its own actuator-work ledger.

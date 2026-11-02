@@ -1,0 +1,99 @@
+ACTIVE CAMPAIGN — LARGE DEFORMATION, DROPS, BOUNCES AND IMPACTS
+2 November 2026
+
+Objective: visibly informative true dynamic predictions, compared with existing
+frameworks, with physical accuracy and rendering quality evaluated separately.
+Physical improvement and rendering parity are hypotheses, not assumed outcomes.
+
+Preservation: base86be3b8; all8531 existing tracked blobs and four principalv16
+checkpoints pinned. New work is isolated in v17 namespaces. Raw data local;
+CPU/shared GPUs0–2 only, GPU3 and unrelated jobs untouched.
+
+Implemented so far:
+- Consistent-Q2-mass velocity-Verlet dynamics with conservative material/interface
+  energies, gravity and explicit normal contact, without hidden weak rest anchors.
+- Coupled finite-mass sphere operator and exact-law stable Neo-Hookean control.
+- Four operator tests passed: mass/ballistics, oscillator convergence, coupled
+  momentum/objectivity, and independent stable-NH stress/energy agreement.
+- Eight actual release/drop prototype trajectories completed. Independent audit
+  passed180 accounting checks, but BOTH mesh1-to2 comparisons fail qualification.
+  Small energy drift is not enough: motion, shape, impulse and rebound differ.
+- All21 refinement slots completed (19new+2exactcache). Independent audit passed
+  437 integrity checks. Timestep, quadrature, energy and contact-event checks pass.
+  Latest n3-to4 spatial shape errors still fail: release0.435mm, drop0.305mm
+  versus0.150mm gate. A conditional n4-to6-to8 ladder is being prepared;
+  unchanged gates, CPU4 and maximum3h, launched as
+  compositional-v17-fine-refinement.service. No dynamic truth claim yet.
+- Measured n4drop deformation: peak3.736mm nonrigid point RMS after removing
+  rigid motion; minimum aligned height89% of rest. This modest11% compression
+  motivates stronger exploratory examples, clearly separate from qualification.
+- Matched-time geometric metrics separate world motion, COM, proper-rigid-aligned
+  shape and actual deformation. Point-vector and coordinate RMS are explicit;
+  failed prefixes remain incomplete, not silently dropped.
+- First development video renders actual saved drop states with fixed camera,
+  physical geometry and clearly labeled10x slow motion. It is an unqualified
+  coarse prototype, not a prediction comparison or final user-facing example.
+
+Framework progress:
+- Actual native Newton runtime CPU step smoke passes. Prior custom wrappers are
+  distinguished from native solver results. Exact stable-NH comparison is a
+  separate tier from MR/Yeoh learned-law transfer.
+- Actual PhysTwin author simulator.step GPU0 smoke passes with known SI masses.
+  Isolated native Gaussian-renderer environment builds/imports author components;
+  native default gsplat forward/backward smoke passes. Projection validation
+  passes18points/6cameras with maximum0.00331pixel discrepancy. Audited
+  1000-iteration appearance pilot completed15.56s;6predictions committed before
+  heldreferences. Independent finalaudit287 checks passed. Trainforeground
+  PSNR29.18dB/SSIM.955;2heldviews19.31dB/.790, visibleedgeholes/blur. This is
+  static feasibility only, not a fullPhysTwin comparison. Finalappearance uses
+  authored10000step schedule/freshviews and learnedappearance for both methods.
+- Final native comparison uses common gravity9.8 and known mass;9.81 prototypes
+  remain distinct development evidence. Contact discretization and physical
+  damping versus numerical dissipation must be reported explicitly.
+
+Required next stages:
+1. Complete reference qualification, retaining failures; then graded larger
+   deformation, higher drop energies and sustained rebound sequences.
+2. Distinct finite-mass sphere impact on a supported soft block. No substitution
+   by static indentation or another oblique drop.
+3. Freeze held-out world/action/camera cohorts before test generation or tuning.
+4. Matched inferred-physics comparison using the same calibration prefix; no
+   oracle material-family flags supplied only to our method. Report coupon
+   pretraining separately from per-scene observation budgets.
+5. Common-renderer physics-controlled metrics AND separate native appearance
+   quality from held-out cameras/frames. Common rendering alone cannot establish
+   native-framework rendering parity. No future-image appearance fitting.
+6. Actual load/unload/drop/bounce/impact videos, final physical/render tables,
+   independent audit, previous-result retention checks and publication.
+
+No held-out benchmark superiority, large-impact qualification, calibrated
+uncertainty or native rendering-parity claim has been established yet.
+
+Additional active development:
+- Five stronger analytic-control cases planned:30/40% compression release,
+  4/8cm drops, and80g finite-mass sphere at1m/s into supportedblock. All retained,
+  separate unqualified development namespace.
+- Frozenv16 learnedbulk transfer pilot prepared:MR/Yeoh,30%release/4cmdrop,
+  sameknownlatents anddiscretization for teacher/learnedlaws,8jobsCPU2/1200s.
+  It does not infer material from video or establish a qualified dynamic truth.
+- Synchronized actual-state mesh-comparison video rendered and visually checked;
+  neither side mislabeled as actual-versus-learnedprediction.
+
+Checkpoint 17:50 UTC (2 November2026):
+- Nativeappearance1000-step pilot audited287checks. NativeNewton12runs audited713
+  checks; allrun, but numericalqualification fails. No superiorityclaim.
+- Learnedbulk dynamicpilot all8 accounted:bothMR/Yeohdrop pairscomplete;
+  worldpointRMS .197311/.065401mm vs samecoarseanalyticlaw. All4abruptrelease
+  trajectoriesfail Jguard; commonprefixerrors NEVER full-trajectorysuccess.
+  Independent learnedpilot audit1220 checks passes.
+- Stronger5casepilot: finite80gstriker succeeds. Fourrelease/dropcases fail at
+  boundarycheckpoints whileintegration-pointJ remainspositive; no guardrelaxed.
+  Independent stronger audit141 checks passes. Actualstrikervideo rendered.
+- FineCPU4 conditionaln6/n8 ladder remainsrunning, unchanged3hcap.
+- Separate physical-viscosity η20/ζ40Pa.s midpointpilot runningCPU2/1hcap.
+- Private matched-calibration development generation runningCPU2/900s:10mmcalib
+  complete,40mmforecastpending. Common9.8 gravity, freshlatentprivate. Surface
+  track exporter awaiting sourceaudit; neither method has fittedmaterial yet.
+- NewGaussianmaterialtransport passes3tests: affine centers/covariance,
+  rigidobjectivity and invalidgradient rejection. No appearanceperformanceclaim.
+- Previous8531trackedblobs/fourv16checkpoints preservationcheck passes.

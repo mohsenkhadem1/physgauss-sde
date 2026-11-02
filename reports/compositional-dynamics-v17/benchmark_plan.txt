@@ -1,0 +1,248 @@
+V17 FRAMEWORK COMPARISON PLAN — prospective adapter design, not a frozen experiment
+
+Objective and minimum comparison
+Use true time-dependent drops, rebounds, finite-mass impacts, and large prescribed
+bending/compression/twist. Retain initial position/velocity and complete time series;
+a camera orbit of settled states is not dynamic evidence. Compare physical prediction
+and image quality in separate tables. Ours is not assumed to win before evaluation.
+
+1. Executable existing framework: stock Newton VBD1.7.0 / Warp1.18.0
+Isolated installed runtime: runs/operator-dev/newton-runtime-v01/env.
+Unmodified SolverVBD supports tetrahedral soft bodies and coupled rigid bodies.
+Installed material kernel is stable Neo-Hookean, with mu_NH=mu_Lame and
+lambda_NH=lambda_Lame+mu_Lame; alpha=1+mu_NH/lambda_NH. This finite-strain energy
+is not the v16 Mooney-Rivlin/Yeoh family. Native smoke passed: CPU,4particles,
+1tet,8x1ms freefall steps, minJ .999999747, finite trajectory; API feasibility only.
+Do not reuse historical accepted-iterate/BDF2/momentum/area-contact wrappers as
+stock Newton. Those are explicitly modified numerical/control formulations.
+
+Mandatory constitutive tiers:
+ A. Solver-control: exact stable-NH energy in both native VBD and our analytical
+    dynamics, identical geometry/mass/gravity/commands/initial velocity and declared
+    contact model as closely supported. Diagnose mesh/time/iteration/contact-law
+    differences separately. This is not a learned-law accuracy comparison.
+ B. Model-family transfer: same MR/Yeoh teacher cases and observed calibration data;
+    native stable-NH is explicitly a restricted constitutive family, fitted fairly
+    to the same calibration commands. Shared laws and exact-family analytic ceiling
+    are separate columns. Do not call the family mismatch an engine defect.
+
+Physical damping and numerical dissipation:
+Declare physical viscosity/dashpot/damping and contact restitution separately from
+integration. VBD implicit integration can dissipate impact energy numerically;
+Verlet conserving more energy is not by itself more physically accurate. Refine
+all methods' dt/iterations on development until rebound height, impulse and field
+errors stabilize. Include zero-physical-damping controls and a separately declared
+nonzero-damping case. Keep native solver limitations/failures with denominators.
+
+Historical cautions, not general framework verdicts:
+Newton block-contact-v02 completed but was unqualified:480→960Hz field difference
+4.818mm;96→768tet difference .740mm.128→512iterations differed1.10um. Earlier
+proper-rotation material test failed at2.30e-6N vs2.00e-6N tolerance; most affine
+kernel checks passed. Single-particle equilibrium controls passed; those do not
+qualify soft-block impact. All archived studies remain unchanged.
+
+2. Full PhysTwin author pipeline versus restricted adaptations
+Author checkout81c718790a37e5e0102eb77af2c6edd34a9db25f is available locally.
+Native method uses its own radius/spring graph, inferred per-spring parameters,
+unit-mass convention, integration/collision, optimizer and Gaussian appearance.
+Its simulator has ground and inter-object particle collision; do not label it
+floor-only. Full native inverse/rollout requires an explicit SI mass/unit mapping
+and exact declared controller attachments. If masses can be specified without
+changing the solver, use the same physical total mass; report any residual mismatch.
+The old v13 native_adapter only reuses eval_springs and replaces graph, masses,
+optimizer, contacts and integration. It is a material-core ablation, not full PhysTwin.
+Current historical author checkout has two modified files (headless/trainer and
+gravity-scale constructor); v17 exports a clean committed source tree instead.
+Native GS scripts and CUDA submodule sources exist; main oldenv lacks rasterizer,
+simple-knn,plyfile. A separate v17 environment is being prepared, leaving v16
+runtime untouched. No Gaussian appearance checkpoint was found in the inspected
+local author tree. The official1.31GB archive is available but not yet downloaded.
+For new canonical scenes, train native appearance on the matched allowed cameras;
+a pretrained plush appearance would not be a fair shortcut for new blocks.
+
+3. Isaac Sim / PhysX
+Installed6.2.0.0 at ../deformable worldmodel/.venv, Torch2.11/Warp1.18. Native
+GPU FEM and RTX rendering are potentially usable as an independent framework,
+not an assumed ground truth. Explicit authored rest/simulation/collision geometry,
+material schema, units, density and masses must be read back and pinned. Do not
+assume its constitutive/contact law equals ours. Prior workers expose all GPUs
+and hardcode physicalGPU1: do not launch unchanged. New launcher must restrict
+CUDA_VISIBLE_DEVICES to allowed0–2 and use localGPU0 consistently; GPU3 untouched.
+PhysX documentation recommends TGS for deformables; old PGS configurations are
+not automatically fair best-practice native baselines. Pin the actual installed
+settings, qualify time/mesh/iterations, and distinguish renderer from solver.
+
+4. SoftVTBench is a dataset/task benchmark, not a forward mechanics competitor
+Local author checkout58056111f01e05bf1a4ae1dee75db4e3d9e7c5be and600soft episodes
+are available. Official policy inputs are RGB/tactile/proprioception/language;
+FEM states are evaluator-only. Prior deformation studies using initial FEM nodes
+are privileged-geometry prediction tasks, not the official policy benchmark.
+Prior asset audit located exact tactile-robot references but missing declared
+soft/evaluation asset endpoints and no complete hand collider for PhysTwin.
+Do not invent collision meshes/units. v12/v14 public-data outputs and v16 evidence
+are preserved, not overwritten or relabeled as v17 improvement. Public-data
+re-evaluation is a separate declared adapter track after input feasibility.
+
+Information and rendering controls
+Oracle track: same known geometry, initial state, density/gravity, constitutive
+information supported by each method and prescribed tool pose trajectories; no
+future response labels. Unknown-parameter track: identical observed prefix frames,
+visibility masks/noise, calibration command budget and optional force track.
+Provide measured forces to every method in that track or to none. Exclude hidden
+teacher labels from inference. Author methods may fit more parameters but their
+training-data and optimization budgets must be recorded; do not deliberately
+undertrain them. Freeze after development and retain every held-out failure.
+
+Physics-controlled image comparison: all predicted states pass through the same
+calibrated renderer, cameras, surface samples, material-attached texture, lighting
+and visibility rules. No state-dependent image warp. This isolates geometry errors;
+it does not compare native rendering quality or demonstrate novel view synthesis.
+Native-rendering comparison: separate native PhysTwin GS and Isaac RTX outputs,
+with identical train-view/prefix image budget and held cameras/times. Report
+appearance training, surface/Gaussian binding, exposure/resolution and compute.
+If ours shares the same fitted Gaussian appearance/binding, that is a controlled
+same-appearance deformation test, not an independent renderer superiority claim.
+No unobserved ground-truth texture/geometry advantage without explicit oracle label.
+
+Metrics and visible success criteria
+Physics: world-position and rigid-aligned shape errors, velocities, timing of
+first impact/separation, rebound height, contact impulse and momentum balance,
+energy/work/dissipation balance, stress/strain when reference-qualified, minimumJ,
+penetration and contact failures. Force peaks need matched temporal sampling;
+impulse is more robust. Report deformation magnitude to reject rigid-motion-only
+success. Renderer: foreground-union RGB error, PSNR/SSIM as appropriate, joint-
+visible depth error, silhouetteIoU, missing/extra pixels; LPIPS only with pinned
+model. Both static heldviews and dynamic heldtimes, same masks acrossmethods.
+Define rendering equivalence/noninferiority margins prospectively on development;
+'no significant difference' alone does not prove rendering parity. Pair perobject
+and scenario, preserve failures, report uncertainty with objects as clusters.
+
+Minimal adapter contract (proposal)
+prepare(scene_public,method_config)->frozen backend model and metadata;
+rollout(initial_x,initial_v,tool_pose_times,output_times)->
+{time_s,positions_m,velocities_m_s,tool_wrenches_world,contact_impulses,
+ energies_J,minimum_J,penetration_m,status,backend/source/settings hashes}.
+A separate canonical-surface sampling map produces rendergeometry. Native state
+coordinates are never overwritten to match reference. Version-specific wrapper
+may set public API fields and convert units, not replace forces/integrator while
+retaining a full-framework label. Future labels live only in the evaluator.
+
+Implementation order
+First native Newton stable-NH freefall/drop and driven deformation controls, then
+matched protocol review. Root/physics agent owns shared-law dynamics qualification.
+Native PhysTwin dependency/render feasibility proceeds in a separate environment;
+full inverse/rollout is included only after a runnable matched case. Isaac is a
+second native simulator once GPU-safe launch and readback are validated. No large
+benchmark launched by this lane; existing native smoke is the only new rollout.
+
+Primary official sources, inspected2026-11-02
+https://newton-physics.github.io/newton/1.7.0/solvers/vbd.html
+https://github.com/newton-physics/newton/releases/tag/v1.7.0
+https://github.com/newton-physics/newton/blob/v1.7.0/newton/_src/solvers/vbd/particle_vbd_kernels.py
+https://github.com/Jianghanxiao/PhysTwin
+https://openaccess.thecvf.com/content/ICCV2025/papers/Jiang_PhysTwin_Physics-Informed_Reconstruction_and_Simulation_of_Deformable_Objects_from_Videos_ICCV_2025_paper.pdf
+https://huggingface.co/datasets/Jianghanxiao/PhysTwin/blob/main/gaussian_output.zip
+https://nvidia-omniverse.github.io/PhysX/physx/5.7.0/docs/DeformableBodyOverview.html
+https://docs.omniverse.nvidia.com/kit/docs/omni_physics/latest/dev_guide/deformables/deformable_migration.html
+https://github.com/TuojingAI/SoftVTBench
+
+Prototype-specific comparability note (before new dynamic comparison)
+The public prototype is a .12 by .06 by .06 m block, density625 kg/m3,
+E12000 Pa, nu.35, free fall20mm onto planez=-.05m. Its conservative
+normal pressure law is4e7 N/m3 integrated over reference surface area.
+Stock Newton soft_contact_ke is a global particle/shape stiffness, not a
+per-node reference-area field. The identical numeric value is NOT a valid
+conversion. Any native drop comparison must record its vertex-contact law,
+particle radius/offset and area-normalization approximation explicitly,
+qualify mesh dependence, and distinguish contact-model error from integrator
+error. Native lumped tet mass versus consistent Q2 mass is another explicit
+discretization difference. Exact bulk-energy matching alone does not imply
+identical spatial or contact operators.
+
+Native PhysTwin appearance adapter input contract (source inspected)
+QQTT reader expects camera_meta.pkl intrinsics+c2ws, fixed848x480 RGB{i}.png,
+optional mask_{i}.png and {i}_depth.npy IN MILLIMETRES (converted to metres),
+observation.ply and/or shape_prior.glb; interp_poses.pkl defines render-only
+held cameras. All camera_meta cameras are marked training, so supply ONLY
+allowed training cameras there. Its interpolated test cameras have image=None;
+keep withheld images exclusively in our evaluator, not in the authortraining
+folder. Reader chooses test intrinsics from training camera1, so use common
+calibration or explicitly record an adapter rather than silently changing it.
+Known canonical initialgeometry is available equally to all methods in this
+track. Native GS scene training does not establish inverse dynamics accuracy;
+it is a separate appearance stage, with allowed prefix only for mechanical fit.
+
+REQUIRED inference comparison before any claim over PhysTwin
+Oracle known-descriptor Newton/shared-law forward controls establish only
+forward validity. To claim better physics than a vision-based framework, run
+full native PhysTwin and our inferred model with the SAME observed calibration
+prefix: position-commanded compression/indentation before held drop/impact.
+Freeflight alone is not an informative elasticity experiment. Match initial
+geometry knowledge, image/depth/position visibility, timestamps and command
+tracks; both estimate unknown physical parameters from that prefix. Neither
+receives future forces, future shape or true material/support descriptors.
+Declare optimizer budgets, priors and native model restrictions before tests.
+A claim of better physics than full PhysTwin is unavailable if this stage
+cannot execute; the oracle solver/control study is not a substitute. Native
+appearance parity likewise uses the same allowed appearance observations and
+held evaluation cameras. This is a required comparison stage, not an optional
+appendix to an oracle-versus-inferred comparison.
+
+Native physics unit mapping findings
+SpringMassSystemWarp accepts explicit init_masses and initial velocities;
+the stock Trainer/_init_start builds unit masses. A declared thin input adapter
+can provide known matched physical masses without replacing force/integration.
+The author acceleration kernel hardcodes9.8m/s2; currentQ2prototype9.81 is not
+exactly equal. Freeze a common9.8 native-comparison tier or explicit unit/time
+conversion, retaining the existing9.81prototype unchanged as development.
+Spring parameter bounds and graph radius/neighbor rules must be declared in
+consistent SI units and chosen from development/prefix only, not held impacts.
+Any headless/data wrapper is identified separately from unchanged author core
+and optimizer; merely invoking eval_springs remains an adaptation, not fullmethod.
+
+Final native comparison decision (prospective)
+Use9.8m/s2 for ALL methods/reference in the final native PhysTwin comparison
+tier, preserving existing9.81 prototype as development evidence. Known physical
+mass is supplied to both methods; native API init_masses overrides stocktrainer
+unitmass data construction while preserving author force/integrator/optimizer.
+Adapter unit/scale tests are required before the matched calibration benchmark.
+
+Native inverse data adapter outline
+RealData consumes object_points[T,N,3], object_colors, object_visibilities,
+object_motions_valid, controller_points, fixedsurface_points/interior_points.
+Its constructor loads all supplied frames and bydefault saves a GTvideo.
+Therefore export prefix-only tracked objectpoints for fitting, plus public
+initialsurface/interior geometry (same to both methods). For forecast, extend
+only prescribed controllercommands and use explicitly invalid object-target
+placeholders; never hand nativeRealData the evaluator's future objecttracks.
+Disable display/GTvideo sideeffects in a declared headless wrapper. Verify
+future-target mutation invariance across export, fit and forecast. This retains
+the author's graph/per-spring fitting/integration semantics while separating
+input preparation from evaluation. No full inverse benchmark has run yet.
+
+No privileged family identity in inferred comparison
+Our per-object material/interface family flags are unknown unless explicitly
+declared as a global known experimental assumption for ALL methods. Otherwise
+select/infer family from the identical observed calibration prefix using a
+frozen prior and selection rule. Do not supply true family labels only to ours.
+Report shared-law coupon pretraining corpus and compute separately from per-scene
+observations/optimization budgets; this legitimate learned prior is a training
+data advantage, not equal total training budget. Conditional known-family
+experiments are labeled as such and do not replace unknown-family inference.
+
+Completed native physics feasibility
+PhysTwin complete SpringMassSystemWarp.step with unequal SI masses .001/.002kg
+and author spring/integrator ran on GPU0; freefall velocity absoluteerror
+1.16e-10m/s against9.8m/s2. Native trainer imports also now succeed with headless
+PYNPUT_BACKEND=dummy. No physics or optimizer source replaced; this is API
+feasibility only, not learned parameter fitting or contact qualification.
+See native-phystwin-physics-smoke.json and native-render-setup.json.
+
+Native render feasibility completed
+Unmodified author render() default gsplat1.4.0 now passes RGB/alpha/depth finite
+checks and nonzero position-gradient backward on GPU0. Warm execution1.07s
+for three synthetic Gaussians at128x96, not representative rendering speed or
+quality. Output visually inspected. Both author native step and nativeappearance
+APIs are runnable; full matched prefix inference/trainedappearance remains next.
+Initial gsplat JIT timeout/restart and directninja completion documented without
+changing package/author code or v16 runtime. GPU3 untouched.

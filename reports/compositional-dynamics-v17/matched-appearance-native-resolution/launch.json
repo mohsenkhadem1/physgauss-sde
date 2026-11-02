@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "systemd-run",
+    "--user",
+    "--unit=compositional-v17-matched-appearance-native-resolution",
+    "--property=RuntimeMaxSec=1850",
+    "--property=KillMode=control-group",
+    "--property=WorkingDirectory=/home/bayespc2/vscode/guassianSDE",
+    "--property=StandardOutput=append:/home/bayespc2/vscode/guassianSDE/runs/compositional-dynamics-v17/matched-appearance-native-resolution/service.log",
+    "--property=StandardError=append:/home/bayespc2/vscode/guassianSDE/runs/compositional-dynamics-v17/matched-appearance-native-resolution/service.log",
+    "--setenv=CUDA_VISIBLE_DEVICES=1",
+    "--setenv=PYNPUT_BACKEND=dummy",
+    "--setenv=OMP_NUM_THREADS=1",
+    "--setenv=OPENBLAS_NUM_THREADS=1",
+    "--setenv=MKL_NUM_THREADS=1",
+    "--setenv=PYTHONPATH=/home/bayespc2/vscode/guassianSDE",
+    "/home/bayespc2/vscode/guassianSDE/runs/compositional-dynamics-v17/render-env/bin/python",
+    "-m",
+    "scripts.compositional_dynamics_v17.matched_appearance_native_resolution",
+    "train"
+  ]
+}

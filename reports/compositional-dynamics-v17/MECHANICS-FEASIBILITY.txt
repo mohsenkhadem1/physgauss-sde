@@ -1,0 +1,52 @@
+V17 mechanics feasibility and initial implementation
+
+Choice: retain the qualified v16 Q2 energy and normal-contact operators, and
+compose them with a new, separately tested consistent Q2 inertia and velocity-
+Verlet timestep wrapper. This preserves the frozen learned bulk/interface law
+API. It does not interpolate equilibria or use a renderer to invent motion.
+
+Reuse inspected:
+- v16 ContactQ2Mechanics provides actual-surface quadrature, conservative plane/
+  sphere penalty energies, equal/opposite force and torque accounting, positive-J
+  guards, and explicit gravity. Its static qualification is not dynamic evidence.
+- v13 consistent mass and momentum tests establish the correct Mv bookkeeping;
+  v17 assembles rho integral(Ni Nj) in the actual Q2 mapped reference geometry,
+  rather than copying P1/lumped masses or tuning a nodal inertia correction.
+- Older nonlinear dynamics has tested implicit backward-Euler mechanics and
+  finite rigid handles, but its constitutive/discretization assumptions differ.
+- Native Newton VBD uses stable Neo-Hookean and backward Euler; old drop results
+  were not universally timestep/spatially consistent. The framework lane owns
+  stock Newton reproduction. A new exact stable-NH common-law energy is checked
+  against the independent existing NumPy law before comparison. MR/Yeoh learned
+  transfer remains a separate constitutive experiment.
+
+Implementation: scripts/compositional_dynamics_v17/dynamics.py.
+DynamicContactModel supports exact free release or bilateral attachments.
+VelocityVerlet uses a once-factored consistent mass, kicks/drifts physical nodal
+positions and velocities, and evolves finite-mass sphere translation/angular
+velocity with matching reaction forces. Sphere orientation is presently omitted
+because normal contact with a uniform sphere is orientation-independent; no
+oriented rigid-body or frictional-spin claim. Sphere/plane rigid-rigid contact
+outside the soft interaction is rejected rather than silently ignored.
+
+Current independent operator evidence: four tests passed in2.45s: exact uniform
+mass/second moments and ballistic gravity; manufactured harmonic convergence and
+energy; coupled sphere momentum/angular momentum and rigid objectivity; exact
+stable-NH energy/stress agreement. These are operator checks, not a drop benchmark.
+
+Prospective bounded initial rollout: two development cases,8 mesh/timestep jobs,
+CPU1/1200seconds, source-pinned plan and all failures/missing identities retained.
+Free20% compression release and20mm floor drop use conservative material/contact
+energy, zero physical damping and no restitution reset. Save actual1ms physical
+samples, full per-step energy/force/momentum/J, same-state surface fields and
+independent dense sampled gaps. Larger deformation and impact require new graded
+qualification after this feasibility check; no expensive training authorized here.
+
+Outstanding scientific checks: elastic impact timestep/mesh/contact quadrature
+convergence; energy including penalty storage and any later actuator/damping
+work; sufficiently large measured nonrigid deformation; meaningful bounce
+apex/timing/impulse and possible tunneling; learned-law strain-range validity;
+matched physical inputs with stock framework baselines. Finite penalty is not
+exact nonpenetration. Conservative bounce is not physical viscoelastic damping.
+Explicit Verlet has a stability limit; failure will not trigger silent timestep,
+material, mass, damping, contact or restitution changes.

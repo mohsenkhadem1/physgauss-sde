@@ -1,0 +1,115 @@
+{
+  "scope": "Development known-latent constitutive transfer only. Both methods use same unqualified dynamic discretization; teacher trajectory is not independently validated truth. No heldout benchmark or inference claim.",
+  "tasks": [
+    {
+      "case": "release",
+      "family": "mooney_rivlin",
+      "method": "teacher",
+      "id": "mooney_rivlin-release-teacher"
+    },
+    {
+      "case": "release",
+      "family": "mooney_rivlin",
+      "method": "frozen_shared",
+      "id": "mooney_rivlin-release-frozen_shared"
+    },
+    {
+      "case": "drop",
+      "family": "mooney_rivlin",
+      "method": "teacher",
+      "id": "mooney_rivlin-drop-teacher"
+    },
+    {
+      "case": "drop",
+      "family": "mooney_rivlin",
+      "method": "frozen_shared",
+      "id": "mooney_rivlin-drop-frozen_shared"
+    },
+    {
+      "case": "release",
+      "family": "yeoh",
+      "method": "teacher",
+      "id": "yeoh-release-teacher"
+    },
+    {
+      "case": "release",
+      "family": "yeoh",
+      "method": "frozen_shared",
+      "id": "yeoh-release-frozen_shared"
+    },
+    {
+      "case": "drop",
+      "family": "yeoh",
+      "method": "teacher",
+      "id": "yeoh-drop-teacher"
+    },
+    {
+      "case": "drop",
+      "family": "yeoh",
+      "method": "frozen_shared",
+      "id": "yeoh-drop-frozen_shared"
+    }
+  ],
+  "workers": 2,
+  "seconds": 1200,
+  "n": 2,
+  "dt": 2.5e-05,
+  "settings": {
+    "dimensions": [
+      0.12,
+      0.06,
+      0.06
+    ],
+    "young_Pa": 12000.0,
+    "poisson": 0.35,
+    "density": 625.0,
+    "floor_z": -0.07,
+    "penalty_N_m3": 40000000.0,
+    "compression": 0.3,
+    "surface_order": 8,
+    "sample_interval_s": 0.001,
+    "duration": {
+      "release": 0.05,
+      "drop": 0.25
+    }
+  },
+  "material_latent": [
+    0.0,
+    0.0
+  ],
+  "family_flags": {
+    "mooney_rivlin": -1.0,
+    "yeoh": 1.0
+  },
+  "gravity_m_s2": 9.81,
+  "qualification": "No dynamic reference qualification. Report all completion, minJ, penetration, energy and matched-time field errors descriptively. No result-based tuning or selecting best family.",
+  "source_sha256": {
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/campaign_static_p2_block.py": "40b3d489f58c284c4660ce2295955022298d3848fa21e0ed859ad5f69398e886",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "scripts/compositional_dynamics_v17/dynamics.py": "fd78396502d84767afcc58b933eb64f335ad378c05929d0555a91120cfcd70dd",
+    "scripts/compositional_dynamics_v17/learned_dynamic_pilot.py": "78fc51916daef5156f84887fac5d07865415265cdf933fab5c036f1b28ab2c5c",
+    "scripts/compositional_dynamics_v17/materials.py": "936fd5a690305438f2136f4692ee28627cdeb9b336d49016be29af60d981332f",
+    "scripts/compositional_dynamics_v17/prototype.py": "0d92f413eb55c8850d5b8d9ccd31ce5a5f2a34e38b03facbeec9e6a5d12ef673",
+    "scripts/compositional_neural_mechanics/conditional_inference_pilot.py": "a5377aada870fc5f8440aab2fe8ed382b4e81a6b390cce4aa3e486b721ff9d25",
+    "scripts/compositional_neural_mechanics/contact_mechanics.py": "0356a2fe18538c67a9afde533f639ab9abef25eced0b217a54c31da1356233d9",
+    "scripts/compositional_neural_mechanics/gravity_inference_pilot.py": "03fa7dc1c7d9cbfe09303a91eb3b9d793807803f915cb81331d73d17c0cc76ca",
+    "scripts/compositional_neural_mechanics/inference.py": "6d97090ceca392b4ec9d08a406eacd534a432e529f54f9aa7375b606337d0ff5",
+    "scripts/compositional_neural_mechanics/interfaces.py": "69bd652386e8d0ab9f8183ed4a0ab64cdfbc2b8a52b71eb05eb5c5a1c02838d7",
+    "scripts/compositional_neural_mechanics/joint_inference.py": "e3adb5cb4d9562a44ef91382c351d45740d2ddeab0191cb21737dff91b77678b",
+    "scripts/compositional_neural_mechanics/materials.py": "0391cf340a18133f46d35c3e07886df241164ba155d4e01deecfd7474590a313",
+    "scripts/compositional_neural_mechanics/mechanics.py": "5c203470ae371e6d61100342e15dc9f765dfe20414753d0791c0b79f7e4e5f71",
+    "scripts/compositional_neural_mechanics/scale_separated_material.py": "1f90892f144b963f6556591c6e21672ec58185968614765bcc7f3ca6508837b3",
+    "scripts/compositional_neural_mechanics/scenes.py": "c879ac975573f7a0dce9f30413f31711dca971f4058e816ea60744c7b86f48f0",
+    "scripts/phystwin/active_support_reference.py": "a88a5860febb4132f58dcca8cbcc7ef8145f9d98b42275a5f4563bdae02a26be",
+    "scripts/phystwin/consistent_fixture.py": "47dcb8a82e570bb2cfcdeaf01d4d88a7fe13e11e7f757f06cce63bc61d5d118e",
+    "scripts/phystwin/gpu_multigrid.py": "7b0f08397b6e1d0feab23710fcca7e2cd10a53b0fbdba7e320ceb1bd1e573bfb",
+    "scripts/phystwin/tensor_fixture.py": "c0a2e34e091aa1d0bbe3eb29c0a5fc63e46903bb832e372963e8b61caa66e598"
+  },
+  "checkpoint_sha256": {
+    "runs/compositional-neural-mechanics-v16/scale-separated-prototype/shared-law.pt": "20aef4ac9eac62b418852dd0f79dfd6899d8e544b2428916819be9179988f0e8"
+  }
+}

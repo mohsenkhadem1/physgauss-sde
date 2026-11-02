@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "errors": [],
+  "plan_sha256": "4021d06ae141a201a166da044f11c25147777a43a0fdd23741ceb188a71dcdda",
+  "timestamp_utc": "2026-11-02T17:44:09.384700+00:00",
+  "source_sha256": {
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/campaign_static_p2_block.py": "40b3d489f58c284c4660ce2295955022298d3848fa21e0ed859ad5f69398e886",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "scripts/compositional_dynamics_v17/calibration_development.py": "a23ab61716dec3643b6cabc71ec3f0c40d592dfdbf101d0d245cdef16b80ad2e",
+    "scripts/compositional_dynamics_v17/dynamics.py": "fd78396502d84767afcc58b933eb64f335ad378c05929d0555a91120cfcd70dd",
+    "scripts/compositional_dynamics_v17/materials.py": "936fd5a690305438f2136f4692ee28627cdeb9b336d49016be29af60d981332f",
+    "scripts/compositional_dynamics_v17/prototype.py": "0d92f413eb55c8850d5b8d9ccd31ce5a5f2a34e38b03facbeec9e6a5d12ef673",
+    "scripts/compositional_neural_mechanics/conditional_inference_pilot.py": "a5377aada870fc5f8440aab2fe8ed382b4e81a6b390cce4aa3e486b721ff9d25",
+    "scripts/compositional_neural_mechanics/contact_mechanics.py": "0356a2fe18538c67a9afde533f639ab9abef25eced0b217a54c31da1356233d9",
+    "scripts/compositional_neural_mechanics/gravity_inference_pilot.py": "03fa7dc1c7d9cbfe09303a91eb3b9d793807803f915cb81331d73d17c0cc76ca",
+    "scripts/compositional_neural_mechanics/inference.py": "6d97090ceca392b4ec9d08a406eacd534a432e529f54f9aa7375b606337d0ff5",
+    "scripts/compositional_neural_mechanics/interfaces.py": "69bd652386e8d0ab9f8183ed4a0ab64cdfbc2b8a52b71eb05eb5c5a1c02838d7",
+    "scripts/compositional_neural_mechanics/joint_inference.py": "e3adb5cb4d9562a44ef91382c351d45740d2ddeab0191cb21737dff91b77678b",
+    "scripts/compositional_neural_mechanics/materials.py": "0391cf340a18133f46d35c3e07886df241164ba155d4e01deecfd7474590a313",
+    "scripts/compositional_neural_mechanics/mechanics.py": "5c203470ae371e6d61100342e15dc9f765dfe20414753d0791c0b79f7e4e5f71",
+    "scripts/compositional_neural_mechanics/scale_separated_material.py": "1f90892f144b963f6556591c6e21672ec58185968614765bcc7f3ca6508837b3",
+    "scripts/compositional_neural_mechanics/scenes.py": "c879ac975573f7a0dce9f30413f31711dca971f4058e816ea60744c7b86f48f0",
+    "scripts/phystwin/active_support_reference.py": "a88a5860febb4132f58dcca8cbcc7ef8145f9d98b42275a5f4563bdae02a26be",
+    "scripts/phystwin/consistent_fixture.py": "47dcb8a82e570bb2cfcdeaf01d4d88a7fe13e11e7f757f06cce63bc61d5d118e",
+    "scripts/phystwin/gpu_multigrid.py": "7b0f08397b6e1d0feab23710fcca7e2cd10a53b0fbdba7e320ceb1bd1e573bfb",
+    "scripts/phystwin/tensor_fixture.py": "c0a2e34e091aa1d0bbe3eb29c0a5fc63e46903bb832e372963e8b61caa66e598"
+  },
+  "review": [
+    "Private wrapper overrides actual mechanics gravity to9.8 before construction; mass rhoV=.27kg; newenergy normalization uses actual clearance and9.8.",
+    "Exact2 task identities, completed/failed/missing ledger, no overwrite, CPU2/900s outer cap required.",
+    "Teacher MR latent supplied only to private generator; no fitted method or observation exporter reviewed here.",
+    "98 boundary points and27 initial interior points are mathematically consistent with5^3 minus3^3 and3^3. 100Hz calibration clock gives21frames."
+  ],
+  "scope": "Approve private developmental teacher generation only. Unqualified n3 reference; no sealed test or raw-video claim. Public exporter and estimators must separately forbid private family/latent/forecast responses; both methods receive same calibration observations and known geometry/mass/gravity/floor/clock.",
+  "notes": [
+    "If initialization or artifact write fails, terminal failure is retained; inner work directory may retain additional diagnostics.",
+    "Matched native spring model versus MR teacher is a restricted-family system-identification comparison, not equal-constitutive-law forward validation."
+  ]
+}

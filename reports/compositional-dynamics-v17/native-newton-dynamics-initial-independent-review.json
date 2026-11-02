@@ -1,0 +1,25 @@
+{
+  "status": "pending_launch_fixes",
+  "passed": false,
+  "timestamp_utc": "2026-11-02T17:30:48.870903+00:00",
+  "source_sha256": {
+    "scripts/compositional_dynamics_v17/native_newton_dynamics.py": "75d1674e867e0b60bd3af08f115414c89345086d7be1763b6fb623ac5e0dc8b3",
+    "reports/compositional-dynamics-v17/native-newton-dynamics-plan.json": "e70766272afe8642d51a82e37cb9d4ed3d05dd94d568ad10bc6ddbdd800ff34a",
+    "tests/test_native_newton_dynamics_v17.py": "eed4866d2c77cf80bf4308928579e15d26951245b30e714f764e60e229000730"
+  },
+  "verified": [
+    "Native add_soft_mesh total mass 0.27 kg; affine P1 transfer and objective stable-NH energy unit checks passed independently via direct test invocation (runtime lacks pytest).",
+    "Installed native contact kernel returns shape reaction with force first and torque last; static plane body index -1 uses world origin. Negation is appropriate.",
+    "Native contact initialization averages equal shape and particle ke; beta zero selects fixed full stiffness.",
+    "10-step smoke is finite free fall only, with zero contact impulse; it does not validate impact."
+  ],
+  "pending": [
+    "Preserve trajectory/ledger prefixes and failure time for initialized failed runs.",
+    "Provide bounded stage runner with process-group per-job timeout, whole-stage timeout, and all 12 terminal/missing identities."
+  ],
+  "scope": [
+    "Native release initial10% xstretch with gravity differs from Q2 prototype20% zcompression with zero gravity; separate development diagnostics, not paired model comparison.",
+    "Uniform vertex penalty and lumped P1 mass explicitly differ from consistent-Q2 surface integration.",
+    "No full rollout approval yet; no heldout or superiority claim."
+  ]
+}

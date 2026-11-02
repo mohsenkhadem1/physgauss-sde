@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "errors": [],
+  "checks": 1220,
+  "timestamp_utc": "2026-11-02T17:38:27.866080+00:00",
+  "evidence_sha256": {
+    "reports/compositional-dynamics-v17/learned-dynamic-pilot-plan.json": "68eeebab41bb42c387d82dcf9039a29dde5d948f2f6bbae57c733422ba27fbbd",
+    "reports/compositional-dynamics-v17/learned-dynamic-pilot-results.json": "1e6733539b65f2ae63a0bf31ccb71b10a8403b54f7cdcae88dbd26a22ac19f5a",
+    "reports/compositional-dynamics-v17/learned-dynamic-pilot-analysis.json": "9b58ea5ede625764784b7bddd9aa1f1a1aa5e8f7d2cfa2a633579c260cdb760b",
+    "runs/compositional-dynamics-v17/learned-dynamic-pilot/mooney_rivlin-release-teacher/trajectory.npz": "85713057d81fb065258b52c0febcc8967c57c5427f2492cd2d29b2a85a68396e",
+    "runs/compositional-dynamics-v17/learned-dynamic-pilot/mooney_rivlin-release-frozen_shared/trajectory.npz": "6ebec82a64edcdeb2bc819fb04dde67aa4bdf0426910c05f10b4c3ff5b842f8f",
+    "runs/compositional-dynamics-v17/learned-dynamic-pilot/mooney_rivlin-drop-teacher/trajectory.npz": "e724b5033dc944d381314e235b4f40d6f78124301866cb4d4b842c713f68170f",
+    "runs/compositional-dynamics-v17/learned-dynamic-pilot/mooney_rivlin-drop-frozen_shared/trajectory.npz": "0406c0986e290b265aa3cbdad95b763f40f2c9a47e29aa613553cab76ed672af",
+    "runs/compositional-dynamics-v17/learned-dynamic-pilot/yeoh-release-teacher/trajectory.npz": "4cce2305b131b187bfa535edd7a6c004787e878f0b29aa8d5b7621cea90bf0ec",
+    "runs/compositional-dynamics-v17/learned-dynamic-pilot/yeoh-release-frozen_shared/trajectory.npz": "bc01e015b8a753ca7bff0b012fbead3eb07bfcd1604d7a6de75dc7b60783d57d",
+    "runs/compositional-dynamics-v17/learned-dynamic-pilot/yeoh-drop-teacher/trajectory.npz": "eb1cee0b2f2ea99e1b27efdb554e1bebfb92b30c63a7f8789751a4018d0f8859",
+    "runs/compositional-dynamics-v17/learned-dynamic-pilot/yeoh-drop-frozen_shared/trajectory.npz": "f328c4358d7b880145739f4c8ac89e2eaa81cbf5a21991145666188db286a03a"
+  },
+  "pairs": [
+    {
+      "family": "mooney_rivlin",
+      "case": "release",
+      "complete": false,
+      "frames": 39,
+      "expected": 51,
+      "world_point_rms_mm": 0.2694764690922856,
+      "shape_point_rms_mm": 0.26947646909228573
+    },
+    {
+      "family": "mooney_rivlin",
+      "case": "drop",
+      "complete": true,
+      "frames": 251,
+      "expected": 251,
+      "world_point_rms_mm": 0.19731117129417067,
+      "shape_point_rms_mm": 0.1931378855412937
+    },
+    {
+      "family": "yeoh",
+      "case": "release",
+      "complete": false,
+      "frames": 33,
+      "expected": 51,
+      "world_point_rms_mm": 0.022694832292325627,
+      "shape_point_rms_mm": 0.022694832292325582
+    },
+    {
+      "family": "yeoh",
+      "case": "drop",
+      "complete": true,
+      "frames": 251,
+      "expected": 251,
+      "world_point_rms_mm": 0.06540072930034241,
+      "shape_point_rms_mm": 0.06379741414498255
+    }
+  ],
+  "scope": "Two complete drop pairs; two failed release pairs retain common-prefix diagnostics only. Same unqualified discretization and known latents; no independent physical truth, inference or native superiority claim."
+}

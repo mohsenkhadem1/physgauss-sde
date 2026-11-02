@@ -1,0 +1,29 @@
+Completed static appearance feasibility, independently audited287checks
+
+The unchanged author gs_train optimizer ran1000iterations (999updates) in15.56s,
+starting from neutralgray knowncanonical surfacepoints. Four training RGBD views,
+fixedloss/settings/seed and finalcheckpoint were frozen before fitting. Six native
+predictedviews were committed before generating the two heldreference views.
+
+Training4views: foreground-union PSNR29.180dB, SSIM.95509, IoU.999269.
+Held2views: foreground-union PSNR19.307dB, SSIM.79043, IoU.960968.
+Held globalSSIM.96933 is much more flattering because most pixels are background.
+Jointvisible depth RMSE8.645mm training/8.272mm held, with pixelcoverage/missing
+counts retained individually. The gallery shows heldedgeholes/softcorners and
+textureblur; visuallyclose trainingRGB does not establish accurate surface depth.
+
+This establishes that actual nativeappearance optimization and evaluation work.
+It is not a fair finalassessment of PhysTwin: the author's gs_run.sh recommends
+10000iterations, while thispilot deliberately used1000 for bounded feasibility.
+Do not tune repeatedly against these exposed heldviews or promote this pilot into
+a full inverse/dynamic comparison. There is no learned-appearance comparator for
+our model yet; exactprocedural truth rendering is not an appearancebaseline win.
+
+Next final appearance protocol (prospective, not launched/frozen here)
+Use the author10000-step schedule/settings and fresh scene/view assignments, or
+explicit predeclared developmentbudget-convergence checks before fresh heldviews.
+Give ourmodel and nativePhysTwin identical appearance observations and learnedGS
+capacity/budget. A shared frozenGS+commonbinding ablation can isolate physics;
+retain a separately labeled nativebinding/fullpipeline result if differences
+remain. Knowngeometry and couponpretraining advantages must be explicit. Initial
+appearance/staticviews do not establish elasticity, contact or dynamic accuracy.

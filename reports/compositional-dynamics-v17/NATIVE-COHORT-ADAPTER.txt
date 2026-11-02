@@ -1,0 +1,77 @@
+Reusable native PhysTwin cohort adapter — prepared only, no fresh observations/fits
+
+Source: scripts/compositional_dynamics_v17/native_phystwin_cohort_adapter.py
+Replay: scripts/compositional_dynamics_v17/native_phystwin_replay.py
+Historical development scripts, fits, failed forecast and successful fixed-graph
+recovery remain unchanged.
+
+Parent-owned cohort manifest contract:
+  status: "frozen"
+  native_recipe: exact exported RECIPE dictionary from cohort_adapter
+  native_source_sha256: exact exported source_inventory() dictionary
+  native_worlds: list of records:
+    name: routing identifier only (never a model input)
+    public_directory: repository-relative folder containing observations.npz and
+                      metadata.json under the shared public contract
+    output_directory: NEW repository-relative runs/compositional-dynamics-v17 folder
+    forecast_setups: list of {name, setup}; setup has exactly:
+      duration_s, frame_dt_s=0.01, floor_z_m,
+      initial_velocity_m_s=[0,0,0], initial_geometry_same=true,
+      gravity_vector_m_s2=[0,0,-9.8].
+The actual four-world/two-height census and material balance are for the parent's
+prospective freeze. This adapter creates no worlds, labels, observations or targets.
+
+Inputs remain21 masked calibration frames,98 canonical boundary tracks+27 interior
+points, known0.27kg body and zero initial velocity. Unknown family/material labels,
+future target fields and unsanitized invisible tracks are rejected. Known geometry
+is the same .12x.06x.06m block for every world. Different geometry/mass/clock would
+require a separate declared adapter, not silent reuse of this recipe.
+
+Final frozen recipe: extended125, selected by development calibration replay
+before held scoring (native-final-recipe.json). One fit per world: unchanged author
+CMA with maximum100 generations/seed42 and native early-stop defaults, then1000
+per-spring optimization epochs and author's prefix-loss checkpoint selection.
+Same SI spring/dashpot conversion and125 equal known masses, initial radius.04m.
+The pinned historical fitting source is privately imported with only PUBLIC, OUT,
+PLAN path bindings changed. Each reset reuses the exact fitted topology/rest lengths
+and learned edge weights. Only public initial positions/floor change. There is no
+refitting per held drop height and no per-query method selection.
+
+Stages, using runs/compositional-dynamics-v17/render-env/bin/python:
+  -m scripts.compositional_dynamics_v17.native_phystwin_cohort_adapter prepare
+     --cohort-plan <frozen-cohort.json> --world <id> --plan <per-world-plan.json>
+  -m scripts.compositional_dynamics_v17.native_phystwin_cohort_adapter fit
+     --plan <per-world-plan.json>
+  -m scripts.compositional_dynamics_v17.native_phystwin_cohort_adapter predict
+     --plan <per-world-plan.json> --query <declared-query-name>
+
+Parent supervisor must run each fit in a private working directory, with
+PYTHONPATH=repository, CUDA_VISIBLE_DEVICES=0, PYNPUT_BACKEND=dummy,
+OMP_NUM_THREADS=OPENBLAS_NUM_THREADS=MKL_NUM_THREADS=1, and systemd
+RuntimeMaxSec3700/KillMode=control-group. Each replay uses RuntimeMaxSec300.
+The adapter does not itself spawn processes or change the cohort deadline.
+Only physicalGPU0 is used; GPU3 is never visible. The selected development fit plus two replays took about709s; shorter author20+200
+and729capacity controls remain archived. This is a timing estimate, not a guarantee.
+
+Outputs:
+  <world-output>/fit/fit-complete.json plus native logs/checkpoint/graph artifacts
+  <world-output>/forecasts/<query>/prediction.npz:
+    times_s[T], positions_m[T,125,3], tracked_positions_m[T,98,3]
+  <world-output>/forecasts/<query>/complete.json:
+    completed, plan_sha256, fit_commit_sha256, expected_frames, setup,
+    frames/prediction_sha256/checkpoint_sha256 on success;
+    error and retained_prefix_sha256 on failure.
+Initial frame is persisted before stepping. Native exceptions/nonfinite states
+remain failures; no finite invented objective or omitted cases. External timeout
+may leave only the persisted prefix; the supervisor must record that terminal row.
+A common evaluator must wait for the entire fixed forecast census, including
+failures, before opening any held target. No evaluator is implemented in adapter.
+
+Appearance: if canonical initial geometry/texture and appearance observations are
+identical, a separately frozen common initial GS checkpoint can be reused for all
+worlds. This is not extra per-world fitting or an independent reconstruction win.
+Dynamic native binding and Q2 covariance transport still differ and must be named.
+
+Tests: test_native_phystwin_cohort_adapter_v17.py (2) and
+       test_native_phystwin_replay_v17.py (1) passed using native render-env.
+No new held data or experiments were read/generated while preparing this adapter.

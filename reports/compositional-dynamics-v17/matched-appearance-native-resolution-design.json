@@ -1,0 +1,149 @@
+{
+  "status": "Separate prospective input-resolution recovery; old empty checkpoint retained; no held images accessed",
+  "declared_utc": "2026-11-02T18:11:25.382101+00:00",
+  "scope": "Development native learned appearance + matched initial appearance, with native versus continuum motion transport. Not full video reconstruction or untouched-world generalization.",
+  "cameras": [
+    {
+      "eye": [
+        0.23,
+        -0.3,
+        0.17
+      ],
+      "target": [
+        0.06,
+        0,
+        0
+      ],
+      "width": 848,
+      "height": 480,
+      "focal": 750.0,
+      "name": "train-0",
+      "role": "train"
+    },
+    {
+      "eye": [
+        -0.15,
+        0.24,
+        0.13
+      ],
+      "target": [
+        0.06,
+        0,
+        0
+      ],
+      "width": 848,
+      "height": 480,
+      "focal": 750.0,
+      "name": "train-1",
+      "role": "train"
+    },
+    {
+      "eye": [
+        0.28,
+        0.18,
+        0.16
+      ],
+      "target": [
+        0.06,
+        0,
+        0
+      ],
+      "width": 848,
+      "height": 480,
+      "focal": 750.0,
+      "name": "train-2",
+      "role": "train"
+    },
+    {
+      "name": "held-0",
+      "role": "held",
+      "eye": [
+        0.23,
+        0.29,
+        0.17
+      ],
+      "target": [
+        0.06,
+        0,
+        0
+      ],
+      "width": 848,
+      "height": 480,
+      "focal": 750.0
+    },
+    {
+      "name": "held-1",
+      "role": "held",
+      "eye": [
+        -0.23,
+        -0.19,
+        0.14
+      ],
+      "target": [
+        0.06,
+        0,
+        0
+      ],
+      "width": 848,
+      "height": 480,
+      "focal": 750.0
+    }
+  ],
+  "initial_geometry": "Known canonical .12x.06x.06m block; neutral gray 1538 unique boundary points",
+  "training": {
+    "iterations": 10000,
+    "optimizer_updates": 9999,
+    "seed": 0,
+    "source": "Unchanged author gs_train.py",
+    "loss": "isotropic pcd initialization, depth.001/seg1/normal0/aniso0, shdegree3, resolution1; remaining author defaults",
+    "input": "Exactly3 public calibration-camera initial-state RGB-D/bodymasks from procedural material-attached texture. No calibration dynamics or held images supplied.",
+    "cap_seconds": 1800,
+    "physical_gpu": 1
+  },
+  "shared_checkpoint": "ONE learned initial appearance checkpoint used by both dynamics methods; avoids attributing appearance initialization differences to physics. This is a controlled common-appearance comparison, not two independent native reconstructions.",
+  "transport": {
+    "native": "Unchanged author gs_render_dynamics.rollout, fixed initial K16 relations and each-step K16 interpolation; Gaussian centers/quaternions advected, original scales/opacity/SH retained.",
+    "ours": "Root gaussian_transport: material-bound Q2 positions, F-offset transport, covariance F Sigma F^T; opacity and original SH coefficients retained unchanged. Known geometry binding disclosed."
+  },
+  "evaluation": {
+    "times_s": [
+      0.0,
+      0.01,
+      0.02,
+      0.03,
+      0.04,
+      0.05,
+      0.06,
+      0.07,
+      0.08,
+      0.09,
+      0.1,
+      0.11,
+      0.12,
+      0.13,
+      0.14,
+      0.15,
+      0.16,
+      0.17,
+      0.18,
+      0.19,
+      0.2,
+      0.21,
+      0.22,
+      0.23,
+      0.24,
+      0.25
+    ],
+    "views": "Both fixed held cameras at all26actual dynamic forecast frames; train views also reported separately.",
+    "metrics": "Root frozen render_metrics: global+foreground-union PSNR/SSIM, body IoU, jointly-visible optical depth RMSE, missing-depth/foreground coverage.",
+    "seal": "Generate held physical reference images only after both physics forecasts and all method render arrays committed.",
+    "descriptive_targets": "Physical improvement; foregroundPSNR within2dB and SSIM within.02 native; these are descriptive design targets, not assumed outcomes or tuned gates."
+  },
+  "limits": [
+    "One development object, no cluster-CI superiority inference",
+    "Same initial fitted appearance across methods; native binding retained but no full reconstruction replication",
+    "Static initial appearance does not demonstrate raw-video inverse learning",
+    "Comparison physical state errors and image errors separately; no claim of guaranteed tradeoff"
+  ],
+  "adapter_recovery": "Author QQTT reader fixed848x480. Render new images directly at848x480/f750: same vertical FoV as192/f300, wider horizontal FoV explicit. No stretching, author modifications or held-view tuning."
+}

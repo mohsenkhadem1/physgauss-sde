@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "errors": [],
+  "timestamp_utc": "2026-11-02T17:50:02.614746+00:00",
+  "source_sha256": {
+    "scripts/compositional_dynamics_v17/calibration_observations.py": "17fee606a5f28f96f537949f5c101e12cae23abd77bf195a6fb02892917ad158",
+    "scripts/compositional_dynamics_v17/native_phystwin_inputs.py": "fa1b7de45eb10127b9febba69634cf9e381e8602a6be6d2233a106179228e10b",
+    "scripts/compositional_dynamics_v17/render_sequence.py": "25185de2663a53659ef79065ef6c8f012de4d81905e985827fdbf96e5008b41d",
+    "scripts/physical_refinement_v15/observations.py": "f8ebbbb80fb4aa20b325b83015861a7c6f45c9d8be4082717cf744ca688ad286",
+    "tests/test_calibration_observations_v17.py": "f292e286f2b5ed8665cc6e521f3ec3ffc186ed4e8b1ee1385c46bc07e13d17c9",
+    "tests/test_native_phystwin_inputs_v17.py": "a65241799d7b6ce4358c1d57c09d28641e1eb2f9069f1777c96653009e484d25"
+  },
+  "tests": "Independent4testsPASS1.95s",
+  "review": [
+    "Only calibration trajectory and its completion metadata are read; no generator plan or forecast reader.",
+    "98 unique boundary tracks,27 known initial interior points,21uniform100Hzframes; surface sampling is exact subset of stored17grid.",
+    "Visibility derived from3declared depth views. Hidden coordinates become initial placeholders; visibility and adjacent-frame motion validity masks explicit.",
+    "Exactly7public NPZ fields, no family/latent/constitutive labels. Public mass.27kg uniformly assigned125native points is an explicit discretization approximation.",
+    "Forecast setup includes only publicly specified clock/floor/geometry/gravity/initial velocity, not future responses."
+  ],
+  "scope": "Development noiseless oracle 3D tracks with renderer-derived visibility and known full initial geometry; not raw image inference or sealed evaluation. Approval covers export only. Native and proposed fit implementations must enforce masks and use the same allowed public information.",
+  "limitation": "Exporter integrity is source-reviewed and unit-tested; downstream loss masking and prediction commitment must be reviewed separately."
+}

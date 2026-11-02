@@ -1,0 +1,22 @@
+{
+  "plan_sha256": "73c1c1ee9bf25c6e3bb19e28dc8bdb2966409ea38d7de3c8ac59562a18600ef4",
+  "command": [
+    "systemd-run",
+    "--user",
+    "--unit=compositional-v17-appearance-pilot",
+    "--property=RuntimeMaxSec=950",
+    "--property=KillMode=control-group",
+    "--property=WorkingDirectory=/home/bayespc2/vscode/guassianSDE",
+    "--setenv=OMP_NUM_THREADS=1",
+    "--setenv=OPENBLAS_NUM_THREADS=1",
+    "/home/bayespc2/vscode/guassianSDE/runs/compositional-dynamics-v17/render-env/bin/python",
+    "-m",
+    "scripts.compositional_dynamics_v17.native_appearance_pilot",
+    "train"
+  ],
+  "RuntimeMaxSec": 950,
+  "KillMode": "control-group",
+  "inner_native_trainer_cap_s": 900,
+  "scope": "Externalcgroup cleanup supplements innerprocessgroup; no training changes",
+  "status": "Prepared before launch; awaits exact independentreview"
+}

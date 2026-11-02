@@ -1,0 +1,96 @@
+v17 native framework feasibility (local setup, not a portable environment claim)
+
+Newton native CPU smoke:
+runs/operator-dev/newton-runtime-v01/env/bin/python -m scripts.compositional_dynamics_v17.native_newton_smoke
+Uses installed Newton1.7.0/warp1.18.0, no GPU, native VBD step. No contact accuracy claim.
+
+PhysTwin clean author source:
+git -C runs/third_party/PhysTwin archive 81c718790a37e5e0102eb77af2c6edd34a9db25f was extracted to runs/compositional-dynamics-v17/PhysTwin-author.
+This avoids the historical checkout's local headless/gravity modifications.
+The new render-env was copied from runs/phystwin-env; ONLY the new environment received additions.
+Installed package inventory: runs/compositional-dynamics-v17/render-environment-freeze.txt.
+Official PyTorch3D wheel: https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py310_cu121_pyt240/pytorch3d-0.7.8-cp310-cp310-linux_x86_64.whl
+The author rasterizer and simple-knn were compiled from the clean source submodules.
+Read-only existing CUDA12.1/GCC11 toolchain:
+/home/bayespc2/.local/share/physgauss-external/pidg-official-v01/env
+CUDA headers require CPATH=$TOOLCHAIN/targets/x86_64-linux/include.
+Use compiler paths $TOOLCHAIN/bin/x86_64-conda-linux-gnu-gcc and c++.
+CUDA architecture7.5, MAX_JOBS=2. No v16 runtime package changed.
+
+Native full simulator-step smoke:
+PYNPUT_BACKEND=dummy OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 runs/compositional-dynamics-v17/render-env/bin/python -m scripts.compositional_dynamics_v17.native_phystwin_physics_smoke
+The script fixes CUDA_VISIBLE_DEVICES=0 before native imports. No GPU3 access.
+Unequal SI masses passed via author API. Native step includes spring force and integration.
+Dummy repeated initial-position loss targets satisfy native constructor only; no loss fitting or future targets.
+
+Native appearance renderer smoke:
+Set CUDA_HOME, CPATH, CC, CXX, PATH to the above toolchain and newenvironment/bin;
+TORCH_CUDA_ARCH_LIST=7.5 MAX_JOBS=2 runs/compositional-dynamics-v17/render-env/bin/python -m scripts.compositional_dynamics_v17.native_phystwin_render_smoke
+Unmodified author render() default gsplat backend; tiny synthetic Gaussian scene, forward/backward only.
+First gsplat JIT exceeded600seconds. Its backend deletes incomplete build directories on reimport.
+To genuinely resume compilation use generated build.ninja directly, not import the backend again:
+CPATH=.../targets/x86_64-linux/include PATH=.../render-env/bin:.../toolchain/bin:$PATH ninja -j2 -C /home/bayespc2/.cache/torch_extensions/py310_cu121/gsplat_cuda
+Then rerun the unchanged smoke after gsplat_cuda.so exists. Original timeout/retry logs retained.
+No full appearance training, inverse fit, or held-view benchmark was executed during setup.
+
+Raw third-party assets, environments, compiler caches and NPZ data stay local.
+Reports/source wrappers may be published, but they do not imply native author pipeline has already won/lost a benchmark.
+
+Completed v17 reproduction addendum (2026-11-02)
+
+Verified isolated runtime: CPython3.10.16; PyTorch2.4.0+cu121 (CUDA12.1);
+NumPy1.26.4; conda-forge GCC11.4.0-13. Use render-env above, not the
+historical v16 environment. Package inventory and experiment source/input
+SHA inventories are the reproducibility records; this is not a tested fresh
+installation recipe. Author commit remains 81c718790a37e5e0102eb77af2c6edd34a9db25f.
+
+Native SI adapter: canonical block is .12 x .06 x .06 metres, known total
+mass .27 kg, gravity9.8 m/s^2. The selected125-particle model assigns equal
+mass .27/125 kg through the native API. Native spring-force and dashpot
+coefficient priors/clamps are multiplied by particle mass relative to the
+unit-mass author convention; drag rate is unchanged. Spring coefficients
+are force coefficients, not Young's modulus in Pa. Floor translation maps
+native floor z=0 to the public floor and is reversed on output. Forecasts
+reuse exact fitted spring endpoints/rest lengths; rebuilding a translated
+neighbor graph was rejected and its failed attempt is preserved.
+
+Selected recipe: extended125, initial graph radius .04 m, author CMA maximum
+100 generations (unchanged default stopping), seed42, then1000 epochs;
+author prefix-loss best checkpoint. Integration dt25 microseconds,
+400 substeps per10ms frame. Calibration uses21 frames/98 observed surface
+tracks plus27 known initial interior points. Selection compared common
+visible-coordinate calibration MSE only against retained125/20+200 and
+729/20+200 controls; it did not use held forecast errors. The729 control
+also changed initial radius to .02m and is not a particle-count-only test.
+Exact final source pins/recipe/selection evidence: native-final-recipe.json,
+native-budget-calibration-comparison.json and native-budget-final-independent-audit.json.
+
+Per-world commands (run from repository with its absolute PYTHONPATH):
+render-env/bin/python -m scripts.compositional_dynamics_v17.native_phystwin_cohort_adapter prepare --cohort-plan COHORT_JSON --world WORLD --plan WORLD_PLAN
+render-env/bin/python -m scripts.compositional_dynamics_v17.native_phystwin_cohort_adapter fit --plan WORLD_PLAN
+render-env/bin/python -m scripts.compositional_dynamics_v17.native_phystwin_cohort_adapter predict --plan WORLD_PLAN --query forecast-40mm
+Here render-env/bin/python abbreviates runs/compositional-dynamics-v17/render-env/bin/python.
+The prepared cohort must be frozen and its source/input hashes must match.
+Run with physical CUDA_VISIBLE_DEVICES=0, PYNPUT_BACKEND=dummy, OMP_NUM_THREADS=1,
+OPENBLAS_NUM_THREADS=1. The adapter creates a new per-world native-cwd for
+relative author CMA logs. The cohort supervisor supplies process-group
+fit/replay timeouts; these are not unrestricted standalone launches.
+
+Appearance recovery: QQTT author reader uses848x480. The first matched
+256x192 attempt produced an empty Gaussian checkpoint and remains an
+adapter failure. The corrected inputs are rendered directly848x480 with
+focal750, same vertical FoV and explicitly wider horizontal FoV; no image
+stretch and no author camera patch. Actual reader/loadCam projection smoke
+verified nine projected points within .003369 pixels. Matched appearance
+uses three training cameras, neutral initial colors,10000 steps (9999
+updates), fixed final checkpoint and no held-image selection. Corrected
+checkpoint contains10119 finite Gaussians. Both dynamics methods share
+this initial learned appearance, while native K16 binding and Q2 covariance
+transport differ; the comparison is not a full author reconstruction study.
+Plans/audits are under matched-appearance-native-resolution; dynamic
+rendering/scoring has separate prediction-before-reference gates.
+
+Raw environments, compiler caches, author checkout, training arrays and
+checkpoints remain local. Published wrappers/plans/reports/videos preserve
+provenance but alone do not reproduce fits without those declared inputs.
+No additional training or recipe selection was performed for this note.

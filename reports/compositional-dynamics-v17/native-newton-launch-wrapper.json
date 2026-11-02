@@ -1,0 +1,23 @@
+{
+  "plan_sha256": "1e4fab2f9f6fa2158ed78562ff1adf70bf04b980c28472645432e4f8103247ac",
+  "command": [
+    "systemd-run",
+    "--user",
+    "--unit=compositional-v17-native-newton-ladder",
+    "--property=RuntimeMaxSec=3700",
+    "--property=KillMode=control-group",
+    "--property=WorkingDirectory=/home/bayespc2/vscode/guassianSDE",
+    "--setenv=OMP_NUM_THREADS=1",
+    "--setenv=OPENBLAS_NUM_THREADS=1",
+    "/home/bayespc2/vscode/guassianSDE/runs/operator-dev/newton-runtime-v01/env/bin/python",
+    "-m",
+    "scripts.compositional_dynamics_v17.native_newton_run"
+  ],
+  "RuntimeMaxSec": 3700,
+  "KillMode": "control-group",
+  "stage_seconds": 3600,
+  "max_workers": 2,
+  "job_seconds": 900,
+  "external_job_timeout_seconds": 930,
+  "status": "Prepared; exact independent review required before launch"
+}

@@ -1,0 +1,417 @@
+{
+  "source_sha256": {
+    "scripts/compositional_dynamics_v17/prototype_analysis.py": "7f25ab326027e8ce43104b06f7c73555e0626b5514224e1a3ed3ba55a17abbad",
+    "scripts/compositional_dynamics_v17/sequence_metrics.py": "a5ca941ed9f466d0207d26263d3c3c65596944233d4ae7084ebaebf844df934b"
+  },
+  "input_sha256": {
+    "reports/compositional-dynamics-v17/prototype-results.json": "a9a8227917ff8c56cf8b3a1818708f36e9aa7cc3bb39f3b39f8b6bc817854580",
+    "reports/compositional-dynamics-v17/prototype-plan.json": "cee0960aa112748c89ba5aa2de7428540ed55e8698f3accc545528edb1a56109",
+    "runs/compositional-dynamics-v17/prototype/release-n1-dt0.00020000/trajectory.npz": "dcd3042c4e7b8c84a9fb00dfc2ff2e96a90aae8105ee16ea6cf031434b8d64b9",
+    "runs/compositional-dynamics-v17/prototype/release-n1-dt0.00010000/trajectory.npz": "2a55c35cdb2e63049618771ba1ff93d888cf1d17db7895a1793e32390e9d0f7b",
+    "runs/compositional-dynamics-v17/prototype/release-n1-dt0.00005000/trajectory.npz": "2d6829a51dfc5800f0c51ceac483ad33dd6fc10ce0749ad24bf1427297e2a089",
+    "runs/compositional-dynamics-v17/prototype/release-n2-dt0.00005000/trajectory.npz": "afe7808eca2fdf3e4cd6233a925ece5f27cd32983504872817fb7a2a5b397ddc",
+    "runs/compositional-dynamics-v17/prototype/drop-n1-dt0.00020000/trajectory.npz": "f422b35c333e14c98e6c54d058f460d8f2603446212c004c8aa9da809d7b2d79",
+    "runs/compositional-dynamics-v17/prototype/drop-n1-dt0.00010000/trajectory.npz": "4922f708e3f486c06ac5eab1a7b5d84b4297b833092c7985799b2a2f3ddb1b25",
+    "runs/compositional-dynamics-v17/prototype/drop-n1-dt0.00005000/trajectory.npz": "84fad9884868dddd48b4d43d79d77b828b8905c7e4b7e65e3f8fd50dd4d31c57",
+    "runs/compositional-dynamics-v17/prototype/drop-n2-dt0.00005000/trajectory.npz": "cf71a76fd92c674113921002703caaa822d3618e34f760f70362948a5d834d2f"
+  },
+  "comparisons": [
+    {
+      "case": "release",
+      "label": "time_coarse_medium",
+      "a": "release-n1-dt0.00020000",
+      "b": "release-n1-dt0.00010000",
+      "passed": true,
+      "world_coordinate_RMS_m": 6.904768299875665e-06,
+      "shape_coordinate_RMS_m": 6.904768299875332e-06,
+      "reference_nonrigid_point_RMS_m": 0.0036034589563525383,
+      "impulse_difference_Ns": 0.0,
+      "impulse_tolerance_Ns": 0.0001,
+      "checks": {
+        "world": true,
+        "shape": true,
+        "impulse": true,
+        "finite_J": true,
+        "penetration": true
+      }
+    },
+    {
+      "case": "release",
+      "label": "time_medium_fine",
+      "a": "release-n1-dt0.00010000",
+      "b": "release-n1-dt0.00005000",
+      "passed": true,
+      "world_coordinate_RMS_m": 1.7126759453868188e-06,
+      "shape_coordinate_RMS_m": 1.7126759453869448e-06,
+      "reference_nonrigid_point_RMS_m": 0.003603444225068137,
+      "impulse_difference_Ns": 0.0,
+      "impulse_tolerance_Ns": 0.0001,
+      "checks": {
+        "world": true,
+        "shape": true,
+        "impulse": true,
+        "finite_J": true,
+        "penetration": true
+      }
+    },
+    {
+      "case": "release",
+      "label": "mesh1_2",
+      "a": "release-n1-dt0.00005000",
+      "b": "release-n2-dt0.00005000",
+      "passed": false,
+      "world_coordinate_RMS_m": 0.0017799288457395013,
+      "shape_coordinate_RMS_m": 0.001779928845739501,
+      "reference_nonrigid_point_RMS_m": 0.0032225588065187124,
+      "impulse_difference_Ns": 0.0,
+      "impulse_tolerance_Ns": 0.0001,
+      "checks": {
+        "world": false,
+        "shape": false,
+        "impulse": true,
+        "finite_J": true,
+        "penetration": true
+      }
+    },
+    {
+      "case": "drop",
+      "label": "time_coarse_medium",
+      "a": "drop-n1-dt0.00020000",
+      "b": "drop-n1-dt0.00010000",
+      "passed": false,
+      "world_coordinate_RMS_m": 0.00021440862807136797,
+      "shape_coordinate_RMS_m": 0.0001820132437976582,
+      "reference_nonrigid_point_RMS_m": 0.0020062774214064803,
+      "impulse_difference_Ns": 0.0017999091719694826,
+      "impulse_tolerance_Ns": 0.036484314503730964,
+      "impact_time_difference_s": 0.00010000000000000286,
+      "first_apex_height_difference_m": 0.00020425610104465603,
+      "first_apex_time_difference_s": 0.0004209741604813688,
+      "checks": {
+        "world": true,
+        "shape": false,
+        "impulse": true,
+        "finite_J": true,
+        "penetration": false,
+        "impact_time": true,
+        "first_apex_present": true,
+        "first_apex_height": true,
+        "first_apex_time": true
+      }
+    },
+    {
+      "case": "drop",
+      "label": "time_medium_fine",
+      "a": "drop-n1-dt0.00010000",
+      "b": "drop-n1-dt0.00005000",
+      "passed": false,
+      "world_coordinate_RMS_m": 0.00016872535835628938,
+      "shape_coordinate_RMS_m": 0.00013910071462643194,
+      "reference_nonrigid_point_RMS_m": 0.001997146517630031,
+      "impulse_difference_Ns": 0.003219982483259165,
+      "impulse_tolerance_Ns": 0.036323315379568004,
+      "impact_time_difference_s": 0.0,
+      "first_apex_height_difference_m": 0.00014548189136164274,
+      "first_apex_time_difference_s": 0.00028964759957345043,
+      "checks": {
+        "world": true,
+        "shape": true,
+        "impulse": true,
+        "finite_J": true,
+        "penetration": false,
+        "impact_time": true,
+        "first_apex_present": true,
+        "first_apex_height": true,
+        "first_apex_time": true
+      }
+    },
+    {
+      "case": "drop",
+      "label": "mesh1_2",
+      "a": "drop-n1-dt0.00005000",
+      "b": "drop-n2-dt0.00005000",
+      "passed": false,
+      "world_coordinate_RMS_m": 0.002260178689459572,
+      "shape_coordinate_RMS_m": 0.0010049250014285385,
+      "reference_nonrigid_point_RMS_m": 0.002243096405832637,
+      "impulse_difference_Ns": 0.09745451517941484,
+      "impulse_tolerance_Ns": 0.03145058962059726,
+      "impact_time_difference_s": 0.0,
+      "first_apex_height_difference_m": 0.004325664405213198,
+      "first_apex_time_difference_s": 0.008251229363455598,
+      "checks": {
+        "world": false,
+        "shape": false,
+        "impulse": false,
+        "finite_J": true,
+        "penetration": true,
+        "impact_time": true,
+        "first_apex_present": true,
+        "first_apex_height": false,
+        "first_apex_time": false
+      }
+    }
+  ],
+  "events": {
+    "release-n1-dt0.00020000": {
+      "contact_on_times_s": [],
+      "contact_off_times_s": [],
+      "first_impact_time_s": null,
+      "free_flight_apices": [],
+      "contact_impulse_on_soft_Ns": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "momentum_balance_Ns": 2.5338166633055476e-17,
+      "contact_note": "Raw contact toggles include elastic chatter; only airborne COM velocity sign changes define recorded apices, not every toggle.",
+      "final_COM_m": [
+        0.05999999999999999,
+        3.962586396686006e-18,
+        -1.537588164991906e-18
+      ]
+    },
+    "release-n1-dt0.00010000": {
+      "contact_on_times_s": [],
+      "contact_off_times_s": [],
+      "first_impact_time_s": null,
+      "free_flight_apices": [],
+      "contact_impulse_on_soft_Ns": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "momentum_balance_Ns": 2.616723122506552e-17,
+      "contact_note": "Raw contact toggles include elastic chatter; only airborne COM velocity sign changes define recorded apices, not every toggle.",
+      "final_COM_m": [
+        0.05999999999999999,
+        1.3830182987599244e-18,
+        2.709854156992097e-18
+      ]
+    },
+    "release-n1-dt0.00005000": {
+      "contact_on_times_s": [],
+      "contact_off_times_s": [],
+      "first_impact_time_s": null,
+      "free_flight_apices": [],
+      "contact_impulse_on_soft_Ns": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "momentum_balance_Ns": 8.13294099118789e-17,
+      "contact_note": "Raw contact toggles include elastic chatter; only airborne COM velocity sign changes define recorded apices, not every toggle.",
+      "final_COM_m": [
+        0.05999999999999999,
+        3.574304925085118e-19,
+        1.941928577375741e-18
+      ]
+    },
+    "release-n2-dt0.00005000": {
+      "contact_on_times_s": [],
+      "contact_off_times_s": [],
+      "first_impact_time_s": null,
+      "free_flight_apices": [],
+      "contact_impulse_on_soft_Ns": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "momentum_balance_Ns": 2.14664728111972e-17,
+      "contact_note": "Raw contact toggles include elastic chatter; only airborne COM velocity sign changes define recorded apices, not every toggle.",
+      "final_COM_m": [
+        0.05999999999999994,
+        -3.152056353900871e-19,
+        6.3494027948089065e-19
+      ]
+    },
+    "drop-n1-dt0.00020000": {
+      "contact_on_times_s": [
+        0.064,
+        0.06760000000000001,
+        0.07100000000000001,
+        0.07440000000000001,
+        0.1938,
+        0.22940000000000002
+      ],
+      "contact_off_times_s": [
+        0.065,
+        0.069,
+        0.07300000000000001,
+        0.09480000000000001,
+        0.2278,
+        0.23020000000000002
+      ],
+      "first_impact_time_s": 0.064,
+      "free_flight_apices": [
+        {
+          "time_s": 0.1441707747260605,
+          "com_z_m": -0.00676694054580188
+        }
+      ],
+      "contact_impulse_on_soft_Ns": [
+        -0.0,
+        -0.0,
+        0.7294861992465886
+      ],
+      "momentum_balance_Ns": 2.2453069608838296e-16,
+      "contact_note": "Raw contact toggles include elastic chatter; only airborne COM velocity sign changes define recorded apices, not every toggle.",
+      "final_COM_m": [
+        0.060000000000000005,
+        -3.293805141219782e-18,
+        -0.010778330753112507
+      ]
+    },
+    "drop-n1-dt0.00010000": {
+      "contact_on_times_s": [
+        0.0639,
+        0.0675,
+        0.0711,
+        0.07440000000000001,
+        0.0877,
+        0.1935,
+        0.19490000000000002,
+        0.2267
+      ],
+      "contact_off_times_s": [
+        0.0649,
+        0.069,
+        0.07300000000000001,
+        0.08750000000000001,
+        0.094,
+        0.1948,
+        0.22660000000000002,
+        0.2281
+      ],
+      "first_impact_time_s": 0.0639,
+      "free_flight_apices": [
+        {
+          "time_s": 0.14374980056557912,
+          "com_z_m": -0.006971196646846536
+        }
+      ],
+      "contact_impulse_on_soft_Ns": [
+        -0.0,
+        -0.0,
+        0.7276862900746192
+      ],
+      "momentum_balance_Ns": 4.452504933928328e-16,
+      "contact_note": "Raw contact toggles include elastic chatter; only airborne COM velocity sign changes define recorded apices, not every toggle.",
+      "final_COM_m": [
+        0.06000000000000001,
+        2.763519971582422e-18,
+        -0.01063951067768382
+      ]
+    },
+    "drop-n1-dt0.00005000": {
+      "contact_on_times_s": [
+        0.0639,
+        0.0675,
+        0.07105,
+        0.07440000000000001,
+        0.08775000000000001,
+        0.1938,
+        0.19545,
+        0.1976,
+        0.21535
+      ],
+      "contact_off_times_s": [
+        0.0649,
+        0.06895,
+        0.07300000000000001,
+        0.0876,
+        0.09435,
+        0.1952,
+        0.19735,
+        0.21505000000000002,
+        0.2272
+      ],
+      "first_impact_time_s": 0.0639,
+      "free_flight_apices": [
+        {
+          "time_s": 0.14403944816515257,
+          "com_z_m": -0.0068257147554848935
+        }
+      ],
+      "contact_impulse_on_soft_Ns": [
+        -0.0,
+        -0.0,
+        0.72446630759136
+      ],
+      "momentum_balance_Ns": 2.220788394899866e-15,
+      "contact_note": "Raw contact toggles include elastic chatter; only airborne COM velocity sign changes define recorded apices, not every toggle.",
+      "final_COM_m": [
+        0.059999999999999984,
+        2.9835362968895055e-18,
+        -0.011105064300713329
+      ]
+    },
+    "drop-n2-dt0.00005000": {
+      "contact_on_times_s": [
+        0.0639,
+        0.0659,
+        0.0678,
+        0.0697,
+        0.07155,
+        0.09835,
+        0.17600000000000002,
+        0.22085000000000002,
+        0.2227,
+        0.23,
+        0.23565,
+        0.2374,
+        0.24065,
+        0.24430000000000002,
+        0.24605000000000002,
+        0.24905000000000002
+      ],
+      "contact_off_times_s": [
+        0.06465,
+        0.06695000000000001,
+        0.0692,
+        0.0713,
+        0.0969,
+        0.09925,
+        0.22075,
+        0.22215000000000001,
+        0.2238,
+        0.23495000000000002,
+        0.2369,
+        0.24005,
+        0.24400000000000002,
+        0.24575000000000002,
+        0.24735000000000001
+      ],
+      "first_impact_time_s": 0.0639,
+      "free_flight_apices": [
+        {
+          "time_s": 0.13578821880169697,
+          "com_z_m": -0.011151379160698091
+        }
+      ],
+      "contact_impulse_on_soft_Ns": [
+        -0.0,
+        -0.0,
+        0.6270117924119452
+      ],
+      "momentum_balance_Ns": 1.3429053994035315e-16,
+      "contact_note": "Raw contact toggles include elastic chatter; only airborne COM velocity sign changes define recorded apices, not every toggle.",
+      "final_COM_m": [
+        0.05999999999999994,
+        -5.89377641378066e-19,
+        -0.018896982232327254
+      ]
+    }
+  },
+  "energy_drift": {
+    "release-n1-dt0.00020000": 0.0014262253954310385,
+    "release-n1-dt0.00010000": 0.00035691954661296727,
+    "release-n1-dt0.00005000": 8.927297079910149e-05,
+    "release-n2-dt0.00005000": 0.0002026978515803698,
+    "drop-n1-dt0.00020000": 0.011086700190975112,
+    "drop-n1-dt0.00010000": 0.002933459644805095,
+    "drop-n1-dt0.00005000": 0.0004731011750255944,
+    "drop-n2-dt0.00005000": 0.0004949742904146968
+  },
+  "scope": "Development feasibility; uniform fixed material-surface grid coordinate norms, not physical mass norm. COM/events use actual consistent mass row sums and exact free-body Verlet recurrence. No final dynamics qualification: no independent surface/volume quadrature or higher-mesh checks yet."
+}

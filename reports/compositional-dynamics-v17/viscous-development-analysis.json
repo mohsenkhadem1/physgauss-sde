@@ -1,0 +1,115 @@
+{
+  "source_sha256": {
+    "scripts/compositional_dynamics_v17/viscous_analysis.py": "8d55e7b0b3dd62558a9a086418cbc37bd8271aa288fecf6012628bcfb1233029",
+    "scripts/compositional_dynamics_v17/sequence_metrics.py": "a5ca941ed9f466d0207d26263d3c3c65596944233d4ae7084ebaebf844df934b"
+  },
+  "input_sha256": {
+    "reports/compositional-dynamics-v17/viscous-development-results.json": "4db06ea62748cfd26fc36500fc088852f839c0089c3f07ef9717081daeddd409",
+    "reports/compositional-dynamics-v17/viscous-development-plan.json": "efc447714387d3bee835491e5f845ecd06b19225566e478d3247f6ef063929f4",
+    "runs/compositional-dynamics-v17/viscous-development/drop-40mm-dt0.00002500/trajectory.npz": "84a30b35e6c5ab3a27a79546334a563887dad33725144220a94c160cadd61b5e",
+    "runs/compositional-dynamics-v17/viscous-development/finite-striker-dt0.00002500/trajectory.npz": "ee984ec6bc6512704b7f1618d5639905d31dc41cc6bd353a8ffe300623d0ace4",
+    "runs/compositional-dynamics-v17/viscous-development/drop-40mm-dt0.00001250/trajectory.npz": "ca95db54ee340baed1434d1811e7fe73fe10a3e065d08ddaacb9e39e024823e1",
+    "runs/compositional-dynamics-v17/viscous-development/finite-striker-dt0.00001250/trajectory.npz": "3a49ef837d30e34ad95fd81153fd2f72b78a97fe2b5583570f23110bf6b2e83f"
+  },
+  "rows": {
+    "drop-40mm-dt0.00002500": {
+      "completed": true,
+      "error": null,
+      "energy_balance_relative": 0.00012070695524749407,
+      "dissipated_J": 0.10674163291118327,
+      "initial_energy_J": 0.0,
+      "final_mechanical_energy_J": -0.10675442157167754,
+      "contact_impulse_on_rigid_Ns": [
+        0.0,
+        0.0,
+        -1.9864961345294225
+      ],
+      "contact_on_times_s": [
+        0.090325,
+        0.16245
+      ],
+      "contact_off_times_s": [
+        0.118775
+      ],
+      "scope": "Contact toggles are not separately counted as bounces; impulse integration is descriptive trapezoidal sampled ledger, not integrator midpoint impulse."
+    },
+    "finite-striker-dt0.00002500": {
+      "completed": true,
+      "error": null,
+      "energy_balance_relative": 5.797909809028556e-06,
+      "dissipated_J": 0.030328909646186807,
+      "initial_energy_J": 0.04,
+      "final_mechanical_energy_J": 0.009670858437420835,
+      "contact_impulse_on_rigid_Ns": [
+        1.1285609428696791e-18,
+        3.5330734449515935e-18,
+        0.11347286173291962
+      ],
+      "contact_on_times_s": [
+        0.025075
+      ],
+      "contact_off_times_s": [
+        0.12555
+      ],
+      "scope": "Contact toggles are not separately counted as bounces; impulse integration is descriptive trapezoidal sampled ledger, not integrator midpoint impulse."
+    },
+    "drop-40mm-dt0.00001250": {
+      "completed": false,
+      "error": "TimeoutError: Whole exploratory stage budget",
+      "energy_balance_relative": 2.4059612867851478e-05,
+      "dissipated_J": 0.10675252653532424,
+      "initial_energy_J": 0.0,
+      "final_mechanical_energy_J": -0.10675420094686557,
+      "contact_impulse_on_rigid_Ns": [
+        0.0,
+        0.0,
+        -1.0179633364627454
+      ],
+      "contact_on_times_s": [
+        0.0903125,
+        0.1624375
+      ],
+      "contact_off_times_s": [
+        0.118775
+      ],
+      "scope": "Contact toggles are not separately counted as bounces; impulse integration is descriptive trapezoidal sampled ledger, not integrator midpoint impulse."
+    },
+    "finite-striker-dt0.00001250": {
+      "completed": false,
+      "error": "TimeoutError: Whole exploratory stage budget",
+      "energy_balance_relative": 1.3851921219429353e-06,
+      "dissipated_J": 0.026693851321804626,
+      "initial_energy_J": 0.04,
+      "final_mechanical_energy_J": 0.013306093270510497,
+      "contact_impulse_on_rigid_Ns": [
+        3.00046546958239e-18,
+        2.3614365895423616e-20,
+        0.10927677472014741
+      ],
+      "contact_on_times_s": [
+        0.025075
+      ],
+      "contact_off_times_s": [],
+      "scope": "Contact toggles are not separately counted as bounces; impulse integration is descriptive trapezoidal sampled ledger, not integrator midpoint impulse."
+    }
+  },
+  "comparisons": [
+    {
+      "family": "drop-40mm",
+      "a": "drop-40mm-dt0.00002500",
+      "b": "drop-40mm-dt0.00001250",
+      "passed": false,
+      "reason": "Incomplete/failed declared pair retained"
+    },
+    {
+      "family": "finite-striker",
+      "a": "finite-striker-dt0.00002500",
+      "b": "finite-striker-dt0.00001250",
+      "passed": false,
+      "reason": "Incomplete/failed declared pair retained"
+    }
+  ],
+  "all_temporal_diagnostics_pass": false,
+  "reference_qualified": false,
+  "scope": "Distinct synthetic viscosity+explicit midpoint, not isolated damping ablation or measured material. Fixed predeclared timestep/energy/J/depth diagnostics; no spatial qualification. All failed prefixes retained."
+}

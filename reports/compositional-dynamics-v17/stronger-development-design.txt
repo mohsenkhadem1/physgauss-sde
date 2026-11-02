@@ -1,0 +1,50 @@
+PROSPECTIVE EXPLORATORY DYNAMICS — NOT QUALIFIED REFERENCE DATA
+
+Keep the existing 20% sudden-release and 20 mm drop qualification failures.
+Separate output namespace: runs/compositional-dynamics-v17/stronger-development.
+No held-out objects, fitted restitution, render displacement amplification, or
+post-hoc selection of successful trajectories. Record all attempts and prefixes.
+
+Common block: 120 x 60 x 60 mm, density 625 kg/m^3, mass 0.270 kg,
+original stable-NH law E=12 kPa, nu=.35; conservative physical model with no
+physical damping. Reference-area normal penalty 4e7 N/m^3. Begin at n3,
+volume quadrature3, contact quadrature8, dt25us. These are exploratory settings;
+mesh/time qualification does not transfer from another load. Numerical energy,
+minimum J and sampled/dense penetration remain visible, not silently corrected.
+
+A. Compression-release grades: initial affine thickness compression 30%, 40%,
+zero velocity/gravity, .12 s duration. Label instant prestrain release explicitly,
+not a simulated quasi-static loading history. A later smooth load/hold/release
+requires time-dependent tool-work accounting, not yet included in this runner.
+
+B. Drop grades: 40 mm and 80 mm initial floor clearance, zero initial velocity,
+gravity9.81m/s^2, .75 s each. Fixed E first; do not vary modulus to chase appearance.
+Available drop energies .106 and .212 J. Report peak properly aligned thickness
+compression and nonrigid displacement; target informative 20–40% measured
+compression is an experimental goal, not a numerical acceptance criterion. If
+these fail J/penetration/energy checks, preserve failure and do not raise heights.
+
+C. Finite-body striker: block initially undeformed, zero gravity, bilateral
+end-face compliant supports K6000N/m each, centers(.5,.5), widths(.375,.375)
+in normalized face coordinates, fixed tool poses. Sphere radius25mm, mass80g,
+center(60,0,80)mm, initial velocity(0,0,-1)m/s, spin0. Initial bottom gap25mm,
+kinetic energy .040J, .20s simulation. No floor, so no unsupported rigid-rigid
+collision. Actual equal/opposite normal forces advance the sphere. All tool
+reaction forces/torques and support geometry must be recorded; external support
+impulse explains nonconservation of scene momentum. Fixed supports do zero work.
+Sphere torque should be near zero for frictionless radial normal contact.
+This exercises bulk+bilateral support+normal-contact composition but initially
+uses analytic control laws; learned-law substitution needs separate qualification.
+
+Output contract: exact times_s, surface_rest and surface_frames(T,6,17,17,3),
+u,velocities, full-step energy/momentum/contact ledger; sphere_centers_m(T,B,3),
+sphere_velocities_m_s(T,B,3),sphere_omega_rad_s(T,B,3). completion metadata
+sphere_names with matching order, radii_m, masses_kg; full static support_specs
+and tools pose6, collision geometry, original law/mesh/dt/settings/source hashes.
+No temporal interpolation passed off as simulation. Fixed camera envelope must
+cover the full prescribed scene, not follow individual predicted trajectories.
+
+Planned bounded run: CPU2, 3600s whole stage, five cases in declaration order,
+retaining skipped identities if budget expires. Source+exact runner and gates
+must receive independent review before execution. This document is design only;
+no strong trajectory generation is authorized by its existence alone.

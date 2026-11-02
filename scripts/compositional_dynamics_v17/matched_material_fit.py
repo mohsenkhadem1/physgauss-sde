@@ -1,0 +1,162 @@
+"""Frozen shared-law identification from permitted masked calibration positions.
+No private generator plan, teacher latent, volume trajectory, or forecast read.
+"""
+import os
+for key in ('OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS'):os.environ[key]='1'
+import argparse,json,multiprocessing,time
+from pathlib import Path
+import numpy as np
+import torch
+from scipy.optimize import minimize
+from scripts.compositional_dynamics_v17.dynamics import DynamicContactModel,VelocityVerlet
+from scripts.compositional_neural_mechanics.mechanics import GeometrySpec
+from scripts.compositional_neural_mechanics.contact_mechanics import RigidPlane
+from scripts.compositional_neural_mechanics.scale_separated_material import ScaleSeparatedMaterialLaw
+from scripts.compositional_neural_mechanics.conditional_inference_pilot import BULK
+from scripts.compositional_neural_mechanics.gravity_inference_pilot import closure
+from scripts.compositional_dynamics_v17.prototype import ROOT,REPORT,sha,write
+PUBLIC=ROOT/'runs/compositional-dynamics-v17/calibration-public'
+RAW=ROOT/'runs/compositional-dynamics-v17/matched-material-fit'
+PLAN=REPORT/'matched-material-fit-plan.json'
+RESULT=REPORT/'matched-material-fit-results.json'
+
+
+def prepare():
+    if PLAN.exists() or RAW.exists():raise ValueError('Preserve previous fit')
+    metadata=json.loads((PUBLIC/'metadata.json').read_text())
+    if metadata['observations_sha256']!=sha(PUBLIC/'observations.npz'):raise ValueError('Public observation integrity')
+    tasks=[]
+    for scale in [-.6,0.,.6]:
+        for shape in [-1.,0.,1.]:
+            for penalty in [2e7,4e7,8e7]:
+                for flag in [-1.,1.]:tasks.append(dict(id=f'grid-{len(tasks):03d}',flag=flag,parameters=[scale,shape,float(np.log(penalty))]))
+    write(PLAN,dict(scope='Development conditional identification from noiseless masked oracle surface tracks/knowngeometry/knownmass. Frozen coupon-pretrained shared bulk law; unknownfamily,scale,shape andcontactpenalty. No raw-video inference, posterior-calibration, heldout or qualified-reference claim.',
+                    tasks=tasks,workers=4,refinement_workers=2,seconds=3600,n=2,dt_s=50e-6,
+                    geometry_dimensions_m=[.12,.06,.06],bounds=[[-1.,1.],[-2.,2.],[float(np.log(1e7)),float(np.log(1.6e8))]],
+                    refinement=dict(method='Powell',maxfev=24,xtol=.03,ftol=.001,per_family=True),
+                    objective='Mean squared world-position error over only visible scalar coordinates at frames1..20. Initialcondition excluded. No rigid/time/image alignment. Failed forward has explicit penalty and retained prefix.',
+                    forecast_rule='Afteralltrainingevaluations terminate, commitbestfinite completedtrainingcandidate acrossbothfamilies; onlythenforecast publichigherdrop. No forecastresponse read by fitter.',
+                    source_sha256={str(p.relative_to(ROOT)):sha(p) for p in closure([Path(__file__)])},
+                    input_sha256={str(p.relative_to(ROOT)):sha(p) for p in [PUBLIC/'observations.npz',PUBLIC/'metadata.json',Path(BULK)]}))
+
+
+def verify(plan):
+    for group in ('source_sha256','input_sha256'):
+        if any(sha(ROOT/path)!=digest for path,digest in plan[group].items()):raise ValueError('Fit input/source changed')
+
+
+def permitted_inputs():
+    metadata=json.loads((PUBLIC/'metadata.json').read_text())
+    with np.load(PUBLIC/'observations.npz') as a:
+        expected={'object_points','object_colors','object_visibilities','object_motions_valid','controller_points','surface_points','interior_points'}
+        if set(a.files)!=expected:raise ValueError('Unexpected estimator input field')
+        points=a['object_points'].astype(float);visibility=a['object_visibilities'].copy()
+    return metadata,points,visibility
+
+
+def simulate(parameters,flag,plan,metadata,deadline):
+    scale,shape,logpenalty=map(float,parameters)
+    law=ScaleSeparatedMaterialLaw().double();law.load_state_dict(torch.load(BULK,map_location='cpu',weights_only=False)['state_dict']);law.eval()
+    for p in law.parameters():p.requires_grad_(False)
+    dims=tuple(plan['geometry_dimensions_m']);mass=metadata['total_mass_kg']
+    model=DynamicContactModel(GeometrySpec(dimensions=dims),n=plan['n'],order=3,support_mode='free',bulk_energy=law.energy,
+                             material_latent_field=lambda q:q.new_tensor([scale,shape,flag]).expand(*q.shape[:-1],3),
+                             gravity=tuple(metadata['gravity_vector_m_s2']),density=mass/np.prod(dims),
+                             colliders=(RigidPlane(point=(0,0,metadata['public_floor_z_m']),penalty_N_m3=float(np.exp(logpenalty)),name='floor'),),surface_order=8)
+    engine=VelocityVerlet(model);state=engine.initial_state();q=np.asarray(metadata['material_queries']);X=model.geometry.map(q)
+    stride=round(metadata['frame_dt_s']/plan['dt_s']);steps=stride*(metadata['train_frame_count']-1)
+    if not np.isclose(stride*plan['dt_s'],metadata['frame_dt_s'],atol=1e-12,rtol=0):raise ValueError('Exact observation clock required')
+    frames=[X.copy()];times=[0.];minJ=state.diagnostics['minimum_J'];E0=engine.energy(state);max_drift=0.;error=None
+    try:
+        for i in range(1,steps+1):
+            if time.monotonic()>=deadline:raise TimeoutError('Bounded fit deadline')
+            state=engine.step(state,plan['dt_s']);minJ=min(minJ,state.diagnostics['minimum_J']);max_drift=max(max_drift,abs(engine.energy(state)-E0))
+            if i%stride==0:frames.append(X+model.sample_material(state.u,q));times.append(i*plan['dt_s'])
+    except Exception as exc:error=f'{type(exc).__name__}: {exc}'
+    return np.asarray(frames),dict(completed=error is None,error=error,last_time_s=state.time,saved_times_s=times,minimum_J=minJ,maximum_absolute_energy_drift_J=max_drift)
+
+
+def observed_loss(prediction,observations,visibility):
+    prediction=np.asarray(prediction,float);observations=np.asarray(observations,float);visibility=np.asarray(visibility)
+    if prediction.shape!=observations.shape or prediction.ndim!=3 or prediction.shape[-1]!=3 or visibility.shape!=prediction.shape[:-1] or visibility.dtype!=bool:
+        raise ValueError('Matched predicted and observed points with Boolean visibility required')
+    mask=visibility[1:]
+    if not mask.any():raise ValueError('No informative visible calibration observations')
+    residual=(prediction[1:]-observations[1:])[mask]
+    if not np.isfinite(residual).all():raise ValueError('Finite observed residuals required')
+    return float(np.mean(residual**2)),float(np.sqrt(np.mean(np.sum(residual**2,axis=-1)))),int(mask.sum())
+
+
+def evaluate(task,deadline):
+    torch.set_num_threads(1);plan=json.loads(PLAN.read_text());verify(plan);metadata,observations,visibility=permitted_inputs()
+    folder=RAW/task['id'];folder.mkdir(parents=True,exist_ok=False);start=time.monotonic()
+    record=dict(task=task,plan_sha256=sha(PLAN),loss_m2=1e6,completed=False,path=str(folder.relative_to(ROOT)))
+    try:
+        positions,diagnostics=simulate(task['parameters'],task['flag'],plan,metadata,deadline);record.update(diagnostics)
+        np.savez_compressed(folder/'prediction.npz',positions_m=positions,times_s=diagnostics['saved_times_s'])
+        record['prediction_sha256']=sha(folder/'prediction.npz')
+        if record['completed']:
+            if positions.shape!=observations.shape:raise ValueError('Full expected calibration prediction required')
+            record['loss_m2'],record['visible_vector_rms_m'],record['observed_point_count']=observed_loss(positions,observations,visibility)
+    except Exception as exc:record.update(completed=False,error=f'{type(exc).__name__}: {exc}')
+    record['seconds']=time.monotonic()-start;write(folder/'complete.json',record);return record
+
+
+def grid_worker(arguments):return evaluate(*arguments)
+
+
+def refine_worker(arguments):
+    flag,initial,deadline=arguments;plan=json.loads(PLAN.read_text());count=0;records=[]
+    def objective(parameters):
+        nonlocal count
+        if time.monotonic()>=deadline:raise TimeoutError('Refinement deadline')
+        task=dict(id=f'refine-{int(flag):+d}-{count:03d}',flag=flag,parameters=np.asarray(parameters).tolist());count+=1
+        row=evaluate(task,deadline);records.append(row);return row['loss_m2']
+    result=dict(flag=flag,initial_parameters=initial,converged=False)
+    try:
+        optimized=minimize(objective,initial,method='Powell',bounds=plan['bounds'],options={k:v for k,v in plan['refinement'].items() if k in ('maxfev','xtol','ftol')})
+        result.update(converged=bool(optimized.success),message=str(optimized.message),evaluations=int(optimized.nfev),optimizer_parameters=optimized.x.tolist())
+    except Exception as error:result['error']=f'{type(error).__name__}: {error}'
+    result['records']=[r['task']['id'] for r in records];write(RAW/f'refinement-{int(flag):+d}.json',result);return result
+
+
+def run():
+    plan=json.loads(PLAN.read_text());verify(plan)
+    if RAW.exists():raise ValueError('Preserve previous fitting')
+    RAW.mkdir(parents=True);start=time.monotonic();deadline=start+plan['seconds']-30;grid_rows=[];refinements=[];stage_error=None
+    pool=multiprocessing.get_context('spawn').Pool(plan['workers'])
+    try:
+        results=pool.imap_unordered(grid_worker,[(task,deadline-15) for task in plan['tasks']])
+        for _ in plan['tasks']:
+            grid_rows.append(results.next(timeout=max(.01,deadline-time.monotonic())));write(RESULT,dict(plan_sha256=sha(PLAN),terminal=False,stage='grid',grid_rows=grid_rows))
+    except Exception as error:stage_error=f'{type(error).__name__}: {error}'
+    finally:pool.terminate();pool.join()
+    eligible=[]
+    for flag in [-1.,1.]:
+        rows=[r for r in grid_rows if r['completed'] and r['task']['flag']==flag]
+        if rows:eligible.append((flag,min(rows,key=lambda r:r['loss_m2'])['task']['parameters'],deadline-15))
+    if eligible and time.monotonic()<deadline-30:
+        pool=multiprocessing.get_context('spawn').Pool(plan['refinement_workers'])
+        try:
+            results=pool.imap_unordered(refine_worker,eligible)
+            for _ in eligible:refinements.append(results.next(timeout=max(.01,deadline-time.monotonic())))
+        except Exception as error:stage_error=f'{type(error).__name__}: {error}'
+        finally:pool.terminate();pool.join()
+    all_rows=[]
+    for path in sorted(RAW.glob('*/complete.json')):
+        row=json.loads(path.read_text())
+        if row['plan_sha256']!=sha(PLAN):raise ValueError('Foreign fit result')
+        all_rows.append(row)
+    completed=[row for row in all_rows if row['completed']]
+    best=min(completed,key=lambda row:row['loss_m2']) if completed else None
+    verify(plan)
+    report=dict(plan_sha256=sha(PLAN),terminal=True,stage_error=stage_error,expected_grid=len(plan['tasks']),missing_grid=[task['id'] for task in plan['tasks'] if task['id'] not in {r['task']['id'] for r in all_rows}],rows=all_rows,refinements=refinements,best_training_candidate=best,seconds=time.monotonic()-start,forecast_read=False)
+    report['family_coverage']={str(int(flag)):dict(attempted=sum(r['task']['flag']==flag for r in all_rows),completed=sum(r['task']['flag']==flag and r['completed'] for r in all_rows)) for flag in [-1.,1.]}
+    report['search_complete']=not report['missing_grid'] and len(refinements)==2
+    report['both_families_have_completed_candidates']=all(r['completed']>0 for r in report['family_coverage'].values())
+    write(RESULT,report)
+    if best and report['search_complete']:write(RAW/'fitted-parameter-commit.json',dict(search_complete=report['search_complete'],family_coverage=report['family_coverage'],both_families_have_completed_candidates=report['both_families_have_completed_candidates'],plan_sha256=sha(PLAN),results_sha256=sha(RESULT),task=best['task'],loss_m2=best['loss_m2'],training_inputs_sha256=plan['input_sha256'],scope='Best completed observed-prefix candidate; optimization convergence separately reported. No forecast response used.'))
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--prepare',action='store_true');a=p.parse_args();prepare() if a.prepare else run()

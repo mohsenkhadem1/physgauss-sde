@@ -1,0 +1,42 @@
+V17 initial development prototype; no reserved data or training
+
+Physics: consistent mapped Q2 mass and velocity Verlet. Conservative stable
+Neo-Hookean common-law control exactly matches installed Newton energy, with
+no physical damping, friction or restitution resets. Existing v16 learned laws
+can use the same energy callback but receive no dynamic qualification by inheritance.
+Free release/drop removes bilateral attachments exactly. Supported sphere-impact
+will use finite mass and equal/opposite normal contact; not prescribed sphere motion.
+
+Before any rollout: independently review dynamics.py/materials.py/tests. Execute
+four focused tests: exact mass moments and ballistic gravity; manufactured
+harmonic frequency/energy/second-order convergence; two-way sphere impulse,
+angular momentum and global rigid objectivity; independent stableNH stress/energy.
+These controls are not a new benchmark and do not prove large-impact accuracy.
+
+Then bounded CPU1 prototype, max1200 seconds, no GPUs:
+Geometry .12 x .06 x .06 m, density625kg/m3, E12000Pa, nu.35.
+1 Free compression release: affine z compression20%, zero initial velocity,
+   no contacts/body loads/attachments, duration.04s.
+2 Free block drop: floorz=-.05m (20mm initial gap), gravity-9.81m/s2,
+   initial velocity0, penalty4e7N/m3, duration.25s.
+Each n1, surfaceorder8, dt.0002/.0001/.00005s; then n2 at.00005s.
+All outputs/failures retained. Purpose operator feasibility and identification of
+required next refinement; n1/2 agreement is not assumed. No higher-energy,
+learned-law or reserved run until observed numerical performance reviewed.
+
+Prospective numerical gates across sampled full trajectories:
+L=smallest reference dimension=.06m. WorldcoordinateRMS<=.005L;
+proper-rigid-removedshapeRMS<=.0025L; normal contact impulse difference
+<=5% +.0001N*s; apexdifference<=.02L; impact/bounce-eventtime difference
+<=.01sqrt(L/g). All finite, nodal/quadratureJ>.1; sampled and saved-state
+densefacepenetration<=.02L. Conservative energy drift at finestdt<=1% of
+initial strain+kinetic+available drop energy (zero-energyfloor1e-10J).
+No actuator or physical damping work in these initial two cases. Momentum
+ledger uses trapezoidal actualforces includinggravity/staticfloor reaction.
+A failure is a retained failed trajectory, never clamped/restarted/softened.
+
+Save exact integer-step1ms samples and full per-step energy/force/J ledger.
+Surface sample17x17 on six materialfaces is fixed acrossmeshes and uses the
+same dynamic Q2field. No syntheticinterpolation or independentvisualwarp.
+Final numerical qualification additionally requires volume/surfacequadrature
+and highermeshes; this bounded tinyprototype does not replace that process.
