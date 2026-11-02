@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "created_utc": "2026-11-02T20:49:02.561939+00:00",
+  "source_sha256": {
+    "scripts/compositional_dynamics_v17_reporting/cohort_image_after_predictions.py": "cf46d3612aecc2728017afc708af5a2f0f973133fa64691733d80ec6db1900fc"
+  },
+  "checks": [
+    "Exact original16 path census matches frozen evaluator paths; full committed(bindings) subsequently verifies original16 plus recovered8 and exact mappings.",
+    "Reviewed inference wrapper validates frozen/additive sources before waiting and each preparation/prediction phase.",
+    "Only prepare/predict and prediction_gate invoked; no score/reference-reader calls.",
+    "Existing launch status, image output or image plan refuse rerun.",
+    "Wait checks original deadline+30s and pipeline service state every20s."
+  ],
+  "synthetic_tests": "PASS: bad committed seal prevents preparation, exact16 readiness, call order committed/prepare/predict, existing report refusal. Temporary synthetic files only.",
+  "operational_conditions": [
+    "Launch exactly one durable GPU1 service with finite RuntimeMaxSec and KillMode=control-group covering remaining wait plus rendering; source itself bounds wait but not rendering walltime.",
+    "Terminal image ledger may contain explicit physical/render failures; completed launch does not imply all2480 successful images."
+  ],
+  "target_arrays_accessed": false,
+  "approval": "Approved prediction-only launch; no target scoring authorized."
+}

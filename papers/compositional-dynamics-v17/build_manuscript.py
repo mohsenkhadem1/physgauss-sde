@@ -35,6 +35,8 @@ development=read('matched-forecast-development-results.json',False)
 cohort=read('fresh-cohort-geometry-recovery-results.json',False)or read('fresh-cohort-geometry-results.json',False)
 appearance=read('matched-appearance-inference-recovery/dynamic-results.json',False)
 damping=read('native-zero-damping-results.json',False)
+cohort_images=read('fresh-cohort-appearance-results.json',False)
+sensitivity=read('fresh-cohort-reference-sensitivity.json',False)
 if development:read('matched-forecast-development-final-independent-audit.json')
 if appearance:read('matched-appearance-development-final-independent-audit.json')
 if damping:read('native-zero-damping-final-independent-audit.json')
@@ -57,7 +59,7 @@ text('Videos show saved integrator states at physical scale. Slow motion is labe
 page();title('Numerical evidence and framework controls')
 text('Refinement errors below use coordinate RMS. Forecast tables use vector RMS, which is sqrt(3) times coordinate RMS for the same weights.', 'CaptionV17')
 table([['Reference check','Measured difference','Conclusion'],['Smooth compression n3 to n4','53.2 um world/shape coordinate RMS','Pass for this controlled family'],['20 mm conservative drop n6 to n8','143.45 um world; 141.66 um shape','Full declared refinement conjunction passes'],['Abrupt 20% release n6 to n8','211.08 um shape; 150 um gate','Unqualified; failure retained'],['Stronger abrupt release/drop exploration','Four guard failures; finite striker completes','No relaxed guards or replacement cases']], [2.35*inch,2.4*inch,2.15*inch])
-text('Small energy drift alone does not qualify a simulation. The drop and controlled-cycle checks compare time step, spatial resolution, quadrature, contact events and orientation preservation. The qualified 20 mm stable Neo-Hookean drop does not automatically qualify the new MR/Yeoh materials or higher impacts. The fresh study therefore reports finite-resolution teacher sensitivity explicitly.')
+text('Small energy drift alone does not qualify a simulation. The drop and controlled-cycle checks compare time step, spatial resolution, quadrature and orientation preservation; contact-event checks additionally apply to the drop. The controlled cycle has no floor impact. The qualified 20 mm stable Neo-Hookean drop does not automatically qualify the new MR/Yeoh materials or higher impacts. The fresh study therefore reports finite-resolution teacher sensitivity explicitly.')
 text('Native Newton 1.7 / Warp 1.18 controls and the actual PhysTwin author simulator were executed. Newton development runs expose unresolved mesh/time and numerical-dissipation effects and are not used as a superior truth source. The main inferred-physics comparison uses author PhysTwin, with unchanged force and integration functions, known SI masses and a preserved fitted spring graph.')
 table([['Native calibration configuration','Coordinate RMSE (mm)'],*[[{'original125':'125 points, 20 CMA / 200 epochs','capacity729':'729 points, 20 CMA / 200 epochs','extended125':'125 points, 100 CMA / 1000 epochs'}[r['variant']],f"{r['coordinate_rmse_mm']:.5f}"]for r in native['rows']if r['complete']]], [4.7*inch,2.2*inch])
 text('The final baseline is globally selected from calibration replay only: 125 points, at most 100 CMA generations and 1000 gradient epochs. The 729-point capacity/configuration control and original 20/200 run remain reported. Logged online training loss is not substituted for fixed-checkpoint replay error. No further recipe selection uses the fresh targets.')
@@ -89,11 +91,43 @@ if development:
   text(f"A post-hoc mechanism diagnostic removes only the selected baseline's fitted drag and dashpot, without refitting. World error falls to {1000*d['world_point_rms_m']:.3f} mm, but shape error rises to {1000*d['shape_point_rms_m']:.3f} mm. Damping therefore explains part of the motion discrepancy, not the entire gap. This diagnostic does not replace the selected baseline or change the fresh cohort. Our elastic-only prior matches the teacher's zero physical damping; the comparison is not an isolated test of material-law superiority.")
 else:text('The matched development forecasts are still being completed. No future-motion superiority or native rendering-parity claim is made at this checkpoint.')
 if cohort:
+ page();title('Fresh cohort: physical prediction')
+ rows=[['World / drop','Ours world mm','Native world mm','Ours shape mm','Native shape mm']]
+ for case in cohort['rows']:
+  values=[]
+  for metric in ('world_point_rms_m','shape_point_rms_m'):
+   for method in ('ours','native_phystwin'):
+    result=case['methods'].get(method,{})
+    value=result.get('geometry',{}).get(metric)if case['reference_complete']and result.get('completed')else None
+    values.append(f'{1000*value:.3f}'if value is not None else'unavailable')
+  rows.append([case['world_id']+' / '+case['role'].replace('forecast-',''),*values])
+ table(rows,[2.1*inch,1.2*inch,1.2*inch,1.2*inch,1.2*inch])
  rows=[['Fresh method','Paired coverage','All-eight world RMS(mm)']]
  for name,result in cohort['summary'].items():
   value=result['primary_all_eight_mean'];rows.append([name,f"{result['paired_complete_forecasts']}/8",f"{1000*value['world_point_rms_m']:.4f}"if value else'unavailable'])
  table(rows,[3.3*inch,1.8*inch,1.8*inch])
+ text('Unavailable is a failed or missing prediction/reference, never zero error. Each physical metric uses the complete saved sequence at matching times; only the shape metric removes proper rigid motion. The eight rows are two loads on each of four worlds, not eight independent objects.','CaptionV17')
+ for name,label in [('ours','Ours'),('native_phystwin','Native PhysTwin')]:
+  result=cohort['summary'][name];m=result['conditional_paired_complete_case_mean'];n=result['paired_complete_forecasts']
+  if n:
+   text(f"{label}: on the same {n}/8 available paired forecasts only, mean world error is {1000*m['world_point_rms_m']:.3f} mm and mean shape error is {1000*m['shape_point_rms_m']:.3f} mm. These are conditional summaries; they do not substitute for an all-eight result.")
+ if sensitivity:
+  passed=sum(c['passed']for c in sensitivity['comparisons'])
+  text(f"Reference sensitivity: {sensitivity['completed_jobs']}/20 declared simulations completed; {passed}/{len(sensitivity['comparisons'])} declared spatial/time comparisons passed. The subset checks the 80 mm drop at n4/n6 and both time steps, plus calibration spatial consistency. It does not certify every material/load or provide a continuum solution.")
 else:text('Fresh cohort generation, inference and prediction are active. Final physical and rendering tables remain pending; the previous successful benchmark artifacts are preserved.')
+if cohort_images:
+ page();title('Fresh cohort: new-view image prediction')
+ rows=[['World / method','Scored / expected','Foreground PSNR','Foreground SSIM','IoU']]
+ for row in cohort_images['per_world_summary']:
+  if row['camera_role']!='held':continue
+  values=[]
+  for metric in ('psnr_foreground_union_db','ssim_rgb_foreground_union','silhouette_iou'):
+   m=row['metrics'][metric];v=m['full_coverage_mean'];values.append(f'{v:.3f}'if v is not None else'unavailable')
+  label='Ours'if row['method']=='shared_q2'else'Native'
+  rows.append([row['world_id']+' / '+label,f"{row['scored']}/{row['expected']}",*values])
+ table(rows,[2.05*inch,1.2*inch,1.25*inch,1.25*inch,1.15*inch])
+ text('Each row averages both forecast loads, all 31 times and the two fixed held cameras within one world. Full-coverage values are shown; missing images remain unavailable. Higher PSNR/SSIM/IoU is better. Per-frame values, observed-camera scores, depth error and coverage are retained in the complete image report.','CaptionV17')
+ text('Both methods use the same initial Gaussian checkpoint and native rasterizer, with their respective motion/shape transport. This measures future-view prediction quality jointly with dynamics. It does not establish equality of independently learned appearance models. Correlated image frames are not treated as independent statistical samples.')
 text('Reproduction: reports/compositional-dynamics-v17 contains frozen protocols, source/input hashes, audit records and NATIVE-SETUP.txt. Raw simulation datasets and model checkpoints remain local. This supplement extends the preserved v16 manuscript rather than replacing its results.','CaptionV17')
 if development:
  page();title('Development response through impact and rebound')
