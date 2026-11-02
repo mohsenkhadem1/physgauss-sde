@@ -1,0 +1,245 @@
+COMPOSITIONAL NEURAL MECHANICS V16: REPRODUCIBILITY RECIPE
+Recorded 2 November 2026. Repository checkpoint: 5c825cc.
+
+STATUS AND LIMITS
+This is a checked command/dependency inventory, not a verified one-command fresh-clone release. Module imports were checked in the two existing local environments; training and experiments were NOT rerun while preparing this document. Raw simulation arrays, feature caches and working checkpoints intentionally remain local. Git contains source, protocols, result reports/audits, selected figures and bounded videos. Reports alone do not supply the omitted checkpoint/data bytes.
+
+The completed forward comparison is oracle-descriptor evaluation. The separate six-object inverse experiment hides 15 continuous parameters while supplying geometry, categorical law families, heterogeneity pattern, gravity and density. Do not label either an end-to-end vision benchmark. Published historical studies are preserved separately.
+
+PUBLISHED EVIDENCE RESTORATION
+From the repository root:
+  python scripts/compositional_neural_mechanics/unpack_evidence.py
+This standard-library helper verifies deterministic gzip hashes and restores large JSON reports listed in compressed-evidence.json. It refuses to replace differing local evidence. It does not restore raw data or checkpoints. Read the final independent audits, not intermediate progress logs.
+
+Principal completed evidence:
+  oracle-reserved-forward-results.json                  original 240/288 successes; 48 missing failures
+  oracle-recovery-merged-results.json                   original240 + recovered48; separate merged ledger
+  oracle-recovery-final-independent-audit.json          independent merged raw-array check
+  stable-zero-io-final-independent-audit.json            successful 96/96 stable controls; comparison complete
+  oracle-recovered-plus-stable-io-comparison.json        recovered original methods + both corrected controls
+  unknown-action-final-independent-audit.json           six-object motion/inference/action result
+  unknown-reaction-final-independent-audit.json         secondary same-parameter reaction result
+  discrepancy-band-final-independent-audit.json         supplementary frozen development-MSE bands
+  visual-bridge-final-independent-audit.json             development rendered/physical metrics
+  unknown-result-video-independent-audit.json           posthoc worst/median static-state orbit videos
+All names above are under reports/compositional-neural-mechanics-v16/.
+
+ENVIRONMENTS ACTUALLY USED
+A. runs/phystwin-env/bin/python
+   Python 3.10.16, PyTorch 2.4.0+cu121, CUDA runtime12.1,
+   NumPy1.26.4, SciPy1.15.3, Pillow12.3.0, ReportLab5.1.0.
+   Used for learned-law/direct training, CPU inverse/action experiments,
+   stable-control CPU predictions, exact video state replay and manuscript build.
+B. .venv/bin/python
+   Python3.12.3, PyTorch2.14.1+cu130, CUDA runtime13.0,
+   NumPy2.5.4, SciPy1.18.1.
+   Used for original oracle GPU evaluation and its missing-call recovery.
+   The recovery explicitly verifies this executable/runtime; do not silently
+   substitute environmentA and claim an identical runtime.
+Host recorded: Linux7.0.0-38 x86_64/glibc2.39; Intel i9-9980XE,
+18physical/36logical CPU cores,125GiB memory. Four RTX2080Ti cards,
+11264MiB each; driver595.99.02. Only GPUs0,1,2 were authorized for this study;
+GPU3 was left to unrelated work. Small training used GPU0; oracle/data workers
+shared GPUs0-2. Unknown-parameter workers were CPU-only, one BLAS/Torch thread
+each, four workers. No speed/SOTA claim is inferred across these environments.
+
+Use one thread per worker, as the scripts do:
+  export OMP_NUM_THREADS=1
+  export OPENBLAS_NUM_THREADS=1
+  export MKL_NUM_THREADS=1
+Do not assume a supplied lockfile/container or GPU-independent byte-identical
+retraining. Neither a clean environment installation nor a fresh-clone full run
+has been tested. Source guards can fail on regenerated checkpoints whose bytes
+differ, even if their numerical behavior is comparable.
+
+CHECKPOINT BYTES REQUIRED FOR EXACT LOCAL REPLAY
+All paths start runs/compositional-neural-mechanics-v16/:
+  scale-separated-prototype/shared-law.pt
+    20aef4ac9eac62b418852dd0f79dfd6899d8e544b2428916819be9179988f0e8
+  interface-wide-range-warm/shared-interface.pt
+    93234fcdc0d66f9b7dabb5186258c8fd63427af22d8605d541351a332ca2d996
+  direct-baseline-campaign/direct-baseline.pt
+    3bcd2926ef46f83999e983ff6ea036dc24c716946a4aac1799678dff881822b2
+  direct-capacity-campaign/direct-baseline.pt
+    a6faa98c4a4ed40115da18bc989f48c1ed522c7b128d1a6f3b1cb3f9ffc5199a
+The exact authoritative direct-capacity digest is in oracle-method-freeze.json;
+see the verification manifest accompanying this recipe for machine-read values.
+Stable copies are under stable-zero-control/ and pinned by stable-zero-control-plan.json.
+Use sha256sum on each local artifact and compare the complete value in its plan.
+Every runtime plan also pins source files; source snapshots accompany selected
+studies. Legacy experiments.* dependencies omitted by an early inventory were
+independently checked against the pre-campaign preservation manifest; see the
+legacy-dependency-* reports. The final oracle/inverse closures include them.
+
+REGENERATION COMMAND INVENTORY (HISTORICAL, NOT A PASTE-ALL SCRIPT)
+These entry points and argument spellings were inspected. Execute only in a
+separate replication workspace with new output/evidence destinations; preserve
+the published originals. Several trainers use fixed OUT/REPORT paths and reject
+existing outputs. Their prepare functions reject existing plans. There is no
+generic --output override for every stage. Preparing a new run therefore requires
+an explicitly separate plan/namespace and new source/checkpoint pins; never
+remove or edit the historical evidence to make a guard pass.
+
+1. Bulk law: exact-scale wrapper, fixed6000 steps, final iterate:
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.train_scale_separated_material --device cuda:0 --steps 6000
+   The earlier unseparated1500-step prototype is historical diagnostic evidence,
+   not the final checkpoint. Fresh strain/descriptor tests follow weight freeze.
+
+2. Interface law, CPU pointwise coupon training:
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.train_interface_prototype
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.train_interface_range_warm
+   Warm repair requires interface-prototype/shared-interface.pt. It runs6000
+   steps from that prototype. train_interface_range is the preserved failed
+   random-start alternative, not a prerequisite for the final warm checkpoint.
+
+3. Analytic training data,54train +4validation objects, six actions each:
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.dataset_runner --plan reports/compositional-neural-mechanics-v16/training-data-plan.json --output runs/compositional-neural-mechanics-v16/training-data-n4 --execute
+   Frozen plan supplies all348 actions, n4/order3, geometry, query coordinates,
+   continuation schedule, device list and budgets. Resume checks existing files
+   against identical plan/source hashes; it does not silently reuse other runs.
+   Use --source-inventory to inspect the script's inventory, not to modify a plan.
+
+4. Direct baseline, fixed6000 steps and final iterate:
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.train_direct_campaign --prepare
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.train_direct_campaign --prepare-features
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.train_direct_campaign --execute-training
+   All348 successful records are required. Train-only normalization uses324
+   training records;24 validation records never fit normalization. Numeric bulk
+   and interface fingerprints are generated by the same frozen shared laws.
+   Nodegrid5^3; querygrid7^3; batch16; learning rate.001; seed926701.
+
+5. Larger direct capacity control, same architecture/data/seed, from scratch:
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.direct_capacity_campaign --prepare
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.direct_capacity_campaign --execute
+   Fixed30000-step final iterate; original6000 variant remains reported.
+
+6. Original oracle study, source/checkpoint freeze then bounded GPU run:
+  .venv/bin/python -m scripts.compositional_neural_mechanics.oracle_campaign --freeze
+  .venv/bin/python -m scripts.compositional_neural_mechanics.oracle_campaign --execute
+   This is the historical entry point, including its1800s-per-scene limit.
+   The completed campaign required the separately documented recovery below.
+   A fresh replica must not assume this old command finishes all rows.
+
+7. Historical oracle timeout/aggregation recovery, unchanged physics:
+   The original aggregator failed on in-memory tuple versus committed JSON-list
+   record equality. The audited repair invoked:
+  .venv/bin/python -c 'from scripts.compositional_neural_mechanics import oracle_campaign as o; o.summarize(o.runtime_records()[1])'
+   This preserved48 missing failures in the original288-row ledger. Then:
+  .venv/bin/python -m scripts.compositional_neural_mechanics_reporting.oracle_missing_recovery --prepare
+  .venv/bin/python -m scripts.compositional_neural_mechanics_reporting.oracle_missing_recovery --run
+   Plan fixes exactly48 missing calls,240 hash-verified reused artifacts,
+   original runtime, GPU0-2,3600s percall and7200s whole stage. This recovery is
+   specific to the historical failure set; it is not a generic fresh-run launcher.
+
+8. Stable zero-input normalization controls and I/O-only correction:
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.stable_zero_control --prepare
+   Both frozen copies modify only exactly-zero TRAIN input standard deviations,
+   using fixed physical scales. Weights/targets and324 training predictions
+   remain bit-identical. Historical prerequisite before the I/O recovery:
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.stable_zero_evaluate --predict
+   The original stable_zero_evaluate --predict attempted
+   96 forecasts but all writes failed on absent directories. Do not mistake
+   those terminal failure records for successful pre-reference predictions.
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics_reporting.stable_zero_io_recovery --prepare
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics_reporting.stable_zero_io_recovery --run
+  .venv/bin/python -m scripts.compositional_neural_mechanics_reporting.stable_zero_io_mixed_score
+  .venv/bin/python -m scripts.compositional_neural_mechanics_reporting.stable_zero_io_independent_audit
+   Recovery preserves old96failed rows and calls the exact frozen predictor with
+   only parent-directory creation and a new output namespace.96/96 successful
+   finite files were produced AFTER the directory fix, when primary outcomes
+   were visible. No training/rule/checkpoint selection changed. The final audit
+   requires baseline_comparison_complete=true. Scoring requires the independently
+   audited merged reference index; all original ledgers remain available.
+
+9. Fresh six-object conditional inference/action study:
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.unknown_action_campaign --prepare
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.unknown_action_campaign --generate
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.unknown_action_campaign --run
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.unknown_action_score
+   n4 analytic truth; n2 analytic/shared inference; fixed15D unit-prior parameter
+   pack/bounds, neutral initial fit. Four CPU workers, one shared6h deadline,
+   40 evaluations/900s per fit. Initial observation plus one candidate packet;
+   allthree fixed probes, random and target-task variance policy. Selection is
+   saved before candidate outcomes; all12 model/object jobs terminal before
+   held-truth scoring. Preserve incomplete fits and all144 policy-command rows.
+   Published inputs/results are now exposed; replay is not a new untouched test.
+
+10. Secondary reactions, no refit or force input:
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics_reporting.unknown_reaction_secondary --prepare
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics_reporting.unknown_reaction_secondary --run
+   Requires passed current primary independent audit; fixed original parameters
+   and choices;96n2 prediction states +12n4 reference states;4CPU/1800s cap.
+   Force and torque units/origins checked; all144 rows retained. Supplementary
+   discrepancy-band commands/plans are separate and do not alter fitted outputs.
+
+10b. Frozen-law normal-contact composition (completed development study):
+  .venv/bin/python -m scripts.compositional_neural_mechanics.contact_transfer --prepare
+  .venv/bin/python -m scripts.compositional_neural_mechanics.contact_transfer --stage preflight --device cpu
+  .venv/bin/python -m scripts.compositional_neural_mechanics.contact_transfer --stage fine --device gpu
+   Historical runtime B (Python3.12/Torch2.14); requested GPU eligibility gate
+   selected CPU fallback for fine execution, two workers, 2239 s. No law training.
+   contact-transfer-plan.json pins all dependencies/checkpoints;16 analytic/shared
+   states across two bulk/interface families, n6/n8, contact q16/q32. All four
+   qualification sets pass fixed-penalty consistency checks, not continuum proof.
+   Independent evidence: contact-transfer-final-independent-audit.json (265checks).
+   Known geometry/descriptors/gravity/density; no friction or impact inference.
+
+10c. Small conditional reference: preserve failed exact-node result and repair:
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.reference_posterior_extension --prepare
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.reference_posterior_extension --run
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.reference_posterior_surrogate --prepare
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics.reference_posterior_surrogate --run
+   Existing runtime A, CPU. Original extension2801nodes: V qualified, VF interval
+   proposal-width sensitivity .146499SD fails .05, despite stable moments.
+   Separate surrogate plan133b22e3... preserves that failure. Degree4 response
+   polynomial trained437 cached nodes, degree3 crosscheck;64 fresh exact queries
+   (16 proposalwidth1,16 width2,32 outer-shell), four CPU workers,120s/node,
+   3600s whole/external service limit. Completed108.1s. Continuous3D Sobol
+   importance integration,2^16/18/20,4 scrambles,width1/2, exact prior/likelihood/
+   common-scale wrench, empirical weighted quantiles. Independent audit3075checks
+   recomputed all64 fresh errors and primary2^20 samples; other15 group gate
+   arithmetic checked. Qualified developmental numerical surrogate only;
+   empirical tails are not global certification or a15D/coverage validation.
+   Separate namespaces and before-run audit are required; do not overwrite the
+   published plans to rerun. Both branches preserve their original failed ledgers.
+
+11. Videos and manuscript, after completed audits and local arrays are available:
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics_reporting.unknown_result_videos --prepare
+  runs/phystwin-env/bin/python -m scripts.compositional_neural_mechanics_reporting.unknown_result_videos --run
+  runs/phystwin-env/bin/python papers/compositional-neural-mechanics-v16/build_manuscript.py
+  pdftoppm -png output/pdf/compositional-neural-mechanics-v16.pdf tmp/pdfs/v16/page
+   Video selection is explicitly posthoc worst/median object; each is one static
+   equilibrium with camera orbit, not a dynamic forecast.26point replay tolerance
+   1e-9m precedes additional343point display queries. Local bundled ffmpeg comes
+   from imageio_ffmpeg. PDF evidence/visual QA sit in papers/...; raw video frames
+   remain local. The manuscript is a working research report, not a submitted
+   CVPR-formatted or full end-to-end benchmark paper.
+
+WHAT WAS VERIFIED FOR THIS RECIPE
+Read entry points/argument parsers, recovery guards, evidence unpacker,
+checkpoint manifests and publication commit. Imported nine core/training modules
+in environment A and three oracle/recovery/scoring modules in environment B.
+Recorded installed versions/hardware; did not rerun training or full studies.
+
+Additionally exported scripts/, experiments/, tests/ from commit 5c825cc using
+git archive into /tmp/v16-clean-source-5c825cc-cbnj6u6a. Ran the preserved
+clean-source-smoke-driver.py there, with cwd/PYTHONPATH pointing to the export
+and the existing environment A interpreter. The driver rejects Python file
+opens in the original workspace outside that runtime and rejects local data /
+checkpoint formats; actual __file__ paths of all 20 imported project modules
+were inside the export. Their bytes independently matched committed Git blobs.
+No original project datasets or learned checkpoints were accessed.
+
+The CPU n2/order3 nonlinear Yeoh/compliant-interface equilibrium smoke passed:
+425 nodes, 32 elements; symmetric 19.2 mm stretch plus 0.25 rad tool rotation,
+gravity enabled; residual 5.735e-11 N, minimum determinant 0.989296,
+force-balance error 1.131e-11 N, nonrigid coordinate RMS 2.228 mm; 1.81 s solve.
+Exact command, plan/source hashes, import paths and numerical results are in
+clean-source-smoke-results.json. To replay, copy the preserved driver into a
+new source export and use that directory as cwd/PYTHONPATH; its environment
+path is explicitly machine-specific and must be adapted on another machine.
+
+This is a committed-source analytic solve using an existing environment, not a
+fresh installation, learned-model replication, or full benchmark rerun. Python
+open-event checks are not an OS sandbox. Raw/checkpoint packaging and a separate
+full replication remain outstanding; no turnkey fresh-clone claim is made.

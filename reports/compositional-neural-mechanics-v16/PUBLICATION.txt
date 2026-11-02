@@ -1,1 +1,65 @@
-Development milestone. The frozen oracle benchmark is running; no reserved result is claimed in this publication. Raw simulation datasets and working checkpoints remain local. Large JSON evidence is stored as deterministic gzip; restore byte-exact reports with: python scripts/compositional_neural_mechanics/unpack_evidence.py . No model or solver source is changed by restoration. Prior benchmark artifacts are preserved. Videos and final experiment results will accompany the completed campaign update.
+FINAL SCIENTIFIC RELEASE
+
+The completed scientific results, manuscript, contact video, numerical-reference repair and reproducibility notes accompany this release. Exact release identities are recorded in Git history and the post-publication receipt.
+
+COMPOSITIONAL NEURAL MECHANICS — COMPLETED SCIENTIFIC STUDY
+2 November 2026
+
+Implemented: shared objective hyperelastic bulk energies and nonlinear relational
+attachment energies, scene-specific material/support variables, and a nonlinear
+mechanical solver driven by tool positions/orientations and known gravity.
+New observations update scene variables while pretrained law weights stay fixed.
+
+Reserved oracle forward tests (known physical descriptors):
+                           Held compositions   New geometry draws
+Shared learned laws          0.01811 mm             0.01835 mm
+Matched analytic mechanics   0.01642 mm             0.01590 mm
+Corrected 30k direct model   3.08880 mm             3.29332 mm
+Six objects per cohort; two novel geometry instances. Custom direct baseline,
+not an authors' SOTA reproduction. Original failures and corrected controls are
+retained; reference outputs are numerical solutions, not continuum certificates.
+
+Unknown scene inference: six separate objects with 15 continuous unknowns,
+known geometry/categories/gravity/density. One extra stretch observation reduces
+shared-model unseen-command position error from 0.33949 to 0.08022 mm and force
+error from 0.09605 to 0.02921 N without force observations. All144 forecasts scored;
+41/48 fits converge, seven budget-limited fits remain included. Adaptive choice
+always equals fixed stretch; no advantage over the strongest fixed policy.
+
+Uncertainty: nominal post-stretch coverage is only33.0%. Adding model-discrepancy
+variance frozen on development objects raises coverage to96.2% with wider bands
+and improved interval score. Six objects do not establish population calibration.
+A separate three-parameter reference identifies an integration failure: original
+Gauss-Hermite force-informed intervals remain unqualified. A continuous numerical
+surrogate, validated with64 fresh exact solves and independent million-sample
+replay, passes the original numerical thresholds. This is finite numerical
+validation, not an exact global-tail or15-dimensional posterior guarantee.
+
+New normal-contact composition: frozen learned bulk/attachment laws plus explicit
+floor/sphere penalty contact under gravity; no retraining. All16 solves and all
+four mesh/quadrature qualifications pass. Shared-versus-analytic displacement
+RMS is6.281/2.397 micrometres for the two combinations; sphere-force errors are
+2.019%/0.841%. Known descriptors, quasistatic normal contact only. No friction,
+dynamic rigid-body coupling, unknown-contact inference or public-dataset claim.
+
+Rendering: the same solved deformation drives synthetic RGB/depth/silhouette.
+In the attachment-only zero-body-load identity test, common stiffness scaling
+leaves images unchanged while reactions scale. A fixed numerical contact penalty
+must not be mistaken for a physical stiffness reference. Videos show static
+simulated equilibria with a moving camera, not forecast dynamics.
+
+Deliverables:
+  ../../output/pdf/compositional-neural-mechanics-v16.pdf —13-page manuscript
+  architecture-overview.png —implemented blocks, inputs and outputs
+  videos/unknown-worst_after-world4.mp4 —actual / before / after observation
+  videos/unknown-median_rank-world3.mp4 —second transparent selection
+  videos/contact-transfer-orbit.mp4 —analytic / learned contact equilibria
+  REPRODUCE.txt —checked commands, environments and local dependencies
+
+All scientific stages have terminal records and independent audits. Raw datasets
+and working checkpoints remain local. Existing public benchmark evidence remains
+unchanged; this study does not claim new SoftVT/PhysTwin or vision-SOTA results.
+Final release verification is recorded separately from scientific completion.
+
+HISTORICAL MILESTONE
+Commit5c825cc published the earlier completed benchmark evidence. The later contact/posterior/manuscript artifacts are separate additions; that old commit alone does not contain them.

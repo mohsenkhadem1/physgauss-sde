@@ -1,0 +1,83 @@
+Bounded posthoc diagnosis: no new mechanics calls; original posterior unchanged
+
+Conclusion
+No correctness bug was identified in the positive conditional-CDF implementation.
+The observed VF failure is consistent with inadequate ratio-node resolution for
+quantiles, despite excellent low-order moments. V remains numerically qualified;
+VF remains unqualified. This diagnostic does not replace either conclusion.
+
+Derivation
+Let s=log bulk scale, r_j=log K_j-s, and c_j=r_j-log(500).
+At fixed r, the log conditional density, up to an s-independent constant, is
+ -.5*[s^2+(s+c_L)^2+(s+c_R)^2] -.5*A*(exp(s)-B/A)^2.
+Its derivative is -3s-c_L-c_R-A exp(2s)+B exp(s). The implemented mode-search
+split points solve the derivative's extrema: 2A y^2-B y+3=0, y=exp(s).
+The discriminant B^2-24A and roots in the source are correct. The omitted C
+and B^2/A terms are constant at fixed r and cancel in the normalized CDF.
+The interval for x_j=s+r_j correctly uses F_s(t-r_j | r). Mixture weights
+retain the full position/wrench likelihood and prior. Scalar normalizers agree
+with 2049-point Simpson integration at approximately 1.5e-11 relative error.
+Thus this mass approximation cannot explain the much larger endpoint shift.
+
+The ratio integral is still a finite Gauss-Hermite mixture. For VF, its narrow
+conditional scale kernels make F_s(t-r_j | r) vary sharply across r. Polynomial
+moments can converge much sooner than this near-indicator integrand. Increasing
+proposal width with unchanged order doubles central node spacing and reduces
+useful node density; it is not itself a more accurate quantile calculation.
+
+Cache-only numeric check
+Conditional local scale width (inverse square root of log-density curvature,
+mass averaged; not an exact conditional SD): .00304554.
+Central left-ratio spacing: .00785395 standard, .01570791 wide.
+Effective ratio nodes: 42.0155 standard, 10.5250 wide.
+At the wide left-logK lower endpoint, standard-grid CDF=.0663075, wide=.05.
+At the standard lower endpoint, wide-grid CDF=.0365445, standard=.05.
+The .00195763 logK lower-endpoint difference is .146499 posterior SD.
+CDF diagnostic sums retained >=.999999 mass, hence omitted mass <1e-6.
+This is large CDF disagreement, not merely root-finder tolerance.
+
+Cached-response smoothness test (new diagnostic only)
+Whiten r using the original proposal covariance. Fit total-degree 2/3/4
+polynomials to 437 order25 nodes within Euclidean radius8, then validate on
+order33 standard/wide nodes excluding every exact shared training node.
+Outputs are the 156 position residual components /50um and 24 wrench components
+(force /.02N; torque /.001Nm). No withheld-response targets are used.
+Within radius6, 452 independent cached nodes:
+ degree2 max position-vector L2 error .0001711; wrench .00003713;
+ degree3 max position-vector L2 error .000002712; wrench .0000005351;
+ degree4 max position-vector L2 error .00000009796; wrench .00000001744.
+Within radius6..8, another316 nodes: degree4 maxima .0000002544 and .00000005102.
+Outside radius8, 1408 nodes: degree4 maxima .00023399 and .00005909; tails are
+reported separately and have NOT been proven negligible. Design condition
+numbers 5.45/14.89/43.56. Full per-grid numbers and diagnostic source preserved.
+The very smooth forward response makes a carefully checked continuous response
+interpolant plausible. These are finite-node validation errors, not uniform
+error bounds, posterior convergence, or calibrated intervals.
+
+Recommended next bounded strategy (not executed)
+1. Keep order25-only polynomial fit fixed, and keep independent33/wide checks.
+   Fit forward vectors, not posterior weights or interval endpoints. Preserve
+   exact common-scale exp(s) wrench law, exact bounded prior and positive density.
+2. Compute an independent high-resolution/adaptive continuous ratio integral
+   using degree3 and degree4 response approximations; compare all moments,
+   evidence and CDF values/endpoints with independently tightened integration.
+   For logK quantiles, integrate coordinates x_j=s+r_j with the CDF boundary as
+   an integration limit rather than asking sparse fixed-r nodes to approximate
+   a sharp indicator. This removes the particular grid-mixture artifact.
+3. Quantify likelihood sensitivity using |delta log L| <= ||residual||*||error||
+   + .5||error||^2, separately for position and exp(s)-scaled wrench over s[-1,1].
+   A uniform log-density error epsilon would imply normalized density ratios
+   bounded by exp(+-2epsilon); finite cached validation alone does NOT establish
+   that bound. Check tails separately, rather than invoking Gaussian prior tails
+   as posterior-tail bounds. Extend/check the approximation outside the core or
+   retain a separately converged tail integral.
+4. Before accepting an interpolated reference, use independent off-grid exact
+   solves targeted at the mass/CDF-transition region and tail boundaries, plus
+   approximation-order and integration-tolerance refinement. Report this as an
+   independently validated surrogate reference if it passes, never silently
+   replacing the original exact-node study. No new solves were run here.
+
+An exact no-surrogate alternative is adaptive/quantile-aligned cubature in the
+ratio variables with cached exact solves; it requires some new nodes. Combining
+old grids or replacing intervals by Gaussian mean +/-1.645SD does not establish
+convergence. Arbitrary smoothing of the discrete ratio mixture is inappropriate.
