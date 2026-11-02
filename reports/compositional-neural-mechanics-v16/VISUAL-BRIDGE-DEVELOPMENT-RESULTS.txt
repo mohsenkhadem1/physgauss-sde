@@ -1,0 +1,17 @@
+SOLVED-STATE VISUAL/PHYSICAL DEVELOPMENT BRIDGE
+
+Known synthetic geometry and material-coordinate appearance; no image warp, learned reconstruction, or end-to-end vision claim. Opaque unlit object surface only; bilateral fixture mechanics are not depicted as resolved fixture geometry. Same solved Q2 field drives the surface, 26point physical comparison and reaction wrenches. Three fixed calibrated cameras per object; 256x192/focal250.
+All render tests pass3/3: camera/occlusion/depth, missingcoverage accounting, exact common-scale appearance invariance. Contact sheet visually inspected: correct paired cameras, all objects in frame, consistent material colors and no deformation exaggeration.
+
+World | Method | position mm | force N | torque Nm | mean foreground RGB RMSE | mean depth mm | mean IoU
+0 | learned_initial_n2 | 0.201706 | 0.029580 | 0.002578 | 0.042398 | 0.592681 | 0.994003
+0 | learned_after_stretch_n2 | 0.113513 | 0.005681 | 0.000657 | 0.014250 | 0.167251 | 0.998923
+1 | learned_initial_n2 | 0.769435 | 0.066659 | 0.000949 | 0.056247 | 0.937716 | 0.984860
+1 | learned_after_stretch_n2 | 0.081304 | 0.015097 | 0.000195 | 0.023427 | 0.126913 | 0.998022
+
+RGB is normalized0–1; depth uses only jointly visible pixels, with missing/extra pixel counts and IoU retained per view. Metrics are finite-resolution diagnostics, not a sensor likelihood. Previously identified raster aliasing limits remain.
+Reference is n4, learned predictions n2. Thus these physical errors differ from the earlier same-n2 action pilot and include numerical/model discrepancy. Both are explicitly development evidence.
+
+EXACT AMBIGUITY CONTROL
+With gravity disabled and BOTH bulk and bilateral support stiffness multiplied by2, the same equilibrium remains valid (scaled residual4.85e-13N). All three RGB/depth views are bit-identical. Reaction force vector norm doubles0.663530→1.327059N; force scaling error1.11e-16N and torque scaling error1.16e-18Nm. The rendered color depends only on material coordinates, never stiffness labels.
+This counterexample proves that perfect static rendered appearance alone cannot determine absolute stiffness/reaction scale under these co-scaled, zero-load conditions. It does not claim the gravity-loaded experiment has the same exact ambiguity.

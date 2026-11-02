@@ -1,44 +1,46 @@
-COMPOSITIONAL NEURAL MECHANICS — DEVELOPMENT MILESTONE
+COMPOSITIONAL NEURAL MECHANICS — AUDITED CHECKPOINT, 2 November 2026
 
-Goal remains active. This is not the reserved benchmark result or a completed paper.
+The campaign remains active. Raw simulation data and checkpoints remain local.
 
-Implemented:
-- Shared objective bulk energy law with exact common-stiffness scaling.
-- Shared convex radial bilateral attachment energy; distinct from unilateral contact.
-- Mapped-geometry Q2 nonlinear equilibrium solver, controlled by tool positions/orientations.
-- Implicit parameter gradients and conditional bounded MAP; optional measured wrenches.
-- Custom direct neural predictor with matched physical descriptors and frozen-law fingerprints.
-- Resumable, source-pinned data and baseline runners; raw datasets stay local.
+Completed reserved forward evaluation: all 288 original/recovered outputs audited;
+96 corrected direct-network forecasts additionally succeeded and were independently
+scored (3570 checks). Learned-law position error is 0.01811 / 0.01835 mm for
+reserved compositions / novel geometries; matched analytic mechanics 0.01642 /
+0.01590 mm; corrected 30k-step direct baseline 3.08880 / 3.29332 mm.
+Known physical descriptors are supplied: this is an oracle forward comparison.
+The direct baseline is our custom architecture, not a reproduction of a named SOTA.
+Original timeout, normalization defects and failed prediction writes are preserved.
+Frozen baseline models were replayed after an output-directory-only repair;
+successful forecast artifacts were generated after outcomes were already visible.
 
-Evidence so far:
-- All 15 development teacher responses have a passing mesh-refinement pair; original failures retained.
-- Original attachment model failed at large slips. Failed wide random-start training is retained too.
-- Warm-start range repair independently achieves 0.629% aggregate coupon force error in its widened range; saturated-family extrapolation error remains 6.533%.
-- Coupled learned n4 prediction against n6 teacher: mean field RMS 0.02446 mm, maximum 0.08399 mm over 15 development responses, oracle physical descriptors.
-- Same-mesh difficult stretch example improves from 4.065 mm to 0.07869 mm after attachment repair.
-- Controlled three-parameter fit: shape-only observations cannot identify common material/support stiffness scale. Adding wrench observations reduces learned held-out force error from 0.05370 N to 0.000911 N; shape errors remain about 7 micrometres.
-- The mechanism fit uses known nuisance parameters and same-mesh analytic truth; it is not full unknown-scene inference or a calibrated posterior.
-- 57 integration tests pass; one tensor-to-float diagnostic warning remains.
-- All 8,028 preserved prior tracked files remain byte-identical.
+Unknown-parameter study: six objects, 15 continuous scene unknowns, known geometry,
+material/interface families, gravity and density. All 144 policy forecasts complete;
+41/48 optimizer fits converged. Seven budget-limited fits remain in reported results.
+One stretch observation reduces shared-model held-action error from 0.33949 to
+0.08022 mm. Adaptive selection chooses stretch on all six and ties fixed stretch.
+Secondary reaction forecasts were independently replayed/audited: shared force
+error falls from 0.09605 to 0.02921 N; fixed twist is slightly better for force.
+There is no demonstrated advantage over the strongest fixed action.
 
-Running/next:
-- 54 training and 4 validation scenes, six position commands each (348 labels), completed without failures. Training labels use approximate n4 discretization.
-- The 12-object oracle forward benchmark is frozen and running on GPUs 0–2, with four new commands per object. No final reserved results yet. Future inverse-policy evaluation requires its own untouched cohort.
-- Both direct baselines completed on all 348 verified records: 6000-step validation motion RMSE 1.219 mm; 30000-step capacity check 1.089 mm. Both are retained, with their training/validation gap disclosed.
-- Controlled position-only inference with known mass/gravity completed: learned held-out motion RMS 3.28 micrometres, no force observations. The original two-case full-15-parameter pilot predicted 7.6–30.6 micrometres but all four optimizers reached limits; some material estimates remain inaccurate. A separate same-objective Gauss–Newton comparison completed: all four fits stopped by ftol and all eight held motion errors improved. Force errors worsened for one object and improved for the other; no global-optimum or posterior claim.
-- Independently audited two-object development probing: mean future position error 0.370835 mm before an extra observation, 0.017009 mm after fixed stretch or the variance policy, 0.111934 mm after fixed bend, 0.029543 mm after fixed twist, and 0.023485 mm for one fixed random-policy seed. The variance policy selected stretch for both objects and has no demonstrated advantage over that fixed choice. All eight fits succeeded; nominal 90% marginal coordinate coverage after stretch is 85.26%, with correlated coordinates and only two exposed objects.
-- A separately audited six-object unknown-parameter study is now running on four CPU workers: known geometry/categories/gravity/density, all 15 continuous descriptors hidden, n4 reference observations versus n2 fitted analytic/shared models. All fixed/random/variance policies retained, equal observation budgets. Results pending; stage capped at six hours.
-- Small three-parameter reference-posterior integration originally failed because cumulative Simpson interpolation produced negative CDF increments near a narrow peak. An independently audited positive-density integration repair is running, retaining the original convergence gates and failed evidence. No qualified posterior intervals yet.
-- A validation-only oracle model-discrepancy diagnostic is running separately. It will freeze additive variance before any six-object outcome access, for supplementary bands only. It does not alter predictions or policies and is not a calibration guarantee.
-- Separate normal-contact CPU study: plane passes the development checks; sphere mesh and tiny-contact-patch checks still fail. Those failures remain explicit; no friction or dynamic-contact claim.
+Primary local uncertainty is overconfident: shared post-stretch coverage 33.0%.
+Adding a variance frozen from development forward-model discrepancy raises it to
+96.2%, with wider bands and improved interval score. This is a six-object
+supplement, not a general calibration guarantee or a full posterior validation.
 
-Videos:
-- videos/interface-repair-development.mp4: same-mesh analytic vs original vs repaired, static equilibrium with camera orbit.
-- videos/bending-prediction-development.mp4: fine analytic vs learned bending, static equilibrium with camera orbit.
-- videos/observation-refinement-development-world0-v2.mp4 and world1-v2.mp4: same-mesh analytic simulation versus inferred prediction before/after one extra stretch observation; first future command for both development objects, dense visualization queries. Static camera orbit, not a dynamic rollout. These contain unknown continuous parameters in inference, but known geometry/categories/loads.
-These are development simulations with known descriptors, not physical experiments, dynamic rollouts, or reserved-test results.
+Known-appearance RGB-D rendering uses the same deformation field. Exact common
+stiffness scaling at zero gravity leaves images unchanged but doubles reactions:
+visual agreement alone cannot certify physical accuracy. Two reserved-object videos
+show actual and predicted static equilibria from an orbiting camera, not dynamics.
 
-Scope limits:
-Mapped cuboid topology; known geometry and tracked material-point observations; quasistatic mechanics. No arbitrary-mesh, end-to-end image inference, calibrated physical posterior, or superior active-policy claim yet.
+Original analytic normal-contact qualification now passes unchanged refinement
+gates for sphere and gravity/floor/sphere cases (127 independent checks). Separate
+composition of the frozen learned bulk and interface laws with normal contact has
+passed four coarse preflights; its own fine-resolution qualification is running.
+Contact is a fixed normal penalty law, without friction or dynamic collision.
 
-Publication checkpoint 5cdcab6: code and earlier development evidence. Raw datasets and working checkpoints stay local. Large JSON reports have byte-exact gzip copies; see PUBLICATION.txt. Later completed inference/probing results and the working paper follow separately. The manuscript generator is papers/compositional-neural-mechanics-v16/build_manuscript.py; its tables read reports and leave uncompleted tests explicitly pending.
+The higher-order small reference-posterior extension remains running. Earlier
+recovery failed one force-informed interval convergence gate; that evidence is
+retained. No qualified full inverse-posterior claim is made.
+
+Remaining work: finish and audit contact transfer and reference posterior;
+update/render manuscript; publish final evidence and verify prior-file preservation.

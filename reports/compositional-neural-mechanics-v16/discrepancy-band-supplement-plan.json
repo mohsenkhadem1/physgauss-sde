@@ -1,0 +1,25 @@
+{
+  "created_unix": 1793622232.5580208,
+  "input_sha256": {
+    "reports/compositional-neural-mechanics-v16/model-discrepancy-variance-freeze.json": "189ed12f5228ffee12195f2e01fdb9cde08f91f1a142621078ab9af81f8ae7b6",
+    "reports/compositional-neural-mechanics-v16/model-discrepancy-final-independent-audit.json": "68237b71668790fdba95d4bbc3434b9f8ce73c31837446f30ac16ea7dc937e60",
+    "reports/compositional-neural-mechanics-v16/model-discrepancy-development.json": "5c7e32d6472a36520ef78fc9f48cd2d625c0efeee4e2e1f7468cfee32adc6162",
+    "reports/compositional-neural-mechanics-v16/unknown-action-method-freeze.json": "9b75edc267d08b41ebaa1809c5832e7b7199a56f59ff22a4c8b34ff9b514bc2f",
+    "scripts/compositional_neural_mechanics_reporting/discrepancy_band_score.py": "c4c0266d27b24369e9eb662a4a8439d5f8b54410f1ca6ef7ef7c6b3e40105c3f",
+    "tests/test_discrepancy_band_score_v16.py": "eba775c5257fd7f62191e140a6b90cb68dde652d078e9bbbe53d119368d48bed"
+  },
+  "variance_method": "Use each method fixed scalar validation MSE, unchanged for every object/action/coordinate",
+  "interval": "Central nominal90%, zero mean discrepancy, sqrt(local_variance + fixed_MSE)",
+  "metrics": [
+    "coverage",
+    "mean_halfwidth_m",
+    "mean_interval_score_m"
+  ],
+  "rules": [
+    "Require primary independent audit before private truth access",
+    "All144 primary rows retained; no fit, mean, policy or primary band changes",
+    "No calibrated-posterior or parameter-bias-correction claim",
+    "Report interval score as well as coverage; increased width has a cost"
+  ],
+  "unknown_result_absent_at_preparation": true
+}

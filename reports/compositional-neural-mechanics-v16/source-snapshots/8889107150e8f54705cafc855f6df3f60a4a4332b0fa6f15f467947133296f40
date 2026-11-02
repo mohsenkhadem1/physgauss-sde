@@ -1,0 +1,72 @@
+{
+  "scope": "DEVELOPMENT small three-parameter analytic reference posterior, not full15 or global identifiability",
+  "active": [
+    "s=logEscale",
+    "logK_left",
+    "logK_right"
+  ],
+  "known_nuisance": "Exact original conditional pilot neutral nuisances; geometry/categories known; zero gravity",
+  "prior": "Original independent unit Gaussian means0,ln500,ln500 truncated to original bounds s[-1,1],K[20,10000]; transform r=logK-s has determinant1",
+  "observations": "Only original two observed poses/positions and optional forces+torques; no withheld reads",
+  "tracks": [
+    "V",
+    "VF"
+  ],
+  "forward": "At s0 solve two poses for each ratio pair; exact energy co-scaling gives identicalu and exp(s) wrenches",
+  "proposal": "Original analyticV MAP ratios; inverse(positionJ_r^T J_r + [[2,-1],[-1,2]]/3); r-space Gaussian importance density explicitly divided out",
+  "orders": [
+    9,
+    13,
+    17
+  ],
+  "proposal_std_factors": [
+    1,
+    2
+  ],
+  "proposal_check_order": 17,
+  "scale_points": [
+    1025,
+    2049
+  ],
+  "gates": {
+    "mean_sd": 0.02,
+    "interval_endpoint_sd": 0.05,
+    "covariance_relative": 0.02
+  },
+  "optional_refinement": "If13/17 or17std2 check fails and budget permits, one fixed25/33 pair at standard proposal plus33std2; same gates. No other proposals/tolerances.",
+  "failed_nodes": "Every positive-prior forward node retained. Any failed node makes corresponding posterior/gate unavailable; no drop-and-renormalize.",
+  "conditional_scale": "Uniform Simpson over exact admissible s intersection; cumulativeSimpson CDF/interpolation for equal-tail90% endpoints; normalization constants included",
+  "seconds": 3600,
+  "workers": 2,
+  "device": "cpu",
+  "source_sha256": {
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/campaign_static_p2_block.py": "40b3d489f58c284c4660ce2295955022298d3848fa21e0ed859ad5f69398e886",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "scripts/compositional_neural_mechanics/conditional_inference_pilot.py": "a5377aada870fc5f8440aab2fe8ed382b4e81a6b390cce4aa3e486b721ff9d25",
+    "scripts/compositional_neural_mechanics/gauss_newton_inference.py": "6e9c4f6eb20521ac758a7fc5f0f1aac50a5e61b7c5fb90e45947b645273a6708",
+    "scripts/compositional_neural_mechanics/gravity_inference_pilot.py": "03fa7dc1c7d9cbfe09303a91eb3b9d793807803f915cb81331d73d17c0cc76ca",
+    "scripts/compositional_neural_mechanics/inference.py": "6d97090ceca392b4ec9d08a406eacd534a432e529f54f9aa7375b606337d0ff5",
+    "scripts/compositional_neural_mechanics/interfaces.py": "69bd652386e8d0ab9f8183ed4a0ab64cdfbc2b8a52b71eb05eb5c5a1c02838d7",
+    "scripts/compositional_neural_mechanics/joint_inference.py": "e3adb5cb4d9562a44ef91382c351d45740d2ddeab0191cb21737dff91b77678b",
+    "scripts/compositional_neural_mechanics/materials.py": "0391cf340a18133f46d35c3e07886df241164ba155d4e01deecfd7474590a313",
+    "scripts/compositional_neural_mechanics/mechanics.py": "5c203470ae371e6d61100342e15dc9f765dfe20414753d0791c0b79f7e4e5f71",
+    "scripts/compositional_neural_mechanics/reference_posterior.py": "583a9e36788094b52449d2292af18db37ffeb4d234bc2aeb0b5be8ff575874ef",
+    "scripts/compositional_neural_mechanics/reference_posterior_math.py": "1078bb718051e46515467a6782793d64ab6dc8001a81848fe2f136e24c9831e7",
+    "scripts/compositional_neural_mechanics/scale_separated_material.py": "1f90892f144b963f6556591c6e21672ec58185968614765bcc7f3ca6508837b3",
+    "scripts/compositional_neural_mechanics/scenes.py": "c879ac975573f7a0dce9f30413f31711dca971f4058e816ea60744c7b86f48f0",
+    "scripts/phystwin/active_support_reference.py": "a88a5860febb4132f58dcca8cbcc7ef8145f9d98b42275a5f4563bdae02a26be",
+    "scripts/phystwin/consistent_fixture.py": "47dcb8a82e570bb2cfcdeaf01d4d88a7fe13e11e7f757f06cce63bc61d5d118e",
+    "scripts/phystwin/gpu_multigrid.py": "7b0f08397b6e1d0feab23710fcca7e2cd10a53b0fbdba7e320ceb1bd1e573bfb",
+    "scripts/phystwin/tensor_fixture.py": "c0a2e34e091aa1d0bbe3eb29c0a5fc63e46903bb832e372963e8b61caa66e598",
+    "tests/test_reference_posterior_math.py": "3219ce5f9bfdd1fe374262a56800be126b30da6871f29ab7db33bd32dfc451ce"
+  },
+  "input_sha256": {
+    "runs/compositional-neural-mechanics-v16/conditional-inference-pilot/observations-and-development-truth.npz": "6baf95f8253c64d38493a37db7f76174bf346bad4f4d10e52979c9e4ece1e666",
+    "reports/compositional-neural-mechanics-v16/conditional-inference-pilot-plan.json": "d15120bd54b423e585642713efad1586a0213160e758dff5c37d729764a91d06",
+    "reports/compositional-neural-mechanics-v16/conditional-inference-pilot-results.json": "14ae402921d8fbf1bbed999e8bc26fa6e1586620bc62207dcf51b77530fc6a95"
+  }
+}

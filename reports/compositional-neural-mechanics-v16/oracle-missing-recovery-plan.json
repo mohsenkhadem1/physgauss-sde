@@ -1,0 +1,2265 @@
+{
+  "scope": "Additive timeout recovery: rerun only missing calls, retain original failure ledger.",
+  "runtime": {
+    "python_executable": "/home/bayespc2/vscode/guassianSDE/.venv/bin/python",
+    "torch": "2.14.1+cu130",
+    "numpy": "2.5.4"
+  },
+  "parent_freeze_sha256": "3d5cc33989de5a436afc2fda11a29ac5b0681cf3e7270f38c1a8a7e995106636",
+  "original_result_sha256": "bfa26bc2377332b47c089ab2bf5a9d489c7d8bebb45293ccccaf7009d861c2c7",
+  "records_sha256": "3b61df683bd2adf89a0aab1c1d40a48274700c7d330441ad0f34f136714c22cb",
+  "source_sha256": {
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_boundary_gaussians.py": "d58b849f4c4399049e64182acb3fa84dc34fe040768c3b88a48d84fd55950362",
+    "experiments/campaign_compliant_gaussian_linear.py": "5937a41fe8058e8ba8f6d3388591ab18a78989ad72f18f9af1a39c7ff85bf383",
+    "experiments/campaign_linear_fem.py": "c4a94946b8d0edd2246a889dddcf89b58e0a8c660d75250a89f95de85b31ca55",
+    "experiments/campaign_material_gaussians.py": "f3a700241c0f96accec843a7a0df00a98a9e8250889c17394d28195b28c6a7a7",
+    "experiments/campaign_nonlinear_excitation.py": "fbee8a3590887e05547106d035216d70e9b86b1ba2d264a5b805be039c472a3d",
+    "experiments/campaign_nonlinear_fem.py": "468daaafa9d02c9db27553e2cfb154190248500677c212d9dde25bffdf14e1ff",
+    "experiments/campaign_nonlinear_gaussian_reference.py": "af86fbe7fc7c2cc6c827441835e647750068b27167afb0d9337135e385294c74",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/campaign_static_p2_block.py": "40b3d489f58c284c4660ce2295955022298d3848fa21e0ed859ad5f69398e886",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "scripts/compositional_neural_mechanics/dataset_runner.py": "871b1bb4e36db676a66a3ed65b4944ebbe2ae5ec14464b43319fbab94fc72c05",
+    "scripts/compositional_neural_mechanics/direct_baseline.py": "08e9041556758aba38e2a010957c634feb49fa97b208ba6b863c19548693c19a",
+    "scripts/compositional_neural_mechanics/evaluation_protocol.py": "6d5f9bb56abedf81b97019a30383c92fa25d53f3e31240a201d8dffa40fefe0b",
+    "scripts/compositional_neural_mechanics/feature_pack.py": "79a6b95ab7c4728ee26a4f3029b66b19984fd663c04faa9fe3b59ea32badd391",
+    "scripts/compositional_neural_mechanics/forward_evaluation.py": "0a0847a0ab26d0eadfde38f813d0690ee65ddf4b2ac08da8df5beb8e6c22706d",
+    "scripts/compositional_neural_mechanics/interfaces.py": "69bd652386e8d0ab9f8183ed4a0ab64cdfbc2b8a52b71eb05eb5c5a1c02838d7",
+    "scripts/compositional_neural_mechanics/materials.py": "0391cf340a18133f46d35c3e07886df241164ba155d4e01deecfd7474590a313",
+    "scripts/compositional_neural_mechanics/mechanics.py": "5c203470ae371e6d61100342e15dc9f765dfe20414753d0791c0b79f7e4e5f71",
+    "scripts/compositional_neural_mechanics/oracle_campaign.py": "2068a87a8ec65581fc656a659e8605a8236e83be69fb1582986c84c8493903ef",
+    "scripts/compositional_neural_mechanics/qualification.py": "b320df50583c37aa08d19d765b2affc9dcd912f74f610c44e7cd52f2968b4b4d",
+    "scripts/compositional_neural_mechanics/scale_separated_material.py": "1f90892f144b963f6556591c6e21672ec58185968614765bcc7f3ca6508837b3",
+    "scripts/compositional_neural_mechanics/scenes.py": "c879ac975573f7a0dce9f30413f31711dca971f4058e816ea60744c7b86f48f0",
+    "scripts/compositional_neural_mechanics_reporting/legacy_dependency_audit.py": "596bf033cbf9a2936a9c1f01177aa330f61d9e9f2d160fbd4f2df1f7bb4e351a",
+    "scripts/compositional_neural_mechanics_reporting/oracle_missing_recovery.py": "bd9999e364d87c088116dfe73634351324308c9cefe93f7ddf8723145350ec2c",
+    "scripts/phystwin/active_support_reference.py": "a88a5860febb4132f58dcca8cbcc7ef8145f9d98b42275a5f4563bdae02a26be",
+    "scripts/phystwin/consistent_fixture.py": "47dcb8a82e570bb2cfcdeaf01d4d88a7fe13e11e7f757f06cce63bc61d5d118e",
+    "scripts/phystwin/gpu_multigrid.py": "7b0f08397b6e1d0feab23710fcca7e2cd10a53b0fbdba7e320ceb1bd1e573bfb",
+    "scripts/phystwin/tensor_fixture.py": "c0a2e34e091aa1d0bbe3eb29c0a5fc63e46903bb832e372963e8b61caa66e598"
+  },
+  "reused": [
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/negative_bend/reference.npz",
+      "sha256": "d66397b3a58bbf63a1b332f14bfaebe13435c2657d920bdf97bc9cb665458ead"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/negative_bend/matched_analytic.npz",
+      "sha256": "89aee4487568628ac102f6341a8a127b571844f714858284d550b026bfc8b041"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/negative_bend/neo_hookean.npz",
+      "sha256": "1e5310d028cb2deaca5d4b9168451fbfdbb3f1d27b064370203d0019d55ebb05"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/negative_bend/shared_laws.npz",
+      "sha256": "61d50b25618e1d4bbe3642f92be56d833c3ebb734094aae2ab4ca2c983f8fbd8"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/negative_bend/custom_direct.npz",
+      "sha256": "a4dfad04006e92c9fb5b78154495e2cab5ff88238e6908d34e955ef3ba26b379"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/negative_bend/custom_direct_long.npz",
+      "sha256": "23ded1165512daa33025acbb25f2d48f758c2c218fd360cb6e75b3790561f8ae"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/out_of_plane_bend/reference.npz",
+      "sha256": "823270346dbd1538104e6363b2164841063976e9e5cc1d5d2b3512d532917f1e"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/out_of_plane_bend/matched_analytic.npz",
+      "sha256": "07eb5fb679e84325414380c1ce80806ab4fb34d87cb691d72c94b1def5b88410"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/out_of_plane_bend/neo_hookean.npz",
+      "sha256": "c5040c98691246ef3437ff0f25797f141fe4fbe4e5e47d1fabe4382401750bc8"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/out_of_plane_bend/shared_laws.npz",
+      "sha256": "5e78e063aebff3bd9f4004bcd7bd3b9f552c9811ec4884d932be638ea38227ef"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/out_of_plane_bend/custom_direct.npz",
+      "sha256": "e4c963c789968397cd19d8a9d1452805f09f01d09f2596352e1ddce331ef17b8"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/out_of_plane_bend/custom_direct_long.npz",
+      "sha256": "161021c625bdeb746cfcbd6af3549208e2f481e4b3ba38a5c6f83368b058fcca"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/stretch_twist/reference.npz",
+      "sha256": "6a48c74c7469d62363b5ef05914722e861136006dd26188cc4ba84fbe4039436"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/stretch_twist/matched_analytic.npz",
+      "sha256": "248ddb018f808d7fc5761d719740fd15d3b17d0815a89f6e4fd440fedc024d46"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/stretch_twist/neo_hookean.npz",
+      "sha256": "cd1f37856fd8b55cb81b041fbba28b9d171d59f887505649fb532212bf277591"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/stretch_twist/shared_laws.npz",
+      "sha256": "7ee940ae457da4b44e384bc95a6b8dd2610154db36e72c606849aecdacdf4caa"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/stretch_twist/custom_direct.npz",
+      "sha256": "99b4fe10c8487290e7a1b2a1502d54c092809a033f867856a377fecef1f5059b"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-00/stretch_twist/custom_direct_long.npz",
+      "sha256": "5327699812a072ca2e829073aaf3c8d5cc09d90911b42a1984e368dddddb30cb"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/negative_bend/reference.npz",
+      "sha256": "2acce7d85ea70d13821b7a6395ff2a83a56548752b0d55c2b9172dd915df92bf"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/negative_bend/matched_analytic.npz",
+      "sha256": "3027243a26ac3fcb4a662c9935fe2147261dad76d921707923395fef6b30e048"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/negative_bend/neo_hookean.npz",
+      "sha256": "9f2478237c5b0e61bcd16aaf9db6fc91797fe9aceb0d72862ac3df6aca953008"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/negative_bend/shared_laws.npz",
+      "sha256": "7f09ddeb2f4ebe8a180cf5c7eab42c2ef082a187c013863ac01c1f4c5cd35c4a"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/negative_bend/custom_direct.npz",
+      "sha256": "70aa9fcaf7c21966659c6dcdbf5bdf303ea653e387bbc3d5a11696071416b474"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/negative_bend/custom_direct_long.npz",
+      "sha256": "c8ff8fd5ae8243a82f7e625c8d1f240c77587a91d4f00b38fcece97acc67fc76"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/out_of_plane_bend/reference.npz",
+      "sha256": "aace7ed2d0b75651c3df49819158ff5fc013c8bf6fd6920322b1ae5c5cfbf16a"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/out_of_plane_bend/matched_analytic.npz",
+      "sha256": "daa04c2f229caf9f992d296ad7d963795b4e24c68ce1b5393cac4ca0a4fd0a08"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/out_of_plane_bend/neo_hookean.npz",
+      "sha256": "e87c61696a318fa820216cbb0bf35b1b7f73c0d6ba0b912eb7d7e08fc26fb743"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/out_of_plane_bend/shared_laws.npz",
+      "sha256": "75ca2486ceb9b0067a353434760748053e53ea24351a35c8187ccd476827dd66"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/out_of_plane_bend/custom_direct.npz",
+      "sha256": "b2045208823fd37174af188245b557d48ed4d1b24b91962850dea092b86fb6fb"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/out_of_plane_bend/custom_direct_long.npz",
+      "sha256": "32eb45c5cd6d0a6914fcbe3faf204e99e14f68a4539c8ced6b950c4204a402b4"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/stretch_twist/reference.npz",
+      "sha256": "5668d07860578c1f2c37dfeaa4541e183c12f6e2f46e904b71baf979c69f5dd0"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/stretch_twist/matched_analytic.npz",
+      "sha256": "09f9a5bd30a06eef036d141cedb3ad0adfab362b6a138e0111d21233e1bc3b9d"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/stretch_twist/neo_hookean.npz",
+      "sha256": "11be2cc00a12f572ab438745025f06386564a425b680454a1059c1d4336be66e"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/stretch_twist/shared_laws.npz",
+      "sha256": "659d308153e732a5a4bc7b8a4cf8816414bee131635750e69d7281f1b062892f"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/stretch_twist/custom_direct.npz",
+      "sha256": "ce5402dcd235731e2fe72aa4238a02e827f764a45d1eba1af73c7b357005d1e1"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-01/stretch_twist/custom_direct_long.npz",
+      "sha256": "12cc4cf21c2d0827b995b1f78cd1b4c20efc0467926264ca5fcf87de73f41d98"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/negative_bend/reference.npz",
+      "sha256": "0586c47a9d2c9b1db74cd63cd1a6e2b8b5aa7d2bb9aba242ecbecb2d5bf71714"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/negative_bend/matched_analytic.npz",
+      "sha256": "c328d7edc22cc405cae6dc7c52d97dac92be38437a904331a09f3c6dae11dace"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/negative_bend/neo_hookean.npz",
+      "sha256": "025777bd082fbc4c9472b592b66cbd9de1a9ed4b250c211aecd520ee56abed4d"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/negative_bend/shared_laws.npz",
+      "sha256": "62e5297a9838a61acc7ff4b319b27c15eeab072f0fa6b656df69b7aa992c8eac"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/negative_bend/custom_direct.npz",
+      "sha256": "6ea133e71616d5e40502beea396d4749bdb39448d43c8d7c0efc6717d24845d1"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/negative_bend/custom_direct_long.npz",
+      "sha256": "af7472a00c277d730ae322d1d98c992cc85ba11d279be9ad90b0535f7d27ed53"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/out_of_plane_bend/reference.npz",
+      "sha256": "5c8ce4f2b4c523cc1128b14ceb6661667236b31b383544d08852a610dcf5995c"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/out_of_plane_bend/matched_analytic.npz",
+      "sha256": "3b071ecf4ce62eeeb2d3a5e17811c6b317ded29a6cc2efa202a1be36e58da37c"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/out_of_plane_bend/neo_hookean.npz",
+      "sha256": "1ff751eb31b649c2c1876008496ff58ec74b5f53d06c207d9c283acef283e71e"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/out_of_plane_bend/shared_laws.npz",
+      "sha256": "a66cc8b470c1973704e74b6c6f4a06bc68bfe8f0c12fb7200bad393f05661ef9"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/out_of_plane_bend/custom_direct.npz",
+      "sha256": "86869e9c1dd535a4f19e7aaa0dd5eca2555640691173ccbfd172689d0c4a5477"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/out_of_plane_bend/custom_direct_long.npz",
+      "sha256": "eb1add459d4122f4ffffc76d941beb5961e4e55c08a316c3b3280d19df509ad7"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/stretch_twist/reference.npz",
+      "sha256": "bf817a8fa4e1b2300b760db375685eef69c04d2def2babe9e1f90297edc74486"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/stretch_twist/matched_analytic.npz",
+      "sha256": "e7a3197d875ed7cf188470da2f38e2b22384f4c3a4305d611db1966bf0b606f1"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/stretch_twist/neo_hookean.npz",
+      "sha256": "c46696ba1e78a8a92b357ba26219840bf774ddcfd929c3069990721f8edccb79"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/stretch_twist/shared_laws.npz",
+      "sha256": "87abc9a672c0b85b4ae5ae06f424ef63c6116e06acfa7c55dd056644fcc4bc5b"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/stretch_twist/custom_direct.npz",
+      "sha256": "ef422ce4904ddb4df46437e723289bd3ab92bf17684cb3cb6d63de71fc3ec22e"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/stretch_twist/custom_direct_long.npz",
+      "sha256": "1f04dcbf3107921bfa4622a3442ff18b6821fba75576edf5b3e4b87d47be5426"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/biaxial_shear/reference.npz",
+      "sha256": "e504e31ec578fd3893af3f034a5bab7f077e3e16fe2d6f1a05b78f66814cca0c"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/biaxial_shear/matched_analytic.npz",
+      "sha256": "7cc6e7429f552d8413748143e474e3d765cbc2caa7b83c25f64904d18bad7915"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/biaxial_shear/neo_hookean.npz",
+      "sha256": "2a08820d525fcb7bbca9e07d0942e7337b7e602660630189eb91977a9995062f"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/biaxial_shear/shared_laws.npz",
+      "sha256": "4138de71c31b1c1d7e395addf9f9b51d43c1a83346d2aedd099f499365b6c7ed"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/biaxial_shear/custom_direct.npz",
+      "sha256": "97b83b5f9a08c398980ce80f529833623c09656048fd18305eeb3c2f539491dd"
+    },
+    {
+      "scene_id": "reserved-composition-02",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-02/biaxial_shear/custom_direct_long.npz",
+      "sha256": "677b85e6e0347e51b564158fe48521de85224a1ad0c8da5c41dfaa07b63ead75"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/negative_bend/reference.npz",
+      "sha256": "dbf6aa1a1eb9b494f7b4224fbde30808a0bc9915a8a3c1b6e78bff6eebe1d5e8"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/negative_bend/matched_analytic.npz",
+      "sha256": "d03bebff9b32e77a9ecc065ebbf455eeac333ea2e15a9b622280732ba48e8ec9"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/negative_bend/neo_hookean.npz",
+      "sha256": "627577406b770e18467a136b0daf760af8128640c05bf3ec1319ef139702250d"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/negative_bend/shared_laws.npz",
+      "sha256": "2fabdd8e63c132457e852f516e65669f86289f6a39c17945e0e5c5a430c003fa"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/negative_bend/custom_direct.npz",
+      "sha256": "0c843ad42f19e3673e60598fd78ce6c972aea388d8a943b915ba9c14327b8aa9"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/negative_bend/custom_direct_long.npz",
+      "sha256": "5d6f6b98f4cff6eafcbaa87180728114a31947aa13d3e93d6ee8c0bfa0575b90"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/out_of_plane_bend/reference.npz",
+      "sha256": "8f62c2fb4b75a4138b218febd45b9d68794ed60b5b4387de7cf5354627b4a2c8"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/out_of_plane_bend/matched_analytic.npz",
+      "sha256": "447ed2978c216b9f36aa81a77e3ad7be5305f7dbf3bad42ba964ea7590d3ff8f"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/out_of_plane_bend/neo_hookean.npz",
+      "sha256": "69ccb26820e2cd293ed9167c0386cf805747c01050d243e9929b3f3a5565fdf9"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/out_of_plane_bend/shared_laws.npz",
+      "sha256": "38db64564bf437645dfea92f06ffcd2a83096e8f450a474d9de677313db79206"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/out_of_plane_bend/custom_direct.npz",
+      "sha256": "8715bff6b9094a94c8474db43811f0b9e7298866b1c5928d14b015098808636b"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/out_of_plane_bend/custom_direct_long.npz",
+      "sha256": "673f5a9de700af2b13f31a6bf4e18fb0327813b660ea2cc7fb69189724fb8c11"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/stretch_twist/reference.npz",
+      "sha256": "3cb3c97d9e7de2cab41e1dd5f583da27e7808816d65ff3d446634105aacfd3c7"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/stretch_twist/matched_analytic.npz",
+      "sha256": "9050c863a5133616459464688694e98ce6a3f01af437d25c58cea6ef887a087e"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/stretch_twist/neo_hookean.npz",
+      "sha256": "575b68813bb80da4c0369de995791ea525bd021921510894be98326a918a07e8"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/stretch_twist/shared_laws.npz",
+      "sha256": "c4457416d00c03128d0bb2bf6bc5d049ecc2d116ea52e52098fa287bf555ce67"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/stretch_twist/custom_direct.npz",
+      "sha256": "5a62fc765b0833c205e425b118364472c688b87488d7c68e78d20671a3f65e97"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-03/stretch_twist/custom_direct_long.npz",
+      "sha256": "e8ef1d8860ba798ec1c5e545e7f1cf49b1e3d7671ca55ff1357902ddcf0095f9"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/negative_bend/reference.npz",
+      "sha256": "25db0394913a4cf51961124cc8492fa1573186d30874dbb54143ab0e787bde23"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/negative_bend/matched_analytic.npz",
+      "sha256": "1b79606dd714acd35caa7355132901606e384c4c7b7662f02ec6cb1c9ad2c23f"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/negative_bend/neo_hookean.npz",
+      "sha256": "44c8aac710fb11d64679868bc24eead302e7dc85b35f08b5001ab0abebe308a8"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/negative_bend/shared_laws.npz",
+      "sha256": "f0d64a48b8ef7374fd8d88ebffa1f30363a57893cab4133b357e7c112f50ef59"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/negative_bend/custom_direct.npz",
+      "sha256": "8da47fbcccb447f343c9c6cf23e9894817ed99320d3a6d4173b0897248c5305d"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/negative_bend/custom_direct_long.npz",
+      "sha256": "ad35db284868e0fcc4de11009e4440246fc424dcf72fb043f73238f5d9f05e90"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/out_of_plane_bend/reference.npz",
+      "sha256": "507391a6f17d7f786fcdcf3b73401405d6d0234f0a2414436ad9a11efad2c335"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/out_of_plane_bend/matched_analytic.npz",
+      "sha256": "2ee65831b2ac0162b0f3d3cd7ca1a3ac79991cce557a1d125061d27b6b259947"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/out_of_plane_bend/neo_hookean.npz",
+      "sha256": "a505f0f9c8388cea0473ff4197dbadc208752d3fb04c97f44b67c3b905f742be"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/out_of_plane_bend/shared_laws.npz",
+      "sha256": "083ed7939074ee614a9d4f269703d58b12670eadd61628ad3914ef96e559f508"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/out_of_plane_bend/custom_direct.npz",
+      "sha256": "254f49335c0da2ac2ed00dac4fa5e800bf4259f97f99589e34ec303cac88214f"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/out_of_plane_bend/custom_direct_long.npz",
+      "sha256": "defb6f8c22c87bf81947cd4f07b56ad6d296a9ed77d3df2957d3d4d9c12757d5"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/stretch_twist/reference.npz",
+      "sha256": "72cbaa32f9acbe24ceb96611c181788ffaf47c838a836420500a8e6e1a543ad2"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/stretch_twist/matched_analytic.npz",
+      "sha256": "9d9126d73cd47ef53955010207d7bc743d3b23727150ec9eaa1b2b20e69e51ca"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/stretch_twist/neo_hookean.npz",
+      "sha256": "121d63c54522e59ae5f225cbec9409923950ec8ea071fc69864bed5d2f331bb1"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/stretch_twist/shared_laws.npz",
+      "sha256": "33e63a1cba2232da81d1543a65b7f2404a868bf4be036235714d327aaee96e7c"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/stretch_twist/custom_direct.npz",
+      "sha256": "bd644205ffadcf4f747eae40883ffebc68604f51320cd7373a6854ec0b585633"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-04/stretch_twist/custom_direct_long.npz",
+      "sha256": "e2a1bb7011a8d9bdf5425b6457c816dd0fd96e7028765f2075e3905fb2bc9ea5"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/negative_bend/reference.npz",
+      "sha256": "f64d4e5db3b7bc59288ba3dc2c6dc80c89e8bc74e65f02481e2d95e2324f350e"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/negative_bend/matched_analytic.npz",
+      "sha256": "311e24d7e869111e9ac22f004480bbcb90d2d42ddb8779c30ec6f09d6758a82b"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/negative_bend/neo_hookean.npz",
+      "sha256": "7bb33936564ababc1165fefda83e84e38dfefa1e59df2f920ed8d8871feadccb"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/negative_bend/shared_laws.npz",
+      "sha256": "6f563325b73aa88429bcc0982cc0ba26e4fc69f9ca551fa85461793216921aa5"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/negative_bend/custom_direct.npz",
+      "sha256": "175890f2da92b457a309bac06290d4f29074449f436c022453b6ed7a33dd2f2f"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "negative_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/negative_bend/custom_direct_long.npz",
+      "sha256": "9e5bfe24a6f9e754e5eebbd51d88d907f42d64d06bd7394f94b4001a9984a8c2"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/out_of_plane_bend/reference.npz",
+      "sha256": "d3391893884231892a3ad459f45aaf92ee4494923dba3fa7b25b48cfcd604d79"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/out_of_plane_bend/matched_analytic.npz",
+      "sha256": "46b64f9be74a497674280adca204dfeeadc09619d840eb9fd3b6172578e91ff7"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/out_of_plane_bend/neo_hookean.npz",
+      "sha256": "17a1d1931d763a2a4370381a509ebb498dccf7f6ca9cdf7b9cd5fdfd63f38a41"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/out_of_plane_bend/shared_laws.npz",
+      "sha256": "31589e45ce9cf7f0ca029185193531f9b9fcb878548183f6f7fd7680a4b45e2f"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/out_of_plane_bend/custom_direct.npz",
+      "sha256": "825e56045c1ec62f15e0db505e6e166946cf6fbe6c70100aa33b4ab0a8f604ad"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/out_of_plane_bend/custom_direct_long.npz",
+      "sha256": "03285c7e469babfc32cef1c8f13171696d33337081278faa28c476a746ddc2c2"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/stretch_twist/reference.npz",
+      "sha256": "25c9c99246b70ec25df5ffe666c890a741e8ee7dea08767c26bfe022201349c5"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/stretch_twist/matched_analytic.npz",
+      "sha256": "f0542aea1d2cc9fab5338e53e470939ddd1e54ced4ed130198b1ccf550efc536"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/stretch_twist/neo_hookean.npz",
+      "sha256": "a0c299d1759359e80990fad1997e126b63493819aecf444d00b4d3744701252c"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/stretch_twist/shared_laws.npz",
+      "sha256": "a4579c843fded360041925ecfd18f1c1bd381445cc4fbca4ee28ba6f6766aefa"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/stretch_twist/custom_direct.npz",
+      "sha256": "b0c18640c62d4c8d7e04976e63118d80de7c60c9ec47cb2d20adae2b98b7291d"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "stretch_twist",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-composition-05/stretch_twist/custom_direct_long.npz",
+      "sha256": "920a06f3782ca53f55083796bb4c531fefd21108343358a1ac1ed9d3a92fdb15"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/negative_bend/reference.npz",
+      "sha256": "267d0b973afb159d80cddbd8b770190616ffbf86e878f1891a252e7358a6dba2"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/negative_bend/matched_analytic.npz",
+      "sha256": "59942c9c13eb5a1b23b15464ccbf91c148d010c2a9bfac5019660688625e404f"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/negative_bend/neo_hookean.npz",
+      "sha256": "e0f7c7bad9ce85c7d2db0cc58fe5229f3be54c3ca8ec057b10fd68bd01704aad"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/negative_bend/shared_laws.npz",
+      "sha256": "226c269492b55299bf2544bd521ac8dbcc581233dedcca9f48827219f35c9a8f"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/negative_bend/custom_direct.npz",
+      "sha256": "421f5042f6136b4dbb57d5182b3e43f0af5d4a94a05730b2a789eef75fae5810"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/negative_bend/custom_direct_long.npz",
+      "sha256": "1ea4ea67ff17e1e6caffe0e5ffaac92d480be7853ce5f4efffa979818d6b48f2"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/out_of_plane_bend/reference.npz",
+      "sha256": "e7fbce1c9f94f46bb60f4fc21965f07ed9f3f811aa0d56805f9c8aeffa7e6a3c"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/out_of_plane_bend/matched_analytic.npz",
+      "sha256": "4988d5748fab41a26c2e8a04aad94185a57d17ce5378c5affc1861f0606b8213"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/out_of_plane_bend/neo_hookean.npz",
+      "sha256": "2d151de351dc9f92849a669a62901d4dc032bcefb6646a1db15ee3785cef522a"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/out_of_plane_bend/shared_laws.npz",
+      "sha256": "6707b7490d18f449e4ccc8927612ab9c1da5ccb55768561d96c05b02b4f5be8b"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/out_of_plane_bend/custom_direct.npz",
+      "sha256": "486eb5eeb0b79e4fc974ef38b5fbe452273e11c84f283f3b7f2fc9045f6367fb"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/out_of_plane_bend/custom_direct_long.npz",
+      "sha256": "a983dd1d246a9f2329d74884432507c6bc42faae40aee5a2fda0c521f22bab63"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/stretch_twist/reference.npz",
+      "sha256": "434a39315d7849655096105a48eebaba7da8fd998544e33122819b5fb10bef3a"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/stretch_twist/matched_analytic.npz",
+      "sha256": "ac45723a2696fae5e7cff204cbe6257959807baddb60e2a9cded1d151b6c4feb"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/stretch_twist/neo_hookean.npz",
+      "sha256": "5ce5e553c6440bd6a253629b056e269381548dc06ac2445cc052b15f266f14dc"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/stretch_twist/shared_laws.npz",
+      "sha256": "7b73940d0dce0f8fbac5011ff61db2427bbc5efded118882dbf21212dddc3399"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/stretch_twist/custom_direct.npz",
+      "sha256": "7229b14dc5c68f38ec812707a35b426dcac0345df656df58f6550d0fd7373c7e"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/stretch_twist/custom_direct_long.npz",
+      "sha256": "ef8f1950cb09ab16206a0e237c2fa7b6e79809f146f5b94d7f15489a68423f73"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/biaxial_shear/reference.npz",
+      "sha256": "cd31a43322d46c587d013a9c1a19a631f6d8442026a8df8288aecff7294ee4fb"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/biaxial_shear/matched_analytic.npz",
+      "sha256": "41d0785c8802a31ed453b8b39c951d9c04a18d71fe0a180ce080207795105475"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/biaxial_shear/neo_hookean.npz",
+      "sha256": "2571fb7770b5872a342c53f712d5b8bc8628bf06aaadbef8b20eb08ea744299c"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/biaxial_shear/shared_laws.npz",
+      "sha256": "810b7856b8a1b5c6e6ef9a7229535f952c18c2e41fd19fb39128fb96b962e747"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/biaxial_shear/custom_direct.npz",
+      "sha256": "4aa79a1920ab3b4af7a12dfe84aaee629a79cf2cdd2f2610260ac1805ad3fb47"
+    },
+    {
+      "scene_id": "reserved-geometry-0-0",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-0/biaxial_shear/custom_direct_long.npz",
+      "sha256": "a1167db0de2865047acabc68a8b2783659498fbe1bae36aa29f40ab5acd01d81"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/negative_bend/reference.npz",
+      "sha256": "e3e26328115b3782723278aa0a52727d38836a6c752cea23babba2cc3d509801"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/negative_bend/matched_analytic.npz",
+      "sha256": "458cd716f924e0c8f871dd59fbb3735d31445c10c884ab2f96a16a92a80cce16"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/negative_bend/neo_hookean.npz",
+      "sha256": "cf95452bd1ac9b3188a49aac4153fd5e0beeb145fe00a987bbac3b084a160c70"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/negative_bend/shared_laws.npz",
+      "sha256": "390d6d21cfc96df72dfff16c681e93823c5d1b5d7e4ca8b3b6349a3d1bf11365"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/negative_bend/custom_direct.npz",
+      "sha256": "696654683b8c0d1fee29db13127f3bc52a9efd191b6ac76104499a596d8b867a"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/negative_bend/custom_direct_long.npz",
+      "sha256": "a7276e6e931eb42b18bef5c7fad2a65b912f5c4113cba371f0047411baad0559"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/out_of_plane_bend/reference.npz",
+      "sha256": "36ef773ea4a1d8bbfb51733fabb42c336a1feba75ed0fe4c64ad760dbae8a33c"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/out_of_plane_bend/matched_analytic.npz",
+      "sha256": "91354aa1549dbb8bd7b8703a97b6a53ee2a8418cd5d0a768900ed2f094d20f1d"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/out_of_plane_bend/neo_hookean.npz",
+      "sha256": "df8d1ef17bc60c5010fec1ba620cdc3decab11c7f1e5b8127697808583863486"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/out_of_plane_bend/shared_laws.npz",
+      "sha256": "e55108ded21720696f94813a198c181316aad54336340b951aad493244c75e43"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/out_of_plane_bend/custom_direct.npz",
+      "sha256": "2b47f7490e3f76cd0cb063dfcaafec467f149ebc6e97ee3752a9ca3520def042"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/out_of_plane_bend/custom_direct_long.npz",
+      "sha256": "a9f0794e66f46fd9c9b3531b9c53a5ac42b83803fd61fcbf18af56152f526ef5"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/stretch_twist/reference.npz",
+      "sha256": "9b85de6019a5214655d5c57650c1d1a5ea39676656e0fa3540d4ae7fbfccd9f3"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/stretch_twist/matched_analytic.npz",
+      "sha256": "d9f998bdf19c06c0e5d6903f9b63d6c9a16e355f02ada33aba4733a577146fe2"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/stretch_twist/neo_hookean.npz",
+      "sha256": "d234f8e834569007c14e915a6e241f595a219933faadfcc7e5f831fed7e1d44f"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/stretch_twist/shared_laws.npz",
+      "sha256": "45d25a409f16f31e2e85cb52f0d9b5fafc359445523239d78b7d89db0a98b860"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/stretch_twist/custom_direct.npz",
+      "sha256": "b31f9f0e13f53c4ce4776dae970f1d7de5eb0231e7d8a75dae40159778a69078"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/stretch_twist/custom_direct_long.npz",
+      "sha256": "8dd135b8c6c0891e15d401c0b10c4db0b14c7b2d43b546e6073b0bb2a2b8d8aa"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/biaxial_shear/reference.npz",
+      "sha256": "0f3a4db17fc145b2ae79cafc1583a1ac3d81060bcc0e5d9f8189b9dccb3d8d8c"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/biaxial_shear/matched_analytic.npz",
+      "sha256": "4674cdfc3eb1097803fcee9ec71a0975a9b3c88e4d334bf6843f019a5caf2360"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/biaxial_shear/neo_hookean.npz",
+      "sha256": "a94f237ebe689e00d6e8c0c2bbc50525ffcfef328594d2fcf51fde5fd45c8dfb"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/biaxial_shear/shared_laws.npz",
+      "sha256": "21299fb1ea7abc956c7a7591193f8b35932c467e9a08fb10625832771ce408be"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/biaxial_shear/custom_direct.npz",
+      "sha256": "48f4bb59b72ddab6ef49c584fcf4266a8d2e7480611c9876eafc70a9ce355fe9"
+    },
+    {
+      "scene_id": "reserved-geometry-0-1",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-1/biaxial_shear/custom_direct_long.npz",
+      "sha256": "5761eb009400a17edd78e9d446d790355b88151a3db1ac6dd425ccca73c54233"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/negative_bend/reference.npz",
+      "sha256": "581291e7d51016935640c39558b8de14554781e1908eaa07be89ca57e48201bc"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/negative_bend/matched_analytic.npz",
+      "sha256": "6f08ba287067075d53ce76fc4c981e7e01c69bd15676fb3cba1cd4fbd8f57fb2"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/negative_bend/neo_hookean.npz",
+      "sha256": "b703f7e749235aae4d719c6b5f0d85d95aef1ef8052b2e4a35a0862abe9f6f06"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/negative_bend/shared_laws.npz",
+      "sha256": "24f5eb37bdafaf4bb947f2b29410486f056825712cce70d37d37259fbefb4bf0"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/negative_bend/custom_direct.npz",
+      "sha256": "1178548990027dd56e4970beeced1b1ecf135e2c6ffd83c4c2c08ffeeb4fb7c2"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/negative_bend/custom_direct_long.npz",
+      "sha256": "86657e644a30e708e422a64238c5b998aa9cd727b105e3d987be8fbc8ad7d236"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/out_of_plane_bend/reference.npz",
+      "sha256": "6d488f649d6135c33dd9e82c146914e8e0ffe0f4ccbb66e350e782183850d0d2"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/out_of_plane_bend/matched_analytic.npz",
+      "sha256": "4c7006d011e3bce2a91e6f4e724120b66aee9a5dae6328ad7acdddc83cc5ac12"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/out_of_plane_bend/neo_hookean.npz",
+      "sha256": "ea44176ed34bff4e5066b6af1fc8decec21d44592b0eb7a215de016ff1a3f5ef"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/out_of_plane_bend/shared_laws.npz",
+      "sha256": "f606a64f2f75657658bcaad1e143a2fae053412e919ebeb7670df6a8034e4eac"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/out_of_plane_bend/custom_direct.npz",
+      "sha256": "fb2a86898544d19a72aa7f4369a8a7df6c973253fddbaa8feb87aa7673c23a94"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/out_of_plane_bend/custom_direct_long.npz",
+      "sha256": "7409d686553324f168c4f065b849cfb8c0646d2bf0e444218a88670d19dedfc0"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/stretch_twist/reference.npz",
+      "sha256": "e41f7fa541aa787652a85625a67fe5c3275ce72fabd3be9faebbaa16bb79f28e"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/stretch_twist/matched_analytic.npz",
+      "sha256": "facb8a452f43fa83e1eb6a8a69c07e8b2ac9af3d65468bcf9556d809997b449e"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/stretch_twist/neo_hookean.npz",
+      "sha256": "9d65323126e416a60beaef183c27b7d04fd8f6e3cd175ae0f8b7ba4176686fbc"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/stretch_twist/shared_laws.npz",
+      "sha256": "07b077fb707e690b00d62c87c16d8650c99de1576b8bd64afe4151ece526f2e0"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/stretch_twist/custom_direct.npz",
+      "sha256": "3b501ec6cd40ce6b3d7328b300b2cc0035c6ce24b9b888947688e2b8229209eb"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/stretch_twist/custom_direct_long.npz",
+      "sha256": "ed9825b12aa53a74e55056f0b3cf85ea31916c6a5b9ddf7b81f539fa472ff381"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/biaxial_shear/reference.npz",
+      "sha256": "e8dd904692476c8c8f22bedeea0e2ad89d9badcd42a047e5d73b393ba8b0993b"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/biaxial_shear/matched_analytic.npz",
+      "sha256": "9a6345a2fb2e887d99f9aa7c5db16f8bf378f9cd3a3fdf66e0a2da066c223d0c"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/biaxial_shear/neo_hookean.npz",
+      "sha256": "2195cc03d8651cec0d65621becd0618467051898817f93bc5aafdc1181a05c8a"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/biaxial_shear/shared_laws.npz",
+      "sha256": "67528e6b5142f76dedd61d18093fa3b1316a0af3bfdd0bbc4c7784037f47f19e"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/biaxial_shear/custom_direct.npz",
+      "sha256": "c125c663091775ddf160416a8dd2792b49d2987df64cbbc23dc6e49ef49d9144"
+    },
+    {
+      "scene_id": "reserved-geometry-0-2",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-0-2/biaxial_shear/custom_direct_long.npz",
+      "sha256": "e620acf225cc306b90db6fed03a586eae7974a8630c0295caa69e7a756b1e4de"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/negative_bend/reference.npz",
+      "sha256": "4600783ae5297ca5d1e6dc5004f050ed8f15e5b369a2ffc40db89d727da19c8b"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/negative_bend/matched_analytic.npz",
+      "sha256": "69effff79a2af7a16b552904aaacaf6cdd8a980d1d851e2b58401486abe9738e"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/negative_bend/neo_hookean.npz",
+      "sha256": "a2362b4c18219b82608574662bcae05433c7cb26291f7d4d1855c629600c6205"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/negative_bend/shared_laws.npz",
+      "sha256": "4a67aea93264f5aa484e23f0b248dc5e9a1a114b51bd034a3dd1298eeacb04b7"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/negative_bend/custom_direct.npz",
+      "sha256": "663728563ec15d20772a78df05a4e84c04f189348ac258844c4d3e536c6add2b"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/negative_bend/custom_direct_long.npz",
+      "sha256": "e9889dab1623b44421599d52cf8abfdb5fb2171f70ee9e65d588d6811a8950a6"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/out_of_plane_bend/reference.npz",
+      "sha256": "5eef6d5410017cf5f6cbaa9442ca23902aea30c498450aba67eba3a00bbbea0f"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/out_of_plane_bend/matched_analytic.npz",
+      "sha256": "3bf913af0b6c2c74a034c1c86fdb5163ae854de7519e74b97f31005d65d3b871"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/out_of_plane_bend/neo_hookean.npz",
+      "sha256": "47d855a2297b77832f45234aa8cd6b770e5ae3a219da3bc69f96cb52af45f054"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/out_of_plane_bend/shared_laws.npz",
+      "sha256": "0e029971bf6dda7dc099e740acf649393ef8b8fa0662e42e1c1c98570921149f"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/out_of_plane_bend/custom_direct.npz",
+      "sha256": "6b72385189542f75be614fc41d411f4a09eb1af377853fdef7f035d7619f452b"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/out_of_plane_bend/custom_direct_long.npz",
+      "sha256": "649b8299d4175a72b457c2949f29a8af82bc639797c57681a7f02b6abbe631a0"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/stretch_twist/reference.npz",
+      "sha256": "a33b958e38ba8a8718325453ba2a9a4cf9e4ba71e49fa2b2c83327a235bd4954"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/stretch_twist/matched_analytic.npz",
+      "sha256": "6b0b7de051f051e02c0927f3424d1bde3d8bf4124c76308f0fc6aae0fb9101c0"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/stretch_twist/neo_hookean.npz",
+      "sha256": "772e1c5c2cd07a071f11c78cdbcbeb38f2a10949edc3c47b26f95b4c625245ed"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/stretch_twist/shared_laws.npz",
+      "sha256": "41b4d424b4aaafcf9fb5b9e9360f10b4346b2349716afde020d7abf86314a815"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/stretch_twist/custom_direct.npz",
+      "sha256": "7cfcac7f2cda02b1eae55328174b17d2905705a6fadbe90a1f102ae22e5bd102"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-0/stretch_twist/custom_direct_long.npz",
+      "sha256": "6876273605d979c7eb2fd8f18c147d7a7906f6bc0ebdb4b4f8f52a92f11a1ac4"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/negative_bend/reference.npz",
+      "sha256": "922806813f76874a0c819869c74e9a7fd272d13660d0055cf3de4ac957b34cd8"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/negative_bend/matched_analytic.npz",
+      "sha256": "027fbff526c7e5b32d6ff85c20ef488074907a15607221477736fdb5c8f6f923"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/negative_bend/neo_hookean.npz",
+      "sha256": "4046b62a5a36017d3ea498b97011488715d762038c7f6e38a04de8e2e4ae81aa"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/negative_bend/shared_laws.npz",
+      "sha256": "c58b621d627b9790174847081facc83bb466f475f5085c12b631b1e4ed01aba1"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/negative_bend/custom_direct.npz",
+      "sha256": "1f9ca7117f5f20ea7d52ea7d59d76a29ed3ce9f53703188c995a4b5399567d73"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/negative_bend/custom_direct_long.npz",
+      "sha256": "f5600e2ab83f422f4e857f0c20a69254168586c9c53fc56ab57df6fa0e65b258"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/out_of_plane_bend/reference.npz",
+      "sha256": "7d52b6b3e1917bebd03e1e6e1588855b8154c4d6db77f5e27372e330891b067b"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/out_of_plane_bend/matched_analytic.npz",
+      "sha256": "dd7ceec8f5e1f12cf07323d22478685061b8bfa3fb8987368a1f42ba68759d3e"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/out_of_plane_bend/neo_hookean.npz",
+      "sha256": "60efd5ba054f6102872eee93126c5d33052d65133181f984db39a78a25f23d65"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/out_of_plane_bend/shared_laws.npz",
+      "sha256": "9548e6f0dcf238ad9cd8521484c3aceb87ad7a39a0d2da2815c2a876c013036c"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/out_of_plane_bend/custom_direct.npz",
+      "sha256": "37257a34940b2cc91438a30cb43cad2d0d24b1f8170277d55ac1a159898805df"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/out_of_plane_bend/custom_direct_long.npz",
+      "sha256": "38424c3c32a14aab2d6be2d9797691a838d80e3502fb6e75e7836a11e0d22475"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/stretch_twist/reference.npz",
+      "sha256": "65d8d8d42e3ca235677ab010bb29d9fb7027ea5d1ff4bd1df93066ba91e91f63"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/stretch_twist/matched_analytic.npz",
+      "sha256": "743aee9abfc8fc9631f4fbb5e328d8d0d1766fcd2cbf8b4aaa3334c5260e995b"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/stretch_twist/neo_hookean.npz",
+      "sha256": "e6fd0241168c6c7b5764beb65b757a5001669dbe482a46ba4410da25271af4ed"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/stretch_twist/shared_laws.npz",
+      "sha256": "04ee2117fe18daea7dadfcf7a614e1bfcb4203ffdceb8d273b8f57c877ff4849"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/stretch_twist/custom_direct.npz",
+      "sha256": "53f71410e7fb96d5b1db57ad2b30a6412f1fa79e829ad65e9bf72a607e33cb17"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-1/stretch_twist/custom_direct_long.npz",
+      "sha256": "471c9b3258ccdd5f04a3ff48446314cfed799fc3aa96ad9cf38ca2c68d943169"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/negative_bend/reference.npz",
+      "sha256": "6aa6b3643eea62cb7b413be568ca70dcfb95bea8aff24dd8f466ac0d89e90ebd"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/negative_bend/matched_analytic.npz",
+      "sha256": "6c3510301004c233a4fa02cca54338bc3dda276d6ac78a538258191abb627fde"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/negative_bend/neo_hookean.npz",
+      "sha256": "e53d000d9d1a698d67c21d8f80096ca48a9ebc8c62bbe10d93c93761feef7c95"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/negative_bend/shared_laws.npz",
+      "sha256": "b84894c931e248b3e07480d9688e1fbb0d278fe8cc4addd130535e7060204263"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/negative_bend/custom_direct.npz",
+      "sha256": "3c5f05fb175f329e492d2fba3375d406d4b0d8c030a4535a7d434b5a018ab6e1"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "negative_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/negative_bend/custom_direct_long.npz",
+      "sha256": "72089b49463ac05a4454893ceb1eadcc514a883445748137736e9dc56a18d58b"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/out_of_plane_bend/reference.npz",
+      "sha256": "3ece42f05208260e614839dc33a22a0f605b1b2ec46a42a6192bfad5172ddc66"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/out_of_plane_bend/matched_analytic.npz",
+      "sha256": "5cb8b8d7b867b2f3004f8cee6de35ec7d9ee37a631bc6cd399a34f0eaaa9e4ca"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/out_of_plane_bend/neo_hookean.npz",
+      "sha256": "9294f8092cdb519253a3a381959dc5f9860ffe90932aec87db7ce82daf2dec70"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/out_of_plane_bend/shared_laws.npz",
+      "sha256": "6130242e151faf2536271d6cda829a20d7d3c1877d8d7503715600a771272024"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/out_of_plane_bend/custom_direct.npz",
+      "sha256": "c4bf2cf0889201b5d7764181594426838d44da6f446a894262838a523484106a"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "out_of_plane_bend",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/out_of_plane_bend/custom_direct_long.npz",
+      "sha256": "37d4d593acaa971907346de102b87f58d709d53832ea59d2918d4aceb38d8313"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "reference",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/stretch_twist/reference.npz",
+      "sha256": "442b171cb655de0cc9ea20ecd588beee4d63f379d4a121cb25c6b0aca1e39803"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "matched_analytic",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/stretch_twist/matched_analytic.npz",
+      "sha256": "f2e60ac065372baf56ff47432b1d42f853e4ddd7f8ec0a113860a6a7a36bcc6f"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "neo_hookean",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/stretch_twist/neo_hookean.npz",
+      "sha256": "501e01387854aa1610fd99fa87fb0ee2463a386c860a7d77be2d8a6e6afac8b0"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "shared_laws",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/stretch_twist/shared_laws.npz",
+      "sha256": "98b330b6f3b55f9d4e83c22cb4d8338010254d5dc1f9c58375734abda6986bc4"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "custom_direct",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/stretch_twist/custom_direct.npz",
+      "sha256": "d51cd9dc6a71ccb7bb0bd6bfef0faa394e0ac8eef6f32801f240e9ff3472bbb4"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "stretch_twist",
+      "method": "custom_direct_long",
+      "artifact": "runs/compositional-neural-mechanics-v16/oracle-reserved-forward/reserved-geometry-1-2/stretch_twist/custom_direct_long.npz",
+      "sha256": "c3ad51455fe0904c7d25574ee9ebf1f7c90219a020cf444ea85a5496a9aaae1e"
+    }
+  ],
+  "jobs": [
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "reference"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "matched_analytic"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "neo_hookean"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "shared_laws"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "custom_direct"
+    },
+    {
+      "scene_id": "reserved-composition-00",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "custom_direct_long"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "reference"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "matched_analytic"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "neo_hookean"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "shared_laws"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "custom_direct"
+    },
+    {
+      "scene_id": "reserved-composition-01",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "custom_direct_long"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "reference"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "matched_analytic"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "neo_hookean"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "shared_laws"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "custom_direct"
+    },
+    {
+      "scene_id": "reserved-composition-03",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "custom_direct_long"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "reference"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "matched_analytic"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "neo_hookean"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "shared_laws"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "custom_direct"
+    },
+    {
+      "scene_id": "reserved-composition-04",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "custom_direct_long"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "reference"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "matched_analytic"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "neo_hookean"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "shared_laws"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "custom_direct"
+    },
+    {
+      "scene_id": "reserved-composition-05",
+      "cohort": "reserved_composition",
+      "action": "biaxial_shear",
+      "method": "custom_direct_long"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "reference"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "matched_analytic"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "neo_hookean"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "shared_laws"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "custom_direct"
+    },
+    {
+      "scene_id": "reserved-geometry-1-0",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "custom_direct_long"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "reference"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "matched_analytic"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "neo_hookean"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "shared_laws"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "custom_direct"
+    },
+    {
+      "scene_id": "reserved-geometry-1-1",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "custom_direct_long"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "reference"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "matched_analytic"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "neo_hookean"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "shared_laws"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "custom_direct"
+    },
+    {
+      "scene_id": "reserved-geometry-1-2",
+      "cohort": "reserved_geometry",
+      "action": "biaxial_shear",
+      "method": "custom_direct_long"
+    }
+  ],
+  "devices": [
+    "cuda:0",
+    "cuda:1",
+    "cuda:2"
+  ],
+  "per_call_seconds": 3600,
+  "stage_seconds": 7200,
+  "method": "Identical frozen model/weights,n4predictor,n8reference,q3,querypoints,commands. Only timeout granularity/budget andoutput paths changed.",
+  "original_diagnosis_sha256": "3589c3f94c58001f4bee9ff19c674b48a6b4899033bd34d2f932378ed61e3832"
+}

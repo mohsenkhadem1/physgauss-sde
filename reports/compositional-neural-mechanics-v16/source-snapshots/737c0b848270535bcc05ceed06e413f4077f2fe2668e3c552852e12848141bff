@@ -1,0 +1,140 @@
+{
+  "scope": "DEVELOPMENT oracle-descriptor transfer of frozen shared bulk/bilateralinterface laws into known analytic normalcontact; no retraining, no heldout/inferredparameterclaim",
+  "families": {
+    "mr_saturated": {
+      "bulk": "mooney_rivlin",
+      "bulk_latent": [
+        0,
+        0,
+        -1.0
+      ],
+      "interface_latent": [
+        8.699514748210191,
+        0.5,
+        1.0
+      ]
+    },
+    "yeoh_polynomial": {
+      "bulk": "yeoh",
+      "bulk_latent": [
+        0,
+        0,
+        1.0
+      ],
+      "interface_latent": [
+        8.699514748210191,
+        0.5,
+        0.0
+      ]
+    }
+  },
+  "methods": [
+    "analytic_teacher",
+    "shared_laws"
+  ],
+  "geometry": {
+    "dimensions": [
+      0.24,
+      0.08,
+      0.08
+    ],
+    "taper": 0,
+    "arch": 0
+  },
+  "density": 625,
+  "gravity": [
+    0,
+    0,
+    -9.81
+  ],
+  "sphere_radius": 0.045,
+  "sphere_centers_z": [
+    0.09,
+    0.0875,
+    0.085,
+    0.0825,
+    0.08
+  ],
+  "floor_z": -0.04001,
+  "penalty_N_m3": 10000000.0,
+  "supports": "Original normalized bilateralfootprints, center(.5,.1875),width(.375,.375),K6000N/m/side; nowexplicitnonlinearinterfaceenergy",
+  "preflight": {
+    "n": 3,
+    "surface_order": 16,
+    "device": "cpu",
+    "workers": 2,
+    "seconds": 1200,
+    "per_call_seconds": 600
+  },
+  "fine": {
+    "meshes": [
+      6,
+      8
+    ],
+    "surface_orders": [
+      16,
+      32
+    ],
+    "preferred_devices": [
+      "cuda:0",
+      "cuda:1"
+    ],
+    "fallback_device": "cpu",
+    "workers": 2,
+    "seconds": 7200,
+    "per_call_seconds": 3600
+  },
+  "gpu_gate": "Before GPU mainstage, oracle-missing-recovery service inactive/failed, MainPID0 and its entire cgroup has no remainingprocesses. CPU fallback explicit CLI option. NoGPU3.",
+  "gates": {
+    "field_rms_m": 2e-05,
+    "force_absolute_N": 0.005,
+    "force_relative": 0.01,
+    "depth_change_m": 2e-05,
+    "residual_N": 1e-08,
+    "force_balance_N": 1e-07,
+    "torque_balance_Nm": 1e-07,
+    "minimum_J": 0.1
+  },
+  "qualification": "Each new family ANDmethod needsitsown6/8meshcheck andbothmeshesq16/32check; per-bodyforces, continuousgap65/129+129densecorroboration. NoinheritanceofNH/linear-supportqualification.",
+  "comparisons": "Matchedteacher/shared atsame mesh/q; n8teacher numericalreference onlyifqualified; field/contact/toolforces+torques/penetration, no arbitraryshared-error threshold",
+  "render": "Bothfamilies final n8q32 teacher/shared physicalscale withfloor/sphere andfield-error map; allavailablecases shownwithqualificationlabels, missingcasesexplicit",
+  "source_sha256": {
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/campaign_static_p2_block.py": "40b3d489f58c284c4660ce2295955022298d3848fa21e0ed859ad5f69398e886",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "scripts/compositional_neural_mechanics/conditional_inference_pilot.py": "a5377aada870fc5f8440aab2fe8ed382b4e81a6b390cce4aa3e486b721ff9d25",
+    "scripts/compositional_neural_mechanics/contact_gap_search.py": "ce7829210dd36ac530da12f28271b76b6e95cf5fd5400aac1532f931e8be120d",
+    "scripts/compositional_neural_mechanics/contact_mechanics.py": "0356a2fe18538c67a9afde533f639ab9abef25eced0b217a54c31da1356233d9",
+    "scripts/compositional_neural_mechanics/contact_resolution.py": "7a2384b894cf468fd0c9de123b98d431c891b58ff0d51234ba425e2e32bb4e5d",
+    "scripts/compositional_neural_mechanics/contact_transfer.py": "dda187755c5f509b600009f3873e37504e4b2173b9626b065676f0d163d5f365",
+    "scripts/compositional_neural_mechanics/contact_transfer_model.py": "adfb8166f1693eef76eb35ad6bc62d0f7c58a50f8fb0e44ceb7d2dc3988f9613",
+    "scripts/compositional_neural_mechanics/gravity_inference_pilot.py": "03fa7dc1c7d9cbfe09303a91eb3b9d793807803f915cb81331d73d17c0cc76ca",
+    "scripts/compositional_neural_mechanics/inference.py": "6d97090ceca392b4ec9d08a406eacd534a432e529f54f9aa7375b606337d0ff5",
+    "scripts/compositional_neural_mechanics/interfaces.py": "69bd652386e8d0ab9f8183ed4a0ab64cdfbc2b8a52b71eb05eb5c5a1c02838d7",
+    "scripts/compositional_neural_mechanics/joint_inference.py": "e3adb5cb4d9562a44ef91382c351d45740d2ddeab0191cb21737dff91b77678b",
+    "scripts/compositional_neural_mechanics/materials.py": "0391cf340a18133f46d35c3e07886df241164ba155d4e01deecfd7474590a313",
+    "scripts/compositional_neural_mechanics/mechanics.py": "5c203470ae371e6d61100342e15dc9f765dfe20414753d0791c0b79f7e4e5f71",
+    "scripts/compositional_neural_mechanics/scale_separated_material.py": "1f90892f144b963f6556591c6e21672ec58185968614765bcc7f3ca6508837b3",
+    "scripts/compositional_neural_mechanics/scenes.py": "c879ac975573f7a0dce9f30413f31711dca971f4058e816ea60744c7b86f48f0",
+    "scripts/phystwin/active_support_reference.py": "a88a5860febb4132f58dcca8cbcc7ef8145f9d98b42275a5f4563bdae02a26be",
+    "scripts/phystwin/consistent_fixture.py": "47dcb8a82e570bb2cfcdeaf01d4d88a7fe13e11e7f757f06cce63bc61d5d118e",
+    "scripts/phystwin/gpu_multigrid.py": "7b0f08397b6e1d0feab23710fcca7e2cd10a53b0fbdba7e320ceb1bd1e573bfb",
+    "scripts/phystwin/tensor_fixture.py": "c0a2e34e091aa1d0bbe3eb29c0a5fc63e46903bb832e372963e8b61caa66e598",
+    "tests/test_contact_transfer_model.py": "303868a935e8b8a6bcf5307364ad611787324c9c899e1fda3e79e8e38abca250",
+    "tests/test_contact_transfer_accounting.py": "c27743d7ea904df8b855d5906f17bd65035fa71cb8fe484ec0a4e3f4674aa7dc",
+    "scripts/compositional_neural_mechanics/contact_transfer_render.py": "916affdc3687ed1800dad26bd3102f0f573d46292b039f16668736859a7c909a"
+  },
+  "artifact_sha256": {
+    "runs/compositional-neural-mechanics-v16/scale-separated-prototype/shared-law.pt": "20aef4ac9eac62b418852dd0f79dfd6899d8e544b2428916819be9179988f0e8",
+    "runs/compositional-neural-mechanics-v16/interface-wide-range-warm/shared-interface.pt": "93234fcdc0d66f9b7dabb5186258c8fd63427af22d8605d541351a332ca2d996"
+  },
+  "prelaunch_amendment": {
+    "previous_sha256": "d277b97f2cd6cb9bb7f5697f781136e39c3ddd6998bd137b079912100b97282f",
+    "reason": "ParentrequiredconservativeVRAM/unrelatedcomputejobcensus inadditiontonamedownertermination; CPUfallbackrecorded; no simulationsrun."
+  },
+  "cleanup_reserve_seconds": 30,
+  "gpu_headroom_gate": "Immediately beforeGPUlaunch require >=8192MiBfree and<=10%utilization onboth0/1, plusnoexistingcomputeprocess onselectedUUIDs; recordallGPU/computeappcensus. Rejection usesdeclaredCPUfallback, no kills."
+}

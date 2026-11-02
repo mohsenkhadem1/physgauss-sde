@@ -1,0 +1,25 @@
+UNKNOWN-PARAMETER REFINEMENT: AUDITED SIX-OBJECT RESULTS
+
+Six fresh continuous objects withknown geometry, bulk/interface categorical families, heterogeneity pattern, gravity/density;15continuous unknowns. n2inference/n4reference. No forceobservations.
+
+All144 policy/command rows complete for motion and secondary reactions.41/48 fits met optimizer convergence;7 bounded fits remained incomplete and are retained. All12 stretch fits selected by the adaptive policy converged. Force/torque replay reused frozen fitted parameters without force observations or refitting.
+
+Model | Policy | position mm | force N | torque Nm | primary nominal90 coverage | supplementary coverage
+analytic_fitted | initial | 0.426799 | 0.112468 | 0.0030353 | 97.12% | 100.00%
+analytic_fitted | fixed_stretch | 0.080541 | 0.028388 | 0.0005591 | 34.29% | 95.73%
+analytic_fitted | fixed_right_bend | 0.218842 | 0.046605 | 0.0012149 | 43.70% | 81.84%
+analytic_fitted | fixed_opposed_twist | 0.082574 | 0.027991 | 0.0004196 | 48.29% | 96.47%
+analytic_fitted | uniform_random | 0.095370 | 0.033193 | 0.0005067 | 47.22% | 95.83%
+analytic_fitted | target_task_variance | 0.080541 | 0.028388 | 0.0005591 | 34.29% | 95.73%
+shared_laws_fitted | initial | 0.339493 | 0.096053 | 0.0023838 | 97.01% | 100.00%
+shared_laws_fitted | fixed_stretch | 0.080220 | 0.029210 | 0.0005252 | 33.01% | 96.15%
+shared_laws_fitted | fixed_right_bend | 0.216334 | 0.042785 | 0.0011859 | 44.66% | 82.48%
+shared_laws_fitted | fixed_opposed_twist | 0.083470 | 0.028509 | 0.0004207 | 47.76% | 96.69%
+shared_laws_fitted | uniform_random | 0.097316 | 0.034289 | 0.0005085 | 46.58% | 95.94%
+shared_laws_fitted | target_task_variance | 0.080220 | 0.029210 | 0.0005252 | 33.01% | 96.15%
+
+For the reused shared laws, one stretch observation reduced mean held-motion error0.339493→0.080220mm (~76.4%), force error0.096053→0.029210N (~69.6%), and torque error0.00238385→0.00052518Nm (~78.0%). These reaction predictions were evaluated secondarily from the same frozen physical hypotheses; no force observations were supplied.
+Adaptive target-task variance chose stretch on every object for both models. It therefore exactly ties fixed stretch; the results support informative probing, not superiority of adaptive acquisition. The analytic fitted control reaches0.080541mm and0.028388N after stretch, closely matching the learned-law method.
+The primary no-discrepancy nominal90% intervals became overconfident after stretch: shared-law coordinate coverage33.01%. A separately frozen development-MSE supplement raises coverage to96.15%, while widening mean halfwidth0.026115→0.195509mm; mean interval score improves0.740808→0.442322mm. Predictions, fits and policy choices stay unchanged. This is a useful discrepancy diagnostic, not evidence of a calibrated posterior or guaranteed90% coverage.
+The variance supplement uses fixed shared-law MSE1.3767409066860729e-08m² from separate development checks. Neither primary outcomes nor per-case results selected its variance. All primary narrow-band failures remain published.
+Known geometry/categorical families and onlysix objects limit the claim. Results establish reusable constitutive laws plus observation-driven conditional refinement in this controlled simulation; they do not establish end-to-end visual reconstruction, broad unknown-category generalization, or SOTA benchmark superiority.

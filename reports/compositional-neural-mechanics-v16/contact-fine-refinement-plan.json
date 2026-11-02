@@ -1,0 +1,68 @@
+{
+  "scope": "Same two existingcurved contactcases, resolution-only follow-up; no friction/dynamics/generalcontact claim",
+  "cases": [
+    "sphere_indentation",
+    "gravity_plane_sphere_indentation"
+  ],
+  "meshes": [
+    6,
+    8
+  ],
+  "optional_mesh": 10,
+  "surface_orders": [
+    16,
+    32
+  ],
+  "acceptance": "Latestmeshpair6/8, or8/10 ifprospectivefallbackruns, mustpass unchangedfield20\u00b5m/reaction.005N+1%perbody/global/depth20\u00b5m gates; BOTHpairmembers requireq16/32pass. Do notselectearlierpassingpair aftercontradictoryfinerevidence.",
+  "gap": "65/129 denseface grids eachseed8spatiallyseparated localanalytic-gradient minimizations perface; takebestincludinggrid. Require65/129searchdepthdifference<=20\u00b5m and129denseunderestimate<=20\u00b5m; no certifiedglobalminimumclaim.",
+  "tiny": "Same staticpatchq64/128; analyticforcewithin.005N+1%,energyrelative1%,area2%,depth20\u00b5m; q64/128force anddepthchanges samegates, areachange2%.",
+  "gates": {
+    "field_coordinate_rms_m": 2e-05,
+    "reaction_absolute_N": 0.005,
+    "reaction_relative": 0.01,
+    "dense_depth_change_m": 2e-05,
+    "residual_N": 1e-08,
+    "force_balance_N": 1e-07,
+    "torque_balance_Nm": 1e-07,
+    "minimum_J": 0.1
+  },
+  "optional_rule": "Ifany6/8casefails and measuredcost permitswithinwhole3600s, execute n10q16/32 ONLYfailingcases; nofurthermesh.",
+  "workers": 2,
+  "seconds": 3600,
+  "device": "cpu",
+  "source_sha256": {
+    "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+    "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+    "experiments/campaign_static_p2_block.py": "40b3d489f58c284c4660ce2295955022298d3848fa21e0ed859ad5f69398e886",
+    "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+    "scripts/compositional_neural_mechanics/conditional_inference_pilot.py": "a5377aada870fc5f8440aab2fe8ed382b4e81a6b390cce4aa3e486b721ff9d25",
+    "scripts/compositional_neural_mechanics/contact_fine_refinement.py": "0b7460c1bc24ecff4db054a9b4ec139522c21d3f9e841400dad793359a0a195d",
+    "scripts/compositional_neural_mechanics/contact_gap_search.py": "ce7829210dd36ac530da12f28271b76b6e95cf5fd5400aac1532f931e8be120d",
+    "scripts/compositional_neural_mechanics/contact_mechanics.py": "0356a2fe18538c67a9afde533f639ab9abef25eced0b217a54c31da1356233d9",
+    "scripts/compositional_neural_mechanics/contact_resolution.py": "7a2384b894cf468fd0c9de123b98d431c891b58ff0d51234ba425e2e32bb4e5d",
+    "scripts/compositional_neural_mechanics/gravity_inference_pilot.py": "03fa7dc1c7d9cbfe09303a91eb3b9d793807803f915cb81331d73d17c0cc76ca",
+    "scripts/compositional_neural_mechanics/inference.py": "6d97090ceca392b4ec9d08a406eacd534a432e529f54f9aa7375b606337d0ff5",
+    "scripts/compositional_neural_mechanics/interfaces.py": "69bd652386e8d0ab9f8183ed4a0ab64cdfbc2b8a52b71eb05eb5c5a1c02838d7",
+    "scripts/compositional_neural_mechanics/joint_inference.py": "e3adb5cb4d9562a44ef91382c351d45740d2ddeab0191cb21737dff91b77678b",
+    "scripts/compositional_neural_mechanics/materials.py": "0391cf340a18133f46d35c3e07886df241164ba155d4e01deecfd7474590a313",
+    "scripts/compositional_neural_mechanics/mechanics.py": "5c203470ae371e6d61100342e15dc9f765dfe20414753d0791c0b79f7e4e5f71",
+    "scripts/compositional_neural_mechanics/scale_separated_material.py": "1f90892f144b963f6556591c6e21672ec58185968614765bcc7f3ca6508837b3",
+    "scripts/compositional_neural_mechanics/scenes.py": "c879ac975573f7a0dce9f30413f31711dca971f4058e816ea60744c7b86f48f0",
+    "scripts/phystwin/active_support_reference.py": "a88a5860febb4132f58dcca8cbcc7ef8145f9d98b42275a5f4563bdae02a26be",
+    "scripts/phystwin/consistent_fixture.py": "47dcb8a82e570bb2cfcdeaf01d4d88a7fe13e11e7f757f06cce63bc61d5d118e",
+    "scripts/phystwin/gpu_multigrid.py": "7b0f08397b6e1d0feab23710fcca7e2cd10a53b0fbdba7e320ceb1bd1e573bfb",
+    "scripts/phystwin/tensor_fixture.py": "c0a2e34e091aa1d0bbe3eb29c0a5fc63e46903bb832e372963e8b61caa66e598",
+    "scripts/compositional_neural_mechanics/contact_refinement.py": "87d216992363661bfbfc1bf92f4648fed3412473add9b4580d329de12f451880",
+    "tests/test_contact_gap_search.py": "40774a45e262b3f9b6a4203def7eaf4e37ecd97f3ed9f4b119c641c337732b2e"
+  },
+  "input_sha256": {
+    "reports/compositional-neural-mechanics-v16/contact-resolution-refinement-results.json": "6819eddcc8c1ad8753de513ac584278a995987b0d62125b70328f14b68b54444",
+    "reports/compositional-neural-mechanics-v16/contact-resolution-refinement-plan.json": "0262aa27fd90d2938414eb2f6216cdb300b5a30622fe798fb52d8a1ed80d1b38"
+  },
+  "prelaunch_amendment": {
+    "previous_sha256": "8ab325387ddb072b2b23ac75de2a28f1259a884c6bdac1dbdf386d77cc2c2587",
+    "reason": "Explicitly retain original quadrature-missed-contact rejection alongsidecontinuousgap checks."
+  }
+}

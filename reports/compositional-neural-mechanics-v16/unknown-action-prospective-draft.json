@@ -1,0 +1,137 @@
+{
+  "status": "DRAFT_NOT_EXECUTABLE_NO_FRESH_SCENES_GENERATED",
+  "scope": "Untouched continuous-object conditional unknown-physics observation refinement; familiar geometry/category families,15continuous unknowns. Not unseen-category or arbitrary-topology generalization.",
+  "scene_seed": 926961,
+  "noise_seed": 926963,
+  "random_policy_seed": 926967,
+  "objects": 6,
+  "cells": [
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      1,
+      1
+    ],
+    [
+      1,
+      0,
+      1,
+      0
+    ],
+    [
+      1,
+      1,
+      0,
+      1
+    ],
+    [
+      2,
+      0,
+      0,
+      1
+    ],
+    [
+      2,
+      1,
+      1,
+      0
+    ]
+  ],
+  "interface_families": [
+    0,
+    1,
+    1,
+    0,
+    0,
+    1
+  ],
+  "balanced": "ThreeMR/threeYeoh;threeinterfacefamily0/threefamily1;eachgeometrytwice. Sixcases do not support interactions/population claims.",
+  "sampling": "Use unchanged sample_scene withfreshseed; override only declared interfacefamily flags, retainallcontinuousdraws; freeze before sampling.",
+  "models": [
+    "analytic_fitted",
+    "shared_laws_fitted"
+  ],
+  "inference_n": 2,
+  "truth_n": 4,
+  "order": 3,
+  "known": [
+    "reference_geometry",
+    "bulk_family",
+    "interface_family",
+    "heterogeneity_pattern",
+    "gravity",
+    "density"
+  ],
+  "gravity": [
+    0,
+    0,
+    -9.81
+  ],
+  "density_kg_m3": 125,
+  "unknown": "All15continuousparameters, neutralinitial/unitprior/defaultbounds. No truthstarts.",
+  "observed_actions": [
+    "initial",
+    "stretch",
+    "right_bend",
+    "opposed_twist"
+  ],
+  "observed_point_count": 26,
+  "noise_position_m": 5e-05,
+  "force_observations": 0,
+  "policy_budget": "Initial+exactlyoneadditionalsettledpositionpacket",
+  "policies": [
+    "fixed_stretch",
+    "fixed_right_bend",
+    "fixed_opposed_twist",
+    "uniform_random",
+    "target_task_variance"
+  ],
+  "shared_noise": "Onefixed noisy packetperobject/action reusedacrossmodels/policies; no actualcandidatepacketaccessbeforeselection",
+  "held_public_commands": [
+    "rightrotationy.30",
+    "symmetricstretch.07L+opposedrotationx.30"
+  ],
+  "inference": {
+    "method": "FrozenGaussNewtonMAP",
+    "max_evaluations": 40,
+    "internal_seconds": 899,
+    "external_seconds": 900,
+    "initial_fit": "Neutralonlyinitialpacket",
+    "after_fit": "Warmstartsameinitialfit;unchangedprior;onecandidatepacket",
+    "unique_fits": 48
+  },
+  "uncertainty": {
+    "approximation": "LocaluntruncatedGaussian",
+    "interval": 0.9,
+    "model_discrepancy_variance": 0,
+    "coverage": "Reportperobject/command coordinatecoverage; correlatedcoordinates, no calibratedclaim"
+  },
+  "compute": {
+    "workers": 4,
+    "device": "cpu",
+    "global_seconds": 21600,
+    "preflight": "Existingexposedworld0 n4initial+heldcommand,300s/solve; runtimebeforefreshgeneration",
+    "cpu_memory_census": "108GiB available,3 existing100%CPU Python processes beforelaunch;4extra singlethreadworkers permitted byroot"
+  },
+  "gates": [
+    "Independentplan/sourceauditbeforefreshtruthgeneration",
+    "Developmentpreflightcompletionandtiming",
+    "Geometry-onlypublicinputs separatedfromprivateparams/truth",
+    "Selectioncommittedbeforecandidatepacketaccess",
+    "Allmodels/objects forecastsorfailedstatuses terminalbeforeheldscore",
+    "All6objects retained includingfailedreference/fit/prediction"
+  ],
+  "comparison": "Allthreefixedcontrols andrandom, no outcomechosenbestfixed; reportanalyticfittedcontrol andsharedmodel. Preserveallpriororacleanddevelopmentstudies.",
+  "not_yet_done": [
+    "Runnerimplementation",
+    "Sourcefreeze",
+    "Independentreview",
+    "Freshgeneration"
+  ]
+}
