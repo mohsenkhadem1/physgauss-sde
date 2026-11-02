@@ -1,0 +1,419 @@
+{
+  "scope": "Two development scenes only; optimizer comparison, not a new benchmark or uncertainty result",
+  "input_sha256": {
+    "reports/compositional-neural-mechanics-v16/gauss-newton-development-comparison-plan.json": "473105641c0e496fdcb431dda73c91d44d4c7db67e2148489d25ccb491e07dbc",
+    "reports/compositional-neural-mechanics-v16/gauss-newton-development-status.json": "46aee294327337dd7fa2a1b4e5dbeab8883c8a572c9c03c606080d3df69608a1",
+    "runs/compositional-neural-mechanics-v16/gauss-newton-development-comparison/runtime-snapshot.json": "29d3c7935b0229c430e5020954dbde4f758d921475600cc8f359121137588405",
+    "runs/compositional-neural-mechanics-v16/gauss-newton-development-comparison/original-world0.json": "90a309eccae2c9a951a1d94f5465b92f7a4c17be1084ecf6f30c620c70ead606",
+    "reports/compositional-neural-mechanics-v16/gauss-newton-development-world0.json": "feb1cef0aa90bd11833e16d2250c31f7360181429fce4fc706d815a13a0b31c6",
+    "runs/compositional-neural-mechanics-v16/gauss-newton-development-comparison/original-world1.json": "05561498fe513dcb99fe070f2b13a7833d7fd6812138b91718c664353049e224",
+    "reports/compositional-neural-mechanics-v16/gauss-newton-development-world1.json": "44a10d363fc77778f6193283d54d61f807d71f980c05d2436e5a0c08c3960074"
+  },
+  "report_source_sha256": "b1455d1fd7b15ce7f2fd30bc03a2135269dc64e5cb2e0d1cc44dbfd0bcb7dc27",
+  "status": {
+    "plan_sha256": "473105641c0e496fdcb431dda73c91d44d4c7db67e2148489d25ccb491e07dbc",
+    "exit_codes": [
+      0,
+      0
+    ],
+    "elapsed_seconds": 419.10750740999356
+  },
+  "rows": [
+    {
+      "world": 0,
+      "model": "analytic",
+      "original": {
+        "loss": 155.66989241467337,
+        "optimizer_success": false,
+        "incomplete": true,
+        "message": "MAP continuation budget exhausted",
+        "elapsed_seconds": 899.9512705811067,
+        "optimality": null,
+        "evaluation_count": 73,
+        "heldout_errors": [
+          {
+            "displacement": 7.882656171952453e-06,
+            "forces": 0.0005696633299953833,
+            "torques": 6.4706284260516e-05
+          },
+          {
+            "displacement": 1.0459379235551868e-05,
+            "forces": 0.0012733221474809046,
+            "torques": 0.00013709162387558224
+          }
+        ],
+        "packed_latent_error": [
+          0.0038285777600433335,
+          0.22704136991135437,
+          -0.002109188869588205,
+          -0.007260439081596459,
+          -0.0191068248961187,
+          0.055673360332096244,
+          -0.04300978275760681,
+          0.003301253776739954,
+          -0.028598365319716823,
+          -0.0004985816228378903,
+          0.0048985655602650224,
+          0.005254507342026038,
+          0.05334861537509861,
+          0.0007988486812122719,
+          0.011907186665997216
+        ],
+        "all_two_forecasts_complete": true,
+        "mean_heldout_errors": {
+          "displacement": 9.171017703752161e-06,
+          "forces": 0.0009214927387381439,
+          "torques": 0.00010089895406804913
+        }
+      },
+      "gauss_newton": {
+        "loss": 155.15918409193168,
+        "optimizer_success": true,
+        "incomplete": false,
+        "message": "`ftol` termination condition is satisfied.",
+        "elapsed_seconds": 185.62013727496378,
+        "optimality": 6.8854770043182485e-06,
+        "evaluation_count": 14,
+        "heldout_errors": [
+          {
+            "displacement": 7.560082090734362e-06,
+            "forces": 0.0007476108130554662,
+            "torques": 8.04365290928173e-05
+          },
+          {
+            "displacement": 1.0057031969529087e-05,
+            "forces": 0.004157959521603127,
+            "torques": 0.00014251953731904288
+          }
+        ],
+        "packed_latent_error": [
+          0.0032991152841788385,
+          0.12804583569756722,
+          -0.002344398536236386,
+          -0.027742533747353804,
+          0.021000942788575228,
+          0.07563659527645417,
+          -0.05337386142438405,
+          0.0033482825102767455,
+          -0.02452062102606095,
+          -0.000468117991851813,
+          0.004076055931824807,
+          -0.004785110647766322,
+          0.040414086622867496,
+          -0.0020154638311722373,
+          0.009776310118068121
+        ],
+        "all_two_forecasts_complete": true,
+        "mean_heldout_errors": {
+          "displacement": 8.808557030131725e-06,
+          "forces": 0.0024527851673292965,
+          "torques": 0.00011147803320593009
+        }
+      },
+      "new_report_present": true,
+      "heldout_difference_new_minus_original": {
+        "displacement": -3.624606736204367e-07,
+        "forces": 0.0015312924285911527,
+        "torques": 1.0579079137880963e-05
+      }
+    },
+    {
+      "world": 0,
+      "model": "learned",
+      "original": {
+        "loss": 155.14088394450513,
+        "optimizer_success": false,
+        "incomplete": true,
+        "message": "MAP continuation budget exhausted",
+        "elapsed_seconds": 899.9637407009723,
+        "optimality": null,
+        "evaluation_count": 68,
+        "heldout_errors": [
+          {
+            "displacement": 7.611504817769285e-06,
+            "forces": 0.0001662914146029611,
+            "torques": 3.693114044745e-05
+          },
+          {
+            "displacement": 1.2682305296713999e-05,
+            "forces": 0.0016237151196690034,
+            "torques": 0.00014925969673740028
+          }
+        ],
+        "packed_latent_error": [
+          0.017464336700443617,
+          0.24836130358453634,
+          -0.0025629790738862512,
+          0.009480739509767133,
+          -0.03285940511221519,
+          0.0763475162670968,
+          -0.0572984276943711,
+          0.0031117132419047344,
+          -0.03014237455075819,
+          -0.0002922557589303265,
+          0.0032091291632491137,
+          -0.000396843040694872,
+          0.05316458055463913,
+          -0.002255421152310255,
+          0.006968271102277823
+        ],
+        "all_two_forecasts_complete": true,
+        "mean_heldout_errors": {
+          "displacement": 1.0146905057241643e-05,
+          "forces": 0.0008950032671359823,
+          "torques": 9.309541859242514e-05
+        }
+      },
+      "gauss_newton": {
+        "loss": 154.24874574920364,
+        "optimizer_success": true,
+        "incomplete": false,
+        "message": "`ftol` termination condition is satisfied.",
+        "elapsed_seconds": 207.95382697088644,
+        "optimality": 6.597456713749554e-06,
+        "evaluation_count": 14,
+        "heldout_errors": [
+          {
+            "displacement": 7.011008149955602e-06,
+            "forces": 0.0006289302590294274,
+            "torques": 7.111283002080611e-05
+          },
+          {
+            "displacement": 1.1127488830120015e-05,
+            "forces": 0.006264195846376139,
+            "torques": 0.00014861089908441903
+          }
+        ],
+        "packed_latent_error": [
+          0.01628649700467691,
+          0.09564164530780017,
+          -0.002177650551862184,
+          -0.027841783954403176,
+          0.016575409897869653,
+          0.07172222281238305,
+          -0.05387789816005406,
+          0.0032859452827568303,
+          -0.0252037656438574,
+          -0.0003243941736241762,
+          0.003487643425441611,
+          -0.005524645998818523,
+          0.03974738793347221,
+          -0.0033738134852463464,
+          0.008944842807358189
+        ],
+        "all_two_forecasts_complete": true,
+        "mean_heldout_errors": {
+          "displacement": 9.069248490037809e-06,
+          "forces": 0.003446563052702783,
+          "torques": 0.00010986186455261258
+        }
+      },
+      "new_report_present": true,
+      "heldout_difference_new_minus_original": {
+        "displacement": -1.0776565672038338e-06,
+        "forces": 0.0025515597855668005,
+        "torques": 1.6766445960187434e-05
+      }
+    },
+    {
+      "world": 1,
+      "model": "analytic",
+      "original": {
+        "loss": 152.47704703201228,
+        "optimizer_success": false,
+        "incomplete": true,
+        "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+        "elapsed_seconds": 732.4155954949092,
+        "optimality": null,
+        "evaluation_count": 89,
+        "heldout_errors": [
+          {
+            "displacement": 1.9497052596056996e-05,
+            "forces": 0.0009174601353819806,
+            "torques": 6.668260637991802e-05
+          },
+          {
+            "displacement": 2.9183407765600614e-05,
+            "forces": 0.010307484916953075,
+            "torques": 0.000159481575578661
+          }
+        ],
+        "packed_latent_error": [
+          -0.00400354198548597,
+          -0.8134226033552705,
+          -0.0006230363515472015,
+          0.005129063670226586,
+          0.012787928556064976,
+          0.046993972961876906,
+          -0.04192507712627325,
+          -0.0026279894909911894,
+          -0.003935200573298436,
+          0.0028191798012147107,
+          -0.02789437554258556,
+          -0.01492212920572511,
+          -0.014343944081428361,
+          -0.021104031101528253,
+          -0.05769969449885681
+        ],
+        "all_two_forecasts_complete": true,
+        "mean_heldout_errors": {
+          "displacement": 2.4340230180828805e-05,
+          "forces": 0.005612472526167527,
+          "torques": 0.00011308209097928952
+        }
+      },
+      "gauss_newton": {
+        "loss": 145.10872972892292,
+        "optimizer_success": true,
+        "incomplete": false,
+        "message": "`ftol` termination condition is satisfied.",
+        "elapsed_seconds": 168.05922604806256,
+        "optimality": 1.7358775475815515e-05,
+        "evaluation_count": 18,
+        "heldout_errors": [
+          {
+            "displacement": 1.7375278508353416e-05,
+            "forces": 0.0003054419794657543,
+            "torques": 5.057531228387758e-05
+          },
+          {
+            "displacement": 2.054901811852789e-05,
+            "forces": 0.004806571112307649,
+            "torques": 9.403848204847501e-05
+          }
+        ],
+        "packed_latent_error": [
+          -0.0016435706519545845,
+          -0.2846067734407844,
+          0.0015006133193298243,
+          -0.03865718186373801,
+          0.04825920731134703,
+          0.07156861108139623,
+          -0.07936165291766262,
+          -0.002771934774643714,
+          -0.006266714977444909,
+          0.002156652537973369,
+          -0.017951031085260083,
+          -0.004314843846447425,
+          -0.0038607112969846202,
+          -0.009245526348939048,
+          -0.03869492377073103
+        ],
+        "all_two_forecasts_complete": true,
+        "mean_heldout_errors": {
+          "displacement": 1.8962148313440653e-05,
+          "forces": 0.0025560065458867017,
+          "torques": 7.230689716617629e-05
+        }
+      },
+      "new_report_present": true,
+      "heldout_difference_new_minus_original": {
+        "displacement": -5.378081867388152e-06,
+        "forces": -0.0030564659802808257,
+        "torques": -4.0775193813113225e-05
+      }
+    },
+    {
+      "world": 1,
+      "model": "learned",
+      "original": {
+        "loss": 150.8922117170397,
+        "optimizer_success": false,
+        "incomplete": true,
+        "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+        "elapsed_seconds": 806.989311982994,
+        "optimality": null,
+        "evaluation_count": 89,
+        "heldout_errors": [
+          {
+            "displacement": 1.9508099698926693e-05,
+            "forces": 0.0004121350456059788,
+            "torques": 4.173748295640562e-05
+          },
+          {
+            "displacement": 3.058226534778809e-05,
+            "forces": 0.008270701865690414,
+            "torques": 0.00015932423517319385
+          }
+        ],
+        "packed_latent_error": [
+          0.010116888874407703,
+          -0.7328423690141216,
+          -0.00113076982271898,
+          0.03184449387188604,
+          -0.014201049937656751,
+          -0.04176733223542595,
+          0.08974612170920859,
+          -0.002415102819025461,
+          -0.0006092166876612848,
+          0.0032296274540852266,
+          -0.02674711842634825,
+          -0.01740955341267114,
+          -0.01794116833440995,
+          -0.02766095299941096,
+          -0.05629377591426277
+        ],
+        "all_two_forecasts_complete": true,
+        "mean_heldout_errors": {
+          "displacement": 2.5045182523357392e-05,
+          "forces": 0.004341418455648196,
+          "torques": 0.00010053085906479973
+        }
+      },
+      "gauss_newton": {
+        "loss": 144.64590247500882,
+        "optimizer_success": true,
+        "incomplete": false,
+        "message": "`ftol` termination condition is satisfied.",
+        "elapsed_seconds": 240.38031583407428,
+        "optimality": 1.6138330170230212e-06,
+        "evaluation_count": 23,
+        "heldout_errors": [
+          {
+            "displacement": 1.8472354465316086e-05,
+            "forces": 0.00013236525526799978,
+            "torques": 3.88512787040121e-05
+          },
+          {
+            "displacement": 2.533042135095225e-05,
+            "forces": 0.0043742826455569145,
+            "torques": 8.784301483365872e-05
+          }
+        ],
+        "packed_latent_error": [
+          0.010123536874448447,
+          -0.2728944137026563,
+          0.0006689285194373396,
+          -0.026428869059929028,
+          0.036230942515435904,
+          -0.037422029884603525,
+          0.07807161684203012,
+          -0.002478968362290279,
+          -0.005262467172824803,
+          0.002333463475534314,
+          -0.020998297344468453,
+          -0.005064016504715996,
+          -0.004367856342927912,
+          -0.014568173885653346,
+          -0.045145037577564606
+        ],
+        "all_two_forecasts_complete": true,
+        "mean_heldout_errors": {
+          "displacement": 2.1901387908134168e-05,
+          "forces": 0.0022533239504124573,
+          "torques": 6.334714676883541e-05
+        }
+      },
+      "new_report_present": true,
+      "heldout_difference_new_minus_original": {
+        "displacement": -3.1437946152232236e-06,
+        "forces": -0.0020880945052357386,
+        "torques": -3.718371229596432e-05
+      }
+    }
+  ],
+  "optimizer_converged_original": 0,
+  "optimizer_converged_gauss_newton": 4,
+  "budgets": "Same900s/model ceiling; GN40 versus original160 evaluation ceiling. Different derivative work per evaluation, not equal compute per step.",
+  "caveat": "Small prediction errors do not establish unique latent recovery. All failed or incomplete fits retained, no model/per-world selection."
+}

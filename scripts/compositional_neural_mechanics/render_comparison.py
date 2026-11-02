@@ -51,7 +51,7 @@ def render(geometry,paths,labels,output,frames=144):
         rms=1000*np.sqrt(np.mean((fields[i]-fields[0])**2))
         ax.set_title(label+('\nNumerical reference' if i==0 else f'\nField RMS error: {rms:.3f} mm'),fontsize=12,pad=0)
     fig.suptitle('Static equilibrium • camera orbit • simulation and prediction',fontsize=14)
-    fig.text(.5,.045,'Colour on predictions: pointwise position error (mm); identical camera and scale',ha='center',fontsize=10)
+    fig.text(.5,.02,'Colour on predictions: pointwise position error (mm); identical camera and scale',ha='center',fontsize=10)
     if len(paths)>1:
         bar=fig.add_axes([.36,.105,.28,.025]);fig.colorbar(plt.cm.ScalarMappable(norm=normal,cmap=cmap),cax=bar,orientation='horizontal')
     output.parent.mkdir(parents=True,exist_ok=True)
