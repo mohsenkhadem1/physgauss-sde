@@ -1,0 +1,160 @@
+{
+  "scope": "Oracle-descriptor constitutive proof-of-function only; no scene inference or public benchmark claim.",
+  "seed": 931201,
+  "latent": [
+    "log common scale",
+    "generative nonlinear shape descriptor",
+    "family descriptor: -1 MR,+1 Yeoh"
+  ],
+  "training_materials": [
+    [
+      -0.5,
+      -1.0,
+      -1.0
+    ],
+    [
+      -0.5,
+      -1.0,
+      1.0
+    ],
+    [
+      -0.5,
+      0.0,
+      -1.0
+    ],
+    [
+      -0.5,
+      0.0,
+      1.0
+    ],
+    [
+      -0.5,
+      1.0,
+      -1.0
+    ],
+    [
+      -0.5,
+      1.0,
+      1.0
+    ],
+    [
+      0,
+      -1.0,
+      -1.0
+    ],
+    [
+      0,
+      -1.0,
+      1.0
+    ],
+    [
+      0,
+      0.0,
+      -1.0
+    ],
+    [
+      0,
+      0.0,
+      1.0
+    ],
+    [
+      0,
+      1.0,
+      -1.0
+    ],
+    [
+      0,
+      1.0,
+      1.0
+    ],
+    [
+      0.5,
+      -1.0,
+      -1.0
+    ],
+    [
+      0.5,
+      -1.0,
+      1.0
+    ],
+    [
+      0.5,
+      0.0,
+      -1.0
+    ],
+    [
+      0.5,
+      0.0,
+      1.0
+    ],
+    [
+      0.5,
+      1.0,
+      -1.0
+    ],
+    [
+      0.5,
+      1.0,
+      1.0
+    ]
+  ],
+  "unseen_material_descriptors": [
+    [
+      -0.25,
+      -0.5,
+      -1.0
+    ],
+    [
+      -0.25,
+      -0.5,
+      1.0
+    ],
+    [
+      -0.25,
+      0.5,
+      -1.0
+    ],
+    [
+      -0.25,
+      0.5,
+      1.0
+    ],
+    [
+      0.25,
+      -0.5,
+      -1.0
+    ],
+    [
+      0.25,
+      -0.5,
+      1.0
+    ],
+    [
+      0.25,
+      0.5,
+      -1.0
+    ],
+    [
+      0.25,
+      0.5,
+      1.0
+    ]
+  ],
+  "train_strain": "principal logstretch\u00b1.2, upper offdiagonal shear\u00b1.4; J>0",
+  "test_strain": "interpolation same strainrange AND harder logstretch\u00b1.35/shear\u00b1.7",
+  "counts": {
+    "train": 4096,
+    "validation": 512,
+    "test_interpolation": 1024,
+    "test_harder": 1024
+  },
+  "steps": 1500,
+  "optimizer": "Adam lr.003 cosine to0, fixed1500steps, stressMSE+.1energyMSE normalized12000Pa; no test-based selection",
+  "batch": 256,
+  "device": "cuda:0",
+  "budget_seconds": 1800,
+  "source_sha256": {
+    "scripts/compositional_neural_mechanics/train_materials.py": "7a18149c42662c9e1d109f07d52a7d923fbeeada3056ad7d7796b43521a2e721",
+    "scripts/compositional_neural_mechanics/materials.py": "0391cf340a18133f46d35c3e07886df241164ba155d4e01deecfd7474590a313"
+  }
+}

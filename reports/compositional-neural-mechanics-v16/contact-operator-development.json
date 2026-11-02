@@ -1,0 +1,100 @@
+{
+  "scope": "CPU operator/equilibrium smoke tests, not scene qualification",
+  "source_sha256": {
+    "scripts/compositional_neural_mechanics/contact_mechanics.py": "affb4620ff7ef3185cceb807fd8f23d1c13e1ce95c6768590be409796ae40565",
+    "scripts/compositional_neural_mechanics/contact_qualification.py": "0369bef639c502b7d04b8c50798ff9de632198193fd463f192fa779c27e353be",
+    "scripts/compositional_neural_mechanics/mechanics.py": "5c203470ae371e6d61100342e15dc9f765dfe20414753d0791c0b79f7e4e5f71",
+    "tests/test_compositional_contact.py": "2f462d946e8ac403be70f51941ba2a40e734142203cd700072def621a96448ea"
+  },
+  "equilibrium_examples": [
+    {
+      "name": "gravity_plane",
+      "n": 1,
+      "volume_order": 3,
+      "surface_order": 4,
+      "penalty_N_m3": 10000000.0,
+      "residual_norm_N": 4.3921050570869647e-11,
+      "min_J": 0.9813505669042304,
+      "force_balance_N": 2.167156482216458e-13,
+      "world_torque_balance_Nm": 2.1314212166185993e-14,
+      "rigid_force_N": [
+        0.0,
+        0.0,
+        -8.270493063150527
+      ],
+      "rigid_torque_Nm": [
+        3.0890004096284507e-15,
+        0.9924591675780579,
+        0.0
+      ],
+      "max_sampled_penetration_m": 5.4158453918762284e-05,
+      "active_samples": 64
+    },
+    {
+      "name": "broad_sphere",
+      "n": 1,
+      "volume_order": 3,
+      "surface_order": 4,
+      "penalty_N_m3": 10000000.0,
+      "residual_norm_N": 1.1347483969149712e-12,
+      "min_J": 0.8955997581725499,
+      "force_balance_N": 8.242947736901108e-14,
+      "world_torque_balance_Nm": 9.988460927747038e-15,
+      "rigid_force_N": [
+        8.604228440844963e-16,
+        -1.8207657603852567e-14,
+        -2.2138017011765814
+      ],
+      "rigid_torque_Nm": [
+        -3.6944873336452224e-19,
+        5.382471716790411e-19,
+        -3.1454477832743746e-19
+      ],
+      "max_sampled_penetration_m": 0.0002152815412417089,
+      "active_samples": 4
+    }
+  ],
+  "small_contact_patch_counterexample": [
+    {
+      "surface_order": 4,
+      "active_samples": 0,
+      "sampled_penetration_m": 0.0,
+      "known_surface_center_penetration_m": 0.001,
+      "rigid_force_N": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "surface_order": 6,
+      "active_samples": 0,
+      "sampled_penetration_m": 0.0,
+      "known_surface_center_penetration_m": 0.001,
+      "rigid_force_N": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "surface_order": 8,
+      "active_samples": 4,
+      "sampled_penetration_m": 9.277697923511241e-05,
+      "known_surface_center_penetration_m": 0.001,
+      "rigid_force_N": [
+        2.0198396575579768e-16,
+        4.848795368365714e-18,
+        -0.15869886798228294
+      ]
+    }
+  ],
+  "limitations": [
+    "All six mapped reference boundary faces are sampled at deformed material positions.",
+    "Finite normal penalty allows penetration; no friction, collision detection or dynamic rigid response.",
+    "Small sphere intersection can be missed entirely by surface Gauss points. A zero sampled penetration is not evidence of nonintersection.",
+    "Sphere tangential penalty Hessian can be negative; no universal convexity claim.",
+    "Actual scene use requires mesh/surface quadrature/penalty refinement and reaction as well as shape checks."
+  ],
+  "scene_qualified": false
+}

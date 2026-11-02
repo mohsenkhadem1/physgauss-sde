@@ -1,0 +1,121 @@
+{
+  "plan": {
+    "role": "Pointwise bilateral-interface development prototype, not scene generalization",
+    "steps": 2500,
+    "batch": 512,
+    "train_strengths": [
+      0.1,
+      0.3,
+      0.5,
+      0.7,
+      0.9
+    ],
+    "test_strengths": [
+      0.2,
+      0.4,
+      0.6,
+      0.8
+    ],
+    "train_radius_over_ref": 2.0,
+    "hard_radius_over_ref": 3.0,
+    "reference_length_m": 0.002,
+    "train_seed": 926103,
+    "test_seed": 926107,
+    "hard_seed": 926109,
+    "source_sha256": {
+      "scripts/compositional_neural_mechanics/train_interface_prototype.py": "43804de893c2c18bb6fd66ef0034ecdc0d0dafeacb1d449be742616ca1ea4068",
+      "scripts/compositional_neural_mechanics/interfaces.py": "69bd652386e8d0ab9f8183ed4a0ab64cdfbc2b8a52b71eb05eb5c5a1c02838d7"
+    },
+    "latent": "Oracle [logK, strength, family]; no inference or material-label-from-image claim",
+    "time_cap_seconds": 600
+  },
+  "checkpoint_sha256": "d9e8c6d25c9ccec802b7aa9e70b86737aac1e1dacd3219c477c94589b57a01ce",
+  "training_seconds": 6.791929702972993,
+  "trace": [
+    {
+      "step": 0,
+      "loss": 3.8671787707988616
+    },
+    {
+      "step": 250,
+      "loss": 0.006968977101102704
+    },
+    {
+      "step": 500,
+      "loss": 0.00701126621122228
+    },
+    {
+      "step": 750,
+      "loss": 0.006977666567190601
+    },
+    {
+      "step": 1000,
+      "loss": 0.00427520816034195
+    },
+    {
+      "step": 1250,
+      "loss": 0.0017518117611327146
+    },
+    {
+      "step": 1500,
+      "loss": 0.0008884616899010264
+    },
+    {
+      "step": 1750,
+      "loss": 0.00033227832864771563
+    },
+    {
+      "step": 2000,
+      "loss": 8.028299896782138e-05
+    },
+    {
+      "step": 2250,
+      "loss": 3.687089866991854e-05
+    }
+  ],
+  "results": {
+    "interpolation": {
+      "normalized_traction_relative_l2": 0.0016767629538829126,
+      "oracle_linear_relative_l2": 0.8492110895648688,
+      "maximum_traction_error_N": 0.19517270406446308,
+      "samples": 2048,
+      "families": {
+        "0": {
+          "normalized_traction_relative_l2": 0.0009918810811485688,
+          "oracle_linear_relative_l2": 0.8687058160185634,
+          "maximum_traction_error_N": 0.09007450795921557,
+          "samples": 1067
+        },
+        "1": {
+          "normalized_traction_relative_l2": 0.005602260304277514,
+          "oracle_linear_relative_l2": 0.44450221110463306,
+          "maximum_traction_error_N": 0.19517270406446308,
+          "samples": 981
+        }
+      },
+      "minimum_sampled_tangent_eigenvalue_N_per_m": 308.71660724456143
+    },
+    "harder_displacement": {
+      "normalized_traction_relative_l2": 0.019460686382212985,
+      "oracle_linear_relative_l2": 0.9330047636424003,
+      "maximum_traction_error_N": 4.988553993014648,
+      "samples": 2048,
+      "families": {
+        "0": {
+          "normalized_traction_relative_l2": 0.0166603372186433,
+          "oracle_linear_relative_l2": 0.9390134835040715,
+          "maximum_traction_error_N": 4.988553993014648,
+          "samples": 1026
+        },
+        "1": {
+          "normalized_traction_relative_l2": 0.0782623777440869,
+          "oracle_linear_relative_l2": 0.48113335094211473,
+          "maximum_traction_error_N": 3.495831025493743,
+          "samples": 1022
+        }
+      },
+      "minimum_sampled_tangent_eigenvalue_N_per_m": 300.2863506733128
+    }
+  },
+  "scope": "Oracle latent pointwise attachment-law fit; no contact/friction, scene inference, or composition claim"
+}

@@ -1,0 +1,161 @@
+{
+  "scope": "Exact common-scale structural correction, not selected using prior hard-test outcomes. Fresh strain draws on the same declared18/8descriptorgrids; oracle constitutive prototype only. Fixed final6000-step checkpoint, no validation selection.",
+  "seed": 931222,
+  "latent": [
+    "log common scale",
+    "generative nonlinear shape descriptor",
+    "family descriptor: -1 MR,+1 Yeoh"
+  ],
+  "training_materials": [
+    [
+      -0.5,
+      -1.0,
+      -1.0
+    ],
+    [
+      -0.5,
+      -1.0,
+      1.0
+    ],
+    [
+      -0.5,
+      0.0,
+      -1.0
+    ],
+    [
+      -0.5,
+      0.0,
+      1.0
+    ],
+    [
+      -0.5,
+      1.0,
+      -1.0
+    ],
+    [
+      -0.5,
+      1.0,
+      1.0
+    ],
+    [
+      0,
+      -1.0,
+      -1.0
+    ],
+    [
+      0,
+      -1.0,
+      1.0
+    ],
+    [
+      0,
+      0.0,
+      -1.0
+    ],
+    [
+      0,
+      0.0,
+      1.0
+    ],
+    [
+      0,
+      1.0,
+      -1.0
+    ],
+    [
+      0,
+      1.0,
+      1.0
+    ],
+    [
+      0.5,
+      -1.0,
+      -1.0
+    ],
+    [
+      0.5,
+      -1.0,
+      1.0
+    ],
+    [
+      0.5,
+      0.0,
+      -1.0
+    ],
+    [
+      0.5,
+      0.0,
+      1.0
+    ],
+    [
+      0.5,
+      1.0,
+      -1.0
+    ],
+    [
+      0.5,
+      1.0,
+      1.0
+    ]
+  ],
+  "unseen_material_descriptors": [
+    [
+      -0.25,
+      -0.5,
+      -1.0
+    ],
+    [
+      -0.25,
+      -0.5,
+      1.0
+    ],
+    [
+      -0.25,
+      0.5,
+      -1.0
+    ],
+    [
+      -0.25,
+      0.5,
+      1.0
+    ],
+    [
+      0.25,
+      -0.5,
+      -1.0
+    ],
+    [
+      0.25,
+      -0.5,
+      1.0
+    ],
+    [
+      0.25,
+      0.5,
+      -1.0
+    ],
+    [
+      0.25,
+      0.5,
+      1.0
+    ]
+  ],
+  "train_strain": "upper-triangular diagonal log entries\u00b1.2, upper offdiagonal shear\u00b1.4; J>0",
+  "test_strain": "interpolation same strainrange AND harder diagonal log entries\u00b1.35/shear\u00b1.7",
+  "counts": {
+    "train": 4096,
+    "validation": 512,
+    "test_interpolation": 1024,
+    "test_harder": 1024
+  },
+  "steps": 6000,
+  "optimizer": "Adam lr.003 cosine to0, fixed6000steps, stressMSE+.1energyMSE normalized12000Pa; no test-based selection",
+  "batch": 256,
+  "device": "cuda:0",
+  "budget_seconds": 1800,
+  "source_sha256": {
+    "scripts/compositional_neural_mechanics/train_scale_separated_material.py": "6c3caa0ea5b242800a26e20335e6c54615ea9a0a1c67c00715d4c1b774e279e1",
+    "scripts/compositional_neural_mechanics/materials.py": "0391cf340a18133f46d35c3e07886df241164ba155d4e01deecfd7474590a313",
+    "scripts/compositional_neural_mechanics/scale_separated_material.py": "1f90892f144b963f6556591c6e21672ec58185968614765bcc7f3ca6508837b3"
+  }
+}

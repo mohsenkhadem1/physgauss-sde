@@ -1,0 +1,25 @@
+Shared constitutive law prototype — completed bounded stage
+
+Implementation: scripts/compositional_neural_mechanics/materials.py.
+API: SharedMaterialLaw(latent_dim=3).double(); energy_density/energy/forward(F,z) returns energy density in Pa; stress(F,z,create_graph=True) returns first Piola stress. F ends in3x3; z is broadcast over quadrature points. All operations are pointwise, with no batch pooling. Standard autograd supplies tangents and gradients through shared weights and scene latents.
+
+Energy uses objective isotropic isochoric invariants q1=J^(-2/3)I1−3 and q2=J^(-4/3)I2−3. A latent MLP produces strictly positive coefficients multiplying q1/2,q2/2,q1²,q1³, volumetricJ−logJ−1, and two learned-positive-slope softplus Bregman residuals. Constraints hold through conditioning rather than applying an unconstrained hypernetwork to energy-network weights. Reference energy and stress vanish analytically. Material coefficients and basis slopes are globally shared learned weights; z is an explicit input.
+
+This establishes objective, isotropic, reference-normalized energy with nonnegative bases for positiveJ, in exact arithmetic. It DOES NOT establish polyconvexity, rank-one convexity, global equilibrium uniqueness, solver convergence, or accurate extrapolation. Finite precision may yield tiny invariant cancellation errors near rotations. J≤0 is rejected, not repaired. Extreme conditioning may overflow; caller must supply finite physically bounded latents. No anisotropy, plasticity, viscoelastic memory or material damage is modeled. Twenty-four sampled hard-strain rank-one curvatures were positive; this is a finite diagnostic, not a stability proof.
+
+Oracle descriptor contract: [log common modulus scale, nonlinear shape descriptor, family descriptor(-1 MR,+1 Yeoh)]. These are known generative descriptors in this constitutive experiment, not inferred observations or arbitrary per-scene embeddings. Actual scene adaptation must infer them with shared weights frozen. The two teachers share shear modulus4000exp(z0)Pa and bulk modulus20000exp(z0)Pa, while differing in nonlinear response. Thus their distinction cannot be reduced to predicting Young's modulus. Family-held-out generalization was NOT tested.
+
+Fixed training:18 material combinations,4096 strain samples,1500Adam steps; GPU0 elapsed18.95s. Principal logstretch range±.2 and upper-triangular shear±.4. Shared checkpoint frozen before generating test strains on8 previously unused descriptor combinations. Harder-strain test uses logstretch±.35 and shear±.7. No post-test model/hyperparameter tuning.
+
+Stress relativeL2:
+- Unseen descriptor combinations, same strain range: learned1.757%; matched-small-strain Neo-Hookean8.174%.
+- Harder strain, all families: learned11.254%; Neo-Hookean31.122%.
+- Harder Mooney–Rivlin: learned12.731%; Neo-Hookean10.161% (regression).
+- Harder Yeoh: learned10.336%; Neo-Hookean38.119%.
+The exact analytic teacher is the constitutive ceiling by construction. Neo-Hookean uses oracle small-strain moduli, not a fit to test responses. These results establish proof-of-function, not scene-level transfer or a public-benchmark improvement.
+
+Focused CPU tests:4passed, covering reference energy/stress, left-rotation objectivity, right-rotation isotropy, stress equivariance, finite-difference first/second derivatives, shared-parameter and latent gradients, point independence, sampled positive energy, and rejection of invertedF.
+
+Next integration: use this frozen shared energy inside the same global mechanics solver as both analytic baselines; first oracle scene descriptors, then permitted-observation latent fitting. Preserve the hard-MR regression and distinguish constitutive approximation from global-solver/inference errors.
+
+Independent-audit wording clarification: the generated upper-triangular deformation gradients use bounded logarithms of diagonal entries. These are NOT principal log-stretches once off-diagonal shears are present. Historical training-plan wording is retained as provenance; the explicit sampling formula and bounds above define the experiment.

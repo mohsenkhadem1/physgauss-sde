@@ -1,0 +1,160 @@
+{
+  "plan": {
+    "role": "Development-only range repair, not reserved scene evaluation",
+    "steps": 6000,
+    "batch": 512,
+    "train_strengths": [
+      0.1,
+      0.3,
+      0.5,
+      0.7,
+      0.9
+    ],
+    "test_strengths": [
+      0.2,
+      0.4,
+      0.6,
+      0.8
+    ],
+    "train_radii": [
+      3.0,
+      16.0
+    ],
+    "train_samples_per_radius": 8192,
+    "test_radius": 16.0,
+    "extrapolation_radius": 24.0,
+    "seeds": {
+      "train": [
+        926403,
+        926407
+      ],
+      "test": [
+        926411,
+        926413
+      ],
+      "batch": 926417
+    },
+    "source_sha256": {
+      "runs/compositional-neural-mechanics-v16/interface-prototype/shared-interface.pt": "d9e8c6d25c9ccec802b7aa9e70b86737aac1e1dacd3219c477c94589b57a01ce",
+      "scripts/compositional_neural_mechanics/train_interface_range_warm.py": "4b85bb1ef1ff4e3e78a3e8143f3e3e75604e7262746abc5c23f24ca1ffca78c5",
+      "scripts/compositional_neural_mechanics/interfaces.py": "69bd652386e8d0ab9f8183ed4a0ab64cdfbc2b8a52b71eb05eb5c5a1c02838d7",
+      "scripts/compositional_neural_mechanics/train_interface_prototype.py": "43804de893c2c18bb6fd66ef0034ecdc0d0dafeacb1d449be742616ca1ea4068"
+    },
+    "loss": "Per-sample force error/(K*delta_ref+norm(true_force)); energy/(K*delta_ref^2+abs(true_energy)); energy weight0.05",
+    "initialization": "Original small-slip prototype; failed wide random initialization preserved",
+    "learning_rate": 0.003,
+    "cosine_final_fraction": 0.05,
+    "time_cap_seconds": 1200,
+    "reason": "Declared development scenes exceeded original 2delta_ref training /3delta_ref harder probes; original model retained",
+    "selection": "Fixed final iterate; no response/test checkpoint selection"
+  },
+  "checkpoint_sha256": "93234fcdc0d66f9b7dabb5186258c8fd63427af22d8605d541351a332ca2d996",
+  "training_seconds": 17.181838341988623,
+  "trace": [
+    {
+      "step": 0,
+      "loss": 0.9498040935674537
+    },
+    {
+      "step": 500,
+      "loss": 0.0008160682811674184
+    },
+    {
+      "step": 1000,
+      "loss": 0.00032642482764005395
+    },
+    {
+      "step": 1500,
+      "loss": 0.00010393010034371346
+    },
+    {
+      "step": 2000,
+      "loss": 6.275452260991025e-05
+    },
+    {
+      "step": 2500,
+      "loss": 3.229206786724702e-05
+    },
+    {
+      "step": 3000,
+      "loss": 2.5461123499481897e-05
+    },
+    {
+      "step": 3500,
+      "loss": 3.156381828489908e-05
+    },
+    {
+      "step": 4000,
+      "loss": 2.0767225742433443e-05
+    },
+    {
+      "step": 4500,
+      "loss": 1.6109220708224725e-05
+    },
+    {
+      "step": 5000,
+      "loss": 1.4534277858616237e-05
+    },
+    {
+      "step": 5500,
+      "loss": 1.1887427536295373e-05
+    }
+  ],
+  "results": {
+    "interpolation": {
+      "normalized_traction_relative_l2": 0.0063164378784540155,
+      "oracle_linear_relative_l2": 0.9977635817930297,
+      "maximum_traction_error_N": 325.012851741114,
+      "samples": 4096,
+      "families": {
+        "0": {
+          "normalized_traction_relative_l2": 0.0063158818491799735,
+          "oracle_linear_relative_l2": 0.9977743602385685,
+          "maximum_traction_error_N": 325.012851741114,
+          "samples": 2039
+        },
+        "1": {
+          "normalized_traction_relative_l2": 0.01650146509690536,
+          "oracle_linear_relative_l2": 0.532795441496338,
+          "maximum_traction_error_N": 4.643257562157544,
+          "samples": 2057
+        }
+      },
+      "per_sample_normalized_force_error_quantiles": [
+        0.004562280673899106,
+        0.016718114155001493,
+        0.028073299526683724,
+        0.03450224099554551
+      ],
+      "minimum_sampled_tangent_eigenvalue_N_per_m": 300.0000977318053
+    },
+    "extrapolation": {
+      "normalized_traction_relative_l2": 0.007142113213813187,
+      "oracle_linear_relative_l2": 0.9990158870820636,
+      "maximum_traction_error_N": 1153.2609062368574,
+      "samples": 4096,
+      "families": {
+        "0": {
+          "normalized_traction_relative_l2": 0.007140346906237175,
+          "oracle_linear_relative_l2": 0.9990179750391083,
+          "maximum_traction_error_N": 1153.2609062368574,
+          "samples": 2035
+        },
+        "1": {
+          "normalized_traction_relative_l2": 0.06604709458593293,
+          "oracle_linear_relative_l2": 0.5339390149860674,
+          "maximum_traction_error_N": 25.669650517752046,
+          "samples": 2061
+        }
+      },
+      "per_sample_normalized_force_error_quantiles": [
+        0.005784091948078218,
+        0.07295037833279013,
+        0.10485730402774893,
+        0.12398344261718358
+      ],
+      "minimum_sampled_tangent_eigenvalue_N_per_m": 300.00451979367165
+    }
+  },
+  "scope": "Pointwise oracle attachment-law fit; broader coupons do not demonstrate scene/inverse/contact generalization"
+}

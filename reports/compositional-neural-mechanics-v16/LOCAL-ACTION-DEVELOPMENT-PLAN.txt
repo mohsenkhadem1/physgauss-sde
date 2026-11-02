@@ -1,0 +1,32 @@
+Prospective local-uncertainty action experiment — PREPARED, NOT EXECUTED
+
+Scope: exactly the two existing full-continuous DEVELOPMENT cases(world0/world1, original training-cell indices2/13). These cases and earlier inference outcomes have already been examined, so this is development evidence, not a reserved acquisition-superiority test. No new views: the same26material surface points are tracked from the first observation.
+
+Conditioning: known reference geometry, bulk/interface categorical families, heterogeneity pattern, density125kg/m³ and gravity(0,0,-9.81), as in the existing15-continuous-variable pilot. Fifteen continuous descriptors remain unknown. Frozen shared bulk/interface weights; neutral initialization and independent unit Gaussian prior on the original parameter pack, same bounds. No true parameter initialization. Position observations only, standard deviation50micrometres; no force/torque observations.
+
+Initial data: only the existing noisy initial-pose packet(obs_0). Fit it once using GaussNewtonMAP on all15variables, at most40evaluations/900CPU seconds. Preserve incomplete/failed fits and near-bound warnings; do not claim convergence merely because a budget ends. Local covariance removes the final15prior residual/Jacobian rows and adds exactlydiag(1/std²). It is a conditional local Gaussian sensitivity approximation, not calibrated posterior coverage, and does not model numerical or observation discrepancy.
+
+Candidate menu, equal cost of one additional settled position packet each:
+1 stretch(existing obs_1, public stretch command)
+2 right_bend(existing obs_2, public right-bend command)
+3 opposed_twist(existing obs_3, public opposed-twist command)
+
+Five policies, all one-extra-packet budget:
+- fixed strong stretch;
+- fixed right bend;
+- fixed opposed twist;
+- uniform random candidate using a newly declared seed926847, draw once per world;
+- predicted functional position-variance reduction from the SAME initial fittedtheta/localcovariance.
+The adaptive choice uses predicted noise-whitened sensitivities at dummy-zero-displacement packets, never the actual unselected packet values. Candidate outcome packets must be exported separately and served only after selection; the selector must not receive the full archive containing future truth.
+
+Public desired response tasks for variance scoring: the existing two held controller commands(right y-bend.30rad; symmetric stretch.07L plus opposed x-twist.30rad), evaluated at the same26material query points. These are desired command inputs, not held true outcomes. Functional derivatives have metres units; score equal-weight mean coordinate variance. Candidate sensitivities use the declared50micrometre noise. Stable lexical action-name tie-break. The common-scale null direction remains unconstrained by zero-load position data; this pilot has declared gravity, which can provide scale information.
+
+After selection, acquire only that noisy packet. Refit from the shared initial MAP using the same40evaluation/900second cap for every policy. Duplicate selected actions may reuse an identical completed refit for deterministic fairness. Commit all policy selections, fitted parameters, covariance diagnostics and both held-task forecasts before opening held response labels for scoring. Selected query and all failures are retained, not filtered. No hyperparameter adjustment after inspecting outcomes.
+
+Report per-world/per-policy position prediction errors before/after, known conditional latent errors only as a separate retrospective diagnostic, near-bound and optimizer flags, predicted versus realized error change, and observed packet identities. A lower predicted variance alone is not proof of improved accuracy or calibrated uncertainty. Exact affine/localGaussian assumptions and model mismatch are explicit limitations.
+
+Execution remains pending root/protocol-agent review after Gauss-Newton optimizer comparison. No fits, action selections or extra development-outcome scoring have run for this plan. CPU-only; maximum two simultaneous workers and a separately declared whole-stage deadline are required before execution.
+
+Independent design review clarification: the adaptive policy is target-task-aware because it knows the desired held controller commands and material query locations, though not their outcomes. Do not call it an agnostic OOD acquisition policy. All three predeclared fixed controls are reported; no per-world or held-error-based best-fixed selection is allowed. If a single best-fixed policy is later required, choose it on separate calibration cases before a reserved policy comparison, never by choosing the winner on these two cases. All policies reuse the identical initial fit/prior and the same stored noisy packet for any shared query.
+
+Finite optimization budgets remain provisional until the ongoing Gauss–Newton comparison completes. Freeze a concrete bounded budget before action fitting. Two development worlds cannot establish adaptive-policy superiority; report all five policies at the same query budget. Root has hardened covariance symmetry/PSD and discrepancy-shape validation; combined local-helper/bridge tests pass4/4.

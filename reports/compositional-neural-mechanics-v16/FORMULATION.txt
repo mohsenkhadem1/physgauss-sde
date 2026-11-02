@@ -1,0 +1,37 @@
+COMPOSITIONAL NEURAL MECHANICS: FORMULATION AND IDENTIFIABILITY
+
+The proposed contribution is a reusable mechanical representation: shared local material and interface laws, scene-specific fields, and an equilibrium solver. The present experiments test that representation in quasistatic mapped-block scenes. They do not yet establish a complete image-to-digital-twin method or superiority to authors' full systems.
+
+1. State and inputs
+Material coordinates X stay attached to the object. The deformation x(X)=X+u(X) moves that material. Tool translations/orientations a are prescribed controls. Geometry, camera, gravity and any known density are separate inputs. Reaction forces are outputs; they enter inference only when the declared observation modality supplies them.
+
+2. Shared laws and scene descriptors
+A shared neural energy W_theta(F,z_m(X)) describes the local bulk response, with F=I+grad_X u. Objective invariants make the isotropic law insensitive to superposed rigid rotations. Its log common stiffness is factored exactly: W(F,[s,z])=exp(s)*Wbar(F,z).
+A separate shared interface energy psi_phi(delta,z_b(X)) describes bilateral compliant attachments. Positive stiffness and curvature produce zero reference force and a positive sampled attachment tangent. Gaussian surface footprints specify support location/extent. These attachments are not unilateral contact.
+The separate normal-contact extension uses signed distance to explicit rigid geometry, a compressive-only penalty and matching rigid reactions. Its rest-area measure and finite penetration are explicit. Plane contact has passed the development checks; some sphere cases have not.
+
+3. Mechanical composition
+The solver seeks equilibrium of
+  Pi(u;z,a,g,rho) = integral_Omega W_theta(F,z_m) dV
+                    + sum_interfaces integral_Gamma psi_phi(delta(u,a),z_b) dA
+                    - integral_Omega rho*g dot u dV,
+with the appropriate normalized attachment measure and positive-deformation-Jacobian checks. Body loads are not silently folded into attachment parameters. The same solved state should feed every physical prediction and any renderer; an independent image-motion correction must not hide physical error.
+The current solver is quasistatic. Dropping, inertia, frictional history and freely moving rigid bodies require additional state and time integration.
+
+4. Inference
+Given observed surface motion and optional measured reactions, infer scene descriptors using an explicit noise model and prior. Network weights remain fixed. Implicit differentiation solves H^T lambda = dL/du, then computes dL/dz = partial_z L - lambda^T partial_z R. A separate Gauss-Newton implementation uses the full observation sensitivity to improve the conditioning of the same objective.
+A MAP estimate is not a posterior or a confidence interval. Local sensitivities diagnose weak directions; they do not prove global identifiability. Predictive uncertainty must include latent ambiguity, finite observation noise and model/numerical discrepancy, and must be checked on held-out objects.
+
+5. Why realistic images do not certify physical correctness
+With zero body load, multiply every bulk and attachment stiffness by a common positive c. The whole mechanical energy scales by c, so the equilibrium displacement is unchanged, whereas reaction forces scale by c. Every rendered view of that state is also unchanged. This holds for every prescribed position command in this model: more cameras or position-controlled pokes alone cannot identify that absolute scale.
+Known gravity and density introduce a fixed reference load, so this common stiffness scaling changes visible sag. Our controlled development experiment confirms that positions can then constrain stiffness without force observations. If density is also unknown and scales with stiffness, the ambiguity returns. Claims about physical accuracy must specify which loads/masses are known and which future outputs matter.
+
+6. Functional uncertainty and actions
+The useful target is uncertainty in a future response y_star(a_star), not merely uncertainty in a material label. A future action should be evaluated by its expected reduction in predictive error/uncertainty after observing the resulting motion or measurements. A new view can improve geometric coverage; a new displacement pattern can excite previously weak material/support directions. Neither should be credited with resolving a proven unobservable scale. Strong fixed and random actions must be compared at identical observation/action budgets.
+
+7. Evaluation sequence
+First use oracle descriptors to isolate forward-law/solver transfer from inference error. Compare the shared laws to the matched analytic oracle ceiling, a small-strain-matched Neo-Hookean baseline, and both fixed-budget custom direct predictors. The custom predictors are not authors' MeshGraphNet/PhysTwin implementations.
+Next evaluate inferred descriptors on a separately untouched cohort. Distinguish known categorical families from fully unknown material/interface classes. Finally evaluate uncertainty coverage and acquisition benefit, with independent calibration and no test-time method tuning.
+Keep world-position error, rigid-removed deformation error, reaction force/torque error, numerical failures and calibration separate. Group confidence calculations by object; six draws on two novel geometries do not establish population-wide arbitrary-geometry generalization.
+
+Current positive evidence and failures are recorded in STATUS.txt and the individual reports. The 12-object oracle evaluation has not been generated at the time this formulation was written.

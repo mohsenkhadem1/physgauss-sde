@@ -1,0 +1,443 @@
+{
+  "plan": {
+    "scope": "One development scene, analytic teacher, neutral and true parameters, positions only with known geometry/categories/gravity/density",
+    "parent_plan_sha256": "abe69740bf2c4c362b06711fddd0de7706f1014cca10de3cc4e910bd4f804a8c",
+    "world_index": 0,
+    "parameter_names": [
+      "logscale",
+      "shape",
+      "gradient",
+      "left_logK",
+      "left_strength",
+      "right_logK",
+      "right_strength",
+      "left_center_y",
+      "left_center_z",
+      "right_center_y",
+      "right_center_z",
+      "left_logwidth_y",
+      "left_logwidth_z",
+      "right_logwidth_y",
+      "right_logwidth_z"
+    ],
+    "position_sigma_m": 5e-05,
+    "prior_std": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "n": 2,
+    "method": "15 residual JVPs per equilibrium; sparse H inverse; normalize outputs by observation sigma and inputs by prior std",
+    "local_only": "Local differential conditioning, not global or practical identifiability; no force observations, no fitting or posterior calibration",
+    "source_sha256": {
+      "experiments/boundary_block.py": "54b0261c9f5b1518a0e071df482d3e781db11874cd3282dda727ef5505a0ab97",
+      "experiments/campaign_sparse_nonlinear_gaussian.py": "83a410c5dbe3e2c6e921a1484edb948883090b90782de377be3ef47dd2b03293",
+      "experiments/campaign_static_p2_block.py": "40b3d489f58c284c4660ce2295955022298d3848fa21e0ed859ad5f69398e886",
+      "experiments/campaign_static_supported_block.py": "759cce1b21ae932b584adc816e98a1c27a2e4641ddaf2a3300bb2cf27dcc58ad",
+      "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+      "experiments/diagnose_nonlinear_physical_probes.py": "c1200515a2a2dc1f93711928789480f894c765397e7e0bd4f1f5059fdad0752b",
+      "scripts/compositional_neural_mechanics/conditional_inference_pilot.py": "a5377aada870fc5f8440aab2fe8ed382b4e81a6b390cce4aa3e486b721ff9d25",
+      "scripts/compositional_neural_mechanics/full_continuous_inference_pilot.py": "f5d3251663e8647e3f22c9c9ae03971ede39a4712ef4fbe69d60bc900105ff82",
+      "scripts/compositional_neural_mechanics/gravity_inference_pilot.py": "03fa7dc1c7d9cbfe09303a91eb3b9d793807803f915cb81331d73d17c0cc76ca",
+      "scripts/compositional_neural_mechanics/inference.py": "6d97090ceca392b4ec9d08a406eacd534a432e529f54f9aa7375b606337d0ff5",
+      "scripts/compositional_neural_mechanics/interfaces.py": "69bd652386e8d0ab9f8183ed4a0ab64cdfbc2b8a52b71eb05eb5c5a1c02838d7",
+      "scripts/compositional_neural_mechanics/joint_inference.py": "e3adb5cb4d9562a44ef91382c351d45740d2ddeab0191cb21737dff91b77678b",
+      "scripts/compositional_neural_mechanics/materials.py": "0391cf340a18133f46d35c3e07886df241164ba155d4e01deecfd7474590a313",
+      "scripts/compositional_neural_mechanics/mechanics.py": "5c203470ae371e6d61100342e15dc9f765dfe20414753d0791c0b79f7e4e5f71",
+      "scripts/compositional_neural_mechanics/position_sensitivity_diagnostic.py": "4d7e0d0548bff5a63b4ba6fbb574a09d6be01357a4ea7299fd5b9c2e483742a2",
+      "scripts/compositional_neural_mechanics/scale_separated_material.py": "1f90892f144b963f6556591c6e21672ec58185968614765bcc7f3ca6508837b3",
+      "scripts/compositional_neural_mechanics/scenes.py": "c879ac975573f7a0dce9f30413f31711dca971f4058e816ea60744c7b86f48f0",
+      "scripts/phystwin/active_support_reference.py": "a88a5860febb4132f58dcca8cbcc7ef8145f9d98b42275a5f4563bdae02a26be",
+      "scripts/phystwin/consistent_fixture.py": "47dcb8a82e570bb2cfcdeaf01d4d88a7fe13e11e7f757f06cce63bc61d5d118e",
+      "scripts/phystwin/gpu_multigrid.py": "7b0f08397b6e1d0feab23710fcca7e2cd10a53b0fbdba7e320ceb1bd1e573bfb",
+      "scripts/phystwin/tensor_fixture.py": "c0a2e34e091aa1d0bbe3eb29c0a5fc63e46903bb832e372963e8b61caa66e598"
+    }
+  },
+  "results": [
+    {
+      "at": "neutral",
+      "singular_values": [
+        660.7809150327793,
+        559.132565235685,
+        496.26250796560754,
+        489.39744503825415,
+        445.71800276298274,
+        430.8583342769154,
+        326.67728827248146,
+        167.67508588281777,
+        121.01942476801064,
+        96.46101486831286,
+        57.345182638219526,
+        49.0581157233819,
+        21.24866082686456,
+        19.44782840108152,
+        4.754360190540135
+      ],
+      "condition_number": 138.98419315127848,
+      "modes_above_unit_noise_sensitivity": 15,
+      "weakest_modes": [
+        {
+          "singular_value": 4.754360190540135,
+          "coefficients": {
+            "shape": 0.9997616966151803,
+            "left_strength": -0.011033286870091568,
+            "right_logwidth_y": 0.009663715533377153,
+            "left_logwidth_y": 0.007480885030259164,
+            "left_logwidth_z": 0.006844507768990332,
+            "right_logK": -0.006722524696779371
+          }
+        },
+        {
+          "singular_value": 19.44782840108152,
+          "coefficients": {
+            "right_logK": -0.7678274651736732,
+            "right_strength": 0.5092089341057678,
+            "left_logK": 0.3009389750581308,
+            "left_strength": -0.21236430719788188,
+            "right_logwidth_y": -0.088009165557266,
+            "right_logwidth_z": -0.06070035295659819
+          }
+        },
+        {
+          "singular_value": 21.24866082686456,
+          "coefficients": {
+            "left_logK": 0.7160275719275143,
+            "left_strength": -0.556282301840081,
+            "right_logK": 0.2944955381257548,
+            "right_strength": -0.21999320481537699,
+            "left_logwidth_z": 0.14345032974921698,
+            "left_logwidth_y": 0.12835222040923625
+          }
+        },
+        {
+          "singular_value": 49.0581157233819,
+          "coefficients": {
+            "left_logwidth_y": -0.5746916766447495,
+            "left_logwidth_z": -0.5712598260429438,
+            "left_logK": 0.4240931964360965,
+            "left_strength": 0.26408434583389884,
+            "right_logwidth_y": -0.1960944040383198,
+            "right_logwidth_z": -0.1606028711400595
+          }
+        },
+        {
+          "singular_value": 57.345182638219526,
+          "coefficients": {
+            "right_logwidth_y": -0.6467769132474963,
+            "right_logwidth_z": -0.5027284107336681,
+            "right_logK": 0.3451066375198527,
+            "right_strength": 0.33908588068074424,
+            "left_logwidth_y": 0.20451575280051865,
+            "left_logwidth_z": 0.1833470985117651
+          }
+        }
+      ],
+      "columns": [
+        {
+          "name": "logscale",
+          "column_norm": 484.3505213135118,
+          "after_other14_projection_norm": 355.0132592842442
+        },
+        {
+          "name": "shape",
+          "column_norm": 6.0385976710557925,
+          "after_other14_projection_norm": 4.7554771966946205
+        },
+        {
+          "name": "gradient",
+          "column_norm": 176.0930610747547,
+          "after_other14_projection_norm": 167.35631459795343
+        },
+        {
+          "name": "left_logK",
+          "column_norm": 164.26360653311573,
+          "after_other14_projection_norm": 26.218629972037743
+        },
+        {
+          "name": "left_strength",
+          "column_norm": 270.18115658271836,
+          "after_other14_projection_norm": 34.375864318500646
+        },
+        {
+          "name": "right_logK",
+          "column_norm": 198.93161819121136,
+          "after_other14_projection_norm": 23.58806591834216
+        },
+        {
+          "name": "right_strength",
+          "column_norm": 347.54627170766094,
+          "after_other14_projection_norm": 34.56070885839548
+        },
+        {
+          "name": "left_center_y",
+          "column_norm": 500.49046347701153,
+          "after_other14_projection_norm": 478.5709985934567
+        },
+        {
+          "name": "left_center_z",
+          "column_norm": 482.91701539700904,
+          "after_other14_projection_norm": 459.4044514192376
+        },
+        {
+          "name": "right_center_y",
+          "column_norm": 631.9734192283073,
+          "after_other14_projection_norm": 597.7393874279225
+        },
+        {
+          "name": "right_center_z",
+          "column_norm": 515.0831350398215,
+          "after_other14_projection_norm": 489.6176632639099
+        },
+        {
+          "name": "left_logwidth_y",
+          "column_norm": 141.50669583875552,
+          "after_other14_projection_norm": 63.55108263122534
+        },
+        {
+          "name": "left_logwidth_z",
+          "column_norm": 142.04541353470094,
+          "after_other14_projection_norm": 62.730693396627416
+        },
+        {
+          "name": "right_logwidth_y",
+          "column_norm": 209.46252315413017,
+          "after_other14_projection_norm": 70.07000982121652
+        },
+        {
+          "name": "right_logwidth_z",
+          "column_norm": 161.93178814328425,
+          "after_other14_projection_norm": 83.49395857183914
+        }
+      ],
+      "known_nuisance_three_singular_values": [
+        484.70315041290087,
+        207.92009794124706,
+        151.6042133188314
+      ],
+      "known_nuisance_condition_number": 3.1971614759383065,
+      "common_scale_direction_sensitivity": 305.45713010979705,
+      "diagnostics": [
+        {
+          "action": "initial",
+          "equilibrium_residual_N": 5.372418109257796e-13,
+          "linear_relative_residual": 1.0520589076390974e-14
+        },
+        {
+          "action": "stretch",
+          "equilibrium_residual_N": 1.5799555245813778e-13,
+          "linear_relative_residual": 1.6511036279128934e-15
+        },
+        {
+          "action": "right_bend",
+          "equilibrium_residual_N": 1.0363951907918969e-12,
+          "linear_relative_residual": 4.319411903683284e-15
+        },
+        {
+          "action": "opposed_twist",
+          "equilibrium_residual_N": 2.5019149234439236e-13,
+          "linear_relative_residual": 3.625573574221391e-15
+        }
+      ]
+    },
+    {
+      "at": "truth",
+      "singular_values": [
+        774.886148304188,
+        692.5855097694357,
+        555.6758626325568,
+        501.26804654482373,
+        423.8599899596906,
+        305.6220947106774,
+        199.95229109373773,
+        161.8043200508312,
+        130.90888786950526,
+        71.8634373808904,
+        64.42428730034666,
+        32.37252888425996,
+        14.24321301211219,
+        8.77936965820443,
+        4.15005346385536
+      ],
+      "condition_number": 186.71714835796988,
+      "modes_above_unit_noise_sensitivity": 15,
+      "weakest_modes": [
+        {
+          "singular_value": 4.15005346385536,
+          "coefficients": {
+            "shape": 0.9962207321182811,
+            "right_logK": 0.05984626593001729,
+            "right_strength": -0.052885324781428204,
+            "left_logK": -0.02831628734313824,
+            "right_logwidth_y": 0.012317079076912362,
+            "left_strength": 0.008789884130709566
+          }
+        },
+        {
+          "singular_value": 8.77936965820443,
+          "coefficients": {
+            "right_logK": -0.7916724739416124,
+            "right_strength": 0.6012546032813059,
+            "shape": 0.08047129746577769,
+            "right_logwidth_y": -0.05664419605853408,
+            "right_logwidth_z": -0.03808699263590883,
+            "left_strength": 0.018584082524984166
+          }
+        },
+        {
+          "singular_value": 14.24321301211219,
+          "coefficients": {
+            "left_strength": -0.7823064467163442,
+            "left_logK": 0.5862021350340613,
+            "left_logwidth_z": 0.17747364301475332,
+            "left_logwidth_y": 0.09405482580310576,
+            "left_center_z": -0.05157489523475293,
+            "shape": 0.023537664614747905
+          }
+        },
+        {
+          "singular_value": 32.37252888425996,
+          "coefficients": {
+            "left_logwidth_z": -0.7404843927451605,
+            "left_logK": 0.5259870421539325,
+            "left_center_z": 0.28632201250295625,
+            "left_logwidth_y": -0.24026070274423778,
+            "left_strength": 0.17750701364929006,
+            "right_logK": 0.034519638932905404
+          }
+        },
+        {
+          "singular_value": 64.42428730034666,
+          "coefficients": {
+            "right_logwidth_y": 0.6945934285670886,
+            "right_logwidth_z": 0.5154622393928079,
+            "right_strength": -0.32845951782172256,
+            "right_logK": -0.32630630807253913,
+            "right_center_z": 0.1333477756679617,
+            "left_logwidth_z": -0.10186550084789951
+          }
+        }
+      ],
+      "columns": [
+        {
+          "name": "logscale",
+          "column_norm": 566.2411144899312,
+          "after_other14_projection_norm": 375.20676419053166
+        },
+        {
+          "name": "shape",
+          "column_norm": 5.462232096548925,
+          "after_other14_projection_norm": 4.162655201100318
+        },
+        {
+          "name": "gradient",
+          "column_norm": 169.66803002324178,
+          "after_other14_projection_norm": 160.32176031313855
+        },
+        {
+          "name": "left_logK",
+          "column_norm": 124.91123153296728,
+          "after_other14_projection_norm": 22.151387893396958
+        },
+        {
+          "name": "left_strength",
+          "column_norm": 125.57914115169032,
+          "after_other14_projection_norm": 18.01266778626051
+        },
+        {
+          "name": "right_logK",
+          "column_norm": 252.41021668999096,
+          "after_other14_projection_norm": 10.930792481911277
+        },
+        {
+          "name": "right_strength",
+          "column_norm": 359.76352938934104,
+          "after_other14_projection_norm": 14.312147348998332
+        },
+        {
+          "name": "left_center_y",
+          "column_norm": 536.7504503694814,
+          "after_other14_projection_norm": 515.5490539760345
+        },
+        {
+          "name": "left_center_z",
+          "column_norm": 270.83269159551566,
+          "after_other14_projection_norm": 92.0496593339038
+        },
+        {
+          "name": "right_center_y",
+          "column_norm": 683.976332562589,
+          "after_other14_projection_norm": 587.0421991589627
+        },
+        {
+          "name": "right_center_z",
+          "column_norm": 647.5966651904414,
+          "after_other14_projection_norm": 281.0393484834968
+        },
+        {
+          "name": "left_logwidth_y",
+          "column_norm": 163.3229440739696,
+          "after_other14_projection_norm": 70.86418802865134
+        },
+        {
+          "name": "left_logwidth_z",
+          "column_norm": 151.73528532492267,
+          "after_other14_projection_norm": 37.12243593568843
+        },
+        {
+          "name": "right_logwidth_y",
+          "column_norm": 216.95306876581878,
+          "after_other14_projection_norm": 72.28149859219397
+        },
+        {
+          "name": "right_logwidth_z",
+          "column_norm": 296.32177232500413,
+          "after_other14_projection_norm": 90.94006853544614
+        }
+      ],
+      "known_nuisance_three_singular_values": [
+        569.9309519275072,
+        248.41816566732987,
+        115.80094124338837
+      ],
+      "known_nuisance_condition_number": 4.921643518679494,
+      "common_scale_direction_sensitivity": 356.8053522349992,
+      "diagnostics": [
+        {
+          "action": "initial",
+          "equilibrium_residual_N": 5.30766593215984e-11,
+          "linear_relative_residual": 8.305274299254049e-15
+        },
+        {
+          "action": "stretch",
+          "equilibrium_residual_N": 1.7726066040614485e-13,
+          "linear_relative_residual": 1.932548273106823e-15
+        },
+        {
+          "action": "right_bend",
+          "equilibrium_residual_N": 1.9993681869766897e-13,
+          "linear_relative_residual": 5.939364585431972e-15
+        },
+        {
+          "action": "opposed_twist",
+          "equilibrium_residual_N": 1.9426750799263788e-13,
+          "linear_relative_residual": 4.475378340626353e-15
+        }
+      ]
+    }
+  ],
+  "elapsed_seconds": 26.797595322015695,
+  "all_source_hashes_unchanged": true,
+  "interpretation": "Unit singular value means a unit prior-scaled infinitesimal direction gives total standardized observation change of one. Independent Gaussian noise assumed. Weak modes may be masked by prior precision; nonzero singular values do not establish unique physical recovery."
+}

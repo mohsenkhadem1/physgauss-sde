@@ -1,0 +1,37 @@
+{
+  "timestamp_utc": "2026-11-02T09:22:10.862806+00:00",
+  "status": "development_constitutive_prototype_review_pass_with_scope_limits",
+  "source_sha256": {
+    "scripts/compositional_neural_mechanics/materials.py": "0391cf340a18133f46d35c3e07886df241164ba155d4e01deecfd7474590a313",
+    "scripts/compositional_neural_mechanics/train_materials.py": "7a18149c42662c9e1d109f07d52a7d923fbeeada3056ad7d7796b43521a2e721",
+    "scripts/compositional_neural_mechanics/constitutive_baseline.py": "2a9f6dd6826cccedcae60e8623988688d0f142d0e0ef67e21ff8710305464705",
+    "tests/test_compositional_materials_v16.py": "7f98d214751a52743b530f55d42d19e13e7dabf5c99c3876e92f5ae576297fbd"
+  },
+  "tests": "Independent rerun: 4 passed in 2.07s",
+  "scope": "Oracle descriptor constitutive law only; no scene composition, inference or contact qualification.",
+  "checks": [
+    "Three-dimensional oracle descriptor explicitly includes MR/Yeoh family; no contradictory identical-input teacher labels.",
+    "W(I)=0 and P(I)=0, objectivity/isotropy, finite-difference first/second derivatives and parameter/latent gradients tested.",
+    "Stress derives from energy; positive coefficients on nonnegative invariant/Bregman bases. No general ellipticity/polyconvexity proof.",
+    "Weight checkpoint is saved and hashed before declared constitutive test generation.",
+    "Neo-Hookean is an oracle-small-strain-matched misspecified control. Exact teacher family is the analytic zero-error ceiling."
+  ],
+  "limits": [
+    "Constitutive tests are development evidence for downstream scene design, not sealed scene tests.",
+    "Harder-strain MR stress regresses against Neo-Hookean; retain per-family results.",
+    "24 sampled rank-one directions cannot establish global admissibility; Newton/mesh qualification remains required.",
+    "Oracle family/shape/scale descriptors must not leak into inferred-latent branch.",
+    "Training sampling uses triangular F diagonal log-stretches, not principal log-stretches; plan wording is imprecise."
+  ],
+  "accepted_scene_draft": {
+    "factor_cells": 24,
+    "train_cells": 18,
+    "continuous_draws_per_train_cell": 3,
+    "train_scenes": 54,
+    "held_combination_cases": 6,
+    "new_geometry_cases": 6,
+    "status": "Prospective draft, timing and qualification pending; no reserved draws authorized by this audit.",
+    "support_ratio": "K/(E*A/L) roughly 0.3\u20135; diagnose actual interface slip and bulk strain.",
+    "interface_reference_length_m": 0.002
+  }
+}

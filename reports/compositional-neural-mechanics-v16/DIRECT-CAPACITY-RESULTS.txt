@@ -1,0 +1,20 @@
+Direct baseline capacity control — both variants retained
+
+Motivation: the original four-scene validation results were inspected before this extension was declared. This is an explicitly validation-motivated capacity check, not a blind model-selection experiment. Both variants must be reported; no favorable-variant selection is performed.
+
+The new model uses the identical DeepSets architecture, seed926701, batch16, learning rate.001, feature contract and324/24train/validation records. It starts from scratch and runs30000fixedsteps; the cosine schedule therefore spans30000rather than6000steps. The final iterate is retained regardless of validation score. No additional labels or reserved cases were accessed. External900s service cap; actualtraining125.84s.
+
+Coordinate RMSE:
+Variant   split       displacement(mm)   force(N)      torque(Nm)
+6000      train       .317062            .0365052      .000764466
+6000      validation  1.219440           .389229       .00748881
+30000     train       .0778896           .00351749     .0000453037
+30000     validation  1.089166           .303939       .00644743
+
+The longer budget improves training fit substantially and validation modestly. A remaining training/validation gap is visible; this does not establish reserved-scene performance. The method remains a custom direct supervised control, not authors' MeshGraphNet or an equilibrium solver.
+
+Checkpoint: runs/compositional-neural-mechanics-v16/direct-capacity-campaign/direct-baseline.pt
+SHA256:a6faa98c4a4ed40115da18bc989f48c1ed522c7b128d1a6f3b1cb3f9ffc5199a
+Prospective planSHA:378876fa3a29fbf486d05bd255ec8dd50d86d07f1f996d20ab117db8df27fcb2
+
+Source/input guards pass before and after training:28local-source closure files and1395input commitments, including the original6000-step checkpoint/report and all cached data. Original artifacts remain unchanged. Model configuration, feature contract and training scene ID order match exactly; all10normalization buffers are bitwise equal. Details: direct-capacity-results.json and direct-capacity-preservation-check.json. Independent source audit approved the declared scope before completion; final reporting retains both budgets.

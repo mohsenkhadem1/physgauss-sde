@@ -1,0 +1,47 @@
+{
+  "role": "Development-only range repair, not reserved scene evaluation",
+  "steps": 6000,
+  "batch": 512,
+  "train_strengths": [
+    0.1,
+    0.3,
+    0.5,
+    0.7,
+    0.9
+  ],
+  "test_strengths": [
+    0.2,
+    0.4,
+    0.6,
+    0.8
+  ],
+  "train_radii": [
+    3.0,
+    16.0
+  ],
+  "train_samples_per_radius": 8192,
+  "test_radius": 16.0,
+  "extrapolation_radius": 24.0,
+  "seeds": {
+    "train": [
+      926403,
+      926407
+    ],
+    "test": [
+      926411,
+      926413
+    ],
+    "batch": 926417
+  },
+  "source_sha256": {
+    "scripts/compositional_neural_mechanics/train_interface_range.py": "f9bd37947a3bec53a88abd96c2f32f6decdf77b94801ca1d900af030d276c250",
+    "scripts/compositional_neural_mechanics/interfaces.py": "69bd652386e8d0ab9f8183ed4a0ab64cdfbc2b8a52b71eb05eb5c5a1c02838d7",
+    "scripts/compositional_neural_mechanics/train_interface_prototype.py": "43804de893c2c18bb6fd66ef0034ecdc0d0dafeacb1d449be742616ca1ea4068"
+  },
+  "loss": "Per-sample force error/(K*delta_ref+norm(true_force)); energy/(K*delta_ref^2+abs(true_energy)); energy weight0.05",
+  "learning_rate": 0.006,
+  "cosine_final_fraction": 0.05,
+  "time_cap_seconds": 1200,
+  "reason": "Declared development scenes exceeded original 2delta_ref training /3delta_ref harder probes; original model retained",
+  "selection": "Fixed final iterate; no response/test checkpoint selection"
+}

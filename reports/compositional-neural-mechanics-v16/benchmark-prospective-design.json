@@ -1,0 +1,44 @@
+{
+  "status": "Prospective design; model/reference freeze still pending development qualification",
+  "train_scenes": 54,
+  "validation_scenes": 4,
+  "calibration_scenes": 12,
+  "reserved_composition_scenes": 6,
+  "reserved_geometry_scenes": 6,
+  "seeds": {
+    "train": 926501,
+    "validation": 926503,
+    "calibration": 926509,
+    "reserved_composition": 926521,
+    "reserved_geometry": 926523,
+    "observation_noise": 926527
+  },
+  "training_mesh_n": 4,
+  "primary_prediction_mesh_n": 4,
+  "reference_mesh_n": 8,
+  "inference_mesh_n": 2,
+  "training_actions": [
+    "initial",
+    "stretch",
+    "opposed_twist",
+    "right_bend",
+    "opposed_shear",
+    "stretch_bend"
+  ],
+  "reserved_command_design": [
+    "negative in-plane bend",
+    "out-of-plane bend",
+    "stretch plus opposed twist",
+    "biaxial shear"
+  ],
+  "notes": [
+    "Reference n8 conditional on development convergence; no blanket qualification yet",
+    "12calibration objects replace uncommitted suggestion4: allows finite90percent object-level split-conformal quantile; limited resolution disclosed",
+    "Training label discretization approximate n4; evaluate allmethods against same finer reference",
+    "Allcases mapped-cuboid topology; newgeometrymeans newdimensions/taper/arch, not arbitrary meshes",
+    "Oracle and inferred descriptors separate; no unseen-material-family claim from withheld known-family combinations",
+    "No reserved scenes or outcomes generated in this step",
+    "Training eachfactorcell has bothinterfacefamilies in first2draws; thirdrandom; 18traincells,6heldfullcombinations",
+    "Calibration and tests cannot drive checkpoint selection"
+  ]
+}

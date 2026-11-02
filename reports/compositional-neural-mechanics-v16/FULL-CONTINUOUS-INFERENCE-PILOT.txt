@@ -1,0 +1,15 @@
+Full15continuous DEVELOPMENT position-only inference pilot
+
+Two cases, known geometry/gravity/density and categorical laws/heterogeneity pattern. All15continuous descriptors start neutral and are fitted from4pose observations at26surfacepoints with50um noise. No force observations. Both cases useMR bulk; interfacefamilies andheterogeneity differ. Teacher andpredictions use n2; no reservedcases.
+
+All4optimizers reached iteration/time limits; zero formally converged. All8held-out forecasts were retained and their scores independently recomputed fromsavedarrays. All source/checkpoint hashes remained unchanged.
+
+World/model | evals | held displacement um (bendY / combined) | force N (bendY / combined)
+0/analytic | 73 | 7.883/10.459 | 0.000570/0.001273
+0/learned | 68 | 7.612/12.682 | 0.000166/0.001624
+1/analytic | 89 | 19.497/29.183 | 0.000917/0.010307
+1/learned | 89 | 19.508/30.582 | 0.000412/0.008271
+
+Prediction remains useful despite incomplete optimization: learned shapeerrors7.61–30.58um are close toanalytic7.88–29.18um; no uniformlearned advantage. Coordinate errors below50umnoise are possible because multiple noisyobservations constrain a smoothmodel, and are not independentmeshaccuracy claims.
+
+Latent recovery is reported separately in summaryJSON. Do not interpret small forecast error as unique/accurate support andmaterial identification. The local sensitivity diagnostic finds fullrank but ill-conditioned estimation under known gravity; this differs from exactzero-gravity scaling ambiguity. No posterior or coverage claims. A separate prospective optimizer comparison can reuse these explicitly exposed development examples; preserve all original limits/failures and predictions.

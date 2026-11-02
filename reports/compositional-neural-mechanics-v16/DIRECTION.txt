@@ -1,0 +1,138 @@
+Compositional neural mechanics — implementation direction
+Date: 2026-11-02
+Status: design decision and staged implementation specification; no training run
+or new performance claim. Prior v14/v15 results and frozen inputs stay unchanged.
+
+Primary research question
+Can globally shared bulk and interface laws, with scene-specific latent fields,
+predict interactions for unseen combinations of material, geometry and support,
+and improve after a small amount of new scene evidence?
+
+Primary claim to test: compositional physical prediction and identification.
+Secondary claim to test: useful observation acquisition. Adaptive superiority
+is not assumed; the v15 global fixed two-bend control remains a required control.
+
+Representation
+1. Bodies: separate object identity, reference geometry, mass/density and state.
+   Deformable material coordinates X travel with each object. Rigid bodies have
+   SE(3) pose, velocity and inertia; they are not approximated by infinite stiffness.
+2. Shared bulk energy W_psi(F,z_M(X)). Start with objective isotropic hyperelastic
+   response and spatial heterogeneity. Stress is dW/dF. Use a constrained energy
+   architecture with explicit reference-state normalization; differentiating an
+   arbitrary energy network alone does not ensure stability or coercivity.
+3. Shared relational interface laws indexed by body pair and candidate surface
+   patches. Inputs include local geometry, normal, gap and relative motion.
+   Scene-specific z_I describes attachment/compliance/friction parameters.
+   Known world anchors and prescribed tools are explicit environment entities.
+4. Gravity and other body loads enter the mechanics equations separately.
+   Distributed surface tractions and prescribed kinematics retain their physical
+   roles. Calling all of them a learned boundary field obscures identifiability.
+5. One mechanics layer composes all terms, enforces admissible contact and returns
+   equilibrium/dynamic state, reaction wrench, contact state and residual checks.
+6. Rendering consumes this same state. Appearance Gaussians, if used, are attached
+   to material coordinates; they do not receive an independent motion correction
+   that hides mechanical prediction errors. Gaussian kernels can separately
+   parameterize latent fields, but they are not themselves constitutive laws.
+
+Interface semantics
+Use one shared interface representation with explicit physically distinct modes:
+compliant bilateral attachment, unilateral nonadhesive contact, and frictional
+contact with tangential history. Adhesion is deferred. Ordinary contact separates
+without tension; attachments can transmit tension. A learned gate must not
+silently turn every contact into a spring. Coupled forces act on both bodies.
+A friction-cone inequality alone is insufficient: include stick/slip evolution
+and dissipation. Store history in a consistent interface frame.
+
+Inputs and outputs
+Inputs: RGB-D/camera poses or known geometry in the first controlled experiment,
+observed state history, prescribed tool pose trajectory and time, known gravity,
+and optional measured reaction observations as a separately reported modality.
+Control inputs are positions/orientations, not hidden true force labels.
+Outputs: object poses, material deformation/velocity, reaction forces/torques,
+contact/separation states, predictive distributions and images of the same state.
+Rigid motion and nonrigid deformation are scored separately.
+
+Learning versus scene adaptation
+Train shared law weights across training scenes. At test time freeze those weights
+and infer a low-dimensional scene latent posterior from permitted observations.
+An encoder may initialize latents, but must not infer mechanics from undeclared
+ground-truth labels or visually encoded material IDs. Appearance randomization
+and geometry-only controls test this leakage explicitly.
+Use a small direct latent optimization/ensemble baseline before adding amortized
+transformer inference. Avoid unidentifiable redundant per-element parameters.
+A posterior mean of physical responses need not be an equilibrium solution;
+individual hypotheses and their renderings remain mechanically consistent.
+
+Implementation stages
+A. Shared bulk law plus spatial compliant attachments; existing verified FEM is
+   the initial global solver. Multiple reference geometries and material fields,
+   held material/support combinations, and position-controlled indentation,
+   bending and unloading. Fixed-law fitted FEM and a direct displacement network
+   are mandatory baselines. First evaluate with oracle latents, then inferred
+   latents, to separate forward transfer from inverse ambiguity.
+B. One explicit rigid tool/floor contacting a deformable object; normal contact
+   first, then a bounded frictional interface family. Reuse existing contact code
+   only where numerical qualification supports the chosen regime. No open-ended
+   friction tuning; advance to the full benchmark once the declared contact
+   scenario passes its mechanical checks. Include rigid reaction and momentum
+   accounting where bodies move.
+C. Unknown material/support/contact explanations jointly. Separate held-out
+   combinations from held-out geometries and interaction directions. Test latent
+   updates with one/two fixed or random probes before claiming adaptive benefit.
+D. Warm-start neural operator only after shared-law composition works. Correct
+   using residual/contact criteria and a solver fallback, not a fixed iteration
+   count presented as a guarantee. General soft-soft contact and viscoelastic
+   memory are subsequent extensions, not simultaneous first milestones.
+
+Constitutive scope
+Use at least two distinct elastic response families in the generator/evaluation
+to test more than fitting a Young's modulus inside a known fixed equation. The
+initial learned energy may be an admissible residual around an analytic law;
+compare with a fitted analytic-family baseline of similar latent capacity.
+Generalization within trained law families, held-out combinations and held-out
+law families are different claims. Isotropic inputs do not confer anisotropic
+generalization: structural tensors and anisotropic training evidence are required.
+Hypernetwork conditioning must preserve architecture constraints for every latent.
+
+Evaluation and uncertainty
+Reserve whole combinations and geometries before training; split by scene rather
+than video frame. Reuse local benchmark adapters to test retention of prior motion
+performance, but do not invent unavailable force/contact ground truth on those
+datasets. Controlled simulations provide the physical labels.
+Report world-space motion, rigid-aligned deformation, reaction wrench, penetration,
+contact transitions and clean-render agreement separately. Compare primary
+predictive means and physically valid individual hypotheses explicitly.
+Keep fixed camera-independent and camera-conditioned probe controls, random probe
+pairs, visual uncertainty and physical-risk selection at matched observation
+budgets. Choose risk-design actions from training/development only; reserved
+response outcomes must never enter acquisition or model selection.
+Model numerical/observation discrepancy and check interval coverage on independent
+calibration scenes before active-design claims. More ensemble particles or a
+larger neural network do not by themselves fix v15 undercoverage.
+With zero loads and purely position-controlled static observations, common
+stiffness scaling remains visually unidentifiable. Additional views cannot fix
+that. Reactions or known loads/dynamics can provide extra information, with mass,
+density and other confounding factors explicitly declared.
+
+Repository integration
+Add new implementation under a separate compositional_neural_mechanics namespace.
+Preserve experiments/gaussian_operator.py and gaussian_modal_operator.py as
+baselines: current modules explicitly describe fixed-reference direct trajectory
+models, so changing their parameter vector alone does not create shared laws.
+Reuse v15 observation contracts, selected-only broker, response metrics, numerical
+qualification and audits; reuse gaussian_active_design risk machinery with a
+new qualified latent/model interface. Contact v13 is reusable infrastructure,
+not blanket evidence that a new learned interface is qualified.
+
+Literature positioning checked for this direction
+PhysHO already combines MPM with residual neural constitutive models:
+ https://suezjiang.github.io/physho/
+PhysGS already maintains Bayesian property beliefs on Gaussian splats:
+ https://openaccess.thecvf.com/content/CVPR2026/html/Chopra_PhysGS_Bayesian-Inferred_Gaussian_Splatting_for_Physical_Property_Estimation_CVPR_2026_paper.html
+NGFF already learns force fields from Gaussian scene representations:
+ https://neuralgaussianforcefield.github.io/
+These overlaps rule out claiming the individual ingredients as new. The proposed
+contribution is a hypothesis about transferable composition and intervention-
+based identification; establishing novelty requires a fuller method-level
+comparison, not the working name ICNM alone. Other unspecified references in the
+attached discussion have not been independently verified in this direction note.

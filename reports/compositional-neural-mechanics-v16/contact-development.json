@@ -1,0 +1,776 @@
+{
+  "plan": {
+    "scope": "Development only: fixed known geometry, normal penalty, quasistatic",
+    "source_sha256": {
+      "scripts/compositional_neural_mechanics/mechanics.py": "5c203470ae371e6d61100342e15dc9f765dfe20414753d0791c0b79f7e4e5f71",
+      "scripts/compositional_neural_mechanics/contact_mechanics.py": "0356a2fe18538c67a9afde533f639ab9abef25eced0b217a54c31da1356233d9",
+      "scripts/compositional_neural_mechanics/contact_development.py": "80753dc4108e8ee7dcc3e3dd7b805223682c8d5e22225cc87c2f5300e1d94545"
+    },
+    "cases": [
+      "gravity_plane",
+      "sphere_indentation",
+      "gravity_plane_sphere_indentation"
+    ],
+    "quadrature": [
+      4,
+      8,
+      16
+    ],
+    "base_n": 2,
+    "mesh_companion_n": 3,
+    "base_penalty_N_m3": 10000000.0,
+    "penalty_companion_N_m3": 20000000.0,
+    "budget_seconds": 1200,
+    "gates": {
+      "field_coordinate_rms_m": 2e-05,
+      "reaction_absolute_N": 0.005,
+      "reaction_relative": 0.01,
+      "dense_depth_change_m": 2e-05,
+      "residual_N": 1e-08,
+      "force_balance_N": 1e-07,
+      "torque_balance_Nm": 1e-07,
+      "minimum_J": 0.1
+    },
+    "note": "Penalty doubling is sensitivity to a changed model, not an exact-contact convergence certificate. Dense grids are not certified global minima."
+  },
+  "states": [
+    {
+      "key": "gravity_plane-n2-q4-k1e+07",
+      "case": "gravity_plane",
+      "n": 2,
+      "surface_order": 4,
+      "penalty_N_m3": 10000000.0,
+      "completed": true,
+      "residual_N": 5.298299416948826e-11,
+      "minimum_J": 0.9820066249688736,
+      "force_balance_N": 2.4513747026029943e-13,
+      "torque_balance_Nm": 2.578965227888512e-14,
+      "dense": [
+        {
+          "name": "plane",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -5.3774594299726974e-05,
+          "max_dense_penetration_m": 5.3774594299726974e-05,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.375,
+            0.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": 7.903092123090483e-08
+        }
+      ],
+      "max_dense_penetration_m": 5.3774594299726974e-05,
+      "max_quadrature_penetration_m": 5.369556337849607e-05,
+      "equilibrium_gate": true,
+      "seconds": 0.7458321129670367
+    },
+    {
+      "key": "gravity_plane-n2-q8-k1e+07",
+      "case": "gravity_plane",
+      "n": 2,
+      "surface_order": 8,
+      "penalty_N_m3": 10000000.0,
+      "completed": true,
+      "residual_N": 5.141178571991204e-11,
+      "minimum_J": 0.9820066249688486,
+      "force_balance_N": 1.4388528961830856e-13,
+      "torque_balance_Nm": 1.5902794706066317e-14,
+      "dense": [
+        {
+          "name": "plane",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -5.3774594299713097e-05,
+          "max_dense_penetration_m": 5.3774594299713097e-05,
+          "minimum_material_coordinate": [
+            0.515625,
+            0.375,
+            0.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": 1.0913955864055858e-08
+        }
+      ],
+      "max_dense_penetration_m": 5.3774594299713097e-05,
+      "max_quadrature_penetration_m": 5.376368034384904e-05,
+      "equilibrium_gate": true,
+      "seconds": 0.6968339429004118
+    },
+    {
+      "key": "gravity_plane-n2-q16-k1e+07",
+      "case": "gravity_plane",
+      "n": 2,
+      "surface_order": 16,
+      "penalty_N_m3": 10000000.0,
+      "completed": true,
+      "residual_N": 5.1377219790749076e-11,
+      "minimum_J": 0.9820066249688489,
+      "force_balance_N": 2.664627854825829e-14,
+      "torque_balance_Nm": 4.613858293646679e-16,
+      "dense": [
+        {
+          "name": "plane",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -5.377459429970616e-05,
+          "max_dense_penetration_m": 5.377459429970616e-05,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.375,
+            0.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": -3.882475320404755e-09
+        }
+      ],
+      "max_dense_penetration_m": 5.377459429970616e-05,
+      "max_quadrature_penetration_m": 5.377847677502656e-05,
+      "equilibrium_gate": true,
+      "seconds": 0.7986668139928952
+    },
+    {
+      "key": "gravity_plane-n2-q16-k2e+07",
+      "case": "gravity_plane",
+      "n": 2,
+      "surface_order": 16,
+      "penalty_N_m3": 20000000.0,
+      "completed": true,
+      "residual_N": 2.4599407496670143e-10,
+      "minimum_J": 0.9819873904346982,
+      "force_balance_N": 9.769964240309397e-14,
+      "torque_balance_Nm": 1.584862100379631e-14,
+      "dense": [
+        {
+          "name": "plane",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -2.691960386436154e-05,
+          "max_dense_penetration_m": 2.691960386436154e-05,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.359375,
+            0.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": -3.541099705128836e-10
+        }
+      ],
+      "max_dense_penetration_m": 2.691960386436154e-05,
+      "max_quadrature_penetration_m": 2.6919957974332054e-05,
+      "equilibrium_gate": true,
+      "seconds": 0.7697533869650215
+    },
+    {
+      "key": "gravity_plane-n3-q16-k1e+07",
+      "case": "gravity_plane",
+      "n": 3,
+      "surface_order": 16,
+      "penalty_N_m3": 10000000.0,
+      "completed": true,
+      "residual_N": 4.1622380000615265e-11,
+      "minimum_J": 0.9817676186143572,
+      "force_balance_N": 4.2633468256121456e-14,
+      "torque_balance_Nm": 5.108931532162629e-15,
+      "dense": [
+        {
+          "name": "plane",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -5.366468945983138e-05,
+          "max_dense_penetration_m": 5.366468945983138e-05,
+          "minimum_material_coordinate": [
+            0.5,
+            0.5,
+            0.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": 1.0841003643402569e-08
+        }
+      ],
+      "max_dense_penetration_m": 5.366468945983138e-05,
+      "max_quadrature_penetration_m": 5.365384845618798e-05,
+      "equilibrium_gate": true,
+      "seconds": 1.4468018419574946
+    },
+    {
+      "key": "sphere_indentation-n2-q4-k1e+07",
+      "case": "sphere_indentation",
+      "n": 2,
+      "surface_order": 4,
+      "penalty_N_m3": 10000000.0,
+      "completed": true,
+      "residual_N": 1.6304737255101302e-13,
+      "minimum_J": 0.8697169948291237,
+      "force_balance_N": 3.853256769765379e-15,
+      "torque_balance_Nm": 2.749583723141018e-16,
+      "dense": [
+        {
+          "name": "sphere",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -0.00039282983079410444,
+          "max_dense_penetration_m": 0.00039282983079410444,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.5625,
+            1.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": 0.00012628348043439153
+        }
+      ],
+      "max_dense_penetration_m": 0.00039282983079410444,
+      "max_quadrature_penetration_m": 0.0002665463503597129,
+      "equilibrium_gate": true,
+      "seconds": 1.176076282048598
+    },
+    {
+      "key": "sphere_indentation-n2-q8-k1e+07",
+      "case": "sphere_indentation",
+      "n": 2,
+      "surface_order": 8,
+      "penalty_N_m3": 10000000.0,
+      "completed": true,
+      "residual_N": 4.766017507030541e-09,
+      "minimum_J": 0.8820487802828227,
+      "force_balance_N": 1.105545432978606e-09,
+      "torque_balance_Nm": 1.326655729716753e-10,
+      "dense": [
+        {
+          "name": "sphere",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -0.0003520612276418922,
+          "max_dense_penetration_m": 0.0003520612276418922,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.453125,
+            1.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": 8.425707425152584e-06
+        }
+      ],
+      "max_dense_penetration_m": 0.0003520612276418922,
+      "max_quadrature_penetration_m": 0.0003436355202167396,
+      "equilibrium_gate": true,
+      "seconds": 1.1894065990345553
+    },
+    {
+      "key": "sphere_indentation-n2-q16-k1e+07",
+      "case": "sphere_indentation",
+      "n": 2,
+      "surface_order": 16,
+      "penalty_N_m3": 10000000.0,
+      "completed": true,
+      "residual_N": 4.300776227293297e-12,
+      "minimum_J": 0.8840296451046573,
+      "force_balance_N": 8.725243609524046e-13,
+      "torque_balance_Nm": 1.0468015560901552e-13,
+      "dense": [
+        {
+          "name": "sphere",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -0.0003347181161645549,
+          "max_dense_penetration_m": 0.0003347181161645549,
+          "minimum_material_coordinate": [
+            0.515625,
+            0.453125,
+            1.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": 1.139384830396023e-05
+        }
+      ],
+      "max_dense_penetration_m": 0.0003347181161645549,
+      "max_quadrature_penetration_m": 0.00032332426786059465,
+      "equilibrium_gate": true,
+      "seconds": 1.5282596820034087
+    },
+    {
+      "key": "sphere_indentation-n2-q16-k2e+07",
+      "case": "sphere_indentation",
+      "n": 2,
+      "surface_order": 16,
+      "penalty_N_m3": 20000000.0,
+      "completed": true,
+      "residual_N": 3.9211843241172465e-09,
+      "minimum_J": 0.8801112655605589,
+      "force_balance_N": 2.6370150507782556e-10,
+      "torque_balance_Nm": 3.1644228903939546e-11,
+      "dense": [
+        {
+          "name": "sphere",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -0.00023517807269041874,
+          "max_dense_penetration_m": 0.00023517807269041874,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.453125,
+            1.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": 7.547233696163225e-06
+        }
+      ],
+      "max_dense_penetration_m": 0.00023517807269041874,
+      "max_quadrature_penetration_m": 0.0002276308389942555,
+      "equilibrium_gate": true,
+      "seconds": 1.583485634997487
+    },
+    {
+      "key": "sphere_indentation-n3-q16-k1e+07",
+      "case": "sphere_indentation",
+      "n": 3,
+      "surface_order": 16,
+      "penalty_N_m3": 10000000.0,
+      "completed": true,
+      "residual_N": 2.4855574793698775e-13,
+      "minimum_J": 0.8810169060457891,
+      "force_balance_N": 8.67307519563967e-15,
+      "torque_balance_Nm": 9.85653866785799e-16,
+      "dense": [
+        {
+          "name": "sphere",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -0.00034254557005938824,
+          "max_dense_penetration_m": 0.00034254557005938824,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.5,
+            1.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": 5.531663846404522e-06
+        }
+      ],
+      "max_dense_penetration_m": 0.00034254557005938824,
+      "max_quadrature_penetration_m": 0.0003370139062129837,
+      "equilibrium_gate": true,
+      "seconds": 3.478052123915404
+    },
+    {
+      "key": "gravity_plane_sphere_indentation-n2-q4-k1e+07",
+      "case": "gravity_plane_sphere_indentation",
+      "n": 2,
+      "surface_order": 4,
+      "penalty_N_m3": 10000000.0,
+      "completed": true,
+      "residual_N": 2.366911653540333e-10,
+      "minimum_J": 0.845861179786482,
+      "force_balance_N": 1.0675922524109473e-12,
+      "torque_balance_Nm": 1.4413580953867067e-13,
+      "dense": [
+        {
+          "name": "plane",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -6.503303190166093e-05,
+          "max_dense_penetration_m": 6.503303190166093e-05,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.359375,
+            0.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": 5.231999244958985e-08
+        },
+        {
+          "name": "sphere",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -0.0005462295102816178,
+          "max_dense_penetration_m": 0.0005462295102816178,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.421875,
+            1.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": 0.00023721899834731885
+        }
+      ],
+      "max_dense_penetration_m": 0.0005462295102816178,
+      "max_quadrature_penetration_m": 0.00030901051193429896,
+      "equilibrium_gate": true,
+      "seconds": 2.020677458960563
+    },
+    {
+      "key": "gravity_plane_sphere_indentation-n2-q8-k1e+07",
+      "case": "gravity_plane_sphere_indentation",
+      "n": 2,
+      "surface_order": 8,
+      "penalty_N_m3": 10000000.0,
+      "completed": true,
+      "residual_N": 1.4837084683085592e-10,
+      "minimum_J": 0.8537762007222169,
+      "force_balance_N": 3.554490036019166e-11,
+      "torque_balance_Nm": 4.2603698929560945e-12,
+      "dense": [
+        {
+          "name": "plane",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -6.613584883855689e-05,
+          "max_dense_penetration_m": 6.613584883855689e-05,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.640625,
+            0.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": 2.704590788132899e-08
+        },
+        {
+          "name": "sphere",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -0.000427002066059029,
+          "max_dense_penetration_m": 0.000427002066059029,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.5625,
+            1.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": 4.1464627020489087e-05
+        }
+      ],
+      "max_dense_penetration_m": 0.000427002066059029,
+      "max_quadrature_penetration_m": 0.00038553743903853993,
+      "equilibrium_gate": true,
+      "seconds": 2.1164916430134326
+    },
+    {
+      "key": "gravity_plane_sphere_indentation-n2-q16-k1e+07",
+      "case": "gravity_plane_sphere_indentation",
+      "n": 2,
+      "surface_order": 16,
+      "penalty_N_m3": 10000000.0,
+      "completed": true,
+      "residual_N": 6.147713293072518e-09,
+      "minimum_J": 0.8530437801346336,
+      "force_balance_N": 2.5848656548843977e-10,
+      "torque_balance_Nm": 3.10207415311149e-11,
+      "dense": [
+        {
+          "name": "plane",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -6.61502567955094e-05,
+          "max_dense_penetration_m": 6.61502567955094e-05,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.359375,
+            0.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": -4.8080200307221155e-09
+        },
+        {
+          "name": "sphere",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -0.00042695312221723014,
+          "max_dense_penetration_m": 0.00042695312221723014,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.4375,
+            1.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": -3.559974484840245e-06
+        }
+      ],
+      "max_dense_penetration_m": 0.00042695312221723014,
+      "max_quadrature_penetration_m": 0.0004305130967020704,
+      "equilibrium_gate": true,
+      "seconds": 2.4298052890226245
+    },
+    {
+      "key": "gravity_plane_sphere_indentation-n2-q16-k2e+07",
+      "case": "gravity_plane_sphere_indentation",
+      "n": 2,
+      "surface_order": 16,
+      "penalty_N_m3": 20000000.0,
+      "completed": true,
+      "residual_N": 8.185584805564027e-13,
+      "minimum_J": 0.8474093849344607,
+      "force_balance_N": 1.225784368994528e-13,
+      "torque_balance_Nm": 1.3072371845345103e-14,
+      "dense": [
+        {
+          "name": "plane",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -3.363567319609323e-05,
+          "max_dense_penetration_m": 3.363567319609323e-05,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.359375,
+            0.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": -5.6730097008905744e-09
+        },
+        {
+          "name": "sphere",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -0.00029133588359817747,
+          "max_dense_penetration_m": 0.00029133588359817747,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.4375,
+            1.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": -1.1479608513630113e-05
+        }
+      ],
+      "max_dense_penetration_m": 0.00029133588359817747,
+      "max_quadrature_penetration_m": 0.0003028154921118076,
+      "equilibrium_gate": true,
+      "seconds": 2.8216602680040523
+    },
+    {
+      "key": "gravity_plane_sphere_indentation-n3-q16-k1e+07",
+      "case": "gravity_plane_sphere_indentation",
+      "n": 3,
+      "surface_order": 16,
+      "penalty_N_m3": 10000000.0,
+      "completed": true,
+      "residual_N": 3.5869616036052515e-13,
+      "minimum_J": 0.8586505191089164,
+      "force_balance_N": 5.361103706753014e-15,
+      "torque_balance_Nm": 2.011031120793452e-15,
+      "dense": [
+        {
+          "name": "plane",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -6.592566402215116e-05,
+          "max_dense_penetration_m": 6.592566402215116e-05,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.5,
+            0.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": 5.338727321335668e-09
+        },
+        {
+          "name": "sphere",
+          "dense_sample_count": 24578,
+          "minimum_dense_gap_m": -0.00035179493835233583,
+          "max_dense_penetration_m": 0.00035179493835233583,
+          "minimum_material_coordinate": [
+            0.484375,
+            0.5,
+            1.0
+          ],
+          "missed_contact": false,
+          "dense_minus_quadrature_depth_m": -1.666874155754894e-05
+        }
+      ],
+      "max_dense_penetration_m": 0.00035179493835233583,
+      "max_quadrature_penetration_m": 0.00036846367990988477,
+      "equilibrium_gate": true,
+      "seconds": 5.522159527987242
+    }
+  ],
+  "comparisons": [
+    {
+      "case": "gravity_plane",
+      "kind": "quadrature4_8",
+      "a": "gravity_plane-n2-q4-k1e+07",
+      "b": "gravity_plane-n2-q8-k1e+07",
+      "passed": true,
+      "field_coordinate_rms_m": 1.4596750338627529e-15,
+      "reaction_difference_N": 2.2279009990400294e-12,
+      "reaction_tolerance_N": 0.08862205265504537,
+      "dense_penetration_change_m": 1.3877787807814457e-17
+    },
+    {
+      "case": "gravity_plane",
+      "kind": "quadrature8_16",
+      "a": "gravity_plane-n2-q8-k1e+07",
+      "b": "gravity_plane-n2-q16-k1e+07",
+      "passed": true,
+      "field_coordinate_rms_m": 9.814906123594579e-17,
+      "reaction_difference_N": 1.573263204957231e-13,
+      "reaction_tolerance_N": 0.08862205265504385,
+      "dense_penetration_change_m": 6.938893903907228e-18
+    },
+    {
+      "case": "gravity_plane",
+      "kind": "mesh2_3",
+      "a": "gravity_plane-n2-q16-k1e+07",
+      "b": "gravity_plane-n3-q16-k1e+07",
+      "passed": true,
+      "field_coordinate_rms_m": 5.005375775471774e-06,
+      "reaction_difference_N": 0.0068760722641390834,
+      "reaction_tolerance_N": 0.08867173781467097,
+      "dense_penetration_change_m": 1.0990483987477484e-07
+    },
+    {
+      "case": "gravity_plane",
+      "kind": "penalty_sensitivity",
+      "a": "gravity_plane-n2-q16-k1e+07",
+      "b": "gravity_plane-n2-q16-k2e+07",
+      "passed": null,
+      "field_coordinate_rms_m": 1.1785374509213483e-05,
+      "reaction_difference_N": 0.023990343613762937,
+      "reaction_tolerance_N": 0.08880390659707775,
+      "dense_penetration_change_m": 2.6854990435344617e-05,
+      "note": "Changed penalty model; no pass/fail declared."
+    },
+    {
+      "case": "sphere_indentation",
+      "kind": "quadrature4_8",
+      "a": "sphere_indentation-n2-q4-k1e+07",
+      "b": "sphere_indentation-n2-q8-k1e+07",
+      "passed": false,
+      "field_coordinate_rms_m": 3.299987086986541e-05,
+      "reaction_difference_N": 0.019866518035036158,
+      "reaction_tolerance_N": 0.012134401807845113,
+      "dense_penetration_change_m": 4.076860315221226e-05
+    },
+    {
+      "case": "sphere_indentation",
+      "kind": "quadrature8_16",
+      "a": "sphere_indentation-n2-q8-k1e+07",
+      "b": "sphere_indentation-n2-q16-k1e+07",
+      "passed": true,
+      "field_coordinate_rms_m": 1.1846255858039755e-05,
+      "reaction_difference_N": 0.0061690549473795665,
+      "reaction_tolerance_N": 0.012195892861969187,
+      "dense_penetration_change_m": 1.7343111477337303e-05
+    },
+    {
+      "case": "sphere_indentation",
+      "kind": "mesh2_3",
+      "a": "sphere_indentation-n2-q16-k1e+07",
+      "b": "sphere_indentation-n3-q16-k1e+07",
+      "passed": false,
+      "field_coordinate_rms_m": 5.2248598700485576e-05,
+      "reaction_difference_N": 0.03929296339825519,
+      "reaction_tolerance_N": 0.011802992184746015,
+      "dense_penetration_change_m": 7.827453894833358e-06
+    },
+    {
+      "case": "sphere_indentation",
+      "kind": "penalty_sensitivity",
+      "a": "sphere_indentation-n2-q16-k1e+07",
+      "b": "sphere_indentation-n2-q16-k2e+07",
+      "passed": null,
+      "field_coordinate_rms_m": 2.328941012098587e-05,
+      "reaction_difference_N": 0.01457133599031369,
+      "reaction_tolerance_N": 0.012341551525808014,
+      "dense_penetration_change_m": 9.954004347413614e-05,
+      "note": "Changed penalty model; no pass/fail declared."
+    },
+    {
+      "case": "gravity_plane_sphere_indentation",
+      "kind": "quadrature4_8",
+      "a": "gravity_plane_sphere_indentation-n2-q4-k1e+07",
+      "b": "gravity_plane_sphere_indentation-n2-q8-k1e+07",
+      "passed": false,
+      "field_coordinate_rms_m": 2.302293138989298e-05,
+      "reaction_difference_N": 0.11625028771258594,
+      "reaction_tolerance_N": 0.09902549290776279,
+      "dense_penetration_change_m": 0.0001192274442225888
+    },
+    {
+      "case": "gravity_plane_sphere_indentation",
+      "kind": "quadrature8_16",
+      "a": "gravity_plane_sphere_indentation-n2-q8-k1e+07",
+      "b": "gravity_plane_sphere_indentation-n2-q16-k1e+07",
+      "passed": true,
+      "field_coordinate_rms_m": 1.194101591421501e-06,
+      "reaction_difference_N": 0.002734740459191093,
+      "reaction_tolerance_N": 0.09904621763404058,
+      "dense_penetration_change_m": 4.894384179887634e-08
+    },
+    {
+      "case": "gravity_plane_sphere_indentation",
+      "kind": "mesh2_3",
+      "a": "gravity_plane_sphere_indentation-n2-q16-k1e+07",
+      "b": "gravity_plane_sphere_indentation-n3-q16-k1e+07",
+      "passed": false,
+      "field_coordinate_rms_m": 2.3918228120051203e-05,
+      "reaction_difference_N": 0.15027507085042255,
+      "reaction_tolerance_N": 0.09788258953489865,
+      "dense_penetration_change_m": 7.515818386489431e-05
+    },
+    {
+      "case": "gravity_plane_sphere_indentation",
+      "kind": "penalty_sensitivity",
+      "a": "gravity_plane_sphere_indentation-n2-q16-k1e+07",
+      "b": "gravity_plane_sphere_indentation-n2-q16-k2e+07",
+      "passed": null,
+      "field_coordinate_rms_m": 1.3127910031568563e-05,
+      "reaction_difference_N": 0.12730752253705,
+      "reaction_tolerance_N": 0.10011064284505501,
+      "dense_penetration_change_m": 0.00013561723861905267,
+      "note": "Changed penalty model; no pass/fail declared."
+    }
+  ],
+  "tiny_patch": [
+    {
+      "order": 4,
+      "dense": {
+        "name": "sphere",
+        "dense_sample_count": 24578,
+        "minimum_dense_gap_m": -0.000999999999999994,
+        "max_dense_penetration_m": 0.000999999999999994,
+        "minimum_material_coordinate": [
+          0.5,
+          0.5,
+          0.0
+        ],
+        "missed_contact": true,
+        "dense_minus_quadrature_depth_m": 0.000999999999999994
+      },
+      "reaction_N": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sampled_depth_m": 0.0
+    },
+    {
+      "order": 8,
+      "dense": {
+        "name": "sphere",
+        "dense_sample_count": 24578,
+        "minimum_dense_gap_m": -0.000999999999999994,
+        "max_dense_penetration_m": 0.000999999999999994,
+        "minimum_material_coordinate": [
+          0.5,
+          0.5,
+          0.0
+        ],
+        "missed_contact": false,
+        "dense_minus_quadrature_depth_m": 0.0009072230207648815
+      },
+      "reaction_N": [
+        2.0198396575579768e-16,
+        4.848795368365714e-18,
+        -0.15869886798228294
+      ],
+      "sampled_depth_m": 9.277697923511241e-05
+    },
+    {
+      "order": 16,
+      "dense": {
+        "name": "sphere",
+        "dense_sample_count": 24578,
+        "minimum_dense_gap_m": -0.000999999999999994,
+        "max_dense_penetration_m": 0.000999999999999994,
+        "minimum_material_coordinate": [
+          0.5,
+          0.5,
+          0.0
+        ],
+        "missed_contact": false,
+        "dense_minus_quadrature_depth_m": 0.00024144357338421601
+      },
+      "reaction_N": [
+        -5.113282328718057e-16,
+        -2.4330708933364075e-17,
+        -1.005794998917442
+      ],
+      "sampled_depth_m": 0.0007585564266157779
+    }
+  ],
+  "all_numerical_gates_pass": false,
+  "total_seconds": 28.591286859940737,
+  "scope_limit": "Known fixed plane/sphere geometry; no friction, dynamic impact, unseen geometry, or exact contact guarantee."
+}

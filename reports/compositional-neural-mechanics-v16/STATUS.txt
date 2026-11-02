@@ -1,0 +1,39 @@
+COMPOSITIONAL NEURAL MECHANICS — DEVELOPMENT MILESTONE
+
+Goal remains active. This is not the reserved benchmark result or a completed paper.
+
+Implemented:
+- Shared objective bulk energy law with exact common-stiffness scaling.
+- Shared convex radial bilateral attachment energy; distinct from unilateral contact.
+- Mapped-geometry Q2 nonlinear equilibrium solver, controlled by tool positions/orientations.
+- Implicit parameter gradients and conditional bounded MAP; optional measured wrenches.
+- Custom direct neural predictor with matched physical descriptors and frozen-law fingerprints.
+- Resumable, source-pinned data and baseline runners; raw datasets stay local.
+
+Evidence so far:
+- All 15 development teacher responses have a passing mesh-refinement pair; original failures retained.
+- Original attachment model failed at large slips. Failed wide random-start training is retained too.
+- Warm-start range repair independently achieves 0.629% aggregate coupon force error in its widened range; saturated-family extrapolation error remains 6.533%.
+- Coupled learned n4 prediction against n6 teacher: mean field RMS 0.02446 mm, maximum 0.08399 mm over 15 development responses, oracle physical descriptors.
+- Same-mesh difficult stretch example improves from 4.065 mm to 0.07869 mm after attachment repair.
+- Controlled three-parameter fit: shape-only observations cannot identify common material/support stiffness scale. Adding wrench observations reduces learned held-out force error from 0.05370 N to 0.000911 N; shape errors remain about 7 micrometres.
+- The mechanism fit uses known nuisance parameters and same-mesh analytic truth; it is not full unknown-scene inference or a calibrated posterior.
+- 57 integration tests pass; one tensor-to-float diagnostic warning remains.
+- All 8,028 preserved prior tracked files remain byte-identical.
+
+Running/next:
+- 54 training and 4 validation scenes, six position commands each (348 labels), completed without failures. Training labels use approximate n4 discretization.
+- The 12-object oracle forward benchmark is frozen and running on GPUs 0–2, with four new commands per object. No final reserved results yet. Future inverse-policy evaluation requires its own untouched cohort.
+- Both direct baselines completed on all 348 verified records: 6000-step validation motion RMSE 1.219 mm; 30000-step capacity check 1.089 mm. Both are retained, with their training/validation gap disclosed.
+- Controlled position-only inference with known mass/gravity completed: learned held-out motion RMS 3.28 micrometres, no force observations. The two-case full-15-parameter pilot predicted 7.6–30.6 micrometres but all four optimizers reached limits; some material estimates remain inaccurate. A separate same-objective Gauss–Newton comparison is running on CPU.
+- Separate normal-contact CPU study: plane passes the development checks; sphere mesh and tiny-contact-patch checks still fail. Those failures remain explicit; no friction or dynamic-contact claim.
+
+Videos:
+- videos/interface-repair-development.mp4: same-mesh analytic vs original vs repaired, static equilibrium with camera orbit.
+- videos/bending-prediction-development.mp4: fine analytic vs learned bending, static equilibrium with camera orbit.
+These are development simulations with known descriptors, not physical experiments, dynamic rollouts, or reserved-test results.
+
+Scope limits:
+Mapped cuboid topology; known geometry and tracked material-point observations; quasistatic mechanics. No arbitrary-mesh, end-to-end image inference, calibrated physical posterior, or superior active-policy claim yet.
+
+Publication checkpoint: code and completed development evidence only. Raw datasets and working checkpoints stay local. Large JSON reports have byte-exact gzip copies; see PUBLICATION.txt. Running oracle/GN results follow in a separate update.

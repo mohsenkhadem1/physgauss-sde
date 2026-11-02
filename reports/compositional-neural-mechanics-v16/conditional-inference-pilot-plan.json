@@ -1,0 +1,82 @@
+{
+  "scope": "DEVELOPMENT conditional three-parameter same-mesh validation only",
+  "seed": 926601,
+  "geometry": {
+    "dimensions": [
+      0.2,
+      0.08,
+      0.08
+    ],
+    "taper": 0.15,
+    "arch": 0.006
+  },
+  "n": 2,
+  "active": [
+    0,
+    3,
+    5
+  ],
+  "truth": {
+    "logscale": 0.25,
+    "left_K": 350.0,
+    "right_K": 800.0
+  },
+  "known_nuisance": "neutral shape0,gradient0,centers.5,widths.3,strength.5; MR/quartic/h0",
+  "noise": {
+    "position_m": 5e-05,
+    "force_N": 0.02,
+    "torque_Nm": 0.001
+  },
+  "profile_alphas": [
+    -0.6,
+    -0.44999999999999996,
+    -0.3,
+    -0.15000000000000002,
+    0.0,
+    0.15000000000000002,
+    0.29999999999999993,
+    0.45000000000000007,
+    0.6
+  ],
+  "profile": "Exact co-scaling identity with explicit two endpoint equilibrium checks",
+  "fit": {
+    "max_iterations": 30,
+    "max_evaluations": 80,
+    "per_fit_seconds": 300,
+    "whole_pilot_seconds": 1200,
+    "prior": "independent unit Gaussian in parameter pack around neutral initialization"
+  },
+  "source_sha256": {
+    "scripts/compositional_neural_mechanics/qualification_refine.py": "65b9c8991dd04aed8790c1ce5bb1d381f6564aca707bf95a1526f65a17d254a0",
+    "scripts/compositional_neural_mechanics/qualification_crossed_support.py": "d6b06269be2f0522af465d1e8abc73cacb42c8435ee045416c79b20968b4b172",
+    "scripts/compositional_neural_mechanics/conditional_inference_pilot.py": "a5377aada870fc5f8440aab2fe8ed382b4e81a6b390cce4aa3e486b721ff9d25",
+    "scripts/compositional_neural_mechanics/train_interface_range_warm.py": "4b85bb1ef1ff4e3e78a3e8143f3e3e75604e7262746abc5c23f24ca1ffca78c5",
+    "scripts/compositional_neural_mechanics/train_interface_prototype.py": "43804de893c2c18bb6fd66ef0034ecdc0d0dafeacb1d449be742616ca1ea4068",
+    "scripts/compositional_neural_mechanics/inference.py": "6d97090ceca392b4ec9d08a406eacd534a432e529f54f9aa7375b606337d0ff5",
+    "scripts/compositional_neural_mechanics/qualification_targeted.py": "b68ceff74082aeb7852c01314638ddc18ef817ff1f88d4eda5fb979b5b13e336",
+    "scripts/compositional_neural_mechanics/scale_separated_baseline.py": "9a7c73145ff34fa4a580e929435cc7a1027a73cefc2762249e6103e3ac5748e0",
+    "scripts/compositional_neural_mechanics/interfaces.py": "69bd652386e8d0ab9f8183ed4a0ab64cdfbc2b8a52b71eb05eb5c5a1c02838d7",
+    "scripts/compositional_neural_mechanics/qualification_fine.py": "4ae15cb88a03e71974005840a0688eef25156788e22288dd0b301869b94e74c8",
+    "scripts/compositional_neural_mechanics/qualification_nonlinear_range.py": "7ef52b472aceabbe55f64d780ff58fb7ab544d8410850088ed22ae8f7ecb8dda",
+    "scripts/compositional_neural_mechanics/scenes.py": "c879ac975573f7a0dce9f30413f31711dca971f4058e816ea60744c7b86f48f0",
+    "scripts/compositional_neural_mechanics/train_interface_range.py": "f9bd37947a3bec53a88abd96c2f32f6decdf77b94801ca1d900af030d276c250",
+    "scripts/compositional_neural_mechanics/train_scale_separated_material.py": "6c3caa0ea5b242800a26e20335e6c54615ea9a0a1c67c00715d4c1b774e279e1",
+    "scripts/compositional_neural_mechanics/train_materials.py": "7a18149c42662c9e1d109f07d52a7d923fbeeada3056ad7d7796b43521a2e721",
+    "scripts/compositional_neural_mechanics/constitutive_baseline.py": "2a9f6dd6826cccedcae60e8623988688d0f142d0e0ef67e21ff8710305464705",
+    "scripts/compositional_neural_mechanics/dataset_runner.py": "871b1bb4e36db676a66a3ed65b4944ebbe2ae5ec14464b43319fbab94fc72c05",
+    "scripts/compositional_neural_mechanics/qualification_wide_interface.py": "50afafd443db9663f8606a0c6d1fa45a6996ba6ab158b19fad90d854670ad78d",
+    "scripts/compositional_neural_mechanics/family_signal_qualification.py": "23f89482748f7b2c18656ab25d2f72911c526b677793e30196e241573e923458",
+    "scripts/compositional_neural_mechanics/direct_baseline.py": "08e9041556758aba38e2a010957c634feb49fa97b208ba6b863c19548693c19a",
+    "scripts/compositional_neural_mechanics/scale_separated_material.py": "1f90892f144b963f6556591c6e21672ec58185968614765bcc7f3ca6508837b3",
+    "scripts/compositional_neural_mechanics/feature_pack.py": "79a6b95ab7c4728ee26a4f3029b66b19984fd663c04faa9fe3b59ea32badd391",
+    "scripts/compositional_neural_mechanics/joint_inference.py": "e3adb5cb4d9562a44ef91382c351d45740d2ddeab0191cb21737dff91b77678b",
+    "scripts/compositional_neural_mechanics/mechanics.py": "5c203470ae371e6d61100342e15dc9f765dfe20414753d0791c0b79f7e4e5f71",
+    "scripts/compositional_neural_mechanics/materials.py": "0391cf340a18133f46d35c3e07886df241164ba155d4e01deecfd7474590a313",
+    "scripts/compositional_neural_mechanics/coupled_scale_qualification.py": "3b08ce4561880f80c1842f28e1acd096fc0ad76872595e970b3e51fab9030eba",
+    "scripts/compositional_neural_mechanics/qualification.py": "b320df50583c37aa08d19d765b2affc9dcd912f74f610c44e7cd52f2968b4b4d",
+    "experiments/campaign_static_p2_block.py": "40b3d489f58c284c4660ce2295955022298d3848fa21e0ed859ad5f69398e886",
+    "experiments/campaign_static_uniaxial_bar.py": "54a2836efe065927a4542695dbe1bb867f1f0c44d5fc3f0772020e1ac72ba8db",
+    "runs/compositional-neural-mechanics-v16/scale-separated-prototype/shared-law.pt": "20aef4ac9eac62b418852dd0f79dfd6899d8e544b2428916819be9179988f0e8",
+    "runs/compositional-neural-mechanics-v16/interface-wide-range-warm/shared-interface.pt": "93234fcdc0d66f9b7dabb5186258c8fd63427af22d8605d541351a332ca2d996"
+  }
+}

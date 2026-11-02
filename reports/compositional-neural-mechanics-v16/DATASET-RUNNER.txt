@@ -1,0 +1,15 @@
+Dataset runner prepared; full generation NOT launched
+
+scripts/compositional_neural_mechanics/dataset_runner.py consumes an explicit pinned JSON plan. It does not sample scenes. Supported roles: train, validation, calibration. Reserved/test roles are rejected before solving. The current prepared plan has54training and4validation scenes, six actions each(348labels), n4/order3 approximate supervised labels. It does not claim n6-qualified truth; full launch waits for root release after pilot qualification/resource availability.
+
+Plan source_sha256 is the exact transitive project source inventory. Output preparation copies exact plan bytes and records the SHA. Existing outputs require identical plan and sources. Every complete action is reused only after verifying its identity, plan/source hashes, artifact inventory and finite label schema. Changed/corrupt completed artifacts are rejected, not silently recomputed. Incomplete/failed attempts may be retried under the unchanged plan; attempt records and logs remain separate and historical error counts remain visible.
+
+Each scene runs in its own externally timed subprocess. Assigned devices are CPU or physical GPUs0–2; GPU3 is excluded through the explicit child CUDA visibility map. Numerical thread counts are one. Each action resets to zero displacement, then follows the four declared fractions .25,.5,.75,1 of the position/orientation command. No previous action state initializes another action. The persistent stage-start deadline prevents a resume from silently extending the whole-stage budget.
+
+Per-action labels.npz keys exactly material_query, displacement, wrenches. The latter contains both tools' [Fx,Fy,Fz,Tx,Ty,Tz]. full-state.npz separately stores rest/Q2connectivity/material coordinates/displacement/Jacobians/commands/wrenches/origins for reconstruction and rendering. Completion records contain solver residual, minimumJ, force balance, continuation history, walltime and artifact hashes. Failed/time-limited action rows are retained in aggregate progress, never omitted from counts.
+
+Prepared output: runs/compositional-neural-mechanics-v16/training-data-n4.
+Prepared plan: reports/compositional-neural-mechanics-v16/training-data-plan.json.
+Execution is an explicit separate --execute invocation, not performed in this task.
+
+Focused smoke tests:3passed4.03s initially; final exact-source transcript dataset-runner-smoke-tests.txt. Tests use a tiny synthetic n1 CPU scene under pytest temporary directories, verify subprocess solve and four-stage continuation, exact cached resume, changed-artifact rejection, external timeout accounting, reserved role rejection and GPU3 exclusion. No real train/validation/calibration production labels were generated.

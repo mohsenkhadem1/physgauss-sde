@@ -1,0 +1,9 @@
+Known-gravity POSITION-ONLY conditional development pilot
+
+Known gravity(0,0,-9.81)m/s2 and density125kg/m3 remove the common-stiffness ambiguity of the previous zero-gravity example. This result uses prescribed tool positions/orientations as actions and noisy surface point positions as observations. No measured force or torque enters either fit. Reaction errors below are evaluation outputs only.
+
+Profile evidence: all9common-scale candidates were solved at both observed poses; no zero-gravity scaling shortcut was used. Position likelihood is81.207 attruealpha0,30937 atalpha−.6 and10149 at+.6. Endpoint shape shifts0.486–1.087mm are larger than50um coordinate noise. This demonstrates information about common stiffness from known gravitational loading in this controlled configuration.
+
+Both three-parameter fits converged from neutral initialization with identical unit-Gaussian priors. Analytic held-out bendY prediction: displacement2.20um, force0.000277N, torque0.0000401Nm RMS. Learned frozen bulk+interface: displacement3.28um, force0.000704N, torque0.0000626Nm RMS. Exact reaction observations supplied to fitting: zero.
+
+Scope: development only, same n2 analytic teacher/predictor mesh, one known geometry and known categorical/nuisance parameters; only bulk logscale and two support logK unknown. No unseen-scene or full inverse problem claim. Noise seed differs from the zero-gravity pilot, so their error differences are not a paired causal performance estimate. Source/import/checkpoint hashes remained unchanged. Known density is crucial: jointly scaling mass density and all energetic stiffnesses restores the static gravity equilibrium ambiguity. Geometry, gravity and density uncertainty require later explicit inference/robustness tests.

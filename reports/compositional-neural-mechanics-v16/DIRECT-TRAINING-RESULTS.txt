@@ -1,0 +1,19 @@
+Custom DeepSets direct baseline — fixed-budget training completed
+
+All348 declared analytic-teacher action records completed and were verified:54training scenes×6=324records;4validation scenes×6=24records. Labels are the declared n4 approximate supervised data. No case was silently dropped, and no reserved/test scene or label was accessed.
+
+The final6000-step checkpoint was retained with seed926701, batch16 and Adam learning rate.001 with cosine decay. GPU0 training took58.47s; the service completed within its1800s external cap. Training-only normalization used all324 training records, including repeated scene IDs across their actions. Validation did not choose the checkpoint or training budget.
+
+Coordinate RMSE (not Euclidean point-distance RMSE):
+                       displacement       force             torque
+Training               .317062mm          .0365052N         .000764466Nm
+Validation(4scenes)     1.219440mm          .389229N          .00748881Nm
+These validation figures are not reserved generalization results. The network is a custom geometry-conditioned DeepSets baseline, not authors' MeshGraphNet and not an equilibrium solver.
+
+Checkpoint: runs/compositional-neural-mechanics-v16/direct-baseline-campaign/direct-baseline.pt
+SHA256:3bcd2926ef46f83999e983ff6ea036dc24c716946a4aac1799678dff881822b2
+Detailed source/input/checkpoint provenance: direct-training-results.json and direct-supervisor-status.json.
+
+Provenance supplement: the frozen runner's original source inventory followed scripts imports but omitted experiments imports. Additive full local-import audits found26 dependencies, including13 extra legacy experiments files. Every legacy file matches pre-campaign prior-preservation.json; every new file matches pinned current plans. Supplemental snapshots during generation, after dataset completion and after training all passed. The limitation is disclosed; no frozen source or plan was rewritten to hide it.
+
+Initial direct plan amendment was before data fitting: only the campaign runner source hash changed to check actual fixed point grids and report final training physical-unit metrics. Dataset membership, checkpoints, optimizer budget and final-iterate rule were unchanged. Both plan versions and a machine-readable explanation remain available.

@@ -1,0 +1,16 @@
+Conditional three-parameter DEVELOPMENT inference pilot
+
+All four fits converged from the same neutral prior/initialization. CPU runtime421.79s; all pre-run source/checkpoint hashes unchanged. No reserved scene used. Analytic n2 generated truth; learned and analytic predictors also n2. Geometry, both law families, heterogeneity pattern, nonlinear strength and support footprint were supplied as known. Only bulk logscale and left/right logK were inferred. This validates a conditional mechanism, not full unknown material/support recovery or calibrated uncertainty.
+
+Common-scale profile: positions-only likelihood exactly94.360402336 for all9alphas. VF likelihood best atalpha0. Explicit two-endpoint solves verified displacement invariance to2.34e-17m, force scaling to1.07e-14N, torque scaling to3.05e-16Nm. Intermediate profile predictions use that structural identity, not nine independently solved states. Prior penalty is reported separately.
+
+Withheld right-bendY response coordinate RMS errors (two input poses were stretch and bendZ):
+model / modality | displacement um | force N | torque Nm
+analytic / V | 6.7542 | 0.05339738 | 0.00673542
+analytic / VF | 6.3450 | 0.00046748 | 0.00004797
+learned / V | 7.4460 | 0.05369985 | 0.00674937
+learned / VF | 7.0594 | 0.00091145 | 0.00004202
+
+Positions alone already predict shape closely but cannot identify common stiffness scale; its force errors remain about0.054N. Adding measured wrench resolves scale in this controlled experiment and sharply improves held-out wrench prediction. Learned VF achieves7.06um shape/.000911Nforce/.0000420Nmtorque, while exact-family analytic VF achieves6.35um/.000467N/.0000480Nm. These tiny same-mesh development errors are not independent reference accuracy or generalization evidence.
+
+Observation noise:50um coordinates,.02Nforce,.001Nmtorque; seed926601. Fixed26surfacepoints, both controllers observed for wrench. Independent unit-Gaussian priors on packed descriptors; no truth start. Source includes300sper-fit and1200soverall signal limits. Four optimizer flags true; failed/incomplete count0.

@@ -1,0 +1,20 @@
+Exact common-scale shared material prototype
+
+NEW implementation: scale_separated_material.py, ScaleSeparatedMaterialLaw.
+W(F,[log s,a,f]) = exp(log s) * base.energy(F,[a,f]).
+Common scale is absent from the decoder; it multiplies energy, stress and tangent exactly. The base still learns globally shared positive-coefficient nonlinear energy across Mooney–Rivlin and Yeoh families. Reference normalization/objectivity and the earlier admissibility limitations are inherited. This does not establish polyconvexity, stability or extrapolation guarantees.
+
+Fixed training declaration:18 material descriptor combinations;6000Adam/cosine steps, no validation checkpoint selection, final checkpoint only. GPU0 elapsed62.34s. Fresh draws use seeds101–104 with parameter seed931222. The18/8 descriptor grids are reused, so this is a structural correction with fresh strain samples, not a new blind material-family benchmark. Checkpoint is saved before test draw generation. Proto1, its plan and hard-MR regression remain unchanged.
+
+Stress relativeL2, learned versus oracle-small-strain Neo-Hookean:
+- Same-range unseen descriptor combinations:0.587% versus7.907%.
+- Harder strains, all families:1.404% versus30.028%.
+- Harder Mooney–Rivlin:2.202% versus9.211%.
+- Harder Yeoh:0.464% versus37.416%.
+These comparisons share fresh test samples with the analytic baseline. The two prototypes have different optimization budgets and strain draws; do not attribute all cross-prototype numerical improvement solely to scale separation. Exact teacher remains the constitutive ceiling by construction.
+
+Two scale tests pass: reference and finite-deformation energy/stress/full tangent scale at s=.2,.7,2,5; derivatives with respect to log s equal energy/stress. Twenty-four sampled hard-strain rank-one curvatures remain positive(min3882.88Pa), a finite diagnostic only.
+
+Scene-level stiffness invisibility requires bulk and all fixtures to co-scale and no unscaled external potential. Gravity, inertia, unscaled loads or numerical regularizers invalidate that conclusion. Physics agent owns the separate coupled-equilibrium displacement/reaction check before scene use.
+
+Related inference qualification now includes right attachment center_z/logwidth_z. Implicit derivatives[.025019040970,.017002931679] agree with full equilibrium finite differences[.025019040746,.017002931706]. Five CPU inference tests pass; no large scene inference or reserved test was run here.
