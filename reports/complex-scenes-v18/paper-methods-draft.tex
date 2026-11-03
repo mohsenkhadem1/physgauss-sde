@@ -1,5 +1,5 @@
-% Development-stage methods fragment. Not yet included in the submitted paper.
-% Held measurements and the final fitting budgets remain pending.
+% Methods fragment for the frozen v18 protocol; held measurements are pending.
+% Not yet included in the main paper; preserve the preceding study's results.
 \subsection{Coupled-scene prediction protocol}
 \label{sec:coupled-protocol}
 We separate the material of an object from the interaction applied to it.
@@ -18,10 +18,17 @@ container, including an obstacle; a translating finite-mass rigid striker;
 two deformable objects in collision or stacking; and spatially heterogeneous
 material. Query changes include fixture location, displacement amplitude,
 impact velocity, drop height and orientation, and contact configuration.
-The prospective census is four independently sampled material worlds per
+The frozen census is four independently sampled material worlds per
 family and two queries per world. Object shape and density are fixed in
 this study; transfer is across material and interaction, rather than unseen
 object geometry.
+The protocol, implementation inventory, model checkpoints, and development
+decision were fixed before generating the held worlds. Young's modulus is
+sampled log-uniformly from $8$ to $18$\,kPa and Poisson's ratio uniformly
+from $0.25$ to $0.40$. Two-body scenes use independent material draws.
+Heterogeneous worlds additionally sample a log-contrast corresponding to
+factors between two and three and a transition coordinate between $0.35$
+and $0.65$. These draws remain fixed across each world's three interactions.
 
 All methods receive the same calibration tracks, rest geometry, density,
 and public boundary parameters. Tracks cover a fixed two-face material-point
@@ -60,6 +67,12 @@ point-position loss. No network weights are updated on a held world.
 Additional calibration stages, when selected in development, initialize
 from the preceding sealed best fit to the identical observation prefix.
 This changes the optimization budget without reading the future query.
+The frozen schedule permits $64$ objective evaluations followed by up to
+$128$ additional evaluations, initialized from the best calibration fit.
+The analytic control receives the identical schedule. The best calibration
+loss determines the parameters used for both queries; no query-specific
+parameter selection is performed. Reaching an evaluation limit is reported
+separately from optimizer convergence.
 
 Predicted motion follows the coupled mechanics rollout with explicit
 collision geometry and compliant fixtures. The current scene model includes
@@ -80,6 +93,14 @@ known object masses and explicit common scene-boundary adapters. PhysTwin
 uses fixed zero dashpot and drag damping in this adapter. These are
 mechanics comparisons with disclosed interfaces, not reproductions of the
 complete author image-reconstruction pipelines.
+Both native spring adapters use $40$ Adam iterations with learning rate
+$0.03$ and a four-hour fitting limit. Spring-Gaus first searches a scalar
+stiffness initialization. Single-clamp development controls at $160$
+iterations improved calibration but increased vector forecast error for
+both adapters; these controls and their shape errors are retained alongside
+the selected budgets. This observation does not establish that $40$
+iterations is optimal for every scene. Actual successful iterations and
+numerical failures are reported rather than assumed from requested budgets.
 
 UniPhy uses the released pretrained constitutive networks and native MPM,
 with a fitted material latent and explicit bowl/obstacle hooks. Its current
@@ -92,6 +113,10 @@ Unsupported configurations are retained as unsupported, rather than being
 counted as failures or wins. An analytic Neo-Hookean control uses the same
 spatial fitting parameterization but has the advantage of knowing the
 reference constitutive family.
+UniPhy uses eight fixed-seed latent-centroid initializations followed by
+eight AdamW iterations at learning rate $3\times10^{-5}$. Its derivative
+qualification remains coordinate-sensitive, which limits attribution of
+any adapted-system failure to the original method.
 
 \subsection{Physical and visual evaluation}
 We report full-query point-position RMS and per-object rigid-aligned shape
@@ -122,3 +147,10 @@ complete planned census. We average the two queries within each world,
 then compute paired method differences and bootstrap intervals by resampling
 worlds, not frames. Error comparisons conditional on successful paired
 worlds are accompanied by their completion and coverage counts.
+References use Q2 meshes with $(4n,n,n)$ cells, $n=4$, Lobatto-4 quadrature,
+and a $25$\,$\mu$s time step. Both queries of the preselected first world
+in every family are repeated at $n=6$. These twelve comparisons quantify
+resolution sensitivity on those worlds; they are not rigorous error bounds
+or a population-wide convergence certificate. Our material model and the
+analytic control use $n=1$ with $50$\,$\mu$s steps. Native spring adapters
+use $25$\,$\mu$s steps and UniPhy uses $50$\,$\mu$s steps.
