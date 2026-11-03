@@ -1,0 +1,66 @@
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Physical neural scene representations.}
+Gaussian splatting provides an explicit, efficiently rendered radiance-field
+representation~\cite{kerbl2023gaussians}. Coupling visual representations to
+mechanics predates physical Gaussians: PAC-NeRF combines neural radiance fields
+with differentiable material point method (MPM) simulation to identify geometry
+and physical parameters from calibrated multi-view RGB
+video~\cite{li2023pacnerf}. PhysGaussian reconstructs a static Gaussian scene and
+generates motion using supplied material and boundary settings; its continuum
+deformation map transports Gaussian covariances through the deformation
+gradient~\cite{xie2024physgaussian}. Spring-Gaus learns spring-mass dynamics from
+multi-view video through staged appearance, geometry and physical
+optimization~\cite{zhong2024springgaus}. PhysTwin uses sparse RGB-D interaction
+videos, shape priors and lifted image tracks to fit geometry and spring-mass
+physics, followed by Gaussian appearance optimization; it demonstrates future
+prediction and novel interactions~\cite{jiang2025phystwin}. These works establish
+both simulatable visual assets and separation of physical fitting from appearance.
+
+\paragraph{Constitutive reuse and inverse mechanics.}
+Learning material response within known governing equations is an established
+alternative to learning complete state transitions. NCLaw embeds structured
+constitutive networks in differentiable simulation and evaluates transfer across
+geometry, initial conditions and boundary conditions~\cite{ma2023nclaw}.
+UniPhy learns shared latent-conditioned deformation-gradient projection and
+stress networks, pretrained using simulated constitutive supervision; at
+inference it freezes their weights and optimizes a material latent against
+observed particle trajectories~\cite{mittal2025uniphy}. Thus shared constitutive
+representations and scene-specific inverse adaptation already have direct
+precedent. Our formulation uses a scalar bulk-energy decoder, derives stress
+from that energy, and composes the bulk response with separately parameterized
+scene interfaces. The contribution concerns this composition and its evaluated
+predictive behavior, rather than priority for constitutive reuse. The elastic
+experiments also cover a narrower material class than UniPhy's plastic and
+fluid examples.
+
+\paragraph{Generative priors and observed-motion reconstruction.}
+PhysDreamer distills video-generation priors into material fields to synthesize
+responses to new interactions~\cite{zhang2024physdreamer}. OmniPhysGS uses
+text-conditioned diffusion guidance to learn mixtures of constitutive experts
+for Gaussian particles~\cite{lin2025omniphysgs}. Their generative supervision
+differs from fitting measured motion. PIDG instead uses time-dependent
+deformation, predicted velocity and stress, momentum residuals and optical-flow
+supervision for monocular dynamic reconstruction~\cite{hong2026pidg}. Its
+published formulation does not expose a query-force input. We distinguish
+reconstructing observed motion, generating plausible interactions and forecasting
+a reset system under changed loading; success on one task does not establish
+the others.
+
+\paragraph{Numerics, systems and evaluation.}
+DiffPD develops efficient differentiation through implicit projective dynamics,
+including contact models and inverse problems~\cite{du2022diffpd}.
+i-PhysGaussian couples Gaussian rendering to implicit Newton--GMRES MPM and
+evaluates time-step robustness~\cite{cao2026iphysgaussian}. Boba accelerates
+PhysTwin-style rollouts through compact spring-mass surrogates and shared-template
+batched execution~\cite{pang2026boba}. These contributions motivate separating
+material representation from integration, inertia, contact and implementation
+effects. Deform360 provides real multi-view visuotactile data and evaluates
+per-episode, multi-episode and multi-object prediction~\cite{li2026deform360}.
+Our controlled synthetic study uses known geometry and visible three-dimensional
+tracks, and compares future motion and Gaussian rendering under matched
+observations. It therefore evaluates a specific composed pipeline, with
+numerical-reference sensitivity and prediction coverage retained; it does not
+establish end-to-end video reconstruction, real-world material identification,
+calibrated posterior uncertainty or uncertainty-guided probing.
