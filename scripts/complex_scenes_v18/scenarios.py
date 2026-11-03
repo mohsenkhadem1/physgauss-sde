@@ -17,10 +17,11 @@ def smooth(t,start,duration):
     return f,v
 
 
-def build_case(name,n=1,surface_samples=5,variant=0,device='cpu',contact_device=None,bulk_quadrature='gauss3',material_provider=None):
+def build_case(name,n=1,surface_samples=5,variant=0,device='cpu',contact_device=None,bulk_quadrature='gauss3',material_provider=None,fixture_shift=0.):
     if name not in FAMILIES or variant not in (0,1):raise ValueError('Undeclared development scenario')
     dimensions=(.12,.06,.06);base=dict(n=n,order=3,surface_order=4,density=625,device=device,bulk_energy=AnalyticNeoHookean(.35),material_latent_field=lambda q:q.new_full((*q.shape[:-1],1),np.log(12000.)))
-    specs=(AttachmentSpec(6000,(.5,.5),(.32,.32)),AttachmentSpec(4500,(.55,.6),(.3,.3)))
+    if not np.isfinite(fixture_shift)or abs(fixture_shift)>.15:raise ValueError('Fixture shift outside declared footprint range')
+    specs=(AttachmentSpec(6000,(.5+fixture_shift,.5),(.32,.32)),AttachmentSpec(4500,(.55-fixture_shift,.6),(.3,.3)))
     body_index=0
     def body(**kw):
         nonlocal body_index

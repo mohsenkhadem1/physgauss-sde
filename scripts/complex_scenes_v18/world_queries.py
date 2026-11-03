@@ -43,18 +43,23 @@ class Query:
     actuation_scale:float=1.
     velocity_scale:float=1.
     initial_height_m:float=0.
+    initial_rotation_deg:float=0.
+    fixture_shift:float=0.
 
     def __post_init__(self):
         if self.family not in FAMILIES or self.variant not in (0,1):raise ValueError('Unknown public scene recipe')
-        if not np.isfinite([self.actuation_scale,self.velocity_scale,self.initial_height_m]).all():raise ValueError('Nonfinite public action')
+        if not np.isfinite([self.actuation_scale,self.velocity_scale,self.initial_height_m,self.initial_rotation_deg,self.fixture_shift]).all():raise ValueError('Nonfinite public action')
         if self.actuation_scale<=0 or self.velocity_scale<=0:raise ValueError('Positive action scales required')
         if self.initial_height_m and self.family!='container_drop':raise ValueError('Height offset only supported for free drops')
+        if self.initial_rotation_deg and self.family!='container_drop':raise ValueError('Initial rotation only supported for free drops')
+        if abs(self.fixture_shift)>.15:raise ValueError('Fixture shift out of range')
+        if self.fixture_shift and self.family not in ('clamp_release','curved_push','rigid_impact','heterogeneous'):raise ValueError('Scene has no fixtures')
 
 
 def build_prediction(query,material_provider,*,n=1,surface_samples=5,bulk_quadrature='gauss3',contact_device='cpu'):
     """Build from visible query plus inferred material; no World argument allowed."""
     if material_provider is None:raise ValueError('An inferred material provider is mandatory')
-    scene,state,meta=build_case(query.family,n=n,variant=query.variant,surface_samples=surface_samples,bulk_quadrature=bulk_quadrature,contact_device=contact_device,material_provider=material_provider)
+    scene,state,meta=build_case(query.family,n=n,variant=query.variant,surface_samples=surface_samples,bulk_quadrature=bulk_quadrature,contact_device=contact_device,material_provider=material_provider,fixture_shift=query.fixture_shift)
     motions=[]
     for motion in scene.motions:
         if motion is None:motions.append(None)
@@ -67,6 +72,10 @@ def build_prediction(query,material_provider,*,n=1,surface_samples=5,bulk_quadra
     rigid=[replace(body,velocity=body.velocity*query.velocity_scale)for body in scene.rigid.values()]
     scene=CoupledScene(scene.models,pair_contact=scene.pair,rigid_bodies=rigid,motions=motions)
     u=[a.copy()for a in state.u];v=[a*query.velocity_scale for a in state.v]
+    if query.initial_rotation_deg:
+        angle=np.deg2rad(query.initial_rotation_deg);c,s=np.cos(angle),np.sin(angle);rotation=np.array([[c,0,s],[0,1,0],[-s,0,c]])
+        for m,a in zip(scene.models,u):
+            center=m.rest.mean(0);a[:]=(m.rest+a-center)@rotation.T+center-m.rest
     if query.initial_height_m:
         for a in u:a[:,2]+=query.initial_height_m
     state=scene.initial(u,v)

@@ -27,12 +27,23 @@ def fit(args):
     name=f'{args.case}-v{args.variant}';out=ROOT/'runs/complex-scenes-v18'/args.label/name;out.mkdir(parents=True,exist_ok=False)
     source=ROOT/'runs/complex-scenes-v18/development-prefixes'/name;meta=json.loads((source/'metadata.json').read_text());target=source/'observations.npz'
     if hashlib.sha256(target.read_bytes()).hexdigest()!=meta['observations_sha256']:raise ValueError('Prefix integrity')
-    warm=ROOT/'runs/complex-scenes-v18/spring-scale-fit-01'/name/'fit-seal.json';warmdata=json.loads(warm.read_text())
-    if not warmdata['completed']or warmdata['observations_sha256']!=meta['observations_sha256']:raise ValueError('Matching completed initialization required')
+    method=getattr(args,'method','spring-gaus');warm=None
+    if method=='spring-gaus':
+        warm=ROOT/'runs/complex-scenes-v18/spring-scale-fit-01'/name/'fit-seal.json';warmdata=json.loads(warm.read_text())
+        if not warmdata['completed']or warmdata['observations_sha256']!=meta['observations_sha256']:raise ValueError('Matching completed initialization required')
+        initial_k=warmdata['best']['log10_k'];Class=DifferentiableSpringScene
+    else:
+        from scripts.complex_scenes_v18.differentiable_phystwin import DifferentiablePhysTwinScene
+        Class=DifferentiablePhysTwinScene;initial_k=-.3
     a=np.load(target);observed=torch.tensor(a['positions_m'],dtype=torch.float32,device='cuda');indices=torch.tensor(a['surface_indices'],device='cuda');dt=25e-6;stride=round(.002/dt)
-    sim=DifferentiableSpringScene(args.case,args.variant,log10_k=warmdata['best']['log10_k'],per_edge=True)
+    sim=Class(args.case,args.variant,log10_k=initial_k,per_edge=True)
     optimizer=torch.optim.Adam(sim.parameters,lr=args.lr);rows=[];best=None;best_loss=float('inf');start=time.monotonic();failures=0
-    plan=dict(method='Spring-Gaus author per-edge internal forces and integrator; differentiable common scene boundaries',development_only=True,known_boundary=True,epochs=args.epochs,learning_rate=args.lr,dt_s=dt,checkpoint_steps=stride,parameter_count=sum(p.numel()for p in sim.parameters),observations_sha256=meta['observations_sha256'],initialization_sha256=hashlib.sha256(warm.read_bytes()).hexdigest(),source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()for p in [Path(__file__),ROOT/'scripts/complex_scenes_v18/differentiable_spring.py',ROOT/'scripts/complex_scenes_v18/torch_boundaries.py']},forecast_targets_read=False)
+    sources=[Path(__file__),ROOT/'scripts/complex_scenes_v18/explicit_boundaries.py',ROOT/'scripts/complex_scenes_v18/torch_boundaries.py']
+    sources+=[ROOT/'scripts/complex_scenes_v18'/p for p in (['differentiable_spring.py','spring_scene.py']if method=='spring-gaus'else['differentiable_phystwin.py','phystwin_autograd.py','phystwin_scene.py'])]
+    plan=dict(method=method,adaptation='Author internal force; differentiable common scene boundaries; PhysTwin training uses equivalent Torch step and forecast uses author Warp integration',development_only=True,known_boundary=True,epochs=args.epochs,learning_rate=args.lr,dt_s=dt,checkpoint_steps=stride,parameter_count=sum(p.numel()for p in sim.parameters),observations_sha256=meta['observations_sha256'],initialization_sha256=hashlib.sha256(warm.read_bytes()).hexdigest()if warm else None,initial_log10_k=initial_k,source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()for p in sources},forecast_targets_read=False)
+    if method=='phystwin':
+        np.savez_compressed(out/'graph.npz',**{f'edges_{i}':e.cpu().numpy()for i,e in enumerate(sim.edges)})
+        plan.update(graph_sha256=hashlib.sha256((out/'graph.npz').read_bytes()).hexdigest(),damping='Fixed zero dashpot and drag damping')
     write(out/'plan.json',plan)
     for epoch in range(args.epochs):
         if time.monotonic()-start>args.seconds:rows.append(dict(epoch=epoch,completed=False,error='Declared fitting time budget'));break
@@ -69,11 +80,13 @@ def fit(args):
     write(out/'fit-seal.json',seal)
     if best is None:return seal
     restore(sim,best);state=sim.initial();frames=[sim.positions(state).detach().cpu().numpy()];times=[0.];result=dict(completed=False)
+    native=sim.native_replay()if method=='phystwin'else None
     try:
         for i in range(round(sim.base.metadata['duration_s']/dt)):
-            state=sim.step(state,i,dt,training=False)
+            if native is not None:native.step(dt)
+            else:state=sim.step(state,i,dt,training=False)
             if (i+1)%stride==0:
-                p=sim.positions(state).detach().cpu().numpy()
+                p=native.sample_surface()if native is not None else sim.positions(state).detach().cpu().numpy()
                 if not np.isfinite(p).all():raise FloatingPointError('Nonfinite sealed forecast')
                 frames.append(p);times.append((i+1)*dt)
         result['completed']=True
@@ -83,4 +96,4 @@ def fit(args):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--case',required=True);p.add_argument('--variant',type=int,default=0);p.add_argument('--label',default='spring-edge-fit-01');p.add_argument('--epochs',type=int,default=40);p.add_argument('--lr',type=float,default=.03);p.add_argument('--seconds',type=int,default=7200);a=p.parse_args();torch.set_num_threads(1);r=fit(a);raise SystemExit(0 if r['completed']else 1)
+    p=argparse.ArgumentParser();p.add_argument('--case',required=True);p.add_argument('--variant',type=int,default=0);p.add_argument('--label',default='spring-edge-fit-01');p.add_argument('--epochs',type=int,default=40);p.add_argument('--lr',type=float,default=.03);p.add_argument('--seconds',type=int,default=7200);p.add_argument('--method',choices=['spring-gaus','phystwin'],default='spring-gaus');a=p.parse_args();torch.set_num_threads(1);r=fit(a);raise SystemExit(0 if r['completed']else 1)
