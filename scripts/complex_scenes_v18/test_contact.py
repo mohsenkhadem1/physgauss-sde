@@ -25,6 +25,17 @@ def test_closed_mesh_and_exact_point_triangle_distances():
     np.testing.assert_allclose(closest_squared(p,x,f).numpy(),[.25,.01,.01],atol=1e-14)
 
 
+def test_anisotropic_surface_is_closed_and_integrates_area():
+    from scripts.complex_scenes_v18.pair_contact import SurfaceBinding
+    m=body();b=SurfaceBinding.build(m,(9,3,3));edges={}
+    for face in b.triangles:
+        for i,j in zip(face,np.roll(face,-1)):edges.setdefault(tuple(sorted([i,j])),[]).append((i,j))
+    assert all(len(e)==2 and e[0]==e[1][::-1]for e in edges.values())
+    np.testing.assert_allclose(b.weights.sum(),2*(.12*.06+.12*.06+.06*.06),atol=1e-14)
+    np.testing.assert_allclose(b.B@m.rest,m.geometry.map(b.q),atol=1e-14)
+    assert len(b.q)==9*3*3-7
+
+
 def test_pair_force_is_energy_gradient_conserves_force_torque_and_rotates():
     a,b=body(),body();pair=DeformablePairContact([a,b],samples=5,penalty_N_m3=1e6)
     x=[a.rest.copy(),b.rest+np.array([.107,.007,.003])]

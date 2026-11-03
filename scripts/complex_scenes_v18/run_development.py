@@ -16,13 +16,13 @@ def write(path,value):
     tmp.write_text(json.dumps(value,indent=2)+'\n');tmp.replace(path)
 
 
-def run(case,n,dt,variant=0,label='pilot',surface_samples=5,seconds=1800):
+def run(case,n,dt,variant=0,label='pilot',surface_samples=5,seconds=1800,contact_device='cpu'):
     torch.set_num_threads(1);out=ROOT/'runs/complex-scenes-v18'/label/f'{case}-v{variant}-n{n}-dt{dt:.8f}-s{surface_samples}'
     if out.exists():raise ValueError('Preserve previous attempt: '+str(out))
     out.mkdir(parents=True);t0=time.monotonic();records=[];saved=[];status=dict(family=case,variant=variant,n=n,dt_s=dt,surface_samples=surface_samples,completed=False,development_only=True,source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()for p in sorted((ROOT/'scripts/complex_scenes_v18').glob('*.py'))})
     write(out/'status.json',dict(status,state='running',pid=os.getpid()))
     try:
-        scene,s,meta=build_case(case,n,surface_samples,variant);status.update(meta)
+        scene,s,meta=build_case(case,n,surface_samples,variant,contact_device=contact_device);status.update(meta);status['contact_device']=contact_device
         sample=[SurfaceBinding.build(m,9)for m in scene.models]
         E0=scene.energy(s);P0=scene.momentum(s);stride=round(.002/dt);steps=round(meta['duration_s']/dt)
         if not np.isclose(stride*dt,.002):raise ValueError('Integer sampling stride required')
@@ -47,5 +47,5 @@ def run(case,n,dt,variant=0,label='pilot',surface_samples=5,seconds=1800):
 
 
 if __name__=='__main__':
-    ap=argparse.ArgumentParser();ap.add_argument('--case',choices=FAMILIES,required=True);ap.add_argument('--n',type=int,default=1);ap.add_argument('--dt',type=float,default=50e-6);ap.add_argument('--variant',type=int,default=0);ap.add_argument('--label',default='pilot');ap.add_argument('--surface-samples',type=int,default=5);ap.add_argument('--seconds',type=int,default=1800);a=ap.parse_args()
-    r=run(a.case,a.n,a.dt,a.variant,a.label,a.surface_samples,a.seconds);print(json.dumps(r,indent=2));raise SystemExit(0 if r['completed']else 1)
+    ap=argparse.ArgumentParser();ap.add_argument('--case',choices=FAMILIES,required=True);ap.add_argument('--n',type=int,default=1);ap.add_argument('--dt',type=float,default=50e-6);ap.add_argument('--variant',type=int,default=0);ap.add_argument('--label',default='pilot');ap.add_argument('--surface-samples',type=int,default=5);ap.add_argument('--seconds',type=int,default=1800);ap.add_argument('--contact-device',default='cpu');a=ap.parse_args()
+    r=run(a.case,a.n,a.dt,a.variant,a.label,a.surface_samples,a.seconds,a.contact_device);print(json.dumps(r,indent=2));raise SystemExit(0 if r['completed']else 1)

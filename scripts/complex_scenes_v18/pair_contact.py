@@ -13,20 +13,23 @@ from scripts.phystwin.tensor_fixture import basis
 
 
 def material_surface(k):
-    if k<3:raise ValueError('At least three samples per face edge')
+    counts=(k,k,k)if np.isscalar(k)else tuple(k)
+    if len(counts)!=3 or any(int(c)!=c or c<3 for c in counts):raise ValueError('At least three integer samples per material axis')
+    counts=tuple(map(int,counts))
     vertices=[];faces=[];lookup={}
     for axis in range(3):
         others=[j for j in range(3)if j!=axis]
+        ka,kb=[counts[j]for j in others]
         for side in (0,1):
-            ids=np.empty((k,k),int)
-            for i in range(k):
-                for j in range(k):
-                    q=np.zeros(3);q[axis]=side;q[others]=[i/(k-1),j/(k-1)]
+            ids=np.empty((ka,kb),int)
+            for i in range(ka):
+                for j in range(kb):
+                    q=np.zeros(3);q[axis]=side;q[others]=[i/(ka-1),j/(kb-1)]
                     key=tuple(q)
                     if key not in lookup:lookup[key]=len(vertices);vertices.append(q)
                     ids[i,j]=lookup[key]
-            for i in range(k-1):
-                for j in range(k-1):
+            for i in range(ka-1):
+                for j in range(kb-1):
                     for tri in [[ids[i,j],ids[i+1,j],ids[i+1,j+1]], [ids[i,j],ids[i+1,j+1],ids[i,j+1]]]:
                         a,b,c=np.asarray(vertices)[tri]
                         if np.cross(b-a,c-a)[axis]*(2*side-1)<0:tri=tri[::-1]
@@ -65,12 +68,16 @@ def closest_squared(points,vertices,faces):
 def inside_closed_surface(points,vertices,faces):
     """Solid-angle winding; supports nonconvex consistently oriented meshes."""
     with torch.no_grad():
-        a,b,c=(vertices[faces][None,:,:,:]-points[:,None,None,:]).unbind(2)
+        candidate=((points>=vertices.min(0).values)&(points<=vertices.max(0).values)).all(-1)
+        result=torch.zeros(len(points),dtype=torch.bool,device=points.device)
+        if not bool(candidate.any()):return result
+        a,b,c=(vertices[faces][None,:,:,:]-points[candidate,None,None,:]).unbind(2)
         la=torch.linalg.vector_norm(a,dim=-1);lb=torch.linalg.vector_norm(b,dim=-1);lc=torch.linalg.vector_norm(c,dim=-1)
         num=(a*torch.linalg.cross(b,c)).sum(-1)
         den=la*lb*lc+(a*b).sum(-1)*lc+(b*c).sum(-1)*la+(c*a).sum(-1)*lb
         winding=(2*torch.atan2(num,den)).sum(-1)/(4*np.pi)
-        return winding.abs()>.5
+        result[candidate]=winding.abs()>.5
+        return result
 
 
 @dataclass

@@ -1,0 +1,47 @@
+"""Frozen shared material and optional bulk-scale extension development rollout.
+
+Known scene boundary diagnostic. Generator material callbacks are replaced before
+any dynamic step. This is not the eventual public-scene inference adapter.
+"""
+import os
+for k in ('OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS'):os.environ[k]='1'
+import hashlib,time
+from pathlib import Path
+import numpy as np
+import torch
+from scripts.complex_scenes_v18.scenarios import build_case
+from scripts.complex_scenes_v18.pair_contact import SurfaceBinding
+from scripts.complex_scenes_v18.material_extension import IndependentBulkScale
+from scripts.complex_scenes_v18.run_development import ROOT,write
+from scripts.compositional_neural_mechanics.conditional_inference_pilot import BULK
+
+
+def run(case,variant,parameters,*,label,duration=None,n=1,dt=50e-6,seconds=1800):
+    out=ROOT/'runs/complex-scenes-v18'/label/f'{case}-v{variant}';out.mkdir(parents=True,exist_ok=False);start=time.monotonic()
+    frames=[];times=[];record=dict(completed=False,case=case,variant=variant,parameters=parameters,development_only=True,known_boundary=True,n=n,dt_s=dt,checkpoint_sha256=hashlib.sha256(Path(BULK).read_bytes()).hexdigest(),source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
+    try:
+        law=IndependentBulkScale().double();law.base.load_state_dict(torch.load(BULK,map_location='cpu',weights_only=True)['state_dict']);law.eval()
+        for p in law.parameters():p.requires_grad_(False)
+        scene,s,meta=build_case(case,n=n,variant=variant)
+        for i,m in enumerate(scene.models):
+            def field(q,i=i):
+                scale=q.new_full(q.shape[:-1],parameters.get('scale',0.)+(parameters.get('second_scale',0.)if i else 0.))
+                if case=='heterogeneous':scale=scale+parameters.get('contrast',0.)*torch.tanh(8*(q[...,0]-parameters.get('center',.5)))
+                return torch.stack([scale,torch.full_like(scale,parameters.get('shape',0.)),torch.full_like(scale,parameters.get('family_flag',-1.)),torch.full_like(scale,parameters.get('log_bulk',0.))],-1)
+            m.bulk_energy=law.energy;m.material_latent_field=field
+        s=scene.initial(s.u,s.v);sample=[SurfaceBinding.build(m,9)for m in scene.models]
+        duration=min(duration,meta['duration_s'])if duration else meta['duration_s'];steps=round(duration/dt);stride=round(.002/dt)
+        if not np.isclose(stride*dt,.002):raise ValueError('Sample clock')
+        E0=scene.energy(s);minJ=1.;drift=0.
+        for i in range(steps+1):
+            if i:
+                if time.monotonic()-start>seconds:raise TimeoutError('Explicit forward budget')
+                s=scene.step(s,dt)
+            minJ=min(minJ,min(b['minimum_J']for b in s.diagnostics['bodies']))
+            if i%stride==0:
+                frames.append(np.stack([b.B@(m.rest+u)for b,m,u in zip(sample,scene.models,s.u)]));times.append(s.time);drift=max(drift,abs(scene.energy(s)-E0-s.work))
+            if i%200==0:write(out/'status.json',dict(record,pid=os.getpid(),steps=i,planned_steps=steps,elapsed_s=time.monotonic()-start))
+        record.update(completed=True,minimum_J=minJ,maximum_sampled_energy_minus_work_drift_J=drift)
+    except Exception as e:record['error']=f'{type(e).__name__}: {e}'
+    if frames:np.savez_compressed(out/'trajectory.npz',surface_positions_m=frames,times_s=times)
+    record['elapsed_s']=time.monotonic()-start;write(out/'complete.json',record);return record

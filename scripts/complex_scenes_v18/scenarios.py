@@ -17,7 +17,7 @@ def smooth(t,start,duration):
     return f,v
 
 
-def build_case(name,n=1,surface_samples=5,variant=0,device='cpu'):
+def build_case(name,n=1,surface_samples=5,variant=0,device='cpu',contact_device=None):
     if name not in FAMILIES or variant not in (0,1):raise ValueError('Undeclared development scenario')
     dimensions=(.12,.06,.06);base=dict(n=n,order=3,surface_order=4,density=625,device=device,bulk_energy=AnalyticNeoHookean(.35),material_latent_field=lambda q:q.new_full((*q.shape[:-1],1),np.log(12000.)))
     specs=(AttachmentSpec(6000,(.5,.5),(.32,.32)),AttachmentSpec(4500,(.55,.6),(.3,.3)))
@@ -57,7 +57,8 @@ def build_case(name,n=1,surface_samples=5,variant=0,device='cpu'):
         else:duration=.16
         floor=(RigidPlane(point=(0,0,-.031),penalty_N_m3=4e7,name='floor'),)if variant else ()
         models=[body(support_mode='free',gravity=g,colliders=floor),body(support_mode='free',gravity=g,colliders=floor,material_latent_field=lambda q:q.new_full((*q.shape[:-1],1),np.log(18000.)))]
-        pair=DeformablePairContact(models,samples=surface_samples,penalty_N_m3=4e7,device=device)
+        samples=tuple(2*c+1 for c in models[0].cells)if surface_samples==0 else surface_samples
+        pair=DeformablePairContact(models,samples=samples,penalty_N_m3=4e7,device=contact_device or device)
     scene=CoupledScene(models,pair_contact=pair,rigid_bodies=rigid,motions=[motion]*len(models))
     u=[np.zeros_like(m.rest)for m in models];v=[np.zeros_like(m.rest)for m in models]
     if name=='deformable_pair':
