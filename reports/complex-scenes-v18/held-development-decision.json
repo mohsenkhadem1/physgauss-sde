@@ -1,0 +1,118 @@
+{
+  "status": "reviewed",
+  "held_data_used": false,
+  "rationale": [
+    "All initial development slots are terminal and all twelve continuation forecasts completed. Extended material fitting improves the overall development motion error; select it globally, retaining the obstacle-drop regression and unchanged clamps.",
+    "Apply the same extended material-fit budget to the analytic control, which retains its explicit oracle constitutive-family advantage.",
+    "Retain 40 iterations for native PhysTwin and Spring-Gaus. Their single-clamp 160-iteration controls lowered calibration error but increased vector forecast error by 12.4% and 19.8%, respectively; Spring-Gaus shape error improved. This does not establish convergence or universally optimal budgets. Preserve and report both budgets.",
+    "Allow 14400 seconds for held native fits to avoid the original stacked Spring-Gaus 7200-second truncation; record actual successful iterations, failures and wall time.",
+    "Retain UniPhy on both drop queries for every drop world, with its documented contact-law and gradient-adapter limitations. Do not convert unsupported families or failed rollouts into accuracy wins.",
+    "Freeze before generating any held worlds. Use all six families, 24 worlds and 48 changed-interaction queries; share appearance and report reference-resolution sensitivity."
+  ],
+  "methods": {
+    "ours": {
+      "families": [
+        "clamp_release",
+        "curved_push",
+        "container_drop",
+        "rigid_impact",
+        "deformable_pair",
+        "heterogeneous"
+      ],
+      "evaluation_stages": [
+        64,
+        128
+      ],
+      "calibration": "Powell: up to 64 evaluations, then up to 128 additional evaluations initialized from the best sealed calibration fit; identical spatial parameterization and bounds; calibration loss selects the final parameters.",
+      "material_network": "Frozen prior decoder plus independent compressibility extension",
+      "mesh_n": 1,
+      "dt_s": 5e-05
+    },
+    "analytic-control": {
+      "families": [
+        "clamp_release",
+        "curved_push",
+        "container_drop",
+        "rigid_impact",
+        "deformable_pair",
+        "heterogeneous"
+      ],
+      "evaluation_stages": [
+        64,
+        128
+      ],
+      "calibration": "Powell: up to 64 evaluations, then up to 128 additional evaluations initialized from the best sealed calibration fit; identical spatial parameterization and bounds; calibration loss selects the final parameters.",
+      "advantage": "Oracle constitutive family",
+      "mesh_n": 1,
+      "dt_s": 5e-05
+    },
+    "spring-gaus": {
+      "families": [
+        "clamp_release",
+        "curved_push",
+        "container_drop",
+        "rigid_impact",
+        "deformable_pair",
+        "heterogeneous"
+      ],
+      "scalar_initialization": true,
+      "epochs": 40,
+      "learning_rate": 0.03,
+      "fit_seconds": 14400,
+      "calibration": "Scalar stiffness search (initial value plus at most 12 bounded iterations), then 40 Adam iterations for per-edge stiffness and damping",
+      "dt_s": 2.5e-05,
+      "adaptation": "Author internal force/integrator; common boundary adapter; exact dense KNN compatibility"
+    },
+    "phystwin": {
+      "families": [
+        "clamp_release",
+        "curved_push",
+        "container_drop",
+        "rigid_impact",
+        "deformable_pair",
+        "heterogeneous"
+      ],
+      "epochs": 40,
+      "learning_rate": 0.03,
+      "fit_seconds": 14400,
+      "calibration": "40 Adam iterations, per-edge stiffness",
+      "dt_s": 2.5e-05,
+      "adaptation": "Author Warp spring force and sealed-forecast integrator; common boundary adapter; fixed zero damping"
+    },
+    "uniphy": {
+      "families": [
+        "container_drop"
+      ],
+      "epochs": 8,
+      "learning_rate": 3e-05,
+      "fit_seconds": 14400,
+      "screen_centroids": true,
+      "corrected_adjoint": true,
+      "calibration": "8 fixed-seed latent-centroid initializations, then 8 AdamW iterations",
+      "dt_s": 5e-05,
+      "adaptation": "Released demo pretrained networks and MPM; fixed bowl/sphere collision hooks; optional adjoint bridge",
+      "contact_law_limit": "Native separating-velocity projection differs from the conservative penalty boundary used by the reference and other adapters; report as a capability comparison, not matched contact-law material inference",
+      "gradient_limit": "Short derivative tests remain coordinate-sensitive; disclose adaptation and incomplete qualification"
+    }
+  },
+  "terminal_controls": [
+    {
+      "path": "reports/complex-scenes-v18/material-continuation-final-results.json",
+      "sha256": "b8573ed59894eeac3cbf6eb26e5367d6807cbfca91f89064a498dd4f65dda94b",
+      "terminal_key": "completed",
+      "terminal_value": true
+    },
+    {
+      "path": "reports/complex-scenes-v18/phystwin-budget160-results.json",
+      "sha256": "df8c73cc37adecfe12e6ca068369d8897b2c5c12034523e9869af2092ead0463",
+      "terminal_key": "completed",
+      "terminal_value": true
+    },
+    {
+      "path": "reports/complex-scenes-v18/spring-budget160-results.json",
+      "sha256": "4e75c63ee1400c4c9b613eb23cfbd85036c77ad2cf7a8cac670342e8059db12f",
+      "terminal_key": "completed",
+      "terminal_value": true
+    }
+  ]
+}
