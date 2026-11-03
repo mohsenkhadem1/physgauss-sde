@@ -24,7 +24,7 @@ def available_bytes():
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--resume',action='store_true');parser.add_argument('--workers',type=int,default=8);parser.add_argument('--label',default='material-scene-fit-01');parser.add_argument('--initialize-label');parser.add_argument('--evaluations',type=int,default=64);args=parser.parse_args()
-    if not 1<=args.workers<=8:raise ValueError('Bounded worker count required')
+    if not 1<=args.workers<=12:raise ValueError('Bounded worker count required')
     base=ROOT/'runs/complex-scenes-v18';folder=base/args.label;folder.mkdir(parents=True,exist_ok=args.resume)
     lock=open(folder/'supervisor.lock','w');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
     cases=json.loads((base/'development-prefixes/manifest.json').read_text())['cases'];queue=[];active={};done=[]
