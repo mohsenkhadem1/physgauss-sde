@@ -44,8 +44,13 @@ class PhysTwinScene:
     external=SpringScene.external
     sample_surface=SpringScene.sample_surface
 
-    def __init__(self,case,variant=0,log10_k=-.3):
-        self.kernels=kernels();self.scene,state,self.metadata=build_case(case,variant=variant)
+    def __init__(self,case,variant=0,log10_k=-.3,query=None):
+        self.kernels=kernels()
+        if query is None:self.scene,state,self.metadata=build_case(case,variant=variant)
+        else:
+            from scripts.complex_scenes_v18.world_queries import build_boundary_geometry
+            if query.family!=case or query.variant!=variant:raise ValueError('Query identity mismatch')
+            self.scene,state,self.metadata=build_boundary_geometry(query)
         self.time=0.;self.rigid=state.rigid;self.x=[];self.v=[];self.buffers=[];self.offset=np.array([0,0,1.])
         self.sample=[SurfaceBinding.build(m,9)for m in self.scene.models]
         for m,M,u,v in zip(self.scene.models,self.scene.M,state.u,state.v):

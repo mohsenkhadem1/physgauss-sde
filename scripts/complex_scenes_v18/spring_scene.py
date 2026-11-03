@@ -21,8 +21,12 @@ from scripts.complex_scenes_v18.run_development import ROOT,write
 
 
 class SpringScene:
-    def __init__(self,case,variant=0,n=1,log10_k=-.3):
-        self.scene,initial,self.metadata=build_case(case,n=n,variant=variant)
+    def __init__(self,case,variant=0,n=1,log10_k=-.3,query=None):
+        if query is None:self.scene,initial,self.metadata=build_case(case,n=n,variant=variant)
+        else:
+            from scripts.complex_scenes_v18.world_queries import build_boundary_geometry
+            if query.family!=case or query.variant!=variant:raise ValueError('Query identity mismatch')
+            self.scene,initial,self.metadata=build_boundary_geometry(query,n=n)
         self.native=[];self.x=[];self.v=[];self.rigid=initial.rigid;self.time=0.
         Class=load_spring()
         for m,M,u,v in zip(self.scene.models,self.scene.M,initial.u,initial.v):

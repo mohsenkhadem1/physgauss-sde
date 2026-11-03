@@ -89,3 +89,15 @@ def build_reference(world,query,**kwargs):
     scene,state,meta=build_prediction(query,world.material_provider,**kwargs)
     meta.update(world_id=world.world_id,private_world_sha256=world.digest)
     return scene,state,meta
+
+
+def build_boundary_geometry(query,**kwargs):
+    """Spring/particle adapters use only geometry, mass, boundaries and initial state.
+
+    The explicit placeholder bulk is never used as their internal material force.
+    No private World is accessed; native learned springs supply internal forces.
+    """
+    placeholder=Material(log_young=0.)
+    scene,state,meta=build_prediction(query,lambda index:placeholder.provider(),**kwargs)
+    meta['material_source']='Geometry-only placeholder; adapter supplies internal force'
+    return scene,state,meta

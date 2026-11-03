@@ -16,7 +16,7 @@ def write(path,value):
     tmp.write_text(json.dumps(value,indent=2)+'\n');tmp.replace(path)
 
 
-def run(case,n,dt,variant=0,label='pilot',surface_samples=5,seconds=1800,contact_device='cpu',minimum_j=.1,dense_j_samples=0,bulk_quadrature='gauss3',world=None,query=None):
+def run(case,n,dt,variant=0,label='pilot',surface_samples=5,seconds=1800,contact_device='cpu',minimum_j=.1,dense_j_samples=0,bulk_quadrature='gauss3',world=None,query=None,save_state=False):
     torch.set_num_threads(1);out=ROOT/'runs/complex-scenes-v18'/label/f'{case}-v{variant}-n{n}-dt{dt:.8f}-s{surface_samples}'
     if out.exists():raise ValueError('Preserve previous attempt: '+str(out))
     out.mkdir(parents=True);t0=time.monotonic();records=[];saved=[];status=dict(family=case,variant=variant,n=n,dt_s=dt,surface_samples=surface_samples,completed=False,development_only=True,source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()for p in sorted((ROOT/'scripts/complex_scenes_v18').glob('*.py'))})
@@ -29,6 +29,14 @@ def run(case,n,dt,variant=0,label='pilot',surface_samples=5,seconds=1800,contact
             if world is None or query is None or query.family!=case or query.variant!=variant:raise ValueError('Explicit matching world and query required')
             scene,s,meta=build_reference(world,query,n=n,surface_samples=surface_samples,contact_device=contact_device,bulk_quadrature=bulk_quadrature)
         status.update(meta);status.update(contact_device=contact_device,bulk_quadrature=bulk_quadrature)
+        save_state=save_state or world is not None
+        status['full_nodal_state_saved']=save_state
+        if save_state:
+            geometry={}
+            for index,(m,M)in enumerate(zip(scene.models,scene.M)):
+                for key,value in dict(rest=m.rest,elements=m.elements,quadrature=m.quad,mass_data=M.data,mass_indices=M.indices,mass_indptr=M.indptr,mass_shape=M.shape).items():geometry[f'{key}_{index}']=value
+            np.savez_compressed(out/'geometry.npz',**geometry)
+            status['geometry_sha256']=hashlib.sha256((out/'geometry.npz').read_bytes()).hexdigest()
         if not 0<minimum_j<1:raise ValueError('Positive finite orientation guard required')
         for m in scene.models:m.minimum_J=minimum_j
         status['minimum_J_guard']=minimum_j
@@ -52,6 +60,7 @@ def run(case,n,dt,variant=0,label='pilot',surface_samples=5,seconds=1800,contact
                     if dense<=0:
                         error=ValueError('Dense sampled orientation inversion');error.scene_candidate=dict(u=s.u,rigid=s.rigid,time=s.time);raise error
                 saved.append(dict(time=s.time,surface=np.stack([b.B@(m.rest+u)for b,m,u in zip(sample,scene.models,s.u)]),rigid=np.array([b['center']for b in s.rigid.values()]).reshape(-1,3)))
+                if save_state:saved[-1].update(nodes=np.stack([np.real_if_close(m.rest+u)for m,u in zip(scene.models,s.u)]),velocities=np.stack([np.real_if_close(v)for v in s.v]))
             if i%200==0:write(out/'status.json',dict(status,state='running',steps=i,planned_steps=steps,elapsed_s=time.monotonic()-t0,pid=os.getpid()))
         status['completed']=True
     except Exception as e:
@@ -66,6 +75,9 @@ def run(case,n,dt,variant=0,label='pilot',surface_samples=5,seconds=1800,contact
                     minima.append(min(float(torch.linalg.det(engine.I+torch.einsum('eai,qeaj->qeij',ue,g)).min())for g in (engine.grad,engine.check_grad)))
             status.update(failure_candidate_time_s=candidate['time'],failure_candidate_minimum_J=minima,failure_candidate_sha256=hashlib.sha256((out/'failure-candidate.npz').read_bytes()).hexdigest())
     if records:
+        if save_state and saved:
+            np.savez_compressed(out/'nodal-state.npz',positions_m=np.stack([r['nodes']for r in saved]),velocities_m_s=np.stack([r['velocities']for r in saved]),times_s=np.array([r['time']for r in saved]))
+            status['nodal_state_sha256']=hashlib.sha256((out/'nodal-state.npz').read_bytes()).hexdigest()
         a=np.asarray(records);np.savez_compressed(out/'trajectory.npz',ledger=a,times_s=np.array([r['time']for r in saved]),surface_positions_m=np.array([r['surface']for r in saved]),rigid_centers_m=np.array([r['rigid']for r in saved]),material_queries=sample[0].q,rest_surface=np.stack([b.B@m.rest for b,m in zip(sample,scene.models)]))
         status.update(steps_completed=len(records)-1,saved_frames=len(saved),minimum_J=float(a[:,4].min()),maximum_penetration_m=float(a[:,5].max()),maximum_energy_minus_work_drift_J=float(abs(a[:,3]).max()),trajectory_sha256=hashlib.sha256((out/'trajectory.npz').read_bytes()).hexdigest(),ledger_columns=['time_s','mechanical_energy_J','actuator_work_J','energy_minus_initial_minus_work_J','minimum_J','penetration_m','Px','Py','Pz'])
     status.update(state='complete'if status['completed']else'failed',elapsed_s=time.monotonic()-t0,path=str(out.relative_to(ROOT)))

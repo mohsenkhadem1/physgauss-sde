@@ -11,8 +11,8 @@ from scripts.complex_scenes_v18.explicit_boundaries import ExplicitTorchBoundari
 
 
 class DifferentiableSpringScene:
-    def __init__(self,case,variant=0,log10_k=-.3,per_edge=True):
-        self.base=SpringScene(case,variant,log10_k=log10_k);self.native=self.base.native
+    def __init__(self,case,variant=0,log10_k=-.3,per_edge=True,query=None):
+        self.base=SpringScene(case,variant,log10_k=log10_k,query=query);self.native=self.base.native
         self.boundary=ExplicitTorchBoundaries(self.base.scene,dtype=torch.float64);self.count=len(self.native);self.names=list(self.base.rigid)
         if per_edge:
             for model in self.native:

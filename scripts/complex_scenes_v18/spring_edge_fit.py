@@ -44,6 +44,13 @@ def fit(args):
     if method=='phystwin':
         np.savez_compressed(out/'graph.npz',**{f'edges_{i}':e.cpu().numpy()for i,e in enumerate(sim.edges)})
         plan.update(graph_sha256=hashlib.sha256((out/'graph.npz').read_bytes()).hexdigest(),damping='Fixed zero dashpot and drag damping')
+    else:
+        topology={}
+        for i,model in enumerate(sim.native):
+            topology[f'knn_index_{i}']=model.knn_index.detach().cpu().numpy()
+            topology[f'origin_len_{i}']=model.origin_len.detach().cpu().numpy()
+        np.savez_compressed(out/'graph.npz',**topology)
+        plan['graph_sha256']=hashlib.sha256((out/'graph.npz').read_bytes()).hexdigest()
     write(out/'plan.json',plan)
     for epoch in range(args.epochs):
         if time.monotonic()-start>args.seconds:rows.append(dict(epoch=epoch,completed=False,error='Declared fitting time budget'));break

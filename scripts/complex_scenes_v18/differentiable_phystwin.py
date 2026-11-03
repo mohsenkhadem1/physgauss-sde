@@ -12,8 +12,8 @@ from scripts.complex_scenes_v18.explicit_boundaries import ExplicitTorchBoundari
 
 
 class DifferentiablePhysTwinScene:
-    def __init__(self,case,variant=0,log10_k=-.3,per_edge=True):
-        self.base=PhysTwinScene(case,variant,log10_k);self.count=len(self.base.x);self.names=list(self.base.rigid)
+    def __init__(self,case,variant=0,log10_k=-.3,per_edge=True,query=None):
+        self.base=PhysTwinScene(case,variant,log10_k,query=query);self.count=len(self.base.x);self.names=list(self.base.rigid)
         self.boundary=ExplicitTorchBoundaries(self.base.scene,dtype=torch.float64)
         self.native=[];self.edges=[];self.rest=[];self.mass=[]
         for b in self.base.buffers:
