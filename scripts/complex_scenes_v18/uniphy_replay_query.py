@@ -30,7 +30,7 @@ def replay(fitdir,query,out,seconds=1800):
     w.simulator_variables_initialize();w.update_traj_latent_learnable(latent.weight[0].detach())
     q,_=material_surface(9);index,weight=binding(q);frames=[];particles=[];velocities=[];determinants=[];times=[];start=time.monotonic()
     from dataclasses import asdict
-    record=dict(completed=False,development_only=True,method='UniPhy native MPM with fixed bowl/sphere hooks',public_query=asdict(query),checkpoint_sha256=seal['checkpoint_sha256'],forecast_targets_read=False)
+    record=dict(completed=False,development_only=seal.get('evaluation_split','development')=='development',evaluation_split=seal.get('evaluation_split','development'),method='UniPhy native MPM with fixed bowl/sphere hooks',public_query=asdict(query),checkpoint_sha256=seal['checkpoint_sha256'],forecast_targets_read=False)
     try:
         for step in range(steps+1):
             if time.monotonic()-start>seconds:raise TimeoutError('Explicit native replay budget')

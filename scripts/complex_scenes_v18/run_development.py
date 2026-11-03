@@ -16,10 +16,13 @@ def write(path,value):
     tmp.write_text(json.dumps(value,indent=2)+'\n');tmp.replace(path)
 
 
-def run(case,n,dt,variant=0,label='pilot',surface_samples=5,seconds=1800,contact_device='cpu',minimum_j=.1,dense_j_samples=0,bulk_quadrature='gauss3',world=None,query=None,save_state=False):
+def run(case,n,dt,variant=0,label='pilot',surface_samples=5,seconds=1800,contact_device='cpu',minimum_j=.1,dense_j_samples=0,bulk_quadrature='gauss3',world=None,query=None,save_state=False,split='development'):
+    if split not in ('development','held'):raise ValueError('Explicit evaluation split required')
+    if split=='held' and (world is None or query is None):raise ValueError('Held runs require explicit world and query')
     torch.set_num_threads(1);out=ROOT/'runs/complex-scenes-v18'/label/f'{case}-v{variant}-n{n}-dt{dt:.8f}-s{surface_samples}'
     if out.exists():raise ValueError('Preserve previous attempt: '+str(out))
     out.mkdir(parents=True);t0=time.monotonic();records=[];saved=[];status=dict(family=case,variant=variant,n=n,dt_s=dt,surface_samples=surface_samples,completed=False,development_only=True,source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()for p in sorted((ROOT/'scripts/complex_scenes_v18').glob('*.py'))})
+    status.update(evaluation_split=split,development_only=split=='development')
     write(out/'status.json',dict(status,state='running',pid=os.getpid()))
     try:
         if world is None and query is None:
@@ -28,7 +31,7 @@ def run(case,n,dt,variant=0,label='pilot',surface_samples=5,seconds=1800,contact
             from scripts.complex_scenes_v18.world_queries import build_reference
             if world is None or query is None or query.family!=case or query.variant!=variant:raise ValueError('Explicit matching world and query required')
             scene,s,meta=build_reference(world,query,n=n,surface_samples=surface_samples,contact_device=contact_device,bulk_quadrature=bulk_quadrature)
-        status.update(meta);status.update(contact_device=contact_device,bulk_quadrature=bulk_quadrature)
+        status.update(meta);status.update(contact_device=contact_device,bulk_quadrature=bulk_quadrature,evaluation_split=split,development_only=split=='development')
         status.update(rigid_names=list(scene.rigid),rigid_masses_kg={name:body.mass for name,body in scene.rigid.items()})
         save_state=save_state or world is not None
         status['full_nodal_state_saved']=save_state

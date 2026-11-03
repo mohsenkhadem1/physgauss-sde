@@ -49,6 +49,7 @@ def replay(fitdir,query,out,seconds=1800):
     np.savez_compressed(out/'geometry.npz',**geometry)
     record=dict(completed=False,development_only=True,method=method,checkpoint_sha256=seal['checkpoint_sha256'],graph_sha256=seal['graph_sha256'],public_query=sim.base.metadata['public_query'],forecast_targets_read=False,fit_seal_sha256=hashlib.sha256((fitdir/'fit-seal.json').read_bytes()).hexdigest())
     record.update(rigid_names=sim.names,rigid_masses_kg={name:body.mass for name,body in sim.base.scene.rigid.items()})
+    record.update(evaluation_split=seal.get('evaluation_split','development'),development_only=seal.get('evaluation_split','development')=='development')
     try:
         for step in range(round(sim.base.metadata['duration_s']/dt)+1):
             if time.monotonic()-start>seconds:raise TimeoutError('Explicit replay budget')

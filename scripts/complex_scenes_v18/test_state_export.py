@@ -1,9 +1,11 @@
 import hashlib
 import numpy as np
+import pytest
 from scripts.complex_scenes_v18 import world_queries,run_development
 
 
-def test_public_world_run_saves_auditable_full_state(tmp_path,monkeypatch):
+@pytest.mark.parametrize('split',['development','held'])
+def test_public_world_run_saves_auditable_full_state(tmp_path,monkeypatch,split):
     original=world_queries.build_reference
     def short(*args,**kwargs):
         scene,state,meta=original(*args,**kwargs);meta['duration_s']=.002
@@ -11,7 +13,8 @@ def test_public_world_run_saves_auditable_full_state(tmp_path,monkeypatch):
     monkeypatch.setattr(world_queries,'build_reference',short);monkeypatch.setattr(run_development,'ROOT',tmp_path)
     world=world_queries.World('export-check',(world_queries.Material(float(np.log(12000))),))
     query=world_queries.Query('container_drop',0,initial_height_m=.02)
-    result=run_development.run('container_drop',1,50e-6,world=world,query=query)
+    result=run_development.run('container_drop',1,50e-6,world=world,query=query,split=split)
+    assert result['evaluation_split']==split and result['development_only']==(split=='development')
     assert result['completed']and result['full_nodal_state_saved']
     folder=tmp_path/result['path'];path=folder/'nodal-state.npz'
     assert hashlib.sha256(path.read_bytes()).hexdigest()==result['nodal_state_sha256']

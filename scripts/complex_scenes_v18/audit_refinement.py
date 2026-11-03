@@ -19,6 +19,10 @@ def compare(coarse,fine,families=None):
         assert np.allclose(a['times_s'],b['times_s'],atol=1e-10,rtol=0)
         assert np.array_equal(a['material_queries'],b['material_queries'])
         d=a['surface_positions_m']-b['surface_positions_m']
+        if np.iscomplexobj(d):
+            if np.any(d.imag!=0):raise ValueError('Nonreal reference displacement')
+            d=d.real
+        if not np.isfinite(d).all():raise ValueError('Nonfinite reference displacement')
         rms=float(np.sqrt(np.mean(np.sum(d[1:]**2,axis=-1))))
         peak=float(np.sqrt(np.mean(np.sum(d**2,axis=-1),axis=(1,2))).max())
         row.update(state='complete',vector_rms_mm=1000*rms,peak_frame_vector_rms_mm=1000*peak,

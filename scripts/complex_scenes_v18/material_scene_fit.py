@@ -45,7 +45,7 @@ def fit(case,variant,label='material-scene-fit-01',evaluations=64,law_type='lear
     def objective(values):
         parameters=dict(zip(names,map(float,values)));parameters.update(family_flag=-1.,shape=0.)
         trial=rootlabel+f'/trial-{len(rows):03d}'
-        status=run(case,variant,parameters,label=trial,duration=meta['calibration_duration_s'],law_type=law_type,query=query)
+        status=run(case,variant,parameters,label=trial,duration=meta['calibration_duration_s'],law_type=law_type,query=query,split=meta.get('split','development'))
         row=dict(index=len(rows),parameters=parameters,completed=status['completed'],loss_m2=1e3,path=trial)
         if status['completed']:
             with np.load(ROOT/'runs/complex-scenes-v18'/trial/f'{case}-v{variant}'/'trajectory.npz')as pred:
@@ -59,7 +59,7 @@ def fit(case,variant,label='material-scene-fit-01',evaluations=64,law_type='lear
     valid=[r for r in rows if r['completed']and np.isfinite(r['loss_m2'])]
     best=min(valid,key=lambda r:r['loss_m2'])if valid else None
     write(out/'fit-seal.json',dict(**plan,completed=best is not None,best=best,trials=rows,optimizer_converged=bool(result.success),elapsed_s=time.monotonic()-start))
-    if best:run(case,variant,best['parameters'],label=rootlabel+'/sealed-rollout',law_type=law_type,query=query)
+    if best:run(case,variant,best['parameters'],label=rootlabel+'/sealed-rollout',law_type=law_type,query=query,split=meta.get('split','development'))
     return best is not None
 
 

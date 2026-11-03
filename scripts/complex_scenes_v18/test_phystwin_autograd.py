@@ -20,3 +20,20 @@ def test_native_gradient_matches_direct_energy_force_derivative(device):
     torch.testing.assert_close(native,expected,rtol=2e-5,atol=1e-6)
     for actual,want in zip(gradients,direct):torch.testing.assert_close(actual,want,rtol=1e-4,atol=2e-6)
     assert x.grad is None and v.grad is None and y.grad is None
+
+
+def test_native_force_output_is_released_without_cyclic_gc():
+    import gc,weakref
+    x=torch.tensor([[0.,0.,0.],[.022,.003,0.]],requires_grad=True)
+    v=torch.zeros_like(x,requires_grad=True);y=torch.zeros(1,requires_grad=True)
+    edges=torch.tensor([[0,1]],dtype=torch.int32);rest=torch.tensor([.02])
+    was_enabled=gc.isenabled();gc.disable()
+    try:
+        refs=[]
+        for _ in range(12):
+            output=spring_force(x,v,y,edges,rest)
+            refs.append(weakref.ref(output));torch.autograd.grad(output.square().sum(),(x,v,y))
+            del output
+        assert all(ref()is None for ref in refs),'Autograd output is retained by its own native tape'
+    finally:
+        if was_enabled:gc.enable()

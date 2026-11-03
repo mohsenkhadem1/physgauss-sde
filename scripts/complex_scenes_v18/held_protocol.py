@@ -25,6 +25,7 @@ def draft():
     return dict(status='draft_not_frozen',held_data_generated=False,
         scope='Unknown material, known boundary geometry and parameters; position-driven interactions and known gravity. Not unknown-boundary recovery or end-to-end reconstruction.',
         independent_worlds=24,queries_per_world=2,total_queries=48,families=families,
+        calibration_budget_status='Provisional: 160-iteration development controls are running for PhysTwin and Spring-Gaus because most 40-iteration fits still improve substantially. Resolve before freezing.',
         material_distribution=dict(young_Pa_log_uniform=[8000,18000],poisson_uniform=[.25,.4],heterogeneous_contrast_log_uniform=[2,3],heterogeneous_transition_uniform=[.35,.65],two_object_materials='Independent draws; fixed across calibration and both queries',density_kg_m3=625,constitutive_family='Log-J Neo-Hookean; analytic control knows family, not parameters'),
         observations=dict(frame_dt_s=.002,visibility='Fixed material surface subset: y=0 or z=1 faces; no camera-occlusion claim',track_noise_m=0,known=['rest geometry','density','public actuator paths','gravity','collision geometry','attachment compliance'],unknown=['material parameters and spatial material field'],fit_sealed_before_query_rollouts=True),
         geometry=dict(dimensions_m=[.12,.06,.06],scope='Interaction and material transfer at fixed object geometry; no unseen-shape claim'),

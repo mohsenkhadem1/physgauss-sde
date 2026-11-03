@@ -17,11 +17,16 @@ class NativeSpringForce(torch.autograd.Function):
         xx=x.detach().clone().contiguous();vv=v.detach().clone().contiguous();yy=log_young.detach().clone().contiguous()
         wx=wp.from_torch(xx,dtype=wp.vec3,requires_grad=True);wv=wp.from_torch(vv,dtype=wp.vec3,requires_grad=True);wy=wp.from_torch(yy,requires_grad=True)
         we=wp.from_torch(edges.contiguous(),dtype=wp.vec2i);wr=wp.from_torch(rest.contiguous())
-        force=torch.zeros_like(x);wf=wp.from_torch(force,dtype=wp.vec3,requires_grad=True);empty=wp.zeros(0,dtype=wp.vec3,device=device)
+        force=torch.zeros_like(x)
+        # The returned tensor acquires this Function's grad_fn. Keeping that
+        # exact tensor in ctx (including through Warp ownership) creates a
+        # cycle retaining a complete tape for each simulation step.
+        force_storage=force.detach()
+        wf=wp.from_torch(force_storage,dtype=wp.vec3,requires_grad=True);empty=wp.zeros(0,dtype=wp.vec3,device=device)
         tape=wp.Tape()
         with tape:
             wp.launch(native.eval_springs,dim=len(edges),inputs=[wx,wv,empty,empty,len(x),we,wr,wy,float(damping),0.,1e8,wf],device=device)
-        ctx.tape=tape;ctx.arrays=(wx,wv,wy,wf,we,wr,empty);ctx.buffers=(xx,vv,yy,force,edges,rest)
+        ctx.tape=tape;ctx.arrays=(wx,wv,wy,wf,we,wr,empty);ctx.buffers=(xx,vv,yy,force_storage,edges,rest)
         return force
 
     @staticmethod

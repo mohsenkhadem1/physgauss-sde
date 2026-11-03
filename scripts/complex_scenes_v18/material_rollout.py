@@ -16,10 +16,11 @@ from scripts.complex_scenes_v18.run_development import ROOT,write
 from scripts.compositional_neural_mechanics.conditional_inference_pilot import BULK
 
 
-def run(case,variant,parameters,*,label,duration=None,n=1,dt=50e-6,seconds=1800,query=None,law_type='learned'):
+def run(case,variant,parameters,*,label,duration=None,n=1,dt=50e-6,seconds=1800,query=None,law_type='learned',split='development'):
+    if split not in ('development','held'):raise ValueError('Explicit evaluation split required')
     torch.set_num_threads(1)
     out=ROOT/'runs/complex-scenes-v18'/label/f'{case}-v{variant}';out.mkdir(parents=True,exist_ok=False);start=time.monotonic()
-    frames=[];times=[];nodes=[];velocities=[];rigid=[];record=dict(completed=False,case=case,variant=variant,parameters=parameters,development_only=True,known_boundary=True,n=n,dt_s=dt,checkpoint_sha256=hashlib.sha256(Path(BULK).read_bytes()).hexdigest(),source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
+    frames=[];times=[];nodes=[];velocities=[];rigid=[];record=dict(completed=False,case=case,variant=variant,parameters=parameters,development_only=split=='development',evaluation_split=split,known_boundary=True,n=n,dt_s=dt,checkpoint_sha256=hashlib.sha256(Path(BULK).read_bytes()).hexdigest(),source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
     try:
         record['law_type']=law_type
         if law_type=='learned':
