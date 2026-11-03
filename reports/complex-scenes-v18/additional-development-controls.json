@@ -1,0 +1,20 @@
+{
+  "scope": "Development-only calibration and numerical sensitivity; no held worlds generated",
+  "material_continuation": {
+    "cases": [
+      "heterogeneous-v1",
+      "clamp_release-v0"
+    ],
+    "additional_forward_evaluations": 128,
+    "initialization": "Best sealed 64-evaluation fit to the identical observation prefix; no forecast targets used in the continuation objective",
+    "purpose": "Test optimizer-budget limitation on weakest completed case and preservation on a good case"
+  },
+  "uniphy_step_refinement": {
+    "case": "container_drop-v0",
+    "calibration_dt_s": 5e-05,
+    "replay_dt_s": 2.5e-05,
+    "material": "Unchanged sealed screened latent",
+    "purpose": "Separate integration-step sensitivity from learned constitutive instability"
+  },
+  "status": "running"
+}

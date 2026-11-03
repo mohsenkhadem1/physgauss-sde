@@ -14,7 +14,7 @@ from scripts.complex_scenes_v18.pair_contact import material_surface
 from scripts.complex_scenes_v18.run_development import write
 
 
-def replay(fitdir,query,out,seconds=1800):
+def replay(fitdir,query,out,seconds=1800,dt_override=None):
     fitdir=Path(fitdir);out=Path(out);out.mkdir(parents=True,exist_ok=False)
     seal=json.loads((fitdir/'fit-seal.json').read_text());checkpoint=fitdir/'best.pt'
     if not seal['completed']or seal['forecast_targets_read']or hashlib.sha256(checkpoint.read_bytes()).hexdigest()!=seal['checkpoint_sha256']:raise ValueError('Invalid sealed latent')
@@ -22,7 +22,9 @@ def replay(fitdir,query,out,seconds=1800):
     ti.init(arch=ti.cuda,device_memory_GB=2,debug=False);nets,latent,_=models()
     saved=torch.load(checkpoint,map_location='cpu',weights_only=False)
     with torch.no_grad():latent.weight.copy_(saved['latent'].to(latent.weight))
-    dt=seal['dt_s'];steps=round(.24/dt);chunk=32;stride=round(.002/dt)
+    dt=seal['dt_s'] if dt_override is None else dt_override
+    if dt<=0 or dt>seal['dt_s']:raise ValueError('Only smaller positive integration steps are supported')
+    steps=round(.24/dt);chunk=32;stride=round(.002/dt)
     if not np.isclose(stride*dt,.002):raise ValueError('Observation clock mismatch')
     w=wrapper(x,np.repeat(x[:,None],chunk+1,axis=1),nets,dt=dt,steps=steps,chunk=chunk,density=625.,gravity=(0,0,-9.81),forward_only=True)
     sim=w.simulator;add_bowl(sim,(np.array([.06,0,-.08 if query.variant else -.07])+offset).tolist(),.10 if query.variant else .12)
@@ -31,6 +33,7 @@ def replay(fitdir,query,out,seconds=1800):
     q,_=material_surface(9);index,weight=binding(q);frames=[];particles=[];velocities=[];determinants=[];times=[];start=time.monotonic()
     from dataclasses import asdict
     record=dict(completed=False,development_only=seal.get('evaluation_split','development')=='development',evaluation_split=seal.get('evaluation_split','development'),method='UniPhy native MPM with fixed bowl/sphere hooks',public_query=asdict(query),checkpoint_sha256=seal['checkpoint_sha256'],forecast_targets_read=False)
+    record.update(dt_s=dt,calibration_dt_s=seal['dt_s'],integration_step_override=dt_override is not None)
     try:
         for step in range(steps+1):
             if time.monotonic()-start>seconds:raise TimeoutError('Explicit native replay budget')
@@ -52,5 +55,5 @@ def replay(fitdir,query,out,seconds=1800):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--fitdir',required=True);p.add_argument('--query-json',required=True);p.add_argument('--output',required=True);args=p.parse_args();torch.set_num_threads(1)
-    r=replay(args.fitdir,Query(**json.loads(Path(args.query_json).read_text())),args.output);print(json.dumps(r));raise SystemExit(0 if r['completed']else 1)
+    p=argparse.ArgumentParser();p.add_argument('--fitdir',required=True);p.add_argument('--query-json',required=True);p.add_argument('--output',required=True);p.add_argument('--dt',type=float);args=p.parse_args();torch.set_num_threads(1)
+    r=replay(args.fitdir,Query(**json.loads(Path(args.query_json).read_text())),args.output,dt_override=args.dt);print(json.dumps(r));raise SystemExit(0 if r['completed']else 1)
