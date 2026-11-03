@@ -19,9 +19,11 @@ def metrics(actual,predicted):
     return dict(vector_rms_mm=float(1000*np.sqrt(np.mean(np.sum(error**2,axis=-1)))),rigid_aligned_shape_rms_mm=float(1000*np.sqrt(np.mean(shape**2))))
 
 
-def audit(output):
+def audit(output,material_label='material-scene-fit-01'):
     base=ROOT/'runs/complex-scenes-v18';cases=json.loads((base/'development-prefixes/manifest.json').read_text())['cases']
     labels={'ours':'material-scene-fit-01','analytic-control':'analytic-scene-fit-01','spring-gaus':'spring-edge-fit-01','phystwin':'phystwin-edge-fit-01','uniphy':'uniphy-screened-adjoint-development'};rows=[]
+    if Path(material_label).name!=material_label:raise ValueError('Material label basename required')
+    labels['ours']=material_label
     for case in cases:
         name=f"{case['case']}-v{case['variant']}"
         for method,label in labels.items():
@@ -72,6 +74,6 @@ def audit(output):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--output',default='fitted-development-progress.json');args=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--output',default='fitted-development-progress.json');p.add_argument('--material-label',default='material-scene-fit-01');args=p.parse_args()
     if Path(args.output).name!=args.output:raise ValueError('Report basename required')
-    audit(args.output)
+    audit(args.output,args.material_label)
