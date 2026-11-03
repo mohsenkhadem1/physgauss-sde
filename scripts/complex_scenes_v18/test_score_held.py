@@ -16,3 +16,7 @@ def test_pending_census_prevents_any_reference_access(tmp_path):
     assert sum(r['state']=='pending'for r in rows)==8
     # No reference directory exists: scoring must refuse before opening any.
     with pytest.raises(ValueError,match='Pending predictions'):score(tmp_path)
+    # Rendering has the same global barrier and must not initialize CUDA or
+    # inspect reference targets while even one supported forecast is pending.
+    from scripts.complex_scenes_v18.held_appearance import evaluate
+    with pytest.raises(ValueError,match='Pending predictions'):evaluate(tmp_path)
