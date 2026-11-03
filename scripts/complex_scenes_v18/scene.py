@@ -93,7 +93,10 @@ class CoupledScene:
         for n,b in s.rigid.items():
             v=b['velocity']+.5*dt*s.rigid_forces[n]/self.rigid[n].mass
             rigid[n]=dict(center=b['center']+dt*v,velocity=v)
-        force,rf,U,power,diag=self.evaluate(u,rigid,s.time+dt)
+        try:force,rf,U,power,diag=self.evaluate(u,rigid,s.time+dt)
+        except Exception as error:
+            error.scene_candidate=dict(u=u,rigid=rigid,time=s.time+dt)
+            raise
         v=[a+.5*dt*factor.solve(f)for a,factor,f in zip(vh,self.factor,force)]
         for n,b in rigid.items():b['velocity']+=.5*dt*rf[n]/self.rigid[n].mass
         return SceneState(s.time+dt,u,v,rigid,force,rf,U,power,diag,s.work+.5*dt*(s.power+power))

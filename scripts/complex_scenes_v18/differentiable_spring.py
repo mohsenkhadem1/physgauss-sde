@@ -7,13 +7,13 @@ contact or fixture state derivatives. It remains an explicitly adapted baseline.
 import torch
 from torch import nn
 from scripts.complex_scenes_v18.spring_scene import SpringScene
-from scripts.complex_scenes_v18.torch_boundaries import TorchBoundaries
+from scripts.complex_scenes_v18.explicit_boundaries import ExplicitTorchBoundaries
 
 
 class DifferentiableSpringScene:
     def __init__(self,case,variant=0,log10_k=-.3,per_edge=True):
         self.base=SpringScene(case,variant,log10_k=log10_k);self.native=self.base.native
-        self.boundary=TorchBoundaries(self.base.scene,dtype=torch.float64);self.count=len(self.native);self.names=list(self.base.rigid)
+        self.boundary=ExplicitTorchBoundaries(self.base.scene,dtype=torch.float64);self.count=len(self.native);self.names=list(self.base.rigid)
         if per_edge:
             for model in self.native:
                 model.global_k=nn.Parameter(torch.full_like(model.origin_len,log10_k));model.damp.requires_grad_(True)

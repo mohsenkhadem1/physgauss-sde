@@ -1,18 +1,20 @@
 """Development sensitivity only; never promote an incomplete grid to truth."""
-import argparse,json
+import argparse,json,hashlib
 from pathlib import Path
 import numpy as np
 from scripts.complex_scenes_v18.audit_development import ROOT
 
 
-def compare(coarse,fine):
+def compare(coarse,fine,families=None):
     roots=[ROOT/'runs/complex-scenes-v18'/x for x in (coarse,fine)]
-    jobs=json.loads((roots[0]/'supervisor.json').read_text())['planned'];rows=[]
+    jobs=([dict(family=f,variant=v)for f in families for v in (0,1)]if families else json.loads((roots[0]/'supervisor.json').read_text())['planned']);rows=[]
     for job in jobs:
         row=dict(**job);paths=[list(r.glob(f"{job['family']}-v{job['variant']}-*/complete.json"))for r in roots]
         if any(len(p)!=1 for p in paths):row['state']='pending';rows.append(row);continue
         status=[json.loads(p[0].read_text())for p in paths]
         if any(not s['completed']for s in status):row['state']='incomplete';rows.append(row);continue
+        for p,s in zip(paths,status):
+            if hashlib.sha256((p[0].parent/'trajectory.npz').read_bytes()).hexdigest()!=s['trajectory_sha256']:raise ValueError('Refinement trajectory integrity failure')
         a,b=[np.load(p[0].parent/'trajectory.npz')for p in paths]
         assert np.allclose(a['times_s'],b['times_s'],atol=1e-10,rtol=0)
         assert np.array_equal(a['material_queries'],b['material_queries'])
@@ -30,4 +32,4 @@ def compare(coarse,fine):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('coarse');p.add_argument('fine');a=p.parse_args();compare(a.coarse,a.fine)
+    p=argparse.ArgumentParser();p.add_argument('coarse');p.add_argument('fine');p.add_argument('--families',nargs='+');a=p.parse_args();compare(a.coarse,a.fine,a.families)

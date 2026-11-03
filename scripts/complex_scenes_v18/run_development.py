@@ -39,6 +39,15 @@ def run(case,n,dt,variant=0,label='pilot',surface_samples=5,seconds=1800,contact
         status['completed']=True
     except Exception as e:
         status.update(error=f'{type(e).__name__}: {e}',traceback=traceback.format_exc())
+        candidate=getattr(e,'scene_candidate',None)
+        if candidate is not None:
+            np.savez_compressed(out/'failure-candidate.npz',**{f'u_{i}':u for i,u in enumerate(candidate['u'])})
+            minima=[]
+            with torch.no_grad():
+                for m,u in zip(scene.models,candidate['u']):
+                    engine=m.engine;ue=engine.tensor(u)[engine.elements]
+                    minima.append(min(float(torch.linalg.det(engine.I+torch.einsum('eai,qeaj->qeij',ue,g)).min())for g in (engine.grad,engine.check_grad)))
+            status.update(failure_candidate_time_s=candidate['time'],failure_candidate_minimum_J=minima,failure_candidate_sha256=hashlib.sha256((out/'failure-candidate.npz').read_bytes()).hexdigest())
     if records:
         a=np.asarray(records);np.savez_compressed(out/'trajectory.npz',ledger=a,times_s=np.array([r['time']for r in saved]),surface_positions_m=np.array([r['surface']for r in saved]),rigid_centers_m=np.array([r['rigid']for r in saved]),material_queries=sample[0].q,rest_surface=np.stack([b.B@m.rest for b,m in zip(sample,scene.models)]))
         status.update(steps_completed=len(records)-1,saved_frames=len(saved),minimum_J=float(a[:,4].min()),maximum_penetration_m=float(a[:,5].max()),maximum_energy_minus_work_drift_J=float(abs(a[:,3]).max()),trajectory_sha256=hashlib.sha256((out/'trajectory.npz').read_bytes()).hexdigest(),ledger_columns=['time_s','mechanical_energy_J','actuator_work_J','energy_minus_initial_minus_work_J','minimum_J','penetration_m','Px','Py','Pz'])
