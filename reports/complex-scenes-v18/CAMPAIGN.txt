@@ -1,0 +1,76 @@
+Complex scenes campaign v18 -- started 2026-11-03
+User-authorized goal: all six scenario families, two additional relevant native
+baselines besides PhysTwin, improve ours on development evidence where needed.
+
+Frozen prior regression artifact: c237212220dc0cef95d55759ff44aa399f1e1a55.
+All prior v16/v17 sources, checkpoints, reported results and papers are preserved.
+New implementation goes in scripts/complex_scenes_v18; raw data and cloned author
+repositories in runs/complex-scenes-v18; raw datasets/checkpoints stay local.
+GPU0-2 may be used; GPU3 and unrelated jobs remain untouched. CPU work uses bounded
+worker/thread counts with memory headroom, resumable per-case atomic status files.
+
+SCENE FAMILIES (all required, not optional)
+1. Two position-controlled clamps: bending/compression, shifted footprints,
+   smoothly released support, asymmetric support compliance.
+2. Position-driven pushing over curved obstacles: new locations/curvatures/poses.
+3. Gravity drops into a bowl/container and obstacle arrangements: different
+   heights/orientations and repeated contact, with visible deformation.
+4. Finite-mass rigid-striker impact: changes in mass, radius, speed and direction.
+5. Two deformable objects: collision and stacking with new material pairings.
+6. Heterogeneous soft/stiff regions: changed load point and support configuration.
+
+METHODS
+Ours (frozen v16 law plus additive v18 scene mechanics; development updates allowed),
+native PhysTwin, native UniPhy, native Spring-Gaus, and fitted analytic-law FEM
+control. First reproduce author operations. Explicitly separate unmodified native
+capability from any boundary adapter. No relabelled custom spring code as native.
+Initial main track: identical known geometry, mass, positions/correspondences and
+visible calibration tracks. Rendering comparison uses common frozen appearance;
+end-to-end video reconstruction is a separate claim, not inferred from this track.
+
+STAGES
+A. Capability audit, native smoke tests/checkpoint acquisition, explicit adapters.
+B. Add general rigid geometry and two-body conservative contact to Q2 mechanics;
+   verify energy derivatives, action/reaction, objectivity, separation, mass and
+   timestep/spatial sensitivity. New scenarios start as development, not held tests.
+C. Run ALL six families on development objects; compare oracle forward results to
+   isolate mechanics from inference; improve numerical model on these cases only.
+D. Freeze source, observation protocol, fitting budgets, scene generation, metrics,
+   adaptation conditions and failure accounting before held-world generation.
+   Target at least four independent held worlds per family with two new queries;
+   final counts/budgets set after development feasibility, before test generation.
+E. Fit material/interaction parameters on calibration only; seal forecasts before
+   target scoring. Log unsupported/failure slots explicitly; do not count them as wins.
+F. Geometry/reaction/contact/energy and shared-renderer image evaluation; new views
+   versus fixed/random/selected actions tested separately if uncertainty is qualified.
+G. Regression audit, per-family comparisons, videos, paper supplement/update, push
+   reproducibility code and summaries (not raw datasets).
+
+METRICS
+World vector RMS, per-object rigid-aligned shape RMS, force/impulse, penetration,
+contact-event timing, forecast completion; PSNR/SSIM/LPIPS for withheld cameras.
+Aggregate by independent world, not treating video frames as independent objects.
+Time and spatial refinement are separate; no claim of ground truth from energy
+conservation alone. Preserve failed cases and distinguish numerical reference
+uncertainty from fit error. No test-based tuning, no retroactive private exclusions.
+
+CURRENT STATUS (2026-11-03)
+Stages A-C in progress. Pinned author repositories and released UniPhy weights are
+local. Spring-Gaus native force/integration smoke passes with an exact dense KNN
+compatibility replacement. UniPhy released constitutive networks and native MPM
+forward/backward smoke pass. These are runtime checks, not fitted comparisons.
+
+Additive v18 mechanics includes curved rigid obstacles, a paraboloid bowl, finite
+mass strikers, separate deformable objects and conservative sampled pair contact.
+All 12 coarse development rollouts completed. Peak rigid-aligned deformation RMS
+is 4.1-9.1 mm; maximum sampled penetration is 1.8 mm. No new reference is qualified.
+Time-step and spatial refinements (12 each) are running in temporal-01/spatial-01.
+Finer release cases exposed roundoff producing a tiny negative attachment gate.
+The smooth schedule now explicitly clips to [0,1]; a repeated-step endpoint and
+interior derivative regression test passes. Original failed attempts are retained.
+Release retries are queued after these supervisors finish, in release-fix-n1/n2.
+All ten focused new/contact and protected v17 dynamics tests pass.
+
+Held-world protocol is not frozen; no held data or new baseline score exists yet.
+Fitting, common observation exports, native/adapted capability tracks, independent
+held evaluation, videos and paper update remain outstanding. Prior paper unchanged.
