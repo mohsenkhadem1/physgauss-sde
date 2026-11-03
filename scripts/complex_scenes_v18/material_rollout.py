@@ -26,7 +26,7 @@ def run(case,variant,parameters,*,label,duration=None,n=1,dt=50e-6,seconds=1800)
         for i,m in enumerate(scene.models):
             def field(q,i=i):
                 scale=q.new_full(q.shape[:-1],parameters.get('scale',0.)+(parameters.get('second_scale',0.)if i else 0.))
-                if case=='heterogeneous':scale=scale+parameters.get('contrast',0.)*torch.tanh(8*(q[...,0]-parameters.get('center',.5)))
+                scale=scale+parameters.get('contrast',0.)*torch.tanh(8*(q[...,0]-parameters.get('center',.5)))
                 return torch.stack([scale,torch.full_like(scale,parameters.get('shape',0.)),torch.full_like(scale,parameters.get('family_flag',-1.)),torch.full_like(scale,parameters.get('log_bulk',0.))],-1)
             m.bulk_energy=law.energy;m.material_latent_field=field
         s=scene.initial(s.u,s.v);sample=[SurfaceBinding.build(m,9)for m in scene.models]

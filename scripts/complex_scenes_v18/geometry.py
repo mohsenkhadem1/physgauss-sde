@@ -45,9 +45,13 @@ class RigidCylinder:
 
 
 class SceneBody(DynamicContactModel):
-    def __init__(self,*args,colliders=(),**kwargs):
+    def __init__(self,*args,colliders=(),bulk_quadrature='gauss3',**kwargs):
         if any(not isinstance(c,(RigidPlane,RigidSphere,RigidBowl,RigidCylinder)) for c in colliders):
             raise ValueError('Explicit supported collider required')
         if len({c.name for c in colliders})!=len(colliders):raise ValueError('Collider identities must be unique')
         super().__init__(*args,colliders=(),**kwargs)
+        if bulk_quadrature!='gauss3':
+            from scripts.complex_scenes_v18.quadrature import install_lobatto
+            if bulk_quadrature not in ('lobatto4','lobatto5'):raise ValueError('Explicit supported volume quadrature required')
+            install_lobatto(self,int(bulk_quadrature[-1]))
         self.colliders=tuple(colliders)
