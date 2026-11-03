@@ -26,7 +26,7 @@ def run(plan_path,task_id,state_dir):
     # Exclusive claim prevents two supervisors from executing the same task.
     claim=state_dir/(key(task_id)+'.claim');claim.parent.mkdir(parents=True,exist_ok=True)
     with claim.open('x')as f:f.write(str(os.getpid()))
-    status=dict(task_id=task_id,state='running',pid=os.getpid(),start_ticks=start_ticks(os.getpid()),plan_sha256=hashlib.sha256(raw).hexdigest(),started_at=time.time(),argv=task['argv'])
+    status=dict(task_id=task_id,state='running',pid=os.getpid(),start_ticks=start_ticks(os.getpid()),plan_sha256=hashlib.sha256(raw).hexdigest(),started_at=time.time(),argv=task['argv'],cuda_visible_devices=os.environ.get('CUDA_VISIBLE_DEVICES',''))
     write(status_path,status)
     try:
         child=subprocess.Popen(task['argv'],cwd=ROOT,env=os.environ.copy())
