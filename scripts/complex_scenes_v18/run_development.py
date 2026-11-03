@@ -29,12 +29,13 @@ def run(case,n,dt,variant=0,label='pilot',surface_samples=5,seconds=1800,contact
             if world is None or query is None or query.family!=case or query.variant!=variant:raise ValueError('Explicit matching world and query required')
             scene,s,meta=build_reference(world,query,n=n,surface_samples=surface_samples,contact_device=contact_device,bulk_quadrature=bulk_quadrature)
         status.update(meta);status.update(contact_device=contact_device,bulk_quadrature=bulk_quadrature)
+        status.update(rigid_names=list(scene.rigid),rigid_masses_kg={name:body.mass for name,body in scene.rigid.items()})
         save_state=save_state or world is not None
         status['full_nodal_state_saved']=save_state
         if save_state:
             geometry={}
             for index,(m,M)in enumerate(zip(scene.models,scene.M)):
-                for key,value in dict(rest=m.rest,elements=m.elements,quadrature=m.quad,mass_data=M.data,mass_indices=M.indices,mass_indptr=M.indptr,mass_shape=M.shape).items():geometry[f'{key}_{index}']=value
+                for key,value in dict(rest=m.rest,elements=m.elements,quadrature=m.quad,mass_data=M.data,mass_indices=M.indices,mass_indptr=M.indptr,mass_shape=M.shape,mass_format=M.format,nodal_mass_kg=np.real_if_close(np.asarray(M.sum(1)).ravel()),gravity_m_s2=m.gravity).items():geometry[f'{key}_{index}']=value
             np.savez_compressed(out/'geometry.npz',**geometry)
             status['geometry_sha256']=hashlib.sha256((out/'geometry.npz').read_bytes()).hexdigest()
         if not 0<minimum_j<1:raise ValueError('Positive finite orientation guard required')

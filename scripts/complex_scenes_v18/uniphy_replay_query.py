@@ -46,7 +46,7 @@ def replay(fitdir,query,out,seconds=1800):
         record['completed']=True
     except Exception as e:record['error']=str(e)
     np.savez_compressed(out/'trajectory.npz',surface_positions_m=frames,times_s=times)
-    np.savez_compressed(out/'particle-state.npz',positions_m=particles,velocities_m_s=velocities,detF=determinants,times_s=times)
+    np.savez_compressed(out/'particle-state.npz',positions_m=particles,velocities_m_s=velocities,detF=determinants,times_s=times,mass_kg=sim.p_mass.to_numpy()[:len(x)],gravity_m_s2=np.array([0,0,-9.81]))
     record.update(saved_frames=len(frames),elapsed_s=time.monotonic()-start,trajectory_sha256=hashlib.sha256((out/'trajectory.npz').read_bytes()).hexdigest(),particle_state_sha256=hashlib.sha256((out/'particle-state.npz').read_bytes()).hexdigest(),minimum_native_detF=float(np.min(determinants))if determinants else None)
     write(out/'complete.json',record);return record
 

@@ -44,7 +44,7 @@ def fit(args):
     indices,weights=binding(queries);criterion=TrackedLoss(sim,indices,weights,observed+offset,frame_steps)
     plan=dict(method='Native UniPhy released demo MPM and constitutive models with visible-track loss and analytic bowl/sphere hooks',development_only=True,known_boundary=True,observations_sha256=meta['observations_sha256'],dt_s=dt,grid_spacing_m=.02,particles=432,epochs=args.epochs,learning_rate=args.lr,optimizer='AdamW; gradients cleared each iteration',initialization=dict(kmeans_clusters=8,seed=42,n_init=10,author_demo_centroid=2,screen_centroids=args.screen_centroids),binding='Fixed trilinear cell-center interpolation with half-spacing surface extrapolation',forecast_targets_read=False,source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()for p in [Path(__file__),ROOT/'scripts/complex_scenes_v18/uniphy_runtime.py',ROOT/'scripts/complex_scenes_v18/uniphy_track_loss.py',ROOT/'scripts/complex_scenes_v18/particle_tracks.py',ROOT/'scripts/complex_scenes_v18/uniphy_drop.py']})
     plan['corrected_adjoint']=args.corrected_adjoint
-    plan.update(calibration_prefix=str(source),public_query=meta.get('public_query'),evaluation_split=meta.get('split','development'))
+    plan.update(calibration_prefix=str(source),public_query=meta.get('public_query'),evaluation_split=meta.get('split','development'),development_only=meta.get('split','development')=='development')
     if args.corrected_adjoint:
         bridge_path=ROOT/'scripts/complex_scenes_v18/uniphy_adjoint.py'
         plan['source_sha256'][str(bridge_path.relative_to(ROOT))]=hashlib.sha256(bridge_path.read_bytes()).hexdigest()

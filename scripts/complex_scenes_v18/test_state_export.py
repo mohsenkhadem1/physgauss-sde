@@ -18,3 +18,10 @@ def test_public_world_run_saves_auditable_full_state(tmp_path,monkeypatch):
     with np.load(path)as a:
         assert a['positions_m'].shape==(2,1,81,3)
         np.testing.assert_allclose(a['velocities_m_s'][-1,0],np.tile([0,0,-9.81*.002],(81,1)),atol=1e-9)
+    from scripts.complex_scenes_v18.impulse_metrics import trace
+    _,impulse=trace(folder)
+    np.testing.assert_allclose(impulse,0.,atol=1e-10)
+    from scripts.complex_scenes_v18.appearance_controls import controls
+    times,positions=controls(folder)
+    assert positions.shape==(2,1,125,3)
+    np.testing.assert_allclose(positions[-1,0]-positions[0,0],np.tile([0,0,-.5*9.81*.002**2],(125,1)),atol=1e-10)
