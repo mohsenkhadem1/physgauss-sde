@@ -24,6 +24,15 @@ def check(protocol,audit,decision):
     if decision.get('status')!='reviewed' or not decision.get('rationale') or set(decision['methods'])!=set(protocol['methods']):raise ValueError('Explicit reviewed method settings required')
     for name,values in decision['methods'].items():
         if not values.get('calibration') or values.get('dt_s',0)<=0:raise ValueError('Explicit calibration and integration policy required for '+name)
+        settings={**protocol['methods'][name],**values}
+        expected_dt=25e-6 if name in ('spring-gaus','phystwin')else 50e-6
+        if settings['dt_s']!=expected_dt:raise ValueError('Declared timestep is not implemented by the fitting worker: '+name)
+        if settings['families']!=protocol['methods'][name]['families']:raise ValueError('Do not narrow method coverage at freeze')
+        if name in ('ours','analytic-control'):
+            if settings['mesh_n']!=1:raise ValueError('Fitting worker uses mesh n=1')
+            stages=settings['evaluation_stages']
+            if not stages or any(type(v)is not int or v<1 for v in stages):raise ValueError('Positive integer fitting stages required')
+        elif type(settings['epochs'])is not int or settings['epochs']<1 or settings['learning_rate']<=0 or settings['fit_seconds']<=0:raise ValueError('Invalid native fitting budget')
     if not decision.get('terminal_controls'):raise ValueError('Terminal development controls required')
 
 
