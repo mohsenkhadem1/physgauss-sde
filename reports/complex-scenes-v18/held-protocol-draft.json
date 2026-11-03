@@ -307,6 +307,9 @@
         "deformable_pair",
         "heterogeneous"
       ],
+      "evaluation_stages": [
+        64
+      ],
       "calibration": "Powell, 64 forward evaluations, four shared material-field parameters plus second-object scale when needed",
       "material_network": "Frozen prior decoder plus independent compressibility extension",
       "mesh_n": 1,
@@ -320,6 +323,9 @@
         "rigid_impact",
         "deformable_pair",
         "heterogeneous"
+      ],
+      "evaluation_stages": [
+        64
       ],
       "calibration": "Same 64-evaluation spatial parameter fit",
       "advantage": "Oracle constitutive family",
@@ -335,6 +341,9 @@
         "deformable_pair",
         "heterogeneous"
       ],
+      "epochs": 40,
+      "learning_rate": 0.03,
+      "fit_seconds": 14400,
       "calibration": "40 Adam iterations, per-edge stiffness and damping",
       "dt_s": 2.5e-05,
       "adaptation": "Author internal force/integrator; common boundary adapter; exact dense KNN compatibility"
@@ -348,6 +357,9 @@
         "deformable_pair",
         "heterogeneous"
       ],
+      "epochs": 40,
+      "learning_rate": 0.03,
+      "fit_seconds": 14400,
       "calibration": "40 Adam iterations, per-edge stiffness",
       "dt_s": 2.5e-05,
       "adaptation": "Author Warp spring force and sealed-forecast integrator; common boundary adapter; fixed zero damping"
@@ -356,6 +368,11 @@
       "families": [
         "container_drop"
       ],
+      "epochs": 8,
+      "learning_rate": 3e-05,
+      "fit_seconds": 14400,
+      "screen_centroids": true,
+      "corrected_adjoint": true,
       "calibration": "8 fixed-seed latent-centroid initializations, then 8 AdamW iterations",
       "dt_s": 5e-05,
       "adaptation": "Released demo pretrained networks and MPM; fixed bowl/sphere collision hooks; optional adjoint bridge",
