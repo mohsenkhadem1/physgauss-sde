@@ -36,13 +36,18 @@ def build(protocol,public,campaign,freeze_path):
                 fitdir=previous;fitkey=dep
             else:
                 fitkey=f'{name}:{method}:fit';fitdir=ROOT/'runs/complex-scenes-v18'/label/f'{family}-v{variant}'
+                fitdep=export;warmdir=None
+                if method=='spring-gaus'and settings.get('scalar_initialization',False):
+                    warmlabel=label/'initialization';warmdir=ROOT/'runs/complex-scenes-v18'/warmlabel/f'{family}-v{variant}';fitdep=f'{name}:{method}:initialize'
+                    add(fitdep,'gpu',[native,'-m','scripts.complex_scenes_v18.spring_scale_fit','--case',family,'--variant',str(variant),'--prefix',str(prefix),'--label',str(warmlabel)],[export],world_id=name,method=method,role='fit')
                 if method=='uniphy':
                     command=[native,'-m','scripts.complex_scenes_v18.uniphy_latent_fit','--variant',str(variant),'--prefix',str(prefix),'--label',str(label),'--epochs',str(settings['epochs']),'--lr',str(settings['learning_rate']),'--seconds',str(settings['fit_seconds'])]
                     if settings['screen_centroids']:command+=['--screen-centroids']
                     if settings['corrected_adjoint']:command+=['--corrected-adjoint']
                 else:
                     command=[native,'-m','scripts.complex_scenes_v18.spring_edge_fit','--method',method,'--case',family,'--variant',str(variant),'--prefix',str(prefix),'--label',str(label),'--epochs',str(settings['epochs']),'--lr',str(settings['learning_rate']),'--seconds',str(settings['fit_seconds'])]
-                add(fitkey,'gpu',command,[export],world_id=name,method=method,role='fit')
+                if warmdir is not None:command+=['--warm-fit',str(warmdir)]
+                add(fitkey,'gpu',command,[fitdep],world_id=name,method=method,role='fit')
             for index in range(len(world['queries'])):
                 command=[main if method in ('ours','analytic-control')else native,'-m','scripts.complex_scenes_v18.held_prediction','--campaign',str(campaign),'--fitdir',str(fitdir),'--world-id',name,'--index',str(index),'--method',method]
                 add(f'{name}:{method}:predict:{index}','cpu'if method in ('ours','analytic-control')else'gpu',command,[fitkey],world_id=name,method=method,role='prediction',query_index=index)

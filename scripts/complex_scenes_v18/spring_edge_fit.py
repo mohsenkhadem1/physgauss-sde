@@ -34,9 +34,10 @@ def fit(args):
     if 'public_query'in meta:
         from scripts.complex_scenes_v18.world_queries import Query
         query=Query(**meta['public_query'])
-    if method=='spring-gaus'and not prefix:
-        warm=ROOT/'runs/complex-scenes-v18/spring-scale-fit-01'/name/'fit-seal.json';warmdata=json.loads(warm.read_text())
+    if method=='spring-gaus'and (not prefix or getattr(args,'warm_fit',None)):
+        warm=Path(args.warm_fit)/'fit-seal.json'if getattr(args,'warm_fit',None)else ROOT/'runs/complex-scenes-v18/spring-scale-fit-01'/name/'fit-seal.json';warmdata=json.loads(warm.read_text())
         if not warmdata['completed']or warmdata['observations_sha256']!=meta['observations_sha256']:raise ValueError('Matching completed initialization required')
+        if prefix and (warmdata.get('public_query')!=meta.get('public_query')or warmdata.get('prefix_metadata_sha256')!=hashlib.sha256((source/'metadata.json').read_bytes()).hexdigest()):raise ValueError('Initialization public world/query mismatch')
         initial_k=warmdata['best']['log10_k'];Class=DifferentiableSpringScene
     elif method=='phystwin':
         from scripts.complex_scenes_v18.differentiable_phystwin import DifferentiablePhysTwinScene
@@ -113,4 +114,4 @@ def fit(args):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--case',required=True);p.add_argument('--variant',type=int,default=0);p.add_argument('--label',default='spring-edge-fit-01');p.add_argument('--epochs',type=int,default=40);p.add_argument('--lr',type=float,default=.03);p.add_argument('--seconds',type=int,default=7200);p.add_argument('--method',choices=['spring-gaus','phystwin'],default='spring-gaus');p.add_argument('--prefix');a=p.parse_args();torch.set_num_threads(1);r=fit(a);raise SystemExit(0 if r['completed']else 1)
+    p=argparse.ArgumentParser();p.add_argument('--case',required=True);p.add_argument('--variant',type=int,default=0);p.add_argument('--label',default='spring-edge-fit-01');p.add_argument('--epochs',type=int,default=40);p.add_argument('--lr',type=float,default=.03);p.add_argument('--seconds',type=int,default=7200);p.add_argument('--method',choices=['spring-gaus','phystwin'],default='spring-gaus');p.add_argument('--prefix');p.add_argument('--warm-fit');a=p.parse_args();torch.set_num_threads(1);r=fit(a);raise SystemExit(0 if r['completed']else 1)

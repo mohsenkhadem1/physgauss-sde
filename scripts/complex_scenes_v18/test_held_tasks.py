@@ -10,7 +10,7 @@ def test_all_scenario_tasks_exist_and_predictions_never_depend_on_test_reference
         for i in range(family['worlds']):worlds.append(dict(**family,world_id=f'{family["family"]}-{i}',refinement=i==0))
     tasks=build(p,dict(worlds=worlds),ROOT/'runs/complex-scenes-v18/not-generated-test',ROOT/'reports/complex-scenes-v18/not-generated-freeze.json')
     counts=Counter(t['role']for t in tasks)
-    assert counts=={'reference':72,'reference-refinement':12,'prefix':24,'fit':100,'prediction':200}
+    assert counts=={'reference':72,'reference-refinement':12,'prefix':24,'fit':124,'prediction':200}
     by_id={t['id']:t for t in tasks}
     def ancestors(key):
         result=set()

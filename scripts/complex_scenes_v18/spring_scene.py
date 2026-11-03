@@ -81,9 +81,10 @@ def run(args):
     out=ROOT/'runs/complex-scenes-v18'/args.label/f'{args.case}-v{args.variant}'
     if out.exists():raise ValueError('Preserve prior attempt '+str(out))
     out.mkdir(parents=True);start=time.monotonic();record=dict(method='Spring-Gaus author internal forces/integrator with common scene boundary adapter',development_only=True,completed=False,parameters=dict(log10_k=args.log10_k),case=args.case,variant=args.variant,source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
+    record.update(evaluation_split=getattr(args,'split','development'),development_only=getattr(args,'split','development')=='development')
     frames=[];times=[];depth=0.
     try:
-        sim=SpringScene(args.case,args.variant,log10_k=args.log10_k);duration=min(args.duration,sim.metadata['duration_s'])if args.duration else sim.metadata['duration_s'];steps=round(duration/args.dt);stride=round(.002/args.dt)
+        sim=SpringScene(args.case,args.variant,log10_k=args.log10_k,query=getattr(args,'query',None));duration=min(args.duration,sim.metadata['duration_s'])if args.duration else sim.metadata['duration_s'];steps=round(duration/args.dt);stride=round(.002/args.dt)
         if not np.isclose(stride*args.dt,.002):raise ValueError('Sample clock')
         frames.append(sim.sample_surface());times.append(0.)
         for i in range(1,steps+1):
