@@ -37,7 +37,7 @@ def fit(case,variant,label='material-scene-fit-01',evaluations=64,law_type='lear
               observations_sha256=meta['observations_sha256'],
               scope='Generic spatial material field; known scene boundaries; analytic control has oracle constitutive-family advantage'if law_type=='analytic'else'Generic spatial material field, frozen pretrained constitutive network; known scene boundaries',
               source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()for p in [ROOT/'scripts/complex_scenes_v18/material_rollout.py',ROOT/'scripts/complex_scenes_v18/material_scene_fit.py']})
-    plan.update(calibration_prefix=str(source),public_query=meta.get('public_query'),evaluation_split=meta.get('split','development'),development_only=meta.get('split','development')=='development')
+    plan.update(calibration_prefix=str(source),prefix_metadata_sha256=hashlib.sha256((source/'metadata.json').read_bytes()).hexdigest(),public_query=meta.get('public_query'),evaluation_split=meta.get('split','development'),development_only=meta.get('split','development')=='development')
     if law_type=='analytic':
         source=ROOT/'scripts/complex_scenes_v18/analytic_control.py'
         plan['source_sha256'][str(source.relative_to(ROOT))]=hashlib.sha256(source.read_bytes()).hexdigest()

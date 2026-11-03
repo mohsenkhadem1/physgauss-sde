@@ -60,7 +60,7 @@ def fit(args):
             topology[f'origin_len_{i}']=model.origin_len.detach().cpu().numpy()
         np.savez_compressed(out/'graph.npz',**topology)
         plan['graph_sha256']=hashlib.sha256((out/'graph.npz').read_bytes()).hexdigest()
-    plan.update(calibration_prefix=str(source),public_query=meta.get('public_query'),evaluation_split=meta.get('split','development'),development_only=meta.get('split','development')=='development')
+    plan.update(calibration_prefix=str(source),prefix_metadata_sha256=hashlib.sha256((source/'metadata.json').read_bytes()).hexdigest(),public_query=meta.get('public_query'),evaluation_split=meta.get('split','development'),development_only=meta.get('split','development')=='development')
     write(out/'plan.json',plan)
     for epoch in range(args.epochs):
         if time.monotonic()-start>args.seconds:rows.append(dict(epoch=epoch,completed=False,error='Declared fitting time budget'));break
