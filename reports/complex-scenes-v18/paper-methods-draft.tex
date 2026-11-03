@@ -1,0 +1,124 @@
+% Development-stage methods fragment. Not yet included in the submitted paper.
+% Held measurements and the final fitting budgets remain pending.
+\subsection{Coupled-scene prediction protocol}
+\label{sec:coupled-protocol}
+We separate the material of an object from the interaction applied to it.
+A world $w$ specifies fixed object geometry, density, and a hidden material
+field $m_w$. An interaction $a$ specifies the initial state, prescribed fixture
+positions and release schedule, gravity, and collision geometry. For each
+world, a short calibration interaction provides point observations
+$\mathcal D_w=\{(t_i,X_j,x_{ij})\}$ up to a fixed cutoff. A method fits its
+material representation to this prefix, seals the fitted parameters, and
+predicts two different interactions without refitting. The same hidden
+material is retained across calibration and both queries.
+
+The protocol contains six scene families: moving and released compliant
+clamps; pushing around a curved obstacle; gravity drops into a curved
+container, including an obstacle; a translating finite-mass rigid striker;
+two deformable objects in collision or stacking; and spatially heterogeneous
+material. Query changes include fixture location, displacement amplitude,
+impact velocity, drop height and orientation, and contact configuration.
+The prospective census is four independently sampled material worlds per
+family and two queries per world. Object shape and density are fixed in
+this study; transfer is across material and interaction, rather than unseen
+object geometry.
+
+All methods receive the same calibration tracks, rest geometry, density,
+and public boundary parameters. Tracks cover a fixed two-face material-point
+subset and are sampled every $2$\,ms. This controlled track-input study does
+not measure image tracking errors or camera-dependent occlusion. Materials
+are unknown, while fixture compliance and collision geometry are known.
+Consequently, this experiment evaluates prediction conditional on supplied
+boundaries; it is not an evaluation of unknown-boundary recovery.
+
+\subsection{Shared neural material with spatial descriptors}
+The pretrained energy decoder is kept fixed. We infer a small spatial
+material descriptor from the calibration prefix. For material coordinate
+$X\in[0,1]^3$, the scale field is
+\begin{equation}
+ s_b(X)=s_0+\mathbb{1}_{b=2}\Delta s+
+ c\tanh\!\left(8(X_1-r)\right),
+\end{equation}
+where $b$ indexes the deformable body. The same field parameterization is
+available in every family; the heterogeneous-scene label does not switch
+on a privileged material model. A second body receives an additional scale
+offset, while the spatial profile and compressibility parameter are shared.
+The other two pretrained descriptor coordinates are fixed at their
+values $(0,-1)$ in this experiment.
+
+We extend the frozen decoder with an independent positive multiplier on
+its volumetric contribution. Writing $W_\theta$ for the pretrained energy,
+$J=\det F$, and $B_\theta(s)$ for its existing positive volumetric
+coefficient, the extension is
+\begin{equation}
+ W_{\theta,\beta}(F,s)=W_\theta(F,s)
+ +(e^\beta-1)B_\theta(s)(J-\log J-1).
+\end{equation}
+Thus $\beta=0$ recovers the previous model exactly. The descriptor parameters
+are fitted by bounded derivative-free optimization of the observed
+point-position loss. No network weights are updated on a held world.
+Additional calibration stages, when selected in development, initialize
+from the preceding sealed best fit to the identical observation prefix.
+This changes the optimization budget without reading the future query.
+
+Predicted motion follows the coupled mechanics rollout with explicit
+collision geometry and compliant fixtures. The current scene model includes
+conservative penalty contact, separation, and translation of the rigid
+sphere; it does not model general rotating rigid shapes, friction, or
+continuous collision detection. These limits define the evaluated scene
+capabilities rather than being hidden in an aggregate score.
+
+\subsection{Adapted mechanics baselines}
+We compare with PhysTwin~\cite{jiang2025phystwin},
+Spring-Gaus~\cite{zhong2024springgaus}, and
+UniPhy~\cite{mittal2025uniphy}, using pinned author implementations.
+PhysTwin uses the author Warp spring-force kernel and native forecast
+integration, with per-edge stiffness fitted to the common track prefix.
+Spring-Gaus uses the author internal forces and integration, a scalar
+stiffness initialization search, and subsequent per-edge fitting. Both use
+known object masses and explicit common scene-boundary adapters. PhysTwin
+uses fixed zero dashpot and drag damping in this adapter. These are
+mechanics comparisons with disclosed interfaces, not reproductions of the
+complete author image-reconstruction pipelines.
+
+UniPhy uses the released pretrained constitutive networks and native MPM,
+with a fitted material latent and explicit bowl/obstacle hooks. Its current
+adapter supports the drop family only. Its native separating-velocity
+projection differs from the conservative penalty contact of the reference
+and the other adapters; its results therefore measure this adapted
+system's capability, not a matched-contact-law material-inference error.
+Any adjoint adaptation and its derivative checks are reported separately.
+Unsupported configurations are retained as unsupported, rather than being
+counted as failures or wins. An analytic Neo-Hookean control uses the same
+spatial fitting parameterization but has the advantage of knowing the
+reference constitutive family.
+
+\subsection{Physical and visual evaluation}
+We report full-query point-position RMS and per-object rigid-aligned shape
+RMS separately. Additional physical diagnostics include sampled contact
+penetration and first-contact time, net nongravitational body impulse,
+and signed tetrahedron-volume ratios on the same material grid for all
+methods. The impulse is computed from saved velocity and known mass after
+subtracting gravity; it does not resolve individual contact forces.
+Sampled orientation and gap checks are diagnostics, not proofs of global
+injectivity or continuous nonintersection.
+
+For a controlled image comparison, every method and the reference use the
+same frozen Gaussian appearance, the same motion-transport map, and fixed
+withheld cameras. We report PSNR, SSIM, LPIPS, silhouette and depth measures, averaging
+noninitial query frames for the primary scores and retaining all-frame
+values separately.
+This separates motion-induced image error from independent appearance
+optimization. The rendering is object-only and does not test environmental
+occlusion or native end-to-end reconstruction quality. Image agreement and
+physical agreement are evaluated separately; neither is inferred from the
+other.
+
+Numerical reference uncertainty is assessed through spatial refinement,
+with dense sampled orientation checks. A completed reference trajectory is
+not automatically treated as spatially converged. Fitting, rollout,
+reference and infrastructure failures remain separately visible in the
+complete planned census. We average the two queries within each world,
+then compute paired method differences and bootstrap intervals by resampling
+worlds, not frames. Error comparisons conditional on successful paired
+worlds are accompanied by their completion and coverage counts.

@@ -20,6 +20,14 @@ def verified(folder):
     return seal
 
 
+def aggregate(rows,names):
+    future=[r for r in rows if r['frame']>0]
+    if not future:raise ValueError('At least one noninitial rendered frame required')
+    def means(selected):
+        return {key:float(np.mean([r[key]for r in selected if r[key]is not None]))if any(r[key]is not None for r in selected)else None for key in names}
+    return dict(means=means(future),means_including_initial_frame=means(rows),primary_metric_frames='All sampled noninitial query frames; identical starting frame excluded',noninitial_images=len(future),total_images=len(rows))
+
+
 def score(prediction,reference):
     prediction=Path(prediction);reference=Path(reference)
     pred=verified(prediction)  # Complete prediction census before reference access.
@@ -45,7 +53,7 @@ def score(prediction,reference):
             result.update(frame=row['frame'],camera_name=row['camera']['name'],lpips_alex_v01=lp);rows.append(result)
     if self_error>1e-7:raise ValueError('Perceptual identity check failed')
     names=['psnr_global_db','psnr_foreground_union_db','ssim_rgb_global','ssim_rgb_foreground_union','silhouette_iou','lpips_alex_v01']
-    return dict(scope='Object-only shared appearance and transport; not independent native reconstruction quality. Mean over fixed sampled frames and views, not independent statistical samples.',appearance_sha256=pred['appearance_sha256'],lpips_state_sha256=digest.hexdigest(),lpips_identity_error=self_error,means={key:float(np.mean([r[key]for r in rows if r[key]is not None]))for key in names},rows=rows,prediction_images_seal_sha256=hashlib.sha256((prediction/'images-seal.json').read_bytes()).hexdigest(),reference_images_seal_sha256=hashlib.sha256((reference/'images-seal.json').read_bytes()).hexdigest())
+    return dict(scope='Object-only shared appearance and transport; not independent native reconstruction quality. Mean over fixed sampled noninitial frames and views, not independent statistical samples.',appearance_sha256=pred['appearance_sha256'],lpips_state_sha256=digest.hexdigest(),lpips_identity_error=self_error,**aggregate(rows,names),rows=rows,prediction_images_seal_sha256=hashlib.sha256((prediction/'images-seal.json').read_bytes()).hexdigest(),reference_images_seal_sha256=hashlib.sha256((reference/'images-seal.json').read_bytes()).hexdigest())
 
 
 if __name__=='__main__':
