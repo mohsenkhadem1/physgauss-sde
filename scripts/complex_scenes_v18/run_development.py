@@ -16,13 +16,19 @@ def write(path,value):
     tmp.write_text(json.dumps(value,indent=2)+'\n');tmp.replace(path)
 
 
-def run(case,n,dt,variant=0,label='pilot',surface_samples=5,seconds=1800,contact_device='cpu',minimum_j=.1,dense_j_samples=0,bulk_quadrature='gauss3'):
+def run(case,n,dt,variant=0,label='pilot',surface_samples=5,seconds=1800,contact_device='cpu',minimum_j=.1,dense_j_samples=0,bulk_quadrature='gauss3',world=None,query=None):
     torch.set_num_threads(1);out=ROOT/'runs/complex-scenes-v18'/label/f'{case}-v{variant}-n{n}-dt{dt:.8f}-s{surface_samples}'
     if out.exists():raise ValueError('Preserve previous attempt: '+str(out))
     out.mkdir(parents=True);t0=time.monotonic();records=[];saved=[];status=dict(family=case,variant=variant,n=n,dt_s=dt,surface_samples=surface_samples,completed=False,development_only=True,source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()for p in sorted((ROOT/'scripts/complex_scenes_v18').glob('*.py'))})
     write(out/'status.json',dict(status,state='running',pid=os.getpid()))
     try:
-        scene,s,meta=build_case(case,n,surface_samples,variant,contact_device=contact_device,bulk_quadrature=bulk_quadrature);status.update(meta);status.update(contact_device=contact_device,bulk_quadrature=bulk_quadrature)
+        if world is None and query is None:
+            scene,s,meta=build_case(case,n,surface_samples,variant,contact_device=contact_device,bulk_quadrature=bulk_quadrature)
+        else:
+            from scripts.complex_scenes_v18.world_queries import build_reference
+            if world is None or query is None or query.family!=case or query.variant!=variant:raise ValueError('Explicit matching world and query required')
+            scene,s,meta=build_reference(world,query,n=n,surface_samples=surface_samples,contact_device=contact_device,bulk_quadrature=bulk_quadrature)
+        status.update(meta);status.update(contact_device=contact_device,bulk_quadrature=bulk_quadrature)
         if not 0<minimum_j<1:raise ValueError('Positive finite orientation guard required')
         for m in scene.models:m.minimum_J=minimum_j
         status['minimum_J_guard']=minimum_j

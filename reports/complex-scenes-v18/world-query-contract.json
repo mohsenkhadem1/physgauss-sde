@@ -1,0 +1,26 @@
+{
+  "status": "Implemented development contract; held protocol not frozen",
+  "code": "scripts/complex_scenes_v18/world_queries.py",
+  "world_fields": [
+    "world_id",
+    "immutable per-object materials"
+  ],
+  "public_query_fields": [
+    "family",
+    "variant",
+    "actuation_scale",
+    "velocity_scale",
+    "initial_height_m"
+  ],
+  "separation": "Prediction takes public query and mandatory inferred material provider; no World object or default private material",
+  "validation": [
+    "Same private material values across both interaction variants in all six families",
+    "Prediction rejects missing material provider",
+    "Rigid striker velocity and free-drop height changes tested"
+  ],
+  "limitations": [
+    "Public scene recipes currently contain known boundary geometry and attachment parameters",
+    "No held world generated and no OOD score yet",
+    "Appearance, occlusion, and sensor export are not supplied by this interface"
+  ]
+}

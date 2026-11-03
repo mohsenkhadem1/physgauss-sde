@@ -1,0 +1,27 @@
+{
+  "status": "Development adapter",
+  "method": "PhysTwin author Warp kernels plus common boundary adapter",
+  "author_commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+  "unmodified_kernels": [
+    "eval_springs",
+    "update_vel_from_force",
+    "integrate_ground_collision"
+  ],
+  "adaptations": [
+    "AST imports exact kernel definitions without GUI dependencies",
+    "Deterministic undirected geometry KNN graph saved for replay",
+    "Known lumped masses from common geometry",
+    "Common compliant attachments, curved obstacle and sampled deformable contact",
+    "Explicit force compensation for requested gravity; native floor translated outside scene and guarded"
+  ],
+  "validation": [
+    "Native two-particle force and action/reaction test passed",
+    "Deterministic graph test passed",
+    "Short clamp rollout passed; all twelve full development rollouts queued"
+  ],
+  "not_claimed": [
+    "Unmodified end-to-end PhysTwin",
+    "Fitted or held-out benchmark performance",
+    "Native support for curved obstacle geometry"
+  ]
+}
