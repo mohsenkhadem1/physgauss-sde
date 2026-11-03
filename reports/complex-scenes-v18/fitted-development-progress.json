@@ -3,33 +3,38 @@
   "planned_slots": 60,
   "counts": {
     "ours": {
-      "complete": 6,
+      "complete": 8,
       "forecast_failed": 0,
-      "pending": 6,
+      "forecast_pending": 0,
+      "pending": 4,
       "unsupported": 0
     },
     "analytic-control": {
       "complete": 5,
       "forecast_failed": 0,
+      "forecast_pending": 0,
       "pending": 7,
       "unsupported": 0
     },
     "spring-gaus": {
       "complete": 6,
       "forecast_failed": 0,
+      "forecast_pending": 0,
       "pending": 6,
       "unsupported": 0
     },
     "phystwin": {
       "complete": 3,
       "forecast_failed": 0,
-      "pending": 9,
+      "forecast_pending": 1,
+      "pending": 8,
       "unsupported": 0
     },
     "uniphy": {
       "complete": 0,
-      "forecast_failed": 1,
-      "pending": 1,
+      "forecast_failed": 2,
+      "forecast_pending": 0,
+      "pending": 0,
       "unsupported": 10
     }
   },
@@ -285,13 +290,22 @@
       "case": "container_drop",
       "variant": 1,
       "method": "phystwin",
-      "state": "pending"
+      "state": "forecast_pending",
+      "fit_seal_sha256": "1abefc1474ddeefa759a6c8d6bf4bf83023a94cf1ea0f9e6c8b150d44ba3ce8d",
+      "calibration_vector_rms_mm": 7.640097258582869,
+      "fit_evaluations": 21,
+      "requested_epochs_completed": false
     },
     {
       "case": "container_drop",
       "variant": 1,
       "method": "uniphy",
-      "state": "pending"
+      "state": "forecast_failed",
+      "fit_seal_sha256": "cb5b24de8e0f063d672e5dfbd63bdfebcdcde812d37ea24913866e1796716a5f",
+      "calibration_vector_rms_mm": 12.695474758578472,
+      "fit_evaluations": 13,
+      "requested_epochs_completed": true,
+      "error": "Native forecast CFL failure"
     },
     {
       "case": "curved_push",
@@ -571,7 +585,18 @@
       "case": "rigid_impact",
       "variant": 0,
       "method": "ours",
-      "state": "pending"
+      "state": "complete",
+      "fit_seal_sha256": "d6d8bfbb4f76950813c50cbc65df488d028928cf9a8588c835b652a96ee1d448",
+      "calibration_vector_rms_mm": 0.13650756071503317,
+      "fit_evaluations": 64,
+      "optimizer_converged": false,
+      "future": {
+        "vector_rms_mm": 0.3968643160174472,
+        "rigid_aligned_shape_rms_mm": 0.3303481206844202
+      },
+      "forecast_frames": 30,
+      "prediction_sha256": "1d3397aa8cb1d2af086ce9ca08e0d4dbd3f8142fbb55726ed1a3819aca412360",
+      "reference_sha256": "c4e6de1b0fa2823d7d39c2035f6d4e269bca5a0e6d6c31c19c77067cbf7cb6ba"
     },
     {
       "case": "rigid_impact",
@@ -602,7 +627,18 @@
       "case": "rigid_impact",
       "variant": 1,
       "method": "ours",
-      "state": "pending"
+      "state": "complete",
+      "fit_seal_sha256": "52531311dd9f6fc78558937e5bba940ceb2537ccbe0b67fd09b5774abde470a6",
+      "calibration_vector_rms_mm": 0.2017090930192303,
+      "fit_evaluations": 64,
+      "optimizer_converged": false,
+      "future": {
+        "vector_rms_mm": 0.37463117615471037,
+        "rigid_aligned_shape_rms_mm": 0.2990520481187405
+      },
+      "forecast_frames": 30,
+      "prediction_sha256": "2558f9ea81d3e17f6adfef8194849436976f1d09facd5d3b8272a49365883475",
+      "reference_sha256": "f710b184bc4e92736b4a56e2bd37bae433b90691099c9a0b4c63bc86b4a1872b"
     },
     {
       "case": "rigid_impact",
