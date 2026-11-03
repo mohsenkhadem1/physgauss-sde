@@ -35,3 +35,13 @@ def test_rotated_drop_preserves_shape_and_fixture_shift_changes_support():
     a,_,_=build_reference(world,Query('clamp_release',0))
     b,_,_=build_reference(world,Query('clamp_release',0,fixture_shift=.1))
     assert np.linalg.norm((a.models[0].anchor_matrices[0]-b.models[0].anchor_matrices[0]).toarray())>1e-3
+
+
+def test_mpm_initial_geometry_matches_public_affine_surface():
+    from scripts.complex_scenes_v18.world_queries import drop_particle_cloud
+    from scripts.complex_scenes_v18.particle_tracks import binding
+    from scripts.complex_scenes_v18.pair_contact import SurfaceBinding
+    query=Query('container_drop',1,initial_rotation_deg=23,initial_height_m=.02)
+    world=World('demo',(Material(np.log(12000)),));scene,state,_=build_reference(world,query)
+    surface=SurfaceBinding.build(scene.models[0],9);_,x=drop_particle_cloud(query);index,weight=binding(surface.q)
+    np.testing.assert_allclose((x[index]*weight[...,None]).sum(1),surface.B@(scene.models[0].rest+state.u[0]),atol=1e-12)

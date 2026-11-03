@@ -25,18 +25,27 @@ def restore(sim,values):
 
 def fit(args):
     name=f'{args.case}-v{args.variant}';out=ROOT/'runs/complex-scenes-v18'/args.label/name;out.mkdir(parents=True,exist_ok=False)
-    source=ROOT/'runs/complex-scenes-v18/development-prefixes'/name;meta=json.loads((source/'metadata.json').read_text());target=source/'observations.npz'
+    prefix=getattr(args,'prefix',None)
+    source=Path(prefix)if prefix else ROOT/'runs/complex-scenes-v18/development-prefixes'/name;meta=json.loads((source/'metadata.json').read_text());target=source/'observations.npz'
     if hashlib.sha256(target.read_bytes()).hexdigest()!=meta['observations_sha256']:raise ValueError('Prefix integrity')
     method=getattr(args,'method','spring-gaus');warm=None
-    if method=='spring-gaus':
+    if meta['case']!=args.case or meta['variant']!=args.variant:raise ValueError('Calibration scene identity mismatch')
+    query=None
+    if 'public_query'in meta:
+        from scripts.complex_scenes_v18.world_queries import Query
+        query=Query(**meta['public_query'])
+    if method=='spring-gaus'and not prefix:
         warm=ROOT/'runs/complex-scenes-v18/spring-scale-fit-01'/name/'fit-seal.json';warmdata=json.loads(warm.read_text())
         if not warmdata['completed']or warmdata['observations_sha256']!=meta['observations_sha256']:raise ValueError('Matching completed initialization required')
         initial_k=warmdata['best']['log10_k'];Class=DifferentiableSpringScene
-    else:
+    elif method=='phystwin':
         from scripts.complex_scenes_v18.differentiable_phystwin import DifferentiablePhysTwinScene
         Class=DifferentiablePhysTwinScene;initial_k=-.3
+    else:Class=DifferentiableSpringScene;initial_k=-.3
     a=np.load(target);observed=torch.tensor(a['positions_m'],dtype=torch.float32,device='cuda');indices=torch.tensor(a['surface_indices'],device='cuda');dt=25e-6;stride=round(.002/dt)
-    sim=Class(args.case,args.variant,log10_k=initial_k,per_edge=True)
+    if not np.isfinite(a['positions_m']).all()or np.any(np.diff(a['times_s'])<=0)or not np.isclose(a['times_s'][-1],meta['calibration_duration_s'],atol=1e-9):raise ValueError('Invalid calibration observations')
+    if not np.allclose(a['times_s'],np.arange(len(observed))*.002,atol=1e-9):raise ValueError('Expected 2 ms calibration clock starting at zero')
+    sim=Class(args.case,args.variant,log10_k=initial_k,per_edge=True,query=query)
     optimizer=torch.optim.Adam(sim.parameters,lr=args.lr);rows=[];best=None;best_loss=float('inf');start=time.monotonic();failures=0
     sources=[Path(__file__),ROOT/'scripts/complex_scenes_v18/explicit_boundaries.py',ROOT/'scripts/complex_scenes_v18/torch_boundaries.py']
     sources+=[ROOT/'scripts/complex_scenes_v18'/p for p in (['differentiable_spring.py','spring_scene.py']if method=='spring-gaus'else['differentiable_phystwin.py','phystwin_autograd.py','phystwin_scene.py'])]
@@ -51,6 +60,7 @@ def fit(args):
             topology[f'origin_len_{i}']=model.origin_len.detach().cpu().numpy()
         np.savez_compressed(out/'graph.npz',**topology)
         plan['graph_sha256']=hashlib.sha256((out/'graph.npz').read_bytes()).hexdigest()
+    plan.update(calibration_prefix=str(source),public_query=meta.get('public_query'),evaluation_split=meta.get('split','development'))
     write(out/'plan.json',plan)
     for epoch in range(args.epochs):
         if time.monotonic()-start>args.seconds:rows.append(dict(epoch=epoch,completed=False,error='Declared fitting time budget'));break
@@ -103,4 +113,4 @@ def fit(args):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--case',required=True);p.add_argument('--variant',type=int,default=0);p.add_argument('--label',default='spring-edge-fit-01');p.add_argument('--epochs',type=int,default=40);p.add_argument('--lr',type=float,default=.03);p.add_argument('--seconds',type=int,default=7200);p.add_argument('--method',choices=['spring-gaus','phystwin'],default='spring-gaus');a=p.parse_args();torch.set_num_threads(1);r=fit(a);raise SystemExit(0 if r['completed']else 1)
+    p=argparse.ArgumentParser();p.add_argument('--case',required=True);p.add_argument('--variant',type=int,default=0);p.add_argument('--label',default='spring-edge-fit-01');p.add_argument('--epochs',type=int,default=40);p.add_argument('--lr',type=float,default=.03);p.add_argument('--seconds',type=int,default=7200);p.add_argument('--method',choices=['spring-gaus','phystwin'],default='spring-gaus');p.add_argument('--prefix');a=p.parse_args();torch.set_num_threads(1);r=fit(a);raise SystemExit(0 if r['completed']else 1)

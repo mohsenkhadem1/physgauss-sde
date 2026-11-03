@@ -101,3 +101,13 @@ def build_boundary_geometry(query,**kwargs):
     scene,state,meta=build_prediction(query,lambda index:placeholder.provider(),**kwargs)
     meta['material_source']='Geometry-only placeholder; adapter supplies internal force'
     return scene,state,meta
+
+
+def drop_particle_cloud(query):
+    """Public cell-centered particle geometry for the native MPM adapter."""
+    if query.family!='container_drop':raise ValueError('Native MPM public adapter supports drops only')
+    q=np.stack(np.meshgrid((np.arange(12)+.5)/12,(np.arange(6)+.5)/6,(np.arange(6)+.5)/6,indexing='ij'),-1).reshape(-1,3)
+    x=q*np.array([.12,.06,.06])+np.array([0,-.03,-.03])
+    angle=np.deg2rad(query.initial_rotation_deg);c,s=np.cos(angle),np.sin(angle);rotation=np.array([[c,0,s],[0,1,0],[-s,0,c]])
+    center=np.array([.06,0,0]);x=(x-center)@rotation.T+center;x[:,2]+=query.initial_height_m
+    return q,x
