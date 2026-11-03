@@ -16,12 +16,18 @@ from scripts.complex_scenes_v18.run_development import ROOT,write
 from scripts.compositional_neural_mechanics.conditional_inference_pilot import BULK
 
 
-def run(case,variant,parameters,*,label,duration=None,n=1,dt=50e-6,seconds=1800,query=None):
+def run(case,variant,parameters,*,label,duration=None,n=1,dt=50e-6,seconds=1800,query=None,law_type='learned'):
     out=ROOT/'runs/complex-scenes-v18'/label/f'{case}-v{variant}';out.mkdir(parents=True,exist_ok=False);start=time.monotonic()
     frames=[];times=[];nodes=[];velocities=[];record=dict(completed=False,case=case,variant=variant,parameters=parameters,development_only=True,known_boundary=True,n=n,dt_s=dt,checkpoint_sha256=hashlib.sha256(Path(BULK).read_bytes()).hexdigest(),source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
     try:
-        law=IndependentBulkScale().double();law.base.load_state_dict(torch.load(BULK,map_location='cpu',weights_only=True)['state_dict']);law.eval()
-        for p in law.parameters():p.requires_grad_(False)
+        record['law_type']=law_type
+        if law_type=='learned':
+            law=IndependentBulkScale().double();law.base.load_state_dict(torch.load(BULK,map_location='cpu',weights_only=True)['state_dict']);law.eval()
+            for p in law.parameters():p.requires_grad_(False)
+        elif law_type=='analytic':
+            from scripts.complex_scenes_v18.analytic_control import AnalyticControl
+            law=AnalyticControl();record['checkpoint_sha256']=None
+        else:raise ValueError('Unknown constitutive model')
         def provider(i):
             def field(q,i=i):
                 scale=q.new_full(q.shape[:-1],parameters.get('scale',0.)+(parameters.get('second_scale',0.)if i else 0.))
