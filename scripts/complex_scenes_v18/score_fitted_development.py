@@ -30,7 +30,14 @@ def audit(output):
             if method=='uniphy'and case['case']!='container_drop':
                 row.update(state='unsupported',reason='Released demo adapter currently supports gravity drops with fixed bowl/sphere geometry; other common boundary types are not implemented')
                 continue
-            folder=base/label/name;sealpath=folder/'fit-seal.json'
+            folder=base/label/name
+            repaired=base/'phystwin-edge-fit-memoryfix-01'/name
+            if method=='phystwin'and case['case']=='container_drop'and repaired.exists():
+                previous=folder/'fit-seal.json'
+                row.update(replacement_reason='Rerun after native autograd output-retention repair',previous_fit_seal_sha256=sha(previous)if previous.exists()else None)
+                folder=repaired
+            row['fit_directory']=str(folder.relative_to(ROOT))
+            sealpath=folder/'fit-seal.json'
             if not sealpath.exists():continue
             seal=json.loads(sealpath.read_text());row['fit_seal_sha256']=sha(sealpath)
             if not seal['completed']:row.update(state='fit_failed');continue
