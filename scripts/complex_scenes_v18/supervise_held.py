@@ -107,7 +107,10 @@ def run(campaign,freeze_path,workers=8,gpus=(0,1,2)):
         counts={s:sum(r['state']==s for r in states.values())for s in set(r['state']for r in states.values())}
         terminal=all(r['state']in TERMINAL for r in states.values())
         write(campaign/'supervisor.json',dict(pid=os.getpid(),plan_sha256=plan_hash,counts=counts,terminal=terminal,cpu_workers=workers,gpus=list(gpus),updated_at=time.time()))
-        if terminal:return counts
+        if terminal:
+            from scripts.complex_scenes_v18.seal_task_failures import seal as seal_failures
+            seal_failures(campaign,plan,states)
+            return counts
         time.sleep(5)
 
 

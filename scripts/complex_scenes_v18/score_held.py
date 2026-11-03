@@ -34,7 +34,7 @@ def census(campaign):
                 row['prediction_seal_sha256']=sha(path)
                 if not prediction['completed']:
                     row.update(state=prediction.get('state','rollout_failed'),error=prediction.get('error'))
-                    if row['state']not in ('fit_failed','rollout_failed'):raise ValueError('Unknown terminal failure')
+                    if row['state']not in ('fit_failed','rollout_failed','execution_failed','calibration_reference_invalid'):raise ValueError('Unknown terminal failure')
                     continue
                 folder=ROOT/prediction['physical_output'];done=folder/'complete.json'
                 if sha(done)!=prediction['physical_complete_sha256']:raise ValueError('Changed physical prediction')
