@@ -1,0 +1,202 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+\usepackage[review]{cvpr}
+\usepackage{graphicx,amsmath,amssymb,booktabs,microtype}
+\definecolor{cvprblue}{rgb}{0.10,0.43,0.58}
+\usepackage[breaklinks,colorlinks,allcolors=cvprblue]{hyperref}
+\def\confName{CVPR}\def\confYear{2027}
+\title{Position-Driven Deformable Twins:\\Supplementary Material}
+\author{Anonymous submission}
+\begin{document}
+\maketitle
+\section{Reading the Evidence}
+This supplement records implementation details, all per-sequence real-data results, all five declared transfer pairs, and all 40 fresh SoftVT episodes. It distinguishes the benchmark adapters used in the main paper from older exploratory variants. No prediction is refitted, selected per future outcome, or modified for this manuscript. The first-page illustration is explicitly selected as the largest episode-level improvement; the benchmark means retain every episode.
+
+The paper studies the separation of material response from interaction conditions, instantiated in two existing implementations. SoftVT's release model uses an analytic mechanics anchor with empirical correction. PhysTwin's current external adapter uses a frozen neural constitutive energy. There is no claim that the SoftVT gain was obtained with the neural decoder, nor that one shared checkpoint was trained across these datasets. The recent video-query reconstruction prototype is outside this work.
+
+\section{Implementation Details}
+\subsection{Initial geometry and material field}
+The arbitrary-cloud FEM normalizes coordinates by the maximum initial bounding-box extent. A Delaunay tetrahedralization supplies elements; a support-distance filter removes elements bridging empty regions in nonconvex objects. The filter probes element centers and six edge midpoints, retaining probes within 0.045 normalized units of the initial support cloud. Elements with nearly zero reference determinant are excluded.
+
+Six material kernels are selected from initial nodes by farthest-point sampling. Gaussian kernel values at element centers are normalized and volume-centered. The learned spatial scale is a linear combination of these features. Material coefficients are fitted within declared bounds. This compact field is an effective representation of the reconstructed object, not a measurement of six independently identified physical materials.
+
+The analytic model uses Poisson ratio 0.35. The real neural adapter uses the pretrained scalar energy and a separate bounded volumetric adjustment,
+\begin{equation}
+\widetilde W=W_\theta+(e^\beta-1)e^s c_v(h,f)(J-\log J-1),
+\end{equation}
+where $c_v$ is the positive volumetric coefficient in the normalized pretrained law. The adjustment is zero at $\beta=0$. Decoder weights are never optimized on the real evaluation sequence.
+
+\subsection{Pose and residual corrections}
+The inherited SoftVT pipeline distinguishes rigid pose correction from a nonrigid empirical residual. A Kabsch alignment fits the discrepancy between the mechanics anchor and the permitted observed prefix. This discrepancy is expressed in the moving controller frame and transported to subsequent attached configurations.
+
+For the residual candidate, a normalized feature vector combines controller-relative translation and rotated gravity. Ridge regression predicts local observed-point residuals from these features. Each marker's predicted residual magnitude is capped at twice its largest prefix residual, with a small positive floor. Inverse-distance interpolation over up to six initial observed neighbors transfers residuals to mechanical nodes. A finite rigid-alignment projection removes the rigid component before applying the nonrigid correction.
+
+The historical selector compares no correction, pose correction and residual correction with strengths 0.25, 0.5 and 1.0. Its chronological validation uses the first 70\% of the available observation prefix for a separately fitted mechanics prediction and the remaining prefix for selection. Recalibration of the shortened input recomputes grasp geometry, so later validation observations do not define the fitted subprefix's attachment transform. The selected configuration is then refitted to the full permitted prefix. These corrections are empirical prediction devices, not inferred forces or constitutive laws.
+
+The slip-aware experiment uses the frozen original mechanics/contact anchor, not a hindsight combination of whichever historical selector won a test sequence. Its eight-frame gravity-projected relative velocity and overlap threshold are fixed before the fresh 40-episode evaluation.
+
+\subsection{Reduced contact rollout}
+After release, node positions define a rigid body's instantaneous point distribution. The integrator updates translation and orientation under gravity and sequential static-surface impulses using ten substeps. The friction coefficient is 0.5 and restitution is zero. A position projection removes residual vertical penetration. Elastic shape and collision impulses are not jointly optimized. Consequently a successful placement prediction does not demonstrate accurate compression, friction coefficients or contact stress.
+
+\subsection{Real-data solver settings and recovery}
+The corrected real-data recipe uses 240 nodes, 18 prefix fitting frames and at most 50 parameter-optimization iterations, with a 1,800-second fitting budget and a 3,600-second total run budget. The ordinary equilibrium solve allows 80 iterations. One single-lift-zebra neural rollout frame exhausted that allowance; a recorded recovery retried the unchanged warm-start state and parameters with 320 iterations. It converged in 102 iterations with residual $1.36\times10^{-11}$ and minimum element determinant 0.714. No parameters were refitted for that recovery.
+
+\section{Metrics and Aggregation}
+For a frame containing $N$ nodes, coordinate RMSE is
+\begin{equation}
+E_{\mathrm{coord}}(t)=\sqrt{\frac1{3N}\sum_{i=1}^N\|\hat x_i(t)-x_i(t)\|^2}.
+\end{equation}
+SoftVT reports the mean of these frame errors, then averages episodes equally. It is not the same quantity as a pooled RMS over all frames. Rigid-aligned shape error applies one best-fitting proper rigid transform per frame before scoring.
+
+Real manual-track error averages pointwise Euclidean distances over finite annotations in each frame and then averages frames and sequences equally. Displacement error uses $\hat x_i(t)-\hat x_i(0)$ and $x_i(t)-x_i(0)$. Pair-distance-change error averages
+\begin{equation}
+\left|\big(\|\hat x_i^t-\hat x_j^t\|-\|\hat x_i^0-\hat x_j^0\|\big)-\big(\|x_i^t-x_j^t\|-\|x_i^0-x_j^0\|\big)\right|
+\end{equation}
+over unordered annotated pairs. All three errors are geometric. Missing annotations are excluded; missing predictions are failures, not zero errors. Real transfer scores every noninitial target frame; sequence continuation uses the released test suffix.
+
+\paragraph{Image metrics.}
+A fixed crop comes from the reference foreground mask plus eight pixels of padding. Background treatment is common to all methods, and predicted spill within the crop remains penalized. PSNR uses RGB mean squared error, SSIM uses the common crop, and LPIPS uses a frozen perceptual network. Three noninitial times and three cameras produce nine images per sequence and 72 per method. Frame zero is excluded from the reported means. No image metric is reported for arbitrary unrecorded cameras because no reference RGB exists there.
+
+\begin{table*}[!t]
+\centering\small\setlength{\tabcolsep}{3pt}
+\caption{All eight corrected-mask real sequence continuations. Mean manual-track distance in mm, lower is better. Each method completes all eight sequences. These historically exposed sequences are an exploratory benchmark, not a sealed new-object test.}
+\begin{tabular}{lrrrr}\toprule
+Sequence & Ours, neural & Analytic & Position ridge & Released PhysTwin\\\midrule
+single\_lift\_sloth & 38.17 & 37.57 & 47.61 & 24.93\\
+single\_lift\_dinosor & 47.08 & 52.79 & 17.80 & 16.63\\
+single\_push\_sloth & 62.13 & 60.90 & 36.62 & 21.12\\
+double\_lift\_sloth & 34.11 & 34.99 & 29.32 & 28.13\\
+double\_stretch\_sloth & 16.01 & 15.17 & 7.89 & 9.75\\
+single\_lift\_zebra & 62.13 & 69.15 & 46.61 & 24.30\\
+double\_lift\_zebra & 34.43 & 32.07 & 25.64 & 31.20\\
+double\_stretch\_zebra & 18.04 & 21.66 & 20.84 & 13.08\\
+\midrule Equal-sequence mean &39.01&40.54&29.04&21.14\\\bottomrule
+\end{tabular}
+\end{table*}
+\begin{table*}[!t]
+\centering\small\setlength{\tabcolsep}{3pt}\setlength{\tabcolsep}{4pt}
+\caption{All five declared real transfer pairs, including failed initial-geometry gates. Values are full noninitial interaction tracking errors in mm. Only the two passing pairs enter the primary transfer mean.}
+\begin{tabular}{llcrrrr}\toprule
+Source & Target & Gate & Ours & Analytic & Frozen native & Persistence\\\midrule
+single\_lift\_sloth & double\_lift\_sloth & Fail & 21.50 & 21.71 & 58.97 & 57.77\\
+single\_lift\_sloth & double\_stretch\_sloth & Fail & 31.87 & 33.07 & 42.36 & 38.37\\
+single\_lift\_sloth & single\_push\_sloth & Pass & 42.78 & 42.73 & 58.23 & 112.55\\
+single\_lift\_zebra & double\_lift\_zebra & Pass & 35.54 & 39.06 & 31.02 & 45.68\\
+single\_lift\_zebra & double\_stretch\_zebra & Fail & 39.76 & 43.54 & 39.50 & 46.24\\
+\midrule\multicolumn{3}{l}{Two passing pairs} &39.16&40.90&44.63&79.11\\
+\multicolumn{3}{l}{All five, diagnostic only} &34.29&36.02&46.02&60.12\\\bottomrule
+\end{tabular}
+\end{table*}
+\section{Real-Data Protocol and Historical Results}
+\paragraph{Ordinary continuation.}
+The eight-sequence table retains sloth, zebra and dinosaur sequences without choosing a subset where the new adapter wins. The released PhysTwin forecast is the comparator, not a retrained model with an artificially restricted fitting budget. Our 240-node neural and analytic adapters use the same external geometry recipe and prefix input contract. Differences from the released native pipeline include discretization, fitting budget, dynamics and appearance transport.
+
+\paragraph{Frozen transfer.}
+The compatibility test is fixed before target-motion scoring: symmetric median initial registration distance must be below 3\% of the source bounding-box diagonal, and the 95th percentile below 8\%. Sloth lift-to-push and zebra one-hand-to-two-hand lift pass. The three other pairs remain in the diagnostic table, rather than being silently dropped. Identity follows the release's object names; independent confirmation of material identity and rest-state compatibility is not available.
+
+The native frozen adaptation preserves source object springs, reconstructs target controller connections geometrically and assigns the median source controller stiffness to the new connections. Our adapter uses the registered source material field and median source attachment strength. Neither fits target motion after initialization. Initial manual-track matching is common across methods and can itself contribute an offset; this motivates reporting displacement and pair-distance-change metrics alongside absolute tracking.
+
+\paragraph{Preserving the earlier best benchmark results.}
+The development archive contains an earlier selected PhysTwin predictor with mean manual error 33.019\,mm, stronger than subsequent 41.277\,mm attachment-width and 43.104\,mm Gaussian-residual variants. A guarded ridge-switch extension gave 37.044\,mm and was not promoted. These values are retained below as historical results, not relabeled as outputs of the current neural model.
+
+\begin{table}[h]
+\centering\small\setlength{\tabcolsep}{3pt}
+\caption{Historical PhysTwin configurations on eight exposed sequences. Old input/export and selection protocols; these are not a matched ablation against the corrected-mask table above.}
+\begin{tabular}{lr}\toprule
+Archived configuration & Track error (mm)\\\midrule
+Prior selected predictor &33.019\\
+Guarded ridge-switch extension &37.044\\
+Attachment-width primary &41.277\\
+Always-on Gaussian residual &43.104\\
+Original mechanics/contact anchor &43.426\\\bottomrule
+\end{tabular}
+\end{table}
+
+The old adapter used different masks, geometry and correction rules. In the current corrected export, a position at time $t$ uses incoming transition validity from $t-1$, rather than the outgoing transition from $t$ to $t+1$. We do not compare historical scores as though only one architectural component changed. The primary manuscript uses the corrected-mask neural and analytic records and gives the historical best its own provenance.
+
+
+
+\clearpage
+\onecolumn
+\section{All Fresh SoftVT Episodes}
+\begin{center}
+\small
+\begin{tabular}{lrrr}\toprule
+Episode & Original mechanics/contact (mm) & Ours with slip (mm) & Improvement (mm)\\\midrule
+object-soft-task1-demo40 & 16.031 & 15.868 & +0.163\\
+spatial-soft-task1-demo40 & 12.417 & 10.148 & +2.269\\
+object-soft-task2-demo40 & 12.967 & 12.864 & +0.103\\
+spatial-soft-task2-demo40 & 54.241 & 52.756 & +1.485\\
+object-soft-task1-demo41 & 16.559 & 16.134 & +0.425\\
+spatial-soft-task1-demo41 & 12.579 & 10.170 & +2.409\\
+object-soft-task2-demo41 & 13.308 & 13.458 & -0.150\\
+spatial-soft-task2-demo41 & 22.623 & 17.402 & +5.221\\
+object-soft-task1-demo42 & 16.702 & 16.484 & +0.218\\
+spatial-soft-task1-demo42 & 11.770 & 10.384 & +1.386\\
+object-soft-task2-demo42 & 13.329 & 13.130 & +0.199\\
+spatial-soft-task2-demo42 & 34.385 & 33.711 & +0.674\\
+object-soft-task1-demo43 & 16.283 & 15.996 & +0.287\\
+spatial-soft-task1-demo43 & 11.082 & 10.194 & +0.887\\
+object-soft-task2-demo43 & 13.246 & 13.149 & +0.098\\
+spatial-soft-task2-demo43 & 19.793 & 16.415 & +3.378\\
+object-soft-task1-demo44 & 15.649 & 15.465 & +0.185\\
+spatial-soft-task1-demo44 & 12.240 & 10.044 & +2.196\\
+object-soft-task2-demo44 & 12.697 & 12.903 & -0.206\\
+spatial-soft-task2-demo44 & 56.061 & 54.759 & +1.302\\
+object-soft-task1-demo45 & 17.165 & 16.795 & +0.371\\
+spatial-soft-task1-demo45 & 12.437 & 9.369 & +3.068\\
+object-soft-task2-demo45 & 13.637 & 13.606 & +0.031\\
+spatial-soft-task2-demo45 & 18.151 & 15.140 & +3.011\\
+object-soft-task1-demo46 & 15.687 & 14.907 & +0.781\\
+spatial-soft-task1-demo46 & 11.847 & 10.493 & +1.354\\
+object-soft-task2-demo46 & 11.753 & 11.662 & +0.091\\
+spatial-soft-task2-demo46 & 16.481 & 13.610 & +2.871\\
+object-soft-task1-demo47 & 17.194 & 16.797 & +0.398\\
+spatial-soft-task1-demo47 & 12.460 & 10.403 & +2.057\\
+object-soft-task2-demo47 & 12.976 & 12.926 & +0.049\\
+spatial-soft-task2-demo47 & 58.251 & 57.654 & +0.597\\
+object-soft-task1-demo48 & 34.294 & 35.380 & -1.086\\
+spatial-soft-task1-demo48 & 13.020 & 10.851 & +2.169\\
+object-soft-task2-demo48 & 12.922 & 13.154 & -0.232\\
+spatial-soft-task2-demo48 & 21.727 & 20.391 & +1.336\\
+object-soft-task1-demo49 & 15.707 & 15.351 & +0.356\\
+spatial-soft-task1-demo49 & 12.651 & 10.698 & +1.953\\
+object-soft-task2-demo49 & 13.140 & 13.122 & +0.018\\
+spatial-soft-task2-demo49 & 21.828 & 20.851 & +0.977\\
+\midrule Equal-episode mean &18.932&17.865&+1.067\\\bottomrule
+\end{tabular}
+\end{center}
+\noindent All 40 episodes and all 1,998 forecast frames are complete. Positive improvement favors ours. The four losses remain in the mean. Episode IDs 40--49 are drawn from two tasks in each of the object-soft and spatial-soft suites. These are repeated-asset episodes, not 40 distinct objects. The reported bootstrap resamples paired episodes and therefore describes this episode cohort, not unseen-object uncertainty.
+
+\clearpage
+\twocolumn
+\section{Regression Preservation and Supporting Studies}
+\paragraph{SoftVT regression inventory.}
+The full inventory contains 220 cases across development, historical and prospective cohorts. The robust predictor completes all 220 trajectories. The numerical fallback is triggered only by a nonfinite original nodal trajectory, repairing object-soft-task2-demo31. All 179 previously finite Phase A predictions remain bitwise identical. The earlier 40 confirmation episodes include an original trajectory with missing frames; their available-frame baseline mean must not be treated as a complete paired forecast score. The main paper instead uses the later fresh 40-episode cohort where both methods have complete coverage.
+
+\paragraph{Controlled mechanics results retained separately.}
+Earlier controlled simulations provide stronger physical-reference comparisons but are not external-dataset benchmark results. A six-family study contains four independent material worlds per family and two held interactions per world, for 24 worlds and 48 queries. The families include clamps/release, curved pushing, container drops, rigid impact, two deformable bodies and heterogeneous material. All compared methods receive reference geometry, density, supplied boundary parameters and calibration tracks. The neural decoder is frozen while descriptors are fitted.
+
+\begin{table}[h]
+\centering\small\setlength{\tabcolsep}{3pt}
+\caption{Supporting controlled synthetic study from the preserved mechanics manuscript. Not pooled with SoftVT or real PhysTwin. Motion and shape RMS are in mm; all listed rows complete 48 queries.}
+\begin{tabular}{lrr}\toprule
+Method & Motion & Shape\\\midrule
+Shared neural mechanics &1.97&1.25\\
+Matched analytic control &1.84&1.16\\
+Native PhysTwin adaptation &10.80&5.94\\
+Native Spring-Gaus adaptation &11.27&6.00\\\bottomrule
+\end{tabular}
+\end{table}
+
+This supporting study shows that the shared mechanics model can perform well under its controlled assumptions. The matched analytic model remains competitive. The simulations use known boundary conditions and a related constitutive teacher family, whereas the external benchmarks include unknown effective coupling and reconstructed geometry. Their favorable synthetic errors must not be presented as real-data performance. Reference-resolution and adapter sensitivity remain documented in the preserved controlled-study records.
+
+\section{Figure Provenance and Reproduction}
+All figures are generated programmatically from saved data and metrics. The teaser uses spatial-soft-task2-demo41, the largest improvement among the 40 fresh episodes. Its timestamp is 75\% through the forecast suffix. Surface triangles come from the initial node convex hull solely for visualization, and the saved node positions are unchanged. The reference and predictions share world limits and camera. No deformation amplification or separate per-method alignment is applied.
+
+The real image panel uses the first declared continuation sequence, single-lift sloth, at final frame 84 in camera 2. It displays full recorded and rendered images. Its appearance assets and transport policy are shared across methods. The method diagram is a schematic of coordinate roles, not generated experimental evidence. Scatter plots and bars include complete declared cohorts.
+
+The editable source package includes precomputed vector PDF figures, so it can compile without raw datasets. Figure regeneration requires the original benchmark assets and saved predictions. A provenance manifest records the exact evaluation sources, hashes and selection rules. The original benchmark records remain unchanged. The paper build performs table checks and verifies numerical summaries without launching fitting or simulation jobs.
+
+\paragraph{Claim boundaries.}
+The work does not claim overall state-of-the-art performance on either dataset's native task, learned camera estimation, image-only material recovery, force accuracy from real captures, calibrated uncertainty, or superiority of uncertainty-guided probing. It provides concrete position-driven prediction results with a complete prospective episode test, a corrected real continuation benchmark and a limited cross-interaction transfer pilot. These are the claims supported by the reported artifacts.
+\end{document}
