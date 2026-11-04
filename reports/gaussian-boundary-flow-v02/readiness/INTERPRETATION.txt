@@ -1,0 +1,21 @@
+Readiness screen: 8 exposed predictor packages, 4 predetermined worlds each, GPU2.
+No fitting, future object targets, evaluator access, or fresh episode arrays. Source hashes unchanged.
+Numerical completion: 31/32 draws. All 8 initial meshes connected, with no unused/zero-mass nodes.
+
+Case | complete | prefix coordinate RMSE mm (completed draws) | rigid-aligned shape mm | initial raw observation mismatch mm | minimum J
+single_lift_sloth | 4/4 | 11.672–23.599 | 5.796–6.314 | 0.055–1.162 | 0.5599
+single_push_sloth | 4/4 | 22.220–23.937 | 17.976–18.028 | 0.690–3.885 | 0.7657
+single_lift_zebra | 4/4 | 15.281–43.284 | 7.414–7.622 | 1.650–2.919 | 0.3322
+double_lift_zebra | 4/4 | 11.114–16.338 | 7.123–7.257 | 0.225–2.546 | 0.4745
+object-soft-task1-demo0 | 3/4 | 3.313–3.449 | 2.604–2.937 | 0.049–0.357 | 0.0963
+object-soft-task2-demo0 | 4/4 | 1.081–1.370 | 0.782–0.949 | 0.134–0.526 | 0.0691
+spatial-soft-task1-demo0 | 4/4 | 2.464–2.674 | 2.032–2.281 | 0.060–0.365 | 0.0394
+spatial-soft-task2-demo0 | 4/4 | 1.964–2.032 | 0.903–1.098 | 0.283–0.676 | 0.1768
+
+The object-soft task1 seed913 draw failed at frame52 (residual0.0956674). Partial-prefix metrics are saved separately and must not be compared as full-prefix results. Successful-step minJ before failure was0.0534; failed-step minJ unavailable.
+Spatial-soft task1 completed but one draw approached the J>0.03 acceptance barrier (minJ0.0394). Object-soft task2 reached minJ0.0691. These strongly compressed elements warrant mesh/rest-state/fixture checks, not a claim of physical correctness.
+PhysTwin single-push sloth has consistently large rigid-aligned error (~18mm) across all four worlds. Single-lift zebra has large coordinate variation (15–43mm) but shape error ~7.4–7.6mm. This suggests investigating both rigid/controller alignment and shape/contact/rest assumptions; four prior draws do not establish an irreducible model floor.
+SoftVT prefix coordinate errors are smaller in absolute millimetres (1.1–3.4mm), but different scale/motion/observation density prevents interpreting this as dataset superiority. Establish persistence and observed deformation scales before ranking.
+Recommended next gate: prefix-only oracle/model-adequacy audits, especially sloth push and SoftVT object task1. Do not train a large bank until its support covers observed context and failure regions are explicitly handled. Numerical success alone cannot qualify forecasting, calibrated uncertainty, or absolute material inference.
+Every rollout retained raw frame-zero equilibrium mismatch; no initial-position rebasing was applied. Twelve requested frames were scored, while every intermediate controller frame was solved. All errors here are development diagnostics, not held-out performance.
+Total solver elapsed: 23.89s; construction: 0.38s. These small 64-node timings do not benchmark training or rendering speed.

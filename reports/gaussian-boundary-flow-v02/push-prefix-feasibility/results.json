@@ -1,0 +1,230 @@
+{
+  "plan": {
+    "case": "single_push_sloth",
+    "scope": "Prefix-only geometric/mechanical feasibility; no suffix evaluation, fitting or posterior training",
+    "package": "runs/gaussian-boundary-flow-v02-expansion-affine-inputs/single_push_sloth",
+    "manifest_sha256": "1074b1a19e27051c6fe8ebb85b1d80c3358f70a1b66346a1137ee381ae38ab1b",
+    "normal_policy": {
+      "prefix_frames": 12,
+      "observation_points": 48,
+      "min_command_span_m": 0.005,
+      "min_first_component_fraction": 0.8,
+      "min_net_alignment": 0.8,
+      "min_initial_inward_cosine": 0.1,
+      "normal": "principal controller-centroid motion axis, signed by prefix net motion",
+      "plane_origin": "current prescribed controller centroid + declared standoff * fixed normal",
+      "standoff_hypotheses_m": [
+        -0.01,
+        0.0,
+        0.01
+      ],
+      "limitation": "Straight approach direction is a proxy, not an observed tool surface normal"
+    },
+    "worlds": "Three fixed plane offsets, shared median prior logits z=0; not random search",
+    "standoffs_m": [
+      -0.01,
+      0.0,
+      0.01
+    ],
+    "prefix_frames": 12,
+    "point_ids": 48,
+    "device": "cpu",
+    "failure_policy": "Preserve failures without fallback normals or modified solver gates",
+    "source_sha256": {
+      "/home/bayespc2/vscode/guassianSDE/scripts/gaussian_boundary_flow_v02/push_prefix_feasibility.py": "7383264231fd0cdb0b2c24cb4119ccb1e2ed6bfa199633711f8c511856b94e26",
+      "scripts/gaussian_boundary_flow_v02/push_backend.py": "48192f0accbc425456e326db91fba2689774792d9900fe2302d38b22b3c07ab9",
+      "scripts/gaussian_boundary_flow_v02/unilateral_attachment.py": "01d39ac08aa650608d64574d2a2c98e4250de5b7bd4855b35ffda6bf6ade6611"
+    }
+  },
+  "rows": [
+    {
+      "standoff_m": -0.01,
+      "completed": true,
+      "normal_hypothesis": {
+        "policy": {
+          "prefix_frames": 12,
+          "observation_points": 48,
+          "min_command_span_m": 0.005,
+          "min_first_component_fraction": 0.8,
+          "min_net_alignment": 0.8,
+          "min_initial_inward_cosine": 0.1,
+          "normal": "principal controller-centroid motion axis, signed by prefix net motion",
+          "plane_origin": "current prescribed controller centroid + declared standoff * fixed normal",
+          "standoff_hypotheses_m": [
+            -0.01,
+            0.0,
+            0.01
+          ],
+          "limitation": "Straight approach direction is a proxy, not an observed tool surface normal"
+        },
+        "frames": [
+          0,
+          4,
+          8,
+          12,
+          16,
+          20,
+          25,
+          29,
+          33,
+          37,
+          41,
+          46
+        ],
+        "normal": [
+          -0.17399438340570877,
+          -0.9847121932187624,
+          0.008237176067201974
+        ],
+        "net_span_m": 0.19588564237365133,
+        "first_component_fraction": 0.9990730256624709,
+        "net_alignment": 0.9999609155765004,
+        "initial_inward_cosine": 0.9829253060641135,
+        "standoff_m": -0.01,
+        "interpretation": "Identified command axis only; surface-normal and standoff assumptions remain unverified"
+      },
+      "prefix_absolute_coordinate_rmse_mm": 36.1816986346075,
+      "prefix_relative_coordinate_rmse_mm": 35.52016870122705,
+      "path": {
+        "frames_solved": 47,
+        "maximum_residual": 8.632128888687151e-08,
+        "minimum_J": 0.4795644160826163,
+        "iterations": 169
+      },
+      "parameter_logits": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "standoff_m": 0.0,
+      "completed": true,
+      "normal_hypothesis": {
+        "policy": {
+          "prefix_frames": 12,
+          "observation_points": 48,
+          "min_command_span_m": 0.005,
+          "min_first_component_fraction": 0.8,
+          "min_net_alignment": 0.8,
+          "min_initial_inward_cosine": 0.1,
+          "normal": "principal controller-centroid motion axis, signed by prefix net motion",
+          "plane_origin": "current prescribed controller centroid + declared standoff * fixed normal",
+          "standoff_hypotheses_m": [
+            -0.01,
+            0.0,
+            0.01
+          ],
+          "limitation": "Straight approach direction is a proxy, not an observed tool surface normal"
+        },
+        "frames": [
+          0,
+          4,
+          8,
+          12,
+          16,
+          20,
+          25,
+          29,
+          33,
+          37,
+          41,
+          46
+        ],
+        "normal": [
+          -0.17399438340570877,
+          -0.9847121932187624,
+          0.008237176067201974
+        ],
+        "net_span_m": 0.19588564237365133,
+        "first_component_fraction": 0.9990730256624709,
+        "net_alignment": 0.9999609155765004,
+        "initial_inward_cosine": 0.9829253060641135,
+        "standoff_m": 0.0,
+        "interpretation": "Identified command axis only; surface-normal and standoff assumptions remain unverified"
+      },
+      "prefix_absolute_coordinate_rmse_mm": 35.50595789817383,
+      "prefix_relative_coordinate_rmse_mm": 34.912135075192346,
+      "path": {
+        "frames_solved": 47,
+        "maximum_residual": 7.974424925304837e-08,
+        "minimum_J": 0.47245666275160864,
+        "iterations": 159
+      },
+      "parameter_logits": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "standoff_m": 0.01,
+      "completed": true,
+      "normal_hypothesis": {
+        "policy": {
+          "prefix_frames": 12,
+          "observation_points": 48,
+          "min_command_span_m": 0.005,
+          "min_first_component_fraction": 0.8,
+          "min_net_alignment": 0.8,
+          "min_initial_inward_cosine": 0.1,
+          "normal": "principal controller-centroid motion axis, signed by prefix net motion",
+          "plane_origin": "current prescribed controller centroid + declared standoff * fixed normal",
+          "standoff_hypotheses_m": [
+            -0.01,
+            0.0,
+            0.01
+          ],
+          "limitation": "Straight approach direction is a proxy, not an observed tool surface normal"
+        },
+        "frames": [
+          0,
+          4,
+          8,
+          12,
+          16,
+          20,
+          25,
+          29,
+          33,
+          37,
+          41,
+          46
+        ],
+        "normal": [
+          -0.17399438340570877,
+          -0.9847121932187624,
+          0.008237176067201974
+        ],
+        "net_span_m": 0.19588564237365133,
+        "first_component_fraction": 0.9990730256624709,
+        "net_alignment": 0.9999609155765004,
+        "initial_inward_cosine": 0.9829253060641135,
+        "standoff_m": 0.01,
+        "interpretation": "Identified command axis only; surface-normal and standoff assumptions remain unverified"
+      },
+      "prefix_absolute_coordinate_rmse_mm": 34.91870855589594,
+      "prefix_relative_coordinate_rmse_mm": 34.684748723163835,
+      "path": {
+        "frames_solved": 47,
+        "maximum_residual": 7.970759834177376e-08,
+        "minimum_J": 0.4695847915710697,
+        "iterations": 176
+      },
+      "parameter_logits": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "seconds": 2.8486101627349854,
+  "held_target_access": false,
+  "interpretation": "Feasibility only, no plane selection or inferred-normal accuracy claim"
+}

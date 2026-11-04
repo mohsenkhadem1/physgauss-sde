@@ -1,0 +1,42 @@
+Independent final pose/contact baseline audit
+
+Decision: acceptable to retain as a frozen, disclosed approximate pose baseline.
+No evidence of extra observation or future object target access in predictor or
+campaign. The pose fit uses exactly parent prefix_frames and point_ids, with a
+shared-validity mask. Future controller and activation are prescribed inputs.
+Tests independently perturb unselected prefix frames and points with no output
+change, reject future observation arrays, and reject evaluator fields. The campaign
+verifies the source prediction seal and input manifest/digest before deriving output.
+
+Held-shape preservation: pose layer applies a proper rigid transform to each raw
+FEM node shape. Plane correction adds one vertical translation to the whole cloud.
+Therefore held pairwise node distances are preserved. At prescribed release, shape
+is frozen and the archived unit-mass rigid-cloud integrator continues gravity,
+friction-capped impulses and vertical penetration projection. This does NOT model
+elastic contact deformation, reaction identification, momentum exchange with the
+hand, calibrated restitution, or inferred slip. Policy constants are explicit.
+
+The supplied floor is initial min-z, an approximate known input plane rather than
+measured future contact geometry. Enforcing its nonpenetration by projection is
+not an independent physical sanity success. No coupled FEM/energy/physical-accuracy
+claim is supported. Sample shape variability is retained but pose is point-estimated;
+intervals do not capture full pose/contact uncertainty. Original forecast failures
+remain in completion metadata; no new prediction-based sample filtering occurs.
+
+Report figures checked directly:
+SoftVT object-soft-task1-demo0 flow_pose18.3093mm versusflow_raw56.2194mm.
+PhysTwin single_push_sloth flow_pose48.8085mm versusprefix_velocity36.3413mm.
+The pushed toy is still worse than the simple velocity baseline. Both are previously
+exposed development cases; this policy was developed after earlier results and is
+not a fresh holdout claim. It demonstrates utility of explicit pose/plane modeling,
+not recovered material/boundary truth or general benchmark superiority.
+
+Incremental validation only (unchanged large suite not rerun):
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_gaussian_boundary_pose_shape_v02.py tests/test_gaussian_boundary_pose_shape_contact_v02.py tests/test_gbf_v02_object_score_audit.py -q --junitxml=/tmp/gbf-tests-pose.xml
+26passed. tests-summary.json/txt updated to160unique passed across recorded runs.
+
+Minor provenance limitation: derived complete.json records policy_metadata_sha256,
+but load_sealed currently validates prediction/plan rather than that ancillary
+metadata hash. This does not change scored arrays; preserve report/source hashes
+for the policy diagnostics. Historical parent checkpoints retain their explicitly
+disclosed legacy provenance limitation. No code changes made in this final audit.

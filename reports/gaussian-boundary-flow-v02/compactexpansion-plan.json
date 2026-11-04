@@ -1,0 +1,91 @@
+{
+  "status": "Frozen analysis/adoption policy before expanded evaluation; all cases historically exposed",
+  "date": "2026-11-04",
+  "cases": [
+    "single_lift_sloth",
+    "single_push_sloth",
+    "single_lift_zebra",
+    "double_lift_zebra",
+    "object-soft-task1-demo0",
+    "object-soft-task2-demo0",
+    "spatial-soft-task1-demo0",
+    "spatial-soft-task2-demo0"
+  ],
+  "training": {
+    "bank_accepted_worlds_per_case": 128,
+    "steps": 5000,
+    "posterior_draws": 32,
+    "prefix_frames": 12,
+    "observed_points": 48,
+    "noise": "sigma=1mm independent absolute-coordinate errors followed by shared frame-zero subtraction",
+    "PCA": "persist exact mean/basis/scale and bind to bank/plan/model hashes",
+    "affine_observation_map": "corrected map shared by all methods in each case"
+  },
+  "methods": [
+    "flow_raw",
+    "mixture_raw",
+    "flow_pose_contact",
+    "mixture_pose_contact",
+    "nearest_bank_raw",
+    "nearest_bank_pose_contact",
+    "prefix_persistence",
+    "prefix_velocity"
+  ],
+  "geometry": {
+    "default_nodes": 64,
+    "policy": "Use initial-geometry validity only to choose any required resolution repair before bank training/scoring; record override and use identical geometry for every within-case method",
+    "known_issue": "Filtered double_lift_zebra64 previously disconnected; preflight before launch",
+    "heterogeneous_budget_claim": "Cross-case node-budget heterogeneity is not a clean architecture/ranking experiment; report per-case nodes/elements, never compare archived240 against new64 as matched"
+  },
+  "retrieval": "One nearest bank world by prefix feature MSE, deterministic stable tie break; fixed index before future rollout; no replacement if failed; no posterior interval claim",
+  "pose_contact": "Frozen v2 policy, prescribed activation only, no inferred slip, initial floor, archived rigid integrate_pose80 substeps/friction0.5 plus disclosed held projection; no coupled FEM/contact claim",
+  "analysis": {
+    "primary": "Future coordinate RMSE, equal-frame mean within case then equal-case mean separately within each dataset",
+    "secondary": [
+      "rigid-aligned shape error",
+      "full requested/valid/failure counts",
+      "retained and discarded feature support screening",
+      "descriptive coordinate interval coverage/width for stored joint samples",
+      "floor penetration and correction magnitude; projection not physical accuracy"
+    ],
+    "paired_comparisons": [
+      "flow versus mixture on same raw backend",
+      "each pose-contact versus its own raw result",
+      "each learned pose-contact versus nearest-bank pose-contact",
+      "all candidates versus persistence/velocity"
+    ],
+    "uncertainty": "Four cases per dataset: report every paired difference and win count; any bootstrap interval is descriptive with cases as resampling units, never frames/samples",
+    "failed_methods": "Keep all eight cases; failure-aware completion table first; complete-case scores explicitly conditional and cannot establish superiority by dropping hard cases",
+    "intervals": "Label survivor-conditional shape/pose model assumptions; no averaging fake repeated nearest-world samples"
+  },
+  "adoption": {
+    "diagnostic_improvement": "Report a method improvement only on the named metric and cases supported; show regressions alongside gains",
+    "default_predictive_candidate": "Requires lower equal-case mean coordinate error than nearest-bank pose-contact in BOTH datasets, no lower case completion, and at least2of4case wins in each dataset. If not, retain separate candidates; do not choose per-case winners using suffix errors. Shape regressions remain explicitly disclosed; coordinate adoption is not physical-realism adoption.",
+    "physical_inference": "No material/contact calibration claim from these datasets or projected-floor trajectories",
+    "calibrated_posterior": "Not established by this eight-case development expansion; nominal intervals and screening are diagnostic",
+    "novel_generalization": "No unseen-object, sealed test, or SOTA claim from historically exposed cases"
+  },
+  "provenance": {
+    "before_evaluator": "Freeze each package/bank/PCA/weights/inference/prediction and derived source/selection hashes; no source mutation on resume",
+    "previous_reference_commit": "fe48924 supplied by root; no claim it is current HEAD",
+    "source_sha256": {
+      "package_campaign_v03.py": "de5290b895c35f7c048914069aa1219525aacea67ff18cc27e0af6326269fed1",
+      "pose_shape_contact.py": "43614fa422517d8766d9a047245aba4566ceed47df6c87d2c4974b7cfa44fa64",
+      "pose_shape.py": "6c0c1fe22d3b65a22cdaf2c88423957ebdc411353a2efbe5b48933f11ce46fd4",
+      "feature_support.py": "3d5a1e05a74c600968f56b55b310d35a54cf1391d636a2c828b929dca02802b5",
+      "checkpoint_contract.py": "ba5d7ef8eba96ddc2db28d007b7f9201f326b1fc086c7ba2aa27198740bec49a",
+      "bank_retrieval.py": "9edb85e68b32889ead20ef085a0d3f3fa59c6f947e2532ddd574bb52829f3c24"
+    },
+    "source_manifest_sha256": {
+      "single_lift_sloth": "47fbdc2f7f41f3fadcf0511d678f6e5da6c3c292275240e97b42268c247bbcee",
+      "single_push_sloth": "c04a05c82b2ce90f732783f91d977eaf13f65250bbadf3dc3ae6a54e622aa02e",
+      "single_lift_zebra": "8b904cb18f4ebba28d62e660bdf6564d408a3ef0707c889266c6a8ee3a929c36",
+      "double_lift_zebra": "75078c6468306575b6cf0bc2620f44bf4d5b86e057e7a86f2a6d3312c575be64",
+      "object-soft-task1-demo0": "3c2d0de1ccd5d4e1eadccd2393816c94501b4875a97452131cfe277bdac21008",
+      "object-soft-task2-demo0": "07890d7f12441c47953b5cca243bcf21e705620fcba100f0f16841c6ed7e9bc7",
+      "spatial-soft-task1-demo0": "4bc6f1a3cc769d7a423a3deaaad52ebc574b9d4609b06c66b7103152b3f0dc6a",
+      "spatial-soft-task2-demo0": "b4a7e538d775950ef941b883597212531e693813c12c1bf76703978121ad9b73"
+    }
+  },
+  "future_access": "This planning step reads source and package manifests only; no new evaluation trajectories"
+}

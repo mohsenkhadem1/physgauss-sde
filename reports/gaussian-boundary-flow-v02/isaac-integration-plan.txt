@@ -1,0 +1,120 @@
+Isaac / complex-scene integration plan — read-only audit
+
+Decision
+Preserve both suites as valuable additional regression data. They are not drop-in
+inputs for the current position-command quasistatic package campaign. Implement
+strict exporters first; start with existing v18 public clamp prefixes and the
+Isaac RGB-D observation contract. Do not manufacture known future position commands
+from force-driven simulated handle responses. Do not claim dynamic accuracy from
+the present quasistatic backend or the unqualified midpoint/BE impact experiment.
+
+Actual local schema and availability
+* runs/isaac-boundary-orbit-v01:48episodes; all48saved validation passes.
+* runs/gaussian-boundary-neural-v01:224episodes; all224saved validation passes.
+* ALL272 summaries declare gravity=0 and numerical_convergence_established=False.
+  These validators establish saved-state/camera/mesh/command consistency, not
+  discretization convergence or physically accurate inverse parameters.
+* Example e0000 reference.npz:455rest points,1728tetrahedra,576surface triangles,
+ 4096Gaussian means/colors/scales/opacities and fixed barycentric surface mappings.
+  Public observations contain cameras and sparse640x480 RGB/mask/depth files.
+  Public API load_model_inputs reads reference + observations only.
+* Sparse frame schedule is0,5,10,15,20,40,45,50,55,60 on20Hz recording. Using the
+  last five to fill the middle gap is interpolation. A causal forecast at1second
+  may use only0..20, with all later frames evaluator-only.
+* Private trajectory NPZ headers expose61frames of455node positions/velocities,
+  boundary_target_positions, handle_positions, commanded/transmitted force channels,
+ 2880step force commands/application positions/moments, Gaussian trajectories and
+  density-derived lumped masses. Header shapes were inspected; no private array
+  values were decoded by this audit. Recipe/summary material and boundary labels
+  must never be forwarded to the predictor (even summary.json is privileged).
+* v18:24public prefixes,6families,153known material sample tracks per body;1body
+  except deformable_pair has2. Example prefix lengths31-81frames. Public NPZ has
+  positions_m,times_s,surface_indices,material_queries; metadata declares public
+  Query and opaque private-world commitment, never material values. All24public
+  prefix position arrays are finite complex128 with EXACTLY ZERO imaginary part.
+  Exporter should assert that then convert to real, not silently cast arbitrary
+  complex values. No future reference trajectories are required for prediction.
+
+Important modality/action distinction
+Isaac272 was generated with commanded forces on rigid1g handles, not prescribed
+handle position trajectories. Future handle_positions_m is a simulated response,
+not a known position action. Its use as a future input would leak outcome information
+and change the problem. Strict position-only options are: (a) passive unknown-input
+forecast with explicit latent load-process assumptions/uncertainty; (b) new separately
+labelled position-controlled acquisitions later; or (c) an explicitly different
+known-force benchmark that exports commanded forces, never claims position-only.
+Known fixture target schedules can be exported separately ONLY under a declared
+known-fixture-action contract; identifying fixture nodes/weights from hidden truth
+would defeat an unknown-boundary study. Prefix handle positions estimated from
+images are observations, not future commands.
+
+Isaac observation exporter proposal
+Input: initial rest mesh/topology/surface Gaussians; prefix camera K/pose/timestamps;
+RGB/mask and optional labelled depth with physical units. Build visible3D surfaces
+from prefix depth only, then use correspondence-free fitting or an explicit tracked
+observation front end. There are no public tracked3D nodal observations; feeding
+truth positions[:cut] is a distinct privileged-track ablation, not RGB-D inference.
+Write separate immutable known-action metadata only if its provenance is justified
+as above. Whitelist fields; omit recipe/summary, truth forces/materials/BC labels,
+future images/depth/nodes and density-derived masses. Evaluator alone reads those.
+Keep matched material/layout triplets in the same data role. Historical152train,
+44validation,76test are now exposed; use regression terminology and freeze a new
+protocol before any future confirmation worlds. Persist source hashes and exact
+prefix indices; mutation tests on withheld force/material/suffix arrays must leave
+predictor package digest unchanged.
+
+v18 exporter proposal
+Use EXISTING prefixes/<family>-worldXX/observations.npz + metadata, not the current
+reference-trajectory exporter inside a predictor. That exporter currently loads a
+full surface trajectory before selecting prefix; replacing it with a prefix-only
+consumer avoids ever opening targets. Reconstruct initial geometry, scene shapes,
+fixture positions/activation and prescribed tool schedule from public Query via
+build_boundary_geometry/build_prediction with an explicitly supplied placeholder
+material provider. Never call build_reference or read private-worlds.json. Record
+known-boundary contract: original v18 evaluates unknown material with known public
+boundaries, not inferred boundary conditions. Preserve body identities for pair
+cases; dense truth/contact/force labels remain evaluator-only. Initial rigid-body
+velocity may be public; future rigid response must not become a prescribed input.
+
+Regime admission and required work
+clamp_release: best first adapter smoke. Held pre-release intervals may support
+  a quasistatic approximation only after inertia/shape diagnostics. Release is
+  dynamic and needs a qualified raw-state dynamic backend; no automatic admission.
+curved_push: known position-driven tool is useful; requires curved contact geometry,
+  not replacement by an infinite plane. Before contact, smooth supported intervals
+  may be quasistatic; contact law and timestep/mesh response still need qualification.
+heterogeneous: supported smooth regime useful after geometry/action export, but a
+  uniform-material bank cannot be claimed to recover a heterogeneous field.
+container_drop: dynamic gravity/impact; current campaign physics NOT admitted.
+rigid_impact: dynamic two-way rigid/deformable contact; NOT admitted by plane proxy.
+deformable_pair: separate material fields and two-way contact; NOT supported by
+  single-body backend. Keep historical coupled-scene results, not overwrite them.
+
+Existing v18 evidence must remain visible
+One world/family n4/n6 sensitivity reports vector RMS differences0.027-0.038mm for
+clamp,0.043-0.131mm for curved_push,0.871-0.931mm for drops,0.090-0.155mm for rigid
+impact,0.105-0.207mm heterogeneous. Pair query0 reference FAILED; query1difference
+0.595mm. Drop minimumJ reached0.194; heterogeneous0.321. These are sensitivity
+samples, not rigorous error bounds or population convergence. Existing report
+reports/complex-scenes-v18/held-reference-sensitivity.json is preserved.
+
+Quality gates before training/scoring
+1. Contract: initial geometry + declared prefix only; known commands genuinely
+   prescribed; immutable export; forbidden-field and suffix perturbation tests.
+2. Geometry: connected positive-mass representation, valid elementJ, affine-complete
+   observation transport with disclosed negative weights/amplification, body IDs.
+3. Signal: total versus Kabsch-rigid-removed motion, visible-point eligibility;
+   don't infer elasticity from pure rigid displacement or occlusion artifacts.
+4. Forward: held-material oracle using permitted known-action contract; quantify
+   mesh/time sensitivity, solver residuals, stress/strain/J, work/energy and contact
+   penetration. No absorbed numerical damping masquerading as material uncertainty.
+5. Inverse: pose and deformation metrics separate; true materials/BC labels only in
+   evaluator; conditional feasibility/failures and interval calibration explicit.
+6. Rendering: held time/camera images separate from mechanics; don't claim accuracy
+   for unrecorded novel views without ground truth. Report RGB/depth/mask metrics
+   alongside motion, not as a substitute for physical validation.
+
+Artifacts: isaac-integration-inventory.json records actual headers/public metadata;
+isaac-integration-inventory.py reproduces it. Audit read existing public prefix
+values only to verify finite/zero-imaginary data. No Isaac execution, no training,
+no new raw data, no dataset modifications, and no previous studies removed.

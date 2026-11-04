@@ -1,0 +1,33 @@
+{
+  "scope": "Quasistatic supplied-plane mechanical qualification, no impact or dataset inference",
+  "nodes_per_axis": 4,
+  "block_side_m": 0.1,
+  "push_m": 0.006,
+  "withdraw_above_initial_m": 0.02,
+  "increments_per_phase": [
+    8,
+    16,
+    32
+  ],
+  "bottom_stiffness": 100000.0,
+  "top_stiffness": 1000.0,
+  "gaussian_xy_sigma_m": 0.035,
+  "gaussian_z_sigma_m": 0.003,
+  "gravity": false,
+  "floor": false,
+  "maxiter": 100,
+  "preferred_solver_residual": 1e-09,
+  "gates": {
+    "maximum_residual": 1e-07,
+    "minimum_J": 0.03,
+    "shared_command_refinement_rms_m": 0.0001,
+    "separated_force_norm": 1e-10,
+    "final_unilateral_return_rms_m": 0.0001
+  },
+  "failure_policy": "Preserve every solver/gate failure; no tolerance relaxation or omitted worlds",
+  "source_sha256": {
+    "/home/bayespc2/vscode/guassianSDE/scripts/gaussian_boundary_flow_v02/unilateral_qualification.py": "92610384e5457fcc595fe4666f456bd35078baa53ac984eb32160b3353e8ffd2",
+    "scripts/gaussian_boundary_flow_v02/unilateral_attachment.py": "01d39ac08aa650608d64574d2a2c98e4250de5b7bd4855b35ffda6bf6ade6611",
+    "scripts/external_benchmark/fem.py": "07a348cd303504858ae7d9b4622493a757ace53fe142c17c373eb7735c915ed2"
+  }
+}

@@ -1,0 +1,1778 @@
+{
+  "scope": "Eight historically exposed cases; frozen comparison, not unseen-object validation",
+  "all_required_comparisons_evaluable": true,
+  "default_candidate_gate": {
+    "flow_pose_contact": true,
+    "mixture_pose_contact": false
+  },
+  "gate_interpretation": "Narrow frozen adoption criterion against nearest-bank pose/contact only; passing does not imply best overall prediction or improvement over velocity/persistence",
+  "cases": [
+    {
+      "case": "single_lift_sloth",
+      "nodes": 64,
+      "forecast_samples": {
+        "flow": {
+          "requested": 32,
+          "valid": 32,
+          "failed": 0
+        },
+        "mixture": {
+          "requested": 32,
+          "valid": 32,
+          "failed": 0
+        }
+      },
+      "out_of_bank_warning": true,
+      "interval_diagnostics": {
+        "flow_raw": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.055661987399963406,
+          "average_width_mm": 6.525293645881068,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        },
+        "flow_tracking": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.058630875691340185,
+          "average_width_mm": 5.597374406054684,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        },
+        "mixture_raw": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.0051834175451961895,
+          "average_width_mm": 0.5707295069369624,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        },
+        "mixture_tracking": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.0039174387643449585,
+          "average_width_mm": 0.5599785921904648,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        }
+      },
+      "dataset": "PhysTwin",
+      "methods": {
+        "flow_raw": {
+          "coordinate_rmse_mm": 32.12576185132808,
+          "aligned_shape_rmse_mm": 19.298521154575955,
+          "total_frames": 26,
+          "valid_frames": 26,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "mixture_raw": {
+          "coordinate_rmse_mm": 37.28861245082196,
+          "aligned_shape_rmse_mm": 24.639416508101654,
+          "total_frames": 26,
+          "valid_frames": 26,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "flow_pose_contact": {
+          "coordinate_rmse_mm": 41.591124975603584,
+          "aligned_shape_rmse_mm": 19.30344739713734,
+          "total_frames": 26,
+          "valid_frames": 26,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "mixture_pose_contact": {
+          "coordinate_rmse_mm": 45.27186687864524,
+          "aligned_shape_rmse_mm": 24.63922601020567,
+          "total_frames": 26,
+          "valid_frames": 26,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "nearest_bank_raw": {
+          "coordinate_rmse_mm": 29.7348862097137,
+          "aligned_shape_rmse_mm": 18.627161909168628,
+          "total_frames": 26,
+          "valid_frames": 26,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "nearest_bank_pose_contact": {
+          "coordinate_rmse_mm": 42.11071087596661,
+          "aligned_shape_rmse_mm": 18.62716190916864,
+          "total_frames": 26,
+          "valid_frames": 26,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "prefix_persistence": {
+          "coordinate_rmse_mm": 38.483223089091055,
+          "aligned_shape_rmse_mm": 23.997314869501647,
+          "total_frames": 26,
+          "valid_frames": 26,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "prefix_velocity": {
+          "coordinate_rmse_mm": 35.455528126844676,
+          "aligned_shape_rmse_mm": 25.128323825863927,
+          "total_frames": 26,
+          "valid_frames": 26,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        }
+      },
+      "available_score_channels": [
+        "learned-raw",
+        "learned-contact",
+        "retrieval-raw",
+        "retrieval-contact"
+      ],
+      "verified_channel_identity": {
+        "learned-raw": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion/single_lift_sloth",
+          "prediction_sha256": "b13186cdc5ae34ec3065b7dc9ef36817e7244cd594fdfba72a43677f1090c632",
+          "plan_sha256": "271cefa9ec1b2b18d2e30843a05b9d9d2cb0b050a4331db6de6f96e9f2ef4406",
+          "input_digest": "a732f1eaf9d10edd55546a98d92f51ba4e3641e7352a5f9ccb6d831ab0dc68ec"
+        },
+        "learned-contact": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-contact/single_lift_sloth",
+          "prediction_sha256": "5024f6c289e4734c5c517717384b8ddb2e321a4c1f6a339802b662f26a6ecd7e",
+          "plan_sha256": "0f3df5461767b3647c2b1f85aa1378b3c1f46a43f354a391bfb51d3f19a73e38",
+          "input_digest": "a732f1eaf9d10edd55546a98d92f51ba4e3641e7352a5f9ccb6d831ab0dc68ec"
+        },
+        "retrieval-raw": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-retrieval/single_lift_sloth",
+          "prediction_sha256": "96dc641a40ddce3a9114734ff79f6df4cad5c1fe8e63e0af630b295c39e27bc7",
+          "plan_sha256": "0e55a2f22c8c0c12a9875d2ec5bbb67e1f179789d25964c66ad40b6b5e95c913",
+          "input_digest": "a732f1eaf9d10edd55546a98d92f51ba4e3641e7352a5f9ccb6d831ab0dc68ec"
+        },
+        "retrieval-contact": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-retrieval-contact/single_lift_sloth",
+          "prediction_sha256": "7b35afeb15f6bf7374098c9c81eed6942f76abb76fe445ee83798cbb7dab3e43",
+          "plan_sha256": "dea10fc9d316cc7f4835bfdaaaaaaf697a9f9104c2228abefea1b8cc678cae7e",
+          "input_digest": "a732f1eaf9d10edd55546a98d92f51ba4e3641e7352a5f9ccb6d831ab0dc68ec"
+        }
+      }
+    },
+    {
+      "case": "single_push_sloth",
+      "nodes": 64,
+      "forecast_samples": {
+        "flow": {
+          "requested": 32,
+          "valid": 32,
+          "failed": 0
+        },
+        "mixture": {
+          "requested": 32,
+          "valid": 32,
+          "failed": 0
+        }
+      },
+      "out_of_bank_warning": true,
+      "interval_diagnostics": {
+        "flow_raw": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.029919590240678525,
+          "average_width_mm": 20.902230077918446,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        },
+        "flow_tracking": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.030295937287731087,
+          "average_width_mm": 19.87031789980427,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        },
+        "mixture_raw": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.19382790842833802,
+          "average_width_mm": 19.276079368492113,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        },
+        "mixture_tracking": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.22758440270969874,
+          "average_width_mm": 11.588072181140877,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        }
+      },
+      "dataset": "PhysTwin",
+      "methods": {
+        "flow_raw": {
+          "coordinate_rmse_mm": 172.61108487953862,
+          "aligned_shape_rmse_mm": 45.360617793076344,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "mixture_raw": {
+          "coordinate_rmse_mm": 62.97030391316879,
+          "aligned_shape_rmse_mm": 46.666631030646634,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "flow_pose_contact": {
+          "coordinate_rmse_mm": 48.74880973089334,
+          "aligned_shape_rmse_mm": 45.37977844783001,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "mixture_pose_contact": {
+          "coordinate_rmse_mm": 50.36385981448277,
+          "aligned_shape_rmse_mm": 46.74508317794224,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "nearest_bank_raw": {
+          "coordinate_rmse_mm": 70.5855727135364,
+          "aligned_shape_rmse_mm": 48.76722293842683,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "nearest_bank_pose_contact": {
+          "coordinate_rmse_mm": 52.47912064289056,
+          "aligned_shape_rmse_mm": 48.76722293842683,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "prefix_persistence": {
+          "coordinate_rmse_mm": 66.53161071752224,
+          "aligned_shape_rmse_mm": 26.44332625356864,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "prefix_velocity": {
+          "coordinate_rmse_mm": 36.341256637158125,
+          "aligned_shape_rmse_mm": 27.316284088230322,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        }
+      },
+      "available_score_channels": [
+        "learned-raw",
+        "learned-contact",
+        "retrieval-raw",
+        "retrieval-contact"
+      ],
+      "verified_channel_identity": {
+        "learned-raw": {
+          "run": "runs/gaussian-boundary-flow-v03-package/single_push_sloth",
+          "prediction_sha256": "b472f6f9d8e900e48be0612148d507cd48c09880e06e632c3548ba774320d40e",
+          "plan_sha256": "ca488ed632aa519dccc1bbefb01cad0b68086f8abdac7d117d7d13ad6f49dd22",
+          "input_digest": "7180f6291c62e992d477a6a6e23f9fd799b9810fbdfd5d81eef89d7d139d331b"
+        },
+        "learned-contact": {
+          "run": "runs/gaussian-boundary-flow-v03-pose-contact/single_push_sloth",
+          "prediction_sha256": "0783dac2e8636bf5b51d0e92e52db624d1f9f7f6cd2247e719c49d1017b42e9e",
+          "plan_sha256": "78f5d9ca5d1b0fd002b4a205a581f5940f0bd8b8494188337c748277d49bdf97",
+          "input_digest": "7180f6291c62e992d477a6a6e23f9fd799b9810fbdfd5d81eef89d7d139d331b"
+        },
+        "retrieval-raw": {
+          "run": "runs/gaussian-boundary-flow-v03-retrieval/single_push_sloth",
+          "prediction_sha256": "1fb6efc6662fcb64ef12fe9578a6fd5468671c86641274efae2dd12f2e53b60e",
+          "plan_sha256": "19bc29f6c6d2e15f04f9c29da1f5d908f05b56dee3ac535d23c05798ece27fc1",
+          "input_digest": "7180f6291c62e992d477a6a6e23f9fd799b9810fbdfd5d81eef89d7d139d331b"
+        },
+        "retrieval-contact": {
+          "run": "runs/gaussian-boundary-flow-v03-retrieval-contact/single_push_sloth",
+          "prediction_sha256": "f426e0f6cc52ff9b25d74fde4e6f13383c117518057eff11a07d9b2bb52cd418",
+          "plan_sha256": "fb0ca20d298954266665999d2f2dfbe1eeda6f424984489d87695123673a243f",
+          "input_digest": "7180f6291c62e992d477a6a6e23f9fd799b9810fbdfd5d81eef89d7d139d331b"
+        }
+      }
+    },
+    {
+      "case": "single_lift_zebra",
+      "nodes": 64,
+      "forecast_samples": {
+        "flow": {
+          "requested": 32,
+          "valid": 32,
+          "failed": 0
+        },
+        "mixture": {
+          "requested": 32,
+          "valid": 32,
+          "failed": 0
+        }
+      },
+      "out_of_bank_warning": true,
+      "interval_diagnostics": {
+        "flow_raw": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.038161880904567694,
+          "average_width_mm": 5.2345704900494,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        },
+        "flow_tracking": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.03618822847442188,
+          "average_width_mm": 2.2491753087039106,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        },
+        "mixture_raw": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.07617884327405475,
+          "average_width_mm": 13.424870558631765,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        },
+        "mixture_tracking": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.07113429807672401,
+          "average_width_mm": 4.892308271911365,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        }
+      },
+      "dataset": "PhysTwin",
+      "methods": {
+        "flow_raw": {
+          "coordinate_rmse_mm": 46.29573796234197,
+          "aligned_shape_rmse_mm": 23.849015006006795,
+          "total_frames": 20,
+          "valid_frames": 20,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "mixture_raw": {
+          "coordinate_rmse_mm": 41.914398374617605,
+          "aligned_shape_rmse_mm": 22.06207798814731,
+          "total_frames": 20,
+          "valid_frames": 20,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "flow_pose_contact": {
+          "coordinate_rmse_mm": 46.70415513117984,
+          "aligned_shape_rmse_mm": 23.855562541013636,
+          "total_frames": 20,
+          "valid_frames": 20,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "mixture_pose_contact": {
+          "coordinate_rmse_mm": 45.06045532437496,
+          "aligned_shape_rmse_mm": 22.108890151855462,
+          "total_frames": 20,
+          "valid_frames": 20,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "nearest_bank_raw": {
+          "coordinate_rmse_mm": 40.79134611707729,
+          "aligned_shape_rmse_mm": 21.104697464349044,
+          "total_frames": 20,
+          "valid_frames": 20,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "nearest_bank_pose_contact": {
+          "coordinate_rmse_mm": 44.26272519778879,
+          "aligned_shape_rmse_mm": 21.10469746434904,
+          "total_frames": 20,
+          "valid_frames": 20,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "prefix_persistence": {
+          "coordinate_rmse_mm": 42.15958918777592,
+          "aligned_shape_rmse_mm": 18.959824097767992,
+          "total_frames": 20,
+          "valid_frames": 20,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "prefix_velocity": {
+          "coordinate_rmse_mm": 31.198508385706127,
+          "aligned_shape_rmse_mm": 17.59548980594521,
+          "total_frames": 20,
+          "valid_frames": 20,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        }
+      },
+      "available_score_channels": [
+        "learned-raw",
+        "learned-contact",
+        "retrieval-raw",
+        "retrieval-contact"
+      ],
+      "verified_channel_identity": {
+        "learned-raw": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion/single_lift_zebra",
+          "prediction_sha256": "52f6c08dd1d7acba01d70c19888edf6e83b44d93396a1621fed3d11130dd9103",
+          "plan_sha256": "e2e3686796d55a314fa0f286df99ca7f6957fa269fa237b29c87eff73dea71f6",
+          "input_digest": "0b68652ef86806de0456eeffc843a8e50d703ecda37e7744fe0e7da828c0261f"
+        },
+        "learned-contact": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-contact/single_lift_zebra",
+          "prediction_sha256": "5de73ab28fb5725f1195a1ef3971fa1cf48f0821180943b3a1d353a2d050b502",
+          "plan_sha256": "d766358c98e5044a314e16d9fab226cf5c4f0fd73baf44e87adbdf9638adb178",
+          "input_digest": "0b68652ef86806de0456eeffc843a8e50d703ecda37e7744fe0e7da828c0261f"
+        },
+        "retrieval-raw": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-retrieval/single_lift_zebra",
+          "prediction_sha256": "ef4db9e863a303d0e8a7e37d14a9104904358905c6119fc43024a1e9fe5564bb",
+          "plan_sha256": "44e4b7b15fa89312441fb3cef1eec190fcf636a36444dc659024cd5540963fea",
+          "input_digest": "0b68652ef86806de0456eeffc843a8e50d703ecda37e7744fe0e7da828c0261f"
+        },
+        "retrieval-contact": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-retrieval-contact/single_lift_zebra",
+          "prediction_sha256": "5eac3f9dfa79325778c5610b80c6dbd59da094b87bd035ebb86abee67c7a62a4",
+          "plan_sha256": "99c5ce5b242f1521e62a5f12286000cd60055d18f600476a5f1e340f7242b578",
+          "input_digest": "0b68652ef86806de0456eeffc843a8e50d703ecda37e7744fe0e7da828c0261f"
+        }
+      }
+    },
+    {
+      "case": "double_lift_zebra",
+      "nodes": 120,
+      "forecast_samples": {
+        "flow": {
+          "requested": 32,
+          "valid": 31,
+          "failed": 1
+        },
+        "mixture": {
+          "requested": 32,
+          "valid": 32,
+          "failed": 0
+        }
+      },
+      "out_of_bank_warning": true,
+      "interval_diagnostics": {
+        "flow_raw": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.13778107594835703,
+          "average_width_mm": 7.894066829927394,
+          "samples": 31,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        },
+        "flow_tracking": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.15824835224461786,
+          "average_width_mm": 6.609726239078946,
+          "samples": 31,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        },
+        "mixture_raw": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.2762643430522973,
+          "average_width_mm": 16.724882286693077,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        },
+        "mixture_tracking": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.2792247171286765,
+          "average_width_mm": 14.901662628436172,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        }
+      },
+      "dataset": "PhysTwin",
+      "methods": {
+        "flow_raw": {
+          "coordinate_rmse_mm": 22.833646515256277,
+          "aligned_shape_rmse_mm": 12.764540224654526,
+          "total_frames": 18,
+          "valid_frames": 18,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "mixture_raw": {
+          "coordinate_rmse_mm": 22.865834404778063,
+          "aligned_shape_rmse_mm": 12.5268433628219,
+          "total_frames": 18,
+          "valid_frames": 18,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "flow_pose_contact": {
+          "coordinate_rmse_mm": 43.58861561486913,
+          "aligned_shape_rmse_mm": 12.765041473200075,
+          "total_frames": 18,
+          "valid_frames": 18,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "mixture_pose_contact": {
+          "coordinate_rmse_mm": 43.36439453176555,
+          "aligned_shape_rmse_mm": 12.555230770244153,
+          "total_frames": 18,
+          "valid_frames": 18,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "nearest_bank_raw": {
+          "coordinate_rmse_mm": 21.849069595939014,
+          "aligned_shape_rmse_mm": 12.915519768023021,
+          "total_frames": 18,
+          "valid_frames": 18,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "nearest_bank_pose_contact": {
+          "coordinate_rmse_mm": 43.74916873950623,
+          "aligned_shape_rmse_mm": 12.915519768023024,
+          "total_frames": 18,
+          "valid_frames": 18,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "prefix_persistence": {
+          "coordinate_rmse_mm": 31.153231720080694,
+          "aligned_shape_rmse_mm": 17.926153638472005,
+          "total_frames": 18,
+          "valid_frames": 18,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "prefix_velocity": {
+          "coordinate_rmse_mm": 25.15727461703658,
+          "aligned_shape_rmse_mm": 18.274167845707936,
+          "total_frames": 18,
+          "valid_frames": 18,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        }
+      },
+      "available_score_channels": [
+        "learned-raw",
+        "learned-contact",
+        "retrieval-raw",
+        "retrieval-contact"
+      ],
+      "verified_channel_identity": {
+        "learned-raw": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion/double_lift_zebra",
+          "prediction_sha256": "360924ffcf54935e3ed04c25eb97945f70ae3027674739d7ba8889aeba5fb0a2",
+          "plan_sha256": "2790943d0f168cdc24fe95e35bc81fa7b9184fdeb17b8ce817b370809bd274b2",
+          "input_digest": "c9de420c0530d9551f0b315e9f05ed6c7747e48a0221578012b710483d204c54"
+        },
+        "learned-contact": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-contact/double_lift_zebra",
+          "prediction_sha256": "dbe7b1250e2a311e221433f4bf08bf8101b742a527b8dd6e55b7cd20566eac8c",
+          "plan_sha256": "1fb58defe8508d4f16e10ae7e1f413aaaa55ad0ea220e4117ec2ef89784d0da6",
+          "input_digest": "c9de420c0530d9551f0b315e9f05ed6c7747e48a0221578012b710483d204c54"
+        },
+        "retrieval-raw": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-retrieval/double_lift_zebra",
+          "prediction_sha256": "e729390f5e392e91650c194c663608d908ac44646838c20ab29c28c284797159",
+          "plan_sha256": "efc769d4959c1b0d9a44ee0a50e43acdb0bfa65def567653b0a89714da75f251",
+          "input_digest": "c9de420c0530d9551f0b315e9f05ed6c7747e48a0221578012b710483d204c54"
+        },
+        "retrieval-contact": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-retrieval-contact/double_lift_zebra",
+          "prediction_sha256": "4684d1ac29b9b580ecd775aab937332278d8e092dfca00ef1752740ae68ef3a8",
+          "plan_sha256": "ec876e9ddf4704f7b8a4ff0da4f908afea66011cae73281d16bd62da45d8118b",
+          "input_digest": "c9de420c0530d9551f0b315e9f05ed6c7747e48a0221578012b710483d204c54"
+        }
+      }
+    },
+    {
+      "case": "object-soft-task1-demo0",
+      "nodes": 64,
+      "forecast_samples": {
+        "flow": {
+          "requested": 32,
+          "valid": 31,
+          "failed": 1
+        },
+        "mixture": {
+          "requested": 32,
+          "valid": 31,
+          "failed": 1
+        }
+      },
+      "out_of_bank_warning": true,
+      "interval_diagnostics": {
+        "flow_raw": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.1384548611111111,
+          "average_width_mm": 6.005736096811774,
+          "samples": 31,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 31,
+            "failed": 1
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        },
+        "flow_tracking": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.13758680555555555,
+          "average_width_mm": 5.99981630977558,
+          "samples": 31,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 31,
+            "failed": 1
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        },
+        "mixture_raw": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.10185185185185185,
+          "average_width_mm": 8.926945557589114,
+          "samples": 31,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 31,
+            "failed": 1
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        },
+        "mixture_tracking": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.10112847222222222,
+          "average_width_mm": 8.891554998304837,
+          "samples": 31,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 31,
+            "failed": 1
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        }
+      },
+      "dataset": "SoftVTBench",
+      "methods": {
+        "flow_raw": {
+          "coordinate_rmse_mm": 57.519257775494374,
+          "aligned_shape_rmse_mm": 2.80174417309775,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "mixture_raw": {
+          "coordinate_rmse_mm": 57.05350973012893,
+          "aligned_shape_rmse_mm": 3.9071150999075503,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "flow_pose_contact": {
+          "coordinate_rmse_mm": 18.31823891791553,
+          "aligned_shape_rmse_mm": 2.8386571892972907,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "mixture_pose_contact": {
+          "coordinate_rmse_mm": 19.108709483582285,
+          "aligned_shape_rmse_mm": 4.243765229364944,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "nearest_bank_raw": {
+          "coordinate_rmse_mm": 58.34259024992091,
+          "aligned_shape_rmse_mm": 3.304451173673584,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "nearest_bank_pose_contact": {
+          "coordinate_rmse_mm": 18.64798558898133,
+          "aligned_shape_rmse_mm": 3.472790580789443,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "prefix_persistence": {
+          "coordinate_rmse_mm": 156.5673298773347,
+          "aligned_shape_rmse_mm": 0.41975082145086917,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "prefix_velocity": {
+          "coordinate_rmse_mm": 146.510800811054,
+          "aligned_shape_rmse_mm": 0.8128752449407317,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        }
+      },
+      "available_score_channels": [
+        "learned-raw",
+        "learned-contact",
+        "retrieval-raw",
+        "retrieval-contact"
+      ],
+      "verified_channel_identity": {
+        "learned-raw": {
+          "run": "runs/gaussian-boundary-flow-v03-package/object-soft-task1-demo0",
+          "prediction_sha256": "3a4fc220da3f73ae5d4718d6f3d6ba7ebedf743ad70f9c2be4e08671a96758ee",
+          "plan_sha256": "30737f9a6116cfb30295a1a90c145cc38ecd7b54d5a6bcd55738c9c415ac4d8b",
+          "input_digest": "6de020cca428dd1d5afdb1b22ea9591d23d3ad05cb82f8f3d795fded42e48e4c"
+        },
+        "learned-contact": {
+          "run": "runs/gaussian-boundary-flow-v03-pose-contact/object-soft-task1-demo0",
+          "prediction_sha256": "4291d25dda848761f95dbe5ae79c0ac591d961acf62450fe5e7a595f679da4d3",
+          "plan_sha256": "9c692620dedfb72d027dbdbdbe91fe0bd6e851148e575c5836399362a916490a",
+          "input_digest": "6de020cca428dd1d5afdb1b22ea9591d23d3ad05cb82f8f3d795fded42e48e4c"
+        },
+        "retrieval-raw": {
+          "run": "runs/gaussian-boundary-flow-v03-retrieval/object-soft-task1-demo0",
+          "prediction_sha256": "ca52cb62155a846a2c5bfa8e2e0f16a7af69f26b8f07850390dd9c47df86db27",
+          "plan_sha256": "6ecb58fc56a72594c5a3e3a4958cafa86e77af0f72cbd11b3e737a1c54889626",
+          "input_digest": "6de020cca428dd1d5afdb1b22ea9591d23d3ad05cb82f8f3d795fded42e48e4c"
+        },
+        "retrieval-contact": {
+          "run": "runs/gaussian-boundary-flow-v03-retrieval-contact/object-soft-task1-demo0",
+          "prediction_sha256": "6316e09ed738a4884f2154df8227baadc4f025b1360345588a05235726d84577",
+          "plan_sha256": "b5f1251adba8faa6cc42e3a74ab898ba3c9ea56e4fe6c150a386b05331b70e4e",
+          "input_digest": "6de020cca428dd1d5afdb1b22ea9591d23d3ad05cb82f8f3d795fded42e48e4c"
+        }
+      }
+    },
+    {
+      "case": "object-soft-task2-demo0",
+      "nodes": 64,
+      "forecast_samples": {
+        "flow": {
+          "requested": 32,
+          "valid": 24,
+          "failed": 8
+        },
+        "mixture": {
+          "requested": 32,
+          "valid": 32,
+          "failed": 0
+        }
+      },
+      "out_of_bank_warning": false,
+      "interval_diagnostics": {
+        "flow_raw": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.38874421296296297,
+          "average_width_mm": 9.03144093746859,
+          "samples": 24,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 24,
+            "failed": 8
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        },
+        "flow_tracking": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.3609664351851852,
+          "average_width_mm": 8.948939320565792,
+          "samples": 24,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 24,
+            "failed": 8
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        },
+        "mixture_raw": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.33695023148148145,
+          "average_width_mm": 1.4588423293411301,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 32,
+            "failed": 0
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        },
+        "mixture_tracking": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.3302951388888889,
+          "average_width_mm": 1.3906760357762489,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 32,
+            "failed": 0
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        }
+      },
+      "dataset": "SoftVTBench",
+      "methods": {
+        "flow_raw": {
+          "coordinate_rmse_mm": 47.359730909841794,
+          "aligned_shape_rmse_mm": 1.054687103195298,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "mixture_raw": {
+          "coordinate_rmse_mm": 49.18923031117237,
+          "aligned_shape_rmse_mm": 1.0509797171324025,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "flow_pose_contact": {
+          "coordinate_rmse_mm": 16.174545551675312,
+          "aligned_shape_rmse_mm": 0.993725914773426,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "mixture_pose_contact": {
+          "coordinate_rmse_mm": 16.37620666725204,
+          "aligned_shape_rmse_mm": 0.986780850858771,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "nearest_bank_raw": {
+          "coordinate_rmse_mm": 50.20397497197621,
+          "aligned_shape_rmse_mm": 1.8947555001778635,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "nearest_bank_pose_contact": {
+          "coordinate_rmse_mm": 17.673458971762987,
+          "aligned_shape_rmse_mm": 2.0301784811075114,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "prefix_persistence": {
+          "coordinate_rmse_mm": 153.68816544464954,
+          "aligned_shape_rmse_mm": 0.20563811379358587,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "prefix_velocity": {
+          "coordinate_rmse_mm": 218.03170819666252,
+          "aligned_shape_rmse_mm": 0.9357543885996039,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        }
+      },
+      "available_score_channels": [
+        "learned-raw",
+        "learned-contact",
+        "retrieval-raw",
+        "retrieval-contact"
+      ],
+      "verified_channel_identity": {
+        "learned-raw": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion/object-soft-task2-demo0",
+          "prediction_sha256": "365e81e57aea8af3a80c683178a22091a1dee88187f5cd28423d4395af398cf1",
+          "plan_sha256": "823bb1746da9de8516e57c4618fac0a8087eab66fd76204028fac7e9e72f34c2",
+          "input_digest": "10308683e0cbbe077be406f0264869d607917eb7e92429fe9de5f980168d110b"
+        },
+        "learned-contact": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-contact/object-soft-task2-demo0",
+          "prediction_sha256": "9837df4e309df40fc4bc9a4531e33b6c1d54d563510532a3754cde59be8263a3",
+          "plan_sha256": "7a24e67715052087cee7c02b91e6f9833dffbc2710da73a6e45072ec94673923",
+          "input_digest": "10308683e0cbbe077be406f0264869d607917eb7e92429fe9de5f980168d110b"
+        },
+        "retrieval-raw": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-retrieval/object-soft-task2-demo0",
+          "prediction_sha256": "67297319c6ba6c0981a52c1737e849cb919c0fd4d39bd204acfad78aa511481a",
+          "plan_sha256": "451e4ff2b926d0705fcff61ab3adbeebcaba3eb713ae26a5170cdd1f22a2a954",
+          "input_digest": "10308683e0cbbe077be406f0264869d607917eb7e92429fe9de5f980168d110b"
+        },
+        "retrieval-contact": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-retrieval-contact/object-soft-task2-demo0",
+          "prediction_sha256": "7366f4a915458b2521e0d790c3bb04986897c7a321288bed6a0e9276a6a50148",
+          "plan_sha256": "e5c27ecf1b2a5438bcf660cd19d28baf9797309b879d5deeea4792911edc9f74",
+          "input_digest": "10308683e0cbbe077be406f0264869d607917eb7e92429fe9de5f980168d110b"
+        }
+      }
+    },
+    {
+      "case": "spatial-soft-task1-demo0",
+      "nodes": 64,
+      "forecast_samples": {
+        "flow": {
+          "requested": 32,
+          "valid": 31,
+          "failed": 1
+        },
+        "mixture": {
+          "requested": 32,
+          "valid": 32,
+          "failed": 0
+        }
+      },
+      "out_of_bank_warning": true,
+      "interval_diagnostics": {
+        "flow_raw": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.13024109014675053,
+          "average_width_mm": 6.408051385096143,
+          "samples": 31,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 31,
+            "failed": 1
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        },
+        "flow_tracking": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.1306341719077568,
+          "average_width_mm": 6.337449393747837,
+          "samples": 31,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 31,
+            "failed": 1
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        },
+        "mixture_raw": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.1513364779874214,
+          "average_width_mm": 12.492620286309625,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 32,
+            "failed": 0
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        },
+        "mixture_tracking": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.14491614255765198,
+          "average_width_mm": 12.294030949426421,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 32,
+            "failed": 0
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        }
+      },
+      "dataset": "SoftVTBench",
+      "methods": {
+        "flow_raw": {
+          "coordinate_rmse_mm": 33.27969122624807,
+          "aligned_shape_rmse_mm": 2.8479289767770752,
+          "total_frames": 53,
+          "valid_frames": 53,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "mixture_raw": {
+          "coordinate_rmse_mm": 33.096367819248094,
+          "aligned_shape_rmse_mm": 3.7294382528517014,
+          "total_frames": 53,
+          "valid_frames": 53,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "flow_pose_contact": {
+          "coordinate_rmse_mm": 10.666020516986059,
+          "aligned_shape_rmse_mm": 2.9508319588148275,
+          "total_frames": 53,
+          "valid_frames": 53,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "mixture_pose_contact": {
+          "coordinate_rmse_mm": 11.025435071783495,
+          "aligned_shape_rmse_mm": 4.169984170088637,
+          "total_frames": 53,
+          "valid_frames": 53,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "nearest_bank_raw": {
+          "coordinate_rmse_mm": 33.935624382272685,
+          "aligned_shape_rmse_mm": 3.3044867954967194,
+          "total_frames": 53,
+          "valid_frames": 53,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "nearest_bank_pose_contact": {
+          "coordinate_rmse_mm": 10.835592512003474,
+          "aligned_shape_rmse_mm": 3.582412296047337,
+          "total_frames": 53,
+          "valid_frames": 53,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "prefix_persistence": {
+          "coordinate_rmse_mm": 90.60090159196741,
+          "aligned_shape_rmse_mm": 1.2121402719477226,
+          "total_frames": 53,
+          "valid_frames": 53,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "prefix_velocity": {
+          "coordinate_rmse_mm": 219.03836323139186,
+          "aligned_shape_rmse_mm": 1.6461772378461579,
+          "total_frames": 53,
+          "valid_frames": 53,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        }
+      },
+      "available_score_channels": [
+        "learned-raw",
+        "learned-contact",
+        "retrieval-raw",
+        "retrieval-contact"
+      ],
+      "verified_channel_identity": {
+        "learned-raw": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion/spatial-soft-task1-demo0",
+          "prediction_sha256": "fe398bb32ce551c5cfbc29378e1a344c67d38423b2a6dd620b4758bbd9e339d4",
+          "plan_sha256": "9238bc04f4ed18da78c2326521b2006ebe1bfed28972749a7f667fd46f3d012a",
+          "input_digest": "283959b9b3cbefef4c2de787f0745c0715c4d6eb7b915a960eabcadf9af6041d"
+        },
+        "learned-contact": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-contact/spatial-soft-task1-demo0",
+          "prediction_sha256": "9229a1afa365848e51c91206dfa3c7a86c08cc037ee4a897b2ea5b31424c558f",
+          "plan_sha256": "4a17a87946b7c727e4e4d7bbe483a440f0447b8c184b31bc6719ade4c917af41",
+          "input_digest": "283959b9b3cbefef4c2de787f0745c0715c4d6eb7b915a960eabcadf9af6041d"
+        },
+        "retrieval-raw": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-retrieval/spatial-soft-task1-demo0",
+          "prediction_sha256": "dde5237b08f1eacff7e085c419ee43550626907be46c587bcbd96d284790d846",
+          "plan_sha256": "f51c37b468dcd44b5e7e8af3de5266a4a018a953c92e321987675458e0588284",
+          "input_digest": "283959b9b3cbefef4c2de787f0745c0715c4d6eb7b915a960eabcadf9af6041d"
+        },
+        "retrieval-contact": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-retrieval-contact/spatial-soft-task1-demo0",
+          "prediction_sha256": "db7d0d8b95b1874a9fdb8d1cc29c1dc7b5dfb04d37ed01e6fbd7af15d3002ad3",
+          "plan_sha256": "5a3367da08a68829ad6e49a9d090063eda26172b5fcc97174be57b4d7f441967",
+          "input_digest": "283959b9b3cbefef4c2de787f0745c0715c4d6eb7b915a960eabcadf9af6041d"
+        }
+      }
+    },
+    {
+      "case": "spatial-soft-task2-demo0",
+      "nodes": 64,
+      "forecast_samples": {
+        "flow": {
+          "requested": 32,
+          "valid": 17,
+          "failed": 15
+        },
+        "mixture": {
+          "requested": 32,
+          "valid": 30,
+          "failed": 2
+        }
+      },
+      "out_of_bank_warning": true,
+      "interval_diagnostics": {
+        "flow_raw": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.035694444444444445,
+          "average_width_mm": 0.8081172673358447,
+          "samples": 17,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 17,
+            "failed": 15
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        },
+        "flow_tracking": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.04472222222222222,
+          "average_width_mm": 0.8019728435504915,
+          "samples": 17,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 17,
+            "failed": 15
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        },
+        "mixture_raw": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.18138888888888888,
+          "average_width_mm": 22.376192848579446,
+          "samples": 30,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 30,
+            "failed": 2
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        },
+        "mixture_tracking": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.1840277777777778,
+          "average_width_mm": 22.297358892690458,
+          "samples": 30,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 30,
+            "failed": 2
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        }
+      },
+      "dataset": "SoftVTBench",
+      "methods": {
+        "flow_raw": {
+          "coordinate_rmse_mm": 67.40421407337773,
+          "aligned_shape_rmse_mm": 0.2027171120266157,
+          "total_frames": 50,
+          "valid_frames": 50,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "mixture_raw": {
+          "coordinate_rmse_mm": 67.75791385650007,
+          "aligned_shape_rmse_mm": 0.2966645711186994,
+          "total_frames": 50,
+          "valid_frames": 50,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "flow_pose_contact": {
+          "coordinate_rmse_mm": 65.1761698133205,
+          "aligned_shape_rmse_mm": 0.24746522708167557,
+          "total_frames": 50,
+          "valid_frames": 50,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "mixture_pose_contact": {
+          "coordinate_rmse_mm": 65.18783222766959,
+          "aligned_shape_rmse_mm": 0.37385780342843133,
+          "total_frames": 50,
+          "valid_frames": 50,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "nearest_bank_raw": {
+          "coordinate_rmse_mm": 67.48917630844633,
+          "aligned_shape_rmse_mm": 0.2590843877421589,
+          "total_frames": 50,
+          "valid_frames": 50,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "nearest_bank_pose_contact": {
+          "coordinate_rmse_mm": 65.18013485569763,
+          "aligned_shape_rmse_mm": 0.32227809389766326,
+          "total_frames": 50,
+          "valid_frames": 50,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "prefix_persistence": {
+          "coordinate_rmse_mm": 109.3651064568217,
+          "aligned_shape_rmse_mm": 0.5341068469972978,
+          "total_frames": 50,
+          "valid_frames": 50,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        },
+        "prefix_velocity": {
+          "coordinate_rmse_mm": 188.42264329598274,
+          "aligned_shape_rmse_mm": 1.7048811393446448,
+          "total_frames": 50,
+          "valid_frames": 50,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "complete": true
+        }
+      },
+      "available_score_channels": [
+        "learned-raw",
+        "learned-contact",
+        "retrieval-raw",
+        "retrieval-contact"
+      ],
+      "verified_channel_identity": {
+        "learned-raw": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion/spatial-soft-task2-demo0",
+          "prediction_sha256": "2dd9c977744572ce77376f2639c79882a44a48bed14a98941be7acb0e4d97a34",
+          "plan_sha256": "8e6d213b6b94924cec2c19fdaacb7732c642c9afd5fdc5f0273d2ac693cd2d49",
+          "input_digest": "6dfa2e474b38589bde84b94ac49b9b0410519a4236524f388769ec448c81cd28"
+        },
+        "learned-contact": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-contact/spatial-soft-task2-demo0",
+          "prediction_sha256": "077003547d373b32f605299398630dc159d575b2394ed9c8305f53264e7159b5",
+          "plan_sha256": "9fe3a1c7928d13286c44764f434791683e12da88de7c58643135f5ecc554de93",
+          "input_digest": "6dfa2e474b38589bde84b94ac49b9b0410519a4236524f388769ec448c81cd28"
+        },
+        "retrieval-raw": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-retrieval/spatial-soft-task2-demo0",
+          "prediction_sha256": "a5ce12b2dee7ab2bbc54f4ad92908f02039ce615ba4069936b09bf751172315b",
+          "plan_sha256": "ee2c72d61f3c9223dd56b5686f2c4de06b5207378c1dbf91842c6e22f69d222f",
+          "input_digest": "6dfa2e474b38589bde84b94ac49b9b0410519a4236524f388769ec448c81cd28"
+        },
+        "retrieval-contact": {
+          "run": "runs/gaussian-boundary-flow-v03-expansion-retrieval-contact/spatial-soft-task2-demo0",
+          "prediction_sha256": "8ba426dec163fec7853a5ccf902783f3f06e93fb02da296ae104e3c6ef02aa9e",
+          "plan_sha256": "127029a8897cac811c496462456ddb31debc5d6bd260720f017c559bddabac8c",
+          "input_digest": "6dfa2e474b38589bde84b94ac49b9b0410519a4236524f388769ec448c81cd28"
+        }
+      }
+    }
+  ],
+  "datasets": {
+    "SoftVTBench": {
+      "methods": {
+        "flow_raw": {
+          "completed_cases": 4,
+          "expected_cases": 4,
+          "conditional_coordinate_rmse_mm": 51.3907234962405,
+          "conditional_shape_rmse_mm": 1.7267693412741847,
+          "scope": "Equal-case mean on complete cases; conditional if any expected case missing or failed"
+        },
+        "mixture_raw": {
+          "completed_cases": 4,
+          "expected_cases": 4,
+          "conditional_coordinate_rmse_mm": 51.77425542926237,
+          "conditional_shape_rmse_mm": 2.246049410252588,
+          "scope": "Equal-case mean on complete cases; conditional if any expected case missing or failed"
+        },
+        "flow_pose_contact": {
+          "completed_cases": 4,
+          "expected_cases": 4,
+          "conditional_coordinate_rmse_mm": 27.58374369997435,
+          "conditional_shape_rmse_mm": 1.7576700724918048,
+          "scope": "Equal-case mean on complete cases; conditional if any expected case missing or failed"
+        },
+        "mixture_pose_contact": {
+          "completed_cases": 4,
+          "expected_cases": 4,
+          "conditional_coordinate_rmse_mm": 27.92454586257185,
+          "conditional_shape_rmse_mm": 2.443597013435195,
+          "scope": "Equal-case mean on complete cases; conditional if any expected case missing or failed"
+        },
+        "nearest_bank_raw": {
+          "completed_cases": 4,
+          "expected_cases": 4,
+          "conditional_coordinate_rmse_mm": 52.492841478154034,
+          "conditional_shape_rmse_mm": 2.190694464272582,
+          "scope": "Equal-case mean on complete cases; conditional if any expected case missing or failed"
+        },
+        "nearest_bank_pose_contact": {
+          "completed_cases": 4,
+          "expected_cases": 4,
+          "conditional_coordinate_rmse_mm": 28.084292982111357,
+          "conditional_shape_rmse_mm": 2.3519148629604887,
+          "scope": "Equal-case mean on complete cases; conditional if any expected case missing or failed"
+        },
+        "prefix_persistence": {
+          "completed_cases": 4,
+          "expected_cases": 4,
+          "conditional_coordinate_rmse_mm": 127.55537584269335,
+          "conditional_shape_rmse_mm": 0.5929090135473689,
+          "scope": "Equal-case mean on complete cases; conditional if any expected case missing or failed"
+        },
+        "prefix_velocity": {
+          "completed_cases": 4,
+          "expected_cases": 4,
+          "conditional_coordinate_rmse_mm": 193.00087888377277,
+          "conditional_shape_rmse_mm": 1.2749220026827845,
+          "scope": "Equal-case mean on complete cases; conditional if any expected case missing or failed"
+        }
+      },
+      "candidate_gates": {
+        "flow_pose_contact": {
+          "paired_complete_cases": 4,
+          "wins": 4,
+          "paired_differences_mm": [
+            -0.32974667106580213,
+            -1.4989134200876748,
+            -0.1695719950174155,
+            -0.003965042377132022
+          ],
+          "gate_evaluable": true,
+          "dataset_gate_pass": true,
+          "note": "Narrow frozen nearest-bank-contact criterion only; not a globally best predictor claim. Missing/failed required comparisons block promotion."
+        },
+        "mixture_pose_contact": {
+          "paired_complete_cases": 4,
+          "wins": 1,
+          "paired_differences_mm": [
+            0.4607238946009531,
+            -1.2972523045109483,
+            0.18984255978002018,
+            0.007697371971957523
+          ],
+          "gate_evaluable": true,
+          "dataset_gate_pass": false,
+          "note": "Narrow frozen nearest-bank-contact criterion only; not a globally best predictor claim. Missing/failed required comparisons block promotion."
+        }
+      },
+      "strong_baseline_comparisons": {
+        "flow_pose_contact": {
+          "prefix_persistence": {
+            "paired_complete_cases": 4,
+            "expected_cases": 4,
+            "paired_coordinate_deficits_mm": [
+              -138.2490909594192,
+              -137.51361989297422,
+              -79.93488107498135,
+              -44.18893664350121
+            ],
+            "mean_coordinate_deficit_mm": -99.971632142719,
+            "paired_shape_deficits_mm": [
+              2.4189063678464215,
+              0.7880878009798401,
+              1.738691686867105,
+              -0.28664161991562226
+            ],
+            "mean_shape_deficit_mm": 1.1647610589444362,
+            "coordinate_worse_cases": 0,
+            "coordinate_better_cases": 4,
+            "all_required_pairs_complete": true,
+            "interpretation": "Positive deficit means candidate is worse; separate diagnostic, does not alter frozen nearest-bank criterion"
+          },
+          "prefix_velocity": {
+            "paired_complete_cases": 4,
+            "expected_cases": 4,
+            "paired_coordinate_deficits_mm": [
+              -128.19256189313847,
+              -201.8571626449872,
+              -208.3723427144058,
+              -123.24647348266224
+            ],
+            "mean_coordinate_deficit_mm": -165.41713518379845,
+            "paired_shape_deficits_mm": [
+              2.025781944356559,
+              0.05797152617382206,
+              1.3046547209686696,
+              -1.4574159122629693
+            ],
+            "mean_shape_deficit_mm": 0.4827480698090203,
+            "coordinate_worse_cases": 0,
+            "coordinate_better_cases": 4,
+            "all_required_pairs_complete": true,
+            "interpretation": "Positive deficit means candidate is worse; separate diagnostic, does not alter frozen nearest-bank criterion"
+          }
+        },
+        "mixture_pose_contact": {
+          "prefix_persistence": {
+            "paired_complete_cases": 4,
+            "expected_cases": 4,
+            "paired_coordinate_deficits_mm": [
+              -137.45862039375243,
+              -137.3119587773975,
+              -79.57546652018392,
+              -44.17727422915212
+            ],
+            "mean_coordinate_deficit_mm": -99.63082998012149,
+            "paired_shape_deficits_mm": [
+              3.8240144079140745,
+              0.7811427370651851,
+              2.957843898140914,
+              -0.1602490435688665
+            ],
+            "mean_shape_deficit_mm": 1.850687999887827,
+            "coordinate_worse_cases": 0,
+            "coordinate_better_cases": 4,
+            "all_required_pairs_complete": true,
+            "interpretation": "Positive deficit means candidate is worse; separate diagnostic, does not alter frozen nearest-bank criterion"
+          },
+          "prefix_velocity": {
+            "paired_complete_cases": 4,
+            "expected_cases": 4,
+            "paired_coordinate_deficits_mm": [
+              -127.40209132747171,
+              -201.6555015294105,
+              -208.01292815960835,
+              -123.23481106831315
+            ],
+            "mean_coordinate_deficit_mm": -165.07633302120092,
+            "paired_shape_deficits_mm": [
+              3.430889984424212,
+              0.05102646225916707,
+              2.523806932242479,
+              -1.3310233359162136
+            ],
+            "mean_shape_deficit_mm": 1.1686750107524113,
+            "coordinate_worse_cases": 0,
+            "coordinate_better_cases": 4,
+            "all_required_pairs_complete": true,
+            "interpretation": "Positive deficit means candidate is worse; separate diagnostic, does not alter frozen nearest-bank criterion"
+          }
+        }
+      }
+    },
+    "PhysTwin": {
+      "methods": {
+        "flow_raw": {
+          "completed_cases": 4,
+          "expected_cases": 4,
+          "conditional_coordinate_rmse_mm": 68.46655780211624,
+          "conditional_shape_rmse_mm": 25.318173544578404,
+          "scope": "Equal-case mean on complete cases; conditional if any expected case missing or failed"
+        },
+        "mixture_raw": {
+          "completed_cases": 4,
+          "expected_cases": 4,
+          "conditional_coordinate_rmse_mm": 41.259787285846606,
+          "conditional_shape_rmse_mm": 26.473742222429372,
+          "scope": "Equal-case mean on complete cases; conditional if any expected case missing or failed"
+        },
+        "flow_pose_contact": {
+          "completed_cases": 4,
+          "expected_cases": 4,
+          "conditional_coordinate_rmse_mm": 45.15817636313648,
+          "conditional_shape_rmse_mm": 25.325957464795266,
+          "scope": "Equal-case mean on complete cases; conditional if any expected case missing or failed"
+        },
+        "mixture_pose_contact": {
+          "completed_cases": 4,
+          "expected_cases": 4,
+          "conditional_coordinate_rmse_mm": 46.01514413731714,
+          "conditional_shape_rmse_mm": 26.51210752756188,
+          "scope": "Equal-case mean on complete cases; conditional if any expected case missing or failed"
+        },
+        "nearest_bank_raw": {
+          "completed_cases": 4,
+          "expected_cases": 4,
+          "conditional_coordinate_rmse_mm": 40.7402186590666,
+          "conditional_shape_rmse_mm": 25.35365051999188,
+          "scope": "Equal-case mean on complete cases; conditional if any expected case missing or failed"
+        },
+        "nearest_bank_pose_contact": {
+          "completed_cases": 4,
+          "expected_cases": 4,
+          "conditional_coordinate_rmse_mm": 45.65043136403804,
+          "conditional_shape_rmse_mm": 25.353650519991888,
+          "scope": "Equal-case mean on complete cases; conditional if any expected case missing or failed"
+        },
+        "prefix_persistence": {
+          "completed_cases": 4,
+          "expected_cases": 4,
+          "conditional_coordinate_rmse_mm": 44.581913678617475,
+          "conditional_shape_rmse_mm": 21.831654714827568,
+          "scope": "Equal-case mean on complete cases; conditional if any expected case missing or failed"
+        },
+        "prefix_velocity": {
+          "completed_cases": 4,
+          "expected_cases": 4,
+          "conditional_coordinate_rmse_mm": 32.03814194168638,
+          "conditional_shape_rmse_mm": 22.078566391436848,
+          "scope": "Equal-case mean on complete cases; conditional if any expected case missing or failed"
+        }
+      },
+      "candidate_gates": {
+        "flow_pose_contact": {
+          "paired_complete_cases": 4,
+          "wins": 3,
+          "paired_differences_mm": [
+            -0.5195859003630261,
+            -3.730310911997215,
+            2.441429933391049,
+            -0.16055312463710436
+          ],
+          "gate_evaluable": true,
+          "dataset_gate_pass": true,
+          "note": "Narrow frozen nearest-bank-contact criterion only; not a globally best predictor claim. Missing/failed required comparisons block promotion."
+        },
+        "mixture_pose_contact": {
+          "paired_complete_cases": 4,
+          "wins": 2,
+          "paired_differences_mm": [
+            3.1611560026786307,
+            -2.1152608284077843,
+            0.797730126586174,
+            -0.3847742077406835
+          ],
+          "gate_evaluable": true,
+          "dataset_gate_pass": false,
+          "note": "Narrow frozen nearest-bank-contact criterion only; not a globally best predictor claim. Missing/failed required comparisons block promotion."
+        }
+      },
+      "strong_baseline_comparisons": {
+        "flow_pose_contact": {
+          "prefix_persistence": {
+            "paired_complete_cases": 4,
+            "expected_cases": 4,
+            "paired_coordinate_deficits_mm": [
+              3.107901886512529,
+              -17.7828009866289,
+              4.544565943403917,
+              12.435383894788433
+            ],
+            "mean_coordinate_deficit_mm": 0.5762626845189951,
+            "paired_shape_deficits_mm": [
+              -4.693867472364307,
+              18.936452194261374,
+              4.895738443245644,
+              -5.1611121652719305
+            ],
+            "mean_shape_deficit_mm": 3.4943027499676953,
+            "coordinate_worse_cases": 3,
+            "coordinate_better_cases": 1,
+            "all_required_pairs_complete": true,
+            "interpretation": "Positive deficit means candidate is worse; separate diagnostic, does not alter frozen nearest-bank criterion"
+          },
+          "prefix_velocity": {
+            "paired_complete_cases": 4,
+            "expected_cases": 4,
+            "paired_coordinate_deficits_mm": [
+              6.135596848758908,
+              12.407553093735217,
+              15.505646745473712,
+              18.431340997832546
+            ],
+            "mean_coordinate_deficit_mm": 13.120034421450097,
+            "paired_shape_deficits_mm": [
+              -5.824876428726586,
+              18.06349435959969,
+              6.260072735068427,
+              -5.509126372507861
+            ],
+            "mean_shape_deficit_mm": 3.2473910733584175,
+            "coordinate_worse_cases": 4,
+            "coordinate_better_cases": 0,
+            "all_required_pairs_complete": true,
+            "interpretation": "Positive deficit means candidate is worse; separate diagnostic, does not alter frozen nearest-bank criterion"
+          }
+        },
+        "mixture_pose_contact": {
+          "prefix_persistence": {
+            "paired_complete_cases": 4,
+            "expected_cases": 4,
+            "paired_coordinate_deficits_mm": [
+              6.788643789554186,
+              -16.16775090303947,
+              2.900866136599042,
+              12.211162811684854
+            ],
+            "mean_coordinate_deficit_mm": 1.4332304586996534,
+            "paired_shape_deficits_mm": [
+              0.6419111407040248,
+              20.301756924373603,
+              3.14906605408747,
+              -5.3709228682278525
+            ],
+            "mean_shape_deficit_mm": 4.680452812734311,
+            "coordinate_worse_cases": 3,
+            "coordinate_better_cases": 1,
+            "all_required_pairs_complete": true,
+            "interpretation": "Positive deficit means candidate is worse; separate diagnostic, does not alter frozen nearest-bank criterion"
+          },
+          "prefix_velocity": {
+            "paired_complete_cases": 4,
+            "expected_cases": 4,
+            "paired_coordinate_deficits_mm": [
+              9.816338751800565,
+              14.022603177324648,
+              13.861946938668837,
+              18.207119914728967
+            ],
+            "mean_coordinate_deficit_mm": 13.977002195630753,
+            "paired_shape_deficits_mm": [
+              -0.48909781565825483,
+              19.42879908971192,
+              4.513400345910252,
+              -5.718937075463783
+            ],
+            "mean_shape_deficit_mm": 4.433541136125033,
+            "coordinate_worse_cases": 4,
+            "coordinate_better_cases": 0,
+            "all_required_pairs_complete": true,
+            "interpretation": "Positive deficit means candidate is worse; separate diagnostic, does not alter frozen nearest-bank criterion"
+          }
+        }
+      }
+    }
+  },
+  "source_sha256": {
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/single_lift_sloth/learned-raw-scores.json": "7f4db33ba3a52d5cb7ee4516c95ba452d17e942ee6e4de426211c3cf7304080a",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/single_lift_sloth/learned-contact-scores.json": "c792840d4a4038cc72fa1f30beb5c45c275ecdfad4e2755f2ac8c776dede58c9",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/single_lift_sloth/retrieval-raw-scores.json": "6988e386e4024511e277b5830b005babb9cc0d8ef12348f209fdd4de0d836ebf",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/single_lift_sloth/retrieval-contact-scores.json": "0b4d30bde9cb1fc910db3d23e7fd023fd7d94af0338b4dbeec30f1a92c4412b0",
+    "reports/gaussian-boundary-flow-v02/push-sloth-affine-pilot-scores.json": "28b8e7020a265f0422c96f1291fcbe6852ec672d25849a9ef26197ecf3151893",
+    "runs/gaussian-boundary-flow-v03-pose-contact/single_push_sloth/scores.json": "ff88ebeb83cf67f6400c57865490e2aff23e337fbd244fddef1fb147d20ee26f",
+    "runs/gaussian-boundary-flow-v03-retrieval/single_push_sloth/scores.json": "076fe99025a8db8ea03d1adae55c3aa02fe5e5997c6d3fc632b538c0bbc52df6",
+    "runs/gaussian-boundary-flow-v03-retrieval-contact/single_push_sloth/scores.json": "8f1880cb90f1ca603246b04f330541ad24e4ec396b606018354c1c8c040d0bd0",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/single_lift_zebra/learned-raw-scores.json": "16b3d96c223d4c6663e45b34bd33cc97140c0c561e2fd059dc47ca265ee342fd",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/single_lift_zebra/learned-contact-scores.json": "7c6a7fabb000151e860a67755f42ece15c800207e3423ac47564852234727bc1",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/single_lift_zebra/retrieval-raw-scores.json": "922fca88512a97db4e770a84635dc2b5dca717a398e31cedc54f109eadde3246",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/single_lift_zebra/retrieval-contact-scores.json": "eef6bcbcbf0c1c43d2106a30b3c0e6e61e4ecc967d1ba0e87b0173f28f84a4cc",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/double_lift_zebra/learned-raw-scores.json": "33e01538304e4169271014d8c2630d4064e194b4c730d88486093f256bf40d66",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/double_lift_zebra/learned-contact-scores.json": "719cea4d490a87851d8dc2abb871af944de4c7781a953ffce820a5bb0c39cb73",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/double_lift_zebra/retrieval-raw-scores.json": "894f9f43195e6f2b6908a310108c837f75152efbf28018fc88717570fc844910",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/double_lift_zebra/retrieval-contact-scores.json": "54e82ded64199dcbd4994c20be6912c258b15356659f854d40afa16d4e903d5b",
+    "reports/gaussian-boundary-flow-v02/softvt-affine-pilot-scores.json": "bb52784e63fd98a9d028f6b7093db83f1cc0ddfe5a631eeb10cbbe02e9ec5798",
+    "runs/gaussian-boundary-flow-v03-pose-contact/object-soft-task1-demo0/scores.json": "3226dee750598e676baa182b8546f0e2d98984ba9866389ac6b02df9add8b8a4",
+    "runs/gaussian-boundary-flow-v03-retrieval/object-soft-task1-demo0/scores.json": "fcb7f4be40653b5ae9cd977b2e5aafc96caf3ac9582cb460c920a953d13ac350",
+    "runs/gaussian-boundary-flow-v03-retrieval-contact/object-soft-task1-demo0/scores.json": "766144c9812905b7a91199c4f34812b492f623679d51e89f7b7d42eb12e5e5ff",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/object-soft-task2-demo0/learned-raw-scores.json": "f2eec12f31175ee9fdff14411c5084aebe56353b6630c47fbb2a435be82d3162",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/object-soft-task2-demo0/learned-contact-scores.json": "9acbbec244133ec335b626e022aad607e847a7c5b026f0041d336fe3ea426d43",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/object-soft-task2-demo0/retrieval-raw-scores.json": "ea89ed84467daedea71e29c30fba744b9493a042a7deb39580b064727dc6158b",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/object-soft-task2-demo0/retrieval-contact-scores.json": "4195b951a0b4c455fe10ac26bd3154ae6cd8c67f626a9ec378c3cc2aa82bd879",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/spatial-soft-task1-demo0/learned-raw-scores.json": "1c6d011ffba1200bddba3a9da7d012afca25be9dc565e06d949f53fc1234612e",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/spatial-soft-task1-demo0/learned-contact-scores.json": "00bd4767b005ba4295f57639b4c6117d1911f65b4bb7b791e517aa7a9e76d5c6",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/spatial-soft-task1-demo0/retrieval-raw-scores.json": "ce84d504ec3897d7759bbbca90278e51c7656d75d1285235f58b6b8a276e4c29",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/spatial-soft-task1-demo0/retrieval-contact-scores.json": "d0c5fc197aca4216b4d97d0d00337a1760fae3d0ef34db9072ebdc9551281581",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/spatial-soft-task2-demo0/learned-raw-scores.json": "e1a0bfe39bd41419d1e20247274affd007950f6e439daa70ef549bbc46c19fa2",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/spatial-soft-task2-demo0/learned-contact-scores.json": "8c6c04cacd6656de38bf1af62c26afc2ba387b8027821f60d58b6bea11d7e9a2",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/spatial-soft-task2-demo0/retrieval-raw-scores.json": "fdd7a6109fee51d8c82af13442d7e7a84ca93dfd452f2191a62716bdd9894cb7",
+    "reports/gaussian-boundary-flow-v02/expansion-downstream/spatial-soft-task2-demo0/retrieval-contact-scores.json": "70ddf3d492f311ed79f3539872e75d68bc67f63e5d9689478c7a7642d325046d"
+  },
+  "limitations": [
+    "Coordinate gains do not imply shape accuracy or physical identification",
+    "Pose/contact includes projected rigid correction, not coupled mechanics",
+    "No calibrated real parameter posterior or rendering gain established",
+    "Different initial-geometry-admitted node counts are matched within each case only",
+    "Nearest-bank adoption gate is narrow; velocity/persistence deficits are reported separately and may contradict a global superiority claim"
+  ]
+}

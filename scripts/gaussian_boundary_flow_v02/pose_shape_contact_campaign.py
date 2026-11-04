@@ -35,7 +35,7 @@ def prepare(source, output):
                                        [Path(__file__), Path('scripts/gaussian_boundary_flow_v02/pose_shape_contact.py'), Path('scripts/gaussian_boundary_flow_v02/pose_shape.py'), Path('scripts/contact_benchmark_v12/contact_rollout.py'), Path('scripts/contact_benchmark_v12/scene.py')]},
                 limitations=['Pose is point-estimated; no calibrated joint pose uncertainty',
                              'Approximate rigid floor response, no inferred slip; known release only',
-                             'Historical v02 parent has legacy incomplete checkpoint provenance'])
+                             ('Parent has schema1 checkpoint provenance verified by load_sealed' if seal.get('schema')==1 else 'Legacy parent has incomplete checkpoint provenance')])
     output.mkdir(parents=True)
     write(output/'plan.json', plan)  # Freeze policy/inputs BEFORE constructing predictions.
     result = {key:arrays[key] for key in ['nodes','observation_matrix','observed_initial']}

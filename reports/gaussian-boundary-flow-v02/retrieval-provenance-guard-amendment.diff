@@ -1,0 +1,27 @@
+--- frozen-bank-retrieval
++++ guard-strengthened-bank-retrieval
+@@ -2,6 +2,7 @@
+ import argparse
+ import hashlib
+ import json
++import re
+ from pathlib import Path
+ import time
+ import numpy as np
+@@ -39,6 +40,16 @@
+     complete=json.loads((run/'complete.json').read_text());seal=json.loads((run/'inference-sealed.json').read_text());plan=json.loads((run/'plan.json').read_text())
+     if not complete.get('completed') or complete.get('held_target_access')is not False or seal.get('forecast_target_access')is not False:raise ValueError('Source campaign not complete and target-free')
+     if sha(run/'plan.json')!=seal['plan_sha256'] or sha(run/'bank.npz')!=seal['bank_sha256'] or sha(run/'prediction.npz')!=complete['prediction_sha256']:raise ValueError('Changed source seal')
++    provenance={'inference_sha256','models_sha256','transform_sha256'}
++    if provenance.intersection(seal):
++        if not provenance.issubset(seal) or seal.get('schema')!=1:raise ValueError('Incomplete source provenance seal')
++        files={'inference-sealed.npz':seal['inference_sha256'],'transform.pt':seal['transform_sha256']}
++        if not isinstance(seal['models_sha256'],dict)or not seal['models_sha256']:raise ValueError('Invalid source model manifest')
++        for name,digest in seal['models_sha256'].items():
++            if not isinstance(name,str)or not re.fullmatch(r'[A-Za-z][A-Za-z0-9_]*',name):raise ValueError('Invalid source model name')
++            files[name+'.pt']=digest
++        for name,digest in files.items():
++            if not(run/name).is_file()or sha(run/name)!=digest:raise ValueError('Changed source inference provenance: '+name)
+     package=Path(plan['input_package'])
+     if sha(package/'manifest.json')!=plan['input_package_manifest_sha256']:raise ValueError('Changed input manifest')
+     data=load_package(package)

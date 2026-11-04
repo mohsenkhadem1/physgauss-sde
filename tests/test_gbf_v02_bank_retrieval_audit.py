@@ -40,3 +40,18 @@ def test_invalid_retrieval_contracts_fail(kind):
     elif kind=='short':features=features[:,:2]
     else:plan['point_ids']=[-1]
     with pytest.raises(ValueError):retrieve(data,plan,features,z)
+
+
+def test_retrieval_checks_v03_provenance_before_loading_inputs(tmp_path,monkeypatch):
+    import json
+    from scripts.gaussian_boundary_flow_v02 import bank_retrieval as module
+    for name in ['plan.json','prediction.npz','bank.npz','transform.pt','inference-sealed.npz','flow.pt']:(tmp_path/name).write_text('{}')
+    seal={'schema':1,'forecast_target_access':False,'plan_sha256':module.sha(tmp_path/'plan.json'),
+          'bank_sha256':module.sha(tmp_path/'bank.npz'),'inference_sha256':module.sha(tmp_path/'inference-sealed.npz'),
+          'transform_sha256':module.sha(tmp_path/'transform.pt'),'models_sha256':{'flow':module.sha(tmp_path/'flow.pt')}}
+    (tmp_path/'inference-sealed.json').write_text(json.dumps(seal))
+    (tmp_path/'complete.json').write_text(json.dumps({'completed':True,'held_target_access':False,'prediction_sha256':module.sha(tmp_path/'prediction.npz')}))
+    (tmp_path/'transform.pt').write_text('changed')
+    calls=[];monkeypatch.setattr(module,'load_package',lambda *a:calls.append(True))
+    with pytest.raises(ValueError,match='source inference provenance'):module.load_source(tmp_path)
+    assert not calls

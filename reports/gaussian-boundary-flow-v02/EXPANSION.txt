@@ -1,0 +1,73 @@
+EIGHT-CASE EXTERNAL EXPANSION — completed 4 November 2026
+
+The new flow model gives a small improvement over the identical simulation-bank
+retrieval baseline. It is not the best overall predictor on the real PhysTwin cases.
+Keep the previous best models and all earlier contact/boundary studies intact.
+
+Future coordinate RMSE, equal-case means (mm; lower is better)
+                                       SoftVT (4 cases)   PhysTwin (4 cases)
+Flow, raw mechanics                         51.391             68.467
+Mixture, raw mechanics                      51.774             41.260
+Flow + shared transport/contact             27.584             45.158
+Mixture + shared transport/contact          27.925             46.015
+Nearest bank + SAME transport/contact       28.084             45.650
+Prefix persistence                         127.555             44.582
+Prefix velocity                            193.001             32.038
+
+Flow beats same-contact nearest retrieval in 4/4 SoftVT and 3/4 PhysTwin cases.
+Mean improvements are only 0.501 and 0.492 mm; one SoftVT win is just 0.004 mm.
+The frozen narrow retrieval-comparison gate passes for flow, not for the mixture.
+This gate does NOT establish superiority over all methods: PhysTwin velocity beats
+flow/contact in all four cases. No per-case winner was selected to create a hybrid.
+
+Rigid-aligned shape RMSE (mm)
+                                       SoftVT                PhysTwin
+Flow + transport/contact                 1.758                 25.326
+Nearest + transport/contact              2.352                 25.354
+Persistence                              0.593                 21.832
+Velocity                                 1.275                 22.079
+
+Thus the useful SoftVT position gain is largely transport, with a smaller learned
+shape improvement over retrieval. It does not establish accurate elastic inference.
+All nominal uncertainty remains diagnostic. Failed simulator/posterior draws are
+recorded; returned means condition on surviving worlds. For example spatial-soft
+ task2 retains17/32 flow draws, so a finite average is not a calibrated posterior.
+
+Protocol
+Eight historically exposed development cases, not a new sealed generalization test.
+128 accepted simulator worlds per case;5,000 training steps;32 inference draws;
+12 selected prefix frames;48 tracked points. Raw and derived methods use identical
+within-case observations, commands, meshes and evaluation identities. Every source,
+selection and output was sealed before its evaluator process opened suffix targets.
+Seven cases use64nodes; initial-geometry qualification required120 for double-zebra.
+Corrected affine transport and correlated relative-coordinate noise are shared.
+Mechanics/retrieval receive future tool commands; velocity uses only the prefix.
+The rigid contact layer uses supplied floor and approximate impulses/projection;
+zero penetration after projection is not evidence of recovered contact forces.
+
+Independent audit verified identity/clock/geometry/point-mask consistency and all
+source/output hashes. A provenance-check-only code amendment is recorded explicitly;
+it did not change retrieval selection or mechanics. Every failure remains available.
+
+Additional improvements, separate from these benchmark scores
+- Gaussian unilateral contact qualified in a supported block:6mm push produces
+  1.423mm nonrigid deformation; withdrawal releases with exactlyzero force. Bilateral
+  springs keep pulling. All six command-refinement runs pass unchanged force/J gates.
+  This is quasistatic qualification, not impact accuracy or contact discovery.
+- A prefix-only real-push plane hypothesis is reproducible but still fits poorly.
+  Next diagnostic: equal-budget bilateral/unilateral prefix-only oracle, not another
+  larger posterior network or suffix-driven tuning.
+- Isaac272 data now have a strict causal RGB-D prefix exporter. These records are
+  force-driven and lack known future position commands. Their future handle motion
+  cannot be used as an input. No new Isaac forecast result is claimed.
+- PokeFlex recordings remain unavailable; Deform360 remains paused by user request.
+
+Artifacts
+compactexpansion-results.json/.txt: all cases, failures, shape/pose/sample metrics,
+  equal-case means, frozen gates and comparisons with stronger simple baselines.
+final-expansion-identity-audit.json: independent cross-channel verification.
+expansion-effect-sizes.svg/.png: every case's paired gains and regressions.
+compactexpansion-plan.json and geometry-binding: prespecified scope and criteria.
+retrieval-provenance-guard-amendment.json: exact before/after guard-only source change.
+Raw datasets, checkpoints and trajectories stay local. Old benchmark/paper results
+were not overwritten. Broad fresh-data confirmation remains unfinished.
