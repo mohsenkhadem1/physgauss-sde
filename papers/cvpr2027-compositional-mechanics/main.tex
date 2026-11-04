@@ -9,13 +9,21 @@
 \author{Anonymous submission}
 \newcommand{\R}{\mathbb{R}}
 \begin{document}
+\twocolumn[{
+\renewcommand{\twocolumn}[1][]{#1}
 \maketitle
+\begin{center}
+\includegraphics[width=.98\textwidth]{figures/first_page_teaser.pdf}
+\captionof{figure}{\textbf{Predicting new interactions beyond matching observed motion.} Illustrative held responses: curved contact and a changed drop, using world00/query0/final frame. Ours better preserves the reference response than the native spring adaptations shown. Numbers are frame motion RMS; red boxes show identical world-space regions enlarged below. Colors share one error scale. Full-cohort results and the competitive analytic control are reported separately.}
+\label{fig:teaser}
+\end{center}
+}]
 \begin{abstract}
-A deformable digital twin should predict what an object will do under a new interaction, not only reproduce its observed images. These objectives differ: under displacement control, scaling material and attachment stiffness together can preserve every rendered view while changing reaction forces. We study a compositional representation that separates a shared neural bulk energy, compliant attachments, explicit contact and body loads, and material-attached Gaussian appearance. Compact energy decoders are pretrained on constitutive responses and frozen; scene adaptation estimates physical descriptors from observed positions. A conventional finite-element solver then predicts deformation and reactions under new commands or initial conditions. Controlled synthetic experiments test three distinct questions: transfer with known descriptors, refinement with unknown descriptors, and dynamic forecasting with shared initial appearance. On six withheld-composition objects, shared laws achieve 0.018\,mm coordinate RMSE, versus 3.089\,mm for a custom supervised direct predictor. An additional stretch observation reduces unknown-parameter prediction error from 0.339 to 0.080\,mm, without establishing an adaptive-policy advantage. Across 24 material worlds and six interaction families, motion RMS is 1.97\,mm versus 10.80 and 11.27\,mm for native PhysTwin and Spring-Gaus adaptations; shared-renderer foreground PSNR is 35.61 versus 25.68 and 25.88\,dB. A matched analytic control remains competitive at 1.84\,mm. We report missing forecasts, numerical-reference sensitivity and uncertainty miscalibration explicitly. The results support composition of learned local mechanics for controlled physical prediction; visual agreement alone remains insufficient evidence of physical accuracy.
+Visual agreement does not guarantee physical accuracy: different material and boundary explanations can reproduce the same images yet predict different responses to a new interaction. We study a compositional neural mechanics representation that separates shared bulk and attachment energies from explicit loads, contact and Gaussian appearance. Constitutive decoders are pretrained and frozen; scene adaptation fits physical descriptors from observed positions. A mechanics solver predicts deformation and reactions under new position commands or initial conditions. In a controlled synthetic benchmark spanning six interaction families and 24 material worlds, motion RMS is 1.97\,mm, versus 10.80 and 11.27\,mm for native PhysTwin and Spring-Gaus adaptations. Shared-renderer foreground PSNR is 35.61 versus 25.68 and 25.88\,dB; a matched analytic control remains competitive. Additional observations improve prediction, but calibrated uncertainty and adaptive-probing superiority remain unresolved. These results support reusable local mechanics for physical prediction beyond image matching.
 \end{abstract}
 
 \begin{figure*}[t]
-\centering\includegraphics[width=\textwidth]{figures/method_visual.pdf}
+\centering\includegraphics[width=\textwidth]{figures/method_graph.pdf}
 \caption{\textbf{Representation and prediction pipeline.} Local constitutive laws are trained once. Scene descriptors are fitted from observed positions with shared weights frozen. Prescribed tool poses, initial conditions, gravity and explicit contact geometry define a query; composed energies produce deformation and reactions through Q2 mechanics. The physical state transports a separately initialized Gaussian appearance model. Geometry and image metrics are evaluated independently on withheld responses. Geometry, mass and observation correspondences are supplied in the present experiments.}
 \label{fig:pipeline}
 \end{figure*}
@@ -179,11 +187,7 @@ Visible depth error (mm)$\downarrow$ & 5.478 & 14.557\\\bottomrule
 \end{tabular}
 \end{table}
 
-\begin{figure*}[t]
-\centering\includegraphics[width=.96\textwidth]{figures/held_visual_results.pdf}
-\caption{\textbf{Physical prediction across six interaction families.} Each panel shows the first world, query 0, final frame; error colors share a 0--20\,mm scale. Dots use all eight queries per family; percentages report mean-error reduction versus PhysTwin. The footer reports all 48 queries. Ours has lower mean error than both native spring adaptations in every family; the analytic control remains competitive. The supplement shows every comparator and the earlier drop cohort.}
-\label{fig:held-visual}
-\end{figure*}
+
 
 \paragraph{Appearance under predicted dynamics.}
 Both models use the same initial appearance checkpoint, with 10,059 surviving Gaussians after training on three initial views. We freeze appearance and evaluate three observed and two withheld cameras over all 31 forecast frames. There are 2,480 method/image slots: 2,170 scored and 310 unavailable native slots. The paired held-view comparison uses 372 of 496 possible images per method, averaged equally over the same three worlds. Initial rendered RGB is byte-identical for paired queries. Held-view foreground PSNR and SSIM favor our model (Table~\ref{tab:dynamic}), while the supplement illustrates the first declared world's 80\,mm forecast. These results concern physical trajectories and different transport rules with shared appearance, not superior radiance reconstruction.
