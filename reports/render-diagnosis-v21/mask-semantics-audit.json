@@ -1,0 +1,70 @@
+{
+  "rows": [
+    {
+      "case": "double_lift_sloth",
+      "train_end": 43,
+      "changed_mask_fraction": 0.055670161225899524,
+      "old_final_prefix_points": 3330,
+      "incoming_final_prefix_points": 3406,
+      "outgoing_last_sequence_motion_flags": 0
+    },
+    {
+      "case": "double_lift_zebra",
+      "train_end": 40,
+      "changed_mask_fraction": 0.05662464625675328,
+      "old_final_prefix_points": 2753,
+      "incoming_final_prefix_points": 2875,
+      "outgoing_last_sequence_motion_flags": 0
+    },
+    {
+      "case": "double_stretch_sloth",
+      "train_end": 134,
+      "changed_mask_fraction": 0.04186607519183574,
+      "old_final_prefix_points": 3614,
+      "incoming_final_prefix_points": 3615,
+      "outgoing_last_sequence_motion_flags": 0
+    },
+    {
+      "case": "double_stretch_zebra",
+      "train_end": 138,
+      "changed_mask_fraction": 0.05778627443654283,
+      "old_final_prefix_points": 2564,
+      "incoming_final_prefix_points": 2536,
+      "outgoing_last_sequence_motion_flags": 0
+    },
+    {
+      "case": "single_lift_dinosor",
+      "train_end": 60,
+      "changed_mask_fraction": 0.06505517426995021,
+      "old_final_prefix_points": 3189,
+      "incoming_final_prefix_points": 3221,
+      "outgoing_last_sequence_motion_flags": 0
+    },
+    {
+      "case": "single_lift_sloth",
+      "train_end": 59,
+      "changed_mask_fraction": 0.04653443091827727,
+      "old_final_prefix_points": 3318,
+      "incoming_final_prefix_points": 3315,
+      "outgoing_last_sequence_motion_flags": 0
+    },
+    {
+      "case": "single_lift_zebra",
+      "train_end": 46,
+      "changed_mask_fraction": 0.04818489338477666,
+      "old_final_prefix_points": 2594,
+      "incoming_final_prefix_points": 2562,
+      "outgoing_last_sequence_motion_flags": 0
+    },
+    {
+      "case": "single_push_sloth",
+      "train_end": 47,
+      "changed_mask_fraction": 0.07462009226173429,
+      "old_final_prefix_points": 3603,
+      "incoming_final_prefix_points": 3583,
+      "outgoing_last_sequence_motion_flags": 0
+    }
+  ],
+  "finding": "object_motions_valid[t] qualifies t->t+1, as defined by upstream data_process_track.py. The new oracle diagnostic uses incoming t-1 and endpoint visibility. Legacy FEM position fitting used outgoing t; no old fit or reported benchmark is silently changed.",
+  "consequence": "Legacy training-prefix final mask can depend on the following frame through preprocessing. Existing predictor-array isolation checks do not certify this upstream temporal preprocessing. Correct/rebenchmark before claiming strict temporal isolation."
+}

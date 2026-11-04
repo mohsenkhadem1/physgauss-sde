@@ -1,0 +1,42 @@
+{
+  "cases": [
+    "single_lift_sloth",
+    "single_lift_dinosor",
+    "single_push_sloth",
+    "double_lift_sloth",
+    "double_stretch_sloth",
+    "single_lift_zebra",
+    "double_lift_zebra",
+    "double_stretch_zebra"
+  ],
+  "methods": [
+    "initial_static",
+    "neural_rigid",
+    "native_rigid",
+    "oracle_rigid",
+    "oracle_affine_centers",
+    "oracle_affine_cov",
+    "neural_affine_cov"
+  ],
+  "fixed_frames": "Same frame zero and three evenly spaced official suffix frames as v20; all three cameras.",
+  "primary_question": "Does substituting recorded reconstructed motion improve matched rendering more than affine/covariance transport?",
+  "source_sha256": {
+    "scripts/render_diagnosis_v21/run_case.py": "e2f7075d5e77f499528f7ffd7659c70854856945fa6888a7f700042fad8b2c9c",
+    "scripts/render_diagnosis_v21/transport.py": "3b522b13da480959a94ae070de3ff86e95b05c56a4589fc82a7a2ca0025ec0bf",
+    "scripts/render_diagnosis_v21/campaign.py": "874a35cd50f78bc22cd39f368424dfb3f7068d2251e9edc3697f5776e7a82ba4"
+  },
+  "appearance_manifest_sha256": "c875f86b9041a1b2a0df7d32c98fc02c65442aef100302e5a336f147a2abf2f3",
+  "illustrative_panels": [
+    {
+      "case": "single_lift_sloth",
+      "camera": 0,
+      "frame": "last"
+    },
+    {
+      "case": "double_stretch_zebra",
+      "camera": 0,
+      "frame": "last"
+    }
+  ],
+  "scope": "Oracle proxy and matched reference-visibility bindings are evaluation-only. Reconstructed tracks are not dense physical ground truth. No forecast or paper claim is changed by this diagnostic."
+}
