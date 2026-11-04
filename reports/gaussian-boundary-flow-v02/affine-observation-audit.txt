@@ -1,0 +1,41 @@
+Affine-complete initial-geometry observation map
+
+Implementation: scripts/gaussian_boundary_flow_v02/affine_observation.py
+Start with16 nearest mechanical nodes and inverse-distance weights. Compute the
+minimum Euclidean-norm correction satisfying sum(w)=1 and sum(w*X)=p, using SVD
+on centered/scaled coordinates. Expand the stencil only if constraints or the
+predeclared L1<=8 bound fail. Never clip negative weights or regularize away affine
+completeness. Exact node matches use exact identity rows. Planar nodes can represent
+points in their affine span; off-span points are rejected. Unrepresentable or
+excessively amplified maps raise rather than silently fall back.
+
+Because A*X=P and A*1=1, the map exactly transports any common affine deformation,
+including translation and finite proper rotation. This fixes a geometry/observation
+operator artifact; it does not improve the underlying FEM or prove nonlinear
+motion prediction. It uses only immutable initial geometry, without future targets.
+Each complete posterior trajectory must be mapped before computing point quantiles.
+Negative weights make interpolation of marginal node bounds particularly invalid.
+
+Eight stable packages were audited (same existing files, hashes recorded inJSON).
+Existing offset displacement map has1.50-3.68mm RMS error for a prescribed90degree
+rigid rotation. New map errors are below4.1e-14mm. Object-soft task1/demo0 changes
+2.628mm to1.36e-14mm; single_lift_sloth changes3.682mm to3.86e-14mm. These synthetic
+invariance checks are not benchmark gains or new observed motion labels.
+
+Amplification: maximum row L1 is1.706-2.268 across packages, bounding worst-case
+coordinate-error amplification if nodal errors are fully adversarial/correlated.
+Maximum row L2 is1.0 in all8 (exact-node rows); this is the amplification factor
+for IID equal-variance nodal noise. Actual correlated posterior uncertainty requires
+joint samples. Negative weights occur in31-63% of SoftVT rows and93-96% of PhysTwin
+rows; extrapolation outside the reduced mesh is explicit. Largest nonzero-singular-
+value condition number18.0; every nonexact row used16neighbors without expansion.
+
+Five meaningful tests passed: general affine and rigid-frame invariance, exact
+reference recovery, negative extrapolation with amplification rejection, planar
+span/off-plane discrimination, scale and exact-node invariance, and nearly planar
+unstable-extrapolation rejection (grouped into5test functions).
+
+No existing stable packages, campaign files, geometry backend or predictions were
+changed. Adoption must produce a new explicitly versioned observation contract
+and regenerate forward-bank features; previously trained posterior contexts cannot
+simply swap maps. Keep legacy results for the controlled comparison.

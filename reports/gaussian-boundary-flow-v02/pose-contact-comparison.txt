@@ -1,0 +1,19 @@
+Separate frozen v2 split pose/shape + archived rigid floor baseline
+
+The v2 policy was frozen before scoring either case. It restores the archived integrate_pose implementation unchanged: 80 substeps, friction 0.5, zero restitution, unit-mass rigid cloud, fixed initial min-z floor. Held clouds also receive an explicitly declared whole-cloud vertical translation if they penetrate that plane. Only known attachment deactivation initiates release; inferred slip is disabled. No parameter was tuned against either suffix. The same 12 prefix frames and 48 point IDs are used; no additional data or posterior training.
+
+Future coordinate RMSE, millimetres (raw FEM / no-contact pose v1 / floor-contact pose v2):
+  Push sloth flow:   154.65 / 48.81 / 48.81
+  Push sloth mixture: 61.58 / 50.41 / 50.43
+  SoftVT flow:        56.22 / 59.75 / 18.31
+  SoftVT mixture:     57.74 / 60.27 / 18.66
+
+Restoring floor handling recovers a useful missing capability: SoftVT flow error falls 67.4% versus raw FEM and the metre-scale free-flight floor penetration disappears. Both cases and both posterior families are reported. Push sloth still loses to velocity's 36.34 mm and its shape remains poor (45.53/46.89 mm versus persistence 26.44). SoftVT shape also remains worse (2.58/3.62 mm versus persistence 0.42). This is improvement in a split rigid transport/contact baseline, not improved FEM constitutive prediction or material/contact identification.
+
+All returned suffix nodes meet the supplied floor plane up to floating-point roundoff. This is expected from the disclosed position projection, NOT independent physical-accuracy evidence. The supplied floor is an initial object minimum, not necessarily a measured physical table. Impulses do not feed back into elastic deformation; shape freezes at release. No impact energy/rebound convergence claim is made. Held projection can violate attachment consistency, so the corrected path must not be called force-balanced FEM.
+
+Prediction/plan/input hashes were verified; derived policy, source hashes, full paths and joint samples were sealed before independent evaluator access. Source failures remain: push flow31/32, mixture32/32; SoftVT flow29/32, mixture31/32. No additional samples were dropped. Pose uncertainty is absent; interval scores are descriptive transformed shape-sample variability, not calibrated joint uncertainty. Legacy v02 checkpoint/PCA-binding limitations remain documented.
+
+Decision: retain this fixed floor-aware baseline in subsequent comparisons. Do not replace or relabel the raw mechanical outputs. Compare v03 with the same frozen policy; do not tune contact parameters on these results. This experiment confirms the value of preserving the archived pose/release/floor behavior and the continuing need to improve real shape prediction.
+
+Source: pose-contact-comparison.json and pose-contact-{push-sloth,softvt}-scores.json. Immutable derived runs: runs/gaussian-boundary-flow-v02-pose-contact. Previous no-contact failures remain preserved.

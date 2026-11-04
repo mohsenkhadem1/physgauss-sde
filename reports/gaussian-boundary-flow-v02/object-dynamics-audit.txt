@@ -1,0 +1,60 @@
+Independent dynamic integration audit
+
+Original backward Euler implementation correctly uses physical time, inertia to
+remove rigid nullspaces, raw initial mesh, and no output rebasing. Its fixed mass
+is consistent with the gravity/material ratio: acceleration in metres is 9.81.
+The submitted drop-qualification.json does NOT qualify impact: bounce height
+changes 9.07 -> 17.62 -> 27.15 mm under dt halving, despite tiny solve residuals.
+That is discretization error, not uncertainty about material. A learned posterior
+must never absorb this damping by fitting spring/density/floor parameters.
+
+Additional original-backend issues:
+* Activation at a command boundary is applied throughout the preceding final
+  substep, an O(dt) early switch. Midpoint below uses the left interval activation.
+* Checking residual > tolerance alone does not reject NaN. Isolated midpoint
+  rejects nonfinite residuals and checks endpoint J as well as midpoint J.
+* Original drop-report minJ only samples retained outputs; qualification must examine
+  every step. Isolated midpoint keeps full-path minimum J and penetration.
+* A compliant normal plane is not hard nonpenetration or frictional impact.
+* Newton convergence cannot replace time-resolution qualification.
+
+Isolated alternative: object_midpoint.py
+No edits to root BE implementation. For step h, solve at y:
+  grad V(y,t+h/2) + (4M/h^2)(y-x-h*v/2) = 0.
+This reuses DynamicFEM energy minimization with inertial_dt=h/2. Export
+  x_new = 2y-x; v_new = 2(x_new-x)/h-v.
+This is implicit midpoint; it preserves quadratic oscillator energy and is
+second order for smooth forces. Unilateral contact onset is nonsmooth and still
+requires refinement. No velocity projections, rebasing, hidden restitution, or
+state corrections are applied. We reject an inverted extrapolated endpoint.
+
+Tests: 3 midpoint tests + 3 unchanged BE tests pass. Midpoint tests establish exact
+freefall (including initial velocity) and conserved total energy, requested-output
+sampling invariance, and second-order smooth spring accuracy against an analytic
+oscillator. That oscillator also conserves kinetic+spring+gravity energy.
+
+The first coarse midpoint ladder is preserved as midpoint-coarse-qualification.json.
+It is unqualified: dt=.005 rebound138.75mm; .0025 failed line search near 3e-8
+residual; .00125 rebound88.81; .000625 rebound47.28; .0003125 rebound46.61;
+.00015625 rebound47.24. Last trajectory changes are 2.01 and1.37mm, exceeding
+0.1mm. No numerical gate was relaxed after these results.
+
+Fine ladder in midpoint-qualification.json additionally evaluates physical bulk,
+attachment, gravity and floor potential plus kinetic energy on every substep.
+Static gauge and inertial penalty are excluded exactly by evaluating DynamicFEM
+with its inertial target at the current state. No driving/damping exists in the
+qualified drop. Energy errors are normalized by initial gravitational potential
+above the physical plane, not the arbitrary zero of potential energy. Gates are
+trajectory change <=0.1mm, rebound change <=1%, energy error <=1% of initial drop
+potential, on two successive refinements. Fine result is reported in that JSON;
+absence of admission means impact must stay excluded from benchmark claims.
+
+Final bounded decision: NOT ADMITTED. Fine ladder64/128/256substeps completed
+onCPU withoutGPU. At64substeps, maximum energy error0.23877%, final loss0.07349%,
+maximum penetration1.55414mm. The128and256 refinements failed the unchanged
+1e-7 solve-residual acceptance gate. This may involve cancellation from increasingly
+stiff inertial terms, but the specific cause is not established. No solver tolerance
+or convergence threshold was loosened. Preserve this evidence, exclude impact
+claims from training/benchmarks, and return to informative smooth/quasistatic cases.
+Improving nonlinear solve residual scaling could be a future bounded task; neither
+backwardEuler nor midpoint has currently qualified these impacts.

@@ -1,0 +1,71 @@
+INITIAL NATURAL-STRAIN EXTENSION: DECISION REVIEW AND VALIDATION
+2026-11-04; /root/flow_numerical_audit. No fits or GPU runs performed.
+
+Decision
+The proposed multiplicative natural-metric model is mechanically consistent and
+useful as a small nested hypothesis for initial loaded-shape mismatch. It is not
+a complete explanation for that mismatch and should not be added to every bank
+without a forward qualification. Large initial rigid sag can come from weak
+attachments relative to gravity; internal prestrain cannot create a missing net
+support reaction. Keep s=0 as a baseline and compare only after root review.
+
+Implementation
+New, isolated file: scripts/gaussian_boundary_flow_v02/object_prestrain.py
+Class: InitialPrestrainFEM(ExternalFEM)
+Existing object backends/campaigns and banks are untouched.
+
+Let a be a supplied material-frame unit axis (default z), and h_e in [0,1] the
+initial element-center height along that axis. One appended unconstrained latent
+q gives s=0.3*tanh(q), and
+  A_e = I + (exp(s h_e)-1) a a^T,
+  W_ref(F,A) = det(A)^(-1) W_NH(F A).
+Stress-free elastic deformation satisfies F A=I. A is fixed in material
+coordinates; it is not recomputed from the deformed shape. Spatially varying
+natural metrics need not integrate to a single globally compatible rest mesh,
+so this represents an eigenstrain/residual-strain hypothesis, not an identified
+natural geometry. The current single mode is deliberately restrictive.
+
+The det(A)^(-1) factor converts energy per natural volume to energy per chosen
+observed-reference volume. Existing lumped masses remain fixed. This convention
+corresponds to natural density rho_natural=rho_reference*det(A) if interpreting
+both configurations volumetrically; it does not silently change total mass.
+The gravity/material ratio remains a response ratio, not absolute density or E.
+
+Analytic derivatives
+Let Fe=F A, Pe=dW_NH/dFe, and Ce=dPe/dFe. Then
+  P = det(A)^(-1) Pe A^T,
+  C_iJkL = det(A)^(-1) Ce_iMkN A_JM A_LN.
+The new helper returns W, P and C analytically. The subclass replaces only the
+bulk contribution by subtracting the original bulk and adding this response.
+All gravity, attachment, floor, optional field/compliance and inertial terms are
+preserved. The existing solver and its line search are reused; no body load is
+introduced to cancel residuals. One extra latent is appended after the original
+parameter vector; i_prestrain/parameter_count expose the layout.
+
+What is guaranteed/tested
+- Objectivity: W(RF,A)=W(F,A) for proper spatial rotations; P transforms as R P.
+- Bulk internal forces have zero net force and zero current-configuration torque.
+- s=0 reduces to the existing energy/residual/Hessian to numerical precision.
+- Analytic Piola/tangent agree with autograd and central finite differences.
+- Assembled FEM residual/Hessian agree with autograd; prestrain derivatives pass.
+- Existing mass and gravitational resultant remain unchanged after support removal.
+- Initial natural strain cannot balance net gravity when compliant anchors are
+  unextended and a penalty floor has zero penetration. That limitation is tested.
+The inherited weak positional gauge is unchanged; the module does not claim an
+ideal freefall simulator. It verifies that prestrain adds no external resultant.
+
+Important initial-state limitation
+At the observed reference x=X0, all current attachment targets also equal X0 and
+floor penetration is zero. Thus attachment and penalty-floor reactions are zero.
+The sum of any objective internal prestrain force is zero, leaving nonzero net
+gravity. Exact equilibrium at precisely that shape is therefore impossible unless
+there is a valid support reaction/preload, a hard constraint capable of reaction
+at zero displacement, or finite compliance displacement. A localized attachment
+preload is a boundary hypothesis; a persistent distributed residual-cancelling
+body force is not an acceptable substitute. This extension does not add either.
+
+Validation
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_object_prestrain_v02.py -q
+Result: 9 passed. Tests use small float64 fake payloads, no benchmark targets.
+Forward-range stability, real initial-state fit, uniqueness/identifiability and
+benchmark improvements remain untested. Root review is required before any fit.

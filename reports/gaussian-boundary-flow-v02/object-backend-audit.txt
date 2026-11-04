@@ -1,0 +1,109 @@
+INDEPENDENT AUDIT: geometry-specific object boundary backend
+Auditor /root/flow_numerical_audit; 2026-11-04.
+Reviewed object_backend.py, object_campaign.py, benchmark_inputs.py and the reused
+ExternalFEM. Original running backend/campaign were not modified.
+
+Data separation
+No direct suffix object-motion access was found in the inverse campaign. The
+predictor loader exports prefix object tracks/masks plus supplied initial geometry
+and complete prescribed controller schedules. The mask uses incoming transitions.
+Future controllers are legitimate conditional action inputs, not unknown future
+object targets. Upstream processed tracks/initial geometry are not certified
+online-causal; the existing disclosed limitation remains necessary. This is a
+historically exposed sequence and geometry-specific simulator bank, not zero-shot
+real-video generalization.
+
+Parameter/unit review
+Theta index mapping is correct: gravity ratio, per-grip attachment ratios, floor
+ratio; footprint exponents follow separately and material heterogeneity is zero.
+Renormalizing powered Gaussian weights separates footprint from total attachment
+stiffness. No absolute material/force scale is identified. Current shape is a
+convex-hull mesh, including fictitious tissue between limbs; this remains a pilot
+rather than a faithful plush-object mechanical discretization.
+
+BLOCKER 1: floor hypothesis materially controls motion
+ExternalFEM applies its normal floor penalty even when contact=False; that flag
+only disables the optional tangential compliance. The guessed floor is at the
+initial lowest point and the inferred coefficient cannot turn off under the
+original log range [3,8]. Four exposed sloth prior worlds (neutral + seed-913
+three draws; 64 nodes, prefix only) were compared with exact coefficient zero:
+World   Relative-to-first motion difference, floor on vs off (dense continuation)
+0       26.289968 mm coordinate RMS
+1        2.820717 mm
+2       32.849544 mm
+3       11.124689 mm
+All solves converged. These differences are much larger than numerical residuals
+or sub-mm uncertainty claims. Treat floor presence as an explicit hypothesis and
+compare it using development observations; do not infer a true bottom support
+from successful optimization of a forced floor model.
+
+Schedule check: no observed blocker in these four worlds
+Original sparse12 versus dense-prefix solve schedules differ by only
+0.000004-0.000112 mm RMS. Thus the potential nonlinear branch issue is not observed
+here. It remains a contract risk for other shapes/commands, because warm-start
+continuation is history dependent. The new optional subclass uses a canonical
+all-command-frame path; output sampling alone cannot alter its solve path.
+
+BLOCKER 2: incremental rebasing is not the mechanical state
+The campaign exports X0 + x(t) - x(0), where x(0) is its first solved equilibrium.
+This is a potentially nonuniform nodal offset, not a rigid coordinate change.
+Internal minJ/residual checks certify x(t), not the rebased mesh. Independent
+checks on the same four worlds give:
+                       Floor on                 Floor off
+Initial offset RMS     0.052-2.518 mm            3.491-156.854 mm
+Internal max residual  <9.8e-8                   <9.8e-8
+Rebased max residual   3.41e-4 to 1.68e-2        9.60e-4 to 2.29e-2
+No rebased element inverted in these eight runs. Residuals are dimensionless and
+should not be relabeled as force errors in N. Large no-floor initial mismatches
+show that a physically admissible solver state is not necessarily consistent
+with the supplied initial shape/attachment observation.
+
+Recommendation: retain raw mechanical trajectories as the physical output, and
+report their initial-shape mismatch. Incremental rebasing may remain a separately
+named observation-space tracking map, but must not be presented as a force-balanced
+renderable physical state. Initial prestrain/rest-shape uncertainty needs explicit
+modeling before absolute physical interpretation. Do not add fixed dead loads to
+cancel the initial residual: they would persist after release and create fictional
+support. None was implemented by this audit.
+
+Uncertainty reporting
+- Node quantiles cannot be pushed through observation interpolation. Project each
+  accepted trajectory with A first and THEN take observation-space quantiles. A
+  new test gives a simple counterexample where mapping node 95% quantiles yields
+  zero while the true interpolated 95% quantile is .5.
+- Retain accepted posterior samples/indices, not just marginal lo/hi arrays.
+- Failed posterior rollouts condition the distribution on numerical feasibility;
+  keep failure rates and avoid treating discarded draws as no uncertainty cost.
+- Sixteen draws give coarse tail estimates; this is predictive spread, not proven
+  90% coverage. Calibrate using an independent synthetic/reference discrepancy
+  study rather than declaring real coverage from this one exposed object.
+- Clarify whether 1 mm noise is defined on relative coordinates conditional on
+  the initial observation. If original observations have independent noise, their
+  shared first-frame subtraction induces correlated noise across later frames.
+
+Isolated implementation delivered
+scripts/gaussian_boundary_flow_v02/object_backend_revision.py
+  ObjectBoundaryBackendRevision(..., floor_mode='off'|'inferred')
+  - Off sets exp(theta_floor) exactly to zero and removes the unused floor latent.
+    Single-grip off-mode dimension is three, versus four in inferred-floor mode.
+  - Inferred mode reproduces the original parameter binding exactly.
+  - Rollout always follows frames 0..last_requested; last_path_diagnostics records
+    all intermediate minimum J, residual, iterations and frame count.
+  - Original object_backend.py/object_campaign.py and their bank remain unchanged.
+Four tests in tests/test_gaussian_object_backend_audit_v02.py pass, including a
+path-sensitive fake solver demonstrating canonical schedule invariance.
+
+Evidence/reproduction
+object-backend-audit-evidence.json and object-backend-audit-reproduce.py
+object-rebase-audit-evidence.json and object-rebase-audit-reproduce.py
+These reads are prefix-only; GPU 2 was used and is now free. No new held-out
+object labels were accessed. Raw trajectory tensors were not published.
+
+Initial-image evidence update
+The root agent and this auditor independently inspected the permitted camera-0
+frame-0 image of single_lift_sloth. The toy is lying on a tabletop while a hand
+holds its arm. An initial floor/support hypothesis is therefore visibly warranted;
+floor-off is a diagnostic ablation, not the default physical correction for this
+case. The image alone does not establish contact loads, exact contact region,
+plane height relative to reconstructed nodes, friction, or later separation.
+Image: runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_lift_sloth/color/0/0.png

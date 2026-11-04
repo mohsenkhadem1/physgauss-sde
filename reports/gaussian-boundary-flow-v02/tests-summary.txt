@@ -1,0 +1,9 @@
+Targeted validation: 160 unique tests passed across recorded runs.
+Latest incremental pose/contact + scorer run:26 passed. Unchanged large suite not rerun.
+
+Exact commands:
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_affine_observation_v02.py tests/test_boundary_preload_v02.py tests/test_gaussian_boundary_checkpoint_contract_v02.py tests/test_gaussian_boundary_feature_support_v02.py tests/test_gaussian_boundary_flow.py tests/test_gaussian_boundary_flow_audit_v02.py tests/test_gaussian_boundary_full_covariance_v02.py tests/test_gaussian_boundary_noise_v02.py tests/test_gaussian_boundary_probabilistic_v02.py tests/test_gaussian_boundary_reference_v02.py tests/test_gaussian_differential_action_v02.py tests/test_gaussian_object_backend_audit_v02.py tests/test_gbf_v02_bank_retrieval_audit.py tests/test_gbf_v02_dataset_adapter_audit.py tests/test_gbf_v02_finite_range_attachment.py tests/test_gbf_v02_object_dynamics.py tests/test_gbf_v02_object_score_audit.py tests/test_gbf_v02_readiness_audit.py tests/test_gbf_v02_softvt_score_audit.py tests/test_gbf_v02_stable_export_audit.py tests/test_object_midpoint_v02.py tests/test_object_prestrain_v02.py tests/test_prefix_informativeness_v02.py tests/test_robust_dynamic_step_v02.py tests/test_v03_independent_contract_audit.py -q --junitxml=/tmp/gbf-tests-main.xml
+
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 runs/phystwin-env/bin/python -m pytest tests/test_gbf_v02_dataset_adapter_audit.py -q --junitxml=/tmp/gbf-tests-hdf.xml
+
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_gaussian_boundary_pose_shape_v02.py tests/test_gaussian_boundary_pose_shape_contact_v02.py tests/test_gbf_v02_object_score_audit.py -q --junitxml=/tmp/gbf-tests-pose.xml

@@ -1,0 +1,47 @@
+STABLE PREDICTOR EXPORT — 4 November 2026
+
+Implemented scripts/gaussian_boundary_flow_v02/export_inputs.py.
+Eight historical development packages are under:
+  runs/gaussian-boundary-flow-v02-inputs/<case>/
+
+Cases: PhysTwin single_lift_sloth, single_push_sloth, single_lift_zebra,
+double_lift_zebra; SoftVT object-soft/spatial-soft task1/task2 demo0.
+No additional cases or fresh trajectory arrays were opened.
+
+Each immutable package contains predictor.npz (pickle-free arrays),
+predictor-meta.json (other input fields) and manifest.json (file hashes,
+array dtype/shape inventory and semantic predictor_digest). Reload verifies
+all checks without reopening raw data, HDF5, pickle, FPS or triangulation.
+
+Optional reduction to64 nodes uses FPS on original initial nodes. It slices
+nodal controller targets/attachment weights and recomputes observation_matrix
+once. Original full initial support geometry, all observations, observed masks,
+initial observed points, timestamps and complete tool commands are retained.
+The input is copied; no source payload or historical benchmark is mutated.
+
+Exports ran in runs/phystwin-env/bin/python (Python3.10/NumPy1.26). All eight
+packages reloaded with identical semantic digests in root .venv (Python3.12 /
+NumPy2.5), where h5py is absent. See stable-input-cross-env-audit.json.
+
+Scorer now prefers plan['input_package'] using the stable loader and verifies
+its semantic digest against plan['input_digest']. An optional
+input_package_manifest_sha256 is also checked. Older pilot plans without an
+input-package field retain strict same-environment re-export compatibility.
+
+Tests:21 passed in phystwin-env across adapter, exporter and scorer.16 exporter/
+scorer tests also passed in root .venv. Covered: exact array/digest round-trip,
+reference geometry preservation, complete future commands, no re-triangulation,
+immutable output, corruption/hash rejection, no pickle/object arrays, predictor/
+evaluator separation, fresh-case guards, and scorer package preference.
+
+APIs
+  from scripts.gaussian_boundary_flow_v02.export_inputs import load_package
+  data = load_package('runs/gaussian-boundary-flow-v02-inputs/single_lift_sloth')
+
+  reduce_geometry(data, count=64)
+  write_package(data, destination, reduction=64)
+
+Re-export all eight (verifies existing identical packages; refuses changes):
+  runs/phystwin-env/bin/python -m scripts.gaussian_boundary_flow_v02.export_inputs
+
+This qualifies input transport only, not the physical adequacy of the backend.

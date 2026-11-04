@@ -1,0 +1,1809 @@
+{
+  "scope": "Audited development campaign; historical external cases, not a replacement for prior best benchmark results",
+  "status": "Active; broader evaluation is gated on demonstrated predictive improvement",
+  "datasets": {
+    "SoftVTBench": "600 local episodes / 3 assets; 220 historical development episodes; fresh arrays not opened",
+    "PhysTwin": "22 historically exposed real sequences; no new sealed external test",
+    "Isaac": "Existing 272 episodes and contact/boundary studies retained",
+    "PokeFlex": "No approved local raw recordings; not tested",
+    "Deform360": "Paused at user request"
+  },
+  "evidence": {
+    "matched-results.json": {
+      "source_sha256": "f4b640184e03d332f282ea7c0aef8707d072e53aecb8656a4b17987dfddae177",
+      "summary": {
+        "scope": "Conditional synthetic small-strain 64-node block; no external-data or general boundary-topology claim",
+        "plan_sha256": "305f773ff47c1d2f0748499f4ee61a2aec7b4e42a4c5552111c8a844df3a86c5",
+        "checkpoint_sha256": {
+          "flow": "0b12838b8fc31c97b6ef537fa11c600dc9b08646411ad34ee8360a365d892b20",
+          "mixture": "e24ccfedcb1fbe28b77be55258bc763826824c2d11eb37180e283037208ae784",
+          "point": "5fbd83bcd5fb72e07c2959f4be2b1b9b3e24e09411d59ca3b530893d61e7cb47"
+        },
+        "methods": {
+          "flow": {
+            "parameters": 141894,
+            "samples": 32,
+            "loss": "conditional rectified-flow MSE"
+          },
+          "mixture": {
+            "parameters": 141713,
+            "samples": 32,
+            "loss": "four-component diagonal Gaussian mixture logit NLL"
+          },
+          "point": {
+            "parameters": 140996,
+            "samples": 1,
+            "loss": "parameter-logit MSE"
+          }
+        },
+        "single_noise_draw_sigma_m": 5e-05,
+        "training_observations_clean": true,
+        "same_test_context_all_methods": true,
+        "parameter_scores": {
+          "flow": {
+            "absolute_mean_error": [
+              0.036634840071201324,
+              0.024956002831459045,
+              0.0399484746158123,
+              0.0004782163305208087,
+              0.003878301940858364,
+              0.034491755068302155
+            ],
+            "coverage_90": [
+              0.921875,
+              0.9609375,
+              0.90625,
+              0.9765625,
+              0.828125,
+              0.9140625
+            ],
+            "interval_width": [
+              0.1657925248146057,
+              0.13788825273513794,
+              0.18878895044326782,
+              0.0030514332465827465,
+              0.013786463998258114,
+              0.15760579705238342
+            ],
+            "units": "Log SI parameters except support_x_m and load_x_m; see inferred_parameters"
+          },
+          "mixture": {
+            "absolute_mean_error": [
+              0.027042798697948456,
+              0.014539547264575958,
+              0.07512898743152618,
+              0.00029944026027806103,
+              0.006957521662116051,
+              0.028187580406665802
+            ],
+            "coverage_90": [
+              0.9140625,
+              0.9296875,
+              0.8515625,
+              0.765625,
+              0.828125,
+              0.9609375
+            ],
+            "interval_width": [
+              0.12979698181152344,
+              0.06411878019571304,
+              0.3180771768093109,
+              0.0010084264213219285,
+              0.02867034263908863,
+              0.13843217492103577
+            ],
+            "units": "Log SI parameters except support_x_m and load_x_m; see inferred_parameters"
+          },
+          "point": {
+            "absolute_mean_error": [
+              0.040602654218673706,
+              0.03861182928085327,
+              0.040035732090473175,
+              0.0006905784830451012,
+              0.0037380745634436607,
+              0.04349801689386368
+            ],
+            "coverage_90": null,
+            "interval_width": null,
+            "units": "Log SI parameters except support_x_m and load_x_m; see inferred_parameters"
+          }
+        },
+        "programs": {
+          "sine": {
+            "flow": {
+              "future_rmse_mm_mean": 0.18850144743919373,
+              "per_case_mm": {
+                "local_entries": 128,
+                "omitted_from_compact_index": true
+              },
+              "coordinate_coverage_90": 0.9601372480392456,
+              "trajectory_coverage_90": 0.5078125,
+              "interval_width_mm": 0.7852351665496826,
+              "interval_score_90_mm": 0.8391703963279724
+            },
+            "mixture": {
+              "future_rmse_mm_mean": 0.15080751478672028,
+              "per_case_mm": {
+                "local_entries": 128,
+                "omitted_from_compact_index": true
+              },
+              "coordinate_coverage_90": 0.9221055507659912,
+              "trajectory_coverage_90": 0.21875,
+              "interval_width_mm": 0.4706057906150818,
+              "interval_score_90_mm": 0.5462620854377747
+            },
+            "point": {
+              "future_rmse_mm_mean": 0.30968961119651794,
+              "per_case_mm": {
+                "local_entries": 128,
+                "omitted_from_compact_index": true
+              },
+              "coordinate_coverage_90": null,
+              "trajectory_coverage_90": null,
+              "interval_width_mm": null,
+              "interval_score_90_mm": null
+            }
+          },
+          "release": {
+            "flow": {
+              "future_rmse_mm_mean": 0.17646358907222748,
+              "per_case_mm": {
+                "local_entries": 128,
+                "omitted_from_compact_index": true
+              },
+              "coordinate_coverage_90": 0.9625786542892456,
+              "trajectory_coverage_90": 0.546875,
+              "interval_width_mm": 0.7319772839546204,
+              "interval_score_90_mm": 0.7840467095375061
+            },
+            "mixture": {
+              "future_rmse_mm_mean": 0.11182375997304916,
+              "per_case_mm": {
+                "local_entries": 128,
+                "omitted_from_compact_index": true
+              },
+              "coordinate_coverage_90": 0.9197590947151184,
+              "trajectory_coverage_90": 0.25,
+              "interval_width_mm": 0.3356240391731262,
+              "interval_score_90_mm": 0.39302858710289
+            },
+            "point": {
+              "future_rmse_mm_mean": 0.28807559609413147,
+              "per_case_mm": {
+                "local_entries": 128,
+                "omitted_from_compact_index": true
+              },
+              "coordinate_coverage_90": null,
+              "trajectory_coverage_90": null,
+              "interval_width_mm": null,
+              "interval_score_90_mm": null
+            }
+          },
+          "triangle": {
+            "flow": {
+              "future_rmse_mm_mean": 0.1853754073381424,
+              "per_case_mm": {
+                "local_entries": 128,
+                "omitted_from_compact_index": true
+              },
+              "coordinate_coverage_90": 0.9608561396598816,
+              "trajectory_coverage_90": 0.5234375,
+              "interval_width_mm": 0.7830764055252075,
+              "interval_score_90_mm": 0.8336212038993835
+            },
+            "mixture": {
+              "future_rmse_mm_mean": 0.14325912296772003,
+              "per_case_mm": {
+                "local_entries": 128,
+                "omitted_from_compact_index": true
+              },
+              "coordinate_coverage_90": 0.9242079257965088,
+              "trajectory_coverage_90": 0.25,
+              "interval_width_mm": 0.4570953845977783,
+              "interval_score_90_mm": 0.5200116634368896
+            },
+            "point": {
+              "future_rmse_mm_mean": 0.30639922618865967,
+              "per_case_mm": {
+                "local_entries": 128,
+                "omitted_from_compact_index": true
+              },
+              "coordinate_coverage_90": null,
+              "trajectory_coverage_90": null,
+              "interval_width_mm": null,
+              "interval_score_90_mm": null
+            }
+          },
+          "reverse": {
+            "flow": {
+              "future_rmse_mm_mean": 0.1934034824371338,
+              "per_case_mm": {
+                "local_entries": 128,
+                "omitted_from_compact_index": true
+              },
+              "coordinate_coverage_90": 0.9572075605392456,
+              "trajectory_coverage_90": 0.5,
+              "interval_width_mm": 0.7699238657951355,
+              "interval_score_90_mm": 0.8444293737411499
+            },
+            "mixture": {
+              "future_rmse_mm_mean": 0.17590464651584625,
+              "per_case_mm": {
+                "local_entries": 128,
+                "omitted_from_compact_index": true
+              },
+              "coordinate_coverage_90": 0.9144694209098816,
+              "trajectory_coverage_90": 0.3046875,
+              "interval_width_mm": 0.5633530020713806,
+              "interval_score_90_mm": 0.6487497687339783
+            },
+            "point": {
+              "future_rmse_mm_mean": 0.2990184724330902,
+              "per_case_mm": {
+                "local_entries": 128,
+                "omitted_from_compact_index": true
+              },
+              "coordinate_coverage_90": null,
+              "trajectory_coverage_90": null,
+              "interval_width_mm": null,
+              "interval_score_90_mm": null
+            }
+          }
+        },
+        "paired_comparisons": {
+          "sine": {
+            "mixture": {
+              "other_minus_flow_mm_mean": -0.03769393025140744,
+              "paired_bootstrap_95CI_mm": [
+                -0.06793015950333939,
+                -0.010043855813637505
+              ],
+              "flow_wins": 56
+            },
+            "point": {
+              "other_minus_flow_mm_mean": 0.12118816220754525,
+              "paired_bootstrap_95CI_mm": [
+                0.058105700962551056,
+                0.2071094319126131
+              ],
+              "flow_wins": 91
+            }
+          },
+          "release": {
+            "mixture": {
+              "other_minus_flow_mm_mean": -0.06463983387220651,
+              "paired_bootstrap_95CI_mm": [
+                -0.09233532164780626,
+                -0.03908622766684857
+              ],
+              "flow_wins": 38
+            },
+            "point": {
+              "other_minus_flow_mm_mean": 0.11161199831985869,
+              "paired_bootstrap_95CI_mm": [
+                0.05310247728430113,
+                0.18339475069278702
+              ],
+              "flow_wins": 87
+            }
+          },
+          "triangle": {
+            "mixture": {
+              "other_minus_flow_mm_mean": -0.04211626812320901,
+              "paired_bootstrap_95CI_mm": [
+                -0.0729481744734585,
+                -0.014741297460750506
+              ],
+              "flow_wins": 58
+            },
+            "point": {
+              "other_minus_flow_mm_mean": 0.12102385250182124,
+              "paired_bootstrap_95CI_mm": [
+                0.05920814096480172,
+                0.198944123363799
+              ],
+              "flow_wins": 92
+            }
+          },
+          "reverse": {
+            "mixture": {
+              "other_minus_flow_mm_mean": -0.0174988350518106,
+              "paired_bootstrap_95CI_mm": [
+                -0.051276825005516,
+                0.013404396850091841
+              ],
+              "flow_wins": 66
+            },
+            "point": {
+              "other_minus_flow_mm_mean": 0.10561498047536588,
+              "paired_bootstrap_95CI_mm": [
+                0.046549368470732586,
+                0.17652232510163224
+              ],
+              "flow_wins": 88
+            }
+          }
+        },
+        "cpu_gpu_max_displacement_difference_m_4cases": 2.1979212760925293e-07,
+        "source_hashes_unchanged": true,
+        "limitations": [
+          "Same block/topology/prior family; OOD is future command waveform only",
+          "Known geometry, mass, initial state, directions and Gaussian widths",
+          "Point baseline uses latent MSE, not a trajectory-optimized objective",
+          "No independent reference posterior or claim of global physical calibration"
+        ]
+      }
+    },
+    "full-covariance-coverage-comparison.json": {
+      "source_sha256": "684b6f1b247c8c64e50d80d4e80ff6c3fb3bdc3f67f3f2e837474d2ed9fb1ac7",
+      "summary": {
+        "scope": "Paired support-location coverage contrast on the frozen confirmation cohort",
+        "full_minus_diagonal_coverage": 0.0625,
+        "paired_bootstrap_95CI": [
+          -0.0234375,
+          0.1484375
+        ],
+        "full_only_covers": 19,
+        "diagonal_only_covers": 11,
+        "both_cover": 90,
+        "neither_covers": 8,
+        "note": "Computed after sigmoid normalization; support-location physical transform is affine, so interval membership is preserved"
+      }
+    },
+    "reference-posterior/summary.json": {
+      "source_sha256": "61f69d83ec303f3dd0435b8e94dce128834a5792ca6d47f25d3b5c5bf514c2df",
+      "summary": {
+        "scope": "Two-parameter conditional reference, four other true parameters fixed; not an unconditional learned posterior",
+        "initial_converged": 3,
+        "original_failure_preserved": true,
+        "supplemental_world2_converged": true,
+        "worlds": [
+          {
+            "world": 0,
+            "original_protocol_converged": true,
+            "accepted_after_supplement": true,
+            "correlation": 0.9407670602784831,
+            "truth_in_conditional_90_intervals": [
+              true,
+              true
+            ],
+            "support_stiffness_quantiles_N_per_m3": [
+              417199.21264136845,
+              419034.9620480907,
+              420887.1662135184
+            ],
+            "support_x_quantiles_m": [
+              0.018489555855400595,
+              0.01856096166667638,
+              0.0186330799194334
+            ],
+            "truth_physical": [
+              417982.909489792,
+              0.018539241018000488
+            ]
+          },
+          {
+            "world": 1,
+            "original_protocol_converged": true,
+            "accepted_after_supplement": true,
+            "correlation": 0.9202999821795106,
+            "truth_in_conditional_90_intervals": [
+              true,
+              true
+            ],
+            "support_stiffness_quantiles_N_per_m3": [
+              417573.5599953027,
+              419775.39327318623,
+              422002.23869443336
+            ],
+            "support_x_quantiles_m": [
+              0.015579012730041274,
+              0.01564549113147614,
+              0.015712354283791696
+            ],
+            "truth_physical": [
+              418554.6460877556,
+              0.015602170825628231
+            ]
+          },
+          {
+            "world": 2,
+            "original_protocol_converged": false,
+            "accepted_after_supplement": true,
+            "correlation": -0.980003754720947,
+            "truth_in_conditional_90_intervals": [
+              true,
+              true
+            ],
+            "support_stiffness_quantiles_N_per_m3": [
+              1017025.2199223174,
+              1029528.2727054856,
+              1042346.2258359201
+            ],
+            "support_x_quantiles_m": [
+              -0.022998520917258305,
+              -0.022819819993994187,
+              -0.02264286771363906
+            ],
+            "truth_physical": [
+              1033366.1571754061,
+              -0.022861011236380735
+            ]
+          },
+          {
+            "world": 3,
+            "original_protocol_converged": true,
+            "accepted_after_supplement": true,
+            "correlation": 0.7865004786705271,
+            "truth_in_conditional_90_intervals": [
+              true,
+              true
+            ],
+            "support_stiffness_quantiles_N_per_m3": [
+              332168.61635107594,
+              332951.49851676694,
+              333739.3508961935
+            ],
+            "support_x_quantiles_m": [
+              0.013921444022893248,
+              0.013956110876680645,
+              0.013990896557264182
+            ],
+            "truth_physical": [
+              333209.89865396736,
+              0.01395510565899042
+            ]
+          }
+        ],
+        "total_numerical_runtime_seconds": 299.16169248730876,
+        "calibration_claim": false,
+        "global_mode_exclusion_proved": false
+      }
+    },
+    "release-safeguarded-v3-qualification.json": {
+      "source_sha256": "f9ec0510c4f424fe1296c3885a6b282e9bde8c1f770adbac5f12db107373b454",
+      "summary": {
+        "scope": "Untrained effective cohesive-grasp operator; fixed active hand, gravity-driven detachment; no Coulomb friction or impact",
+        "protocol": "solver-safeguarded-v3",
+        "inner_solver_target": 1e-08,
+        "unchanged_admission_residual_gate": 1e-07,
+        "trajectory_gate_mm": 0.1,
+        "known_interaction_range_dimensionless": 0.015,
+        "energy_gate_fraction_freefall_potential": 0.01,
+        "safeguarded_termination": {
+          "force_residual_gate": 1e-07,
+          "max_newton_correction_dimensionless": 1e-09
+        },
+        "scope_limit": "Two neutral synthetic worlds only; both finer substeps32 failed; no impact admission and no claim small-oscillation relative-energy fidelity."
+      }
+    },
+    "affine-observation-audit.json": {
+      "source_sha256": "1563f9eaeb36b1e2f1b9568dae9eff84537f7f19922b050ab7125c043a5c66ba",
+      "summary": {
+        "scope": "Eight existing immutable initial-geometry packages only; no future targets or existing package mutations",
+        "method": "16-neighbor affine-complete corrected inverse-distance map; expand stencil if needed; L1<=8"
+      }
+    },
+    "tests-summary.json": {
+      "source_sha256": "e15b525c848e8cb22c0f3bef4a383d770e2360cea577152074256d664bd0fc19",
+      "summary": {
+        "selection": "Tests importing gaussian_boundary_flow_v02 or physgauss.gaussian_boundary or physgauss.boundary_program; excludes unrelated repository tests",
+        "runs": [
+          {
+            "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_affine_observation_v02.py tests/test_boundary_preload_v02.py tests/test_gaussian_boundary_checkpoint_contract_v02.py tests/test_gaussian_boundary_feature_support_v02.py tests/test_gaussian_boundary_flow.py tests/test_gaussian_boundary_flow_audit_v02.py tests/test_gaussian_boundary_full_covariance_v02.py tests/test_gaussian_boundary_noise_v02.py tests/test_gaussian_boundary_probabilistic_v02.py tests/test_gaussian_boundary_reference_v02.py tests/test_gaussian_differential_action_v02.py tests/test_gaussian_object_backend_audit_v02.py tests/test_gbf_v02_bank_retrieval_audit.py tests/test_gbf_v02_dataset_adapter_audit.py tests/test_gbf_v02_finite_range_attachment.py tests/test_gbf_v02_object_dynamics.py tests/test_gbf_v02_object_score_audit.py tests/test_gbf_v02_readiness_audit.py tests/test_gbf_v02_softvt_score_audit.py tests/test_gbf_v02_stable_export_audit.py tests/test_object_midpoint_v02.py tests/test_object_prestrain_v02.py tests/test_prefix_informativeness_v02.py tests/test_robust_dynamic_step_v02.py tests/test_v03_independent_contract_audit.py -q --junitxml=/tmp/gbf-tests-main.xml",
+            "test_files": {
+              "local_entries": 25,
+              "omitted_from_compact_index": true
+            },
+            "tests": 153,
+            "passed": 152,
+            "skipped": 1,
+            "failed": 0
+          },
+          {
+            "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 runs/phystwin-env/bin/python -m pytest tests/test_gbf_v02_dataset_adapter_audit.py -q --junitxml=/tmp/gbf-tests-hdf.xml",
+            "test_files": [
+              "tests/test_gbf_v02_dataset_adapter_audit.py"
+            ],
+            "tests": 5,
+            "passed": 5,
+            "skipped": 0,
+            "failed": 0
+          },
+          {
+            "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_gaussian_boundary_pose_shape_v02.py tests/test_gaussian_boundary_pose_shape_contact_v02.py tests/test_gbf_v02_object_score_audit.py -q --junitxml=/tmp/gbf-tests-pose.xml",
+            "test_files": [
+              "tests/test_gaussian_boundary_pose_shape_v02.py",
+              "tests/test_gaussian_boundary_pose_shape_contact_v02.py",
+              "tests/test_gbf_v02_object_score_audit.py"
+            ],
+            "tests": 26,
+            "passed": 26,
+            "failed": 0,
+            "skipped": 0
+          }
+        ],
+        "unique_tests_passed": 160,
+        "defects_fixed": [
+          "relative_observation_noise now rejects nonfinite sigma and invalid dimensions before sampling"
+        ],
+        "notes": "Incremental pose/contact and scorer guard run added; unchanged large suite was not rerun."
+      }
+    },
+    "softvt-package-pilot-scores.json": {
+      "source_sha256": "96ec34fea7899f16ceb7b278148559f2188565e5bb3babd6e415c6b6e2b813f3",
+      "summary": {
+        "case": "object-soft-task1-demo0",
+        "scope": "Historically exposed SoftVT development, sparse observed-node suffix scoring; no rendering or population superiority claim",
+        "interval": [
+          72,
+          120
+        ],
+        "observed_node_ids": {
+          "local_entries": 48,
+          "omitted_from_compact_index": true
+        },
+        "nodes": 64,
+        "observation_count": 48,
+        "methods": {
+          "flow_raw": {
+            "summary": {
+              "coordinate_rmse_mm": 56.219385975718865,
+              "mean_l2_mm": 97.16025890234556,
+              "vector_rms_mm": 97.37483288027029,
+              "aligned_shape_rmse_mm": 2.592935853317721,
+              "total_frames": 48,
+              "valid_frames": 48,
+              "failed_frames": 0,
+              "no_reference_frames": 0,
+              "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+            }
+          },
+          "flow_tracking": {
+            "summary": {
+              "coordinate_rmse_mm": 55.88473793294107,
+              "mean_l2_mm": 96.57474979958886,
+              "vector_rms_mm": 96.79520546752565,
+              "aligned_shape_rmse_mm": 2.5928588514910893,
+              "total_frames": 48,
+              "valid_frames": 48,
+              "failed_frames": 0,
+              "no_reference_frames": 0,
+              "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+            }
+          },
+          "mixture_raw": {
+            "summary": {
+              "coordinate_rmse_mm": 57.7376555387132,
+              "mean_l2_mm": 99.81334538815126,
+              "vector_rms_mm": 100.00455290296185,
+              "aligned_shape_rmse_mm": 3.4223921109392044,
+              "total_frames": 48,
+              "valid_frames": 48,
+              "failed_frames": 0,
+              "no_reference_frames": 0,
+              "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+            }
+          },
+          "mixture_tracking": {
+            "summary": {
+              "coordinate_rmse_mm": 57.04704073102056,
+              "mean_l2_mm": 98.61298742695651,
+              "vector_rms_mm": 98.80837296757879,
+              "aligned_shape_rmse_mm": 3.4478276305237956,
+              "total_frames": 48,
+              "valid_frames": 48,
+              "failed_frames": 0,
+              "no_reference_frames": 0,
+              "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+            }
+          },
+          "prefix_persistence": {
+            "summary": {
+              "coordinate_rmse_mm": 156.5673298773347,
+              "mean_l2_mm": 271.18098962248223,
+              "vector_rms_mm": 271.1825701529404,
+              "aligned_shape_rmse_mm": 0.41975082145086917,
+              "total_frames": 48,
+              "valid_frames": 48,
+              "failed_frames": 0,
+              "no_reference_frames": 0,
+              "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+            }
+          },
+          "prefix_velocity": {
+            "summary": {
+              "coordinate_rmse_mm": 146.510800811054,
+              "mean_l2_mm": 253.76284467623952,
+              "vector_rms_mm": 253.764150862349,
+              "aligned_shape_rmse_mm": 0.8128752449407317,
+              "total_frames": 48,
+              "valid_frames": 48,
+              "failed_frames": 0,
+              "no_reference_frames": 0,
+              "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+            }
+          }
+        },
+        "posterior_intervals": {
+          "flow_raw": {
+            "available": true,
+            "nominal_coverage": 0.9,
+            "coordinate_coverage": 0.08318865740740741,
+            "average_width_mm": 20.68116956155126,
+            "samples": 29,
+            "transport": "Joint node trajectories mapped before pointwise quantiles",
+            "forecast_selection": {
+              "requested": 32,
+              "valid": 29,
+              "failed": 3
+            },
+            "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+          },
+          "flow_tracking": {
+            "available": true,
+            "nominal_coverage": 0.9,
+            "coordinate_coverage": 0.08333333333333333,
+            "average_width_mm": 20.493984194493805,
+            "samples": 29,
+            "transport": "Joint node trajectories mapped before pointwise quantiles",
+            "forecast_selection": {
+              "requested": 32,
+              "valid": 29,
+              "failed": 3
+            },
+            "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+          },
+          "mixture_raw": {
+            "available": true,
+            "nominal_coverage": 0.9,
+            "coordinate_coverage": 0.05931712962962963,
+            "average_width_mm": 0.9433138324810935,
+            "samples": 31,
+            "transport": "Joint node trajectories mapped before pointwise quantiles",
+            "forecast_selection": {
+              "requested": 32,
+              "valid": 31,
+              "failed": 1
+            },
+            "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+          },
+          "mixture_tracking": {
+            "available": true,
+            "nominal_coverage": 0.9,
+            "coordinate_coverage": 0.056712962962962965,
+            "average_width_mm": 1.2701241007698134,
+            "samples": 31,
+            "transport": "Joint node trajectories mapped before pointwise quantiles",
+            "forecast_selection": {
+              "requested": 32,
+              "valid": 31,
+              "failed": 1
+            },
+            "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+          }
+        },
+        "forecast_samples": {
+          "flow": {
+            "requested": 32,
+            "valid": 29,
+            "failures": [
+              {
+                "sample": 15,
+                "error": "Equilibrium iteration limit frame=61 residual=0.000726108"
+              },
+              {
+                "sample": 17,
+                "error": "Equilibrium iteration limit frame=110 residual=2.79827e-05"
+              },
+              {
+                "sample": 29,
+                "error": "Equilibrium iteration limit frame=110 residual=1.79488e-05"
+              }
+            ],
+            "path_diagnostics": {
+              "local_entries": 29,
+              "omitted_from_compact_index": true
+            }
+          },
+          "mixture": {
+            "requested": 32,
+            "valid": 31,
+            "failures": [
+              {
+                "sample": 29,
+                "error": "Equilibrium iteration limit frame=110 residual=3.32092e-05"
+              }
+            ],
+            "path_diagnostics": {
+              "local_entries": 31,
+              "omitted_from_compact_index": true
+            }
+          }
+        },
+        "baseline_budget": {
+          "point_ids": {
+            "local_entries": 48,
+            "omitted_from_compact_index": true
+          }
+        },
+        "prefix_support_diagnostic": {
+          "prefix_unrepresented_rms_mm": 2.038544178009033,
+          "real_standardized_context_norm": 9.990007400512695,
+          "bank_context_norm_max": 11.18065357208252,
+          "scope": "Simulator-bank support diagnostic; not a calibrated OOD probability"
+        },
+        "out_of_bank_warning": false,
+        "support_screening": "Historical PCA-norm-only fallback: incomplete screening, missing discarded-space support check; not a positive adequacy certificate",
+        "source_sha256": {
+          "prediction": "f7b7a58db3633c64d803781ac94757614631b7ef77843d0da43362fa7fb1c9e2",
+          "plan": "139bb61fe825b4aa5ce74227e663062209ca799501c37b6a80693569b8172bcc"
+        },
+        "evaluator_only": true,
+        "full_mesh_metric": false
+      }
+    },
+    "push-sloth-package-pilot-scores.json": {
+      "source_sha256": "e62f872bbb0123780619a623d52d2785afd4a9be54dbe118e84dc42b42f698c8",
+      "summary": {
+        "prefix_support_diagnostic": {
+          "prefix_unrepresented_rms_mm": 18.08759117126465,
+          "real_standardized_context_norm": 2.066458225250244,
+          "bank_context_norm_max": 10.797693252563477,
+          "scope": "Simulator-bank support diagnostic; not a calibrated OOD probability"
+        },
+        "out_of_bank_warning": false,
+        "support_screening": "Historical PCA-norm-only fallback: incomplete screening, missing discarded-space support check; not a positive adequacy certificate",
+        "parameter_interpretation": "Neither point estimates nor stored samples establish calibrated physical parameter inference; identification and uncertainty require separate validation",
+        "case": "single_push_sloth",
+        "scope": "Historically exposed PhysTwin; sealed geometry-specific prediction methods, not zero-shot transfer",
+        "interval": [
+          47,
+          68
+        ],
+        "fit_end": 47,
+        "nodes": 64,
+        "scoring_mask": "Primary: visibility[t] and incoming transition[t-1], with finite reference; official visibility-only secondary explicitly separate",
+        "baseline_budget": {
+          "point_ids": {
+            "local_entries": 48,
+            "omitted_from_compact_index": true
+          },
+          "scope": "Same selected prefix observations as inference; last observation / last-two velocity with initial-geometry interpolation"
+        },
+        "methods": {
+          "flow_raw": {
+            "incoming_v22": {
+              "summary": {
+                "coordinate_rmse_mm": 154.6547224621635,
+                "mean_l2_mm": 245.03679789160344,
+                "vector_rms_mm": 267.8698369349309,
+                "aligned_shape_rmse_mm": 45.14884338656204,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "official_visibility": {
+              "summary": {
+                "coordinate_rmse_mm": 154.83888972111245,
+                "mean_l2_mm": 245.43516276345053,
+                "vector_rms_mm": 268.18882398452115,
+                "aligned_shape_rmse_mm": 45.35521827257524,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "manual": {
+              "mean_distance_mm": 241.93982060554876,
+              "valid_frames": 21,
+              "correspondence": "Nearest initial observed point; fixed across time, not future-fitted"
+            }
+          },
+          "flow_tracking": {
+            "incoming_v22": {
+              "summary": {
+                "coordinate_rmse_mm": 155.52194365840947,
+                "mean_l2_mm": 246.46489631511145,
+                "vector_rms_mm": 269.3719081082295,
+                "aligned_shape_rmse_mm": 44.904624405914255,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "official_visibility": {
+              "summary": {
+                "coordinate_rmse_mm": 155.7081172212764,
+                "mean_l2_mm": 246.87029262897605,
+                "vector_rms_mm": 269.6943701781412,
+                "aligned_shape_rmse_mm": 45.10954876674486,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "manual": {
+              "mean_distance_mm": 243.06617437395047,
+              "valid_frames": 21,
+              "correspondence": "Nearest initial observed point; fixed across time, not future-fitted"
+            }
+          },
+          "mixture_raw": {
+            "incoming_v22": {
+              "summary": {
+                "coordinate_rmse_mm": 61.577430539926105,
+                "mean_l2_mm": 75.38146323949218,
+                "vector_rms_mm": 106.65523829469542,
+                "aligned_shape_rmse_mm": 47.06644891513698,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "official_visibility": {
+              "summary": {
+                "coordinate_rmse_mm": 61.84231787385252,
+                "mean_l2_mm": 75.63912602019343,
+                "vector_rms_mm": 107.11403661533748,
+                "aligned_shape_rmse_mm": 47.29518944796369,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "manual": {
+              "mean_distance_mm": 66.2751229870508,
+              "valid_frames": 21,
+              "correspondence": "Nearest initial observed point; fixed across time, not future-fitted"
+            }
+          },
+          "mixture_tracking": {
+            "incoming_v22": {
+              "summary": {
+                "coordinate_rmse_mm": 61.79730898107006,
+                "mean_l2_mm": 77.55258183758426,
+                "vector_rms_mm": 107.03607892624579,
+                "aligned_shape_rmse_mm": 47.37266908747932,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "official_visibility": {
+              "summary": {
+                "coordinate_rmse_mm": 62.063203398158855,
+                "mean_l2_mm": 77.85677046874714,
+                "vector_rms_mm": 107.49662156609254,
+                "aligned_shape_rmse_mm": 47.59393183287406,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "manual": {
+              "mean_distance_mm": 67.00122640344341,
+              "valid_frames": 21,
+              "correspondence": "Nearest initial observed point; fixed across time, not future-fitted"
+            }
+          },
+          "prefix_persistence": {
+            "incoming_v22": {
+              "summary": {
+                "coordinate_rmse_mm": 66.53161071752224,
+                "mean_l2_mm": 106.69085781432689,
+                "vector_rms_mm": 115.23613007214259,
+                "aligned_shape_rmse_mm": 26.44332625356864,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "official_visibility": {
+              "summary": {
+                "coordinate_rmse_mm": 66.73272627419315,
+                "mean_l2_mm": 106.88434302630932,
+                "vector_rms_mm": 115.58447243448907,
+                "aligned_shape_rmse_mm": 26.789897461779542,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "manual": {
+              "mean_distance_mm": 111.36639408526919,
+              "valid_frames": 21,
+              "correspondence": "Nearest initial observed point; fixed across time, not future-fitted"
+            }
+          },
+          "prefix_velocity": {
+            "incoming_v22": {
+              "summary": {
+                "coordinate_rmse_mm": 36.341256637158125,
+                "mean_l2_mm": 48.43810679682553,
+                "vector_rms_mm": 62.944902906457564,
+                "aligned_shape_rmse_mm": 27.316284088230322,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "official_visibility": {
+              "summary": {
+                "coordinate_rmse_mm": 36.88079899597925,
+                "mean_l2_mm": 48.95562194055243,
+                "vector_rms_mm": 63.8794176847713,
+                "aligned_shape_rmse_mm": 27.885822546811216,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "manual": {
+              "mean_distance_mm": 54.46587604299174,
+              "valid_frames": 21,
+              "correspondence": "Nearest initial observed point; fixed across time, not future-fitted"
+            }
+          }
+        },
+        "posterior_intervals": {
+          "flow_raw": {
+            "available": true,
+            "nominal_coverage": 0.9,
+            "coordinate_coverage": 0.2231508509114942,
+            "average_width_mm": 52.249733887948004,
+            "samples": 31,
+            "transport": "Joint node trajectories mapped before pointwise quantiles"
+          },
+          "flow_tracking": {
+            "available": true,
+            "nominal_coverage": 0.9,
+            "coordinate_coverage": 0.14855152282866113,
+            "average_width_mm": 51.440931924041536,
+            "samples": 31,
+            "transport": "Joint node trajectories mapped before pointwise quantiles"
+          },
+          "mixture_raw": {
+            "available": true,
+            "nominal_coverage": 0.9,
+            "coordinate_coverage": 0.7170329165978226,
+            "average_width_mm": 95.31735455836161,
+            "samples": 32,
+            "transport": "Joint node trajectories mapped before pointwise quantiles"
+          },
+          "mixture_tracking": {
+            "available": true,
+            "nominal_coverage": 0.9,
+            "coordinate_coverage": 0.5615969965669806,
+            "average_width_mm": 84.08557714024337,
+            "samples": 32,
+            "transport": "Joint node trajectories mapped before pointwise quantiles"
+          }
+        },
+        "forecast_samples": {
+          "flow": {
+            "requested": 32,
+            "valid": 31,
+            "failures": [
+              {
+                "sample": 12,
+                "error": "Equilibrium iteration limit frame=38 residual=0.000107167"
+              }
+            ],
+            "path_diagnostics": {
+              "local_entries": 31,
+              "omitted_from_compact_index": true
+            }
+          },
+          "mixture": {
+            "requested": 32,
+            "valid": 32,
+            "failures": [],
+            "path_diagnostics": {
+              "local_entries": 32,
+              "omitted_from_compact_index": true
+            }
+          }
+        },
+        "archived_comparison": {
+          "included": false,
+          "reason": "Archived v22 uses 240 nodes, 18 fitting frames and different optimization/representation. Native published metrics also use different mapping/protocol; do not paste unmatched numbers into this table.",
+          "reference": "reports/real-transfer-v22/protocol.json"
+        },
+        "source_sha256": {
+          "runs/gaussian-boundary-flow-v02-package/single_push_sloth/prediction.npz": "6f6648dbee78511a2b95c475aec2fdc6787d0f41a245ada704520d39de3729d1",
+          "runs/gaussian-boundary-flow-v02-package/single_push_sloth/inference-sealed.json": "a432a33646d588e26e4176901f91002b05398c2cd2bb91fd3db4af2489541fe4",
+          "/home/bayespc2/vscode/guassianSDE/runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_push_sloth/final_data.pkl": "d71975a65f78110d944a13687d7f2b0b48a9ac6ad51e994e88a1a63567703ba9"
+        },
+        "evaluator_only": true
+      }
+    },
+    "softvt-affine-pilot-scores.json": {
+      "source_sha256": "bb52784e63fd98a9d028f6b7093db83f1cc0ddfe5a631eeb10cbbe02e9ec5798",
+      "summary": {
+        "case": "object-soft-task1-demo0",
+        "scope": "Historically exposed SoftVT development, sparse observed-node suffix scoring; no rendering or population superiority claim",
+        "interval": [
+          72,
+          120
+        ],
+        "observed_node_ids": {
+          "local_entries": 48,
+          "omitted_from_compact_index": true
+        },
+        "nodes": 64,
+        "observation_count": 48,
+        "methods": {
+          "flow_raw": {
+            "summary": {
+              "coordinate_rmse_mm": 57.519257775494374,
+              "mean_l2_mm": 99.35671316096325,
+              "vector_rms_mm": 99.62627688080745,
+              "aligned_shape_rmse_mm": 2.80174417309775,
+              "total_frames": 48,
+              "valid_frames": 48,
+              "failed_frames": 0,
+              "no_reference_frames": 0,
+              "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+            }
+          },
+          "flow_tracking": {
+            "summary": {
+              "coordinate_rmse_mm": 57.330376893202974,
+              "mean_l2_mm": 99.02801178735005,
+              "vector_rms_mm": 99.2991255961003,
+              "aligned_shape_rmse_mm": 2.8021592060565035,
+              "total_frames": 48,
+              "valid_frames": 48,
+              "failed_frames": 0,
+              "no_reference_frames": 0,
+              "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+            }
+          },
+          "mixture_raw": {
+            "summary": {
+              "coordinate_rmse_mm": 57.05350973012893,
+              "mean_l2_mm": 98.67067782415457,
+              "vector_rms_mm": 98.81957760270859,
+              "aligned_shape_rmse_mm": 3.9071150999075503,
+              "total_frames": 48,
+              "valid_frames": 48,
+              "failed_frames": 0,
+              "no_reference_frames": 0,
+              "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+            }
+          },
+          "mixture_tracking": {
+            "summary": {
+              "coordinate_rmse_mm": 56.57190835633933,
+              "mean_l2_mm": 97.82217118576614,
+              "vector_rms_mm": 97.98541955431006,
+              "aligned_shape_rmse_mm": 3.9444773044340966,
+              "total_frames": 48,
+              "valid_frames": 48,
+              "failed_frames": 0,
+              "no_reference_frames": 0,
+              "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+            }
+          },
+          "prefix_persistence": {
+            "summary": {
+              "coordinate_rmse_mm": 156.5673298773347,
+              "mean_l2_mm": 271.18098962248223,
+              "vector_rms_mm": 271.1825701529404,
+              "aligned_shape_rmse_mm": 0.41975082145086917,
+              "total_frames": 48,
+              "valid_frames": 48,
+              "failed_frames": 0,
+              "no_reference_frames": 0,
+              "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+            }
+          },
+          "prefix_velocity": {
+            "summary": {
+              "coordinate_rmse_mm": 146.510800811054,
+              "mean_l2_mm": 253.76284467623952,
+              "vector_rms_mm": 253.764150862349,
+              "aligned_shape_rmse_mm": 0.8128752449407317,
+              "total_frames": 48,
+              "valid_frames": 48,
+              "failed_frames": 0,
+              "no_reference_frames": 0,
+              "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+            }
+          }
+        },
+        "posterior_intervals": {
+          "flow_raw": {
+            "available": true,
+            "nominal_coverage": 0.9,
+            "coordinate_coverage": 0.1384548611111111,
+            "average_width_mm": 6.005736096811774,
+            "samples": 31,
+            "transport": "Joint node trajectories mapped before pointwise quantiles",
+            "forecast_selection": {
+              "requested": 32,
+              "valid": 31,
+              "failed": 1
+            },
+            "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+          },
+          "flow_tracking": {
+            "available": true,
+            "nominal_coverage": 0.9,
+            "coordinate_coverage": 0.13758680555555555,
+            "average_width_mm": 5.99981630977558,
+            "samples": 31,
+            "transport": "Joint node trajectories mapped before pointwise quantiles",
+            "forecast_selection": {
+              "requested": 32,
+              "valid": 31,
+              "failed": 1
+            },
+            "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+          },
+          "mixture_raw": {
+            "available": true,
+            "nominal_coverage": 0.9,
+            "coordinate_coverage": 0.10185185185185185,
+            "average_width_mm": 8.926945557589114,
+            "samples": 31,
+            "transport": "Joint node trajectories mapped before pointwise quantiles",
+            "forecast_selection": {
+              "requested": 32,
+              "valid": 31,
+              "failed": 1
+            },
+            "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+          },
+          "mixture_tracking": {
+            "available": true,
+            "nominal_coverage": 0.9,
+            "coordinate_coverage": 0.10112847222222222,
+            "average_width_mm": 8.891554998304837,
+            "samples": 31,
+            "transport": "Joint node trajectories mapped before pointwise quantiles",
+            "forecast_selection": {
+              "requested": 32,
+              "valid": 31,
+              "failed": 1
+            },
+            "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+          }
+        },
+        "forecast_samples": {
+          "flow": {
+            "requested": 32,
+            "valid": 31,
+            "failures": [
+              {
+                "sample": 28,
+                "error": "Equilibrium iteration limit frame=110 residual=6.77918e-05"
+              }
+            ],
+            "path_diagnostics": {
+              "local_entries": 31,
+              "omitted_from_compact_index": true
+            }
+          },
+          "mixture": {
+            "requested": 32,
+            "valid": 31,
+            "failures": [
+              {
+                "sample": 11,
+                "error": "Equilibrium iteration limit frame=110 residual=0.00251087"
+              }
+            ],
+            "path_diagnostics": {
+              "local_entries": 31,
+              "omitted_from_compact_index": true
+            }
+          }
+        },
+        "baseline_budget": {
+          "point_ids": {
+            "local_entries": 48,
+            "omitted_from_compact_index": true
+          }
+        },
+        "prefix_support_diagnostic": {
+          "feature_support": {
+            "scope": "Empirical bank-plus-relative-noise screening; not a calibrated OOD probability",
+            "out_of_bank_warning": true,
+            "scores": {
+              "projected_standardized_norm": {
+                "observed": 8.23007533774974,
+                "reference_quantile": 11.007407469579361,
+                "reference_median": 3.208938366938992,
+                "reference_max": 11.457963073679052,
+                "flag": false
+              },
+              "unrepresented_rms_m": {
+                "observed": 0.002120727875059134,
+                "reference_quantile": 0.0014541419480408012,
+                "reference_median": 0.0013435375701721965,
+                "reference_max": 0.0015295616151925597,
+                "flag": true
+              }
+            },
+            "threshold_quantile": 0.99,
+            "reference_draws": 4096,
+            "seed": 72461,
+            "bank_worlds": 128,
+            "feature_dimension": 1728,
+            "noise_model": {
+              "absolute_sigma_m": 0.001,
+              "points": 48,
+              "description": "iid absolute coordinate errors minus shared frame-zero error; mask after subtraction"
+            },
+            "limitations": [
+              "Empirical bank coverage and declared noise model only",
+              "Two marginal screening thresholds, not a joint confidence region",
+              "Passing does not establish physical accuracy or posterior calibration"
+            ]
+          },
+          "out_of_bank_warning": true,
+          "prefix_unrepresented_rms_mm": 2.120728015899658,
+          "real_standardized_context_norm": 8.230074882507324,
+          "bank_context_norm_max": 11.171748161315918,
+          "scope": "Simulator-bank support diagnostic; not a calibrated OOD probability"
+        },
+        "out_of_bank_warning": true,
+        "support_screening": "Stored explicit support decision; see feature_support and diagnostic provenance",
+        "source_sha256": {
+          "prediction": "3a4fc220da3f73ae5d4718d6f3d6ba7ebedf743ad70f9c2be4e08671a96758ee",
+          "plan": "30737f9a6116cfb30295a1a90c145cc38ecd7b54d5a6bcd55738c9c415ac4d8b"
+        },
+        "evaluator_only": true,
+        "full_mesh_metric": false
+      }
+    },
+    "push-sloth-affine-pilot-scores.json": {
+      "source_sha256": "28b8e7020a265f0422c96f1291fcbe6852ec672d25849a9ef26197ecf3151893",
+      "summary": {
+        "prefix_support_diagnostic": {
+          "feature_support": {
+            "scope": "Empirical bank-plus-relative-noise screening; not a calibrated OOD probability",
+            "out_of_bank_warning": true,
+            "scores": {
+              "projected_standardized_norm": {
+                "observed": 2.1945736166914243,
+                "reference_quantile": 9.304130526440458,
+                "reference_median": 3.1810758165491047,
+                "reference_max": 10.789041059372234,
+                "flag": false
+              },
+              "unrepresented_rms_m": {
+                "observed": 0.0179951710913956,
+                "reference_quantile": 0.014566846822205213,
+                "reference_median": 0.004967686653233783,
+                "reference_max": 0.014676947606602033,
+                "flag": true
+              }
+            },
+            "threshold_quantile": 0.99,
+            "reference_draws": 4096,
+            "seed": 72461,
+            "bank_worlds": 128,
+            "feature_dimension": 1152,
+            "noise_model": {
+              "absolute_sigma_m": 0.001,
+              "points": 48,
+              "description": "iid absolute coordinate errors minus shared frame-zero error; mask after subtraction"
+            },
+            "limitations": [
+              "Empirical bank coverage and declared noise model only",
+              "Two marginal screening thresholds, not a joint confidence region",
+              "Passing does not establish physical accuracy or posterior calibration"
+            ]
+          },
+          "out_of_bank_warning": true,
+          "prefix_unrepresented_rms_mm": 17.99517059326172,
+          "real_standardized_context_norm": 2.1945736408233643,
+          "bank_context_norm_max": 10.761446952819824,
+          "scope": "Simulator-bank support diagnostic; not a calibrated OOD probability"
+        },
+        "out_of_bank_warning": true,
+        "support_screening": "Stored explicit support decision; see feature_support and diagnostic provenance",
+        "parameter_interpretation": "Neither point estimates nor stored samples establish calibrated physical parameter inference; identification and uncertainty require separate validation",
+        "case": "single_push_sloth",
+        "scope": "Historically exposed PhysTwin; sealed geometry-specific prediction methods, not zero-shot transfer",
+        "interval": [
+          47,
+          68
+        ],
+        "fit_end": 47,
+        "nodes": 64,
+        "scoring_mask": "Primary: visibility[t] and incoming transition[t-1], with finite reference; official visibility-only secondary explicitly separate",
+        "baseline_budget": {
+          "point_ids": {
+            "local_entries": 48,
+            "omitted_from_compact_index": true
+          },
+          "scope": "Same selected prefix observations as inference; last observation / last-two velocity with initial-geometry interpolation"
+        },
+        "methods": {
+          "flow_raw": {
+            "incoming_v22": {
+              "summary": {
+                "coordinate_rmse_mm": 172.61108487953862,
+                "mean_l2_mm": 274.42867206769074,
+                "vector_rms_mm": 298.9711689609448,
+                "aligned_shape_rmse_mm": 45.360617793076344,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "official_visibility": {
+              "summary": {
+                "coordinate_rmse_mm": 172.94146318903162,
+                "mean_l2_mm": 275.0854709443868,
+                "vector_rms_mm": 299.5434009787055,
+                "aligned_shape_rmse_mm": 45.57231183306784,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "manual": {
+              "mean_distance_mm": 268.00916635416485,
+              "valid_frames": 21,
+              "correspondence": "Nearest initial observed point; fixed across time, not future-fitted"
+            }
+          },
+          "flow_tracking": {
+            "incoming_v22": {
+              "summary": {
+                "coordinate_rmse_mm": 175.52534320844117,
+                "mean_l2_mm": 279.4287595903475,
+                "vector_rms_mm": 304.0188124529849,
+                "aligned_shape_rmse_mm": 45.09863782875391,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "official_visibility": {
+              "summary": {
+                "coordinate_rmse_mm": 175.8508135204817,
+                "mean_l2_mm": 280.093966396476,
+                "vector_rms_mm": 304.5825435697944,
+                "aligned_shape_rmse_mm": 45.29854573559588,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "manual": {
+              "mean_distance_mm": 272.53747862570935,
+              "valid_frames": 21,
+              "correspondence": "Nearest initial observed point; fixed across time, not future-fitted"
+            }
+          },
+          "mixture_raw": {
+            "incoming_v22": {
+              "summary": {
+                "coordinate_rmse_mm": 62.97030391316879,
+                "mean_l2_mm": 79.64726252732683,
+                "vector_rms_mm": 109.06776574566163,
+                "aligned_shape_rmse_mm": 46.666631030646634,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "official_visibility": {
+              "summary": {
+                "coordinate_rmse_mm": 63.17362188631387,
+                "mean_l2_mm": 79.78394003227329,
+                "vector_rms_mm": 109.41992280524084,
+                "aligned_shape_rmse_mm": 46.90538783089354,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "manual": {
+              "mean_distance_mm": 72.5755881779159,
+              "valid_frames": 21,
+              "correspondence": "Nearest initial observed point; fixed across time, not future-fitted"
+            }
+          },
+          "mixture_tracking": {
+            "incoming_v22": {
+              "summary": {
+                "coordinate_rmse_mm": 60.792123254593314,
+                "mean_l2_mm": 70.75290180873587,
+                "vector_rms_mm": 105.29504617694506,
+                "aligned_shape_rmse_mm": 46.98635549757556,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "official_visibility": {
+              "summary": {
+                "coordinate_rmse_mm": 61.008790219357664,
+                "mean_l2_mm": 70.96958502251734,
+                "vector_rms_mm": 105.67032436823865,
+                "aligned_shape_rmse_mm": 47.220819642184566,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "manual": {
+              "mean_distance_mm": 61.426002867718765,
+              "valid_frames": 21,
+              "correspondence": "Nearest initial observed point; fixed across time, not future-fitted"
+            }
+          },
+          "prefix_persistence": {
+            "incoming_v22": {
+              "summary": {
+                "coordinate_rmse_mm": 66.53161071752224,
+                "mean_l2_mm": 106.69085781432689,
+                "vector_rms_mm": 115.23613007214259,
+                "aligned_shape_rmse_mm": 26.44332625356864,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "official_visibility": {
+              "summary": {
+                "coordinate_rmse_mm": 66.73272627419315,
+                "mean_l2_mm": 106.88434302630932,
+                "vector_rms_mm": 115.58447243448907,
+                "aligned_shape_rmse_mm": 26.789897461779542,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "manual": {
+              "mean_distance_mm": 111.36639408526919,
+              "valid_frames": 21,
+              "correspondence": "Nearest initial observed point; fixed across time, not future-fitted"
+            }
+          },
+          "prefix_velocity": {
+            "incoming_v22": {
+              "summary": {
+                "coordinate_rmse_mm": 36.341256637158125,
+                "mean_l2_mm": 48.43810679682553,
+                "vector_rms_mm": 62.944902906457564,
+                "aligned_shape_rmse_mm": 27.316284088230322,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "official_visibility": {
+              "summary": {
+                "coordinate_rmse_mm": 36.88079899597925,
+                "mean_l2_mm": 48.95562194055243,
+                "vector_rms_mm": 63.8794176847713,
+                "aligned_shape_rmse_mm": 27.885822546811216,
+                "total_frames": 21,
+                "valid_frames": 21,
+                "failed_frames": 0,
+                "no_reference_frames": 0,
+                "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+              }
+            },
+            "manual": {
+              "mean_distance_mm": 54.46587604299174,
+              "valid_frames": 21,
+              "correspondence": "Nearest initial observed point; fixed across time, not future-fitted"
+            }
+          }
+        },
+        "posterior_intervals": {
+          "flow_raw": {
+            "available": true,
+            "nominal_coverage": 0.9,
+            "coordinate_coverage": 0.029919590240678525,
+            "average_width_mm": 20.902230077918446,
+            "samples": 32,
+            "transport": "Joint node trajectories mapped before pointwise quantiles"
+          },
+          "flow_tracking": {
+            "available": true,
+            "nominal_coverage": 0.9,
+            "coordinate_coverage": 0.030295937287731087,
+            "average_width_mm": 19.87031789980427,
+            "samples": 32,
+            "transport": "Joint node trajectories mapped before pointwise quantiles"
+          },
+          "mixture_raw": {
+            "available": true,
+            "nominal_coverage": 0.9,
+            "coordinate_coverage": 0.19382790842833802,
+            "average_width_mm": 19.276079368492113,
+            "samples": 32,
+            "transport": "Joint node trajectories mapped before pointwise quantiles"
+          },
+          "mixture_tracking": {
+            "available": true,
+            "nominal_coverage": 0.9,
+            "coordinate_coverage": 0.22758440270969874,
+            "average_width_mm": 11.588072181140877,
+            "samples": 32,
+            "transport": "Joint node trajectories mapped before pointwise quantiles"
+          }
+        },
+        "forecast_samples": {
+          "flow": {
+            "requested": 32,
+            "valid": 32,
+            "failures": [],
+            "path_diagnostics": {
+              "local_entries": 32,
+              "omitted_from_compact_index": true
+            }
+          },
+          "mixture": {
+            "requested": 32,
+            "valid": 32,
+            "failures": [],
+            "path_diagnostics": {
+              "local_entries": 32,
+              "omitted_from_compact_index": true
+            }
+          }
+        },
+        "archived_comparison": {
+          "included": false,
+          "reason": "Archived v22 uses 240 nodes, 18 fitting frames and different optimization/representation. Native published metrics also use different mapping/protocol; do not paste unmatched numbers into this table.",
+          "reference": "reports/real-transfer-v22/protocol.json"
+        },
+        "source_sha256": {
+          "runs/gaussian-boundary-flow-v03-package/single_push_sloth/prediction.npz": "b472f6f9d8e900e48be0612148d507cd48c09880e06e632c3548ba774320d40e",
+          "runs/gaussian-boundary-flow-v03-package/single_push_sloth/inference-sealed.json": "0557c94ad11216ce05a3a040a3f5b244a62abd8a5f1aa848e93a500c6be5ab51",
+          "/home/bayespc2/vscode/guassianSDE/runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_push_sloth/final_data.pkl": "d71975a65f78110d944a13687d7f2b0b48a9ac6ad51e994e88a1a63567703ba9"
+        },
+        "evaluator_only": true
+      }
+    },
+    "retrieval-comparison.json": {
+      "source_sha256": "f030ce1b156b3009f3e78e65f1491a0291a58e900909ad93e4b52332f82ab7d0",
+      "summary": {
+        "results": {
+          "object-soft-task1-demo0": {
+            "scope": "Same package, selected prefix observations, full suffix, geometry and incoming evaluation mask; learned and nearest-bank selection share same bank. Pure baselines use same observed prefix budget.",
+            "archive": {
+              "fits/primary": {
+                "scores": {
+                  "coordinate_rmse_mm": 44.45971147097487,
+                  "mean_l2_mm": 76.83163542002521,
+                  "vector_rms_mm": 77.0064791575813,
+                  "aligned_shape_rmse_mm": 4.334080865694399,
+                  "total_frames": 48,
+                  "valid_frames": 48,
+                  "failed_frames": 0,
+                  "no_reference_frames": 0,
+                  "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+                },
+                "fit_frames": {
+                  "local_entries": 36,
+                  "omitted_from_compact_index": true
+                },
+                "fit_nodes": 241,
+                "fit_observations": 48,
+                "prediction_sha256": "7e417f91a4eabc78ed68023e0d13d91a2dd0b027da2967cde924736b4a0119ce",
+                "scope": "Archived external-FEM adapter; inspect recipe, no identical training budget claim"
+              },
+              "fits/primary-no-field": {
+                "scores": {
+                  "coordinate_rmse_mm": 16.80156581671442,
+                  "mean_l2_mm": 28.85424243382012,
+                  "vector_rms_mm": 29.10116564126185,
+                  "aligned_shape_rmse_mm": 2.8234539954523807,
+                  "total_frames": 48,
+                  "valid_frames": 39,
+                  "failed_frames": 9,
+                  "no_reference_frames": 0,
+                  "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+                },
+                "fit_frames": {
+                  "local_entries": 36,
+                  "omitted_from_compact_index": true
+                },
+                "fit_nodes": 241,
+                "fit_observations": 48,
+                "prediction_sha256": "1e12b10fedf185515170c8146d92f38301ea027a122768c237f8a9bd082abc50",
+                "scope": "Archived external-FEM adapter; inspect recipe, no identical training budget claim"
+              },
+              "fits/physical-release": {
+                "scores": {
+                  "coordinate_rmse_mm": 23.593386967626525,
+                  "mean_l2_mm": 40.688103214253495,
+                  "vector_rms_mm": 40.864944950562546,
+                  "aligned_shape_rmse_mm": 4.33560862831919,
+                  "total_frames": 48,
+                  "valid_frames": 48,
+                  "failed_frames": 0,
+                  "no_reference_frames": 0,
+                  "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+                },
+                "fit_frames": {
+                  "local_entries": 36,
+                  "omitted_from_compact_index": true
+                },
+                "fit_nodes": 241,
+                "fit_observations": 48,
+                "prediction_sha256": "5b410be0bed8852e7ed64bcf6ac86d002d34ff62f3a616b52c66e94742133673",
+                "scope": "Archived external-FEM adapter; inspect recipe, no identical training budget claim"
+              },
+              "fits/physical-release-no-field": {
+                "scores": {
+                  "coordinate_rmse_mm": 23.28879081323714,
+                  "mean_l2_mm": 40.1255813382009,
+                  "vector_rms_mm": 40.33736893537003,
+                  "aligned_shape_rmse_mm": 2.7650477685296715,
+                  "total_frames": 48,
+                  "valid_frames": 48,
+                  "failed_frames": 0,
+                  "no_reference_frames": 0,
+                  "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+                },
+                "fit_frames": {
+                  "local_entries": 36,
+                  "omitted_from_compact_index": true
+                },
+                "fit_nodes": 241,
+                "fit_observations": 48,
+                "prediction_sha256": "25c8fcdaec68fec289c30dba380e62a0ddb10ede8fec6f958ae428161400eec3",
+                "scope": "Archived external-FEM adapter; inspect recipe, no identical training budget claim"
+              },
+              "fits/adaptive": {
+                "scores": {
+                  "coordinate_rmse_mm": 44.45971147093481,
+                  "mean_l2_mm": 76.83163541992079,
+                  "vector_rms_mm": 77.00647915751193,
+                  "aligned_shape_rmse_mm": 4.3340808655719885,
+                  "total_frames": 48,
+                  "valid_frames": 48,
+                  "failed_frames": 0,
+                  "no_reference_frames": 0,
+                  "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+                },
+                "fit_frames": {
+                  "local_entries": 36,
+                  "omitted_from_compact_index": true
+                },
+                "fit_nodes": 241,
+                "fit_observations": 48,
+                "prediction_sha256": "240a68dfc7cf327a7ad8a37cd600726ecf251591c5bc56ac688a01be5246b5df",
+                "scope": "Archived external-FEM adapter; inspect recipe, no identical training budget claim"
+              },
+              "fits/adaptive-no-field": {
+                "scores": {
+                  "coordinate_rmse_mm": 58.62521864081193,
+                  "mean_l2_mm": 101.33804618837462,
+                  "vector_rms_mm": 101.5418572907203,
+                  "aligned_shape_rmse_mm": 2.7650989202320777,
+                  "total_frames": 48,
+                  "valid_frames": 48,
+                  "failed_frames": 0,
+                  "no_reference_frames": 0,
+                  "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+                },
+                "fit_frames": {
+                  "local_entries": 36,
+                  "omitted_from_compact_index": true
+                },
+                "fit_nodes": 241,
+                "fit_observations": 48,
+                "prediction_sha256": "5ac51d36c4fb480201531aeb2bba1ae0b45334d083cc3e559a5f736f53909165",
+                "scope": "Archived external-FEM adapter; inspect recipe, no identical training budget claim"
+              },
+              "native/primary": {
+                "scores": {
+                  "coordinate_rmse_mm": 49.88729834972071,
+                  "mean_l2_mm": 83.71163770796791,
+                  "vector_rms_mm": 86.40733539406328,
+                  "aligned_shape_rmse_mm": 16.426951560574107,
+                  "total_frames": 48,
+                  "valid_frames": 48,
+                  "failed_frames": 0,
+                  "no_reference_frames": 0,
+                  "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+                },
+                "fit_frames": "all72prefixframes in native train.pkl",
+                "fit_nodes": 241,
+                "fit_observations": 48,
+                "prediction_sha256": "25cdac276dd46a0aa87003f44597e0d5247079127b70784e72b31df2423769c9",
+                "scope": "Adapted official PhysTwin physical core; identical sparse observed prefix; control points attach to initial geometric gripper neighborhoods. Unit particle mass convention, learned spring stiffness, native ground collisions; no force labels."
+              }
+            },
+            "archive_comparability": "Exactly same48 observed identities/order, suffix72:120, all-valid mask. Archived mechanics use241nodes/36fittingframes; native72prefixframes. New64nodes/12frames. Temporal budgets and physical models differ; archive is contextual, not matched-budget superiority evidence."
+          },
+          "single_push_sloth": {
+            "scope": "Same package, selected prefix observations, full suffix, geometry and incoming evaluation mask; learned and nearest-bank selection share same bank. Pure baselines use same observed prefix budget."
+          },
+          "conclusions": [
+            "SoftVT learned forecasts improve coordinate motion versus persistence/velocity, but shape error remains worse than near-rigid persistence. Compare nearest retrieval before attributing benefit to neural inference.",
+            "Sloth pushing remains unsupported: compare against velocity, not only persistence.",
+            "SoftVT top8 retrieval has one frozen member failure at frame110; both ensemble channels retain all48 suffix frames as failures. No member replacement or exclusion.",
+            "No retrieval posterior coverage: top8 diversity is descriptive, not calibrated uncertainty. All cases historically exposed development."
+          ]
+        },
+        "score_sources_sha256": {
+          "reports/gaussian-boundary-flow-v02/softvt-package-pilot-scores.json": "96ec34fea7899f16ceb7b278148559f2188565e5bb3babd6e415c6b6e2b813f3",
+          "runs/gaussian-boundary-flow-v02-retrieval/object-soft-task1-demo0/scores.json": "e37f71e33586f5ab79d1d4f18c93657ce27df893f95b3987991cec87c6168ce2",
+          "reports/gaussian-boundary-flow-v02/push-sloth-package-pilot-scores.json": "e62f872bbb0123780619a623d52d2785afd4a9be54dbe118e84dc42b42f698c8",
+          "runs/gaussian-boundary-flow-v02-retrieval/single_push_sloth/scores.json": "8bd01ce34846695f7e21eaacd8f7c5b194a50543acfca6e4e3519da93b2cb252"
+        }
+      }
+    },
+    "pose-comparison.json": {
+      "source_sha256": "c44a70bbaf0ca1dfc84973e9d1b1796097c6d8d1e5a96df02373b8e81d5cfc94",
+      "summary": {
+        "scope": "Two historically exposed development cases; fixed derived v02 policy, no selection or retraining",
+        "policy_source_sha256": "6c0c1fe22d3b65a22cdaf2c88423957ebdc411353a2efbe5b48933f11ce46fd4",
+        "decision": "Do not promote globally: push-sloth coordinate errors improve versus raw but remain worse than velocity and retain shape failure; SoftVT worsens and free-flight penetrates the floor. Preserve frozen policy and negative results.",
+        "uncertainty": "Pose point estimates remove pose-sample variation; intervals reflect transformed FEM shape samples only and exclude failed inherited samples. Not calibrated joint uncertainty."
+      }
+    },
+    "pose-contact-comparison.json": {
+      "source_sha256": "6cde1629a9215e74552e9cfddaa230d2d8dbf9266e40836539dd41c27c1370eb",
+      "summary": {
+        "scope": "Two historically exposed development cases; fixed derived v02 policy, no selection or retraining",
+        "policy_source_sha256": "43614fa422517d8766d9a047245aba4566ceed47df6c87d2c4974b7cfa44fa64",
+        "decision": "Restoring archived rigid floor response improves SoftVT pose prediction substantially; push sloth remains worse than velocity and retains shape mismatch. A useful approximate baseline, not calibrated or coupled physical mechanics.",
+        "uncertainty": "Pose point estimates remove pose-sample variation; intervals reflect transformed FEM shape samples only and exclude failed inherited samples. Not calibrated joint uncertainty."
+      }
+    }
+  }
+}

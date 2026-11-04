@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "snapshot_date": "2026-11-04",
+  "scope": "Independent consolidation; no new experiments; historical results preserved",
+  "decision": {
+    "predictive_candidate": "4-component diagonal Gaussian mixture",
+    "retain_comparator": "ConditionalFlow for joint physical uncertainty",
+    "do_not_promote": "2-component full covariance mixture",
+    "priority": "Forward adequacy and prospective external benchmark evaluation"
+  },
+  "controlled": {
+    "train_worlds": 8192,
+    "noise_draws": 1,
+    "noise_sigma_um": 50,
+    "probabilistic_draws": 32,
+    "test_seed": 10035,
+    "test_worlds": 128,
+    "programs": [
+      "sine",
+      "release",
+      "triangle",
+      "reverse"
+    ],
+    "future_coordinate_rmse_mm": {
+      "flow": [
+        0.188501,
+        0.176464,
+        0.185375,
+        0.193403
+      ],
+      "diagonal_mixture": [
+        0.150808,
+        0.111824,
+        0.143259,
+        0.175905
+      ],
+      "point": [
+        0.30969,
+        0.288076,
+        0.306399,
+        0.299018
+      ]
+    },
+    "paired_mixture_improvement_excludes_zero": [
+      true,
+      true,
+      true,
+      false
+    ],
+    "mixture_support_x_90coverage": 0.765625,
+    "scope": "Known block geometry and six physical parameters; same prior; changed command waveforms"
+  },
+  "full_covariance": {
+    "confirmation_seed": 13401,
+    "worlds": 128,
+    "support_x_90coverage": {
+      "diagonal": 0.7890625,
+      "full": 0.8515625
+    },
+    "coverage_gain_pp_ci95": [
+      -2.344,
+      14.844
+    ],
+    "forecast_mean_and_interval_score": "diagonal better in all four programs; paired error intervals include zero",
+    "joint_parameter_energy_score": {
+      "flow": 0.0538,
+      "diagonal": 0.0863,
+      "full": 0.0994
+    },
+    "conclusion": "Mixed/negative replacement ablation, one training seed"
+  },
+  "reference_posterior": {
+    "worlds": 4,
+    "unknowns": 2,
+    "other_parameters": "fixed to truth",
+    "converged_initially": 3,
+    "converged_after_preserved_fixed_spacing_supplement": 4,
+    "absolute_correlation_range": [
+      0.7865,
+      0.98
+    ],
+    "calibration_established": false
+  },
+  "real_sloth": {
+    "case": "single_lift_sloth",
+    "role": "historically exposed development",
+    "prefix_coordinate_rmse_mm": {
+      "initial_oracle": 9.173158,
+      "geometry_oracle": 5.723334
+    },
+    "geometry_optimizer_budget_limited": true,
+    "forecast_coordinate_rmse_mm": {
+      "previous_flow": 31.8685,
+      "geometry_raw": 32.28381,
+      "geometry_tracking": 33.132705,
+      "persistence": 38.4832,
+      "velocity": 35.4555
+    },
+    "primary_forecast_improved_vs_previous_flow": false,
+    "original_bank_context_norm": 33.7753,
+    "original_bank_max_norm": 9.88109,
+    "real_parameter_calibration_established": false,
+    "matched_sota_comparison": false
+  },
+  "dynamics": {
+    "release": "Locally qualified two-world finite-range cohesive-bond release, no impact; three admitted timesteps; finer failures preserved",
+    "release_finest_drop_mm": {
+      "weak": 85.092,
+      "strong": 0.549
+    },
+    "impact": "NOT qualified: rebound/time convergence and fine-step solver failures",
+    "general_contact_or_calibration_claim": false
+  },
+  "availability": {
+    "SoftVTBench": {
+      "episodes": 600,
+      "assets": 3,
+      "exposed": 220,
+      "rgb_available": false,
+      "proposed_validation": 60,
+      "proposed_calibration": 60,
+      "proposed_confirmation": 180,
+      "protocol_sealed": false
+    },
+    "PhysTwin": {
+      "real_rgb_sequences": 22,
+      "images": 7269,
+      "historically_exposed": 22,
+      "trusted_material_force_truth": false
+    },
+    "PokeFlex": "Code only; raw release/license access outstanding",
+    "Deform360": "Paused by user",
+    "Isaac": "Historical simulation/contact regressions preserved; exposed tests"
+  },
+  "unsupported_claims": [
+    "External benchmark aggregate or SOTA improvement from v02",
+    "Calibrated real material/force/contact inference",
+    "General new-object or new-contact OOD",
+    "Superior uncertainty-guided probing",
+    "Qualified impact/rebound simulation",
+    "New rendering-quality gain"
+  ],
+  "next_experiments": [
+    {
+      "id": "A",
+      "dataset": "PhysTwin",
+      "cases": [
+        "single_lift_sloth",
+        "single_push_sloth",
+        "single_lift_zebra",
+        "double_lift_zebra"
+      ],
+      "role": "exposed forward adequacy and forecast diagnosis",
+      "design": "Matched prefix/mask/geometry/optimization budgets; nested geometry/table/preload ablation; raw mechanics versus tracking maps; frozen probabilistic and simple baselines; native PhysTwin only with executable aligned recipe",
+      "metrics": [
+        "per-case future coordinate RMSE",
+        "rigid-aligned shape",
+        "all simulation failures",
+        "held recorded-view image metrics where available"
+      ],
+      "gate": "Prefix adequacy before new bank; future gains evaluated separately; no suffix fitting"
+    },
+    {
+      "id": "B",
+      "dataset": "SoftVTBench",
+      "role": "prospective new-episode benchmark on recurring assets",
+      "design": "Freeze six-cell 60 validation/60 calibration/180 confirmation proposal; development on 220 exposed; freeze checkpoints before confirmation; identical privileged geometry and position inputs",
+      "methods": [
+        "diagonal mixture",
+        "flow",
+        "point regressor",
+        "persistence",
+        "velocity",
+        "runnable established baseline with documented input alignment"
+      ],
+      "metrics": [
+        "paired per-episode future coordinate RMSE",
+        "aligned shape and pose",
+        "full-sample predictive coverage/width/interval score",
+        "all failures"
+      ],
+      "excluded_claims": [
+        "RGB-only",
+        "unseen-object OOD",
+        "official manipulation success"
+      ]
+    }
+  ],
+  "source_sha256": {
+    "matched-results.json": "f4b640184e03d332f282ea7c0aef8707d072e53aecb8656a4b17987dfddae177",
+    "matched-review.txt": "a1fb5dca437c89417f22f86f93e528e2cb9de5054271a6c64e3fbf67a5786f39",
+    "full-covariance-results.json": "7e284a1981ca3b69a5636249631b2901e3a5f67c3b4102e5cf83690dfd8dbcee",
+    "full-covariance-review.txt": "e7da6030d2f3e4ed6e3ff0543da1d0871b63fb2bae59d3ec25791307debb042d",
+    "reference-posterior/summary.json": "61f69d83ec303f3dd0435b8e94dce128834a5792ca6d47f25d3b5c5bf514c2df",
+    "reference-posterior/world2-fixed-spacing.json": "fa8a0446532f238ddb37d511c57edfef34457e3b7b04fa1df0486f2eab019e16",
+    "differential-action-centered-z-6mm/comparison.json": "6e5d500bf836aed66a5dd5c8725d1ba79b303e7874c53d86e97242946b0f33dd",
+    "differential-action-centered-z-6mm/development.json": "d091e3e3e35d16efb535b32ed569a9a0eec90977a538eddd20d13681ec0f9978",
+    "oracle-single_lift_sloth.json": "bc92128a00c05ae23ec67e4b148c7ef2442d1fffa6c85b4e743f2aa97d405ff1",
+    "geometry-oracle.json": "0ffc04f8a8e03c6ba8c8b8e0bcd4d903c416be995b755fdcdb1d7375ec3fb60e",
+    "sloth-object-scores.json": "ba35aae33de1ed719be94626ef2651b898d73886d2bcd24dbaf9adcd5ee1fb5e",
+    "sloth-geometry-oracle-scores.json": "ca079d42212e737b096044011a501c817530d607bced4853d7f8a3e61199e7c6",
+    "release-solver-audit.txt": "4dc351f88b3471a2c5ae68ef74027bdc34b81466cabe37d72c76c32e798f7278",
+    "object-dynamics-audit.txt": "547c4853883ca3bac9d9f55e4dd09b2c6b52e7f90557265dec88e013f99df65e",
+    "dataset-audit.txt": "932974ffa0fba5c6edc5ddec0dfad29a41f49a42e541f75f48e1a64822e400e7",
+    "softvt-protocol-proposal.json": "1f6167ecd67d035fc84dfd5faca7d9912c91154c0d4ee1b2111db31a712cd8d1",
+    "readiness/INTERPRETATION.txt": "1eb009c161e1b8d11fd56e389578bb96ae259d7a5604573a75f2b737feb0d4d2",
+    "prefix-informativeness.txt": "a87a83fe866d5e5f75a06b0845ec9cb1684c5be8ca08fd794a16ff3d91e791e9",
+    "initial-geometry-audit.json": "7c55fc1b86b9aefa7609f0bfe8cc2175f206478d41a3c457241a4e18b625b7db",
+    "boundary-preload-review.txt": "ffa329356c52119dccb998be240258cdf6928e350feef8aae018dfbbf6633f34",
+    "object-prestrain-review.txt": "bb487b1df319d6cf442f00f08b7841237ed2872d8fb4bec61417847de44d3e9e"
+  }
+}

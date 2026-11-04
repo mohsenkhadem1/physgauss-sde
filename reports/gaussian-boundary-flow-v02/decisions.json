@@ -1,0 +1,120 @@
+{
+  "status": "active",
+  "base_commit": "bea613681a07f7963139faf3476c332ced7e108d",
+  "decisions": [
+    {
+      "id": "D1",
+      "source": "independent scientific audit",
+      "finding": "Training tracks carry one noise draw and receive a second draw during training.",
+      "action": "Cache clean simulator observations and add exactly one acquisition-noise draw per training batch; test single-noise input contract."
+    },
+    {
+      "id": "D2",
+      "source": "independent scientific audit",
+      "finding": "32 nonlinear posterior rollouts are compared with one deterministic parameter estimate.",
+      "action": "Compare conditional flow against a four-component Gaussian-mixture posterior with matched 32-rollout prediction budget, alongside deterministic regression."
+    },
+    {
+      "id": "D3",
+      "source": "independent numerical and scientific audits",
+      "finding": "The existing latent space assumes a cube, known patch faces and widths, force direction and initial state.",
+      "action": "Do not apply the six-parameter cube checkpoint directly to arbitrary benchmark objects; qualify a geometry/controller-conditioned adapter separately."
+    },
+    {
+      "id": "D4",
+      "source": "independent dataset audit",
+      "finding": "600 SoftVTBench episodes exist locally; named prior artifacts cover only a subset.",
+      "action": "Keep demos50-99 unopened as candidate fresh tests while development uses exposed episodes; audit exposure before sealing."
+    },
+    {
+      "id": "D5",
+      "source": "user preferences and dataset audit",
+      "finding": "PokeFlex raw data is absent; Deform360 preprocessing was explicitly paused.",
+      "action": "Investigate legitimate PokeFlex acquisition; preserve Deform360 pause. Do not claim all datasets have been evaluated."
+    },
+    {
+      "id": "D6",
+      "source": "existing numerical evidence",
+      "finding": "Raw uncertainty is miscalibrated across forward discretizations.",
+      "action": "Report cross-discretization prediction and coverage separately; calibrate on separate development worlds, never the test labels."
+    },
+    {
+      "id": "D7",
+      "source": "matched probabilistic experiment",
+      "finding": "Diagonal Gaussian mixture improves predictive errors and interval scores over flow on the synthetic confirmation; full covariance did not improve predictions.",
+      "action": "Retain diagonal mixture as predictive candidate and flow as joint-uncertainty comparator; do not mandate flow or replace candidate with full covariance."
+    },
+    {
+      "id": "D8",
+      "source": "population prefix audit",
+      "finding": "Many SoftVT episodes are dominated by rigid motion; pastry002 task1 and PhysTwin push/stretch show more deformation.",
+      "action": "Prioritize these exposed scenarios for mechanics development; preserve fresh episodes until protocol/checkpoints are frozen."
+    },
+    {
+      "id": "D9",
+      "source": "numerical and initial-image audits",
+      "finding": "Table support affects trajectories strongly; the sloth actually starts on a table. Convex-hull tetrahedra fill substantial empty space.",
+      "action": "Retain explicit floor hypotheses and geometry-aware connected mesh gating; do not remove table support reflexively."
+    },
+    {
+      "id": "D10",
+      "source": "object numerical audit",
+      "finding": "Rebased tracking meshes are not the solved mechanical state; initial natural strain alone cannot provide a net supporting reaction.",
+      "action": "Export raw mechanics separately from tracking maps. Add isolated objective initial strain and localized attachment-preload operators, not a cancelling body load."
+    },
+    {
+      "id": "D11",
+      "source": "dynamic qualification",
+      "finding": "Impact results depend strongly on integration step; smooth dynamics tests pass but impacts are not admitted.",
+      "action": "Keep existing simulation studies unchanged; do not use the new dynamic candidate for impact accuracy claims until unchanged convergence/energy gates pass."
+    },
+    {
+      "id": "D12",
+      "source": "archived-comparison and scientific audit",
+      "finding": "Native PhysTwin beats the new low-budget sloth pilot on matched evaluation points/masks; training budgets differ substantially. Better prefix fitting did not improve forecasting.",
+      "action": "Preserve old best results; test informative exposed cases and direct bank retrieval before scaling the new inference network."
+    },
+    {
+      "id": "D13",
+      "source": "affine-observation audit",
+      "finding": "Original sparse-mesh observation operator introduces 1.50\u20133.68 mm artificial coordinate error under a rigid 90-degree rotation across eight packages.",
+      "action": "Create immutable affine-complete observation packages and regenerate training banks; never replace the observation map underneath an existing checkpoint."
+    },
+    {
+      "id": "D14",
+      "source": "checkpoint and dataset audits",
+      "finding": "Randomized PCA was recomputed on resume; iid relative feature noise incorrectly perturbs frame zero and misses temporal covariance.",
+      "action": "Version the driver; bind saved PCA, weights, bank and plan hashes; generate absolute-coordinate errors before shared frame-zero subtraction. Keep old experiments unchanged."
+    },
+    {
+      "id": "D15",
+      "source": "SoftVT geometry preflight",
+      "finding": "Dense-surface sloth filter retains only 3 of 273 tetrahedra from sparse SoftVT volume points and is unsuitable for that representation.",
+      "action": "Reject failed geometry explicitly; use declared convex-volume baseline for the bounded SoftVT pilot, with no silent filter fallback."
+    },
+    {
+      "id": "D16",
+      "source": "matched external pilots and retrieval audit",
+      "finding": "On exposed SoftVT task1 demo0, flow tracking55.885mm barely beats nearest-bank56.891mm; pushedsloth mixture61.797mm is close to top8 retrieval61.176mm and worse than velocity36.341mm.",
+      "action": "Do not scale density-model complexity; keep previous best external models. Treat neural inference gain and physical forward adequacy separately."
+    },
+    {
+      "id": "D17",
+      "source": "v03 affine/noise/checkpoint correction pilots",
+      "finding": "Correctness fixes produce only small mixed changes: SoftVT mixture57.047\u219256.572mm and push mixture61.797\u219260.792mm; flow worsens. Both observed prefixes trigger discarded-feature mismatch screening.",
+      "action": "Keep numerical/provenance corrections, not a new benchmark superiority claim. No physical posterior calibration claim outside supported bank/noise assumptions."
+    },
+    {
+      "id": "D18",
+      "source": "external structural audit and frozen pose-shape ablation",
+      "finding": "Prototype omitted archived terminal pose/slip/release capabilities. Restoring pose alone improves pushing but no-impact free flight crosses the floor in SoftVT.",
+      "action": "Reject global adoption of no-impact pose policy; evaluate a separately frozen archived contact continuation as a disclosed approximation, preserving failures and old best models."
+    },
+    {
+      "id": "D19",
+      "source": "separately frozen archived floor/contact continuation ablation",
+      "finding": "Restoring archived transport/contact behavior reduces SoftVT raw flow56.22\u219218.31mm and mixture57.74\u219218.66mm. Pushedsloth still loses to velocity and has poor shape.",
+      "action": "Keep as disclosed rigid/kinematic transport baseline alongside unchanged raw FEM, not a physical force/material recovery claim. Preserve failures and expand fixed comparisons before fresh confirmation."
+    }
+  ]
+}

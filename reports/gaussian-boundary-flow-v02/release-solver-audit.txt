@@ -1,0 +1,49 @@
+Release integration audit and versioned solver protocol
+
+The original failure residual7.37e-9 satisfies the declared1e-7 dynamic admission
+gate. It only fails the requested1e-9 inner Newton target. This distinction matters:
+it was solver stagnation, not a demonstrated violation of the physical force gate.
+Old impact results and admission status are untouched.
+
+Isolated robust_dynamic_step.py supplies two variants. TargetV2 merely asks1e-8;
+it completed weak dt.0025 but stalled at1.61456e-8 for dt.00125. SafeguardedV3 uses
+that1e-8 preferred target plus two explicit safeguards:
+1. Terminate only when residual<=1e-7 AND an undamped Newton correction is at most
+1e-9 dimensionless. Return the current state, without projection or correction.
+2. Once current residual<=1e-7, permit a Newton line-search step that halves the
+residual and increases computed energy by no more than64machine-eps*max(1,|E|).
+This resolves cancellation in Armijo comparisons near convergence. It does not
+change the energy/force model or admission gate. An earlier trial without rule2
+stalled with correction1.12946e-9 and residual1.61456e-8. That failure motivated
+residual-refining Newton steps, not relaxation of the tiny-correction criterion.
+
+FiniteRangeAttachmentFEM integration review: it exactly replaces quadratic
+attachment energy/residual/tangent with its Gaussian cohesive equivalents. The
+DynamicFEM gauge removal and inertia remain intact. Patch weights remain material
+attached; displacement gate is relative to the prescribed attachment targets.
+When hand stays active/fixed, detachment can emerge because the bond force decays
+beyond its range. This is conservative cohesive bonding, not Coulomb friction or
+learned geometric contact. Range.015 is dimensionless =1.5mm for this.1m cube.
+The release is mostly rigid falling; it does not establish elastic identification.
+
+CPU qualification, no floor/impact, raw initial geometry, .15seconds, fixed active
+hand, identical weak/strong setups except log stiffness. Two original class tests
+plus added safeguarded acceptance/rejection test pass. Existing force/gradient
+operator tests belong to root. At dt.00125/.000625/.0003125 both weak and strong
+pass trajectory RMS change<=.1mm, force residual<=1e-7, and total-energy error
+<=1% of the common .15s freefall gravitational-energy scale. These are local
+qualification results for two worlds, not global parameter-bank admission.
+
+Weak terminal drop85.179/85.127/85.092mm. Strong.524/.534/.549mm. Thus fixed hand
+retains strong bond while weak bond releases under unchanged gravity without a
+manual release event. Weak trajectory refinements.0526/.0396/.0294mm; strong
+.0460/.0403/.0284mm. At finest successful step, weak energy error.262%, strong.120%.
+The common freefall scale is much larger than strong-grasp oscillation energy;
+these numbers do NOT establish high-fidelity conservation of small grasp
+oscillations. Backward Euler remains dissipative; do not infer damping parameters
+from it without further relative-energy qualification.
+
+Both dt.00015625 runs hit the iteration limit. Those failures remain recorded in
+release-safeguarded-v3-qualification.json. No further solver changes or fits were
+attempted. Recommend dt.0003125 only for this bounded demonstration, with direct
+per-trajectory residual checks; uncertainty banks require broader qualification.

@@ -1,0 +1,121 @@
+INDEPENDENT NUMERICAL AUDIT — Gaussian boundary flow v01
+Auditor: /root/flow_numerical_audit; base implementation bea6136, 2026-11-04.
+No existing implementation was modified. CPU checks used float64 and two threads.
+
+Verdict
+The implemented force/Robin units, consistent surface assembly and backward-Euler
+constraint elimination are sound for the restricted linear-elastic block problem.
+The main obstacles to general benchmark transfer are model scope, informative
+excitation and numerical-domain coverage, not an obvious sign/unit error.
+
+P0 — preserve physical meaning when transferring to real objects
+model.py:19,23 fixes geometry and density; operators at 36-53 fixes top/bottom,
+Gaussian widths, force direction and one scalar isotropic support. Six parameters
+vary, but boundary type, 3D support topology and force direction do not. This is
+not yet a general learned boundary-condition field. Introduce a mesh/observation/
+command contract before adapting to varied objects. If density is not measured,
+infer mass-normalized stiffness/force or preserve the common-scale ambiguity:
+scaling mass, stiffness, damping and external force together leaves motion exactly
+unchanged (gravity scales with mass too). Added audit test verifies this symmetry.
+
+P0 — the current lift action mostly adds translation
+position_action.py:20-24 assigns the SAME target displacement and velocity to all
+material points, filtered by the support. In 16 independently sampled worlds
+(seed 744), lift-versus-release added 2.1878 mm motion RMS, but only 0.0380 mm
+remained after translation removal: 1.74%. Full rigid removal can only reduce it.
+The test does demonstrate command handling, but is weak evidence for elastic
+interaction generalization. Next decision: non-affine/differential support targets,
+localized off-axis loads, or two distinct attachments; qualify action-induced
+non-rigid motion BEFORE evaluating inference. The parent requested a new audited
+differential-action experiment; it will be kept outside v01.
+
+P1 — small-strain validity is not guaranteed by the eight-case check
+All 64 corners of the refined parameter box (logit coordinates +/-8) were checked
+on the 64-node mesh. Maximum absolute linear strain = 0.1193267; 4/64 cases exceed
+10%; minimum det(F)=0.9217034. This does not contradict the reported eight-case
+result, but shows it is not a range guarantee. Add a per-episode deformation and
+rotation validity report, and fail/route cases outside the linear model's domain.
+A separate test demonstrates that a finite pure rotation has zero Neo-Hookean
+energy but nonzero energy under the fixed linear tangent. Large-rotation datasets
+need corotational/nonlinear mechanics or explicit rigid-frame separation.
+
+P1 — temporal API must become timestamp-based
+model.py:55-68 rounds duration/dt, saves every stride, and returns no timestamps.
+observe at 71-77 always slices frames 0:17:2 and assumes .025 s saved spacing.
+Changing dt/stride or using irregular dataset times can silently change the
+physical observation window. BoundaryProgram is not yet wired into these rollouts.
+Use explicit requested observation times, exact command breakpoints and returned
+timestamps, with integration substeps independent of camera sampling.
+
+P1 — independently qualify Gaussian quadrature and spatial FE error
+Analytic separable Gaussian integration over the bottom square gives area errors:
+  subdivision n=1 (8 nodes): up to 9.766% for tested centers;
+  n=2 (27 nodes): up to 0.356%; n=3 (64 nodes): 0.0427%; n=4: 0.0120%.
+The current three-point triangle rule is exact for polynomial quadratic forms,
+not a Gaussian-weighted N_i*N_j integrand. Refinement improves it markedly.
+Before narrowing spatial kernels, increase quadrature independently of FE mesh
+and verify force moments, Robin energy and reactions against higher quadrature.
+The 0.336 mm 64->125-node motion discrepancy remains larger than some same-mesh
+inference errors; retain cross-mesh validation and a discrepancy envelope.
+
+P2 — task-frame composition is incomplete as a high-level API
+The Gaussian scalar gate transforms correctly, but robin_matrices accepts K/D
+without frame semantics. A task-frame anisotropic K must be rotated R K R^T and
+traction rotated R b separately. Moving target positions/velocities also need a
+consistent convention. Current isotropic fixed-frame experiments avoid the issue.
+Do not advertise scalar gate covariance tests as complete force-law equivariance.
+
+P2 — guard malformed input at the public boundary
+BoundaryProgram accepts NaN query times and NaN activation bounds: it silently
+returns NaNs or disabled activation. Added strict-xfail regression tests document
+both failures. plane_impact likewise lacks positive-mass/nonzero-normal checks;
+it remains an isolated nodal impulse/penetration-repair primitive, not a coupled
+FEM contact solver or validated drop/bounce model. Do not spend effort on richer
+friction until the core benchmark integration is working.
+
+Independent verification added
+- tests/test_gaussian_boundary_flow_audit_v02.py: 4 passed, 2 expected failures.
+- Backward-Euler discrete work/energy identity with moving exact constraints and
+  non-diagonal K/D; free reaction residual <1e-12.
+- Total traction resultant equals requested force, and gravity totals -4.905 N.
+- Finite-rotation limitation and common mechanical-scale unobservability.
+- numerical-audit-evidence.json stores full corner strain and quadrature results.
+- numerical-audit-reproduce.py reproduces the CPU diagnostic evidence.
+Run: OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_gaussian_boundary_flow_audit_v02.py -q
+
+Audit-driven fixes and follow-up (same day)
+The parent authorized a narrow BoundaryProgram fix. NaN activation bounds and
+nonfinite query times now raise ValueError; intentional infinite activation
+bounds remain valid. The two expected failures were converted into passing
+regressions, with an additional infinity/default-activation test. The audit test
+file now has seven passing tests. Existing boundary-flow tests also pass.
+
+The parent also requested a prospective differential-position OOD test. New code
+lives in scripts/gaussian_boundary_flow_v02/differential_action.py; v01 is untouched.
+Three new tests verify proper Kabsch removal, non-affine target shape and identical
+prefixes. Initial quadratic-x commands failed the 20% nonrigid-motion gate; a
+centered quadratic-z profile removed rigid forcing (89.9% nonrigid) but its initial
+3 mm target fell below the 0.1 mm nonrigid-RMS gate. Both failed development studies
+and source snapshots are retained. A separate 6 mm development qualification uses
+the same gates and is scored only if qualified; see its result directory.
+
+Differential action outcome
+The 6 mm centered-z target passed the unchanged prospective development gates:
+24 development worlds, max strain 7.945%, 89.90% nonrigid added-motion fraction,
+0.1627 mm rigid-removed action RMS. The frozen 128-world regression cohort was
+then opened and scored once with unchanged model/posterior checkpoints.
+Its max strain is 9.322%, min J=.93418, nonrigid action fraction=89.86%.
+  Metric                               Flow       Neural regressor
+  Total future coordinate RMSE         .19137 mm  .34154 mm
+  Rigid-aligned shape RMSE              .03597 mm  .06181 mm
+  Isolated command-response RMSE        .00837 mm  .01244 mm
+Ignoring the action gives .21068 mm command-response RMSE. The response metric
+subtracts each model's own release rollout and the reference release rollout,
+so it isolates sensitivity to the new position command rather than reconstruction
+of the shared prefix. This is only a frozen-cohort new-action regression study.
+Paired 95% bootstrap improvement intervals exclude zero for all three metrics.
+Results and comparison are under differential-action-centered-z-6mm/. Local-only
+predictions-local.pt is a diagnostic tensor artifact and should not be pushed.
+The two failed development designs remain in differential-action/ and
+ differential-action-centered-z/; no regression truth was read for those trials.
+GPU2 computation finished; no background audit jobs remain.

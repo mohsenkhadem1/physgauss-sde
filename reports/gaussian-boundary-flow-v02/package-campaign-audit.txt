@@ -1,0 +1,53 @@
+Read-only audit: package_campaign.py and exact object-soft-task1-demo0 package
+
+Test validation:104 unique targeted tests passed across main and HDF-capable
+environments; exact commands and counts are in tests-summary.json/txt.
+
+Exact stable package uses64 mechanical nodes and241 original volume support nodes.
+Filtering keeps only3/273 tetrahedra: filter radius3.13mm versus support spacing
+11.16-11.47mm. Constructor correctly rejects this before plan/bank generation.
+Root is implementing explicit convex/filtered selection, not silent fallback.
+The earlier raw-loader audit used241nodes without support_geometry and therefore
+was a different geometry contract. Preserve both records with this distinction.
+
+Convex proxy suitability: reduced hull volume2.12808e-4m3; full support hull
+2.16701e-4m3. Full hull occupies98.63% of its bounding box, consistent with a
+nearly cuboidal simulation node cloud. This does not certify the original simulation
+connectivity or rendered object shape. Privileged initial volume nodes should not
+be treated as dense surface occupancy samples for the sloth distance filter.
+
+Observation transport caution: A@nodes differs from supplied observed_initial by
+2.215mm coordinate RMS, maximum8.078mm point distance. Current offset displacement
+map exactly preserves zero displacement and translations but, for those off-mesh
+points, does not exactly transport rigid rotations. Under rigid rotationR, error
+is (A@nodes-observed_initial)@(R-I) in row-vector convention. This may confound
+small shape improvements. All input masks are valid for this case. No direct
+baseline error arises at rest because the fixed initial offset is added back.
+
+Package campaign data contract looks appropriately separated: immutable persisted
+prefix package; no evaluator import/call; bank simulations use prescribed commands;
+real inference consumes prefix only; posterior samples seal before full trajectories.
+Both raw and incremental-tracking outputs retain joint samples, avoiding the invalid
+operation of interpolating marginal node quantiles. Forecast solver failures are
+recorded, so reported posterior is solver-feasible conditional. Tracking outputs
+remain observation corrections and must not be called force-balanced geometry.
+
+Limitations/implementation caveats (not new blockers for a development pilot):
+* Relative features subtract frame0, but injected IID noise is a model of relative
+  feature errors, not independent raw video errors with the induced shared reference
+  covariance. Frame0 noise is also injected though clean relative frame0 is zero.
+* Source plan hashes omit external_benchmark/fem.py and the probabilistic/flow
+  implementations. For reproducible resume/frozen banks include those hashes or
+  immutable commit identities before later changing physics or posterior code.
+*128 worlds and16 posterior draws are a development bank, not calibrated inference
+  or strong uncertainty evidence. No calibration test is performed by this script.
+* Gaussian table support remains conservative tangential compliance, not friction.
+  The task places an object in a basket; this backend lacks basket collision geometry.
+  A full-horizon forecast can fail for that omitted scene interaction, independently
+  of inverse inference. Initial known collider geometry is allowed but not used here.
+* Quasistatic released states can only fall to an equilibrium floor; they cannot
+  predict transient freefall/impact correctly. Do not report them as dynamic physics.
+* Training/inference is geometry-specific amortization after building a bank. This
+  is neither an unseen-object pretrained model nor video-only inference.
+
+No edits were made to root package campaign or geometry backend during this audit.

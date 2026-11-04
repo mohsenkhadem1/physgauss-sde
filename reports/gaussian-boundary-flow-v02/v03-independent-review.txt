@@ -1,0 +1,49 @@
+Independent prelaunch review: package_campaign_v03 and affine_inputs
+
+Decision: suitable for bounded historically exposed development pilot, not a claim
+of calibrated inverse physics or unseen-object generalization. No heavy jobs were
+run by this reviewer.
+
+Affine exporter reads the old immutable package, computes an initial-only affine
+map and writes a new immutable package. Source arrays are not modified; export
+is idempotent; attempting to overwrite the source with changed content raises.
+All non-map arrays remain identical. Source manifest provenance and row norms are
+persisted; new bank features must be generated for this changed observation map.
+
+Training: bank tensors, PCA projection, context, latent targets, network parameters
+and simulated observation noise reside on args.device. Thus a CUDA device argument
+actually runs posterior training on that GPU. The empirical support helper moves
+features to CPU deliberately; it is a small diagnostic, not training.
+
+Resume: persisted transform is loaded rather than refitted; transform hashes bind
+to bank and plan; saved models bind to transform/bank/plan. Per-model global seeds
+and dedicated observation generator avoid checkpoint-skip changing the next model's
+training randomness. No optimizer-state partial resume is claimed; incomplete
+training restarts from its declared seed. Posterior samples and exact model/PCA
+hashes seal before future-command forward simulations.
+
+Noise: independent absolute-coordinate draws precede shared frame0 subtraction,
+then mask and PCA. This correctly creates zero reference-frame noise and temporal
+covariance under the declared IID absolute-error assumption. Sigma .001m remains
+assumed, not measured sensor calibration. Fixed point identities are required.
+Confirmed defect fixed: helper accepted NaN/infinite sigma via sigma<0-only check.
+It now rejects nonfinite/negative sigma and noninteger/nonpositive dimensions before
+sampling. Nine new independent validation/export tests plus checkpoint/support/
+object-scorer tests passed together:37passed. No other shared implementation edits.
+
+Support diagnostic inspects both retained and discarded PCA spaces against the
+same correlated-noise bank. It explicitly labels thresholds empirical, not OOD
+probabilities. An out-of-bank warning does not cause arbitrary sample rejection;
+its implication must remain visible in scientific reporting.
+
+Seals: scorer checks added schema1 inference/model/transform hashes as well as bank,
+plan and prediction, before evaluation targets. Dataset audit owner confirmed
+byte-tampering/incomplete-provenance/unsafe-name/evaluator-access regression tests;
+adding explicit missing-file test. Checkpoint helper validates model/transform
+bindings when writing seals. These are reproducibility hashes, not signatures.
+
+Remaining declared limitations: geometry-specific feasible prior bank, approximate
+quasistatic forward law, no identified initial prestress, no basket geometry for
+SoftVT, no physical balance claim for tracking rebasing, finite posterior draw
+count, and unvalidated physical uncertainty. These do not prevent the bounded
+pilot but prevent broad calibration/contact/dynamic conclusions.

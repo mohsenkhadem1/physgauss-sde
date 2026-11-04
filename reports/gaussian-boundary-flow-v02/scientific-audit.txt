@@ -1,0 +1,138 @@
+INDEPENDENT SCIENTIFIC AUDIT — Gaussian boundary flow v01
+Agent: flow_scientific_audit | 4 November 2026
+Scope: read-only implementation/results review and small diagnostic calculations;
+no retraining, no modification of v01 evidence. Findings are ranked for decisions.
+
+Overall decision
+The implementation is a useful controlled amortized inverse-mechanics prototype.
+The published cautious scope is substantially appropriate. It is not yet a general
+video-to-boundary model or evidence of improvement on PhysTwin/SoftVT/PokeFlex.
+Proceed to external development adapters, but first fix the noise model and add
+stronger inference baselines. Do not expand the synthetic campaign indiscriminately.
+
+P1 — Fix the observation model before trusting posterior calibration.
+Source: scripts/gaussian_boundary_flow/campaign.py:35,49,59;
+        scripts/gaussian_boundary_flow/model.py:76.
+The training bank already adds 50 micrometre Gaussian noise via observe(). Every
+training minibatch adds another independent 50 micrometre draw. Thus the marginal
+training noise is about 70.7 micrometres, while evaluation uses 50 micrometres.
+This is not test leakage, and the neural baseline gets the same augmentation, but
+it changes the posterior being learned and can explain part of the 97% coordinate
+coverage from nominal 90% intervals. The bank's fixed first noise draw also remains
+correlated across repeated appearances of each parameter tuple.
+Action: store clean training features; sample exactly one documented noise draw per
+batch. Add missingness/heteroscedastic track uncertainty calibrated on actual
+benchmark observations. Run v02 with fresh validation/test seeds; preserve v01.
+
+P1 — Existing gains do not isolate a benefit of flow matching itself.
+Sources: flow.py:7; campaign.py:69-84; point_baseline.py:13-22.
+Flow uses 141,894 learned parameters versus 103,110 in the neural baseline, and
+averages 32 mechanically propagated samples. The baseline minimizes squared error
+in unconstrained parameter logits, then simulates one estimated parameter vector.
+For nonlinear parameter->motion maps, simulating E[z|video] need not equal
+E[motion|video], so this comparator is not optimized for the reported prediction
+loss. Equal training steps do not eliminate that distinction.
+Action: add a heteroscedastic Gaussian/mixture parameter posterior, plus a matched
+capacity deterministic baseline trained with rollout/trajectory loss (or direct
+future-state loss conditioned on the same commands). Report sample-count and
+compute-matched ablations. Keep the current comparison as a valid named baseline,
+not evidence that normalizing flows are uniquely responsible for the gain.
+
+P1 — Boundary discovery is presently a much narrower inverse problem.
+Sources: model.py:36-52,55-68; refined.py:20-24.
+Only six scalar parameters vary. A single Gaussian support is constrained to the
+bottom face, a single Gaussian traction to the top face; covariance, directions,
+known gravity/density, initial rest state, zero initial velocity, geometry and
+boundary types are supplied. Only each center's x-coordinate is inferred. These
+are two Gaussian spatial gates, not a learned mixture over arbitrary boundary
+operators. All training and test objects share one block geometry.
+Action: retain this as an oracle-mechanics test. For dataset adapters, explicitly
+record supplied versus inferred quantities. Next expansion should randomize
+support location over the complete material surface and use more than one
+operator, with presence/type modeled separately from continuous parameters.
+Do not replace the successful external baseline until the expanded adapter wins
+on held-out objects without receiving withheld supports or target-time tracks.
+
+P1 — Account for absolute-scale nonidentifiability on real videos.
+Sources: model.py:20,44,52 (known density); model.py:57 (known initial state).
+With unknown density, common scaling of mass, elastic stiffness, boundary
+stiffness/damping and applied loads leaves the motion equation unchanged, including
+gravity because gravitational force scales with mass. Video alone cannot identify
+that common physical scale. The current known mass/density removes this ambiguity
+by assumption. This is especially important when transferring to real plush data.
+Action: infer identifiable ratios (E/rho, K/rho, force/rho) unless mass is measured;
+represent a scale posterior otherwise. Include an explicit co-scaling ambiguity
+unit experiment. Do not claim absolute material/force recovery from real video
+without a scale-breaking observation or justified prior.
+
+P2 — The OOD tests alter commands, not object/contact mechanisms.
+Sources: model.py:60-64; position_action.py:20-24;
+        runs/gaussian-boundary-flow-refined-v03/position-action.json.
+Release/triangle/reverse use the same linear mechanical operator, support topology,
+load direction and geometry; commands change after a shared prefix. That is useful
+command transfer, but not novel-contact or novel-material-family OOD. The lift
+moves the whole inferred support by a smooth uniform translation. Its errors are
+almost identical to load release: mean absolute per-case error difference is
+0.000374 mm for flow and 0.000614 mm for the neural baseline (maximum differences
+0.00395/0.00803 mm). This is consistent with a nearly common translation rather
+than a difficult new deformation-identification challenge; it is not a failure.
+Action: add asymmetric opposing position commands, localized rotations, changed
+contact locations, and withheld geometries; report rigid-removed deformation
+error and deformation excitation alongside total coordinate error.
+
+P2 — Predictive calibration is valid in its stated domain, not physical posterior
+calibration or a guarantee of robustness to arbitrary OOD.
+Sources: calibration.py:24-38; cross_mesh.py; reports/gaussian-boundary-flow-v01/
+results.json (calibration and cross_mesh sections).
+The finite-sample split-conformal order statistic and use of separate calibration
+and test seeds are appropriate for exchangeable finer-domain trajectories. But
+that procedure uses 125-node calibration examples and adds a uniform motion
+margin; it does not repair the material/boundary posterior. Raw pointwise intervals
+and calibrated whole-trajectory coverage also target different coverage events.
+Action: retain both event definitions and widths. Add proper scoring rules and
+parameter SBC/rank diagnostics against a small numerical posterior on development
+cases; report conditional coverage versus deformation magnitude/material ranges.
+
+P2 — Active acquisition is not yet evidence of intelligent probing.
+Source: acquisition.py:26-52; stored acquisition.json.
+The log-determinant rule uses variance of candidate measurements, not expected
+reduction of held-out deformation error. It chooses the fixed view in every case.
+Its likelihood reweighting is only an approximate posterior update. Selected-view
+ESS falls to 1.86/128 and is below 10 in 12.5% of cases; no rejuvenation or low-ESS
+fallback is provided. The method named random is actually deterministic cycling
+through four view indices, acceptable as a balanced allocation but mislabeled.
+Action: randomize a recorded seeded allocation; use task-directed expected variance
+reduction on held-out responses; compare strong fixed choices fixed on validation.
+Handle low ESS and report whether acquisition improves both error and calibration.
+No active policy advantage is currently established, as the main report admits.
+
+P2 — Rendering claims remain a privileged, low-resolution mechanism test.
+Sources: rgb_campaign.py:14-20,35-38,59-87; interpolation.py:17-24; visual.py.
+RGB inputs are 24x24 fixed-appearance synthetic renders with known cameras and
+shape. The encoder is train-only PCA, which is properly split. Reported novel-view
+PSNR is full-image RGB and can be dominated by shared appearance/background. The
+interpolation comparison uses the complete nine-frame prefix for physical
+inference but only adjacent frames for linear blending; information budgets differ.
+No direct suffix-frame leakage was found: model.observe uses only frames 0:17:2,
+and future command variants have an explicit prefix-equality test.
+Action: retain prototype PSNR separately; add object-mask foreground metrics,
+image persistence/known-pose controls and a full-prefix visual baseline. External
+rendering evaluation must freeze test cameras and avoid fitting target-time images.
+
+What is already good
+- Prior benchmark summaries are preserved and are not relabeled as this new model.
+- Future inference uses a prefix and supplied commands, with no per-frame fitting.
+- Cross-mesh evaluation exposes a real coverage loss instead of hiding it.
+- Coordinate uncertainty, predictive conformal calibration and data-driven view
+  acquisition are separated in the written limitations.
+- Median/worst video selection is deterministic rather than cherry-picked.
+
+Recommended next decision sequence
+1. Freeze v01 and create a clean-noise v02 with a fair probabilistic baseline.
+2. Build a dataset contract covering camera, visibility, initial state, density,
+   actuation and labels; first run oracle-input mechanics on each available dataset.
+3. Train an object-normalized, variable-point observation encoder and surface
+   boundary parameterization, retaining the six-parameter synthetic test as a unit
+   benchmark rather than making it the main paper evidence.
+4. Gate larger training by held-out-object prediction and calibration improvements.
+   Spend GPU time on the failure mode revealed by each dataset, not blind scale.

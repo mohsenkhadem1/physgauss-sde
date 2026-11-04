@@ -1,0 +1,79 @@
+LOCALIZED GAUSSIAN ATTACHMENT PRELOAD: INTERFACE AND VALIDATION
+2026-11-04; /root/flow_numerical_audit. No fitting or GPU jobs performed.
+
+Purpose
+A prestrained bulk cannot supply a net external reaction. A physical initial
+support reaction can instead be represented by b_g in the Gaussian Robin law:
+  f_i = sum_g active_g * normalized_weight_gi * b_g_world.
+This is a LOCALIZED attachment boundary force. It is not a distributed body force
+chosen to cancel every initial residual. Its resultant and moment are observable
+hypotheses with uncertainty, not known reactions inferred uniquely from video.
+
+New isolated module
+scripts/gaussian_boundary_flow_v02/boundary_preload.py
+  attachment_preload_force(...)
+  AttachmentPreloadMixin
+  PreloadedExternalFEM
+  InitialPrestrainPreloadFEM
+No existing running model or bank is modified.
+
+Energy and load conventions
+Weights are fixed in material coordinates at a given parameter sample. They are
+nonnegative and normalized separately for each attachment. Active zero-support
+kernels are rejected. Inactive zero-support kernels return zero force safely.
+The added potential is -sum_i f_i dot (x_i-X_i), its residual is -f_i, and its
+position tangent is zero. Gravity and mass are untouched. Each active kernel's
+resultant is exactly active_g*b_g; its moment is that resultant applied at its
+current weighted material-patch centroid. Deactivation removes both spring and
+preload through the shared attachment activation schedule.
+
+Vectors have the same nondimensional force/material units as ExternalFEM. They
+are not Newtons without a separately known physical energy and length scale.
+The inference caller must specify a prior/bounds for these actual vector values;
+this module does not silently impose a statistical identification claim.
+
+Frame semantics
+preload_frame='world' (default): b is a fixed world vector for the current command.
+preload_frame='task': supplied proper rotations R map task-frame vectors into
+world coordinates. R may be [G,3,3] or a prescribed [T,G,3,3] command sequence.
+The rotations are independent of the unknown current state. A deformation-following
+force would require a different energy/tangent and is not implemented here.
+Time-varying rotations/activation perform external work; no closed-system energy
+conservation claim is made. A dynamic caller collapsing each substep to frame 0
+must also provide the appropriate current task rotation, or use world vectors.
+
+Parameter interface
+- base_parameter_count: original FEM vector, including initial prestrain when used.
+- i_preload: start index for flattened [attachment, xyz] preload vectors.
+- full_parameter_count: complete parameter count including 3*G preloads.
+- i_prestrain: available on InitialPrestrainPreloadFEM, inherited unchanged.
+- parameter_count on the prestrain base retains its original base-layout meaning;
+  use full_parameter_count for the combined model.
+Appending zeros exactly recovers the original model. No fixed/displacement
+constraint is claimed: preload and finite stiffness are compliant/traction laws.
+
+Example composition
+  model = InitialPrestrainPreloadFEM(payload, device='cpu', field=False,
+                                    contact=False, preload_frame='world')
+  theta = torch.zeros(model.full_parameter_count, dtype=model.dtype)
+  theta[model.i_prestrain] = raw_prestrain_latent
+  theta[model.i_preload:] = boundary_resultants.reshape(-1)
+The remaining gravity/attachment/floor/material parameters must be populated using
+the declared existing parameterization; this example is an interface, not a fit.
+
+Compatible dynamic composition (tested)
+  class Combined(AttachmentPreloadMixin, InitialPrestrainFEM, DynamicFEM):
+      pass
+This MRO preserves DynamicFEM's removal of the weak static gauge under inertia.
+Root owns the dynamic rollout integration; this module does not change it.
+
+Validation
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_boundary_preload_v02.py tests/test_object_prestrain_v02.py -q
+18 tests passed (9 preload/composition, 9 natural-strain mechanics).
+Checks include force and moment resultants, world/task rotation covariance,
+zero-preload exact recovery, energy/residual/tangent consistency, preload gradients,
+exact removal under inactive attachment, unchanged gravity on release, and dynamic
+gauge-removal composition. A localized preload can balance net initial gravity
+while leaving nonzero local residual: global balance does NOT assert complete
+initial equilibrium. Initial reaction and rest-strain identifiability, useful prior
+bounds, forward-range stability, and any benchmark gains remain untested.

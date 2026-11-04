@@ -1,0 +1,89 @@
+DATASET AND PROTOCOL AUDIT — 4 November 2026
+Read-only inventory; fresh SoftVT trajectories were not opened.
+
+Highest-value decisions
+1. Integrate exposed SoftVT and PhysTwin cases through a strict shared contract.
+   The current six-parameter cube model cannot be applied to arbitrary geometry
+   by rescaling coordinates. Add geometry/visibility-aware context and distinguish
+   rigid carrier motion from deformation before calling any result a transfer.
+2. SoftVTBench has 600 local episodes, not just the prior 220. Six files contain
+   100 episodes each, spanning two suites, three tasks and three repeated assets.
+   Named historical artifacts cover task0 demos0–9 and tasks1/2 demos0–49 in each
+   suite. Demos50–99 in all files are metadata-only candidate fresh episodes.
+   Suggested prospective allocation: existing220 for training/development,
+   demos50–59 validation,60–69 calibration,70–99 sealed confirmation across6 cells.
+   This is a proposal, not a seal. Do not inspect fresh trajectories until root
+   freezes roles/checkpoints. Episode novelty is not unseen-object/material OOD.
+3. PhysTwin has22 full RGB sequences (7,269 images, three cameras), beyond the
+   legacy eight-plush root. They live at runs/editable-scene-v23/phystwin-full-rgb/
+   data/different_types. All22 appeared in the v24 reconstruction experiment;
+   eight plush sequences also have repeated physics rebenchmarks. Report these
+   as historically exposed/exploratory, not freshly sealed generalization.
+4. Isaac has272 passive episodes:48 original orbit +224 neural-boundary episodes,
+   with152 train/44 validation/76 historical test. v18 adds24 worlds/48 queries
+   across clamp release, curved push, container drop, rigid impact, deformable
+   pair and heterogeneous materials. These are valuable regression suites,
+   but old test outputs are now exposed and numerical qualification is limited.
+5. PokeFlex is code-only locally. Deform360 raw data exists but stays PAUSED.
+
+Critical contract findings
+- scripts/prefix_ridge_switch_v13/inputs.py::phystwin_payload uses the obsolete
+  outgoing transition mask. Use incoming-v22 semantics: visibility[t] AND validity
+  of transition[t-1], with visibility alone at0. Existing v19 corrected exports
+  are under runs/real-transfer-v19/inputs/incoming-v22.
+- The v24 Sequence.sample(t) deliberately consumes target-time RGB. It is an
+  observed-video reconstruction API, NOT a causal forecasting input API.
+- SoftVT local HDF5 files have no RGB arrays. Their current48 tracked-node prefix
+  and initial volumetric mesh are privileged synthetic geometry. Do not describe
+  that benchmark as video inference or official manipulation DSR evaluation.
+- SoftVT obs/soft_extras contain force/torque and deformation diagnostics; these
+  are not permitted position-only inputs. Full future tool poses/opening commands
+  are allowed, but future object states are evaluator-only.
+- PhysTwin materials/forces have no trustworthy truth labels. Render comparisons
+  require recorded held cameras/times; unrecorded viewpoints have no RGB ground
+  truth. Rope/cloth need representation qualification before solid-FEM scoring.
+
+Recommended first smoke cases (all exposed)
+SoftVT: object-soft and spatial-soft, tasks1 and2, demo0.
+PhysTwin: single_lift_sloth, single_push_sloth, single_lift_zebra, double_lift_zebra.
+Isaac: e0000; v18 development clamp_release and curved_push before impacts.
+
+PokeFlex availability checked against official portal today
+https://pokeflex.ait.ethz.ch/ still requires an institutional-email application
+and acceptance of its noncommercial academic license. No request was submitted.
+The clone at runs/third_party/PokeFlex-v19 has loaders, code and GIFs, not raw
+recordings. Author paths in preprocessing/testing configs do not exist here.
+Missing: approved access, raw RGB-D/robot data, processed template meshes,
+sequence meshes, robot_data.json and native checkpoint files. Its native
+robot-data model uses force histories; compare modalities explicitly. For our
+position-only formulation, measured forces should be withheld evaluation targets.
+
+Shared adapter recommendation
+Predictor package: provenance/role/object-group/units; initial geometry; permitted
+prefix observations and masks; declared optional RGB/depth/camera data; complete
+known tool-position/opening schedules; explicit known-parameter flags. No true
+forces/materials/contact labels, future object arrays or diagnostic summaries.
+Evaluator package: future geometry/manual tracks, held RGB, valid masks and
+physical labels only where actually measured. Keep it out of model constructors.
+Perturb withheld arrays and verify predictor hashes unchanged. Keep object groups
+intact, failures visible, pose/shape errors separate and domain-calibration disclosed.
+
+Proposed seal paths (not created as protocol decisions by this audit)
+reports/gaussian-boundary-flow-v02/benchmark-protocol.json
+reports/gaussian-boundary-flow-v02/benchmark-access-ledger.json
+reports/gaussian-boundary-flow-v02/benchmark-seal.json
+
+Detailed inventory, paths, roles and APIs: dataset-audit.json.
+
+Implemented shared adapter
+scripts/gaussian_boundary_flow_v02/benchmark_inputs.py now provides separate
+predictor and evaluator loaders, incoming-v22 masks, optional PREFIX-only RGB
+paths and complete known controller-position schedules. It exports all22
+PhysTwin cases and four exposed SoftVT smoke demos successfully. This only
+qualifies the input contract, not solid-FEM validity on cloth/rope.
+Fresh SoftVT cases are refused before any file access. Five tests pass for
+suffix/manual/force-channel perturbations, mask semantics, prefix RGB/cutoff,
+forbidden evaluator fields and the fresh-case guard.
+Run with runs/phystwin-env/bin/python -m pytest
+  tests/test_gbf_v02_dataset_adapter_audit.py -q
+The root .venv can import the adapter; h5py is lazily imported only for SoftVT.

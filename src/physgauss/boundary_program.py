@@ -1,5 +1,6 @@
 """Explicit temporal programs: physical time and actuator positions, not FM time."""
 from dataclasses import dataclass
+import math
 import torch
 
 
@@ -21,11 +22,12 @@ class BoundaryProgram:
             raise ValueError('Finite increasing command times required')
         if self.values.ndim!=3 or self.values.shape[1:]!=(len(self.times),3) or not bool(torch.isfinite(self.values).all()):
             raise ValueError('Finite command values [B,T,3] required')
-        if self.active_start>=self.active_end:raise ValueError('Invalid activation interval')
+        if math.isnan(self.active_start) or math.isnan(self.active_end) or self.active_start>=self.active_end:
+            raise ValueError('Activation bounds must be ordered and not NaN')
 
     def at(self,time):
         t=torch.as_tensor(time,dtype=self.times.dtype,device=self.times.device)
-        if t.ndim or bool((t<self.times[0])|(t>self.times[-1])):
+        if t.ndim or not bool(torch.isfinite(t)) or bool((t<self.times[0])|(t>self.times[-1])):
             raise ValueError('Scalar query within supplied command horizon required')
         i=torch.searchsorted(self.times,t,right=True).sub(1).clamp(0,len(self.times)-2)
         dt=self.times[i+1]-self.times[i]

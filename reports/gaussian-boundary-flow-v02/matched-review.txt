@@ -1,0 +1,57 @@
+MATCHED CLEAN-NOISE INFERENCE COMPARISON — completed 4 November 2026
+
+Frozen protocol
+8192 clean 64-node-block simulations, seed 43091. One 50 micrometre acquisition
+noise draw per minibatch, shared minibatch/noise streams. Each model trained for
+15000 AdamW steps with batch256. All checkpoints were frozen before constructing
+the new 128-case test cohort (seed10035). All methods receive the exact same noisy
+test context. Flow and four-component diagonal Gaussian mixture each propagate
+32 physical samples; the deterministic model propagates one estimate.
+Capacities: flow141894, mixture141713, deterministic140996 parameters.
+
+Mean future coordinate RMSE (mm)
+Program       Flow       Mixture    Deterministic
+Sine          0.1885     0.1508      0.3097
+Release       0.1765     0.1118      0.2881
+Triangle      0.1854     0.1433      0.3064
+Reversal      0.1934     0.1759      0.2990
+
+The mixture improves the mean over flow in all four programs. Paired, case-level
+bootstrap 95% intervals exclude zero for sine, release and triangle; reversal is
+inconclusive (mixture-minus-flow interval [-0.0513,+0.0134] mm).
+Flow beats the deterministic logit-MSE baseline with intervals excluding zero
+for all four. The deterministic model is not yet optimized with trajectory loss.
+
+Uncertainty
+Mixture coordinate coverage is 91.4-92.4% for nominal 90% intervals; flow coverage
+is 95.7-96.3%. Mixture interval scores (lower is better) are also lower for all
+four programs: 0.393-0.649 mm versus flow0.784-0.844 mm. Both use 32-sample
+empirical quantiles, so these are finite-sample estimates, not exact population
+quantiles or a formal 90% guarantee. These are pointwise coordinate intervals;
+whole-trajectory coverage is separately recorded and is much lower.
+
+Physical-parameter caution
+Better predictive intervals do NOT establish well-calibrated boundary inference.
+Mixture support-x coverage is only76.6%, versus97.7% for flow; mixture load-position
+coverage is82.8%. Flow also has82.8% load-position coverage. Thus neither method
+should be sold as a trustworthy physical-parameter posterior without reference
+posterior/SBC checks and better observation-model validation.
+
+Decision recommendation
+Use the mixture as the preferred economical predictive-inference candidate for
+external development adapters, retaining flow as a comparator. It samples directly
+without a generative ODE. Let held-out-object development metrics decide, rather
+than requiring flow matching because it is newer. Preserve the result as a
+controlled development comparison: all objects share one geometry, known mass,
+known initial state, supplied top/bottom boundary topology, Gaussian widths,
+force direction and future command. OOD here means changed future command only.
+
+Verification
+- All source hashes unchanged throughout the run.
+- CPU/GPU maximum displacement difference 2.20e-7 m in four cases.
+- No training checkpoint selected or architecture adjusted on this test cohort.
+- Raw clean shards, final checkpoints, observation context and sampled parameters
+  retained under runs/gaussian-boundary-flow-v02-matched.
+- Immutable plan, complete per-case errors/coverage, paired confidence intervals:
+  reports/gaussian-boundary-flow-v02/matched-results.json.
+- Runtime about219 seconds; GPU0 physics and CPU neural training only.

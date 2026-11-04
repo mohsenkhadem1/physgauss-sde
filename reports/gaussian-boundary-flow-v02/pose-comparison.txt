@@ -1,0 +1,16 @@
+Frozen split pose/shape ablation on two exposed v02 pilots
+
+Policy and source prediction hashes were sealed before evaluator processes ran. Both cases, both posterior families, every stored successful joint trajectory and the inherited failed-sample counts are retained. Only raw FEM samples were transformed. The original v02/v03 artifacts are unchanged. Pose fitting uses the parent's declared 12 prefix frames and 48 point IDs; no additional frames or suffix object observations enter. No impact correction, inferred slip or result-dependent fallback was added.
+
+Future coordinate RMSE (mm), raw -> pose-corrected:
+  Push sloth flow: 154.65 -> 48.81; mixture: 61.58 -> 50.41.
+  SoftVT object-soft-task1-demo0 flow: 56.22 -> 59.75; mixture: 57.74 -> 60.27.
+Push velocity baseline remains better at 36.34 mm. Push aligned shape remains poor: pose flow/mixture 45.53/46.89 mm versus persistence 26.44. SoftVT pose shape errors 2.57/3.62 mm remain worse than persistence 0.42. A rigid transform preserves individual nodal sample shape, but posterior averaging and the fixed displacement-to-observation map need not preserve the scored mean-trajectory shape error exactly.
+
+The no-impact policy fails physical applicability. SoftVT's prescribed release at frame 110 launches free flight through the known floor: maximum sample penetration is 1.072/1.074 m for flow/mixture, affecting every sample. Push sloth also penetrates its supplied plane (maximum 10.1/18.1 mm). These are applicability failures, not plausible physical improvements; no retrospective clipping was used. The report records both any penetration and >1 mm penetration fractions; the latter is a descriptive post-hoc diagnostic, not a predeclared evaluation gate.
+
+Inherited rollout selection: push flow 31/32 and mixture 32/32; SoftVT flow 29/32 and mixture 31/32. No new filtering occurred. Pose is point-estimated and shared across each family's samples, so these intervals retain FEM shape variability but omit pose uncertainty. Scorers' nominal 90% label does not imply calibrated joint physical intervals.
+
+Decision: do not promote this policy globally. It diagnoses substantial removable pose error in push sloth without solving its shape mismatch. On SoftVT it worsens prediction and demonstrates why the archived v14 explicit support/contact layer cannot be replaced by unconstrained free flight. Keep the frozen result; compare v03 unchanged before any further backend choice. A later contact-aware split model requires separately declared geometry/contact behavior and numerical checks, not a patch fitted to these suffix results.
+
+Artifacts: pose-comparison.json; pose-push-sloth-scores.json; pose-softvt-scores.json; runs/gaussian-boundary-flow-v02-pose/{single_push_sloth,object-soft-task1-demo0}. Source seals verify legacy parent prediction/plan/input hashes but do not repair v02's missing original weight-to-PCA checkpoint binding.

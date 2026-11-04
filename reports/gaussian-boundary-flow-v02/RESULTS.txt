@@ -1,0 +1,82 @@
+Audited Gaussian-boundary campaign — development checkpoint
+
+Controlled tests show useful prediction improvements. External benchmark-wide
+improvement is NOT established. Previous best models and simulation results remain
+intact. Three independent agents audited scientific validity, numerical behavior
+and dataset/evaluation protocols, and their findings changed implementation choices.
+
+Completed improvements
+- Corrected duplicated training noise; compared capacity-matched probabilistic
+  alternatives. The simple mixture predicts better on the controlled block tests.
+- Added informative deformation rather than relying on nearly rigid motion.
+- Validated a small conditional reference posterior with explicit refinement.
+- Separated raw mechanical states from tracking/rebased output.
+- Added affine-complete observation mapping, correlated temporal observation noise,
+  bound PCA/model checkpoints, and discarded-feature mismatch screening.
+- Qualified two finite-range Gaussian grasp release examples. Impact convergence
+  remains unresolved; this is not a learned contact/impact benchmark result.
+
+External diagnostic results (lower error is better)
+
+SoftVT original (one exposed development sequence)
+  flow_raw: coordinate 56.219 mm; rigid-aligned shape 2.593 mm; 0 failed frames
+  flow_tracking: coordinate 55.885 mm; rigid-aligned shape 2.593 mm; 0 failed frames
+  mixture_raw: coordinate 57.738 mm; rigid-aligned shape 3.422 mm; 0 failed frames
+  mixture_tracking: coordinate 57.047 mm; rigid-aligned shape 3.448 mm; 0 failed frames
+  prefix_persistence: coordinate 156.567 mm; rigid-aligned shape 0.420 mm; 0 failed frames
+  prefix_velocity: coordinate 146.511 mm; rigid-aligned shape 0.813 mm; 0 failed frames
+
+PhysTwin push original (one exposed development sequence)
+  flow_raw: coordinate 154.655 mm; rigid-aligned shape 45.149 mm; 0 failed frames
+  flow_tracking: coordinate 155.522 mm; rigid-aligned shape 44.905 mm; 0 failed frames
+  mixture_raw: coordinate 61.577 mm; rigid-aligned shape 47.066 mm; 0 failed frames
+  mixture_tracking: coordinate 61.797 mm; rigid-aligned shape 47.373 mm; 0 failed frames
+  prefix_persistence: coordinate 66.532 mm; rigid-aligned shape 26.443 mm; 0 failed frames
+  prefix_velocity: coordinate 36.341 mm; rigid-aligned shape 27.316 mm; 0 failed frames
+
+SoftVT corrected (one exposed development sequence)
+  flow_raw: coordinate 57.519 mm; rigid-aligned shape 2.802 mm; 0 failed frames
+  flow_tracking: coordinate 57.330 mm; rigid-aligned shape 2.802 mm; 0 failed frames
+  mixture_raw: coordinate 57.054 mm; rigid-aligned shape 3.907 mm; 0 failed frames
+  mixture_tracking: coordinate 56.572 mm; rigid-aligned shape 3.944 mm; 0 failed frames
+  prefix_persistence: coordinate 156.567 mm; rigid-aligned shape 0.420 mm; 0 failed frames
+  prefix_velocity: coordinate 146.511 mm; rigid-aligned shape 0.813 mm; 0 failed frames
+
+PhysTwin push corrected (one exposed development sequence)
+  flow_raw: coordinate 172.611 mm; rigid-aligned shape 45.361 mm; 0 failed frames
+  flow_tracking: coordinate 175.525 mm; rigid-aligned shape 45.099 mm; 0 failed frames
+  mixture_raw: coordinate 62.970 mm; rigid-aligned shape 46.667 mm; 0 failed frames
+  mixture_tracking: coordinate 60.792 mm; rigid-aligned shape 46.986 mm; 0 failed frames
+  prefix_persistence: coordinate 66.532 mm; rigid-aligned shape 26.443 mm; 0 failed frames
+  prefix_velocity: coordinate 36.341 mm; rigid-aligned shape 27.316 mm; 0 failed frames
+
+SoftVT restored transport/contact (one exposed development sequence)
+  flow_pose: coordinate 18.309 mm; rigid-aligned shape 2.577 mm; 0 failed frames
+  mixture_pose: coordinate 18.663 mm; rigid-aligned shape 3.619 mm; 0 failed frames
+  prefix_persistence: coordinate 156.567 mm; rigid-aligned shape 0.420 mm; 0 failed frames
+  prefix_velocity: coordinate 146.511 mm; rigid-aligned shape 0.813 mm; 0 failed frames
+
+PhysTwin push restored transport/contact (one exposed development sequence)
+  flow_pose: coordinate 48.808 mm; rigid-aligned shape 45.531 mm; 0 failed frames
+  mixture_pose: coordinate 50.434 mm; rigid-aligned shape 46.892 mm; 0 failed frames
+  prefix_persistence: coordinate 66.532 mm; rigid-aligned shape 26.443 mm; 0 failed frames
+  prefix_velocity: coordinate 36.341 mm; rigid-aligned shape 27.316 mm; 0 failed frames
+
+Interpretation
+Position prediction and deformation prediction are different. A method can beat
+persistence by moving the object while predicting its shape poorly. Neither good
+rendering nor plausible motion establishes correct boundary/material inference.
+Small pilots use 64 nodes and 12 selected frames; archived stronger methods use
+larger budgets. Matched evaluation points do not make training budgets matched.
+
+The new pipeline omitted old pose/release/contact capabilities. A separately frozen
+restored transport/contact baseline reduces SoftVT raw flow error 56.22 to 18.31 mm.
+The pushed toy still loses to velocity and retains large shape error. Keep this
+useful baseline alongside raw mechanics, not as proof of recovered physical forces.
+Floor projection is an approximation; pose uncertainty and inferred slip are absent.
+Expand the frozen comparison across exposed cases before any fresh confirmation.
+Do not select a new model over preserved best results merely because it is newer.
+
+Full provenance, audits and commands: evidence-index.json, decisions.json,
+campaign-review.txt, retrieval-comparison.txt and scripts/gaussian_boundary_flow_v02.
+Raw datasets, checkpoints, sampled trajectories and large per-frame reports stay local.

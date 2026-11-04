@@ -1,0 +1,72 @@
+FULL-COVARIANCE MIXTURE ABLATION — FROZEN CONFIRMATION RESULTS
+4 November 2026
+
+Predeclared question
+Does modeling correlated parameter uncertainty improve the deficient support-
+location coverage of the diagonal mixture? A two-component full-covariance model
+(141516 parameters) was compared with the existing four-component diagonal mixture
+(141713), flow(141894), and deterministic regressor(140996).
+
+Training and validation
+Same clean8192-case bank, one50um minibatch-noise draw, same minibatch/noise stream,
+AdamW3e-4 and15000 steps/batch256. New validation seed63119 (64 cases) was used only
+for finite likelihood/factors/samples and finite physical rollouts, with no tuning.
+The final checkpoint and validation result were sealed before generating the new
+128-case confirmation cohort, seed13401. All four frozen models received the same
+context; all probabilistic methods propagated32 samples. GPU2 was used for physics;
+CPU training took63 seconds and physical validation/confirmation took97 seconds.
+
+Result: no evidence supporting replacement of the diagonal predictive candidate.
+Program        Flow      Diagonal mixture   Full covariance    Point regressor
+Sine           .205 mm      .162 mm             .197 mm             .360 mm
+Release        .197 mm      .133 mm             .165 mm             .336 mm
+Triangle       .204 mm      .156 mm             .189 mm             .357 mm
+Reversal       .214 mm      .199 mm             .237 mm             .344 mm
+
+The diagonal mixture has lower mean prediction error than full covariance on all
+four programs. Paired95% bootstrap intervals include zero, so this is a consistent
+mean ranking, not a conclusive statistical superiority claim on this sample.
+Diagonal predictive interval scores also beat full covariance on every program.
+
+Primary support-location check
+Coverage rises78.9% ->85.2%, but the paired coverage-difference95% interval is
+[-2.34,+14.84] percentage points, so improvement is inconclusive. Full covariance
+widens support-location intervals1.09 ->1.76mm and increases mean absolute error
+.265 ->.420mm. The support-location interval score worsens1.45 ->2.38mm. Therefore
+we should not describe the higher coverage alone as better calibrated inference.
+Both models remain below90% support-location coverage.
+
+Other uncertainty measures
+- Full covariance improves logit NLL: -4.028 versus diagonal -3.644 (lower better).
+- Its normalized multivariate parameter energy score worsens: .0994 versus .0863.
+- Flow has the best parameter energy score here, .0538, despite weaker mean-motion
+  predictions. Different objectives should remain visible rather than selecting
+  the metric favoring a preferred model.
+- Diagonal predictive coordinate coverage is90.9-93.0%; full covariance86.8-90.0%.
+- Pointwise32-sample intervals are not simultaneous trajectory guarantees.
+
+Interpretation and next decision
+The conditional reference justified testing correlation, but correlation flexibility
+alone did not solve the observed parameter-coverage weakness. Retain the diagonal
+mixture as the economical predictive candidate, and keep flow for comparison on
+joint physical uncertainty. Do not add still more covariance/model complexity
+before resolving the real-data forward-model and prior-domain mismatch.
+
+Limits of this ablation
+One training seed per architecture; no optimization on the confirmation set.
+Component count changed from four diagonal to two full-covariance components to
+match parameter counts, so this is not an isolated covariance-only causal test.
+All data still share the known block geometry, mass, initial state and supplied
+boundary topology. No real-data or generalized-contact claim follows.
+CPU/GPU maximum displacement difference is3.64um on four fresh cases; comparisons
+use the same float32 GPU solver and should not be interpreted as exact physics.
+
+Artifacts
+- full-covariance-results.json: full per-case errors, intervals, parameter metrics,
+  proper scores, paired comparisons, source hashes and freeze metadata.
+- full-covariance-coverage-comparison.json: paired primary-coverage diagnostic.
+- runs/gaussian-boundary-flow-v02-full-covariance: immutable plan, checkpoint,
+  validation, confirmation context,32 parameter draws and forward predictions.
+- scripts/gaussian_boundary_flow_v02/full_covariance.py and
+  full_covariance_campaign.py: implementation and reproduction.
+- tests/test_gaussian_boundary_full_covariance_v02.py: 5 tests passed.
