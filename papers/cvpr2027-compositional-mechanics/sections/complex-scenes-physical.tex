@@ -1,0 +1,68 @@
+\subsection{Held physical prediction results}
+\label{sec:coupled-physical-results}
+Ours, the analytic control, Spring-Gaus and PhysTwin each complete all
+48 held queries. Table~\ref{tab:coupled-physical} summarizes full-query
+motion errors, including the shared initial frame, and rigid-aligned shape
+errors. The paired mean motion-error difference across 24 independent
+worlds is $-8.83$\,mm against PhysTwin (world-bootstrap 95\% interval
+$[-12.18,-5.83]$) and $-9.30$\,mm against Spring-Gaus
+($[-12.40,-6.50]$). Our difference from the analytic control is
+$+0.13$\,mm ($[-0.01,0.27]$); this does not establish an advantage over
+the matched analytic family. The analytic control knows the reference
+constitutive family but fits its unknown material parameters from the same
+observed prefix.
+
+\begin{table}[t]
+\centering\small
+\caption{Six-family held physical prediction. Motion and rigid-aligned
+shape RMS are in mm. Folds counts queries with any nonpositive sampled
+material-grid tetrahedron volume; this is a common diagnostic, not a
+continuous-injectivity certificate. All rows complete 48/48 queries.}
+\label{tab:coupled-physical}
+\begin{tabular}{lrrr}
+\toprule Method & Motion & Shape & Folds \\
+\midrule
+Ours & 1.97 & 1.25 & 0 \\
+Analytic control & 1.84 & 1.16 & 0 \\
+PhysTwin adaptation & 10.80 & 5.94 & 33 \\
+Spring-Gaus adaptation & 11.27 & 6.00 & 37 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Our mean motion error is lower than both native adaptations in each of
+the six families. Against the analytic control, our descriptive mean is
+lower for clamps/release, curved pushing, two-body interaction and
+heterogeneous material, and higher for drops and rigid impacts.
+These per-family results have four independent worlds each and should not
+be interpreted as universal rankings.
+
+The mean net nongravitational impulse error is $0.0098$\,N\,s for ours,
+$0.0086$ for the analytic control, $0.0500$ for PhysTwin and $0.0572$
+for Spring-Gaus. This metric compares momentum changes after subtracting
+gravity; it does not identify individual contact forces.
+The common sampled contact diagnostic records 44 body--collider or
+body--body event identities per fully covered method. Ours and the
+analytic control have no missed or extra contacts. Spring-Gaus has two
+extra contacts and PhysTwin four, all in the two-body family; neither
+has a missed contact. Mean absolute errors in maximum sampled penetration
+are $2.85$, $2.27$, $4.37$ and $4.14$\,mm for ours, analytic, PhysTwin
+and Spring-Gaus, respectively. These gaps are sampled and use the declared
+normalized implicit bowl geometry; they are not exact overlap distances.
+
+UniPhy's single completed query has motion error $18.41$\,mm and shape
+error $15.69$\,mm. Seven supported queries fail numerically and 40 are
+unsupported; no complete paired world exists for a comparative claim.
+Eleven of twelve prospective $n=4$ versus $n=6$ reference comparisons complete.
+The refined stacking query reaches its declared time limit; its unfinished
+trajectory is not scored. Noninitial motion differences range from
+$0.027$ to $0.931$\,mm, with the largest values in container drops.
+These are resolution and contact-sampling sensitivities, not error bounds.
+A post-hoc audit of unchanged predictions against the refined references
+retains five fully paired worlds: mean motion-error differences for ours
+minus PhysTwin and Spring-Gaus are $-7.20$ and $-7.87$\,mm, respectively
+(compared with $-7.30$ and $-7.95$\,mm against the primary references on
+the same subset). The analytic-control difference is $+0.20$\,mm.
+This subset audit does not establish population-wide convergence. All primary query reference trajectories pass their declared
+sampled Jacobian guard, with minimum dense sampled determinant $0.272$;
+this does not establish spatial convergence.
