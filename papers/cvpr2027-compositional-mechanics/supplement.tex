@@ -16,7 +16,7 @@
 \begin{document}
 \maketitle
 \section{Scope and experimental map}
-This supplement specifies the implemented models, numerical methods, experimental accounting, and limitations. The evidence comprises three distinct settings: (i) static composition with oracle physical descriptors, (ii) static inference of 15 continuous unknown descriptors and acquisition of an additional position observation, and (iii) dynamic calibration followed by larger-drop prediction against a native PhysTwin adaptation. Results from these settings are not interchangeable. In particular, the dynamic experiment does not evaluate the static active policy or its uncertainty model.
+This supplement specifies the implemented models, numerical methods, experimental accounting, and limitations. The preceding evidence comprises three distinct settings: (i) static composition with oracle physical descriptors, (ii) static inference of 15 continuous unknown descriptors and acquisition of an additional position observation, and (iii) dynamic calibration followed by larger-drop prediction against a native PhysTwin adaptation. A fourth study extends dynamic prediction to six coupled-scene families with unknown materials and known boundaries; its protocol is specified in Sec.~\ref{sec:complex-scenes-supp}. Results from these settings are not interchangeable. In particular, the dynamic experiment does not evaluate the static active policy or its uncertainty model.
 
 The central representation is a reusable, conditional \emph{energy law}. A small shared network maps physical descriptors to coefficients of invariant energy functions. A conventional mechanics solver combines this bulk law with attachment and contact potentials. Scene-specific inference estimates descriptors while the shared network weights remain frozen. Gaussian appearance is attached to material coordinates and transported by the resulting deformation. The system does not learn a direct image-to-force map, reconstruct unknown topology, or learn friction from video.
 
@@ -354,4 +354,10 @@ These development clips are not additional held-cohort successes. Dynamic compre
 
 \subsection{Limits of the combined conclusion}
 The oracle study supports composition of reusable learned laws when physical descriptors are supplied. The unknown-descriptor study shows improved point predictions after an informative additional position observation, while exposing overconfident uncertainty and no advantage over its best fixed probe. The fresh dynamic study supports a conditional improvement over one native adaptation on synthetic load-magnitude extrapolation, with incomplete native coverage and unresolved spatial-reference sensitivity. These findings are complementary, but they do not establish raw-video physical inference, real-world transfer, unknown interaction discovery, frictional dynamics, universally useful active probing, or broad state-of-the-art performance.
+\section{Six-family coupled-scene benchmark}
+\label{sec:complex-scenes-supp}
+\input{sections/complex-scenes-protocol}
+\input{sections/complex-scenes-appearance}
+
+{\small\bibliographystyle{ieeenat_fullname}\bibliography{references}}
 \end{document}

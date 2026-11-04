@@ -43,7 +43,7 @@ The pretrained energy decoder is kept fixed. We infer a small spatial
 material descriptor from the calibration prefix. For material coordinate
 $X\in[0,1]^3$, the scale field is
 \begin{equation}
- s_b(X)=s_0+\mathbb{1}_{b=2}\Delta s+
+ s_b(X)=s_0+\mathbf{1}_{b=2}\Delta s+
  c\tanh\!\left(8(X_1-r)\right),
 \end{equation}
 where $b$ indexes the deformable body. The same field parameterization is
@@ -130,7 +130,7 @@ injectivity or continuous nonintersection.
 
 For a controlled image comparison, every method and the reference use the
 same frozen Gaussian appearance, the same motion-transport map, and fixed
-withheld cameras. We report PSNR, SSIM, LPIPS, silhouette and depth measures, averaging
+withheld cameras. We report PSNR, SSIM, LPIPS, and silhouette IoU, averaging
 noninitial query frames for the primary scores and retaining all-frame
 values separately.
 This separates motion-induced image error from independent appearance
