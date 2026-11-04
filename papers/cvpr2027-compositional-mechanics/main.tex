@@ -105,7 +105,7 @@ Opacity and spherical-harmonic coefficients are frozen; the implementation does 
 Consider prescribed-position equilibrium with no independent body load and scale all stiffness-bearing terms by $c>0$. Then $\Pi_c(u,a)=c\Pi(u,a)$, so the minimizer and equilibrium sets are unchanged. At corresponding equilibria, reactions $f=\partial\Pi/\partial a$ and tangents scale by $c$. If geometry and appearance are identical, rendering any camera gives identical images. This statement does not require a unique equilibrium; it concerns corresponding solution branches or minimizers. If contact is present, its stiffness must also be scaled.
 
 \begin{figure}[t]
-\centering\includegraphics[width=\linewidth]{figures/observability.pdf}
+\centering\includegraphics[width=\linewidth]{figures/observability_visual.pdf}
 \caption{\textbf{Visual agreement need not identify physical scale.} Co-scaling bulk and attachment energies preserves position-controlled equilibria but changes reactions. An extra view cannot remove this particular ambiguity.}
 \label{fig:ambiguity}
 \end{figure}
@@ -143,7 +143,7 @@ Custom direct, 30k & 3.0888 & 3.2933\\\bottomrule
 Table~\ref{tab:transfer} shows that shared local laws remain close to the matched analytic model under these changes, while the direct predictor has larger errors. Figure~\ref{fig:transfer} includes both training budgets and the simpler constitutive control. This supports reuse within the represented law family; it does not establish transfer to arbitrary unseen materials or interaction types. The small analytic-model error also includes discretization differences.
 
 \begin{figure*}[t]
-\centering\includegraphics[width=\textwidth]{figures/transfer_refinement.pdf}
+\centering\includegraphics[width=\textwidth]{figures/transfer_visual.pdf}
 \caption{\textbf{Forward transfer and additional observations.} Left and center: known-descriptor coordinate RMSE for new compositions and geometry draws, on logarithmic axes. Right: unknown-descriptor prediction error after one additional observation. Adaptive selection chooses the same stretch on every object and ties the fixed stretch policy. Direct controls use frozen weights with the documented stable normalization.}
 \label{fig:transfer}
 \end{figure*}
@@ -181,7 +181,7 @@ Visible depth error (mm)$\downarrow$ & 5.478 & 14.557\\\bottomrule
 
 \begin{figure*}[t]
 \centering\includegraphics[width=.96\textwidth]{figures/held_visual_results.pdf}
-\caption{\textbf{Physical prediction across six interaction families.} Top: first world, query 0, final frame in each family; error colors share a 0--20\,mm scale and geometry is unamplified. Bottom: full-query motion error across all 48 held queries. Ours has lower mean error than both native spring adaptations in every family; the analytic control remains competitive. The supplement shows every comparator and the earlier drop cohort.}
+\caption{\textbf{Physical prediction across six interaction families.} Each panel shows the first world, query 0, final frame; error colors share a 0--20\,mm scale. Dots use all eight queries per family; percentages report mean-error reduction versus PhysTwin. The footer reports all 48 queries. Ours has lower mean error than both native spring adaptations in every family; the analytic control remains competitive. The supplement shows every comparator and the earlier drop cohort.}
 \label{fig:held-visual}
 \end{figure*}
 
