@@ -7,7 +7,7 @@ from pathlib import Path
 import numpy as np
 import torch
 from scipy.optimize import minimize
-from scripts.external_benchmark.data import phystwin, predictor_payload
+from scripts.external_benchmark.data import phystwin, predictor_payload, PHYSTWIN_MASK_VERSION
 from scripts.external_benchmark.fem import ExternalFEM
 from scripts.real_transfer_v19.neural_fem import NeuralFEM, parameters, BULK, ROOT
 
@@ -21,7 +21,7 @@ def write(path,data):
     tmp=path.with_suffix('.pending.json');tmp.write_text(json.dumps(data,indent=2)+'\n');tmp.replace(path)
 
 def export(case,nodes=120):
-    destination=BASE/'inputs'/f'{case}-{nodes}'
+    destination=BASE/'inputs'/PHYSTWIN_MASK_VERSION/f'{case}-{nodes}'
     if destination.exists():
         meta=json.loads((destination/'manifest.json').read_text())
         if sha(destination/'prefix.npz')!=meta['prefix_sha256']:
@@ -31,7 +31,7 @@ def export(case,nodes=120):
     destination.mkdir(parents=True)
     np.savez_compressed(destination/'prefix.npz',**{k:v for k,v in payload.items() if isinstance(v,np.ndarray)})
     sources=[ROOT/'scripts/external_benchmark/data.py',Path(data['source']),Path(data['source']).parent/'split.json']
-    write(destination/'manifest.json',dict(name=case,dataset='PhysTwin',train_end=int(data['train_end']),
+    write(destination/'manifest.json',dict(name=case,dataset='PhysTwin',mask_version=PHYSTWIN_MASK_VERSION,train_end=int(data['train_end']),
          floor=float(data['floor']),prefix_sha256=sha(destination/'prefix.npz'),
          source_sha256={str(p.relative_to(ROOT)):sha(p) for p in sources},
          evaluation_geometry_exported=False,force_labels_exported=False,

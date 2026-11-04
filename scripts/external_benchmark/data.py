@@ -48,6 +48,18 @@ def interpolate_matrix(nodes, points):
     return mat
 
 
+PHYSTWIN_MASK_VERSION = 'incoming-v22'
+
+
+def phystwin_position_mask(raw, train_end):
+    """Position t uses visibility at t and transition t-1 -> t, never t -> t+1."""
+    visible = np.asarray(raw['object_visibilities'][:train_end], dtype=bool)
+    mask = visible.copy()
+    mask[1:] &= np.asarray(raw['object_motions_valid'][:train_end-1], dtype=bool)
+    mask &= np.isfinite(raw['object_points'][:train_end]).all(axis=-1)
+    return mask
+
+
 def phystwin(case, max_nodes=180):
     directory = ROOT/'runs/third_party/PhysTwin/data/different_types'/case
     with open(directory/'final_data.pkl','rb') as f: raw=pickle.load(f)
@@ -60,7 +72,7 @@ def phystwin(case, max_nodes=180):
     # Retain the full observed point set used by the official method. Only the
     # internal mechanics mesh is reduced, not the observations available to fit.
     select=np.arange(len(full[0]))
-    mask=(raw['object_visibilities'][:train_end,select].astype(bool) & raw['object_motions_valid'][:train_end,select].astype(bool))
+    mask=phystwin_position_mask(raw,train_end)[:,select]
     # Controller point identities are known input trajectories, not estimated from targets.
     groups=np.zeros(ctrl.shape[1],int)
     if case.startswith('double'):
