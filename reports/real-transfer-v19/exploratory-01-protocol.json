@@ -1,0 +1,38 @@
+{
+  "cases": [
+    "single_lift_sloth",
+    "single_lift_dinosor",
+    "single_push_sloth",
+    "double_lift_sloth",
+    "double_stretch_sloth",
+    "single_lift_zebra",
+    "double_lift_zebra",
+    "double_stretch_zebra"
+  ],
+  "methods": [
+    "neural",
+    "analytic"
+  ],
+  "nodes": 120,
+  "fit_frames": 18,
+  "iterations": 50,
+  "fit_seconds": 600,
+  "total_seconds": 1800,
+  "devices": [
+    "cuda:0",
+    "cuda:1",
+    "cuda:2"
+  ],
+  "prior_development": "single_lift_sloth, first 70 percent of official training prefix",
+  "split": "Official train/test suffixes; all eight cases historically exposed, exploratory not fresh test.",
+  "model_selection": "Single fixed neural configuration; no per-case future-error selection.",
+  "baseline_scope": "Neural constitutive-law adapter vs matched analytic FEM plus official released PhysTwin, persistence and prefix-fit ridge.",
+  "source_sha256": {
+    "scripts/real_transfer_v19/neural_fem.py": "9f5aa79153aeb31129ac882b1b1b3ac6b20113005f03f32b6b74f5bd8d1e2f2d",
+    "scripts/real_transfer_v19/phystwin_campaign.py": "92366e983791c1c2aaa926b9ba48a23d1666245f5f9c8fc55cd1ee2b2324be48",
+    "scripts/real_transfer_v19/acquire_deform360.py": "11f5baca3a3d612b0809a0305bf23da51ec17c60417b617f545c1e082036a76c",
+    "scripts/real_transfer_v19/phystwin_run.py": "b2322ff7375b231dcac774cbb05217139471fea74085f5faa0bf614c1146a93d",
+    "scripts/real_transfer_v19/__init__.py": "2c3d5bfd9e40001d19dab3a9ffb1c3ee134795d80fd8fd803f046c37c8479565",
+    "scripts/real_transfer_v19/test_neural_fem.py": "b975fd1154d01e1f9b5b6b568217fb1ad8a020b1a60bf232491444aa6c060fcf"
+  }
+}
