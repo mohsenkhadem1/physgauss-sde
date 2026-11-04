@@ -1,0 +1,64 @@
+Editable scene programme, first integration milestone (v23)
+
+Target: infer persistent objects, appearance, material and interaction hypotheses
+from an observed prefix; edit tool positions, force inputs, gravity and supports;
+forecast dynamics and render from chosen cameras; quantify predictive uncertainty.
+
+Implemented first milestone
+- Explicit SI material hypothesis and intervention contracts, separate cameras.
+- Existing coupled dynamic FEM backend reused; prescribed lift/release, free drop,
+  localized force pulse, gravity and floor contact. Analytic material in this pilot.
+- Force spatial weights sum to one. External potential and time-dependent power
+  use the same applied load. Camera transforms never enter dynamics.
+- Mixed-supervision helpers preserve a causal observation prefix, allow known
+  future actions, and mask unavailable labels before computing gradients.
+- Ten controlled rollouts: three material hypotheses x three interventions plus
+  one timestep-halving run. These are validation of wiring, not learned inference.
+- Pinned PhysTwin release inventory and resumable three-worker full-RGB download.
+  Raw data stays local. Deform360 remains paused and PokeFlex access unresolved.
+
+Next implementation stages, not yet complete
+1. Verify full-video acquisition, obtain corresponding depth/tracks/calibration,
+   group identical objects before allocating training/validation/test splits.
+   The previously exposed eight plush sequences remain development-only.
+2. Train a shared video/geometry query encoder with available RGB, depth, camera,
+   visibility and 3D-track labels. Use an available pretrained backbone; do not
+   claim a reproduction of D4RT without author weights/protocol.
+3. Add persistent object/material/interaction tokens and action-conditioned dynamic
+   predictions; joint training with short rollouts, then longer held-action tests.
+   Force and position actuation are separate inputs; unsupported labels masked.
+4. Fit Gaussian appearance on training cameras only; evaluate held-out recorded
+   cameras separately from future times and novel action families.
+5. Train multiple physical hypotheses, calibrate predictive intervals on reserved
+   objects/actions, report coverage plus interval width and OOD failures. Current
+   three-material sensitivity envelope is not a posterior or confidence interval.
+6. Reproduce PIDG's reconstruction task, compare with matched inputs, then disclose
+   any action-conditioned PIDG adaptation separately. Preserve current benchmarks.
+7. Evaluate view/poke selection only after uncertainty calibration, against random
+   and fixed acquisitions with matched budgets and held-out prediction improvement.
+
+Restrictions of this milestone
+No transformer has been trained, no real material has been inferred, no new
+benchmark superiority is claimed. Friction and arbitrary editable rigid geometries
+are not supported by this new wrapper yet. Coarse FEM is not a physical reference.
+The existing broader v18 backend remains available for multi-object extensions.
+
+Reproduce
+runs/deform360-reconstruction-env/bin/python -m pytest scripts/editable_scene_v23 -q
+runs/phystwin-env/bin/python -m scripts.editable_scene_v23.inventory
+runs/phystwin-env/bin/python -m scripts.editable_scene_v23.acquire_rgb
+runs/phystwin-env/bin/python -m scripts.editable_scene_v23.campaign
+runs/deform360-reconstruction-env/bin/python -m scripts.editable_scene_v23.report
+
+Completed first-pilot evidence
+Seven unit tests and eleven artifact/impulse/video checks pass. All ten controlled
+rollouts finished with finite states and positive sampled element Jacobians.
+Maximum lift/release non-rigid deformation was13.31mm. The12kPa drop timestep
+halving changed positions by mean0.0114mm and maximum0.1000mm. Maximum sampled
+floor penetration across main pilots was1.013mm. These are coarse numerical
+checks, not reference-simulator qualification or real-world physical accuracy.
+Prescribed-force impulse errors are below1e-7Ns (observed near3e-16Ns).
+Matching author tracks/calibration can be acquired with:
+runs/phystwin-env/bin/python -m scripts.editable_scene_v23.acquire_labels
+Raw RGB download may still be running; acquisition-snapshot.json is timestamped,
+while runs/editable-scene-v23/acquisition-status.json is the live local status.
