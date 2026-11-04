@@ -1,6 +1,7 @@
 \documentclass[10pt,twocolumn,letterpaper]{article}
 \usepackage[review]{cvpr}
 \usepackage{graphicx,amsmath,amssymb,booktabs,microtype}
+\definecolor{oursteal}{HTML}{008C88}
 \definecolor{cvprblue}{rgb}{0.21,0.49,0.74}
 \usepackage[pagebackref,breaklinks,colorlinks,allcolors=cvprblue]{hyperref}
 \def\confName{CVPR}\def\confYear{2027}
@@ -12,6 +13,12 @@
 \begin{abstract}
 A deformable digital twin should predict what an object will do under a new interaction, not only reproduce its observed images. These objectives differ: under displacement control, scaling material and attachment stiffness together can preserve every rendered view while changing reaction forces. We study a compositional representation that separates a shared neural bulk energy, compliant attachments, explicit contact and body loads, and material-attached Gaussian appearance. Compact energy decoders are pretrained on constitutive responses and frozen; scene adaptation estimates physical descriptors from observed positions. A conventional finite-element solver then predicts deformation and reactions under new commands or initial conditions. Controlled synthetic experiments test three distinct questions: transfer with known descriptors, refinement with unknown descriptors, and dynamic forecasting with shared initial appearance. On six withheld-composition objects, shared laws achieve 0.018\,mm coordinate RMSE, versus 3.089\,mm for a custom supervised direct predictor. An additional stretch observation reduces unknown-parameter prediction error from 0.339 to 0.080\,mm, without establishing an adaptive-policy advantage. Across 24 material worlds and six interaction families, motion RMS is 1.97\,mm versus 10.80 and 11.27\,mm for native PhysTwin and Spring-Gaus adaptations; shared-renderer foreground PSNR is 35.61 versus 25.68 and 25.88\,dB. A matched analytic control remains competitive at 1.84\,mm. We report missing forecasts, numerical-reference sensitivity and uncertainty miscalibration explicitly. The results support composition of learned local mechanics for controlled physical prediction; visual agreement alone remains insufficient evidence of physical accuracy.
 \end{abstract}
+
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{figures/method_visual.pdf}
+\caption{\textbf{Representation and prediction pipeline.} Local constitutive laws are trained once. Scene descriptors are fitted from observed positions with shared weights frozen. Prescribed tool poses, initial conditions, gravity and explicit contact geometry define a query; composed energies produce deformation and reactions through Q2 mechanics. The physical state transports a separately initialized Gaussian appearance model. Geometry and image metrics are evaluated independently on withheld responses. Geometry, mass and observation correspondences are supplied in the present experiments.}
+\label{fig:pipeline}
+\end{figure*}
 
 \section{Introduction}
 Images reveal where a surface is, but not necessarily why it is there. A soft object held between two grippers may deform because its bulk material is compliant, its attachments slip elastically, or both. A reconstruction can therefore render an observed motion convincingly while assigning the wrong response to the next manipulation. For action planning, a matched silhouette does not guarantee correct forces or rebound.
@@ -26,11 +33,7 @@ We evaluate these issues through four controlled studies rather than pooling inc
 
 Our contributions are: (1) a concrete composition of compact conditional bulk and attachment energies with explicit loads, contact and Gaussian transport; (2) a scale-observability analysis connecting image ambiguity to physical response; and (3) a controlled evaluation separating transfer, adaptation, dynamics and appearance, including forecast coverage and reference sensitivity. The individual solver, invariant-energy and Gaussian-transport ingredients are established. Our evidence concerns their composition and the resulting prediction protocol, not a new general-purpose simulator or broad benchmark leadership.
 
-\begin{figure*}[t]
-\centering\includegraphics[width=\textwidth]{figures/method_overview.pdf}
-\caption{\textbf{Representation and prediction pipeline.} Local constitutive laws are trained once. Scene descriptors are fitted from observed positions with shared weights frozen. Prescribed tool poses, initial conditions, gravity and explicit contact geometry define a query; composed energies produce deformation and reactions through Q2 mechanics. The physical state transports a separately initialized Gaussian appearance model. Geometry and image metrics are evaluated independently on withheld responses. Geometry, mass and observation correspondences are supplied in the present experiments.}
-\label{fig:pipeline}
-\end{figure*}
+
 
 \input{sections/related}
 
@@ -177,9 +180,9 @@ Visible depth error (mm)$\downarrow$ & 5.478 & 14.557\\\bottomrule
 \end{table}
 
 \begin{figure*}[t]
-\centering\includegraphics[width=.84\textwidth]{figures/dynamic_results.pdf}
-\caption{\textbf{All declared dynamic cases.} Top: world and rigid-aligned shape errors for both forecast heights in each world. Bottom: held-view image metrics by world. Crosses mark unavailable native predictions in world 3; they are not zero-valued measurements. Shared appearance initialization makes the image comparison a test of predicted motion plus Gaussian transport.}
-\label{fig:dynamics}
+\centering\includegraphics[width=.96\textwidth]{figures/held_visual_results.pdf}
+\caption{\textbf{Physical prediction across six interaction families.} Top: first world, query 0, final frame in each family; error colors share a 0--20\,mm scale and geometry is unamplified. Bottom: full-query motion error across all 48 held queries. Ours has lower mean error than both native spring adaptations in every family; the analytic control remains competitive. The supplement shows every comparator and the earlier drop cohort.}
+\label{fig:held-visual}
 \end{figure*}
 
 \paragraph{Appearance under predicted dynamics.}
