@@ -1,0 +1,60 @@
+GAUSSIAN BOUNDARY FLOW: FIRST IMPLEMENTATION AND TEST RESULTS
+4 November 2026
+
+What works
+A conditional flow model infers distributions over hidden stiffness, attachment
+strength/location, load magnitude/location and damping from observed motion.
+Each sample drives the existing mechanics, and the existing Gaussian renderer
+produces images. Prediction uses forward integration, with no inverse refitting.
+
+The finer model uses 64 physical nodes, 8192 training worlds and 128 held-out
+worlds. Force programs are changed after the observed prefix. Coordinate RMSE:
+                       Conditional flow    Neural regressor    Linear regressor
+Continued loading         0.198 mm             0.358 mm             1.507 mm
+Load release              0.189 mm             0.338 mm             1.457 mm
+Triangular load           0.196 mm             0.354 mm             1.501 mm
+Force reversal            0.206 mm             0.353 mm             1.490 mm
+Position-driven lift      0.189 mm             0.338 mm
+The lift supplies a 6 mm upward attachment displacement, not a fitted force.
+
+Across all four force programs, paired bootstrap intervals for improvement over
+the neural regressor exclude zero. These are development baselines, not PhysTwin
+or another state-of-the-art comparison.
+
+Video input and rendering
+The initial coarse prototype also consumes synthetic RGB videos (known appearance,
+geometry and cameras), using a train-only PCA encoder. Future motion error is
+0.96-0.99 mm, versus 3.00-3.42 mm for its regression baseline. Missing intermediate
+frames score 53.81 dB versus 49.11 dB for simple image blending. These rendering
+results belong to the coarse prototype, not the finer physical model.
+
+New information and uncertainty
+One additional view reduces error from 0.205 to 0.093 mm in 32 fresh cases.
+The selected-view policy ties the fixed view; no policy superiority is established.
+When observations come from a 125-node simulator, prediction error is 0.250 mm,
+but raw nominal 90% coordinate coverage drops to 80.2%. Separate finer-domain
+calibration gives 93.75% whole-trajectory coverage in 64 fresh cases, with average
+interval width 1.40 mm. This calibrates predictions, not material or force labels.
+
+Numerics and limitations
+Temporal refinement changes motion by 0.080 mm. CPU/GPU agree within 0.2 micrometres.
+Spatial refinement remains material: 64->125 nodes changes corner motion by
+0.336 mm in an eight-case check. The model is linear elastic and is not qualified
+for extreme deformation or large rotations. Known initial geometry, mass, cameras,
+force direction and future command are still required. Contact and exact-boundary
+operators have unit tests, but mixed boundary-type discovery and coupled drops/
+impacts are not yet part of the learned rollout. Real-video adaptation remains.
+
+Artifacts
+- results.json: full numerical evidence, individual-case errors and comparisons.
+- results.png: quantitative overview.
+- refined-actual-vs-predicted.mp4: median and worst reversal cases, orbiting camera,
+  true displacement scale, slowed to 0.5x playback. This is a corner-surface geometry
+  visualization, not photorealistic image evidence.
+- audit.json: checks and explicit scope.
+- scripts/gaussian_boundary_flow/README.txt: implementation and reproduction.
+
+31 tests passed. GPUs 0-2 were used outside the device-restricted sandbox; GPU 3
+was untouched. Existing SoftVTBench and PhysTwin summary files are byte-for-byte
+unchanged. This new model has not yet been evaluated on those external benchmarks.
+Raw synthetic data, trained checkpoints and video files remain local.
