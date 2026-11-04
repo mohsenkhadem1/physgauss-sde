@@ -1,0 +1,61 @@
+{
+  "cases": [
+    "single_lift_sloth",
+    "single_lift_zebra"
+  ],
+  "recipes": {
+    "control": {
+      "nodes": 120,
+      "iterations": 50,
+      "fit_seconds": 600,
+      "width": 15.0,
+      "floor": "initial-minimum"
+    },
+    "longer_fit": {
+      "nodes": 120,
+      "iterations": 150,
+      "fit_seconds": 1800,
+      "width": 15.0,
+      "floor": "initial-minimum"
+    },
+    "mesh240": {
+      "nodes": 240,
+      "iterations": 50,
+      "fit_seconds": 1800,
+      "width": 15.0,
+      "floor": "initial-minimum"
+    },
+    "narrow_attachment": {
+      "nodes": 120,
+      "iterations": 50,
+      "fit_seconds": 600,
+      "width": 7.5,
+      "floor": "initial-minimum"
+    },
+    "wide_attachment": {
+      "nodes": 120,
+      "iterations": 50,
+      "fit_seconds": 600,
+      "width": 30.0,
+      "floor": "initial-minimum"
+    },
+    "no_assumed_floor": {
+      "nodes": 120,
+      "iterations": 50,
+      "fit_seconds": 600,
+      "width": 15.0,
+      "floor": "disabled"
+    }
+  },
+  "method": "neural",
+  "fit_frames": 18,
+  "split": "First 70% of official training prefix for fitting; remaining training prefix for validation. Official suffix excluded.",
+  "selection": "One shared recipe chosen by equal-sequence validation tracking error, with complete rollout coverage; report all ablations.",
+  "limitation": "All eight sequences historically exposed. This is development, not a sealed OOD claim.",
+  "sources": {
+    "scripts/real_transfer_v20/development_campaign.py": "2d245b2a3bea208a60e0b2829de9a59e3d196e43bf38beb2e1e30dcd224ee2d3",
+    "scripts/real_transfer_v20/development_run.py": "a754c614a5ee5ce369b3d602d8c50b4c9eb4d33fa080b1b1a5a4baad3ff23aff",
+    "scripts/real_transfer_v19/neural_fem.py": "9f5aa79153aeb31129ac882b1b1b3ac6b20113005f03f32b6b74f5bd8d1e2f2d",
+    "scripts/external_benchmark/fem.py": "07a348cd303504858ae7d9b4622493a757ace53fe142c17c373eb7735c915ed2"
+  }
+}
