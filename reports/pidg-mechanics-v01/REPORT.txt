@@ -1,0 +1,82 @@
+Connected paper mechanics on PIDG Balls Reaction — completed experiment
+=====================================================================
+The paper's arbitrary-mesh NeuralFEM adapter is now connected to PIDG's
+Gaussian rasterizer and fitted to the public Balls Reaction scene. This is
+not the previous material-only regularization experiment. Image gradients
+pass through a converged mechanics solve to inferred attachment targets and
+material descriptors. Gaussian position, full covariance and radiance frame
+follow the mechanical deformation.
+
+What was run
+------------
+Six separate objects; 13 nodes/20 tetrahedra per object; six Gaussian boundary
+footprints per body; 768 appearance Gaussians/body (4,608 total). The existing
+learned material network is frozen. The fitting split is 101 RGB images,
+validation 11, final test 38. GPU 1 runs initial FEM fitting/replay; GPUs 0 and
+2 run appearance and joint image/mechanics fitting. GPU 3 is untouched.
+
+Development retained: v01 reconstruction-affine controls; v02 an inadequate
+color grouping; v03 corrected connected-region tracking and SH1; v04 SH3.
+The selected v04 used 2,000 appearance updates, 80 joint updates, then a
+400-update joint warm restart. Validation selected the checkpoint before
+test evaluation. All experiments and unsuccessful candidates remain local.
+
+What the connection includes
+----------------------------
+Training-only geometry/position inference -> frozen learned bulk energy plus
+Gaussian attachments -> implicit equilibrium -> material-bound Gaussians ->
+RGB rendering -> image-loss adjoint back to boundary/material parameters.
+The implicit boundary adjoint agrees with finite differences; tetrahedral
+transport passes affine and covariance checks. No PIDG deformation MLP is
+queried at prediction time.
+
+Measured final-test PSNR (dB; larger is better)
+---------------------------------------------
+Render resolution           PIDG       Material-only      Connected mechanics
+320 x 180                   49.54      48.16              25.59
+640 x 360                   34.48      34.41              25.50
+1600 x 900                  31.64      31.64              25.40
+All models in this comparison were trained at 320 x 180. Higher-resolution
+rendering is not retraining at the paper's resolution. The authors' published
+33.31 dB is not substituted for the matched local baseline.
+
+Connected model at 320 x 180: foreground PSNR 19.81 dB, SSIM 0.9210,
+LPIPS-Alex 0.08269. Full per-frame results and other resolutions are in
+comparison-audit.json. This model does not beat PIDG's measured rendering
+quality and should not replace the paper's previous best benchmark results.
+
+Camera results
+--------------
+Rendered the first/middle/last test times at yaw offsets -90, -60, -30, 0,
+30, 60 and 90 degrees. The full contact sheet contains every requested view.
+The connected representation is visibly less fragmented than the original
+PIDG/regularizer sweeps, but color/lighting artifacts remain. Coherence is
+partly supplied by a six-sphere initialization and explicit volumetric binding;
+this experiment does not isolate a material-network contribution to that gain.
+New poses have no reference RGB. No novel-camera PSNR or accuracy win is claimed.
+The entire public dataset tree was checked (10,227 entries, 11 API pages): no
+Blender/mesh scene assets were found for independent ground-truth rendering.
+
+Important scope
+---------------
+This is the paper's equilibrium adapter, not its coupled transient Q2 adapter.
+Initial radius/depth gauge comes from a training-only PIDG reconstruction.
+Color-connected image regions infer attachment targets; these are hypotheses,
+not actual known grippers. Sphere topology is an explicit scene-specific prior.
+Gravity is negligible under unidentified physical scale. No coupled collision
+solve or material/force uncertainty calibration is established here. Controls
+use the whole fitting sequence, so this is temporal interpolation, not causal
+future-motion or new-action forecasting. Positive FEM Jacobians establish
+orientation preservation of this mesh, not accuracy of unknown real physics.
+
+Artifacts
+---------
+new-camera-preview.png       Fixed middle-time -60/0/+60 comparisons.
+new-camera-comparison.png    All 21 camera/time combinations, all 3 methods.
+held-out-comparison.png      Reference/PIDG/connected, 3 fixed test frames.
+comparison-audit.json        Full metrics, failed candidates and source hashes.
+output/pidg-mechanics-v01/camera-comparison.mp4 — labelled discrete camera sweep.
+
+Next improvement justified by this result: improve scene geometry, occlusion
+ordering and appearance while retaining the mechanics connection. Raw data,
+full reconstruction checkpoints and generated frame sequences remain local.
