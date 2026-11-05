@@ -76,3 +76,7 @@ scripts/mechanics_gaussian_bridge. They cover affine exactness, covariance
 transport, derivative parity, orientation rejection and finite-difference
 agreement of the boundary adjoint. Input/export seals and evaluation results
 record the fitting/test separation and limits of each claim.
+
+For baseline off-path images, run scripts/pidg_comparison/novel_views.py on
+runs/pidg-comparison-v02/refined-pidg and refined-ours-00001 before report.py
+and video.py. That script uses the same times, cameras and yaw offsets.
