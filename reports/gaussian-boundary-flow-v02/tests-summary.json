@@ -5,6 +5,7 @@
     "tests/test_boundary_preload_v02.py",
     "tests/test_expansion_geometry_v02.py",
     "tests/test_expansion_summary_v02.py",
+    "tests/test_gaussian_boundary_balanced_oracle_v02.py",
     "tests/test_gaussian_boundary_checkpoint_contract_v02.py",
     "tests/test_gaussian_boundary_feature_support_v02.py",
     "tests/test_gaussian_boundary_flow.py",
@@ -13,9 +14,11 @@
     "tests/test_gaussian_boundary_noise_v02.py",
     "tests/test_gaussian_boundary_pose_shape_contact_v02.py",
     "tests/test_gaussian_boundary_pose_shape_v02.py",
+    "tests/test_gaussian_boundary_prediction_sanity_v02.py",
     "tests/test_gaussian_boundary_probabilistic_v02.py",
     "tests/test_gaussian_boundary_push_backend_v02.py",
     "tests/test_gaussian_boundary_reference_v02.py",
+    "tests/test_gaussian_boundary_rigid_contact_v04.py",
     "tests/test_gaussian_boundary_unilateral_attachment_v02.py",
     "tests/test_gaussian_differential_action_v02.py",
     "tests/test_gaussian_object_backend_audit_v02.py",
@@ -30,35 +33,34 @@
     "tests/test_gbf_v03_downstream_audit.py",
     "tests/test_gbf_v03_expansion_identity_audit.py",
     "tests/test_gbf_v03_retrieval_contact_audit.py",
+    "tests/test_gbf_v04_validation_admission.py",
+    "tests/test_gbf_v04_validation_cohort.py",
+    "tests/test_hard_plane_static_v02.py",
     "tests/test_isaac_prefix_inputs_v02.py",
     "tests/test_object_midpoint_v02.py",
     "tests/test_object_prestrain_v02.py",
     "tests/test_prefix_informativeness_v02.py",
     "tests/test_robust_dynamic_step_v02.py",
-    "tests/test_v03_independent_contract_audit.py",
-    "tests/test_gaussian_boundary_balanced_oracle_v02.py"
+    "tests/test_v03_independent_contract_audit.py"
   ],
   "runs": [
     {
-      "command": ".venv/bin/python -m pytest tests/test_affine_observation_v02.py tests/test_boundary_preload_v02.py tests/test_expansion_geometry_v02.py tests/test_expansion_summary_v02.py tests/test_gaussian_boundary_checkpoint_contract_v02.py tests/test_gaussian_boundary_feature_support_v02.py tests/test_gaussian_boundary_flow.py tests/test_gaussian_boundary_flow_audit_v02.py tests/test_gaussian_boundary_full_covariance_v02.py tests/test_gaussian_boundary_noise_v02.py tests/test_gaussian_boundary_pose_shape_contact_v02.py tests/test_gaussian_boundary_pose_shape_v02.py tests/test_gaussian_boundary_probabilistic_v02.py tests/test_gaussian_boundary_push_backend_v02.py tests/test_gaussian_boundary_reference_v02.py tests/test_gaussian_boundary_unilateral_attachment_v02.py tests/test_gaussian_differential_action_v02.py tests/test_gaussian_object_backend_audit_v02.py tests/test_gbf_v02_bank_retrieval_audit.py tests/test_gbf_v02_dataset_adapter_audit.py tests/test_gbf_v02_finite_range_attachment.py tests/test_gbf_v02_object_dynamics.py tests/test_gbf_v02_object_score_audit.py tests/test_gbf_v02_readiness_audit.py tests/test_gbf_v02_softvt_score_audit.py tests/test_gbf_v02_stable_export_audit.py tests/test_gbf_v03_downstream_audit.py tests/test_gbf_v03_expansion_identity_audit.py tests/test_gbf_v03_retrieval_contact_audit.py tests/test_isaac_prefix_inputs_v02.py tests/test_object_midpoint_v02.py tests/test_object_prestrain_v02.py tests/test_prefix_informativeness_v02.py tests/test_robust_dynamic_step_v02.py tests/test_v03_independent_contract_audit.py -q --junitxml=/tmp/gbf-expanded-tests.xml",
-      "passed": 194,
-      "skipped": 1,
-      "xml": "/tmp/gbf-expanded-tests.xml"
+      "xml": "/tmp/gbf-current-tests.xml",
+      "passed": 222,
+      "skipped": 4
     },
     {
-      "command": "runs/phystwin-env/bin/python -m pytest tests/test_gbf_v02_dataset_adapter_audit.py -q --junitxml=/tmp/gbf-expanded-tests-hdf.xml",
-      "passed": 5,
-      "skipped": 0,
-      "xml": "/tmp/gbf-expanded-tests-hdf.xml"
+      "xml": "/tmp/gbf-current-hdf-tests.xml",
+      "passed": 23,
+      "skipped": 0
     },
     {
-      "command": ".venv/bin/python -m pytest tests/test_gaussian_boundary_balanced_oracle_v02.py -q --junitxml=/tmp/gbf-balanced-tests.xml",
-      "passed": 4,
-      "skipped": 0,
-      "xml": "/tmp/gbf-balanced-tests.xml"
+      "xml": "/tmp/gbf-current-secondary-tests.xml",
+      "passed": 2,
+      "skipped": 0
     }
   ],
-  "unique_passed": 199,
+  "unique_passed": 228,
   "uncovered_skips": [],
   "scope": "Implementation and contract checks, not empirical forecast superiority"
 }

@@ -63,3 +63,10 @@ PokeFlex is unavailable without approved recordings. Deform360 remains paused.
 All 22 local PhysTwin sequences are historically exposed. SoftVT has 600 local
 episodes but only three assets; new episode tests are not unseen-material tests.
 Do not describe a development pilot as a sealed all-dataset benchmark.
+
+Observation-budget clarification
+SoftVT uses 12 inverse-fitting frames plus a prefix grasp-frame pose calibration
+from the same 48 sparse points. In the four development cases this is 13 distinct
+object frames. Mechanics and retrieval share this construction; simple velocity
+and persistence use the 12 selected frames and do not exploit future tool commands.
+See grasp-initialization-budget-audit.json. This disclosure changes no predictions.

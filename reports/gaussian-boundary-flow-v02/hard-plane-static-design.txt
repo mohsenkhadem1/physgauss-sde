@@ -1,0 +1,62 @@
+Isolated static hard-plane contact candidate — CPU qualification
+
+Files: hard_plane_static.py and hard_plane_qualification.py in the v02 script
+package. Original ExternalFEM and all frozen benchmark/validation dependencies are
+unchanged. No benchmark, training, impact or dynamic rollout was performed.
+
+Mechanics
+Minimize the existing bulk + gravity + attachment (+ optional external field)
+energy subject to every mechanical node satisfying z>=known floor. The subclass
+removes both the old soft normal penalty and tiny positional gauge from objective,
+residual and Hessian. It rejects the separate tangential penalty and inertial terms.
+For a lower bound, stationarity is grad(V)-lambda*ez=0, lambda>=0, gap>=0,
+lambda*gap=0. The returned normal reactions are these KKT multipliers, not an
+estimated force channel or a posthoc translation that merely hides penetration.
+Units of reported reactions are the FEM's dimensionless energy-gradient units;
+absolute Newton forces still require the material/length scaling convention.
+
+Solver
+An active-set reduced Newton direction holds bound DOFs with compressive gradients.
+Contact DOFs needing tensile reaction are released into the free set. Newton damping
+is numerical optimization only; it adds no energy term. A feasible tangent-cone
+fallback handles unsuitable directions, and fraction-to-bound line search prevents
+penetration. Bound rounding within machine precision occurs inside optimization,
+not on exported predictions. Armijo energy descent has a safeguarded near-convergence
+roundoff case requiring residual reduction, as in the separately reviewed Newton
+candidate. No negative-J state is accepted by the bulk evaluator. Penetrating initial
+states are rejected rather than mechanically reinterpreted by projection.
+
+Acceptance checks
+Stationarity norm<=1e-8; penetration<=1e-12 nondimensional; complementarity<=1e-10;
+positive determinantJ>.03. Reactions are nonnegative and zero on separated nodes.
+Report original residual minus contact reaction, total force and torque balances.
+No friction/restitution/slip dynamics are claimed. The frictionless plane leaves
+horizontal translation/yaw underdetermined if no attachments fix them; removing
+that ambiguity must use an explicit gauge/observation convention, not fake springs.
+
+Controlled results
+Ten8nodeCPU worlds: gravity/material ratios.003,.03,.3 under gravity alone,
+5mm downward prescribed top-patch push,40mm upward top-patch lift, plus an
+asymmetric single-node push. All10pass without parameter/gate tuning or retries.
+Worst stationarity1.0334e-10; penetration0; complementarity0; force-balance norm
+8.89e-11; torque-balance norm6.78e-11. MinimumJ across these worlds.93371.
+All3lifted cases have exactlyzero contact reaction and positive floor gaps
+39.66,36.54,3.48mm. Gravity-only total normal reaction equals total gravity load.
+
+Five tests pass: supported gravity and reaction balance; increased reaction under
+push; lift/release without tension; energy/residual/tangent autograd consistency
+and exact invariance to the ignored legacy soft-floor slot; rejection of invalid
+initial penetration and dynamics. Qualification JSON preserves every attempted case;
+there were no failed physical trials. An initial test-code Tensor-minus-list typo
+was fixed without changing solver/physics.
+
+Before any inference or benchmark adoption
+The inherited theta floor coordinate is ignored ONLY to reuse ExternalFEM indexing.
+A future backend MUST remove it from latent names/bounds/count; no unobservable
+soft-floor stiffness may be trained or reported. A new model contract/bank is needed.
+Known floor height is a premise, not inferred contact truth. Connected mesh and
+finite-J/force/KKT admission must be checked on each actual geometry and parameter
+world. Hard constraints can expose incompatibility with prescribed attachments;
+keep failures. Node-only nonpenetration on linear tetrahedra defines this plane
+geometry, but does not supply curved geometry, object-object contact or friction.
+Current fresh validation remains under its frozen old recipe and is untouched.

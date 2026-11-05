@@ -1,0 +1,11 @@
+Post-seal physical-consistency audit; no prediction/gate modification
+
+prediction_sanity.py accepts a completed sealed raw run and optionally its sealed pose/contact derivative. It verifies prediction/plan seals, original input-manifest/digest, identical observation mapping and the derivative's parent-prediction hash. It reads only initial geometry, the existing permitted prefix package and stored full predicted trajectories. It never opens a future-object evaluator, private force/material data or fresh episode files directly.
+
+Outputs: raw frame-zero coordinate RMS against the provided initial observations at the SAME declared point IDs and initial mask; raw full-clock floor penetration, for both posterior mean and stored successful joint samples; inherited requested/valid/failed draw counts; pose/contact correction magnitude and corrected-floor penetration. Nonfinite inherited predictions remain explicit, not silently removed. The floor is the supplied initial min-z hypothesis, not a measured scene surface. Floor correction is not force/energy accuracy.
+
+Four tests pass: cancellation of a constant initial offset is detected despite zero relative motion; known correction magnitude/mapping checks; no use of later/unselected observations and rejection of evaluator fields/suffix observations; explicit nonfinite handling. One CLI smoke test used ONLY the already exposed single_push_sloth v03 sealed run. No fresh validation inputs were read during implementation or testing.
+
+Balanced oracle decision remains NO unilateral adoption. Exactly200calls/law explored all5coordinates. Relative prefix RMSE25.537mm(bilateral) and27.010mm(unilateral); unilateral's apparent best hides663.918mm initial mismatch and664.711mm absolute error. All optimizers were budget-stopped. The supplied-plane synthetic success and qualitative pinching appearance do not establish real contact labels. Detailed immutable results remain in balanced-push-oracle.
+
+The upcoming12episode validation (demo50/51 across six cells) tests the frozen existing v03 development pipeline. This audit adds transparency, not a numerical/model fix, physics-validation claim or post-hoc prediction filter. Its metrics are descriptive; it does not alter frozen evaluation/adoption rules or silently reject cases.

@@ -1,0 +1,82 @@
+Independent eight-case state-initialization and completion audit
+
+Read-only outcome
+All eight comparisons are evaluable under the frozen compactexpansion plan. Flow
+pose/contact passes its narrow nearest-bank pose/contact adoption gate; this is not
+physical validation or a statement that it beats every baseline. Seven/eight real
+prefixes trigger empirical bank-support warnings. SoftVT mean coordinate error
+improves51.391->27.584mm through the pose/contact layer; nearest-bank with the same
+layer is28.084mm, so most improvement is pose/contact, not inverse-flow architecture.
+PhysTwin pose/contact remains worse than velocity on every four cases. Shape
+errors and poorly covering intervals remain substantial. Preserve those results.
+
+Does raw mechanics use the observed cutoff state?
+No explicit state assimilation occurs. package_campaign_v03 infers response logits
+from relative observed-prefix features. ObjectBoundaryBackendRevision.rollout then
+starts from rest and computes canonical quasistatic equilibria through every known
+command frame. The next solve is initialized with its OWN preceding equilibrium,
+not observed object geometry or velocity. Observation data influence theta, but not
+an independent cutoff x/v state. Relative features additionally remove the modeled
+frame-zero equilibrium mismatch from the inverse objective. Calling this prediction
+'conditioned on observed state' would overstate what the algorithm does.
+
+Measured on the SAME declared prefix frames/point IDs, no new forecast targets:
+case                       initial raw   cutoff raw  cutoff pose  cutoff shape
+single_lift_sloth                5.08         17.48       14.73        12.33
+single_push_sloth                9.54        125.38       43.25        40.44
+single_lift_zebra               13.03         18.78       30.09        12.66
+double_lift_zebra                6.07          7.31       14.16         5.32
+object-soft-task1-demo0          0.25          7.88        3.08         3.05
+object-soft-task2-demo0          0.17          1.08        1.03         1.01
+spatial-soft-task1-demo0         0.28          5.23        2.98         2.95
+spatial-soft-task2-demo0         0.33          5.40        0.50         0.50
+All numbers coordinate RMSmm for frozen flow mean; shape removes a proper rigid
+transform. Exact mixture and prefix-relative errors are in cutoff-state-audit.json.
+The pose method preserves sample shape and fits reference-to-observed rigid motion,
+not the optimal current predicted-shape-to-observed alignment. It can worsen cutoff
+error, as on both zebras; it is not an exact cutoff-state assimilator. Joint sample
+means can also change slightly under sample-specific shape rigid alignment.
+
+One bounded next diagnostic, NOT new forecast tuning
+Freeze object-soft-task1-demo0 and its already selected nearest-bank latent world
+(selection was prefix-only). Use only its declared terminal prefix observations.
+1. Record the existing raw cutoff equilibrium and residual. Rigidly align its mapped
+   observations to the terminal observed points as a minimum pose-only correction.
+2. Compute ONE minimum-norm affine-observation state correction with fixed SVD rank
+   threshold1e-10, using the same48points/mask. No boundary/material parameter fit,
+   no new network and no change to future commands. Reject inversionJ<=.03 rather
+   than clipping displacement/strain. This creates an observational state candidate,
+   NOT a force-balanced state and not an estimate of material rest configuration.
+3. Evaluate the UNCHANGED mechanical residual/energy and minJ at that candidate.
+   Re-solve only the SAME cutoff command, from original and corrected initial guesses,
+   max30Newton iterations each. Report whether both return to the same equilibrium,
+   data mismatch and force residual; every failure visible. Do not score suffixes.
+If the correction fits observations but force residual is large and relaxation
+returns to the old shape, initial solver guess is not the solution: constitutive,
+attachment/rest-strain or missing-load model adequacy is the bottleneck. If branches
+persist, investigate observability/branch selection before changing architecture.
+This test is useful because a unique quasistatic equilibrium has no independent
+initial-state memory; simply warm-starting at the observed state cannot fix a
+wrong forward law. A true dynamic state estimator needs x/v and separately qualified
+integration. Neither invented balancing bodyloads nor mesh rebasing provides that.
+
+Finite completion versus research aspirations
+For the FROZEN EIGHT-CASE expansion, numerical completion requires all planned
+packages/geometry admissions, immutable banks/PCA/model/prediction seals, complete
+raw/pose/retrieval/simple-baseline scores, explicit solver failures/support warnings,
+correct within-case geometry and mask identity, final tests and an honest result
+summary. Existing compactexpansion-results says all comparisons evaluable and the
+narrow flow gate passes. Closure should preserve the regression cases and intervals,
+not keep searching the exposed suffixes until every case wins.
+
+The following are not achieved and must not be recast as completion evidence:
+calibrated physical parameters/contact uncertainty, general coupled dynamics,
+qualified impacts, unseen-object OOD gains, superiority to every baseline, or a
+trained universal video-to-physics model. They are separate research objectives.
+If the literal active goal demands those outcomes, it remains incomplete; otherwise
+a completed bounded campaign may close with these limitations and a separate next
+experiment. This child sees get_goal=null and therefore cannot certify the root
+active goal's exact wording or change its status. No goal status changed here.
+
+Artifacts: cutoff-state-audit.json and cutoff-state-audit-reproduce.py. No models,
+datasets, predictions or tests changed; no GPU jobs or new forecast fits run.

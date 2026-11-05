@@ -1,0 +1,35 @@
+Frozen cutoff-state assimilation diagnostic — exposed SoftVT task1/demo0
+
+Used the already selected nearest-bank latent from the sealed retrieval run, the
+same12declared prefix frames/48points, and only final permitted prefix coordinates.
+No new parameter selection, suffix targets, fresh episodes, or forecast scores.
+Physical backend/source/input hashes were checked. CPU execution only.
+
+Raw cutoff state: coordinate RMS8.036mm; rigid-aligned shape RMS3.655mm; minimum
+J=.73055; force residual2.94e-12. Re-solving from that state takes1iteration and
+returns exactly the same state. This is a converged equilibrium of the frozen law,
+not an uninitialized numerical solve.
+
+Rigid tracking correction: error3.655mm, unchanged elementJ, but mechanical force
+residual.07283. It improves observation alignment while breaking force balance;
+it is explicitly a tracking state, not a physical equilibrium.
+
+Minimum-norm affine observation correction: observation error approximately1e-14mm,
+but maximum nodal correction58.67mm and minimumJ=-87630.24. The48row observation
+operator is full row rank; its smallest singular value.01188 versus largest1.33970
+amplifies directions in its inverse. Exact point matching is not mechanically safe,
+even though the forward observation map itself is affine-complete. The inverted
+candidate was rejected BEFORE relaxation under the frozenJ>.03 gate. No displacement
+clipping, regularization tuning, strain repair, or alternative selection was used.
+
+Conclusion: this bounded experiment cannot establish convergence from an admissible
+fully assimilated state, because that candidate is inadmissible. It does establish
+that raw equilibrium error is not solver residual error, rigid observation correction
+creates an unbalanced state, and exact coarse-node track inversion can destroy the
+mesh. A future state estimator needs a mechanically constrained/regularized observation
+update with an explicit noise model. Do not infer a particular material/boundary cause
+from this one failed assimilation. All failures are retained in results.json.
+
+Initial invocation used an incorrect expansion-retrieval directory and failed before
+opening any package or writing a plan; corrected to the actual frozen retrieval path
+recorded by compactexpansion-results. Scientific choices were unchanged.

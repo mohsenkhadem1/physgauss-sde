@@ -1,0 +1,102 @@
+{
+  "status": "frozen",
+  "scope": "Prospective validation of unchanged v03 numerical recipe on recurring SoftVT assets; not new-object OOD or final confirmation",
+  "cases": [
+    "object-soft-task0-demo50",
+    "object-soft-task0-demo51",
+    "object-soft-task1-demo50",
+    "object-soft-task1-demo51",
+    "object-soft-task2-demo50",
+    "object-soft-task2-demo51",
+    "spatial-soft-task0-demo50",
+    "spatial-soft-task0-demo51",
+    "spatial-soft-task1-demo50",
+    "spatial-soft-task1-demo51",
+    "spatial-soft-task2-demo50",
+    "spatial-soft-task2-demo51"
+  ],
+  "geometry": {
+    "type": "convex",
+    "nodes": 64,
+    "failure_policy": "Record failed geometry; no silent resolution/episode substitution"
+  },
+  "inference": {
+    "accepted_bank_worlds": 128,
+    "maximum_bank_attempts": 256,
+    "training_steps": 5000,
+    "posterior_draws": 32,
+    "prefix_fraction": 0.6,
+    "selected_frames": 12,
+    "additional_prefix_input": "Inherited gripper/object pose initialization uses the prefix grasp frame and the same48observed identities; not12totalobjectframes",
+    "observed_points": 48,
+    "noise_m": 0.001,
+    "numerical_parent": "package_campaign_v03.py",
+    "parent_sha256": "de5290b895c35f7c048914069aa1219525aacea67ff18cc27e0af6326269fed1"
+  },
+  "methods": [
+    "flow_raw",
+    "mixture_raw",
+    "flow_tracking",
+    "mixture_tracking",
+    "flow_pose_contact",
+    "mixture_pose_contact",
+    "nearest_bank_raw",
+    "nearest_bank_pose_contact",
+    "prefix_persistence",
+    "prefix_velocity"
+  ],
+  "phases": "All twelve prediction pipelines complete or explicitly failed before any validation suffix read; then independent scoring",
+  "frozen_failures": "No automatic retries, replacement cases or outcome-driven changes; standalone baseline forecasts survive physics failures",
+  "analysis": "Equal-case means and per-cell rows, failure completion first; no pooled-frame significance. Report same-contact retrieval and both simple baselines, shape and raw physical sanity separately.",
+  "physical_sanity": [
+    "initial raw displacement mismatch",
+    "raw floor penetration",
+    "pose/contact correction magnitude",
+    "surviving draw counts"
+  ],
+  "limitations": [
+    "Relative-feature cancellation remains an identified weakness under test",
+    "Quasistatic rest-shape approximation and survivor-conditional draws",
+    "Rigid floor projection is not coupled physical inference",
+    "No calibrated parameter posterior, rendering improvement or SOTA claim"
+  ],
+  "protected_roles": "Episodes52-59 not selected; calibration60-69 and confirmation70-99 remain unread",
+  "environments": {
+    "export_and_score": "runs/phystwin-env/bin/python",
+    "inference": ".venv/bin/python"
+  },
+  "source_sha256": {
+    "scripts/contact_benchmark_v12/contact_rollout.py": "2164cc07a64b47dff9628566ea667b033c3f72bea21d90cac7b2159e0a573f98",
+    "scripts/contact_benchmark_v12/object_frame.py": "f8766b7e0dc3fc70d43faedd096f5ffc55ab81797b15d102c07fe1354d7154b8",
+    "scripts/contact_benchmark_v12/scene.py": "f60f3287e62f38d547469730a2d46d476bc3637d4caaec6154c02ee4440b82f7",
+    "scripts/external_benchmark/common.py": "1af92190267b8c59aa8093bef31d9aaf85f9ca194bc34cdf75bd7161b635d73b",
+    "scripts/external_benchmark/data.py": "073511ae972167c91dafe9690cb69e3b910ab48bc8505b671a1f8d7531eb2f6d",
+    "scripts/external_benchmark/fem.py": "07a348cd303504858ae7d9b4622493a757ace53fe142c17c373eb7735c915ed2",
+    "scripts/gaussian_boundary_flow/flow.py": "8840e330f0a6e96335d0400ab35a98ce8ee40b387de5defdd1797ba1947bfa10",
+    "scripts/gaussian_boundary_flow_v02/affine_observation.py": "2ad62509b35867cacd509f61849036f1dafec0173d0a7a33fb94c6f415d02e19",
+    "scripts/gaussian_boundary_flow_v02/bank_retrieval.py": "2a5bc97492a6f05fbe6b8302d9eca443135b9ee8bbedca68421a138c1e516036",
+    "scripts/gaussian_boundary_flow_v02/benchmark_inputs.py": "e49b8887a7f7b284689c97dc6efa02d50ad82a6f7d0a20dbcdab8cf489886284",
+    "scripts/gaussian_boundary_flow_v02/checkpoint_contract.py": "ba5d7ef8eba96ddc2db28d007b7f9201f326b1fc086c7ba2aa27198740bec49a",
+    "scripts/gaussian_boundary_flow_v02/export_inputs.py": "6faed91088450aa4e7cef7672a11f57bd3bf8cc3163d3ca37132e962bffc3976",
+    "scripts/gaussian_boundary_flow_v02/feature_support.py": "3d5a1e05a74c600968f56b55b310d35a54cf1391d636a2c828b929dca02802b5",
+    "scripts/gaussian_boundary_flow_v02/freeze_validation.py": "c967d7993148a5e30eba2b87a05dc3c72a45ba0be036e689c5225559c3be00a3",
+    "scripts/gaussian_boundary_flow_v02/object_backend.py": "064aa1ab45c75da323e141afcb5ee82f190ec8d3dd03e649a94d975dec10802d",
+    "scripts/gaussian_boundary_flow_v02/object_backend_geometry.py": "fa5fd6885ca8828a6ea67b9b7380e6d32a3d2d549bcb47c3f49becbbb78ac8ec",
+    "scripts/gaussian_boundary_flow_v02/object_backend_revision.py": "bbbe2905fce0644fc8f4b35af04b1ab189b30d5106b546980bffe8971b44bacb",
+    "scripts/gaussian_boundary_flow_v02/object_backend_table.py": "c174abcdb3273c263978ada986f93e6974ab7d793e632ca8adf871631aa16d79",
+    "scripts/gaussian_boundary_flow_v02/object_backend_wide.py": "f4f134283013bfd6af7f085c44606b0cd4393ed50fff70ded39d3c0e992dfbcc",
+    "scripts/gaussian_boundary_flow_v02/object_score.py": "ee631732acd6908d11f99b264b35b3ed030722b8edc75e474ecaeba1a9860ef7",
+    "scripts/gaussian_boundary_flow_v02/package_campaign_v04.py": "cd9d2c24d0f81aba040c2aaa45ad1cc87a8c62d666a60d909f3f44ca9e02b5b5",
+    "scripts/gaussian_boundary_flow_v02/pose_shape.py": "6c0c1fe22d3b65a22cdaf2c88423957ebdc411353a2efbe5b48933f11ce46fd4",
+    "scripts/gaussian_boundary_flow_v02/pose_shape_contact.py": "43614fa422517d8766d9a047245aba4566ceed47df6c87d2c4974b7cfa44fa64",
+    "scripts/gaussian_boundary_flow_v02/pose_shape_contact_campaign.py": "6640c7d266640090e79dd0c253cd729bc3863fe528786da17dbc9bd98a2a89ef",
+    "scripts/gaussian_boundary_flow_v02/prediction_sanity.py": "8df0ffcb985ef3d3b8049af8bc8e3263bc1aea5ee8ae5c405b10000a96a5336d",
+    "scripts/gaussian_boundary_flow_v02/probabilistic.py": "d74b819994fc4bf31ee30ed0da6ddb9f972734bc56fbbe690e82365f07648cb4",
+    "scripts/gaussian_boundary_flow_v02/retrieval_contact_campaign.py": "3734a4adb5c0bb6d60900e8b96d3be14b196c5f048955b28f6d6968f1d3897c2",
+    "scripts/gaussian_boundary_flow_v02/softvt_validation_inputs.py": "04c827c314629f9f3abf71fffc4776f0a4453766ee3f537dcbfcf791eff2ad7c",
+    "scripts/gaussian_boundary_flow_v02/softvt_validation_score.py": "f9b0737783f36435665d5ca3a5abd1cf3462bf10a0cb3dccf064f3709e6d1b1b",
+    "scripts/gaussian_boundary_flow_v02/validation_baseline.py": "3841400b40532aaeea70a0da576aeab9f3758818a1924952055664c2b9a41836",
+    "scripts/gaussian_boundary_flow_v02/validation_cohort.py": "ad73d9a087a5275621fd3f20eae66c8214d11c11a1a41d1bc314d4649ef70db4",
+    "scripts/prefix_ridge_switch_v13/inputs.py": "4baf53e56c2a237353d73861d949a1bc7f0538708862b79194bfa06cd41c358a"
+  }
+}
