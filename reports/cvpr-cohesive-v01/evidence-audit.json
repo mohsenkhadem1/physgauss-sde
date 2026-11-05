@@ -1,0 +1,633 @@
+{
+  "scope": "Independent read-only quantitative/protocol audit for cohesive paper; no experiment reruns or dataset targets accessed",
+  "checks": [
+    {
+      "check": "archived_source_hash",
+      "path": "reports/benchmark-improvement-v14/softvt-summary-b.json",
+      "passed": true
+    },
+    {
+      "check": "archived_source_hash",
+      "path": "reports/benchmark-improvement-v14/finish-summary.json",
+      "passed": true
+    },
+    {
+      "check": "archived_source_hash",
+      "path": "reports/benchmark-improvement-v14/RESULTS.md",
+      "passed": true
+    },
+    {
+      "check": "archived_source_hash",
+      "path": "reports/real-transfer-v22/summary.json",
+      "passed": true
+    },
+    {
+      "check": "archived_source_hash",
+      "path": "reports/real-transfer-v22/scores.json",
+      "passed": true
+    },
+    {
+      "check": "archived_source_hash",
+      "path": "reports/real-transfer-v22/transfer-scores.json",
+      "passed": true
+    },
+    {
+      "check": "archived_source_hash",
+      "path": "reports/real-transfer-v22/verification.json",
+      "passed": true
+    },
+    {
+      "check": "archived_source_hash",
+      "path": "reports/real-transfer-v22/solver-recovery.json",
+      "passed": true
+    },
+    {
+      "check": "archived_source_hash",
+      "path": "reports/real-transfer-v20/initial-registration.json",
+      "passed": true
+    },
+    {
+      "check": "archived_source_hash",
+      "path": "reports/complex-scenes-v18/held-physical-summary.json",
+      "passed": true
+    },
+    {
+      "check": "archived_source_hash",
+      "path": "papers/cvpr2027-compositional-mechanics/sections/complex-scenes-physical.tex",
+      "passed": true
+    },
+    {
+      "check": "archived_source_hash",
+      "path": "reports/prefix-ridge-switch-v13/scores.json",
+      "passed": true
+    },
+    {
+      "check": "SoftVT40 complete paired mean",
+      "passed": true
+    },
+    {
+      "check": "Real8 all geometry means recomputed",
+      "passed": true
+    },
+    {
+      "check": "Real transfer gate2of5 and means recomputed",
+      "passed": true
+    },
+    {
+      "check": "Six-family48 physical/appearance coverage",
+      "passed": true
+    },
+    {
+      "check": "Summary source binding",
+      "path": "reports/complex-scenes-v18/held-physical-summary.json",
+      "passed": true
+    },
+    {
+      "check": "Summary source binding",
+      "path": "reports/complex-scenes-v18/held-appearance-summary.json",
+      "passed": true
+    }
+  ],
+  "evidence_matrix": [
+    {
+      "id": "simulation_interaction",
+      "priority": "main",
+      "source": "reports/complex-scenes-v18/held-physical-summary.json",
+      "cohort": "24 independent material worlds;6 families;48 changed-interaction queries",
+      "inputs": "Supplied geometry,mass,boundary recipes;unknown materials fitted from tracks",
+      "results": {
+        "ours": {
+          "coverage": {
+            "complete": 48
+          },
+          "mean_motion_rms_mm": 1.974413368705023,
+          "mean_shape_rms_mm": 1.246573666546808,
+          "mean_net_impulse_rms_Ns": 0.009784323456971852,
+          "queries_with_sampled_nonpositive_volume": 0,
+          "minimum_sampled_volume_ratio": 0.31419168159547234,
+          "contact_event_count": 44,
+          "missed_contact_events": 0,
+          "extra_contact_events": 0,
+          "mean_maximum_penetration_error_mm": 2.8490591217882573
+        },
+        "analytic-control": {
+          "coverage": {
+            "complete": 48
+          },
+          "mean_motion_rms_mm": 1.8440810922615087,
+          "mean_shape_rms_mm": 1.1575290243024599,
+          "mean_net_impulse_rms_Ns": 0.00858879046378142,
+          "queries_with_sampled_nonpositive_volume": 0,
+          "minimum_sampled_volume_ratio": 0.319631601831696,
+          "contact_event_count": 44,
+          "missed_contact_events": 0,
+          "extra_contact_events": 0,
+          "mean_maximum_penetration_error_mm": 2.266588210916792
+        },
+        "spring-gaus": {
+          "coverage": {
+            "complete": 48
+          },
+          "mean_motion_rms_mm": 11.2697759438325,
+          "mean_shape_rms_mm": 6.001092560167255,
+          "mean_net_impulse_rms_Ns": 0.057234803313295564,
+          "queries_with_sampled_nonpositive_volume": 37,
+          "minimum_sampled_volume_ratio": -3.9481318286267295,
+          "contact_event_count": 44,
+          "missed_contact_events": 0,
+          "extra_contact_events": 2,
+          "mean_maximum_penetration_error_mm": 4.144138763591086
+        },
+        "phystwin": {
+          "coverage": {
+            "complete": 48
+          },
+          "mean_motion_rms_mm": 10.804676268370395,
+          "mean_shape_rms_mm": 5.936097618046349,
+          "mean_net_impulse_rms_Ns": 0.04999954326800541,
+          "queries_with_sampled_nonpositive_volume": 33,
+          "minimum_sampled_volume_ratio": -4.214952808799226,
+          "contact_event_count": 44,
+          "missed_contact_events": 0,
+          "extra_contact_events": 4,
+          "mean_maximum_penetration_error_mm": 4.3745749047980205
+        },
+        "uniphy": {
+          "coverage": {
+            "unsupported": 40,
+            "rollout_failed": 7,
+            "complete": 1
+          },
+          "mean_motion_rms_mm": 18.405047578097868,
+          "mean_shape_rms_mm": 15.689082347589096,
+          "mean_net_impulse_rms_Ns": 0.08752870328164364,
+          "queries_with_sampled_nonpositive_volume": 0,
+          "minimum_sampled_volume_ratio": 0.3217967976590884,
+          "contact_event_count": 1,
+          "missed_contact_events": 0,
+          "extra_contact_events": 0,
+          "mean_maximum_penetration_error_mm": 5.996687483766638
+        }
+      },
+      "appearance": {
+        "analytic-control": {
+          "coverage": {
+            "complete": 48
+          },
+          "completed_query_means": {
+            "psnr_global_db": 44.77956459412005,
+            "psnr_foreground_union_db": 36.01806044456641,
+            "ssim_rgb_global": 0.9843068699886368,
+            "ssim_rgb_foreground_union": 0.8873222040008959,
+            "silhouette_iou": 0.9765173428924355,
+            "lpips_alex_v01": 0.0092967717577292
+          }
+        },
+        "ours": {
+          "coverage": {
+            "complete": 48
+          },
+          "completed_query_means": {
+            "psnr_global_db": 44.37988727522958,
+            "psnr_foreground_union_db": 35.61030232808141,
+            "ssim_rgb_global": 0.9831005091332942,
+            "ssim_rgb_foreground_union": 0.8774360437271596,
+            "silhouette_iou": 0.974463456616058,
+            "lpips_alex_v01": 0.01010285293120803
+          }
+        },
+        "phystwin": {
+          "coverage": {
+            "complete": 48
+          },
+          "completed_query_means": {
+            "psnr_global_db": 35.22221277547017,
+            "psnr_foreground_union_db": 25.681970018949574,
+            "ssim_rgb_global": 0.9626111212049153,
+            "ssim_rgb_foreground_union": 0.7305663548466211,
+            "silhouette_iou": 0.8886208726750203,
+            "lpips_alex_v01": 0.040436389620730186
+          }
+        },
+        "spring-gaus": {
+          "coverage": {
+            "complete": 48
+          },
+          "completed_query_means": {
+            "psnr_global_db": 35.207157709085855,
+            "psnr_foreground_union_db": 25.883438149698993,
+            "ssim_rgb_global": 0.9610107651513924,
+            "ssim_rgb_foreground_union": 0.7205514371915239,
+            "silhouette_iou": 0.8905623608977069,
+            "lpips_alex_v01": 0.04245577362118483
+          }
+        },
+        "uniphy": {
+          "coverage": {
+            "unsupported": 40,
+            "rollout_failed": 7,
+            "complete": 1
+          },
+          "completed_query_means": {
+            "psnr_global_db": 21.80308142874384,
+            "psnr_foreground_union_db": 12.242447672466895,
+            "ssim_rgb_global": 0.9259546125900768,
+            "ssim_rgb_foreground_union": 0.4957870595150405,
+            "silhouette_iou": 0.7457557218812121,
+            "lpips_alex_v01": 0.10237991069960925
+          }
+        }
+      },
+      "claim": "Composable mechanics predicts changed responses more accurately than configured spring adaptations in this controlled cohort.",
+      "limits": [
+        "Matched analytic control is slightly better overall; do not bold ours as numerical winner.",
+        "Teacher family overlaps model; native parameters/fitting budgets differ.",
+        "40 UniPhy queries unsupported,7 fail,1 succeeds: no comparable UniPhy aggregate.",
+        "11/12 reference refinement comparisons complete; not certified spatial convergence.",
+        "Common Gaussian appearance scores trajectory/transport consequences, not native reconstruction."
+      ]
+    },
+    {
+      "id": "softvt",
+      "priority": "main",
+      "source": "reports/benchmark-improvement-v14/softvt-summary-b.json",
+      "cohort": "40 prospective episodes40-49,2assets/2tasks each;1998frames",
+      "results": {
+        "ours_mm": 17.864824631366865,
+        "original_mechanics_mm": 18.932306406391184,
+        "rigid_contact_mm": 18.543,
+        "improvement_percent": 5.638413789161745,
+        "wins_original": 36,
+        "shape_before_after_mm": 1.54517
+      },
+      "claim": "Slip/release interaction state improves placement on new episodes.",
+      "limits": [
+        "Analytic anchor plus empirical correction,not neural-law improvement.",
+        "Repeated assets;not unseen-object OOD.",
+        "Privileged3Dnodes/static scene/tool poses;not native policy leaderboard.",
+        "Do not merge later12flow cases with this40-case frozen experiment."
+      ]
+    },
+    {
+      "id": "real_continuation",
+      "priority": "main_complete_control",
+      "source": "reports/real-transfer-v22/scores.json",
+      "cohort": "8 historically exposed plush sequences",
+      "results": {
+        "neural": {
+          "cases": 8,
+          "failed_frames": 0,
+          "complete_prediction": true,
+          "tracking_mm": 39.01300536994042,
+          "displacement_mm": 38.89832763588324,
+          "pair_distance_change_mm": 16.955732597156157
+        },
+        "analytic": {
+          "cases": 8,
+          "failed_frames": 0,
+          "complete_prediction": true,
+          "tracking_mm": 40.53784305398944,
+          "displacement_mm": 40.60963444943087,
+          "pair_distance_change_mm": 18.659932250116306
+        },
+        "official_phystwin": {
+          "cases": 8,
+          "failed_frames": 0,
+          "complete_prediction": true,
+          "tracking_mm": 21.144437644647493,
+          "displacement_mm": 21.038053896200765,
+          "pair_distance_change_mm": 10.516425959063177
+        },
+        "position_ridge": {
+          "cases": 8,
+          "failed_frames": 0,
+          "complete_prediction": true,
+          "tracking_mm": 29.041245568898823,
+          "displacement_mm": 28.897106817998278,
+          "pair_distance_change_mm": 18.849005982618923
+        }
+      },
+      "render": {
+        "neural": {
+          "psnr_db": 16.129309046914535,
+          "ssim": 0.5987370197449319,
+          "lpips": 0.32648149225860834,
+          "silhouette_iou": 0.561285319228264
+        },
+        "analytic": {
+          "psnr_db": 16.042595909660434,
+          "ssim": 0.5975044435444505,
+          "lpips": 0.32924785713354743,
+          "silhouette_iou": 0.5588124975792912
+        },
+        "official_phystwin": {
+          "psnr_db": 17.65857471783076,
+          "ssim": 0.6466506225948838,
+          "lpips": 0.26446867682453656,
+          "silhouette_iou": 0.6863119907940849
+        }
+      },
+      "claim": "Neural constitutive adapter improves matched analytic adapter; released PhysTwin and ridge are stronger on continuation tracking.",
+      "limits": [
+        "Use corrected incoming validity masks;upstream tracker causality unverified.",
+        "240nodes18fitframes50iterations; not same64/119node flow protocol.",
+        "Shared appearance real rendering does not achieve parity.",
+        "Unrecorded novel views lack groundtruth; qualitative only."
+      ]
+    },
+    {
+      "id": "real_transfer",
+      "priority": "main_pilot",
+      "source": "reports/real-transfer-v22/transfer-scores.json",
+      "cohort": "2 initial-geometry-compatible pairs out of5declared",
+      "results": {
+        "all_five_diagnostic": {
+          "neural": {
+            "cases": 5,
+            "tracking_mm": 34.28974513289248,
+            "displacement_mm": 24.620039304430307,
+            "pair_distance_change_mm": 15.088686931640519,
+            "failed_frames": 0
+          },
+          "analytic": {
+            "cases": 5,
+            "tracking_mm": 36.02256879091267,
+            "displacement_mm": 26.805600041037383,
+            "pair_distance_change_mm": 15.438415939082882,
+            "failed_frames": 0
+          },
+          "native_frozen": {
+            "cases": 5,
+            "tracking_mm": 46.015196342975564,
+            "displacement_mm": 39.02426377782768,
+            "pair_distance_change_mm": 16.726047542038216,
+            "failed_frames": 0
+          },
+          "source_shape_persistence": {
+            "cases": 5,
+            "tracking_mm": 60.121908687987755,
+            "displacement_mm": 51.68813413797469,
+            "pair_distance_change_mm": 17.33314813651569,
+            "failed_frames": 0
+          }
+        },
+        "initial_geometry_gate_passed": {
+          "neural": {
+            "cases": 2,
+            "tracking_mm": 39.15730546752451,
+            "displacement_mm": 27.341476448083345,
+            "pair_distance_change_mm": 16.201717009142612,
+            "failed_frames": 0
+          },
+          "analytic": {
+            "cases": 2,
+            "tracking_mm": 40.898146978493,
+            "displacement_mm": 29.600994917816447,
+            "pair_distance_change_mm": 16.710640911876823,
+            "failed_frames": 0
+          },
+          "native_frozen": {
+            "cases": 2,
+            "tracking_mm": 44.626921310943644,
+            "displacement_mm": 34.9658111578597,
+            "pair_distance_change_mm": 16.84542293777188,
+            "failed_frames": 0
+          },
+          "source_shape_persistence": {
+            "cases": 2,
+            "tracking_mm": 79.11361322443261,
+            "displacement_mm": 70.78716566440228,
+            "pair_distance_change_mm": 17.248143633774514,
+            "failed_frames": 0
+          }
+        }
+      },
+      "claim": "Frozen neural adapter improves aggregate changed-interaction tracking12.26% versus frozen native adaptation.",
+      "limits": [
+        "Native adaptation wins zebra passingpair;ours wins sloth,so not both pairs.",
+        "Only2pairs;no population OOD claim.",
+        "Initialgeometrygate independent of future motion;all5 shown supplement.",
+        "Fullnoninitial target interval differs from continuation suffix.",
+        "Projected2D landmark aggregate does not improve:56.79px ours vs56.20native;3Dgain is not uniform across observables."
+      ]
+    },
+    {
+      "id": "additional_observation",
+      "priority": "main_short_analysis",
+      "source": "reports/compositional-neural-mechanics-v16/unknown-action-reaction-paper-summary.json",
+      "cohort": "6freshobjects;15unknowncontinuousdescriptors;knownfamilies/geometry/density/gravity",
+      "results": {
+        "scope": "Six fresh continuous objects withknown geometry, bulk/interface categorical families, heterogeneity pattern, gravity/density;15continuous unknowns. n2inference/n4reference. No forceobservations.",
+        "fit_counts": {
+          "expected": 48,
+          "present": 48,
+          "optimizer_success": 41,
+          "incomplete": 7
+        },
+        "all12_selected_stretch_converged": true,
+        "all_policies_complete_rows": 144,
+        "adaptive_equals_fixed_stretch": true,
+        "rows": [
+          {
+            "model": "analytic_fitted",
+            "policy": "initial",
+            "position_rmse_mm": 0.4267985252967281,
+            "force_rmse_N": 0.11246799744534924,
+            "torque_rmse_Nm": 0.003035343102125798,
+            "primary_coverage": 0.9711538461538463,
+            "supplementary_coverage": 1.0,
+            "supplementary_halfwidth_mm": 1.9093620572433825,
+            "complete_commands": 12
+          },
+          {
+            "model": "analytic_fitted",
+            "policy": "fixed_stretch",
+            "position_rmse_mm": 0.08054131228136126,
+            "force_rmse_N": 0.028387707490589578,
+            "torque_rmse_Nm": 0.0005590998847632749,
+            "primary_coverage": 0.3429487179487179,
+            "supplementary_coverage": 0.9572649572649574,
+            "supplementary_halfwidth_mm": 0.1879740281060791,
+            "complete_commands": 12
+          },
+          {
+            "model": "analytic_fitted",
+            "policy": "fixed_right_bend",
+            "position_rmse_mm": 0.21884169464168665,
+            "force_rmse_N": 0.046604838138919275,
+            "torque_rmse_Nm": 0.001214852502389058,
+            "primary_coverage": 0.43696581196581197,
+            "supplementary_coverage": 0.8183760683760685,
+            "supplementary_halfwidth_mm": 0.26042433548060834,
+            "complete_commands": 12
+          },
+          {
+            "model": "analytic_fitted",
+            "policy": "fixed_opposed_twist",
+            "position_rmse_mm": 0.08257375554030517,
+            "force_rmse_N": 0.02799095515724635,
+            "torque_rmse_Nm": 0.00041961840376313086,
+            "primary_coverage": 0.48290598290598297,
+            "supplementary_coverage": 0.9647435897435898,
+            "supplementary_halfwidth_mm": 0.19278198574003086,
+            "complete_commands": 12
+          },
+          {
+            "model": "analytic_fitted",
+            "policy": "uniform_random",
+            "position_rmse_mm": 0.09537040850094336,
+            "force_rmse_N": 0.033192751090229865,
+            "torque_rmse_Nm": 0.0005067214272885628,
+            "primary_coverage": 0.47222222222222227,
+            "supplementary_coverage": 0.9583333333333334,
+            "supplementary_halfwidth_mm": 0.22339150027744953,
+            "complete_commands": 12
+          },
+          {
+            "model": "analytic_fitted",
+            "policy": "target_task_variance",
+            "position_rmse_mm": 0.08054131228136126,
+            "force_rmse_N": 0.028387707490589578,
+            "torque_rmse_Nm": 0.0005590998847632749,
+            "primary_coverage": 0.3429487179487179,
+            "supplementary_coverage": 0.9572649572649574,
+            "supplementary_halfwidth_mm": 0.1879740281060791,
+            "complete_commands": 12
+          },
+          {
+            "model": "shared_laws_fitted",
+            "policy": "initial",
+            "position_rmse_mm": 0.33949262799674795,
+            "force_rmse_N": 0.09605311482647039,
+            "torque_rmse_Nm": 0.002383847365196212,
+            "primary_coverage": 0.9700854700854702,
+            "supplementary_coverage": 1.0,
+            "supplementary_halfwidth_mm": 1.4418031361774912,
+            "complete_commands": 12
+          },
+          {
+            "model": "shared_laws_fitted",
+            "policy": "fixed_stretch",
+            "position_rmse_mm": 0.0802198468459218,
+            "force_rmse_N": 0.0292101503776388,
+            "torque_rmse_Nm": 0.0005251838617715544,
+            "primary_coverage": 0.3301282051282051,
+            "supplementary_coverage": 0.9615384615384617,
+            "supplementary_halfwidth_mm": 0.19550882595631483,
+            "complete_commands": 12
+          },
+          {
+            "model": "shared_laws_fitted",
+            "policy": "fixed_right_bend",
+            "position_rmse_mm": 0.21633400488955903,
+            "force_rmse_N": 0.04278478372724304,
+            "torque_rmse_Nm": 0.0011859189740713006,
+            "primary_coverage": 0.44658119658119655,
+            "supplementary_coverage": 0.8247863247863249,
+            "supplementary_halfwidth_mm": 0.26453321170750654,
+            "complete_commands": 12
+          },
+          {
+            "model": "shared_laws_fitted",
+            "policy": "fixed_opposed_twist",
+            "position_rmse_mm": 0.0834697570209812,
+            "force_rmse_N": 0.028509166966911793,
+            "torque_rmse_Nm": 0.0004206916545002157,
+            "primary_coverage": 0.47756410256410264,
+            "supplementary_coverage": 0.966880341880342,
+            "supplementary_halfwidth_mm": 0.20015752249441468,
+            "complete_commands": 12
+          },
+          {
+            "model": "shared_laws_fitted",
+            "policy": "uniform_random",
+            "position_rmse_mm": 0.09731552912254032,
+            "force_rmse_N": 0.03428866253253549,
+            "torque_rmse_Nm": 0.0005084710810709013,
+            "primary_coverage": 0.46581196581196577,
+            "supplementary_coverage": 0.9594017094017094,
+            "supplementary_halfwidth_mm": 0.2277497894441914,
+            "complete_commands": 12
+          },
+          {
+            "model": "shared_laws_fitted",
+            "policy": "target_task_variance",
+            "position_rmse_mm": 0.0802198468459218,
+            "force_rmse_N": 0.0292101503776388,
+            "torque_rmse_Nm": 0.0005251838617715544,
+            "primary_coverage": 0.3301282051282051,
+            "supplementary_coverage": 0.9615384615384617,
+            "supplementary_halfwidth_mm": 0.19550882595631483,
+            "complete_commands": 12
+          }
+        ],
+        "evidence_sha256": {
+          "reports/compositional-neural-mechanics-v16/unknown-action-final-independent-audit.json": "232eb867c96c7ce9d812825a1da18fc20524bccd78210e911f925477829311cb",
+          "reports/compositional-neural-mechanics-v16/unknown-reaction-final-independent-audit.json": "9714c5e65052cfbc2fb42d58a5acf6ff81d3550e9154f4d9ac63e3cb8bbcd525",
+          "reports/compositional-neural-mechanics-v16/discrepancy-band-final-independent-audit.json": "d264d181fb956bd12ce3dbc5665587696c77258b9054e91457c2d44a13f8e045",
+          "reports/compositional-neural-mechanics-v16/unknown-action-discrepancy-band-results.json": "23a59ec60e5c90f1ab98a32d85d9f08e363ae96f73aa7b5ead7f13e4cd06768d",
+          "reports/compositional-neural-mechanics-v16/model-discrepancy-variance-freeze.json": "189ed12f5228ffee12195f2e01fdb9cde08f91f1a142621078ab9af81f8ae7b6"
+        },
+        "limitations": [
+          "No adaptive superiority overfixedstretch demonstrated.",
+          "Frozen developmentMSE variance supplement improves empiricalcoverage by wideningbands; not calibratedposterior guarantee.",
+          "Sixobjects,correlatedcoordinates,knowncategories; not SOTA/publicbenchmark result."
+        ]
+      },
+      "claim": "Additional stretch observations improve held-command motion and unobserved reaction prediction.",
+      "limits": [
+        "Adaptive policy ties fixedstretch.",
+        "Coverage worsens;not calibrated activeidentification.",
+        "41/48fitsconverge;allstretchfitsconverge."
+      ]
+    },
+    {
+      "id": "latest_flow",
+      "priority": "supplement_negative_ablation",
+      "source": "reports/gaussian-boundary-flow-v02/CAMPAIGN.txt",
+      "claim": "Audited probabilistic extension does not justify replacing prior best.",
+      "limits": [
+        "11/12SoftVTphysics;8PhysTwin;76Isaacwithdifferent25Drepresentation.",
+        "Flowcontact90%intervalcoverage7.02%SoftVT/9.15%PhysTwin.",
+        "Retrieval/rigid/staticbaselinesstronger overall;no globaladoption."
+      ]
+    },
+    {
+      "id": "older_drops",
+      "priority": "supplement",
+      "source": "papers/cvpr2027-compositional-mechanics/main.tex",
+      "claim": "Larger calibrated-to-query drop amplitudes improve physical/rendering forecasts vs configured native.",
+      "limits": [
+        "4worlds8queries;native6/8available,pairedmeans3worldsonly.",
+        "All4 spatial comparisons fail;prior subset rankingstable doesnotfixconvergence.",
+        "Morecohesivemainstoryuses6familyheldtable;preserveolderdropfullresultsinsupplement."
+      ]
+    }
+  ],
+  "source_sha256": {
+    "papers/cvpr2027-compositional-mechanics/main.tex": "a092b0f12165bae210f0bbd10a0a1cdb9f3c776994e6ad30b81bcfbdbeed593f",
+    "reports/benchmark-improvement-v14/finish-summary.json": "32750da6e70f5068da95f0391e1942805cafe594af6b8d513c327f3a63e5305a",
+    "reports/benchmark-improvement-v14/softvt-summary-b.json": "4f912d38bb69f5d36705b38cfb46d103c8e0a616482a2316f4259a8382d36e28",
+    "reports/complex-scenes-v18/held-appearance-summary.json": "1529334aa6af9e9b114023a42cca96e011eb32588d487c601799e1360737cd87",
+    "reports/complex-scenes-v18/held-cross-evaluation-audit.json": "ccab6e968aa6f7179cc1eb2c6dac045c9d35d45fd61eb000393f5b06ca8ef788",
+    "reports/complex-scenes-v18/held-physical-summary.json": "d6fbcc7f25c31da3646683ae1ad893a68a900d57541383133a7911d184c2e0b5",
+    "reports/complex-scenes-v18/held-reference-sensitivity.json": "2198dfe67a9c1f0652605c3d859806d87cf7fb1ed151057a715db62176732619",
+    "reports/complex-scenes-v18/held-refined-prediction-audit.json": "5c0c8c1860a3b578e86de86d3ca3bcee8a2233a3b7b9ad3c738069c9061e62ac",
+    "reports/compositional-neural-mechanics-v16/unknown-action-reaction-paper-summary.json": "0aae347f747367e34ca2ce09212c07ea274e753dd287cceddc2802e5f392b34d",
+    "reports/gaussian-boundary-flow-v02/CAMPAIGN.txt": "1f20c71bae2c6eb36618dd6c7fd48e2871392249fec84d92bee4619054ab622f",
+    "reports/gaussian-boundary-flow-v02/campaign-primary-results.json": "169187fcfa096f5fb60cfb5dfd2f2aa52657557b0a2a1630636722b4cd8f36e8",
+    "reports/gaussian-boundary-flow-v02/campaign-uncertainty.json": "9625d55796cc3abf2ace9eaced985922635d91a5f3f8800e1510f2b2a294cf60",
+    "reports/real-transfer-v22/scores.json": "08b5b308b4424506738a6eaa11eab3b52e3084bc0d5afa955f5605f1f0b9f645",
+    "reports/real-transfer-v22/summary.json": "01c2352488a35240c2d8d24263e2fa3df68eb848e4f0e3d3aecb1da786c84aea",
+    "reports/real-transfer-v22/transfer-scores.json": "d85aa253e4afa1dd7ddfaf2dbb6709ff7c9f000d8c86263911c0defce74b48f5"
+  },
+  "recommendation": "One representation principle, explicitly distinct solvers/adapters; changed-interaction prediction as primary scientific question. Include strongest validated older evidence and complete losing continuation controls.",
+  "new_experiments": "No new experiment is required to substantiate the bounded paper claims. Existing six-object additional-observation study already tests refinement. A new calibrated active-policy or universal video-inference claim would require a new prospective study, outside what current evidence can support.",
+  "mandatory_corrections": [
+    "Remove misleading best-value boldface on syntheticours1.97/1.25/35.61 when analytic1.84/1.16/36.02 isbetter.",
+    "Never imply one trainedmodel/checkpoint produced SoftVT,realQ1,syntheticQ2andIsaac25D results.",
+    "Define metric/sample aggregation separately;vectorRMS,coordinateRMSEandmeanEuclideantrackdistancearenotinterchangeable.",
+    "Preserveall5realtransferpairs,all8continuationsequences,andfullfailurecounts.",
+    "Do not hide competitive matchedanalytic/ridge/retrieval controls."
+  ]
+}

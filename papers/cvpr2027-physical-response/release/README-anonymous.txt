@@ -1,0 +1,1 @@
+Anonymous review source. Build main.tex and supplement.tex with Tectonic or standard LaTeX/BibTeX. PDF figures are self-contained; raw data are not required. Main content is eight pages; references and the required LLM statement follow. Scientific scope and all numerical protocols are in the documents. No submission ID has been assigned.

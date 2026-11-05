@@ -1,0 +1,92 @@
+COHESIVE CVPR PAPER: INDEPENDENT NARRATIVE AND LITERATURE AUDIT
+Date: 2026-11-05. Role: narrative/literature audit, not independent experimental replication.
+Reviewed both existing main manuscripts, their supplements and referenced sections, and both reference bibliographies. No existing paper, result or model was modified.
+
+RECOMMENDED CENTER
+Title candidate: Compositional Deformable Twins: Predicting Physical Responses Beyond Visual Agreement.
+One-line thesis: fit effective material and interaction descriptors from observed positions, retain those descriptors when querying changed interactions, and evaluate deformation/reactions separately from rendered agreement.
+This is one representation principle instantiated by distinct numerical adapters. It is NOT one universal checkpoint, a new general contact engine, or an end-to-end raw-video model.
+
+DEFENSIBLE CONTRIBUTIONS
+1. A concrete compositional inverse-mechanics model combining a compact invariant scalar bulk energy, separately localized compliant attachments, explicit environmental loads/contact and Gaussian appearance transport. State clearly which parts are learned and which are analytic in each adapter.
+2. An observability argument and measured counterexample explaining why equal images need not imply equal reactions; an additional-observation experiment showing improved held-response point predictions. The scaling argument is a physical symmetry, not a new general identifiability theorem.
+3. A matched-input evaluation across controlled changed interactions, prospective simulated manipulation episodes and limited real cross-interaction transfer, reporting motion, rigid-aligned deformation, rendering and coverage separately.
+
+EVIDENCE HIERARCHY AND MAIN-PAPER PRIORITY
+A. Main quantitative headline: six-family synthetic transfer,24worlds/48queries, unknown fitted materials but supplied geometry/mass/boundary recipes. Keep clamps/release, curved pushing, drops/obstacles, finite-mass striker, two soft bodies and heterogeneity visible. Motion1.97mm versus10.80/11.27mm native PhysTwin/Spring-Gaus adaptations; analytic1.84mm is strongest and must remain in table. These are finite-resolution controlled-reference errors with differing native parameterizations/optimization budgets, not architecture-only superiority.
+B. Independent practical evidence: SoftVT40freshepisodes,18.93→17.86mm and36/40wins,1998/1998forecastframes. This gain is controller-relative slip/release, NOT the neural constitutive decoder. Repeated assets, not40objects or new-objectOOD.
+C. Real transfer: two initial-geometry-qualified pairs,44.63→39.16mm against frozen PhysTwin adaptation,12.26%track improvement. Small pilot, distinct from reconstruction. Retain complete8sequence continuation comparison where native PhysTwin remains stronger.
+D. Mechanistic analysis: exact common-stiffness scaling counterexample with identical images and doubled reactions; extra stretch reduces six-object held position0.3395→0.0802mm and reaction0.0961→0.0292N under known scale information. Adaptive policy ties fixed stretch, so call this informative observation refinement, not superior active exploration.
+E. Supplement: known-descriptor forward study; older four-world drops and all numerical refinements/failures; strongest historical33.019mm real selector with old-mask provenance; full latest flow campaign, including external7–9%coverage, Isaac static baseline and no global replacement. Do not equate incompatible scalar error definitions.
+
+UNSUPPORTED CLAIMS TO REMOVE OR AVOID
+- First separation of physics and appearance: Spring-Gaus and PhysTwin already separate these stages.
+- First physical twin with future or novel-interaction prediction: both already demonstrate these.
+- First shared or reusable constitutive law: NCLaw and especially UniPhy precede it.
+- First constitutive Gaussian field: PIDG and OmniPhysGS are direct prior work.
+- Infer arbitrary boundary conditions or contacts from video: current studies prescribe interaction structure and supplied tracks/geometry; fitting footprint/strength is narrower.
+- Absolute real stiffness/force recovery: unknown prestress, geometry and force/mass scale prevent that conclusion.
+- Gaussian energy footprint automatically models all force, contact, adhesion and friction laws: bilateral attachment differs from unilateral contact, dissipation and body force.
+- SOTA on native SoftVT task: current protocol is privileged trajectory forecasting, not native closed-loop manipulation.
+- Rendering superiority from shared-appearance PSNR: common-renderer comparisons measure trajectory/transport consequences, not independently fitted native rendering quality.
+- Flow's latest validation as the primary method: strongest controls beat it; keep as diagnostic and preserve prior best.
+
+ONE EIGHT-PAGE OUTLINE
+Page1: title, compelling simulation+real teaser, abstract with one synthetic and one external result, motivation. Do not make main teaser solely the largest SoftVT winner.
+Page2: introduction/contributions and compact related work; full-width block diagram with coordinate roles and frozen versus fitted quantities.
+Pages3–4: unified energy/state/input-output formulation, pretrained scalar-energy decoder, attachment footprints, scene fitting, then explicit adapter contract table (Q2 coupled dynamics; tetrahedral real quasistatics; analytic SoftVT slip/contact). Include common-scale ambiguity and observational distinction in a compact box/figure.
+Pages5–6: six-family controlled experiment and shared-renderer results, all four methods including analytic, per-family effects/coverage and strong-deformation closeups; concise reference/optimization qualifications.
+Page7: SoftVT40episode paired results plus real2pair transfer and8sequence continuation results. Separate metric labels and data assumptions.
+Page8: additional-observation result and important ablations; short limitations and conclusion. Point to supplement for all cases, failed attempts, historical configurations, newest flow tests and calibration failures.
+Additional pages: references and mandatory LLM Usage Statement only, following official style.
+
+METHOD-DIAGRAM CONTRACT
+Observed side: supplied initial geometry, sparse visible3Dpositions, tool poses and masks. Fit arrow enters only scene descriptor/attachment blocks; frozen constitutive decoder shown with lock. Query side: new tool position, gravity, initial state and explicit collision geometry. Mechanics yields deformation and reactions. Separate appearance block yields requested-camera image. Put a labeled adapter box under the mechanics block; do not visually imply the same integrator or neural decoder was used for all benchmarks. Use color for material coordinates/tool-relative/world-space roles consistently in equations, diagram and scene illustrations.
+
+PRIMARY LITERATURE VERIFIED ONLINE
+PhysTwin (ICCV2025), https://arxiv.org/abs/2503.17973 and https://openaccess.thecvf.com/content/ICCV2025/papers/Jiang_PhysTwin_Physics-Informed_Reconstruction_and_Simulation_of_Deformable_Objects_from_Videos_ICCV_2025_paper.pdf : sparse-viewRGB-D, geometry completion, spring-mass inverse modeling and Gaussian appearance; evaluates reconstruction, future prediction and unseen interactions. A claim that it only reconstructs observed motion is false. Existing related-work description is substantively fair.
+Spring-Gaus (ECCV2024), https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/00271.pdf : integrates spring-mass dynamics with Gaussian rendering from multiview video; explicitly separates appearance/geometry and physical reconstruction and tests changed initial/environmental conditions. Compare configured adaptations and acknowledge its own inference task.
+UniPhy (CVPR2025), https://arxiv.org/html/2505.16971v1 and https://openaccess.thecvf.com/content/CVPR2025/papers/Mittal_UniPhy_Learning_a_Unified_Constitutive_Model_for_Inverse_Physics_Simulation_CVPR_2025_paper.pdf : shared latent-conditioned projection/stress networks, frozen weights and latent optimization from particle trajectories; elastic/plastic/sand/fluid coverage and new configurations. Our scalar-energy composition is narrower, not first reuse. One completed native query is insufficient to rank its method globally.
+NCLaw (ICML2023), https://proceedings.mlr.press/v202/ma23a.html : embeds structured constitutive networks in differentiable governing equations and tests changed geometry, initial/boundary conditions and time ranges. Reusable material response is established prior art.
+PIDG (AAAI2026 entry already in bibliography), https://arxiv.org/html/2511.06299v1 : monocular dynamic novel-view reconstruction using time-dependent Gaussian deformation, velocity/stress, momentum residuals and camera-compensated optical flow. Its stated problem is spatiotemporal reconstruction; the reviewed formulation does not expose a commanded-force/position reset simulator interface. Distinguish tasks without alleging it cannot ever predict or that ours empirically beats it. No numerical PIDG comparison exists here. Publisher URL returned bot denial today; arXiv primary text was available and verified.
+PhysWorld (2025preprint), https://arxiv.org/abs/2510.21447 : physics-aware synthesized demonstrations train efficient deformable world models. Relevant when discussing simulation-trained predictors and action-conditioned generalization; optional concise addition to related work, no unimplemented baseline claim. Bib addition supplied separately.
+
+CVPR2027 OFFICIAL RULES VERIFIED 2026-11-05
+Source: https://cvpr.thecvf.com/Conferences/2027/AuthorGuidelines
+Eight content pages including figures/tables; extra pages may contain only cited references and the mandatory LLM Usage Statement. Use official template without margin/font alterations. Include an anonymous section titled LLM Usage Statement after main text and before references, naming AI tools and describing affected research/manuscript parts and extent. Keep all review content self-contained: external links must not expand content or bypass review limits; avoid public identifying repo/video links in anonymous PDF/supplement. Authors remain responsible for scientific validity. Abstract/profile deadlineNov10,2026; paper deadlineNov16,2026; no submission is implied by producing files. Do not invent an ID. Authorship/enrollment require user actions.
+
+ACTIONABLE CHANGES TO EXISTING TEXT
+- Replace compositional manuscript sentence 'All experiments are synthetic' once real/SoftVT evidence is incorporated.
+- Replace claims excluding real-world evidence with precise limits: real continuation/transfer is present, real force/material calibration is not.
+- Retain existing admissions near tables but compress repetitive defensive prose into one protocol table and one limitations paragraph. A scientific paper should explain what works before discussing scope.
+- The six-family table currently bolds ours despite analytic lower errors: label bolding as focus or use best-in-column consistently; do not imply ours wins that row.
+- Distinguish Q2 deformation-gradient covariance transport from real16neighbor localrigid Gaussian transport, and old drop transport mismatch from six-family shared transport.
+- Do not merge later flow11Softcases with old40freshepisodes or older corrected real8sequence values: different observation budgets/models and cohorts.
+- Existing references already cover the closest requested PhysTwin/Spring-Gaus/UniPhy/PIDG work accurately; no wholesale literature rewrite required.
+
+RECOMMENDATION ON ADDITIONAL COMPUTE
+Existing extra-observation experiment answers the proposed focused question; another architecture campaign is unnecessary for paper delivery. If extra compute is available, prioritize a small already-specified reference/refinement or matched-control check that directly supports an included table. Do not search newly exposed test sets for a winning variant. A truly prospective improvement requires predeclared validation/confirmation boundaries and cannot be created by selecting attractive old cases.
+
+SOURCE-LEVEL ADAPTER ADDENDUM (requested by parent)
+Verified source paths:
+- scripts/complex_scenes_v18/{scenarios,scene,geometry,material_extension,material_rollout,material_scene_fit,held_prediction,world_queries}.py
+- scripts/compositional_neural_mechanics/mechanics.py
+- scripts/real_transfer_v19/neural_fem.py and scripts/external_benchmark/fem.py
+- scripts/real_transfer_v22/campaign.py
+
+Important correction: the headline six-family experiment DOES NOT use the179parameter nonlinear attachment decoder. scenarios.py supplies quadratic AttachmentSpec instances; scene.controls scales their sparse anchor matrices by release gates; evaluate uses reaction A*delta and quadratic energy. The nonlinear learned attachment belongs to the earlier static15descriptor experiment. The generic main attachment equation should therefore be quadratic, with learned nonlinear variant explicitly restricted to that secondary study.
+
+Adapter contract suitable for a compact manuscript table:
+Study | Bulk model | Interaction law | State evolution | Fitted quantities
+Six-family synthetic | Frozen169parameter invariant energy + fitted volumetric multiplier | Supplied Gaussian/taper quadratic fixtures; explicit conservative normal penalty contact; two-soft-body and translating finite-mass sphere coupling | StructuredQ2hexahedra, consistent mass, velocityVerlet |4descriptors(scale,logbulk,contrast,transition), plus second-body scale when present; h=0 and f=-1fixed; boundary parameters known
+Real PhysTwin | Same frozen bulk decoder family + volumetric adjustment | Quadratic tool attachments with supplied footprint/active state; fitted strengths and gravity ratio/floor parameters; numerical weak pin present | Filtered arbitrary-cloud tetrahedral quasistaticNewton |6materialfield coefficients +2global nonlinear descriptors +volumetric adjustment and explicit scene parameters; no weights updated
+SoftVT | AnalyticNeo-Hookean mechanics anchor | Tool-relative empirical correction/slip/release and known static-scene contact | Tetrahedral equilibrium anchor plus split rigid-pose/contact rollout | Effective material/scene prefix fit and fixed-rule slip estimate; no learned bulk gain claim
+Static extra-observation study | Frozen bulk and nonlinear attachment decoders | Gaussian/taper footprint, inferred15continuous descriptors with family/category knowledge | StructuredQ2static equilibrium |Material/attachment strengths, nonlinearities and footprint locations/widths; known gravity/density break scale ambiguity
+
+Source details that prevent accidental overstatement:
+- v18material_scene_fit names are scale,log_bulk,contrast,center,+second_scale; shape=0,family_flag=-1 are explicitly inserted. The spatial material field is scale+bodyoffset+contrast*tanh(8*(X1-center)); it is not six Gaussian material kernels as in realtetrahedral.
+- v18SceneBody inherits DynamicContactModel; it does not learn arbitrary topology. Geometry is a fixed mappedblock in the main24world study; geometry transfer appears only in the older separate oracle study.
+- v18RigidBowl.signed_distance is a normalized implicit gap, not an exact Euclidean signed distance. Use 'gap function' for the generic penalty equation; no universal signed-distance claim.
+- v18CoupledScene.controls requires translation-only prescribed actuator poses. Generic pose notation is fine for the broad representation, but experiments should not claim tested arbitrary fixture rotation in this six-familyadapter.
+- RealNeuralFEM divides pretrained energy by12000 for normalized units and replaces analyticbulk only; inherited explicit attachments and floor are unchanged. AbsoluteSIstiffness identifiability is not established.
+- RealExternalFEM includes numerical pin1e-5 to initialgeometry. Avoid claiming every external object is a perfectly free deformable body or no artificial support exists. Supplement should disclose it as weak numerical regularization.

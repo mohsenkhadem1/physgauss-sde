@@ -1,0 +1,57 @@
+\subsection{Held common-appearance results}
+\label{sec:coupled-appearance-results}
+Table~\ref{tab:coupled-appearance} reports all 48 queries for each fully covered method. All methods transport the same Gaussian appearance using the same rendering pipeline; this isolates image differences induced by predicted motion and is not a comparison of native end-to-end reconstruction systems.
+\begin{table}[t]
+\centering\small
+\caption{Six-family held common-appearance evaluation. Foreground-union PSNR and SSIM and image LPIPS use noninitial frames. Means average the same 48 queries per row. Higher PSNR/SSIM and lower LPIPS are better.}
+\label{tab:coupled-appearance}
+\begin{tabular}{lrrr}
+\toprule Method & PSNR & SSIM & LPIPS \\
+\midrule
+Ours & 35.61 & 0.877 & 0.0101 \\
+Analytic control & 36.02 & 0.887 & 0.0093 \\
+PhysTwin adaptation & 25.68 & 0.731 & 0.0404 \\
+Spring-Gaus adaptation & 25.88 & 0.721 & 0.0425 \\
+\bottomrule
+\end{tabular}
+\end{table}
+Across 24 independent worlds, the paired foreground PSNR difference (ours minus baseline) is $+9.93$\,dB against PhysTwin (world-bootstrap 95\% interval $[8.24,11.76]$) and $+9.73$\,dB against Spring-Gaus ($[7.93,11.67]$). The analytic control is slightly better: our difference is $-0.41$\,dB ($[-0.77,-0.08]$). LPIPS differences favor ours over the two native adaptations, while favoring the analytic control over ours. These comparisons are specific to the declared adapters, observation prefixes and fitting budgets.
+
+UniPhy completes one of eight supported drop queries; seven fail with a native CFL error. The other 40 slots are unsupported by this adapter. Because no UniPhy world completes both queries, no paired-world image comparison is reported. Its one completed query has foreground PSNR $12.24$\,dB; this isolated descriptive value is not comparable to the 48-query averages above.
+
+Physical errors are reported separately in Section~\ref{sec:coupled-physical-results}; reference-resolution sensitivity is reported there with its incomplete stacking case. Image fidelity alone does not establish mechanical accuracy.
+
+\begin{table}[t]
+\centering\scriptsize
+\caption{Foreground PSNR by scene family (dB; eight queries each). Averages describe the frozen held cohort, not population guarantees.}
+\label{tab:coupled-appearance-family}
+\begin{tabular}{lrrrr}
+\toprule Family & Ours & Analytic & Spring & PhysTwin \\
+\midrule
+Clamps/release & 28.78 & 28.96 & 19.91 & 20.06 \\
+Curved pushing & 30.63 & 30.20 & 24.21 & 21.86 \\
+Container drop & 45.37 & 45.83 & 27.78 & 27.82 \\
+Rigid impact & 40.70 & 42.73 & 36.94 & 35.72 \\
+Two soft bodies & 40.93 & 41.16 & 27.16 & 27.50 \\
+Heterogeneous & 27.26 & 27.23 & 19.30 & 21.14 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Held comparison media}
+The six-family media set contains twelve clips: the first predefined world
+(world00) in every family, with both held interactions. This selection does
+not depend on prediction errors. Each clip shows six panels: the simulation
+reference, ours, the analytic control, Spring-Gaus, PhysTwin and UniPhy.
+Unsupported and failed slots are labeled explicitly. Complete predictions
+use synchronized saved physical times, the same orbiting camera and common
+axis limits; deformation is not amplified. Playback is 24 frames per second
+for states sampled every 2\,ms, corresponding to approximately $20.8\times$
+slow motion. These checkerboard surface visualizations expose geometry and
+interaction differences; they are separate from the common-Gaussian image
+evaluation in Tables~\ref{tab:coupled-appearance}
+and~\ref{tab:coupled-appearance-family}.
+The local media filenames follow
+\texttt{held-\{family\}-world00-query\{0,1\}.mp4}.
+The accompanying audit records source trajectory hashes, movie hashes,
+frame counts and successful full-stream decoding for all twelve clips.

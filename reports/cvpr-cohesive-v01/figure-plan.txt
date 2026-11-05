@@ -1,0 +1,58 @@
+COHESIVE CVPR FIGURE AUDIT AND PLAN
+2026-11-05. Audit only: no existing papers, figures or measurements modified.
+
+VISUALLY INSPECTED
+papers/cvpr2027-compositional-mechanics/figures/{first_page_teaser,method_visual,held_visual_results,dynamic_results,transfer_refinement,observability_visual}.png
+papers/cvpr2027-position-driven-twins/figures/{teaser,render_comparison}.png
+Read the figure builders, main-paper captions and evidence/numbers.json.
+
+OVERALL DECISION
+The controlled-contact/drop teaser is substantially stronger than the SoftVT cube/slip teaser. It visibly communicates changed interaction and deformation, includes genuine reference-matched zooms, and uses a common physical error scale. Preserve it as the starting point, but integrate real-data breadth without implying that within-sequence PhysTwin reconstruction is a win: the existing main real comparison loses to official PhysTwin. The stronger real contribution is frozen cross-interaction transfer on two qualifying pairs. Full cohorts, analytic control and failures must remain visible elsewhere.
+
+FIGURE1: PROPOSED FIRST-PAGE TEASER
+Two controlled example rows (curved contact and drop + obstacle), reference / ours / native PhysTwin / Spring-Gaus adaptations, plus a narrow real-object context strip or one separate real transfer panel if saved transfer predictions permit an equally audited rendering. Prefer two readable rows over six tiny thumbnails. Headline should be changed-interaction prediction, not generalized rendering superiority.
+Reuse measured geometry/crops from:
+ papers/cvpr2027-compositional-mechanics/tools/design_teaser_method.py: teaser()
+ papers/cvpr2027-compositional-mechanics/tools/design_editorial_figures.py: project(), extent(), mesh(), obj()
+ papers/cvpr2027-compositional-mechanics/tools/design_visual_paper.py: selected(), trajectory(), DATA
+Sources: reports/complex-scenes-v18/held-physical-results.json, sealed local trajectories indexed in evidence/teaser-method-design.json.
+Selection: fixed world00/query0/final frame, curved_push and container_drop; not a representative random sample. Existing exact numbers: curved frame RMS1.03/9.03/4.99mm (ours/PhysTwin/Spring-Gaus), drop8.59/47.71/76.93mm. Recompute from saved arrays when rebuilding, not hard-code this audit as source.
+Improvements: explicitly draw translucent known obstacle/support geometry only if its coordinates can be recovered from the scene definition; do not invent contact geometry. Replace red crop borders with a neutral dark edge if red is also error color. Shared world-space crop, camera, scaling, equal row bounds; colorbar must label saturation above20mm. Keep frame metrics visibly distinct from cohort averages.
+Caution: analytic control1.84mm beats ours1.97mm averaged across48 queries. Do not visually imply ours is best among every tested method by showing only weaker methods without nearby full table/caption disclosure.
+
+FIGURE2: METHOD WITH ACTUAL COMPONENTS
+Use an integrated fit/freeze/query diagram instead of a row of generic boxes:
+ Observed prefix positions + supplied geometry/cameras/tool poses
+ -> scene descriptors in three coordinate roles (material-carried bulk, tool-relative attachments, world-space support/gravity)
+ -> explicit mechanics solver
+ -> predicted positions/reactions -> shared Gaussian appearance transport -> image.
+Draw two visually distinct phases: calibration feedback updates descriptors; forecast fixes descriptors and receives changed position commands. Show pretraining as a separate small strip feeding frozen energy decoders, not a claim that all benchmarks share one checkpoint.
+Use actual mesh/track snapshots in the observation and output blocks. Gaussian glyphs are schematic and should be captioned as such. Label bulk and attachment terms with one short equation each. Differentiate known inputs from fitted quantities by border style, not extra prose.
+Best starting scripts:
+ papers/cvpr2027-compositional-mechanics/tools/design_teaser_method.py: graph() (explicit fit feedback)
+ papers/cvpr2027-compositional-mechanics/tools/design_editorial_figures.py: method() (readable geometry)
+ papers/cvpr2027-position-driven-twins/polish_figures.py (physical-coordinate roles and explicit adapters)
+Required adapter strip: controlled simulation shared neural energies/Q2 dynamics; real PhysTwin neural or analytic equilibrium adapter; SoftVT analytic shape + position correction/slip/release/reduced contact. Do not label the entire unified diagram Q2 dynamics or neural bulk if that misdescribes a branch. Flow inference belongs in supplement as a separate exploratory branch.
+
+FIGURE3: SIX SCENE FAMILIES / PHYSICS AND IMAGE METRICS
+Existing held_visual_results.png is a strong overview but oversized for main-paper density: use a single row of six scene thumbnails above two aligned charts, or two rows of three with smaller summary charts. Families: clamp/release, curved pushing, container drop, rigid impact, two soft bodies, heterogeneous.
+Do not average datasets/units. Controlled simulation: show family-wise physical error dots/paired lines including analytic control, PhysTwin, Spring-Gaus and ours; report all48 forecasts/24 worlds. Next to it show shared-renderer PSNR/SSIM for the exact same evaluated cohort or explicitly mark any different denominator. Reference spatial qualification must be disclosed; physical error measures agreement with that numerical reference, not certified real-world correctness.
+Source scripts: tools/design_editorial_figures.py: results(), plate(); generate_figures.py for dynamic_results. Existing dynamic_results.png has readable bars but defaults mismatch the paper palette and its orange X failure symbols resemble values; place failures in an explicit separate completion row instead of at arbitrary y coordinates. All forecasts and failure counts remain in supplement.
+
+FIGURE4: EXTERNAL BENCHMARKS
+SoftVT: retain complete40-episode paired scatter from polish_figures.py, soft_scatter.pdf;36 improve/4 worsen, no best-case-only hero. Sources reports/benchmark-improvement-v14/softvt-summary-b.json. State improvement is mostly placement/release; shape error essentially unchanged. This cohort must not be pooled with later12-case flow validation.
+PhysTwin: show two panels: within-sequence eight-case results and frozen cross-interaction two-pair results. This juxtaposition supports the scientific distinction between fitting observed behavior and transfer without hiding the reconstruction loss. Use full tracking, displacement and pair-distance-change definitions; do not silently substitute the later flow rigid-aligned metric.
+Sources reports/real-transfer-v22/{summary,transfer-scores}.json; builders papers/cvpr2027-position-driven-twins/generate_figures.py and polish_figures.py: transfer_compact.
+
+FIGURE5: OBSERVABILITY / ADDITIONAL OBSERVATIONS
+Existing observability_visual.png (identical shape under2x material scaling, different reaction) is an effective conceptual statement but is a schematic consequence of scale ambiguity, not a measured calibrated posterior. Label it theoretical illustration. Add empirical held-out prediction error before/after an added observation using the existing unknown-parameter refinement study, with paired worlds/uncertainty if available. Existing transfer_refinement.png shows stretch/random/adaptive all help, adaptive roughlyties stretch; do not claim adaptive policy superiority. Distinguish observations that alter motion from extra camera views, which cannot resolve an exact physical scale gauge if geometry is identical.
+
+REAL APPEARANCE PANEL
+Existing render_comparison.png uses full recordedRGB with background next to isolated-object black renders; it is honest but masks subtle differences at paper size. Better: retain a small full recorded frame for context, then common object crop from an audited reference mask applied identically to all methods, plus an outline overlay or absolute RGB residual panel with shared scale. Never warp/align predictions separately for presentation. Same camera/frame/crop; do not remove failure regions.
+Exact current data paths:
+ runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_lift_sloth/color/2/84.png
+ runs/real-transfer-v20/render-audit/v22-corrected-mask240/single_lift_sloth/{neural,official_phystwin}-camera2-frame84.png
+Selection is first declared sequence/final frame. Existing metrics show official PhysTwin stronger within-sequence; display that honestly, preferably in supplementary appearance analysis rather than as a winning hero.
+
+PRESENTATION AND QA
+Use consistent teal ours, orange PhysTwin, purple Spring-Gaus, blue analytic/control, gray reference; method colors should not imply error. Physical heat maps use the same numerical scale within each comparison. No deformation amplification. Minimum effective type8pt for main-page figures; vector text and axes, rasterized dense mesh acceptable. Inspect final PDFs at actual column width, not only large PNGs. Table bolding should follow valid best values; one uncertainty family can be shown without pretending all metrics are comparable. Generate source-hash and case/frame/crop manifests for every figure. Ship figure PDFs so paper builds without datasets, and retain reproducible scripts locally/in source package.

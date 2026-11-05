@@ -1,0 +1,116 @@
+\section{Adapter contracts and active physical laws}
+\label{sec:adapter-contracts}
+The experiments share a decomposition into material, tool-relative and
+world-dependent terms. They do not share every law, state discretization or
+inference procedure. Table~\ref{tab:adapter-contracts} summarizes the four
+implementations. In particular, the nonlinear learned attachment law is used
+in the static descriptor-refinement experiment, not in the headline six-family
+coupled benchmark or the real-object adapter.
+
+\begin{table*}[t]
+\centering\small\setlength{\tabcolsep}{4pt}
+\caption{\textbf{Which components are active?} All rows use supplied reference
+geometry and correspondences. A frozen constitutive decoder is a material
+prior; it is not a frozen scene-specific parameter estimate.}
+\label{tab:adapter-contracts}
+\begin{tabular}{p{.14\textwidth}p{.25\textwidth}p{.27\textwidth}p{.25\textwidth}}
+\toprule
+Study & Bulk and fitted descriptors & Attachments and environment & State evolution\\
+\midrule
+Six-family simulation & Frozen scalar energy; scale, volumetric multiplier,
+spatial contrast and transition; second-body scale when present & Supplied
+quadratic Gaussian/taper fixtures; explicit conservative normal penalties;
+known density and collision geometry & Structured Q2 hexahedra, consistent
+mass, velocity Verlet; coupled soft bodies and translating rigid sphere\\
+Real PhysTwin & Frozen scalar energy; six material-field coefficients,
+two global nonlinear descriptors and volumetric adjustment & Quadratic
+prescribed-tool penalties; supplied footprints/activity, fitted strengths
+and effective gravity/floor parameters & Filtered tetrahedral equilibrium;
+implicit differentiation and bounded scene fitting\\
+SoftVTBench & Analytic Neo-Hookean shape anchor and prefix-fitted corrections
+& Tool-relative slip/release; known static environment & Equilibrium anchor
+plus separate rigid pose/contact rollout; impulses do not deform the anchor\\
+Static observation refinement & Frozen bulk and nonlinear attachment
+energies; 15 continuous material/interface descriptors & Inferred attachment
+strengths, nonlinearities and Gaussian footprint locations/widths; known
+families, geometry, density and gravity & Structured Q2 equilibrium with
+implicit sensitivities; separate reset commands\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\paragraph{Six-family material and attachment laws.}
+The pretrained bulk decoder is extended by an independently fitted positive
+volumetric multiplier. With $B_\theta(s)$ denoting its original positive
+volumetric coefficient,
+\begin{equation}
+ W_{\theta,\beta}(F,s)=W_\theta(F;s,0,-1)
+ +(e^\beta-1)B_\theta(s)(J-\log J-1).
+\end{equation}
+The fitted field is
+\begin{equation}
+ s_b(X)=s_0+\mathbf{1}_{b=2}\Delta s+
+ c\tanh\bigl(8(X_1-r)\bigr).
+\end{equation}
+There are four parameters $(s_0,\beta,c,r)$, with $\Delta s$ added for the
+second body. The nonlinear descriptor coordinates are fixed at $(h,f)=(0,-1)$.
+The same spatial parameterization is enabled in every family; the family name
+does not supply the hidden material heterogeneity. No decoder weights are
+updated during these fits.
+
+For this benchmark, fixture energy is quadratic:
+\begin{align}
+ \Pi_b&=\frac12\alpha_b(t)K_b
+ \int_{\Gamma_b}w_b(X)\|x(X)-T_b(X,t)\|^2\,dA_0,
+ \nonumber\\
+ &\int_{\Gamma_b}w_b\,dA_0=1.
+\end{align}
+The prescribed release gate $\alpha_b$ scales the assembled fixture matrix.
+$K_b$ has units N/m; footprint normalization prevents it from becoming a
+per-node stiffness that changes with mesh density. The force and actuator
+work use derivatives of the same quadratic energy. The tested actuator
+paths translate their fixtures; general rotating fixtures are not evaluated
+in this six-family protocol. The older nonlinear attachment decoder is not
+called by this rollout.
+
+World contact uses a gap function and a conservative penalty. For the
+parabolic bowl, the normalized implicit gap is an approximation to geometric
+signed distance, rather than an exact Euclidean distance. The scene does
+not implement friction, continuous collision detection or general rotating
+rigid-body collision. A finite-mass sphere translates under equal-and-opposite
+contact forces. Two deformable bodies retain separate material and state
+variables. These capabilities do not imply discovery of contact topology
+from images.
+
+\paragraph{Real-object units and regularization.}
+The real adapter normalizes coordinates by the initial bounding-box extent
+and divides the pretrained bulk energy by its 12,000\,Pa reference energy
+scale. It replaces the analytic bulk contribution while retaining the
+external adapter's quadratic tool attachments, gravity and floor terms.
+Its six Gaussian material features are distinct from the synthetic
+$tanh$ field. The two global nonlinear descriptors and an independent
+volumetric adjustment are optimized with the spatial field; network weights
+remain frozen. Geometry filtering reduces tetrahedra bridging empty parts
+of the reconstructed cloud, but does not certify a watertight physical
+interior.
+
+The inherited external energy includes a weak numerical reference-position
+penalty $\tfrac12\epsilon\sum_i\|x_i-X_i\|^2$ with $\epsilon=10^{-5}$ in
+normalized units. This regularization must not be interpreted as an inferred
+physical fixture. Effective gravity/material and attachment/material ratios
+are fitted; absolute real elastic moduli are not established by this
+normalized position-only inverse problem. The first observed configuration
+is treated as an effective rest shape, so unknown prestress remains a source
+of model error.
+
+\paragraph{Static nonlinear attachments and the scale argument.}
+The separate static refinement study uses the learned nonlinear attachment
+potential detailed below, with the quadratic spring recovered at zero
+nonlinearity. Its unknowns include boundary footprint centers and widths;
+that result cannot be reassigned to the known-boundary six-family study.
+The exact common-scale ambiguity concerns an idealized energy in which
+\emph{all} stiffness-bearing terms are co-scaled and independent body loading
+is absent. It does not assert exact scale invariance for an external
+implementation with an unscaled numerical reference pin or fixed contact
+stiffness. Known gravitational or inertial scale information can break the
+stated symmetry without guaranteeing global identifiability.
