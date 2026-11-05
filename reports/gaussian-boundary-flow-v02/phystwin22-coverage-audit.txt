@@ -1,0 +1,84 @@
+PHYSTWIN22 COVERAGE AUDIT
+Metadata and NPZ headers only; no new target arrays or GPU jobs.
+
+22 sequences:4current completed,4remaining supported plush candidates,14explicit family exclusions.
+
+double_lift_cloth_1: explicitly_excluded_from_current_solid_plush_expansion; prefix0:81, suffix81:116
+  Thin-sheet bending/shell response is not represented by the present volumetric solid FEM; initial-volume meshing and contact are unqualified.
+double_lift_cloth_3: explicitly_excluded_from_current_solid_plush_expansion; prefix0:82, suffix82:118
+  Thin-sheet bending/shell response is not represented by the present volumetric solid FEM; initial-volume meshing and contact are unqualified.
+double_lift_sloth: supported_family_pending_initial_geometry_preflight; prefix0:43, suffix43:62
+  Existing strict package: runs/real-transfer-v19/inputs/incoming-v22/double_lift_sloth-240 (240nodes, 4949observed points, 2controller groups).
+double_lift_zebra: completed_current_external_comparison; prefix0:40, suffix40:58
+double_stretch_sloth: supported_family_pending_initial_geometry_preflight; prefix0:134, suffix134:192
+  Existing strict package: runs/real-transfer-v19/inputs/incoming-v22/double_stretch_sloth-240 (240nodes, 4993observed points, 2controller groups).
+double_stretch_zebra: supported_family_pending_initial_geometry_preflight; prefix0:138, suffix138:198
+  Existing strict package: runs/real-transfer-v19/inputs/incoming-v22/double_stretch_zebra-240 (240nodes, 3491observed points, 2controller groups).
+rope_double_hand: explicitly_excluded_from_current_solid_plush_expansion; prefix0:184, suffix184:264
+  Slender rod/rope mechanics and self-contact are not represented by the current solid FEM. rope_double_hand also has hand grouping support but that does not qualify mechanics.
+single_clift_cloth_1: explicitly_excluded_from_current_solid_plush_expansion; prefix0:56, suffix56:80
+  Thin-sheet bending/shell response is not represented by the present volumetric solid FEM; initial-volume meshing and contact are unqualified.
+single_clift_cloth_3: explicitly_excluded_from_current_solid_plush_expansion; prefix0:67, suffix67:97
+  Thin-sheet bending/shell response is not represented by the present volumetric solid FEM; initial-volume meshing and contact are unqualified.
+single_lift_cloth: explicitly_excluded_from_current_solid_plush_expansion; prefix0:121, suffix121:173
+  Thin-sheet bending/shell response is not represented by the present volumetric solid FEM; initial-volume meshing and contact are unqualified.
+single_lift_cloth_1: explicitly_excluded_from_current_solid_plush_expansion; prefix0:77, suffix77:110
+  Thin-sheet bending/shell response is not represented by the present volumetric solid FEM; initial-volume meshing and contact are unqualified.
+single_lift_cloth_3: explicitly_excluded_from_current_solid_plush_expansion; prefix0:109, suffix109:156
+  Thin-sheet bending/shell response is not represented by the present volumetric solid FEM; initial-volume meshing and contact are unqualified.
+single_lift_cloth_4: explicitly_excluded_from_current_solid_plush_expansion; prefix0:120, suffix120:172
+  Thin-sheet bending/shell response is not represented by the present volumetric solid FEM; initial-volume meshing and contact are unqualified.
+single_lift_dinosor: supported_family_pending_initial_geometry_preflight; prefix0:60, suffix60:86
+  Existing strict package: runs/real-transfer-v19/inputs/incoming-v22/single_lift_dinosor-240 (240nodes, 4954observed points, 1controller groups).
+single_lift_rope: explicitly_excluded_from_current_solid_plush_expansion; prefix0:35, suffix35:50
+  Slender rod/rope mechanics and self-contact are not represented by the current solid FEM. rope_double_hand also has hand grouping support but that does not qualify mechanics.
+single_lift_sloth: completed_current_external_comparison; prefix0:59, suffix59:85
+single_lift_zebra: completed_current_external_comparison; prefix0:46, suffix46:66
+single_push_rope: explicitly_excluded_from_current_solid_plush_expansion; prefix0:40, suffix40:58
+  Slender rod/rope mechanics and self-contact are not represented by the current solid FEM. rope_double_hand also has hand grouping support but that does not qualify mechanics.
+single_push_rope_1: explicitly_excluded_from_current_solid_plush_expansion; prefix0:64, suffix64:92
+  Slender rod/rope mechanics and self-contact are not represented by the current solid FEM. rope_double_hand also has hand grouping support but that does not qualify mechanics.
+single_push_rope_4: explicitly_excluded_from_current_solid_plush_expansion; prefix0:58, suffix58:83
+  Slender rod/rope mechanics and self-contact are not represented by the current solid FEM. rope_double_hand also has hand grouping support but that does not qualify mechanics.
+single_push_sloth: completed_current_external_comparison; prefix0:47, suffix47:68
+weird_package: explicitly_excluded_from_current_solid_plush_expansion; prefix0:27, suffix27:39
+  Unknown composite/thin package geometry, material model and contact representation; case is not among the established plush benchmark cohort.
+
+Next: single_lift_dinosor, double_lift_sloth, double_stretch_sloth, double_stretch_zebra.
+These are candidates for the current solid-plush model, not newly geometry-qualified runs. Start from existing corrected incoming-v22 strict-prefix240NPZ files. Predeclare filtered64 then initial-only120repair; preserve failures if neither qualifies. Use the same admitted geometry and12frame/48point/128world/5000step/32draw budgets for every within-case comparator.
+Do not reload whole final_data.pkl during preparation when a verified strict prefix already exists. All22cases are historically exposed. Keep this retrospective expansion separate from the active prospective SoftVT validation.
+
+# Preparation ONLY after a separate exposed-case recipe is declared. No GPU job in this audit.
+# Existing prefix.npz holds prefix observations and complete known controller schedules.
+OPENBLAS_NUM_THREADS=1 runs/phystwin-env/bin/python - <<'PY_PREP'
+import json
+from pathlib import Path
+from scripts.real_transfer_v19.phystwin_run import load
+from scripts.gaussian_boundary_flow_v02.export_inputs import reduce_geometry, write_package
+from scripts.gaussian_boundary_flow_v02.affine_observation import affine_observation_matrix
+cases=['single_lift_dinosor','double_lift_sloth','double_stretch_sloth','double_stretch_zebra']
+for case in cases:
+    prefix=Path('runs/real-transfer-v19/inputs/incoming-v22')/(case+'-240')
+    assert (prefix/'manifest.json').is_file() and (prefix/'prefix.npz').is_file() # forbid exporter fallback to full raw pickle
+    data,meta=load(case,240,False) # verifies existing prefix archive hash, reads no evaluator target
+    data['mask_version']='incoming-v22'
+    data['source_prefix_archive_sha256']=meta['prefix_sha256']
+    for nodes in (64,120):
+        reduced=reduce_geometry(data,nodes)
+        reduced['observation_matrix'],audit=affine_observation_matrix(reduced['nodes'],reduced['observed_initial'])
+        reduced['observation_map_revision']={'rule':'Initial-only affine-complete map','maximum_row_l1':audit['maximum_row_l1'],'maximum_row_l2':audit['maximum_row_l2'],'negative_weights_allowed':True}
+        write_package(reduced,Path('runs/gaussian-boundary-flow-v03-phystwin-remaining-inputs')/(case+'-nodes'+str(nodes)))
+PY_PREP
+
+# CPU geometry qualification BEFORE choosing/launching each case:
+# Instantiate GeometryAwareGaussianBoundaryBackend(load_package(PACKAGE),'cpu').
+# Its constructor rejects disconnected/unused nodes. Record nodes/elements/volume and
+# choose64 if valid, else120 if valid; if both fail, report failure without substituting a case.
+# Preserve this geometry decision before any prefix-bank fitting or suffix evaluation.
+
+# Example only once PACKAGE has passed the declared initial-only geometry gate:
+.venv/bin/python -m scripts.gaussian_boundary_flow_v02.package_campaign_v03 --geometry filtered --package PACKAGE --output RUN --samples 128 --steps 5000 --draws 32 --device cuda:0
+# CLI flags require spaces: --samples 128 --steps 5000 --draws 32.
+# Then freeze derived/retrieval outputs using the same engines as compact expansion,
+# and use object_score on complete seals only. Keep within-case budgets identical.
+

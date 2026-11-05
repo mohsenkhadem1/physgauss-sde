@@ -1,0 +1,21 @@
+Separate secondary import and post-evaluation summary (no execution yet)
+
+Why import: the frozen scorer requires each run's direct parent to be cohort_root/case. The secondary predictor intentionally writes outside the primary cohort. Do not move those files or change its live watcher. A separate immutable byte-copy after ALL12 secondary statuses are terminal resolves the path contract without changing any sealed plan, array, inference record, primary status or source.
+
+Importer: scripts/gaussian_boundary_flow_v02/import_rigid_contact_secondary.py
+It requires the secondary summary's all12_terminal flag, exact case set, matching addendum hash and matching individual terminal statuses. Failed/blocked/interrupted cases remain recorded without replacement. For completed cases it validates source seals and prediction hashes, copies into a temporary sibling under cohort_root/case, verifies every file byte/hash and unchanged source, checks copied seals, then renames to case/rigid_contact. Original files remain. An existing identical copy is verifiable; a different or partial copy is never overwritten. case/rigid_contact-import.json records the source/destination, all file hashes and secondary provenance. No copy has been executed during development.
+
+After watcher completion and before secondary scoring, invoke:
+.venv/bin/python -m scripts.gaussian_boundary_flow_v02.import_rigid_contact_secondary --source-root runs/gaussian-boundary-flow-v04-rigid-contact-secondary --cohort-root runs/gaussian-boundary-flow-v04-validation --addendum reports/gaussian-boundary-flow-v02/softvt-validation/rigid-contact-secondary-addendum.json --output reports/gaussian-boundary-flow-v02/softvt-validation/rigid-contact-import-report.json
+
+Root evaluates copied cases ONLY after the unchanged primary all12terminal evaluation barrier, using the existing scorer and --cohort-root. Use case/rigid_contact-scores.json and case/rigid_contact-evaluation-status.json. The evaluation status must record state=complete only on successful scoring and cohort_gate_sha256 matching cohort_root/evaluation-gate.json; failures/blocked cases remain explicit. This is separate secondary scoring, not a new primary stage or changed primary adoption gate.
+
+Summary: scripts/gaussian_boundary_flow_v02/validation_summary.py
+It reads existing statuses/scores and verifies them against actual prediction/plan seals, source digests, primary cohort barrier and terminal-status hashes, case/protocol/interval/frame accounting, identical point budget, observation identities and input digest. It checks secondary addendum and imported-byte provenance. It reads no HDF5, input trajectory arrays or evaluator and does not recompute target metrics. Score files without completed, barrier-bound evaluation status or changed identities are rejected.
+
+For all12 primary cases it retains missing/failed methods and fixed denominators. It produces per-case rows, six per-cell conditional means, equal-case and equal-cell macro means with completion counts. Pairwise candidate-minus-comparator coordinate and rigid-removed shape differences are calculated only on explicitly named complete pairs; excluded cases and full denominator remain visible. Comparators are nearest-bank pose/contact, secondary rigid/contact, prefix velocity and persistence. All rigid comparisons are marked SECONDARY. No failed score is imputed as zero, no pooled-frame significance or automatic new adoption gate is introduced.
+
+After evaluation, invoke with a NEW output path:
+.venv/bin/python -m scripts.gaussian_boundary_flow_v02.validation_summary --root runs/gaussian-boundary-flow-v04-validation --protocol reports/gaussian-boundary-flow-v02/softvt-validation/protocol.json --output reports/gaussian-boundary-flow-v02/softvt-validation/verified-summary.json
+
+Eleven synthetic tests pass:9summary tests (including parameterized mismatches),2import tests. They cover all-failed12case denominators, cell macro means, paired intersections and secondary labels, real synthetic seal binding/tampering, interval/budget/source/frame-count rejection, byte-identical immutable copy and refusal of a live secondary cohort. No real validation scores/targets were read, no import or scoring performed, and no bound source edited.

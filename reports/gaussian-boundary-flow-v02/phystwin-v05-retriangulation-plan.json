@@ -1,0 +1,42 @@
+{
+  "scope": "Separate initial-only deterministic retriangulation amendment; exact-topology attempt remains failed",
+  "cases": [
+    {
+      "case": "single_lift_dinosor",
+      "source": "runs/gaussian-boundary-flow-v05-phystwin-inputs/single_lift_dinosor-nodes120",
+      "manifest_sha256": "c1566cb51f1552bb191cea0868f520077878dd477128ddd6f3be8e338e84e978",
+      "expected_isolated_ids": [
+        8
+      ],
+      "output": "runs/gaussian-boundary-flow-v05-phystwin-inputs/single_lift_dinosor-isolated-repaired119"
+    },
+    {
+      "case": "double_lift_sloth",
+      "source": "runs/gaussian-boundary-flow-v05-phystwin-inputs/double_lift_sloth-nodes120",
+      "manifest_sha256": "4e583a2d6484606cadfdfb8d31ecda57debb97504ab6b871df57bf396f3e35e3",
+      "expected_isolated_ids": [
+        117
+      ],
+      "output": "runs/gaussian-boundary-flow-v05-phystwin-inputs/double_lift_sloth-isolated-repaired119"
+    }
+  ],
+  "policy": "Remove only exactly isolated zero-mass vertices; preserve all positive-volume tetrahedra, support geometry, observation identities, normalization scale and existing0.045supportfilter. Permit/disclose extra support-qualified tetrahedra from unchangedDelaunay backend. Connectivity,positive masses and existing affineL1<=8 guard required. No volume threshold fitted to results, no convergence claim.",
+  "device": "cpu",
+  "target_access": false,
+  "training": false,
+  "result": "reports/gaussian-boundary-flow-v02/phystwin-v05-retriangulation-results.json",
+  "source_sha256": {
+    "scripts/gaussian_boundary_flow_v02/isolated_geometry_repair.py": "36ed5246b3b42c565f40d7ae8b26c0f4d794d851cff1d55ee7a7573bb18c5dd3",
+    "scripts/gaussian_boundary_flow_v02/object_backend_geometry.py": "fa5fd6885ca8828a6ea67b9b7380e6d32a3d2d549bcb47c3f49becbbb78ac8ec",
+    "scripts/external_benchmark/fem.py": "07a348cd303504858ae7d9b4622493a757ace53fe142c17c373eb7735c915ed2",
+    "scripts/gaussian_boundary_flow_v02/affine_observation.py": "2ad62509b35867cacd509f61849036f1dafec0173d0a7a33fb94c6f415d02e19"
+  },
+  "prior_geometry_raw_sha256": "395c9a325408dd46b5f367220d4c3b507ed419789512ba704bdf2c002d4ebc24",
+  "prior_geometry_compact_sha256": "e212f725a669f6c2a306c3cbb26ea02913e951428599c4cc556d4fd6b409bf45",
+  "topology_policy": "retain_all_old_allow_support_filtered_additions",
+  "previous_exact_attempt": {
+    "plan_sha256": "2d4bde5c1579604715098f650c759ea2b782b8405f0b0a5d17c69b089ff576e0",
+    "result_sha256": "6c6e1fa1283552426e62cce43cf4ad87a4017c585f19bea18af0460b6b885e03",
+    "source_snapshot_sha256": "9b97f2f1cd128d2bf00c3ef3e3714c8c7c2b98bebec646bf604791c3eded73df"
+  }
+}

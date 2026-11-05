@@ -1,0 +1,75 @@
+Experimental same-model arbitrary-state elastic continuation
+
+API
+scripts.gaussian_boundary_flow_v02.elastic_continuation.continue_elastic(
+    model, theta, positions_m, velocities_m_s, start_time_s, output_times_s,
+    max_dt=..., command_times_s=..., targets=..., activation=...)
+
+Pass the EXISTING ExternalFEM-compatible object, its SAME material/boundary theta,
+and world-space nodal positions/velocities. Targets, if supplied, are world-space
+metres and must have matching original node/attachment identities. No reconstruction
+or re-tetrahedralization occurs. The original rest mesh/natural metric is preserved;
+current deformed positions are states, not a newly declared stress-free shape.
+Constant existing commands may be omitted. Varying commands require explicit
+schedules/timestamps; they cannot silently freeze at the model's first frame.
+
+The result contains requested nodal positions/velocities, fixed step timestamps,
+per-step residual/minJ and full mechanical-energy trace. Internal midpoint steps
+reuse the existing model energy/residual/Hessian. The inherited tiny static gauge
+is removed exactly once; no physical load is cancelled. Model command/inertia
+fields are restored on both success and exceptions. This mutates temporary model
+fields and is not thread-safe for concurrent use of the same object.
+
+Time/state handling
+Arbitrary finite initial time and x/v are supported. A fixed step grid splits at
+command timestamps; right-continuous activation applies on each interval beginning
+at that timestamp. Linear target interpolation is evaluated at the midpoint.
+Output times must lie on that fixed grid; extra requested outputs never change
+integration steps. Same final horizon and event schedule define the same grid.
+No state rebasing, rigid shape freezing, velocity damping patch or pose projection.
+Existing prestrain can be composed and is preserved; no new prestrain fitting.
+
+Safety scope
+This candidate is NO-IMPACT ONLY. A node at/below the known plane at initial,
+midpoint or endpoint state causes explicit unsupported-contact failure. The guard
+cannot be disabled. Both midpoint constitutive evaluation and endpointJ must be
+valid (J>.03). Mass/gravity scale must be finite and positive. No soft-floor removal,
+contact law replacement or latent parameter rebinding is hidden in this interface.
+The original model's gravity-to-inertia convention assumes known9.81m/s2; independent
+zero-gravity mass models require a separately declared mass interface.
+
+Newton handling
+Preferred residual target1e-8. A tiny undamped Newton correction<=1e-9 dimensionless
+may terminate only when residual<=the unchanged1e-7 admission gate. Energy-roundoff
+line-search refinement requires residual to halve, energy increase bounded by
+64machine-epsilon*max(1,|E|), and either current residual<=1e-7 or a tiny Newton
+correction. This permits another accurate Newton update, not acceptance of a state
+outside the final force gate. Earlier target-only and small-correction-stop failures
+are retained in separate qualification JSONs; no physical gates were loosened.
+
+CPU evidence
+One8node5%stretched block released without contact,30ms, three fixed dt values:
+  dt1ms:    energy drift0.022464%, baseline trajectory.
+  dt0.5ms:  energy drift0.005669%, trajectory change0.007998mm.
+  dt0.25ms: energy drift0.001425%, trajectory change0.002022mm.
+Both refinements pass predeclared0.1mm/1%energy gates. Shape evolves2.57mm rather
+than staying frozen. MinimumJ>.953; maximum accepted residual9.38e-8. Initial
+elastic energy is nonzero and used as the error denominator; external potential
+is not driven in this fixture. This is NOT arbitrary-geometry or impact admission.
+
+Nine tests cover arbitrary-time freefall, exact initial-state preservation and
+model restoration; output schedule invariance; evolving elastic strain; explicit
+plane-contact rejection; mass-weighted COM/angular momentum; exact release-event
+handoff without early activation switch; existing natural-metric preservation;
+no guard/zero-mass bypass; static-model/DynamicFEM equivalence; and rejection of
+unspecified varying commands (some checks combined in one test function).
+Command: OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 .venv/bin/python -m pytest tests/test_elastic_continuation_v02.py -q --junitxml=/tmp/gbf-tests-elastic-continuation.xml
+
+Limits before future use
+Energy trace includes active attachment potential. For driven targets or activation
+switches, an external-work ledger is still needed before claiming energy accuracy;
+the present conservation qualification is only for an unforced released fixture.
+No differentiable-training guarantee, benchmark run, target access, fitted parameter
+change or fresh-validation modification. Arbitrary noisy track assimilation remains
+unsafe without mechanical constraints. Contact must be separately qualified before
+full-horizon benchmark adoption. Original frozen dependencies remain unchanged.

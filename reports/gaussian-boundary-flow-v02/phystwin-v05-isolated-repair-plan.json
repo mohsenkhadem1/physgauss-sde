@@ -1,0 +1,36 @@
+{
+  "scope": "Separate initial-only geometry amendment; prior64/120 failures remain unchanged",
+  "cases": [
+    {
+      "case": "single_lift_dinosor",
+      "source": "runs/gaussian-boundary-flow-v05-phystwin-inputs/single_lift_dinosor-nodes120",
+      "manifest_sha256": "c1566cb51f1552bb191cea0868f520077878dd477128ddd6f3be8e338e84e978",
+      "expected_isolated_ids": [
+        8
+      ],
+      "output": "runs/gaussian-boundary-flow-v05-phystwin-inputs/single_lift_dinosor-isolated-repaired119"
+    },
+    {
+      "case": "double_lift_sloth",
+      "source": "runs/gaussian-boundary-flow-v05-phystwin-inputs/double_lift_sloth-nodes120",
+      "manifest_sha256": "4e583a2d6484606cadfdfb8d31ecda57debb97504ab6b871df57bf396f3e35e3",
+      "expected_isolated_ids": [
+        117
+      ],
+      "output": "runs/gaussian-boundary-flow-v05-phystwin-inputs/double_lift_sloth-isolated-repaired119"
+    }
+  ],
+  "policy": "Remove exactly one pre-identified isolated zero-mass vertex. Retain all observation identities/support geometry. Existing filtered Delaunay backend must reproduce exactly the old positive-volume tetrahedra after index remapping and remain connected/allpositive. If not, stop without modifying backend. No iterative pruning or convexfill.",
+  "device": "cpu",
+  "target_access": false,
+  "training": false,
+  "result": "reports/gaussian-boundary-flow-v02/phystwin-v05-isolated-repair-results.json",
+  "source_sha256": {
+    "scripts/gaussian_boundary_flow_v02/isolated_geometry_repair.py": "9b97f2f1cd128d2bf00c3ef3e3714c8c7c2b98bebec646bf604791c3eded73df",
+    "scripts/gaussian_boundary_flow_v02/object_backend_geometry.py": "fa5fd6885ca8828a6ea67b9b7380e6d32a3d2d549bcb47c3f49becbbb78ac8ec",
+    "scripts/external_benchmark/fem.py": "07a348cd303504858ae7d9b4622493a757ace53fe142c17c373eb7735c915ed2",
+    "scripts/gaussian_boundary_flow_v02/affine_observation.py": "2ad62509b35867cacd509f61849036f1dafec0173d0a7a33fb94c6f415d02e19"
+  },
+  "prior_geometry_raw_sha256": "395c9a325408dd46b5f367220d4c3b507ed419789512ba704bdf2c002d4ebc24",
+  "prior_geometry_compact_sha256": "e212f725a669f6c2a306c3cbb26ea02913e951428599c4cc556d4fd6b409bf45"
+}

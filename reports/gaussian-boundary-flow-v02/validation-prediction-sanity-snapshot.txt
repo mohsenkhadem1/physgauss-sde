@@ -1,0 +1,68 @@
+Fresh-validation predictions-only sanity audit — fixed partial snapshot
+
+Scope: three completed physics cases at snapshot time, out of twelve planned:
+object-soft-task0-demo50, object-soft-task0-demo51, object-soft-task2-demo50.
+Nine other physics cases were not yet complete, not classified as failed. Existing
+prediction_sanity.audit_run verified sealed predictions/packages and derived-parent
+identity. No raw HDF5, evaluation targets, suffix object observations or fresh
+unselected episodes were opened. Frozen sources/runs, protocol and predictions were
+not modified; no restarts or new model selection. This is not a validation score.
+
+Raw initial mismatch
+Across six flow/mixture mean predictions, initial observed-coordinate RMS is
+0.334-1.659mm. After proper rigid alignment, initial shape RMS is0.0468-0.4628mm.
+These are small compared with the later correction magnitudes; this partial sample
+does not show the extreme initial-state offset previously seen in exposedPhysTwin.
+Initial shape reference is supplied initial geometry, not a future target.
+
+Raw plane penetration
+Maximum all-frame penetration of mean predictions ranges0.0644-0.7916mm. Worst
+surviving individual draw reaches1.0325mm (object-soft-task0-demo51 flow). Provided
+plane is initial min-z, not an independently measured scene surface. Nonzero soft
+contact penetration is visible; no projection-based physical-accuracy claim.
+
+Survivors
+Five model/case forecasts retain32/32draws. object-soft-task0-demo51 mixture retains
+31/32, with its original failure preserved. Total191/192surviving draws across these
+three completed cases. No failed draw was silently replaced. Diagnostics remain
+conditional on survivors and do not establish calibrated uncertainty.
+
+Correction magnitude
+At the main snapshot, both task0 derived contact runs were complete. Whole-path
+coordinate RMS correction is76.85-81.37mm. A second target-free phase audit was
+performed shortly afterward, when task2 contact also completed. Separating by the
+PRESCRIBED release time reveals:
+case/model                    held correction RMSmm    released correction RMSmm
+task0demo50 flow                       8.95                       291.68
+task0demo50 mixture                    8.82                       284.15
+task0demo51 flow                       5.64                       277.91
+task0demo51 mixture                    6.01                       274.66
+task2demo50 flow                       1.63                       191.85
+task2demo50 mixture                    1.37                       191.04
+These are disagreements between frozen raw and corrected predictions, NOT errors
+against observations. Rigid continuation may be wrong too; no targets were consulted.
+
+Clarification: pose_shape_contact ALREADY carries rigid position, velocity and
+angular velocity through release with integrate_pose. Its difference from raw
+quasistatic output is expected by design and is not evidence that wrapper is wrong.
+It freezes the elastic shape after separation; that is the remaining distinction.
+
+One concrete NEXT development improvement, not a mid-validation change
+Prioritize COUPLED DEFORMABLE stateful release continuation: carry the last held position/velocity
+into a separately qualified deformable mechanical state with evolving elastic shape instead of solving a
+new rest-referenced static equilibrium after attachment deactivation. The current
+static gauge can favor the original rest location when attachment support vanishes;
+quasistatic continuation also has no physical flight time. The hundreds-of-mm raw
+versus corrected disagreement is concentrated after release, while initial/held
+mismatch and penetration here are much smaller. A hard-plane static solver alone
+cannot repair missing release-state memory or inertial flight.
+
+Develop on the previously exposed fixture only, with no fresh suffix feedback.
+Require freefall/momentum tests and explicit contact/energy qualification before
+using a new dynamic recipe; impacts remain unqualified. Preserve this fresh run
+under its frozen old recipe. Do not retune material or noise to absorb release
+model/numerical defects. No change was implemented by this audit.
+
+Artifacts: validation-prediction-sanity-snapshot.json (main fixed snapshot),
+validation-prediction-sanity-phase.json (later fixed completed-contact snapshot),
+validation-prediction-sanity-reproduce.py. Tests-summary was not edited.

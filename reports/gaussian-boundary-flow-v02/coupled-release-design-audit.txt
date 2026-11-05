@@ -1,0 +1,103 @@
+Exact release-state audit and minimal next backend design — no implementation
+
+Existing behavior, explicitly distinguished
+pose_shape_contact.py ALREADY provides a stateful RIGID release continuation.
+pose_shape.py computes held carrier pose from permitted prefix observations and
+future prescribed control; at separation it freezes the FEM shape. The contact
+wrapper carries point positions, linear velocity and angular velocity through
+archived integrate_pose, with gravity, rigid impulses and vertical projection.
+Large postrelease difference versus raw quasistatic trajectories is expected by
+construction. Without targets, it does not show which prediction is more accurate
+or establish an error in the wrapper. The earlier snapshot wording now explicitly
+states this distinction. Desired extension is coupled ELASTIC release: evolving
+nodal shape/stress and inertia, not another copy of this rigid wrapper.
+
+Reusable code and actual qualification scope
+1. DynamicFEM removes the static positional gauge when inertia is present; the
+   existing mass/scale/gravity convention yields9.81m/s2. Bulk energy and derivatives
+   are reusable. Original object_dynamics BE tests check freefall first-order behavior,
+   state/output schedule invariance and no initial rebasing. BE has numerical damping.
+2. object_midpoint uses the exact midpoint variational solve with effective dt/2,
+   endpoint x_new=2y-x, velocity update and endpointJ validation. Smooth freefall is
+   exact; analytic spring tests show second-order convergence and quadratic energy
+   conservation. Midpoint/BE contact-drop qualification DID NOT pass refinement.
+3. robust_dynamic_step has an independently tested safeguarded near-convergence
+   solver. It can be composed in a new candidate rather than mutating frozen code;
+   force admission remains1e-7. The weak/strong finite-range no-impact block release
+   passed a bounded step ladder, not arbitrary benchmark geometry.
+4. object_prestrain supplies objective natural-metric bulk response with analytic
+   Piola/tangent, zero internal force/torque, gradient checks and unchanged gravity.
+   Composition with DynamicFEM has a test. It is not a required release-state feature:
+   default s=0 first. Do NOT add prestrain fitting to this minimal experiment.
+5. StaticHardPlaneFEM has10controlled static KKT cases and5tests, but explicitly
+   rejects inertia. Its static admission is NOT dynamic contact/impact admission.
+
+Why simply calling current dynamic rollout does not work
+Both dynamic and midpoint backends hardcode x=m.rest and start time0, accepting
+only initial_velocity. They cannot continue a last-held deformed state at an
+arbitrary command timestamp. They also reconstruct a convex, uniform-material,
+normal-soft-plane model whose parameter contract differs from the current wider
+filtered/tangential-support backend. Swapping them silently changes geometry,
+material/boundary law and latent meaning. Coupled dynamics needs the SAME frozen
+rest mesh, topology, mass convention, bulk parameters and boundary law. The existing
+quasistatic posterior is not a calibrated dynamic parameter posterior.
+
+Minimal SEPARATE backend interface
+continuation(model, theta, x_start_m, v_start_m_s, start_time_s,
+             command_times_s, prescribed_targets, activation, requested_times_s)
+Receive an existing qualified model/mesh instead of rebuilding it. Preserve rest
+geometry and any already-frozen natural metric. x_start is a STATE; never overwrite
+rest_points with the loaded observed shape (that would erase its elastic stress).
+Maintain raw nodal x/v, so the finite-strain energy releases stored elastic strain
+when the attachment is switched off. No per-frame rigid fitting, shape freezing,
+pose projection, velocity damping patch, or residual/body-load cancellation.
+
+Initial state/velocity source
+For the first diagnostic use the already-qualified controlled block's exact held
+state, then an exposed frozen model world; do not initially invert fresh noisy
+tracks. Prior exact cutoff-track inversion produced an inverted mesh and must not
+be reused. Last two HELD predicted nodal states provide an explicit finite-difference
+velocity estimate; this includes carrier and deformation motion without double
+counting. If using rigid decomposition, v_i=v_center+omega cross(x_i-center)+v_elastic
+in the same world frame. Preserve uncertainty about velocity/state separately later.
+Any raw-to-pose rigid alignment is a disclosed initialization hypothesis, not proof
+of equilibrium. Objectivity preserves bulk energy under common rotation, but external
+loads/attachments and boundary work still need to be evaluated consistently.
+
+Release timing
+The current rigid wrapper starts free integration from the sample preceding the
+first inactive frame, per its frozen discrete policy. A new backend must declare its
+own exact event convention rather than assume equivalence. For right-continuous
+commands a[t] applies on[t,t_next): integrate the last held interval to the release
+timestamp, then switch activation off and start free evolution. Split timesteps
+exactly at command switches. One-frame early release must fail a timing regression.
+Do not change the existing frozen validation wrapper while implementing this.
+
+Energy and safety tests before any benchmark prediction
+* Arbitrary translated/rotated/deformed start must be returned exactly at t_start;
+  rest geometry immutable; requesting sparse/dense outputs leaves path unchanged.
+* Freefall exact center acceleration, zero spurious horizontal force, no gauge;
+  internal forces/torques sum zero, including optional natural metric.
+* Release a small elastically strained block: shape must evolve while COM follows
+  gravity; initial x/v continuous at release; no artificial impulse on gate switch.
+* Track full kinetic+bulk+gravity+active-attachment potential. Known boundary
+  activation changes imply explicit external energy change at fixed state; subtract
+  that switch work rather than calling it unexplained energy loss. After release,
+  unforced/no-contact total mechanical energy should remain convergent.
+* Keep midpoint and endpointJ>.03, finite states, mechanical residual<=1e-7. Compare
+  successive dt refinements with predeclared trajectory<=.1mm and total-energy-error
+  <=1% gates on two refinements; do not infer physical damping from timestep damping.
+* Start with floor-off/free-flight or stop BEFORE first possible contact. A floor
+  crossing is an explicit unsupported event, not a hidden projection. Full-horizon
+  benchmarks require separately qualified coupled contact integration afterward.
+
+Concrete bounded development order
+One8node held-then-released elastic block, no impact, same physical parameters at
+3fixed timesteps. If it passes, replay one historically exposed frozen SoftVT world
+up to first contact, retaining the existing rigid baseline. No material/velocity/
+noise retuning against suffix errors. Only after numerical admission should a new
+prospective comparison be frozen. Current validation stays on its original recipe.
+
+No implementation, target reads, new simulations, new tests or run edits occurred
+in this follow-up. It is a design/qualification plan, not an accuracy improvement
+claim. Previously passed tests are cited as limited reusable evidence, not rerun.
