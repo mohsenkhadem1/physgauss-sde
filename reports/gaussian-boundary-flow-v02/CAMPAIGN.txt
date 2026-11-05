@@ -1,0 +1,39 @@
+GAUSSIAN BOUNDARY FLOW: AUDITED BENCHMARK EXPANSION
+2026-11-05
+
+Outcome
+Expanded beyond the controlled cube to 12 prospective SoftVT cases, eight real PhysTwin plush sequences and 76 previously exposed Isaac RGB-D cases. Independent scientific, numerical and dataset auditors changed the implementation, controls, admission criteria and final adoption decision. The experiments are finished; this is not a claim that general video-to-physics is solved.
+
+What changed
+Spatial Gaussian boundary inference now runs on eligible object geometry, with matched conditional-flow/mixture uncertainty, nearest-bank retrieval, rigid-contact and elementary motion controls. Audits corrected acquisition-noise handling and strengthened source/checkpoint binding, prediction-before-target barriers and failure accounting. The separate Isaac bridge learns a conditional flow over a restricted global25D physical code from five RGB-D observations. It is not the same spatial field model.
+
+Results (lower error is better)
+SoftVT: 11/12 physics cases succeeded; one bank-admission failure remains. On the common11, flow-contact position error is19.245mm versus19.054mm for rigid-contact. Flow improves matched nearest-bank contact by0.267mm position and0.379mm shape, but does not beat the strongest rigid control.
+PhysTwin: all eight plush cases completed. Flow-contact averages37.242mm position and19.790mm shape; rigid-contact39.776/24.635mm, nearest-contact37.024/18.932mm. Stretching shape improves roughly25% (sloth) and46% (zebra) over rigid motion, while retrieval remains stronger. These are within-case forecasts using supplied geometry/tracks and controller information, not universal RGB-only or new-object OOD evidence.
+Isaac: all380 primary method-case evaluations completed. Flow position error0.754mm loses to matched MDN0.736mm and archived25D0.694mm. A separately disclosed retrospective static control achieves0.732mm; motion is small in this window. All primary methods lose to static on mean rigid-aligned shape error. Teacher-validation gains did not transfer to recorded motion.
+
+Uncertainty and diagnosis
+Nominal90% flow-contact coordinate intervals cover only7.02% on SoftVT and9.15% on PhysTwin, conditional on surviving draws. They must not drive confident active-probing claims. Isaac coverage87.54% is a different task/representation and does not fix external calibration.
+A bounded four-checkpoint,44-recorded-validation-case selection diagnostic completed176 forecasts; flow's final checkpoint improves position only0.46% while worsening shape and material coverage. No new test rerun or global adoption followed.
+A two-world known-latent roundtrip retained seven failed posterior rollouts; it is a training-reconstruction diagnostic, not generalization. The elastic-continuation prototype passes refinement/energy checks on one small no-contact fixture and remains separate from benchmark claims.
+
+Decision
+Preserve previous best models, paper results and raw data. Keep the demonstrated deformation capability, but do not replace the best benchmark model with flow globally. Calibration, rendering superiority, intelligent probing, arbitrary impacts and general contact discovery remain unresolved. No new architecture is promoted merely because it looks plausible.
+
+Scope
+PokeFlex recordings are unavailable pending authorized access. Deform360 remains paused at the user's request. Fourteen other PhysTwin cloth/rope/composite sequences are unsupported by this mechanics model; they were inventoried, not benchmarked. All datasets has not been achieved. Raw data, trajectories and checkpoints remain local; GPU3 was untouched.
+
+Evidence and reproduction
+campaign-primary-results.{json,txt,svg}: all compared primary methods and denominators.
+campaign-uncertainty.{json,txt,svg}: coverage, widths and failed draws.
+phystwin-all-eight-comparison.{json,txt}: all eligible real sequences.
+isaac-recorded-evaluation/summary.json and isaac-static-secondary/: primary and separately declared secondary evaluations.
+isaac-selection-check-results.* and bank-roundtrip-summary.*: bounded diagnostics.
+completionaudit.*: independent requirement-by-requirement audit, including remaining research limits.
+final-source-verification.json and frozen-plans/: final source hashes and exact frozen recipes; full local run roots are in those plans.
+tests-summary.* and test-identities.json:330 distinct passing contract/numerical tests, zero uncovered skips; not evidence of empirical superiority.
+
+Regenerate summary figures from existing scored artifacts:
+MPLCONFIGDIR=/tmp/gbf-matplotlib .venv/bin/python -m scripts.gaussian_boundary_flow_v02.campaign_primary_report
+MPLCONFIGDIR=/tmp/gbf-matplotlib .venv/bin/python -m scripts.gaussian_boundary_flow_v02.campaign_uncertainty_report
+Use each campaign module's --help and its frozen plan for original execution; datasets and local trained artifacts are prerequisites, not bundled downloads. Isaac recorded scoring additionally requires the pinned requirements-isaac-evaluation.txt dependency. Missing threadpoolctl initially stopped scoring before target reads; it was installed and the unchanged evaluator completed.

@@ -1,0 +1,49 @@
+ISAAC CONDITIONAL FLOW: INDEPENDENT PRETRAINING AUDIT
+2026-11-05; review of untrained width160 adapter and bridge plan. CPU only; no dataset targets or private labels read. Existing checkpoint dictionaries read only for architecture/count verification. No frozen code modified.
+
+DECISION
+The proposed bridge is a coherent restricted physical-code inference experiment, conditional on the implementation gates below. It is not evidence for the six-parameter FEM, spatial contact discovery, calibrated mechanics or novel-force-family OOD. No trained accuracy exists at audit time. The strict cache/campaign is still under construction and needs its own review before execution.
+
+CONFIRMED CONTRACT
+Five prefix rows x119 features include camera/time and explicit scale normalization. Encoder context128 plus4 boundary and4 force one-hots gives136; ConditionalFlow predicts25 unconstrained coordinates. PhysicalParameterTransform performs sigmoid plus bounded affine physical mapping, not teacher normalization. Teacher subsequently applies its own physical affine normalization. The code contains logs of E/rho/damping, nu, four spatial centers, two force vectors and support motion amplitude. Inactive support/force/motion canonicalization is a many-to-one decoding operation, not a probability-density Jacobian. The second load center remains a teacher feature even when inactive, so nuisance correlations are possible.
+
+TRAINING/SAMPLING
+The existing flow objective is valid linear Gaussian-to-label conditional flow matching, MSE against target-minus-noise, with Heun sampling. Its integration clock is artificial generative time. It is not a mechanics ODE or likelihood; comparisons to archived NLL are invalid. True category conditioning during training and independently sampled categorical heads during inference are an explicit factorization assumption. Standard Gaussian flow base and bounded transform do not constitute an externally specified physical prior; the empirical training distribution supplies learned prior information. Four known forcing families do not demonstrate unseen force-type generalization.
+
+GATES REPORTED TO IMPLEMENTER
+1. Existing predict_particles accepts one-case physical[S,25]/categories[S], not adapter[B,S,25]. Select each case or implement correctly repeated batched geometry, and test B=2,S=3 against per-case decoding. The plan's batched helper description needs correction.
+2. Validate positive integer integration steps. Frozen ConditionalFlow.sample with steps=0 silently returns the base distribution. Wrapper must reject this, nonfinite/invalid category weights and invalid sampled outputs. Source implementation remains frozen.
+3. If logit standardization is used, fit and persist TRAIN-only mean and strictly positive scales with a declared variance floor; both flow and MDN require exactly the same forward/inverse affine map. Undo this before sigmoid physical decoding. Fixed padded/inactive dimensions need explicit treatment. Training-label tolerance/clipping is supervised dequantization, not observed uncertainty; count out-of-support labels before clipping and report transform saturation.
+4. Role-check and whitelist paths before private supervision access. Generic old loaders open future images or inspect every recipe before filtering. Strict cache must not inherit that behavior. Hash training-derived transforms and teacher/source/checkpoint bindings.
+5. Shared frozen teacher must decode effective physical values and receive full reference geometry consistently. Training-only smoke must check dimensions/finite outputs; teacher agreement is not independent physical validity. Preserve oracle teacher error as evaluator-only diagnostic.
+
+CAPACITY / OBJECTIVE FAIRNESS
+Independently counted new adapter274113 trainable parameters. Existing25D checkpoint architecture hidden64,layers4 has253520 state parameter elements; chart has275624 state elements including nonparameter buffers (plan trainable275618 plausible). Thus 'similar-sized' is appropriate; exact matched capacity is not. Prefix encoder architecture is consistent with archived hidden64 feature encoder. Archived teacher-supervised objectives differ from label-only FM; training a same-data/same-selection-budget MDN is the correct cleaner comparison. Model size does not establish matched compute, convergence or supervision.
+
+UNCERTAINTY
+32 validation draws imply about1–2 samples per5% tail;128 final draws imply about6.4. Quantile intervals and material coverage will have Monte Carlo variability. They are descriptive predictive/posterior spreads until empirical coverage and proper scores demonstrate otherwise. Fixed validation seeds reduce selection noise but do not calibrate probabilities. Report active coordinates by category, failure denominators, layout-group uncertainty and repeatable sampling. Inactive padding intervals must not be interpreted as recovered physical parameters. Independent categories and restricted known force envelopes limit any posterior completeness claim.
+
+VERIFICATION
+.venv/bin/python -m pytest -q tests/test_gaussian_boundary_isaac_adapter_v02.py
+2 passed in1.66s. Tests cover finite training gradient, seeded sample shapes/canonicalization and rejection of10-frame input. They do not yet exercise actual teacher, strict cache, transform persistence, integration-step rejection or training/evaluation provenance; these remain implementation gates, not assumed passes.
+
+SOURCE SCOPE
+isaac_flow_adapter.py; gaussian_boundary_flow/flow.py; experiments/gaussian_operator.py, gaussian_observed_features.py, evaluate_gaussian_inverse.py, train_gaussian_inverse.py; isaac-flow-bridge-plan.txt. No GPU training or benchmark scoring was performed by this audit.
+
+CAMPAIGN/CACHE FOLLOW-UP AUDIT (same date)
+Reviewed isaac_prefix_cache.py and isaac_bridge_campaign.py plus updated adapter. No test targets or private testlabels opened. Metadata-only inspection of actual196-row cache independently confirmed196 unique keys,152TRAIN/44VAL, no overlap of(dataset,group) acrossroles, exact key/role/recipehash match to frozen catalog, and catalog SHA match to cachecontract. TRAIN-only smoke recorded finite[1,5,455,3] on orbit/e0000 with expected teacherhashbf7d408a34db206755967743fa95ff2bd94d197358dc6395af0e4c37fb73daa2.
+
+Normalization now persists25D TRAIN mean/std from32 declared dequantization draws perlabel, floor.1; inverse mapping precedes physical sigmoid decoding. Original outside-support labels rejected before tolerance clipping. Flow and MDN use identicalfeatures/encoder/categoryheads, originalphysical labels, tolerances, batches and data-noise draws; MDN4components diagonal in standardizedlogits. Width200 MDN275012 vsflow274113 parameters is close, not exact matchedcapacity. Their likelihood-vs-FM objective and category gradientbalance still differ intrinsically; same nominal CEweight does not ensure identical optimization influence.
+
+Selection is explicitly mean percase coordinateRMSE of mean posterior teacherforecast against teacher(trueVALcode) at2,2.5,3s. This is a defensible shared-decoder inverse diagnostic but can select hypotheses that compensate teacher biases; it cannot select or establish measured simulator accuracy. No differentiable teacher-training is claimed. Existing old source collect_cases reads global plan metadata, then excludes test episodes before per-episode privatefiles; thus no private testtrajectory/sensor access, not 'no knowledge of global metadata'. New strict loader opens exactly the five prefiximages, not future images.
+
+Recipe binds cachemanifest (which bindscontract/shards), standardization, teacher, exposed-testseal and sources. Resume binds checkpoint to recipehash and restores optimizer/RNG. A dedicated data RNG ensures same minibatch identities and labeltolerance draws across methods despite different model RNG use. Teacher is frozen, not trained here.
+
+Requested remaining robustness guards: enforce actual checked unique/disjoint/catalog-matched roster before shardreads, and reject nonfinite teacher forecasts/targets/errors explicitly before checkpointselection. Current metadata passes independently, so roster issue is protective hardening, not demonstrated data contamination. Existing sources remain mutable until these guardfixes are frozen.
+
+Updated command:
+.venv/bin/python -m pytest -q tests/test_gaussian_boundary_isaac_adapter_v02.py tests/test_gaussian_boundary_isaac_cache_v02.py tests/test_gaussian_boundary_isaac_campaign_v02.py
+12 passed in1.96s. Source/testchanges owned byscientificagent, not this auditor. Teacher B2/S3 percase contract, affine transforms andstepguards nowtested. No GPU launch performed.
+
+FINAL PREFREEZE DISPOSITION
+Re-read final campaign guards: roster is now unique, exact catalog-matched bykey/role/group/recipe/dataset, and group-disjoint before shardsopen. Validation rejects nonfinite teacherpredictions/targets and empty/nonfinite scores; CLI preserves a failureartifact. Reran same3testfiles:14passed in1.99s. No blocking implementation defect identified. Recommend freezing and bounded training under the explicitly disclosed shared-teacher inverse objective. This approval does not endorse calibrated uncertainty, simulator accuracy, or broad OOD until separate evaluation supplies evidence.

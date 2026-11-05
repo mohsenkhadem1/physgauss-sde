@@ -1,0 +1,156 @@
+{
+  "archived_comparators": "chart/25D operator-supervised checkpoints and prefix ridge remain explicitly different-training archived references",
+  "cache": "/home/bayespc2/vscode/guassianSDE/runs/gaussian-boundary-isaac-prefix-v01",
+  "cache_manifest_sha256": "ca412a13c79e3558b0ce6eeae9a7fb2639bba098d4d97addb141cdc1e0f7a0d4",
+  "counts": {
+    "exposed_test_neural": 64,
+    "exposed_test_orbit": 12,
+    "train": 152,
+    "validation": 44
+  },
+  "evaluation": {
+    "clock_s": "np.arange(61)/20",
+    "cohort": "76 historically exposed fixed cases; no fresh confirmation claim",
+    "flow_steps": 32,
+    "forecast_times_s": [
+      2.0,
+      2.5,
+      3.0
+    ],
+    "gate": "seal all candidate predictions before independent evaluator reads test labels or trajectories",
+    "metrics": [
+      "coordinate_RMSE",
+      "rigid_removed_shape_RMSE",
+      "90_percent_predictive_interval_coverage_width_score",
+      "parameter_coverage_width",
+      "category_accuracy",
+      "failed_case_denominators",
+      "near_bound_saturation"
+    ],
+    "samples": 128,
+    "seed": 61033
+  },
+  "exposed_test_seal": "/home/bayespc2/vscode/guassianSDE/reports/gaussian-sealed-study-v01/passive-seal.json",
+  "exposed_test_seal_sha256": "a5910642303a3df2dbbd76cd37fb3771fac8c1c4ec40baa2aa0d1f3f5f12f7ce",
+  "losses": {
+    "both": "same labels, tolerances, prefix features, train batches, validation criterion; no teacher-gradient training",
+    "flow": "mean standardized-logit flow matching +3 boundary CE +3 force CE",
+    "mdn": "per-coordinate standardized-logit mixture NLL +3 boundary CE +3 force CE"
+  },
+  "models": {
+    "flow": {
+      "parameters": 274113
+    },
+    "mdn": {
+      "parameters": 275012
+    }
+  },
+  "original_label_support_audit": {
+    "train": {
+      "invalid_by_coordinate": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "invalid_rows": 0,
+      "rows": 152
+    },
+    "validation": {
+      "invalid_by_coordinate": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "invalid_rows": 0,
+      "rows": 44
+    }
+  },
+  "scope": "Global25D physical program posterior, not spatial Gaussian boundary field",
+  "source_sha256": {
+    "experiments/evaluate_gaussian_inverse.py": "572b0e44e9caacf3378d2c33adb88d092e63b16d4b7e74a52fea7da39e8e54bb",
+    "experiments/gaussian_modal_operator.py": "903d6900c417744f4a17c74b24b0a5638d428a71f27cc9f7f4a3ac2d79515494",
+    "experiments/gaussian_observation.py": "94ce69c6d8dcb2bc16fc420581f107dfae70ee27ef9a8bf965fe0ee19f46d2c2",
+    "experiments/gaussian_observed_features.py": "7084deafdcdc7078ed4badb3b32ddcf35df17e470786a9681f75bbf19913108c",
+    "experiments/gaussian_operator.py": "16d83e5e20c9f5291a22b3ccc554d9d13e81659ac14368d5989d6b2a4226edff",
+    "experiments/train_gaussian_inverse.py": "a8d7f59bdee6b8a5941b730e25d131cadc7979238293f83b204ec4811b944e58",
+    "scripts/gaussian_boundary_flow/flow.py": "8840e330f0a6e96335d0400ab35a98ce8ee40b387de5defdd1797ba1947bfa10",
+    "scripts/gaussian_boundary_flow_v02/isaac_bridge_campaign.py": "c8903b0d99b35e66f50a9c9a33f5b8cf27299fa7d678121924c9a048f576e799",
+    "scripts/gaussian_boundary_flow_v02/isaac_flow_adapter.py": "dc4cb31546faffbb4a3ab919adb0f154e663b6eed999ce3796ec9e1fb983bb51",
+    "scripts/gaussian_boundary_flow_v02/isaac_prefix_cache.py": "ae4476e94c21926a0ab19b80cd5e7f3efbf7f5365a90f6ca966683495f37291b"
+  },
+  "standardization": {
+    "dequantization_draws_per_label": 32,
+    "logit_std_floor": 0.1,
+    "seed": 61013,
+    "source": "152 TRAIN physical labels only"
+  },
+  "standardization_sha256": "e4cdac2e72c99edf73fe00618b6efe066576e66c31fd0822090bdd26cee2ecbc",
+  "teacher": "/home/bayespc2/vscode/guassianSDE/runs/gaussian-inverse-final-forward.pt",
+  "teacher_sha256": "bf7d408a34db206755967743fa95ff2bd94d197358dc6395af0e4c37fb73daa2",
+  "train": {
+    "batch": 16,
+    "category_weight": 3.0,
+    "gradient_clip": 10.0,
+    "learning_rate": 0.0001,
+    "seed": 61003,
+    "steps": 2400,
+    "validation_every": 50,
+    "weight_decay": 0.0001
+  },
+  "validation": {
+    "flow_steps": 32,
+    "samples": 32,
+    "seed": 61023,
+    "selection": "mean coordinate RMSE against shared teacher conditioned on validation true physical code; not simulator truth",
+    "times_s": [
+      2.0,
+      2.5,
+      3.0
+    ]
+  },
+  "version": "isaac-global-code-flow-v01"
+}

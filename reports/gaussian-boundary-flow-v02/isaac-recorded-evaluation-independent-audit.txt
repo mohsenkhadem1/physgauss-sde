@@ -1,0 +1,24 @@
+ISAAC RECORDED-MOTION EVALUATOR INDEPENDENT REVIEW
+2026-11-05. Code/synthetic-only review; no actual testpixels, targetarrays, labels, rawdatasetplans, freeze, or GPU operations.
+
+SCOPE/CAUSAL GATE
+Scorer is separate from predictor, not imported byprediction. run first callsrequire_gate, verifies evaluationcode andpredictionprotocol hashes, requires existingbarrier, recomputes380terminal accounting and validates protocol/checkpoints/trainingseal/successfulpredictionbytes. Only afterthis can load_truth_after_gate readrecordedtrajectory, plan, boundaries/reference. Planidentity checked against historicalseal. All-failed barrier permits evaluationaccounting but is explicitly notsuccess. Cohort remains76historically exposedcases,64+12subsets.
+
+METRIC MATH
+Primarywindow indices40..60 is21frames2–3s; all455nodes, nointerpolation. CoordinateRMSE averages x/y/z components, not meanEuclideanpointdistance (differs bysqrt3 forrootmeansquarednorm). PerframeKabsch centerspoints and usesdet(UVt) correction, enforcing properrotation; translation/rotationremoved only forevaluation, no scalealignment. This isolates shapeerror but may conceal poseerror, so pairedcoordinateRMSE remainsprimary.
+90%bounds are marginal empirical5/95%quantiles; Winklerwidth +20*taildistance is correct alpha.1 intervalscore. These are not simultaneous90%trajectoryregions.128draws imply noisy extremequantiles; ridge1draw is explicitlydegeneratepointdistribution, not calibratedinterval.
+Energy score averages ||sample-target||/sqrt(D) minus halfaverageallorderedpairdistances/sqrt(D), D=21*455*3. Diagonalzeros retained: correct empiricaldistribution Vstatistic, not unbiasedpopulation Ustatistic. Common rest subtraction cancels distances, makesnumericsbetterconditioned. Jointsampletrajectoriespreserved, no independenttimequantileassembly.
+Physicalmetrics useeffectivecanonicalcode, originalrawcodeonlyforsaturation. Truth-familyactivemask excludesinactive supports/loadcenter/motion andforce1deterministicduplicate; remainingcoordinates are scoredcoefficients, notclaimedindependentphysicalDOFs. Material E/rho/damping exponentiated beforemean/interval inphysicalunits. Categories use samplefrequency probabilities/modalaccuracy and multiclassBrier sum. These are MonteCarlo probabilities withfinite128drawuncertainty.
+
+IDENTITY/AGGREGATION
+Strictprediction/recorded/measuredclocks,455referenceorder, initialnodeposition, prefixes, samplebudgets, savedmeanagreement. Forecasterfloat32 clocktol2e-7s vsrecordeddeclaredclock1e-10s andmeasuredsimclock3e-7s explicitlydocumented. No nearestmatching/interpolation. Failuredenominators retained, sharedsuccessfulcasespaired, dataset-qualifiedlayoutgroups preventcrossdatasetgroupcollisions. Bootstrapresampleslayoutgroupmeans with10000replicates, so intervaltargets equal-group weighting; episodemeans separatelyreported. Bootstrapdoesnot quantify underlyingunknownsimulatorbias or freshdatasetgeneralization.
+
+PROVENANCE FIX REQUEST
+Completed-summary shortcut originallyverifiedscorebytehashes/binding but didnot rechecktargetsourcehashes/perrecordpredictionseal/status like percase resumebranch. Requestedsharedrecordverification for bothpaths before returningcachedsummary. Also requestedreflection andpresent-but-invalidbarrier syntheticguardtests. Prediction/trainingboundfiles remainuntouched.
+
+INITIAL VERIFICATION
+.venv/bin/python -m pytest -q tests/test_gaussian_boundary_isaac_recorded_evaluation_v02.py
+11 passed in1.62s. Finalapproval pendingaboveprovenancefix andaddedtests. No claim ofrecordedsimulation continuumconvergence, forcebalance, realworldcalibration ornovelforcefamilyOOD follows fromthesemetricsalone.
+
+FINAL APPROVAL
+Shared verify_existing_score now checks identity/binding, actual predictionstatus bytes/state, predictionseal andtargetsourcehashes for cached complete records in BOTH resume paths. Completedsummary requires exact380scorefile roster. Addedproperreflection, present-invalidbarrier-before-targetloader andchangedtargetprovenance tests. Independently rereadfix and reran tests:15passed. Approve evaluatorfreeze and execution ONLY after globalverifiedpredictionbarrier. No actualtargets read duringthisreview, no prediction/trainingboundchanges.

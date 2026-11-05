@@ -1,0 +1,17 @@
+BOUNDED RECORDED-VALIDATION SELECTION CHECK
+Development diagnostic after the first exposed76-case test study. Not a fresh confirmation, no new TEST evaluation, no training or architecture changes. Preserve all original test scores.
+
+Exactly four candidates: existing root-sealed flow/best.pt,flow/last.pt,mdn/best.pt,mdn/last.pt. No additional checkpoint or hyperparameter search. Whole-file hash duplicates reuse the identical sealed forecast, with explicit duplicate_of provenance.
+
+Exactly44 original VALIDATION episodes from the fixed152TRAIN/44VAL catalog. Strictly validate existing cache/source/shard/role bindings. Ordered casekey/dataset/group/cache/hash/alias/path must exactly match boundmetadata. Resolved episode paths and(datasetroot,group) must be disjoint from historicalTEST identities, checked using only the historical seal metadata, never raw test plans or targets.
+
+Prediction: identical five-frame RGB-D119feature prefixes and known455-node reference for all candidates;128draws,32Heunsteps,61timestamps0:3s at20Hz. Same percase generator seed61053+VALindex between both checkpoints of a method (also common seed policy across methods). Shared frozen learned teacher. No observed future trajectory in inference. Seal all44x4=176 forecasts or explicit failures before opening ANY recordedVALtrajectory. Partial predictions/failures preserved, no replacement or retries.
+
+Primary selection: equal-episode mean recorded coordinate RMSE over2<=t<=3s/all455nodes, posterior mean prediction. Choose separately for flow and MDN. Candidate must successfully score every44case; any prediction/identity/evaluation failure makes it ineligible. Exact numeric ties retain originalbest. Shape, marginal90%coverage/width/Winkler, joint empirical energy, activeparameter/material/category metrics are diagnostics, never additional selection criteria. Reuse audited immutable scorer metric/identity functions. Recorded times/reference/node identities must match, no interpolation.
+
+Freeze plan.json with source/roottrainingseal/checkpoint/cache/catalog/teacher/roster hashes before VALtrajectory reads. Independent audit before GPU0 launch. Eight synthetic tests passed during preparation. No TEST targets, validation trajectory reads or GPU launch yet at plan preparation.
+
+Implementation: scripts/gaussian_boundary_flow_v02/isaac_validation_selection.py
+Default output: runs/gaussian-boundary-isaac-selection-v01
+Stages: freeze; predict --device cuda:0; barrier; score.
+All stages are explicit; source edits after freeze invalidate the plan. Original exposed evaluation artifacts remain untouched.

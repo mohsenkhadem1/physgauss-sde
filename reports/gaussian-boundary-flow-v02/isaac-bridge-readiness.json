@@ -1,0 +1,33 @@
+{
+  "state": "frozen_ready_not_trained",
+  "recipe": "runs/gaussian-boundary-isaac-bridge-v01/recipe.json",
+  "recipe_sha256": "caeaa1710b9a1095c971c602ea2dd40debb3212f2b90570ed63e0ba1350cfc20",
+  "cache_manifest_sha256": "ca412a13c79e3558b0ce6eeae9a7fb2639bba098d4d97addb141cdc1e0f7a0d4",
+  "teacher_sha256": "bf7d408a34db206755967743fa95ff2bd94d197358dc6395af0e4c37fb73daa2",
+  "models": {
+    "flow": {
+      "parameters": 274113
+    },
+    "mdn": {
+      "parameters": 275012
+    }
+  },
+  "counts": {
+    "exposed_test_neural": 64,
+    "exposed_test_orbit": 12,
+    "train": 152,
+    "validation": 44
+  },
+  "tests": "14 passed; independent audit approved",
+  "training_launched": false,
+  "commands": [
+    ".venv/bin/python -m scripts.gaussian_boundary_flow_v02.isaac_bridge_campaign train --model flow --device cuda:0",
+    ".venv/bin/python -m scripts.gaussian_boundary_flow_v02.isaac_bridge_campaign train --model mdn --device cuda:0"
+  ],
+  "caveats": [
+    "global25D code, not spatialGaussianfield",
+    "teacher-to-teacher validationselection, not simulatoraccuracy",
+    "archivedchart/25D used differentoperator-supervised objective",
+    "76testcases historicallyexposed"
+  ]
+}

@@ -1,0 +1,13 @@
+BOUNDED RECORDED-VALIDATION SELECTION — COMPLETE
+All176 predictions and all176 candidate-case scores completed; no failures. Exactly four fixed checkpoints,44VAL episodes, no retraining or TEST rerun.
+
+Candidate | step | coordinate RMSE mm | rigid-aligned shape RMSE mm | predictive90%coverage | activeparameter90%coverage
+flow_best | 1900 | 1.323429 | 0.391048 | 84.15% | 83.55%
+flow_last | 2400 | 1.317359 | 0.401189 | 84.04% | 81.55%
+mdn_best | 800 | 1.379726 | 0.378028 | 79.98% | 82.82%
+mdn_last | 2400 | 1.395824 | 0.377963 | 83.28% | 79.10%
+
+Frozen selection rule chooses flow_last(step2400) over flow_best(step1900): 0.006069mm lower error, 0.459% improvement. MDN retains best(step800); its last(step2400) has higher coordinate error.
+The flow gain is tiny and accompanied by worse shape error(0.391048 to0.401189mm) and lower activeparameter coverage(83.55% to81.55%). Predictive coverage remains about84%, below nominal90%. This is not an overall physical/uncertainty improvement.
+The bounded check does not show that checkpoint selection explains the first exposed-test deficit. Do not expand checkpoint search or rerun TEST as fresh confirmation. Preserve existing76-case scores; any later use of flow_last is explicitly a post-test development choice, requiring new confirmation for a stronger claim.
+Full source/weight/cache/roster/target/score bindings: runs/gaussian-boundary-isaac-selection-v01/{plan.json,barrier.json,summary.json}. Compact results: isaac-selection-check-results.json. Original frozen source/recipe verification still passes.

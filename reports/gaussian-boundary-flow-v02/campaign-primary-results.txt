@@ -1,0 +1,54 @@
+PRIMARY CAMPAIGN RESULTS
+
+These are the original frozen comparisons, not a replacement by later development candidates.
+
+SoftVT: spatial Gaussian boundary + FEM
+11 common successful cases of 12; baselines complete on all 12
+Method                         Position mm    Shape mm
+Flow raw                           49.714       1.568
+Mixture raw                        50.004       1.960
+Flow rebased                       49.676       1.591
+Mixture rebased                    50.050       2.009
+Flow + contact                     19.245       1.743
+Mixture + contact                  19.326       2.254
+Nearest raw                        50.958       1.870
+Nearest + contact                  19.512       2.122
+Persistence                       130.764       0.762
+Velocity                          208.271       1.872
+Rigid + contact                    19.054       1.199
+
+PhysTwin: spatial Gaussian boundary + FEM
+8 real-video cases; retrospective comparison
+Method                         Position mm    Shape mm
+Flow raw                           49.242      19.817
+Mixture raw                        31.568      19.929
+Flow + contact                     37.242      19.790
+Mixture + contact                  37.264      19.581
+Nearest raw                        30.794      18.932
+Nearest + contact                  37.024      18.932
+Rigid + contact                    39.776      24.635
+Persistence                        36.407      19.887
+Velocity                           33.191      25.624
+
+Isaac: global-code inverse + learned dynamics
+76 previously exposed simulation cases; distinct model representation
+Method                         Position mm    Shape mm
+Flow (new)                          0.754       0.334
+Mixture (new)                       0.736       0.326
+Archived 25D                        0.694       0.333
+Archived chart                      0.730       0.332
+Ridge                               0.717       0.323
+
+Interpretation
+SoftVT: flow modestly improves same-contact retrieval, but the rigid control is stronger on the matched successful cases.
+PhysTwin: deformation improves the rigid control, but flow does not beat nearest retrieval; velocity is stronger for position.
+Isaac: the teacher-validation gain did not transfer to recorded motion; archived 25D remains stronger than the new flow.
+No global model replacement is justified. Existing best models and all original reports remain preserved.
+
+Limits
+SoftVT means condition on 11 successful cases; the solver-bank failure is not imputed as zero.
+PhysTwin controls added to the original four cases are retrospective.
+Isaac compares a restricted global code, not the spatial Gaussian boundary-field model.
+Archived Isaac models used different training objectives; the new mixture is the matched-supervision control.
+Motion and shape agreement do not establish force/material recovery or certified physical realism.
+Ridge is deterministic; its degenerate sample intervals are not treated as uncertainty estimates.

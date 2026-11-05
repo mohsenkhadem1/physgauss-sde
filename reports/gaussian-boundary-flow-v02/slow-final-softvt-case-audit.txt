@@ -1,0 +1,15 @@
+READ-ONLY LIVE SOLVER DIAGNOSIS — spatial-soft-task2-demo51
+2026-11-05. No process signals, restart, budget changes, source edits or future targets.
+
+Authoritative escalated ps for PID2653219: active package_campaign_v04, cuda:2; elapsed11:55 then12:29, CPUtime12:02 then12:36,100%CPU,Rl. GPU process list confirms230MiB on GPU2. This proves process activity, not useful numerical convergence.
+Filesystem:62successful bank worlds +18failures, contiguous attempted indices0..79. Latest0079 failure was about684s old at second snapshot. It failed at frame55,residual3.22505. No attempt80 terminal artifact exists yet. progress.json says attempts65,accepted52,failed13 because heartbeat is emitted only every16COMPLETED attempts. The apparently discrepant counts are expected sparse logging.
+
+Fixedbank RNG seed7718,7parameters; inferred next attempt80 latent:
+[1.0175567036516882,1.567202688036314,0.24181309953446292,0.26884973857391997,1.8512338202748997,-0.3550932181502246,0.62582657129737].
+Draws consumed for every attempt before resume branch, so persisted failures do not shift subsequent random worlds. Restarting identically would retry the same expensive unfinished world. No restart recommended during frozenvalidation.
+
+Source mechanics: requested12prefixframes[0,6,13,19,26,33,39,46,53,59,66,73], but canonical continuation solves EVERY commandframe0..73. Each has at most60Newtoniterations; each Newtoniteration can try6dampingvalues with22backtrackingtrials. That is up to586080 energy/residual trial evaluations perworld, plus Hessians/linear solves. GPU scalar conversions force synchronization inside these Python loops; small192DOF solves can therefore be dominated by launch/synchronization overhead. A many-minute single difficult world is possible despite mathematically finite loops.
+
+Evidence supports active slow/pathological solve, not terminated process. Exact currentframe/Newtoniteration cannot be established from artifacts. py-spy was unavailable; /proc/PID/stack read was permission denied. No invasive profiler attachment attempted. GPU memory alone does not prove GPU compute utilization.
+
+Future version only: add per-attempt and per-frame/iteration heartbeat, elapsed/evaluation counters and terminal diagnostics, distinguishing completed count from current attempt. First profile representative easy and difficult worlds; avoid scalar synchronization/recomputing energy Hessians and evaluate CPUperformance for this smallmesh. A prospective declared evaluation budget could make solverfailure bounded inwalltime, but would change feasible-prior conditioning and must be frozen before a newcampaign. Preserve currentrun and numericalgates unchanged.

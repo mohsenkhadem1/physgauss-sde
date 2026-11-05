@@ -1,0 +1,36 @@
+Retrospective static initial geometry baseline — recorded Isaac test cohort
+
+This omitted control was added after viewing the primary five-method results. It is not fresh confirmation. All 76 predictions were sealed from public initial geometry before this secondary scoring. Primary 380 records were preserved.
+
+Metric: componentwise coordinate RMS over the same 455 ordered nodes and frames 40–60 (2–3 seconds). Rigid-aligned shape RMS removes the best per-frame rigid transform for evaluation only. Both are in millimetres below.
+
+all: 76/76 completed, 0 failed.
+  Static / initial motion: coordinate 0.732153 mm; nonrigid shape 0.322407 mm.
+  Mean of per-case shape/coordinate RMS ratios: 0.764505; undefined zero-motion ratios: 0. This is not the ratio of aggregate means or a variance fraction.
+  25d minus static: coordinate -0.038331 mm; shape +0.010590 mm; coordinate wins 20/76. Positive means the model is worse.
+  chart minus static: coordinate -0.002032 mm; shape +0.009350 mm; coordinate wins 19/76. Positive means the model is worse.
+  flow minus static: coordinate +0.022220 mm; shape +0.011642 mm; coordinate wins 11/76. Positive means the model is worse.
+  mdn minus static: coordinate +0.003395 mm; shape +0.003156 mm; coordinate wins 19/76. Positive means the model is worse.
+  ridge minus static: coordinate -0.015577 mm; shape +0.000307 mm; coordinate wins 36/76. Positive means the model is worse.
+
+gaussian-boundary-neural-v01: 64/64 completed, 0 failed.
+  Static / initial motion: coordinate 0.717503 mm; nonrigid shape 0.313340 mm.
+  Mean of per-case shape/coordinate RMS ratios: 0.762082; undefined zero-motion ratios: 0. This is not the ratio of aggregate means or a variance fraction.
+  25d minus static: coordinate -0.036907 mm; shape +0.008630 mm; coordinate wins 18/64. Positive means the model is worse.
+  chart minus static: coordinate -0.015408 mm; shape +0.007698 mm; coordinate wins 18/64. Positive means the model is worse.
+  flow minus static: coordinate +0.000662 mm; shape +0.010821 mm; coordinate wins 11/64. Positive means the model is worse.
+  mdn minus static: coordinate +0.004108 mm; shape +0.003372 mm; coordinate wins 14/64. Positive means the model is worse.
+  ridge minus static: coordinate -0.015383 mm; shape +0.000179 mm; coordinate wins 31/64. Positive means the model is worse.
+
+isaac-boundary-orbit-v01: 12/12 completed, 0 failed.
+  Static / initial motion: coordinate 0.810286 mm; nonrigid shape 0.370764 mm.
+  Mean of per-case shape/coordinate RMS ratios: 0.777430; undefined zero-motion ratios: 0. This is not the ratio of aggregate means or a variance fraction.
+  25d minus static: coordinate -0.045924 mm; shape +0.021043 mm; coordinate wins 2/12. Positive means the model is worse.
+  chart minus static: coordinate +0.069311 mm; shape +0.018164 mm; coordinate wins 1/12. Positive means the model is worse.
+  flow minus static: coordinate +0.137197 mm; shape +0.016021 mm; coordinate wins 0/12. Positive means the model is worse.
+  mdn minus static: coordinate -0.000409 mm; shape +0.001999 mm; coordinate wins 5/12. Positive means the model is worse.
+  ridge minus static: coordinate -0.016612 mm; shape +0.000991 mm; coordinate wins 5/12. Positive means the model is worse.
+
+Interpretation: motion is submillimetre on average in this recorded cohort. Static geometry is a strong control: flow improves coordinate error on only 11/76 cases and loses on the mean; all five predictors have larger mean rigid-aligned shape error than static. The 25D and ridge predictors improve mean coordinate error slightly, but neither wins a majority of cases. This does not establish recovery of forces, materials or physical accuracy beyond these recorded trajectories.
+
+All per-case amplitudes, ratios and paired differences are in compact-results.json and immutable case score.json files. Four synthetic tests cover node identity, rigid motion removal, actual deformation, zero guards and the all-case pre-target barrier.

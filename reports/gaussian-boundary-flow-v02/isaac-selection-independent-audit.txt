@@ -1,0 +1,17 @@
+BOUNDED RECORDED-VALIDATION CHECKPOINT SELECTION AUDIT
+2026-11-05. Code/synthetic tests only; no new test observations, test targets, recorded VAL trajectories, GPU jobs or freezes by auditor.
+
+The new isolated module selects ONLY root-sealed best/last forflow andMDN, fourfixedcandidates,44validationepisodes. No training, newarchitecture, candidateexpansion or TESTrerun. Plan explicitly states this selection change follows exposedtestresults and is DEVELOPMENT, not independentconfirmation. Originalbenchmark outputsremainimmutable.
+
+Samepercase seed61053+index,128draws,32flowsteps,fiveprefixframes,61times/all455nodes acrosscheckpoint snapshots. Checkpoints carry the same learned physicalcode transform/priorfamily and frozen sharedteacher; no changedforwardmodel. Best/lastbyte-identical snapshots reuse a boundprediction file without manufacturingindependentreplicates. Candidateidentity andhashes mustmatchroottrainingseal. Trainingrecipe/source/teacher/cachecatalogbound; evaluator metricfunctions separatelyhashbound.
+
+All176terminal predictions required before recordedVALtrajectoryloader. Targetloader rechecks explicitVALIDATIONrole andresolvedepisodepath. Failurebarrier is accountingonly; candidatewithanyfailure is ineligible. Selection is equalcase coordinateRMSE onframes40..60; shape/coverage/energy not used to overrideprimaryselection. Exactties retain originalbest. No selection onbestcase subsets oruncertainty widths.
+
+Pre-freeze robustness request: strengthen exactroster binding ofcachehash/filename/dataset/casealias andcatalog recipe/path aswellaskey/group; perform explicitmetadata-only overlapcheck with historicalTESTseal forresolvedepisodeidentity anddataset-qualifiedlayoutgroup. This guards accidental relabelling orwrongshards beforetargets. Existingload_cache checks train/VALsplit but newplan mustbinditsrows too. No actualoverlap/mismatch alleged.
+
+Initial synthetic command:
+.venv/bin/python -m pytest -q tests/test_gaussian_boundary_isaac_selection_v02.py
+5 passed. Tests demonstratecoordinate-onlyselection, besttie, failureineligibility, TESTrole rejection, missingbarrier denial and176recordrequirement. Finalapproval pendingrosterhardening/tests. Any eventuallychosen checkpoint remains a developmentcandidate; futureconfirmation requires genuinelyunexposed data or an explicitlylabelled exposedregression rerun.
+
+FINAL APPROVAL
+Reread exact shared bound_validation_roster guard: manifest/catalog identities and44uniquekeys, cachefilename/hash, dataset/group/casealias andresolvedepisodepath nowderived andrequiredexactly; historicalTESTresolvedepisode anddatasetroot-qualifiedgroup overlaprejects. Freeze invokes existing fullcache source/role/shard checks. Historicalseal hashbound. Independently reranselectiontests:8passed. Approve freeze andboundedVALIDATIONprediction/selection underdeclaredpost-testdevelopmentlabel; no additionalcandidates/retraining/TESTrerun authorizedbythisstep. No remainingblockingdefect identified.

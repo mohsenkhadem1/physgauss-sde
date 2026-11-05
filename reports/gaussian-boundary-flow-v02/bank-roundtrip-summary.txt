@@ -1,0 +1,20 @@
+BOUNDED SYNTHETIC ROUNDTRIP: COMPLETE
+Frozen plan: runs/gaussian-boundary-bank-roundtrip-v01/plan.json.
+Implementation: scripts/gaussian_boundary_flow_v02/bank_roundtrip.py.
+Two CPU tests passed; GPU0 run PID2693174/session48807 finished exit0. All36 requested rollouts attempted, about60.5s total simulation time. No30s deadline reached; no retries or replacements. Existing methods/checkpoints/banks untouched. No real future targets accessed.
+
+Design: bank index0 in each of two exposed development banks; same saved PCA, original raw feature MSE nearest retrieval, fixed correlated1mm absolute-to-relative observation noise,8draws each flow/MDN and1nearest. These are TRAINING reconstruction worlds, not held-out generalization. Latents/synthetic observations sealed before rollout. Same original known commands/rest geometry and mechanics generate truth and forecasts. Initial, centroid, rigid rotation and proper-rigid-removed shape errors reported separately.
+
+Mean-trajectory coordinate / shape errors (mm):
+                         flow             MDN               nearest
+single_push_sloth        5.962 / .301      46.433 /11.688     ~0 /~0
+object-soft-task1-demo0  4.202 / .130       1.221 / .616      ~0 /~0
+Sloth valid draws8/8flow,8/8MDN. SoftVT valid4/8flow,5/8MDN: its quoted mean errors are CONDITIONAL on solver survivors, NOT successful unconditional forecasts. Every failed draw remains in results. All7 failures occur at commandframe110 with residual iteration-limit failures, not deadlines.
+
+Nearest retrieves true bank0 under the declared noisy prefix in both cases; exact recovery is therefore an expected library-memorization advantage, not proof of superior generalization. Recomputed true bank features agree to3.05e-16m and4.16e-17m, verifying unchanged forward/feature plumbing.
+
+Initial errors are small: slothflow.058mm versusMDN.663mm; SoftVTflow.00053mm versusMDN.298mm. Sloth flow centroiderror5.032mm and shape.301mm suggests primarily pose/transport uncertainty. Sloth MDN centroid37.754mm,shape11.688mm, individual trajectories up to108.25mm; it is not merely a small initial-reference discrepancy. SoftVT survivorflow centroid4.199mm nearly equals its coordinate4.202mm,shape.130mm; MDN centroid1.012mm,shape.616mm. These are synthetic same-model comparisons, so real geometry or simulator mismatch cannot cause these particular differences.
+
+Decision: do not adopt a model switch or shrinkage from two training worlds. The ranking changes by case and differs from the aggregate real data. Inference/latent uncertainty and solver feasibility can contribute materially even when the forward model is exactly the truth generator. The diagnostic DOES NOT identify how much is amortization error versus genuinely ambiguous noisy prefixes; one known latent is a realization, not the entire reference posterior.8draws and2worlds cannot establish calibration. The large SoftVT suffix failure rate also shows prefix-bank feasibility does not guarantee full-command feasibility.
+
+Preserve both old predictors and benchmark results. If further inference diagnosis is needed, compare posterior prefix-likelihood consistency or a small numerical reference posterior under an independently frozen synthetic protocol before altering architecture. Do not condition on successful draws silently, and do not claim these findings alone justify changing the material law or correcting initial state by cancelling gravity. Current benchmark work is unchanged.

@@ -1,0 +1,69 @@
+{
+  "state": "complete",
+  "plan_sha256": "fb85dbb85329bdadee73f75695db8920cf011f9deed1b1d76aab588561a42144",
+  "summary_sha256": "f296df9e7a95aeb1e6de025c9ecfc3b8910e77297f5bbd764e58487c62fb1c34",
+  "barrier_sha256": "1541f58afad564838009713d68016e88786a67623d1d16245447cabcfa136756",
+  "predictions_complete": 176,
+  "predictions_failed": 0,
+  "candidates": {
+    "flow_best": {
+      "coordinate_rmse_mm": 1.3234286743774402,
+      "shape_rmse_mm": 0.3910478110375377,
+      "predictive90_coverage": 0.8414672628958345,
+      "active_parameter90_coverage": 0.8354745583364004,
+      "trajectory_energy_score_mm": 1.1262423431718065,
+      "complete": 44,
+      "failed": 0
+    },
+    "flow_last": {
+      "coordinate_rmse_mm": 1.3173594736713985,
+      "shape_rmse_mm": 0.40118922943134727,
+      "predictive90_coverage": 0.8403659832231262,
+      "active_parameter90_coverage": 0.8154846797938903,
+      "trajectory_energy_score_mm": 1.1107462924570328,
+      "complete": 44,
+      "failed": 0
+    },
+    "mdn_best": {
+      "coordinate_rmse_mm": 1.3797260854970779,
+      "shape_rmse_mm": 0.3780276568577478,
+      "predictive90_coverage": 0.7997684854827711,
+      "active_parameter90_coverage": 0.8281767574530733,
+      "trajectory_energy_score_mm": 1.2259928977627734,
+      "complete": 44,
+      "failed": 0
+    },
+    "mdn_last": {
+      "coordinate_rmse_mm": 1.3958243796058833,
+      "shape_rmse_mm": 0.37796324812374926,
+      "predictive90_coverage": 0.832844139986997,
+      "active_parameter90_coverage": 0.7910379094589621,
+      "trajectory_energy_score_mm": 1.1514740247160622,
+      "complete": 44,
+      "failed": 0
+    }
+  },
+  "choices": {
+    "flow": {
+      "changed_from_original": true,
+      "development": true,
+      "selected": "flow_last",
+      "selection_basis": "44-case recorded validation coordinate RMSE only"
+    },
+    "mdn": {
+      "changed_from_original": false,
+      "development": true,
+      "selected": "mdn_best",
+      "selection_basis": "44-case recorded validation coordinate RMSE only"
+    }
+  },
+  "flow_coordinate_gain_mm": 0.006069200706041666,
+  "flow_coordinate_relative_gain": 0.004585967361555548,
+  "interpretation": "Recorded validation selection chooses flow_last by only0.00607mm (0.46%); shape and active-parameter coverage worsen. This tiny checkpoint effect does not establish a remedy for the exposed-test deficit. MDN retains originalbest. No newTEST evaluation or physical-calibration claim.",
+  "development": true,
+  "new_test_evaluation": false,
+  "retraining": false,
+  "tests": "8passed; independent audit approved",
+  "gpu_worker_exit_code": 0,
+  "scoring_worker_exit_code": 0
+}
