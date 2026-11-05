@@ -1,0 +1,11 @@
+PIDG appearance transfer into the existing paper mechanics
+
+The public Balls Reaction split is fixed at 101 fitting / 11 validation / 38 test frames. The released test split was used in earlier development and is not a new confirmatory cohort. Train at 320x180; report 320, 640 and 1600 output widths separately.
+
+Prepare source appearance with prepare.py, mechanical cache with cache_nodes.py, then validate exact conversion and reference binding. Never replace the actual mechanics state at query time with the native deformation MLP. Native PIDG supplies fitted appearance at a single fitting reference frame. Six spherical objects and reconstruction-assisted scale/depth are explicit priors. Material descriptors stay fixed during this transfer refinement; the existing NeuralFEM equilibrium solver and boundary adjoint carry position-control gradients.
+
+Retain all candidates. v01 uses nearest 3D body binding; v02 uses reference-image body identity; v03 adds six independently translated Gaussian boundary patches per body. Fit appearance, jointly refine controls, then hold mechanics fixed and refit appearance. Select by mean validation foreground PSNR with seal.py before evaluate.py reads held-test RGB. Run report.py and the paper figure builder after evaluation. Checkpoint SHA256 ties the evaluation to the selection. Raw data and checkpoints remain local.
+
+Novel-camera sweeps use the first, middle and last declared test times and yaw -90,-60,-30,0,30,60,90 degrees. Only zero yaw has RGB reference. Do not score unrecorded views against generated targets or claim hidden geometry accuracy from visual coherence.
+
+This adapter reconstructs the observed motion interval and does not solve coupled collisions, infer true forces, identify absolute material parameters, or forecast a new action. Existing physical-response benchmarks are separate and preserved.

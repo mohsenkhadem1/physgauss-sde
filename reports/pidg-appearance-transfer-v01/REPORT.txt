@@ -1,0 +1,15 @@
+Completed: mechanics-connected Gaussian appearance refinement on public PIDG Balls Reaction.
+
+38 held images, same declared 101/11/38 split, 320x180 fitting.
+PSNR 25.5852 -> 31.4256 dB; foreground PSNR 19.8057 -> 22.8894 dB.
+SSIM 0.9210 -> 0.9710; LPIPS 0.08269 -> 0.02454.
+At 640 output: PSNR 25.4963 -> 29.8633 dB. Native PIDG remains better (34.4753 dB at 640).
+At 1600 output: PSNR 25.3952 -> 28.6775 dB, native PIDG 31.6412 dB.
+
+All 228 object equilibria converge; minimum J 0.8678, maximum residual 9.73e-8. Numerical validity is not physical parameter identification.
+
+The renderer uses the existing paper NeuralFEM and boundary adjoint, transferring 50,524 fitted Gaussians rather than initializing 4,608 coarse ones. Material descriptors remain fixed. Appearance is inherited from native PIDG at the first fitting image. Boundary controls and appearance are refined in alternating stages.
+
+A cached-geometry checkpoint bug was found and repaired by restoring precisely the controls used during validation. All three candidates reproduce validation scores exactly after reload. The invalid evaluation is retained and labeled. No test-image fitting was used for the repair.
+
+Novel views lack reference RGB; no quantitative novel-view superiority or new-action forecasting claim. Prior test reuse is disclosed. Raw data/checkpoints stay local. Main paper section 6 and supplement section 23 contain the update.

@@ -25,22 +25,29 @@ def txt(f,x,y,t,size=8,c=INK,w='normal',**kw):f.text(x,y,t,fontsize=size,color=c
 def arr(ax,a,b,c=INK):ax.add_patch(FancyArrowPatch(a,b,arrowstyle='-|>',mutation_scale=9,lw=1.1,color=c))
 def card(ax,x,y,w,h,c='#f3f7f9',ec='none'):ax.add_patch(FancyBboxPatch((x,y),w,h,boxstyle='round,pad=.004,rounding_size=.012',fc=c,ec=ec,lw=.7))
 def teaser():
- f=plt.figure(figsize=(7.15,2.78));can=f.add_axes([0,0,1,1]);can.axis('off');methods=['reference','ours','phystwin','spring-gaus'];rec=[]
- for j,m in enumerate(methods):txt(f,.245+j*.205,.955,{'reference':'Reference','ours':'Ours','phystwin':'PhysTwin','spring-gaus':'Spring-Gaus'}[m],8.5,D.COLORS.get(m,INK),'bold',ha='center')
- for row,family in enumerate(['curved_push','container_drop']):
-  data,t=D.selected(family);y=.55-row*.405;lim=e.extent([data[m][-1] for m in methods]);ref=e.project(data['reference'][-1].reshape(-1,3))[:,:2];lo,hi=ref.min(0),ref.max(0);span=hi-lo;center=lo+span*np.array([.53,.27 if row==0 else .43]);half=span*np.array([.12,.15]);crop=(center-half,center+half);errors={}
-  txt(f,.008,y+.20,['Curved\ncontact','Drop +\nobstacle'][row],8.5,INK,'bold',linespacing=1.15);txt(f,.008,y+.095,f'{t[-1]:.3f}s',7,MUTED)
+ from matplotlib import font_manager
+ for path in (Path.home()/'.local/share/fonts/arial').glob('*'):
+  if path.suffix.lower()=='.ttf':font_manager.fontManager.addfont(str(path))
+ assert font_manager.findfont('Arial',fallback_to_default=False)
+ with plt.rc_context({'font.family':'Arial','text.color':'black','axes.labelcolor':'black','xtick.color':'black','ytick.color':'black'}):
+  f=plt.figure(figsize=(7.15,2.78));methods=['reference','ours','phystwin','spring-gaus'];rec=[]
   for j,m in enumerate(methods):
-   left=.15+j*.205;x=data[m][-1];error=np.linalg.norm(x-data['reference'][-1],axis=-1)*1000
-   a=e.obj(f,[left,y+.015,.185,.31],x,lim,error=None if m=='reference' else error,base=BLUE)
-   a.add_patch(Rectangle(crop[0],*(crop[1]-crop[0]),fill=False,ec='#32495d',lw=.6,zorder=20))
-   z=e.obj(f,[left+.117,y-.005,.080,.15],x,crop,error=None if m=='reference' else error,base=BLUE);z.set_aspect('equal',adjustable='box');z.axis('on');z.set_xticks([]);z.set_yticks([])
-   for s in z.spines.values():s.set_visible(True);s.set_color('#32495d');s.set_linewidth(.6)
-   if m!='reference':
-    rms=float(np.sqrt(np.mean(error**2)));errors[m]=rms;txt(f,left+.005,y-.008,f'{rms:.2f} mm',7.6,D.COLORS[m],'bold' if m=='ours' else 'normal')
-  rec.append(dict(family=family,world=family+'-world00',query=0,frame='final',time_s=float(t[-1]),crop=[a.tolist() for a in crop],frame_vector_rms_mm=errors))
- cb=f.colorbar(plt.cm.ScalarMappable(norm=D.NORM,cmap=D.CMAP),cax=f.add_axes([.55,.050,.42,.017]),orientation='horizontal',extend='max');cb.ax.tick_params(labelsize=6,length=2,pad=1);cb.set_ticks([0,5,10,15,20]);txt(f,.55,-.015,'Point error (mm); common scale, >20 saturates',6.7,MUTED)
- txt(f,.008,.035,'Changed interaction, frozen scene descriptors',7.8,TEAL,'bold');can.set(xlim=(0,1),ylim=(0,1));save(f,'cohesive-teaser');RECORDS['teaser']=rec
+   txt(f,.235+j*.215,.958,{'reference':'Reference','ours':'Ours','phystwin':'PhysTwin*','spring-gaus':'Spring-Gaus*'}[m],10,'black','bold',ha='center')
+  for row,family in enumerate(['curved_push','container_drop','deformable_pair']):
+   data,t=D.selected(family);y=.69-row*.285;lim=e.extent([data[m][-1] for m in methods]);errors={}
+   txt(f,.002,y+.11,['Curved\ncontact','Drop +\nobstacle','Two soft\nobjects'][row],9,'black','bold',linespacing=1.05)
+   txt(f,.002,y+.045,f'{t[-1]:.3f} s',8.5,'black')
+   for j,m in enumerate(methods):
+    left=.13+j*.215;x=data[m][-1];error=np.linalg.norm(x-data['reference'][-1],axis=-1)*1000
+    e.obj(f,[left,y,.21,.255],x,lim,error=None if m=='reference' else error,base=BLUE)
+    if m!='reference':
+     rms=float(np.sqrt(np.mean(error**2)));errors[m]=rms
+     txt(f,left+.105,y-.012,f'{rms:.2f} mm',9.5,'black','bold' if m=='ours' else 'normal',ha='center')
+   rec.append(dict(family=family,world=family+'-world00',query=0,frame='final',time_s=float(t[-1]),frame_vector_rms_mm=errors))
+  cb=f.colorbar(plt.cm.ScalarMappable(norm=D.NORM,cmap=D.CMAP),cax=f.add_axes([.60,.045,.37,.020]),orientation='horizontal',extend='max')
+  cb.ax.tick_params(labelsize=8,length=2,pad=1);cb.set_ticks([0,5,10,15,20])
+  txt(f,.002,.040,'Point error (mm); lower is better. >20 saturates.',8.5,'black')
+  save(f,'cohesive-teaser');RECORDS['teaser']=rec
 
 def method():
  f=plt.figure(figsize=(7.15,3.6));c=f.add_axes([0,0,1,1]);c.axis('off');c.set(xlim=(0,1),ylim=(0,1));x=e.block();lim=e.extent([x])

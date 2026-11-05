@@ -15,7 +15,7 @@
 \maketitle
 \begin{center}
 \includegraphics[width=.98\textwidth]{figures/cohesive-teaser.pdf}
-\captionof{figure}{\textbf{A digital twin should predict a changed interaction.} Held curved-contact and obstacle-drop responses, using the first declared world, first query and final frame. Geometry and camera are shared within each row; colors show position error on one scale and boxes mark identical enlarged regions. These are measured simulation forecasts, not generated illustrations. The full study includes 24 worlds, six interaction families and a competitive analytic control. We also evaluate simulated manipulation and real captured objects.}
+\captionof{figure}{\textbf{Predicting changed interactions, including two deformable objects.} Saved final-frame forecasts for curved contact, obstacle drop and two-body interaction (first world, first query). Each row shares geometry scale and camera; colors encode point error and labels report frame RMS. *Family-specific baseline adaptations. These are simulation surfaces, not RGB renders. The full study covers 24 worlds and six interaction families, alongside public benchmarks.}
 \label{fig:teaser}
 \end{center}
 }]
@@ -48,7 +48,7 @@ Our contributions are: (1) a position-driven composition of compact bulk and att
 NCLaw learns constitutive laws within known equations and studies transfer across geometry and boundary conditions~\cite{ma2023nclaw}. UniPhy pretrains latent-conditioned constitutive networks and freezes them while adapting a scene latent~\cite{mittal2025uniphy}. Our scalar energy follows this established reuse principle, derives stresses by differentiation, and composes bulk response with separately parameterized interfaces. DiffPD addresses efficient differentiable mechanics and contact~\cite{du2022diffpd}; i-PhysGaussian and Boba address integration robustness and efficient twin simulation~\cite{cao2026iphysgaussian,pang2026boba}. We compare configured physical pipelines rather than attributing every difference to the constitutive network.
 
 \paragraph{Plausibility, reconstruction and evaluation.}
-PhysDreamer and OmniPhysGS use generative priors to produce plausible physical dynamics~\cite{zhang2024physdreamer,lin2025omniphysgs}. PIDG combines time-dependent Gaussian deformation, velocity and stress with momentum residuals and optical-flow supervision~\cite{hong2026pidg}. These objectives differ from forecasting a reset system under new controls; we do not report an unimplemented numerical comparison with PIDG. SoftVTBench supplies simulated visuotactile manipulation episodes~\cite{jing2026softvt}; PhysTwin and Deform360 supply real deformable-object captures~\cite{jiang2025phystwin,li2026deform360}. We use SoftVT and PhysTwin under explicitly defined position-input protocols, not their native end-to-end leaderboards.
+PhysDreamer and OmniPhysGS use generative priors to produce plausible physical dynamics~\cite{zhang2024physdreamer,lin2025omniphysgs}. PIDG combines time-dependent Gaussian deformation, velocity and stress with momentum residuals and optical-flow supervision~\cite{hong2026pidg}. These objectives differ from forecasting a reset system under new controls; our supplementary PIDG comparison tests appearance reconstruction with differentiable equilibrium, separately from changed-action prediction. SoftVTBench supplies simulated visuotactile manipulation episodes~\cite{jing2026softvt}; PhysTwin and Deform360 supply real deformable-object captures~\cite{jiang2025phystwin,li2026deform360}. We use SoftVT and PhysTwin under explicitly defined position-input protocols, not their native end-to-end leaderboards.
 
 \section{Compositional Position-Driven Mechanics}
 \subsection{State and physical roles}
@@ -102,7 +102,7 @@ A separate Gaussian appearance asset follows the mechanical state. Continuum def
 \begin{equation}
 \mu_t=x(q,t)+F(q,t)r,\qquad\Sigma_t=F(q,t)\Sigma_0F(q,t)^\top.
 \end{equation}
-The controlled six-family comparison instead applies the same declared transport to every method; real captures use a common 16-neighbor local rigid blend. Appearance is fixed within each comparison, without future-frame refitting. These controls measure motion-induced image error, not native end-to-end radiance reconstruction quality.
+The controlled six-family comparison instead applies the same declared transport to every method; real captures use a common 16-neighbor local rigid blend. Appearance is fixed within these physical-response comparisons, without future-frame refitting. A separate PIDG study optimizes appearance through equilibrium on fitting images (supplement). These controls measure motion-induced image error, not native end-to-end radiance reconstruction quality.
 
 \section{Observability and Physical Accuracy}
 \paragraph{An exact scale ambiguity.}
@@ -122,7 +122,7 @@ We distinguish (i) held-response accuracy: world position, rigid-aligned shape a
 \end{figure*}
 
 \section{Experiments}
-\subsection{Three protocols, separate conclusions}
+\subsection{Physical-response protocols}
 Table~\ref{tab:protocol} states the input contract. We retain complete declared cohorts and report metrics in their native definitions: simulation uses point-vector RMS; SoftVT uses mean frame coordinate RMSE; real captures use mean pointwise Euclidean distance. We never pool these scores. Tests reuse known interaction families or named assets; ``changed interaction'' is more precise here than unrestricted OOD generalization.
 \begin{table}[t]
 \centering\small\setlength{\tabcolsep}{3pt}
@@ -237,11 +237,11 @@ Figure~\ref{fig:publicwins} localizes the sloth-push improvement. Mean tracking 
 \section{Analysis and Limitations}
 The studies isolate different useful components. Controlled mechanics supports changed supports, gravity and contact; the matched analytic control shows that correct physical structure is at least as important as learning the law. SoftVT isolates a slip/release improvement with unchanged shape. Real neural-versus-analytic comparisons show a modest constitutive contribution, while complete continuation favors the established spring model. These findings motivate composition without claiming that every component improves every dataset.
 
-\paragraph{Uncertainty and additional flow experiments.}
-A separately audited expansion fits conditional flow and mixture hypotheses to external objects. It does not replace the primary models above: 11/12 SoftVT physics cases complete, and rigid/contact is stronger on their common cohort; real nearest-bank retrieval also remains stronger than flow. Nominal 90\% flow-contact coordinate intervals cover only 7.02\% on SoftVT and 9.15\% on eight PhysTwin cases, conditional on surviving rollouts. A different RGB-D/25D-code Isaac bridge likewise fails to beat its strongest controls. The supplement records these negative results and failures. They preclude calibrated boundary-learning or uncertainty-guided probing claims.
+\paragraph{Connecting appearance to mechanics.}
+On PIDG's public Balls Reaction scene, transferring fitted Gaussian appearance to our equilibrium adapter and alternating boundary/appearance refinement raises held-image PSNR from 25.59 to 31.43\,dB and foreground PSNR from 19.81 to 22.89\,dB (38 images, $320\times180$). Image gradients reach boundary targets through the mechanics adjoint. Native PIDG remains stronger (49.54\,dB); this reconstruction-assisted study does not establish new-action prediction or hidden-view accuracy. The supplement reports all resolutions, camera sweeps and separate flow/calibration failures.
 
 \paragraph{Scope and reproducibility.}
-All studies supply geometry and correspondences; some supply density and boundary laws. Initial-state uncertainty, image tracking, unmodeled dissipation and discretization can dominate material inference. The coupled simulator and reduced benchmark adapters support different contact assumptions. We report physical diagnostics and reference sensitivity rather than presenting them as a universal realism certificate. Exact protocols, source hashes, fitting budgets, per-case tables and figure selection accompany the manuscript. No predictions are tuned or selected by their future error for this consolidation.
+The primary physical-response studies supply geometry and correspondences; some supply density and boundary laws. The supplementary PIDG adapter instead uses a reconstruction-assisted spherical geometry prior. Initial-state uncertainty, image tracking, unmodeled dissipation and discretization can dominate material inference. The coupled simulator and reduced benchmark adapters support different contact assumptions. We report physical diagnostics and reference sensitivity rather than presenting them as a universal realism certificate. Exact protocols, source hashes, fitting budgets, per-case tables and figure selection accompany the manuscript. No predictions are tuned or selected by their future error for this consolidation.
 
 \section{Conclusion}
 Separating material response from tool and environmental interactions yields useful position-driven twins across controlled contact scenes and two external datasets. The gains concern specific physical responses, not uniform superiority: analytic mechanics is competitive, native PhysTwin wins ordinary real continuation, and uncertainty remains poorly calibrated. Evaluating changed responses, internal deformation and rendering separately gives a more informative test of a digital twin than visual agreement alone.
