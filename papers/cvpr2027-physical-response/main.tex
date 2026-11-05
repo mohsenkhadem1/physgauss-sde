@@ -188,12 +188,12 @@ Mechanics with scene contact &18.932\\
 \textbf{Ours with slip/release} &\textbf{17.865}\\\bottomrule
 \end{tabular}
 \end{table}
-The slip-aware adapter improves 36/40 episodes over the original mechanics/contact pipeline and 35/40 over rigid/contact. Its mean improvement over the former is 1.067\,mm (5.64\%; paired episode-bootstrap interval $[0.692,1.471]$\,mm). Shape error is essentially unchanged at 1.545\,mm. The gain therefore concerns interaction state and placement, not better inferred elasticity. The supplement retains the 220-case development/regression inventory separately from this prospective comparison.
+Figure~\ref{fig:publicwins} highlights a successful placement prediction. The slip-aware adapter improves 36/40 episodes over the original mechanics/contact pipeline and 35/40 over rigid/contact. Its mean improvement over the former is 1.067\,mm (5.64\%; paired episode-bootstrap interval $[0.692,1.471]$\,mm). Shape error is essentially unchanged at 1.545\,mm. The gain therefore concerns interaction state and placement, not better inferred elasticity. The supplement retains the 220-case development/regression inventory separately from this prospective comparison.
 
 \begin{figure*}[t]
-\centering\includegraphics[width=\textwidth]{figures/cohesive-outcomes.pdf}
-\caption{\textbf{Physical and image agreement under explicit protocols.} Left: method means over the same 48 controlled queries, with fixed appearance and transport, expose motion-induced image error; this is numerical-reference agreement, not measured real-world material accuracy. Right: released PhysTwin wins the eight real continuations, while our frozen adapter has a lower mean on the two qualified changed interactions. These are different tasks and metric definitions; no cross-panel average is formed.}
-\label{fig:outcomes}
+\centering\includegraphics[width=\textwidth]{figures/public-dataset-wins.pdf}
+\caption{\textbf{Where our predictions improve on public datasets.} Gold boxes identify identical enlarged regions. \textbf{A:} the successful real sloth lift-to-push transfer; the same recorded RGB appears in every panel, with white manual landmarks and colored predicted positions/error segments. These are geometric overlays, not predicted RGB. The final-frame zoom selects the largest 3D landmark improvement; other errors remain visible in the overview. \textbf{B:} the strongest episode-level SoftVT gain, at 75\% of the forecast interval, with a common point-error scale and reference outline. The zoom selects a point improving in both projected and 3D position. Local point errors differ from whole-sequence means in the headers. These selected successes illustrate the complete-cohort tables, not uniform superiority.}
+\label{fig:publicwins}
 \end{figure*}
 \subsection{Real captures: continuation versus transfer}
 \paragraph{Complete continuation benchmark.}
@@ -213,11 +213,7 @@ Ours, neural &39.01&16.96&16.13&.326\\
 Appearance is transported identically and never refitted to future frames; crops come from the reference foreground with an eight-pixel margin. Native PhysTwin wins this shared-appearance comparison too. Unrecorded camera orbits are qualitative only because reference images do not exist there.
 
 
-\begin{figure}[t]
-\centering\includegraphics[width=\columnwidth]{figures/cohesive-real-capture.pdf}
-\caption{\textbf{A real continuation failure.} First declared sloth-lift sequence, final frame, camera 2; identical reference-derived crop. Both predictions use the same initial Gaussian appearance. PhysTwin follows the captured object more closely here, consistent with its advantage on the complete continuation cohort.}
-\label{fig:realcapture}
-\end{figure}
+
 
 \paragraph{Frozen cross-interaction pilot.}
 Five declared source--target pairs transfer the fitted material from single-lift sloth/zebra to another manipulation of the named object. Initial-only rigid registration must pass median/95th-percentile distance gates of 3\%/8\% of source diagonal. Two pairs pass: sloth lift to push, and zebra one-hand to two-hand lift. The other three remain reported diagnostics. No target motion after initialization is fitted. The native adaptation retains source object springs and builds geometric tool connections using median source attachment stiffness, mirroring our source-material/target-attachment split. Fitting budgets and constitutive families remain different.
@@ -233,7 +229,7 @@ Analytic adapter &40.90&29.60&16.71\\
 \textbf{Ours, neural} &\textbf{39.16}&\textbf{27.34}&\textbf{16.20}\\\bottomrule
 \end{tabular}
 \end{table}
-Mean tracking improves 12.26\% over frozen PhysTwin, but the two pairs have mixed outcomes: ours is better for sloth push and worse for zebra double lift. Internal-deformation improvement is 3.82\%, smaller than displacement improvement (21.81\%). The five-pair diagnostic table is retained without promoting geometrically incompatible pairs to the primary result. Projected 2D landmark error does not improve in aggregate (56.79 versus 56.20 pixels). This is a real-transfer pilot, not a broad claim of real-world OOD superiority.
+Figure~\ref{fig:publicwins} localizes the sloth-push improvement. Mean tracking improves 12.26\% over frozen PhysTwin, but the two pairs have mixed outcomes: ours is better for sloth push and worse for zebra double lift. Internal-deformation improvement is 3.82\%, smaller than displacement improvement (21.81\%). The five-pair diagnostic table is retained without promoting geometrically incompatible pairs to the primary result. Projected 2D landmark error does not improve in aggregate (56.79 versus 56.20 pixels). This is a real-transfer pilot, not a broad claim of real-world OOD superiority.
 
 
 

@@ -21,7 +21,7 @@ the stronger established models. Every adapter and metric is labeled.
 
 DELIVERABLE CHANGES
 One coherent method and evaluation narrative replaces two disconnected drafts.
-Seven new scientific figures include matched error-map zooms, three physical
+Eight new scientific figures include matched error-map zooms, three physical
 coordinate roles, exact scale ambiguity, per-world scenario results and real
 capture comparisons. These use saved evidence or explicitly labeled schematic
 geometry, not image-generated experimental results. Old papers and predictions
@@ -62,3 +62,6 @@ statement is included. Official author guidance was checked5 November2026.
 
 Raw recordings, checkpoints and large trajectories remain local. PokeFlex is
 unavailable under approved access; Deform360 is deferred at the user's request.
+
+PUBLIC-DATASET ZOOM UPDATE
+Main Figure6/page8 now shows selected PhysTwin frozen-transfer and SoftVT successes with common crops, highlighted landmarks/material points and unchanged predictions. Selection rules and source hashes: figures/public-dataset-wins-provenance.json. Real overlays use the same recorded RGB; they do not assert better RGB rendering. The full continuation/transfer tables remain in the main paper; the comparison overview and real continuation failure appear in the22-page supplement.
