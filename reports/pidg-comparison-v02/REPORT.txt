@@ -1,0 +1,46 @@
+PIDG integration: matched public-scene reconstruction comparison
+==============================================================
+
+Completed on GPUs 0-2. This experiment plugs our previously trained, frozen
+material-energy network into the authors' PIDG training pipeline. It is a
+material-module integration, not the complete contact/force-inference solver.
+
+Public dataset: PIDG balls_reaction (synthetic).
+101 fitting images, 11 validation images, 38 final-test images.
+All methods: 50,000 initial steps plus 5,000 declared refinement steps.
+The refinement strength was chosen on validation before its test evaluation.
+Initial results and both validation candidates are retained, including losses.
+
+Average final-test scores             PIDG       Integration
+RGB PSNR at 320px (higher better)      49.54      48.16 dB
+Foreground PSNR at 320px               39.62      38.19 dB
+SSIM at 320px                         0.99872    0.99826
+LPIPS at 320px (lower better)          0.000423   0.000726
+RGB PSNR at 640px                      34.48      34.41 dB
+Foreground PSNR at 640px               25.28      25.41 dB
+Sampled deformation-map inversions     0.1336%     0.0000%
+
+The hybrid wins whole-image PSNR on 6/38 frames and foreground PSNR on 5/38.
+It does not beat PIDG's average rendering quality. Higher-resolution rendering
+is nearly tied overall. The geometry diagnostics improve, but they are not
+physical-accuracy measurements against known material properties or forces.
+
+The selected 640px crops show genuine local improvements:
+- Frame 0081, green ball: RGB RMSE 0.06839 -> 0.04868 (28.8% lower).
+- Frame 0129, blue ball:  RGB RMSE 0.06564 -> 0.04827 (26.5% lower).
+These were selected after evaluation. They do not establish overall superiority.
+
+Figures: figures/selected-comparison.png, error-maps.png,
+all-frame-gains.png, and failure.png. Identical cameras, ground truth, display
+ranges and crop coordinates are used. No generated or cosmetically enhanced
+predictions are included. Pixel error maps use one shared clipped color scale.
+
+Reproduction details: protocol.json, run-provenance.json, validation-results.json,
+results.json, final-audit.json, and scripts/pidg_comparison/README.txt.
+The earlier v01 experiment is preserved beside this report. Raw data, full
+reconstruction checkpoints, and individual rendered frame arrays stay local.
+
+Source implementation:
+https://github.com/SCAILab-USTC/Physics-Informed-Deformable-Gaussian-Splatting
+Dataset:
+https://huggingface.co/datasets/HaoqinHong/Physics-Informed-Deformable-Gaussian-Splatting

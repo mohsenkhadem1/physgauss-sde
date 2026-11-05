@@ -1,0 +1,358 @@
+{
+  "scope": "New integration ablation: frozen shared material law inside PIDG reconstruction. Not the complete coupled mechanics/force-inference method.",
+  "dataset": "PIDG balls_reaction; public synthetic RGB sequence",
+  "training_frames": 101,
+  "validation_frames": 11,
+  "test_frames": 38,
+  "baseline": {
+    "psnr_db": 48.96239391126131,
+    "psnr_channel_mean_db": 49.127905996222246,
+    "lpips_alex": 0.000447553702159846,
+    "ssim": 0.9986745009296819,
+    "foreground_rmse": 0.012924452349053402,
+    "foreground_psnr_db": 39.00511008814762,
+    "sampled_inversion_fraction": 0.0013363486842105264,
+    "sampled_abs_volume_change": 0.14414287221274877
+  },
+  "hybrid": {
+    "psnr_db": 47.44090311150802,
+    "psnr_channel_mean_db": 47.6152723713925,
+    "lpips_alex": 0.0007759068989559493,
+    "ssim": 0.9981877756746191,
+    "foreground_rmse": 0.015861424164062266,
+    "foreground_psnr_db": 37.414233709636484,
+    "sampled_inversion_fraction": 0.0,
+    "sampled_abs_volume_change": 0.012298171886389977
+  },
+  "selection": {
+    "criterion": "Highest mean foreground PSNR on the 11 validation frames; no test-based tuning",
+    "candidates": [
+      {
+        "run": "full-ours-001",
+        "validation_foreground_psnr_db": 35.7939734025435
+      },
+      {
+        "run": "full-ours-010",
+        "validation_foreground_psnr_db": 35.81760735945268
+      }
+    ],
+    "chosen": "full-ours-010",
+    "test_runs": [
+      "/home/bayespc2/vscode/guassianSDE/runs/pidg-comparison-v01/full-pidg",
+      "/home/bayespc2/vscode/guassianSDE/runs/pidg-comparison-v01/full-ours-010"
+    ],
+    "sealed_at": 1793885342.0270057
+  },
+  "foreground_wins": 3,
+  "whole_image_wins": 3,
+  "per_frame": [
+    {
+      "frame": "0001",
+      "foreground_psnr_gain_db": -1.4856414794921875,
+      "psnr_gain_db": -1.3457145690917969,
+      "lpips_reduction": -1.337398134637624e-05
+    },
+    {
+      "frame": "0005",
+      "foreground_psnr_gain_db": -1.1020851135253906,
+      "psnr_gain_db": -1.1951179504394531,
+      "lpips_reduction": -6.521215254906565e-06
+    },
+    {
+      "frame": "0009",
+      "foreground_psnr_gain_db": -0.8756790161132812,
+      "psnr_gain_db": -0.789459228515625,
+      "lpips_reduction": -2.3008178686723113e-05
+    },
+    {
+      "frame": "0013",
+      "foreground_psnr_gain_db": -1.3312911987304688,
+      "psnr_gain_db": -1.182891845703125,
+      "lpips_reduction": -2.2850777895655483e-05
+    },
+    {
+      "frame": "0017",
+      "foreground_psnr_gain_db": -1.3400993347167969,
+      "psnr_gain_db": -1.3169021606445312,
+      "lpips_reduction": -3.680303052533418e-06
+    },
+    {
+      "frame": "0021",
+      "foreground_psnr_gain_db": -1.6209983825683594,
+      "psnr_gain_db": -1.6213340759277344,
+      "lpips_reduction": 4.864887159783393e-07
+    },
+    {
+      "frame": "0025",
+      "foreground_psnr_gain_db": -1.5285072326660156,
+      "psnr_gain_db": -1.5226516723632812,
+      "lpips_reduction": -3.569712134776637e-06
+    },
+    {
+      "frame": "0029",
+      "foreground_psnr_gain_db": -1.3051185607910156,
+      "psnr_gain_db": -1.1215553283691406,
+      "lpips_reduction": -1.2695250916294754e-05
+    },
+    {
+      "frame": "0033",
+      "foreground_psnr_gain_db": -3.332012176513672,
+      "psnr_gain_db": -2.9163780212402344,
+      "lpips_reduction": -3.9269674743991345e-05
+    },
+    {
+      "frame": "0037",
+      "foreground_psnr_gain_db": -4.911460876464844,
+      "psnr_gain_db": -4.54052734375,
+      "lpips_reduction": -0.00011044201528420672
+    },
+    {
+      "frame": "0041",
+      "foreground_psnr_gain_db": -5.185771942138672,
+      "psnr_gain_db": -5.125114440917969,
+      "lpips_reduction": -0.00026515986246522516
+    },
+    {
+      "frame": "0045",
+      "foreground_psnr_gain_db": -4.688877105712891,
+      "psnr_gain_db": -4.769737243652344,
+      "lpips_reduction": -0.00010732151713455096
+    },
+    {
+      "frame": "0049",
+      "foreground_psnr_gain_db": -3.2621116638183594,
+      "psnr_gain_db": -2.997150421142578,
+      "lpips_reduction": -9.489140938967466e-05
+    },
+    {
+      "frame": "0053",
+      "foreground_psnr_gain_db": -1.2705154418945312,
+      "psnr_gain_db": -1.7103309631347656,
+      "lpips_reduction": -3.475401899777353e-05
+    },
+    {
+      "frame": "0057",
+      "foreground_psnr_gain_db": 0.2773628234863281,
+      "psnr_gain_db": 0.12302780151367188,
+      "lpips_reduction": 0.00010484427912160754
+    },
+    {
+      "frame": "0061",
+      "foreground_psnr_gain_db": -3.6018829345703125,
+      "psnr_gain_db": -3.466796875,
+      "lpips_reduction": -0.0004034056910313666
+    },
+    {
+      "frame": "0065",
+      "foreground_psnr_gain_db": -1.8202056884765625,
+      "psnr_gain_db": -2.2929420471191406,
+      "lpips_reduction": -0.0009185767557937652
+    },
+    {
+      "frame": "0069",
+      "foreground_psnr_gain_db": -0.19183731079101562,
+      "psnr_gain_db": -0.23448944091796875,
+      "lpips_reduction": -3.9958045817911625e-05
+    },
+    {
+      "frame": "0073",
+      "foreground_psnr_gain_db": -0.4009971618652344,
+      "psnr_gain_db": -1.0590782165527344,
+      "lpips_reduction": -0.0002481273841112852
+    },
+    {
+      "frame": "0077",
+      "foreground_psnr_gain_db": -1.098306655883789,
+      "psnr_gain_db": -1.0865554809570312,
+      "lpips_reduction": 1.5298137441277504e-05
+    },
+    {
+      "frame": "0081",
+      "foreground_psnr_gain_db": 1.415323257446289,
+      "psnr_gain_db": 1.3605575561523438,
+      "lpips_reduction": 0.00017696572467684746
+    },
+    {
+      "frame": "0085",
+      "foreground_psnr_gain_db": -1.3099594116210938,
+      "psnr_gain_db": -0.8280906677246094,
+      "lpips_reduction": -0.00016281643183901906
+    },
+    {
+      "frame": "0089",
+      "foreground_psnr_gain_db": -3.0283374786376953,
+      "psnr_gain_db": -2.9954757690429688,
+      "lpips_reduction": -0.0037541426718235016
+    },
+    {
+      "frame": "0093",
+      "foreground_psnr_gain_db": -0.2868156433105469,
+      "psnr_gain_db": -0.21998214721679688,
+      "lpips_reduction": -0.00014757708413526416
+    },
+    {
+      "frame": "0097",
+      "foreground_psnr_gain_db": -0.7885055541992188,
+      "psnr_gain_db": -0.7583847045898438,
+      "lpips_reduction": -0.00020157074322924018
+    },
+    {
+      "frame": "0101",
+      "foreground_psnr_gain_db": -2.981578826904297,
+      "psnr_gain_db": -2.0482864379882812,
+      "lpips_reduction": -0.004075370263308287
+    },
+    {
+      "frame": "0105",
+      "foreground_psnr_gain_db": -3.135395050048828,
+      "psnr_gain_db": -0.5336074829101562,
+      "lpips_reduction": -0.0008741803467273712
+    },
+    {
+      "frame": "0109",
+      "foreground_psnr_gain_db": -5.214469909667969,
+      "psnr_gain_db": -6.250801086425781,
+      "lpips_reduction": -0.0010711905924836174
+    },
+    {
+      "frame": "0113",
+      "foreground_psnr_gain_db": -0.48653411865234375,
+      "psnr_gain_db": -0.6774673461914062,
+      "lpips_reduction": -2.7752539608627558e-06
+    },
+    {
+      "frame": "0117",
+      "foreground_psnr_gain_db": -0.8901100158691406,
+      "psnr_gain_db": -1.1037864685058594,
+      "lpips_reduction": -2.5214249035343528e-06
+    },
+    {
+      "frame": "0121",
+      "foreground_psnr_gain_db": -0.3985710144042969,
+      "psnr_gain_db": -0.459228515625,
+      "lpips_reduction": -2.6762820198200643e-05
+    },
+    {
+      "frame": "0125",
+      "foreground_psnr_gain_db": -0.6590347290039062,
+      "psnr_gain_db": -0.561981201171875,
+      "lpips_reduction": -3.1119903724174947e-05
+    },
+    {
+      "frame": "0129",
+      "foreground_psnr_gain_db": 0.4503517150878906,
+      "psnr_gain_db": 0.16350936889648438,
+      "lpips_reduction": 7.324859325308353e-06
+    },
+    {
+      "frame": "0133",
+      "foreground_psnr_gain_db": -0.5435142517089844,
+      "psnr_gain_db": -0.4346160888671875,
+      "lpips_reduction": -3.6828103475272655e-05
+    },
+    {
+      "frame": "0137",
+      "foreground_psnr_gain_db": -0.5420455932617188,
+      "psnr_gain_db": -0.5013923645019531,
+      "lpips_reduction": -2.5065659428946674e-05
+    },
+    {
+      "frame": "0141",
+      "foreground_psnr_gain_db": -0.6059455871582031,
+      "psnr_gain_db": -0.652191162109375,
+      "lpips_reduction": -1.9660561520140618e-05
+    },
+    {
+      "frame": "0145",
+      "foreground_psnr_gain_db": -0.5960311889648438,
+      "psnr_gain_db": -0.5934829711914062,
+      "lpips_reduction": 1.0769537766464055e-05
+    },
+    {
+      "frame": "0149",
+      "foreground_psnr_gain_db": -0.776092529296875,
+      "psnr_gain_db": -0.5502433776855469,
+      "lpips_reduction": -1.3922850484959781e-05
+    }
+  ],
+  "selected_successes": [
+    {
+      "frame": "0081",
+      "foreground_psnr_gain_db": 1.415323257446289,
+      "psnr_gain_db": 1.3605575561523438,
+      "lpips_reduction": 0.00017696572467684746,
+      "crop_xywh": [
+        288,
+        96,
+        80,
+        80
+      ],
+      "render_width": 640,
+      "crop_rmse": {
+        "pidg": 0.07032645493745804,
+        "hybrid": 0.04993879795074463
+      }
+    },
+    {
+      "frame": "0129",
+      "foreground_psnr_gain_db": 0.4503517150878906,
+      "psnr_gain_db": 0.16350936889648438,
+      "lpips_reduction": 7.324859325308353e-06,
+      "crop_xywh": [
+        232,
+        144,
+        80,
+        80
+      ],
+      "render_width": 640,
+      "crop_rmse": {
+        "pidg": 0.06523247063159943,
+        "hybrid": 0.04728550836443901
+      }
+    }
+  ],
+  "least_favorable": [
+    {
+      "frame": "0109",
+      "foreground_psnr_gain_db": -5.214469909667969,
+      "psnr_gain_db": -6.250801086425781,
+      "lpips_reduction": -0.0010711905924836174,
+      "crop_xywh": [
+        224,
+        40,
+        80,
+        80
+      ],
+      "render_width": 640,
+      "crop_rmse": {
+        "pidg": 0.0377463661134243,
+        "hybrid": 0.05428607761859894
+      }
+    }
+  ],
+  "physics_limit": "No ground-truth trajectories, forces, material parameters or physical timescale supplied here; Jacobian diagnostics do not establish physical accuracy.",
+  "protocol_limit": "Single-seed, 320x180 reconstruction pilot with runtime fixes shared across methods; not published native leaderboard numbers.",
+  "secondary_640px_rendering": {
+    "selection_used": false,
+    "baseline": {
+      "psnr_db": 34.47612682141756,
+      "psnr_channel_mean_db": 34.767875119259486,
+      "lpips_alex": 0.008533328563269032,
+      "ssim": 0.9845601806515142,
+      "foreground_rmse": 0.05484723054656857,
+      "foreground_psnr_db": 25.291606903076172,
+      "sampled_inversion_fraction": 0.0013363486842105264,
+      "sampled_abs_volume_change": 0.14414287221274877
+    },
+    "hybrid": {
+      "psnr_db": 34.40097146285208,
+      "psnr_channel_mean_db": 34.64397440458599,
+      "lpips_alex": 0.008563889398876774,
+      "ssim": 0.984365115040227,
+      "foreground_rmse": 0.054130195591010545,
+      "foreground_psnr_db": 25.430435281050833,
+      "sampled_inversion_fraction": 0.0,
+      "sampled_abs_volume_change": 0.012298171886389977
+    }
+  }
+}

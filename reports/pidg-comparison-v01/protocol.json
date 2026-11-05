@@ -1,0 +1,85 @@
+{
+  "experiment": "Frozen shared constitutive-law transfer into official-source PIDG",
+  "dataset": "https://huggingface.co/datasets/HaoqinHong/Physics-Informed-Deformable-Gaussian-Splatting",
+  "scene": "balls_reaction",
+  "upstream": "https://github.com/SCAILab-USTC/Physics-Informed-Deformable-Gaussian-Splatting/tree/b77fd2107a50c875d7219bb4f82388d5e5ea1319",
+  "models": [
+    {
+      "name": "PIDG compatible reproduction",
+      "gpu": 0,
+      "material_prior_weight": 0
+    },
+    {
+      "name": "PIDG plus our frozen material prior",
+      "gpu": 1,
+      "material_prior_weight": 0.001
+    },
+    {
+      "name": "PIDG plus our frozen material prior",
+      "gpu": 2,
+      "material_prior_weight": 0.01
+    }
+  ],
+  "steps_each": 50000,
+  "resolution": [
+    320,
+    180
+  ],
+  "initial_points": 100000,
+  "seed": 0,
+  "flow": "Dual TV-L1 between retained training neighbors, 320x180",
+  "depth": "released monocular per-image estimates, train frames only",
+  "flow_and_original_momentum_loss": true,
+  "split": {
+    "train": 101,
+    "validation": 11,
+    "test": 38
+  },
+  "validation_selection": "highest mean foreground PSNR between the two material-prior strengths; fixed final checkpoints",
+  "final_test_policy": "single evaluation after selection seal",
+  "shared_compatibility_changes": [
+    "restore official missing material-field module from matching historical source",
+    "correct swapped rectangular camera FoVs",
+    "use one frame-index clock across train/validation/test",
+    "supply missing default renderer flow flag at evaluation",
+    "handle scalar validation PSNR as float",
+    "normalize unresized mask layout",
+    "use eager CUDA image loading; optional on-the-fly loader has undefined attribute"
+  ],
+  "ours_module": "ScaleSeparatedMaterialLaw: previously learned frozen objective isotropic energy; finite-difference deformation Jacobian; normalized energy plus explicit inversion penalty",
+  "material_descriptor": [
+    0,
+    0,
+    -1
+  ],
+  "excluded_from_this_integration": [
+    "full forward dynamics solver",
+    "inferred force field",
+    "multiple-object contact",
+    "material uncertainty",
+    "new-action forecasting"
+  ],
+  "metrics": [
+    "standard RGB PSNR",
+    "SSIM",
+    "LPIPS AlexNet on [-1,1] inputs",
+    "foreground PSNR/RMSE",
+    "sampled deformation-gradient inversion fraction",
+    "sampled absolute volume change"
+  ],
+  "physics_interpretation": "Jacobian values are geometry sanity diagnostics, not accuracy against unknown material/force ground truth.",
+  "figure_policy": "Matched GT/baseline/hybrid frames and crops at identical display settings; favorable examples explicitly selected after evaluation; all-frame metrics and least favorable example retained.",
+  "status": "training; no result claim",
+  "recorded_unix": 1793882560.1194763,
+  "source_sha256": {
+    "scripts/pidg_comparison/finish.py": "0ff243087b0b77e5ff4e375149b2ec5d93e65901b017731f998700efa51b490a",
+    "scripts/pidg_comparison/test_mechanics.py": "478ab0f02e69d19f894a385f6cd049326f144b9c05d61b9fbb85a2b2d0f760ef",
+    "scripts/pidg_comparison/compare.py": "f4864af1a14ad4b03c4e525f55617506eff9622c59b71ff329ac77df0a20e1d0",
+    "scripts/pidg_comparison/evaluate.py": "7a1c6e13d1ef70bfddba2360aab825780b0ff45393d346c3a7e55482da72516e",
+    "scripts/pidg_comparison/audit.py": "608cf193060d1fe119fa3890e0fecaee4753c79f3da8752cd469dcc1dcb5afa7",
+    "scripts/pidg_comparison/run.py": "bf12bd9a2343454a7abbde8e3a1f0a7c7030ef7e3ca3d663562c8a8b5ae1a5b6",
+    "scripts/pidg_comparison/prepare.py": "49341080a99e0f2924562eb7b71c36032a675e38aa8c4fa8d1e5e21cf0841461",
+    "scripts/pidg_comparison/preprocess.py": "131b59474670a5fc61bce2feb4dd5d991553ba9d5e6e939aa096c49579f4417a",
+    "scripts/pidg_comparison/mechanics.py": "011977b8580861cc4a967c24f2aa214a16329579230ada9cd3c3588e52617dc2"
+  }
+}

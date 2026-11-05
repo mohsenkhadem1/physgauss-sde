@@ -1,0 +1,149 @@
+{
+  "runs": {
+    "full-pidg": {
+      "status": "training_complete",
+      "started": 1793881974.7121696,
+      "arguments": {
+        "gpu": 0,
+        "weight": 0,
+        "steps": 50000,
+        "width": 320,
+        "output": "runs/pidg-comparison-v01/full-pidg",
+        "scene": "balls_reaction",
+        "flow": true
+      },
+      "upstream_commit": "b77fd2107a50c875d7219bb4f82388d5e5ea1319",
+      "runtime_changes": {
+        "renderer_default_flow_flag": false,
+        "camera_fov_assignment": "FoVx=fovx,FoVy=fovy",
+        "checkpoint_scalar": "float(cur_psnr) instead of cur_psnr.item()",
+        "input_time": "common physical frame index normalized to [0,1]",
+        "validation": "upstream test slot contains only 11 reserved train images",
+        "flow_enabled": true,
+        "unresized_mask_layout": "HWC to CHW; matches resized branch",
+        "gpu_image_loading": "eager; broken optional on-the-fly path not used"
+      },
+      "label": "PIDG compatible reproduction",
+      "source_sha256": {
+        "scripts/pidg_comparison/test_mechanics.py": "478ab0f02e69d19f894a385f6cd049326f144b9c05d61b9fbb85a2b2d0f760ef",
+        "scripts/pidg_comparison/evaluate.py": "7722f7babaa865e64a5c6743a4efb938d34cec17b72f9bd770d24f53612641ae",
+        "scripts/pidg_comparison/run.py": "bf12bd9a2343454a7abbde8e3a1f0a7c7030ef7e3ca3d663562c8a8b5ae1a5b6",
+        "scripts/pidg_comparison/prepare.py": "49341080a99e0f2924562eb7b71c36032a675e38aa8c4fa8d1e5e21cf0841461",
+        "scripts/pidg_comparison/preprocess.py": "131b59474670a5fc61bce2feb4dd5d991553ba9d5e6e939aa096c49579f4417a",
+        "scripts/pidg_comparison/mechanics.py": "011977b8580861cc4a967c24f2aa214a16329579230ada9cd3c3588e52617dc2"
+      },
+      "finished": 1793884625.5433068
+    },
+    "full-ours-001": {
+      "status": "training_complete",
+      "started": 1793881976.1429718,
+      "arguments": {
+        "gpu": 1,
+        "weight": 0.001,
+        "steps": 50000,
+        "width": 320,
+        "output": "runs/pidg-comparison-v01/full-ours-001",
+        "scene": "balls_reaction",
+        "flow": true
+      },
+      "upstream_commit": "b77fd2107a50c875d7219bb4f82388d5e5ea1319",
+      "runtime_changes": {
+        "renderer_default_flow_flag": false,
+        "camera_fov_assignment": "FoVx=fovx,FoVy=fovy",
+        "checkpoint_scalar": "float(cur_psnr) instead of cur_psnr.item()",
+        "input_time": "common physical frame index normalized to [0,1]",
+        "validation": "upstream test slot contains only 11 reserved train images",
+        "flow_enabled": true,
+        "unresized_mask_layout": "HWC to CHW; matches resized branch",
+        "gpu_image_loading": "eager; broken optional on-the-fly path not used",
+        "constitutive_checkpoint_sha256": "20aef4ac9eac62b418852dd0f79dfd6899d8e544b2428916819be9179988f0e8"
+      },
+      "label": "PIDG + frozen shared material energy (integration ablation)",
+      "source_sha256": {
+        "scripts/pidg_comparison/test_mechanics.py": "478ab0f02e69d19f894a385f6cd049326f144b9c05d61b9fbb85a2b2d0f760ef",
+        "scripts/pidg_comparison/evaluate.py": "7722f7babaa865e64a5c6743a4efb938d34cec17b72f9bd770d24f53612641ae",
+        "scripts/pidg_comparison/run.py": "bf12bd9a2343454a7abbde8e3a1f0a7c7030ef7e3ca3d663562c8a8b5ae1a5b6",
+        "scripts/pidg_comparison/prepare.py": "49341080a99e0f2924562eb7b71c36032a675e38aa8c4fa8d1e5e21cf0841461",
+        "scripts/pidg_comparison/preprocess.py": "131b59474670a5fc61bce2feb4dd5d991553ba9d5e6e939aa096c49579f4417a",
+        "scripts/pidg_comparison/mechanics.py": "011977b8580861cc4a967c24f2aa214a16329579230ada9cd3c3588e52617dc2"
+      },
+      "finished": 1793885194.1311028
+    },
+    "full-ours-010": {
+      "status": "training_complete",
+      "started": 1793881977.2652848,
+      "arguments": {
+        "gpu": 2,
+        "weight": 0.01,
+        "steps": 50000,
+        "width": 320,
+        "output": "runs/pidg-comparison-v01/full-ours-010",
+        "scene": "balls_reaction",
+        "flow": true
+      },
+      "upstream_commit": "b77fd2107a50c875d7219bb4f82388d5e5ea1319",
+      "runtime_changes": {
+        "renderer_default_flow_flag": false,
+        "camera_fov_assignment": "FoVx=fovx,FoVy=fovy",
+        "checkpoint_scalar": "float(cur_psnr) instead of cur_psnr.item()",
+        "input_time": "common physical frame index normalized to [0,1]",
+        "validation": "upstream test slot contains only 11 reserved train images",
+        "flow_enabled": true,
+        "unresized_mask_layout": "HWC to CHW; matches resized branch",
+        "gpu_image_loading": "eager; broken optional on-the-fly path not used",
+        "constitutive_checkpoint_sha256": "20aef4ac9eac62b418852dd0f79dfd6899d8e544b2428916819be9179988f0e8"
+      },
+      "label": "PIDG + frozen shared material energy (integration ablation)",
+      "source_sha256": {
+        "scripts/pidg_comparison/test_mechanics.py": "478ab0f02e69d19f894a385f6cd049326f144b9c05d61b9fbb85a2b2d0f760ef",
+        "scripts/pidg_comparison/evaluate.py": "7722f7babaa865e64a5c6743a4efb938d34cec17b72f9bd770d24f53612641ae",
+        "scripts/pidg_comparison/run.py": "bf12bd9a2343454a7abbde8e3a1f0a7c7030ef7e3ca3d663562c8a8b5ae1a5b6",
+        "scripts/pidg_comparison/prepare.py": "49341080a99e0f2924562eb7b71c36032a675e38aa8c4fa8d1e5e21cf0841461",
+        "scripts/pidg_comparison/preprocess.py": "131b59474670a5fc61bce2feb4dd5d991553ba9d5e6e939aa096c49579f4417a",
+        "scripts/pidg_comparison/mechanics.py": "011977b8580861cc4a967c24f2aa214a16329579230ada9cd3c3588e52617dc2"
+      },
+      "finished": 1793885302.8418348
+    }
+  },
+  "selection": {
+    "criterion": "Highest mean foreground PSNR on the 11 validation frames; no test-based tuning",
+    "candidates": [
+      {
+        "run": "full-ours-001",
+        "validation_foreground_psnr_db": 35.7939734025435
+      },
+      {
+        "run": "full-ours-010",
+        "validation_foreground_psnr_db": 35.81760735945268
+      }
+    ],
+    "chosen": "full-ours-010",
+    "test_runs": [
+      "/home/bayespc2/vscode/guassianSDE/runs/pidg-comparison-v01/full-pidg",
+      "/home/bayespc2/vscode/guassianSDE/runs/pidg-comparison-v01/full-ours-010"
+    ],
+    "sealed_at": 1793885342.0270057
+  },
+  "model_checkpoint_sha256": {},
+  "raw_data_kept_local": true,
+  "current_source_sha256": {
+    "scripts/pidg_comparison/finish.py": "ba2a35040d85179e94d55781d59995182843f88c339f86f39ffad1237d6b3ea8",
+    "scripts/pidg_comparison/test_mechanics.py": "478ab0f02e69d19f894a385f6cd049326f144b9c05d61b9fbb85a2b2d0f760ef",
+    "scripts/pidg_comparison/compare.py": "dc26e793e704160d5bce2016a7525e487b81266ff3705d835f4f35c1b32ab32c",
+    "scripts/pidg_comparison/evaluate.py": "af07253be2feb5988843ffa19db883b662fbcc927910b8d95c3b4ed2ea728eba",
+    "scripts/pidg_comparison/finish_refinement.py": "31ff6d6772ded7bf15ede1cb12ea8ebcb8e83d339063041bf6e57a52155c5787",
+    "scripts/pidg_comparison/audit.py": "608cf193060d1fe119fa3890e0fecaee4753c79f3da8752cd469dcc1dcb5afa7",
+    "scripts/pidg_comparison/audit_results.py": "5f90c6ba73ce12b4452598a252ddcbdc7d5af8999a0cd588db16b167b7aefa2a",
+    "scripts/pidg_comparison/run.py": "e01c87729a82cf2483aaa5a95efcea747bfb18a65e423b2671f51b99c677a234",
+    "scripts/pidg_comparison/README.txt": "14655272fc87877afaa2d66361ebe8fe244b2f0621f444a887ed57bb5aade694",
+    "scripts/pidg_comparison/prepare.py": "49341080a99e0f2924562eb7b71c36032a675e38aa8c4fa8d1e5e21cf0841461",
+    "scripts/pidg_comparison/preprocess.py": "131b59474670a5fc61bce2feb4dd5d991553ba9d5e6e939aa096c49579f4417a",
+    "scripts/pidg_comparison/mechanics.py": "6b2f2939c84161addd610b374e9bb0083b7287e11c05a2dc5b453f7ff9080c30"
+  },
+  "figure_sha256": {
+    "output/figures/pidg-comparison/failure.png": "91b6c91e277b7042720ca940e1cd2ad4bdf34a216b3c618921d12a4adfc12548",
+    "output/figures/pidg-comparison/all-frame-gains.png": "51a05a67c55d1c835e31b2537d570ca8950e79e1f62cc41c35641c187d1f204c",
+    "output/figures/pidg-comparison/selected-comparison.png": "bfd599b87b87a1fb40f5e70e0410c155974ef8bd88b28de21a8f3c798bda972a",
+    "output/figures/pidg-comparison/error-maps.png": "ebdb63b82f422ded515516e083bce599325cfd5ee8f46a5db1f6a1747a74b8ec"
+  }
+}
