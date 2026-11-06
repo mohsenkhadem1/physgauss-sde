@@ -1,0 +1,165 @@
+INDEPENDENT LITERATURE AND PROTOCOL AUDIT
+Agent: joint_field_inventory. Read-only code review except this owned report.
+Review date: 2026-11-06. Sources verified through primary-source web search.
+
+POSITIONING
+The defensible contribution is a controlled spatial material/interaction
+identification and measurement-selection study. FEM is its forward model.
+Gaussian force elimination, joint Bayesian system identification, Gaussian
+task-frame interactions, and prediction-oriented experimental design all have
+precedent. The exact finite-hypothesis reference should be presented as a
+reference algorithm, not arbitrary continuous-field recovery from raw video.
+
+VERIFIED PRIMARY REFERENCES
+1. Alvarez, Luengo, Lawrence. Latent Force Models. AISTATS 2009, PMLR5:9-16.
+   https://proceedings.mlr.press/v5/alvarez09a.html
+   GP latent loads coupled to differential equations; official BibTeX available.
+2. Nayek, Chakraborty, Narasimhan. A Gaussian process latent force model for
+   joint input-state estimation in linear structural systems. 2019 preprint.
+   https://arxiv.org/abs/1904.00093
+   Force/state inference with structural-model knowledge and observability.
+3. Rogers, Worden, Cross. On the application of Gaussian process latent force
+   models for joint input-state-parameter estimation: With a view to Bayesian
+   operational identification. MSSP140:106580, 2020.
+   https://eprints.whiterose.ac.uk/id/eprint/157049/
+   DOI:10.1016/j.ymssp.2019.106580. Joint parameter/state/force uncertainty.
+4. Attia, Alexanderian, Saibaba. Goal-Oriented Optimal Design of Experiments
+   for Large-Scale Bayesian Linear Inverse Problems. 2018 preprint.
+   https://arxiv.org/abs/1802.06517
+   Target predictive uncertainty rather than parameter uncertainty alone.
+5. Calinon, Bruno, Caldwell. A Task-Parameterized Probabilistic Model with
+   Minimal Intervention Control. ICRA2014.
+   https://calinon.ch/papers/Calinon-ICRA2014.pdf
+   Task-frame Gaussian mixtures and varying stiffness/damping controllers.
+6. Li, Qiao, Chen, Jatavallabhula, Lin, Jiang, Gan. PAC-NeRF: Physics Augmented
+   Continuum Neural Radiance Fields for Geometry-Agnostic System Identification.
+   ICLR2023. https://arxiv.org/abs/2303.05512
+   Multiview geometry/material identification through continuum simulation.
+7. Zhong, Yu, Wu, Li. Reconstruction and Simulation of Elastic Objects with
+   Spring-Mass 3D Gaussians. ECCV2024.
+   https://zlicheng.com/spring_gaus/
+   Appearance/geometry/physics reconstruction and changed-condition simulation.
+8. Jiang, Hsu, Zhang, Yu, Wang, Li. PhysTwin: Physics-Informed Reconstruction
+   and Simulation of Deformable Objects from Videos. ICCV2025.
+   https://arxiv.org/abs/2503.17973
+   Sparse-video twins, dense properties, future and novel interactions.
+9. Zhao, Chen, Liu, Li, Herrmann, Hur, Li, Yang, Raj, Xu. MASIV: Toward
+   Material-Agnostic System Identification from Videos. ICCV2025.
+   https://arxiv.org/abs/2508.01112
+   Neural constitutive identification with dense trajectory guidance.
+10. Li, Shen, Ni, Pan, Zhang, Zhu. Learning Physics-Grounded 4D Dynamics with
+    Neural Gaussian Force Fields. ICLR2026.
+    https://arxiv.org/abs/2602.00148
+    Author venue confirmation: https://yzhu.io/publication/physics2026iclr/
+    Gaussian perception and learned explicit force dynamics.
+
+DIRECTLY RELATED PUBLIC PROJECT (not verified peer-reviewed publication)
+Jacob Gong. Active System Identification for Physics Twins of Deformable
+Objects. September2026 author project:
+https://jacobgit2.github.io/projects/phystwin-active-sysid/
+It investigates ambiguity between fitted PhysTwin models, active interactions,
+low-dimensional stiffness kernels and Fisher design. Its reported observation
+that disagreement need not predict the benefit of an acquired action motivates
+our expected posterior prediction-risk test. Do not claim the broad question
+of uncertain video physics plus active probing is new.
+
+PROTOCOL REVIEW: CAMPAIGN.txt
+The scope statements are appropriate: 3D small-strain quasistatic elasticity,
+known geometry/correspondences, noisy projected displacement tracks, finite
+hypothesis exactness, signed Gaussian loads, no contact/gravity/dynamics claim.
+Two kernel material contrast and x-varying support/load locations are a
+low-dimensional spatial family, not arbitrary 3D field discovery. Gaussian
+kernel covariance is physical footprint, not posterior covariance.
+
+BEFORE FINAL TEST RELEASE, RECORD THESE NUMERICAL DETAILS
+- Exact dictionary values and prior masses, continuous stress distribution,
+  independent development/test seeds and case counts; material/load prior units.
+- Camera matrices, visible/hidden point sets, all observed times and noise.
+- Acquisition candidates, scalar versus image cost, reset protocol, probe N,
+  number of actions, and fixed-sequence selection exclusively on development.
+- Exact fixed target coordinates/times/known changed loads and their weighting.
+  If original unknown-load motion and known new-load response are combined,
+  disclose the weighting and report each separately. Otherwise target choice
+  can predetermine which modality wins.
+- Separate information-gain action ranking from direct uncertainty/confidence;
+  MC selection counts and high-sample ranking/expected-risk audits.
+- Mesh refinement at sampled actual parameter regimes, not only one nominal
+  case; nonrigid amplitude, maximum strain and support discretization changes.
+- Dictionary refinement or independent continuous posterior diagnostic before
+  interpreting off-grid undercoverage as merely a statistical-model issue.
+- Distinguish marginal MAP and profiled joint MAP: H(theta) varies, so their
+  determinant-volume correction varies. They are different estimators, not an
+  exact-identity test. Add determinant-corrected profile identity as the control.
+- Fixed force prior can anchor absolute stiffness statistically. The likelihood
+  scale symmetry must be tested separately from posterior/prior preferences.
+  Test more than one declared force prior scale, preserving all results.
+- Temporal force observations are correlated; updates must retain full force
+  covariance. Equal-tail coordinate intervals are not whole-field coverage.
+- Signed Gaussian amplitudes allow pulling. Call unknown fields traction/load
+  hypotheses; calibrated reset probes may be compressive but do not establish
+  unilateral contact inference or nonpenetration.
+
+CODE REVIEW
+mechanics.py uses positive Gaussian bottom support without hidden rigid pins.
+Its support stiffness is a lumped nodal diagonal of integrated Gaussian gate
+weights, not a consistent integral of w*N^T*N. This is a declared finite model;
+refinement should include this approximation. Fixed two material kernels and
+shared x footprint for top/side modes must be exposed in figure labels.
+
+inference.py includes hypothesis-dependent covariance determinants, retains
+paired force/hypothesis samples, uses total covariance, and has useful
+batch/sequential and action-order identities. expected_risk_mc samples only
+predictive observations and risks_after_values leaves state unchanged.
+Quantiles handle point-mass components explicitly. Numerical exactness remains
+conditional on the finite dictionary and affine observation map.
+
+NEURAL MARGINALIZATION REVIEW AND UPGRADE CHOICE
+src/physgauss/neural_marginal.py already demonstrates exact conditional Gaussian
+load elimination even with nonlinear mechanics and state-dependent discrepancy.
+Q(z) is evaluated at the preceding velocity/position, does not depend on load
+coefficients after conditioning on the path, and is block diagonal across kicks.
+The code differentiates changing logdetQ and logdetA; it includes causal path
+Jacobian terms. The covariance-information matrix is a local approximation,
+not an exact nonlinear posterior. Its tests and old results do not qualify a
+new heterogeneous force-location model automatically. Current torch.eye calls
+often omit device, so a direct GPU transplant requires a device audit.
+
+RECOMMENDED NEXT UPGRADE AFTER THE FINITE REFERENCE WORKS
+Prefer continuous five-parameter tempered SMC over a new nonlinear RGB loop.
+Keep the same linear 3D forward/observation model and exactly integrate the 16
+load coefficients for every particle. Infer continuous logE, contrast, support
+x, logK and load x. Use bounded physical priors, correct transformations,
+adaptive temperature ESS, MH rejuvenation, independent seeds and count doubling.
+Validate on low-dimensional slices and finite-dictionary limiting cases; compare
+CDFs, predictive mean/std, force moments, logZ and particle diversity across runs.
+Particle ESS immediately after resampling is not convergence evidence.
+
+Practical staging within remaining12h: first profile128/512 particles on64-node
+or smaller mechanics; cache immutable tensors, use GPU Cholesky in bounded chunks.
+Then run4 independent seeds at512/2048 particles on a few declared development
+cases, and only increase cohort if comparison stabilizes. Acquisition can start
+with reweighting existing posterior particles, but post-measurement collapse
+requires re-running/rejuvenating posterior rather than claiming an exact update.
+This is an implementation estimate, not a measured runtime guarantee. Full
+nonlinear trajectory inference would add thousands of latent states and revive
+the old local-posterior/rendering bottleneck; defer until continuous field
+reference and informative excitation are established.
+
+PAPER SCOPE / TITLES
+Strongest current scope: an uncertainty-aware identification/reference study,
+with existing real-data benchmarks supporting the broader motivation rather
+than presented as results of this newly assembled inference algorithm.
+Possible titles:
+  Looking or Poking? Resolving Material-Interaction Ambiguity in Deformable Scenes
+  Identifying Deformable Scenes with Marginalized Gaussian Interaction Fields
+  From Motion to Mechanical Explanations: Material-Interaction Inference and Probing
+Avoid 'general', 'first', 'calibrated' or 'end-to-end video' unless the completed
+experiments actually establish those claims. Do not claim speed improvement from
+dimensional elimination without a matched runtime/accuracy study.
+
+TEST EXECUTION
+Independent review run: OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 .venv/bin/python
+-m pytest tests/test_joint_field_mechanics.py tests/test_joint_field_inference.py -q
+Result: 17 passed in 2.73s. Includes CPU/GPU parity, affine/rigid checks, material
+gradients, nominal-case refinement, marginal identities and acquisition updates.
+These are numerical tests, not evidence of population inference calibration.

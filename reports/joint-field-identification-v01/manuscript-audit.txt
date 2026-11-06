@@ -1,0 +1,59 @@
+Manuscript scientific and bibliography audit — 2026-11-06
+Reviewer: independent child agent joint_field_inventory
+Scope: main.tex, frozen bank/mechanics/inference/continuous/continuous_campaign implementations, prior force-marginalization documentation, primary publication metadata. Result macros intentionally not assessed before complete campaign. No experiment sources changed.
+
+ACTIONABLE CORRECTIONS
+1. Numerical covariance claim: main.tex says calculations use a Joseph update. This is true for finite inference.py, but continuous.py:282 uses K - V^T V followed by symmetrization. Qualify the sentence to the finite reference, and describe continuous conditioning accurately. Do not change frozen continuous source. Existing Gaussian-identity unit tests cover the formula, but cancellation at high signal/noise remains a numerical caveat.
+2. Continuous policy scope: explicitly say continuous SMC re-evaluates the initial and acquired observations chosen by the finite-dictionary planner. continuous_campaign.py does not perform continuous-posterior acquisition optimization. Continuous inference/calibration comparisons cannot be described as an SMC-designed active policy.
+3. Symmetry wording: replace 'exact likelihood symmetry' with 'conditional observation-map symmetry' or 'unknown-load displacement symmetry.' The marginalized likelihood with fixed amplitude prior is not invariant under stiffness scaling. The following sentences and numerical example correctly distinguish fixed and co-scaled priors.
+4. Temporal scope: eight correlated quasistatic loading times are not a dynamic initial-value problem. Current text largely respects this; keep 'changed-load prediction' and 'hidden displacement' wording. Do not relabel results as future inertial motion, impacts, temporal forecasting, neural ODE/SDE, flow matching, or RGB generation.
+5. Historical-result traceability: numerical contact/public/cube results need explicit archived report identifiers in supplement or artifact inventory. Current section correctly separates those adapters from the new marginalized posterior; do not merge their numbers into a single-method leaderboard. This audit did not independently recompute the historical aggregate numbers.
+6. Mean modulus: m0 is the volume-centered mean LOG modulus; exp(m0) is its geometric mean, not arithmetic mean E. Use 'baseline/geometric-mean modulus' for the 8–32 kPa bound if exact language matters.
+7. MASIV bibliography title currently omits 'MASIV:' prefix found in the primary arXiv title. Authors and venue are correct; adding the prefix is a minor bibliographic improvement.
+
+VERIFIED ALIGNMENT
+- Five spatial coordinates, fixed two Gaussian material centers/widths, one contrast, bilateral nodally lumped bottom support, two signed traction modes with shared longitudinal center: accurately described.
+- Two force modes × eight loading times = 16 latent amplitudes; 24 initial scalar observations; 384 equally weighted target coordinates split 192 hidden and 192 reset response coordinates: matches bank.py.
+- Support energy units and normalized traction units are consistent. Support is not unilateral contact, and unknown surface/graph recovery is not claimed.
+- Exact finite prior means 3125 declared atoms, not an exact continuous posterior. Endpoint masses differ from continuous uniform prior. Text correctly acknowledges both.
+- Gaussian formulas and total covariance decomposition are correct. Joint-mode log density minus marginalized log density equals -0.5 log|S_theta| plus constant; exact profile equivalence requires theta-independent conditional covariance, as discussed for earlier fixed mapping.
+- Sparse projected tracks, known geometry/cameras/correspondences, no gravity/inertia/friction/contact/large deformation, idealized 20 micrometre noise are disclosed.
+- Earlier cube and public/contact results are not falsely presented as new-method outputs. No completed normalizing-flow or general neural image inverse claim found.
+- Primary novelty paragraph appropriately claims an evaluated combination/protocol, not first force Gaussian, first joint Bayesian system identification, first Gaussian force field, first active twin, or new FEM solver.
+- Calinon is relevant as frame-conditioned interaction modeling, not as a proof of unknown boundary recovery. Rogers 2020 is a direct precedent for joint input/state/parameter Bayesian inference. NGFF and the active-PhysTwin project must remain acknowledged.
+
+SMC CITATION CHECK
+Del Moral, Pierre; Doucet, Arnaud; Jasra, Ajay. 'Sequential Monte Carlo samplers.' Journal of the Royal Statistical Society Series B, 68(3), 411–436, 2006. Author order, title, year, volume, issue and pages verified directly on published author-hosted PDF page 1:
+https://www.stats.ox.ac.uk/~doucet/delmoral_doucet_jasra_sequentialmontecarlosamplersJRSSB.pdf
+DOI in bibliography: 10.1111/j.1467-9868.2006.00553.x.
+This supports the SMC sampler framework and normalizing-constant estimation. Do not imply this single citation specifically establishes our conditional-ESS rule, reflected proposal adaptation, finite-particle convergence, or a theorem validating our implementation. Those are described operationally and tested. Separate-seed and particle-count agreement is sensitivity evidence, not proof of convergence. Four MH moves do not guarantee global mixing.
+
+ALL 24 AUTHOR LISTS CHECKED AGAINST PRIMARY SOURCES
+The following existing BibTeX author order/spelling agrees with primary metadata (initial-only Rogers/Worden/Cross is acceptable). Some direct pages blocked retrieval; primary alternatives are listed. No author-list corrections identified.
+1 alvarez2009latent: https://proceedings.mlr.press/v5/alvarez09a.html
+2 nayek2019joint: https://arxiv.org/abs/1904.00093
+3 rogers2020joint: https://eprints.whiterose.ac.uk/id/eprint/157049/
+4 attia2018goal: https://arxiv.org/abs/1802.06517
+5 calinon2014task: https://calinon.ch/papers/Calinon-ICRA2014.pdf
+6 delmoral2006smc: author-hosted published PDF above.
+7 zhao2025masiv: https://arxiv.org/abs/2508.01112 (ICCV 2025 identified in comments).
+8 li2026ngff: https://arxiv.org/abs/2602.00148 (ICLR 2026 identified in comments).
+9 gong2026activeproject: https://jacobgit2.github.io/projects/phystwin-active-sysid/ (author website, September 2026; NOT verified peer-reviewed).
+10 kerbl2023gaussians: https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/ (official BibTeX).
+11 li2023pacnerf: https://arxiv.org/abs/2303.05512 (OpenReview browser challenge prevented direct original URL retrieval).
+12 xie2024physgaussian: https://arxiv.org/abs/2311.12198
+13 zhong2024springgaus: https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/00271.pdf
+14 jiang2025phystwin: https://openaccess.thecvf.com/content/ICCV2025/papers/Jiang_PhysTwin_Physics-Informed_Reconstruction_and_Simulation_of_Deformable_Objects_from_Videos_ICCV_2025_paper.pdf (official accepted PDF; author project PDF too large for browser).
+15 zhang2024physdreamer: https://physdreamer.github.io/ (official BibTeX).
+16 ma2023nclaw: https://proceedings.mlr.press/v202/ma23a.html
+17 mittal2025uniphy: https://arxiv.org/abs/2505.16971 and official CVPR2025 paper PDF (HTML returned 403).
+18 lin2025omniphysgs: https://proceedings.iclr.cc/paper_files/paper/2025/hash/af31604708f3e44b4de9fdfa6dcaa9d1-Abstract-Conference.html
+19 hong2026pidg: https://ojs.aaai.org/index.php/AAAI/article/view/42474 and published PDF https://ojs.aaai.org/index.php/AAAI/article/download/42474/46435 (search primary extract accessible despite direct browser bot block). Published spelling Ding/Fubin/Zhi-Li matches bibliography; code README has different spellings and should not override published metadata.
+20 du2022diffpd: https://dspace.mit.edu/entities/publication/505c96a8-1a74-4978-95a4-b1dd5c726060 (MIT published-version record verifies all seven authors, 2022 issue year).
+21 cao2026iphysgaussian: https://arxiv.org/abs/2602.17117
+22 pang2026boba: https://jianxiapyh.github.io/Boba-project-page/ (official BibTeX verifies five authors and ECCV2026).
+23 li2026deform360: https://arxiv.org/abs/2607.05390 (all14 authors; ECCV2026 acceptance comment).
+24 jing2026softvt: https://arxiv.org/abs/2608.18701 (all18 authors; preprint status).
+
+FOLLOW-UP PROTOCOL ADVICE
+A separately frozen balanced-traction/measurement-location study is reasonable. Declare it a follow-up motivated by v01 diagnosis, retain v01 failures and mismatch outcomes, freeze new priors/candidate set/target/noise/development split before its final cases, and keep its results separate. A balanced load can excite deformation with less translation, but must be a physically specified force couple with consistent units and independently assessed mesh/strain behavior. Do not select a supposedly held target, measurement location, or best prior from final v01 response errors and then call the replacement an untouched preregistered comparison. The follow-up can test a hypothesis without retroactively changing what v01 established.

@@ -1,0 +1,67 @@
+{
+  "bank_sha256": {
+    "block": "dc8b334babe8248df562b30447f904c408d0e984b80bba114f940598ef01f1ed",
+    "step": "6dd62ab09a7b2766eb15c88c18fae3141bae6a3d0bf53b6a7e0871806d23aea5"
+  },
+  "bootstrap": "2000 paired case resamples stratified by shape; seed260603",
+  "cases_per_shape": 32,
+  "correlation_prior": [
+    0.1,
+    0.3,
+    0.6
+  ],
+  "correlation_time_units": "Normalized bank.TIMES spanning0..1",
+  "deadline_utc": "2026-11-07T07:37:29+00:00",
+  "force_std_N": 0.08,
+  "frozen_utc": "2026-11-06T21:16:27.731442+00:00",
+  "hyper_prior": "Independent uniform discrete scales and lengths",
+  "metrics": "Same full target and marginal interval coordinates as v05. Force profile is normalized longitudinal basis proxy, not complete surface traction.",
+  "models": [
+    "scale-correlation",
+    "amplitude-only",
+    "fixed-nominal",
+    "oracle"
+  ],
+  "motivation": "v04 temporal-prior failure; fresh cases but not untouched primary test",
+  "noise_std_m": 2e-05,
+  "oracle_scope": "Known true amplitude scale and correlation length only; theta and force amplitudes remain inferred",
+  "posthoc_followup": true,
+  "probe_force_N": 0.08,
+  "scales": [
+    0.5,
+    0.7071067811865476,
+    1.0,
+    1.414213562373095,
+    2.0
+  ],
+  "schedules": {
+    "probes": [
+      10,
+      12,
+      13,
+      14
+    ],
+    "views": [
+      0,
+      2,
+      4,
+      9
+    ]
+  },
+  "scope": "Fresh64case conditional temporal-prior stress test, not matched-prior calibration: true correlation fixed0.10. Known geometry/surface projections. No action reselection, no changes to v04/v05. All cases retained; exact finite mixture, no continuous hyperprior.",
+  "seeds": {
+    "block": 261001,
+    "step": 261002
+  },
+  "source_sha256": {
+    "scripts/joint_field_identification/bank.py": "2939ebe11ff42d6f73c2149a58fb99716053340fd09a178ceb1d6e776b12acb2",
+    "scripts/joint_field_identification/hierarchy_surface.py": "ebf93c5114ab6d7115411a8928001e1cd9142cd81f227fd11715b39edd670c4c",
+    "scripts/joint_field_identification/inference.py": "e67824cb3570730e8c729f125956b780185cd96a0f6b69015996fb977d4ba5ac",
+    "scripts/joint_field_identification/mechanics.py": "f7fea5b80cf6fd9a8c7b2701dc8e7e9408a5fcd0bf7d793a8739524b6cab8b4b",
+    "scripts/joint_field_identification/surface.py": "7345451f5393c6a90903fcced4b6a30a62e6cc5d02c5749d6d948e97f520b918",
+    "scripts/joint_field_identification/temporal_hierarchy.py": "16117c5b73b5bdadd0f60bfbd9c4512305a914d24d89f9bcc15b51bd6ca64407",
+    "scripts/joint_field_identification/temporal_hierarchy_report.py": "06b44aadb6789338b99d3b8921eb3b504126142735a20ca9ab827b2beeda1aba"
+  },
+  "true_correlation": 0.1,
+  "version": "joint-field-temporal-v06"
+}

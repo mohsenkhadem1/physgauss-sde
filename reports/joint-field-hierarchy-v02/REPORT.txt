@@ -1,0 +1,27 @@
+Hierarchical force-scale reference: fresh128case finite-prior cohort
+
+Five equiprobable log-spaced scale values; exact finite mixture, not a continuous hyperprior.
+Same original observations and four fixed calibrated-probe or camera measurements for every method.
+No inference tuning or action reselection on this cohort. Oracle receives only true load-prior scale.
+Gaussian broader control matches exact mixture prior variance: std multiplier 1.244990.
+
+condition | model | prediction mm | changed-load mm | material relative RMSE | force N | pred90 coverage | material90 | force90
+initial | hierarchical | 0.06063 | 0.02807 | 0.5220 | 0.04867 | 0.914 | 0.955 | 0.914
+initial | fixed-nominal | 0.06158 | 0.03046 | 0.5418 | 0.05009 | 0.861 | 0.897 | 0.837
+initial | variance-matched | 0.06120 | 0.02895 | 0.5792 | 0.05058 | 0.871 | 0.898 | 0.886
+initial | oracle-scale | 0.05957 | 0.02462 | 0.5003 | 0.04728 | 0.901 | 0.958 | 0.907
+views | hierarchical | 0.04247 | 0.02670 | 0.5069 | 0.03753 | 0.912 | 0.953 | 0.913
+views | fixed-nominal | 0.04401 | 0.02979 | 0.5354 | 0.04039 | 0.842 | 0.885 | 0.814
+views | variance-matched | 0.04369 | 0.02875 | 0.5915 | 0.04178 | 0.851 | 0.870 | 0.854
+views | oracle-scale | 0.04088 | 0.02269 | 0.4775 | 0.03473 | 0.914 | 0.957 | 0.899
+probes | hierarchical | 0.05541 | 0.01416 | 0.4039 | 0.04573 | 0.906 | 0.939 | 0.909
+probes | fixed-nominal | 0.05583 | 0.01489 | 0.4148 | 0.04654 | 0.874 | 0.920 | 0.857
+probes | variance-matched | 0.05610 | 0.01484 | 0.4387 | 0.04712 | 0.888 | 0.920 | 0.906
+probes | oracle-scale | 0.05496 | 0.01306 | 0.3844 | 0.04525 | 0.909 | 0.947 | 0.910
+
+Intervals are coordinate marginals; discrete fields/scale have atoms and may be conservative.
+Endpoint mass must be compared with the finite prior endpoint mass0.4, not treated automatically as failure.
+Full widths, paired case-bootstrap intervals, covariance decomposition and joint stiffness/scale diagnostics are in JSON.
+No claim of recovered unique physical truth, continuous-tau calibration, real-video inference or computational speed superiority.
+
+Profile metric note: force_profile_rmse_N_per_m is a normalized longitudinal load-basis proxy. The stepped side surface has varying transverse height, so this is not its full physical surface traction profile. Frozen values are unchanged; see metric-notes.txt.

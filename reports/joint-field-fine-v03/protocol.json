@@ -1,0 +1,47 @@
+{
+  "version": "joint-field-fine-v03",
+  "created_utc": "2026-11-06T20:21:54.904014+00:00",
+  "purpose": "Paired coarse-v01 and fine-v03 inverse banks on same fresh finer-mesh truths; numerical discretization diagnosis, not continuum certification.",
+  "inverse_mesh": [
+    24,
+    12,
+    12
+  ],
+  "truth_mesh": [
+    32,
+    16,
+    16
+  ],
+  "grid_levels": 5,
+  "hypotheses": 3125,
+  "stiffness_factorizations": 625,
+  "case_count_per_shape": 16,
+  "total_cases": 32,
+  "seeds": {
+    "block": 91001,
+    "step": 91002
+  },
+  "prior": "Uniform original5^5 physical hypothesis dictionary; true parameters drawn fromsame dictionary, mesh differs.",
+  "noise_m": 2e-05,
+  "force_std_N": 0.08,
+  "probe_force_N": 0.08,
+  "budget": 4,
+  "actions": "Unmodified v01 bank.maps, same scalar measurement actions and held targets.",
+  "fixed_schedules": "Reuse v01 development-selected fixed schedules, no new development tuning.",
+  "field_matching": "Adjust logE by contrast*(newmesh material_log_center - original8x4x4 center), preserving continuous material field.",
+  "runtime_cap_per_worker_seconds": 5400,
+  "cpu_threads_per_worker": 2,
+  "memory_cap_per_worker_GiB": 20,
+  "source_sha256": {
+    "scripts/joint_field_identification/fine_reference.py": "db8ea8c91c21522bcc63af899716526d53efd529af764bb73b2b65c3ce3b3076",
+    "scripts/joint_field_identification/mechanics.py": "f7fea5b80cf6fd9a8c7b2701dc8e7e9408a5fcd0bf7d793a8739524b6cab8b4b",
+    "scripts/joint_field_identification/bank.py": "2939ebe11ff42d6f73c2149a58fb99716053340fd09a178ceb1d6e776b12acb2",
+    "scripts/joint_field_identification/inference.py": "e67824cb3570730e8c729f125956b780185cd96a0f6b69015996fb977d4ba5ac",
+    "scripts/joint_field_identification/campaign.py": "0df98e820b11817ce0a0ff757658d4cf39f10c1cba4ff582b105bf05f198b5d9"
+  },
+  "v01_fixed_schedule_sha256": {
+    "block": "fe7e83862e0345fc03aff301af34b54e334673c4ce5cc85dabd1715413e4a9d7",
+    "step": "de66da8ed59e703fc33604e7f6c6a61e0ac83cc4842929172ea75ecbe224a143"
+  },
+  "caveat": "32mesh truth is a finer numerical reference, not demonstrated continuum convergence; preserve refinement-cost.json evidence and tail errors."
+}

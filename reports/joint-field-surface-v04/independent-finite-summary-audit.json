@@ -1,0 +1,209 @@
+{
+  "passed": true,
+  "full_cohort_cases": 320,
+  "metric_checks": 1200,
+  "max_mean_difference": 0,
+  "paired_comparisons": 80,
+  "all_paired_intervals_recomputed": true,
+  "ablation_paired": [
+    {
+      "control": "marginal-map",
+      "metric": "rmse_mm",
+      "control_minus_joint": 0.002054501305892742,
+      "paired95": [
+        0.0009240112457337778,
+        0.00329741714169108
+      ]
+    },
+    {
+      "control": "marginal-map",
+      "metric": "hidden_rmse_mm",
+      "control_minus_joint": 0.0005632910114904355,
+      "paired95": [
+        -0.00016513344157729028,
+        0.0013614467333133093
+      ]
+    },
+    {
+      "control": "marginal-map",
+      "metric": "changed_load_rmse_mm",
+      "control_minus_joint": 0.0029699005028597254,
+      "paired95": [
+        0.0004277933053324959,
+        0.005386539937505952
+      ]
+    },
+    {
+      "control": "marginal-map",
+      "metric": "material_relative_rmse",
+      "control_minus_joint": 0.10205169313844875,
+      "paired95": [
+        0.028802289794311067,
+        0.18051803006858178
+      ]
+    },
+    {
+      "control": "joint-map",
+      "metric": "rmse_mm",
+      "control_minus_joint": 0.019231989693129236,
+      "paired95": [
+        0.015487994516999394,
+        0.023478692276259962
+      ]
+    },
+    {
+      "control": "joint-map",
+      "metric": "hidden_rmse_mm",
+      "control_minus_joint": 0.0042132901386398094,
+      "paired95": [
+        0.0023776112887507685,
+        0.006264284215079406
+      ]
+    },
+    {
+      "control": "joint-map",
+      "metric": "changed_load_rmse_mm",
+      "control_minus_joint": 0.03624851512112354,
+      "paired95": [
+        0.029830644997084262,
+        0.043226327491439905
+      ]
+    },
+    {
+      "control": "joint-map",
+      "metric": "material_relative_rmse",
+      "control_minus_joint": 0.06638655066859853,
+      "paired95": [
+        0.008746595482807634,
+        0.12178904740638197
+      ]
+    },
+    {
+      "control": "uniform-material",
+      "metric": "rmse_mm",
+      "control_minus_joint": 0.000705158453511882,
+      "paired95": [
+        6.651617495125009e-05,
+        0.0013862851617574656
+      ]
+    },
+    {
+      "control": "uniform-material",
+      "metric": "hidden_rmse_mm",
+      "control_minus_joint": 0.0006439517839317173,
+      "paired95": [
+        -0.00014638909109949177,
+        0.0014537162545050501
+      ]
+    },
+    {
+      "control": "uniform-material",
+      "metric": "changed_load_rmse_mm",
+      "control_minus_joint": 0.0013815542719208208,
+      "paired95": [
+        0.00016105428295708354,
+        0.002652656288780212
+      ]
+    },
+    {
+      "control": "uniform-material",
+      "metric": "material_relative_rmse",
+      "control_minus_joint": 0.020488506348019738,
+      "paired95": [
+        -0.011526439552665172,
+        0.05139649916638215
+      ]
+    },
+    {
+      "control": "fixed-interaction",
+      "metric": "rmse_mm",
+      "control_minus_joint": 0.09475205519445663,
+      "paired95": [
+        0.0714420760216824,
+        0.11878363830666999
+      ]
+    },
+    {
+      "control": "fixed-interaction",
+      "metric": "hidden_rmse_mm",
+      "control_minus_joint": 0.12958396836970054,
+      "paired95": [
+        0.0962039074062732,
+        0.1636748292583527
+      ]
+    },
+    {
+      "control": "fixed-interaction",
+      "metric": "changed_load_rmse_mm",
+      "control_minus_joint": 0.025078021220189307,
+      "paired95": [
+        0.0197367932397539,
+        0.030323159990646078
+      ]
+    },
+    {
+      "control": "fixed-interaction",
+      "metric": "material_relative_rmse",
+      "control_minus_joint": 0.21543273711184524,
+      "paired95": [
+        0.1518149039071545,
+        0.2805856360721811
+      ]
+    },
+    {
+      "control": "independent-moments",
+      "metric": "rmse_mm",
+      "control_minus_joint": 0.00017329106753332578,
+      "paired95": [
+        -0.00014316964486516123,
+        0.0004762278459567107
+      ]
+    },
+    {
+      "control": "independent-moments",
+      "metric": "hidden_rmse_mm",
+      "control_minus_joint": 0.0002894097732004989,
+      "paired95": [
+        -0.00019137722911639717,
+        0.0007478068177667871
+      ]
+    },
+    {
+      "control": "independent-moments",
+      "metric": "changed_load_rmse_mm",
+      "control_minus_joint": 0.0,
+      "paired95": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "control": "independent-moments",
+      "metric": "material_relative_rmse",
+      "control_minus_joint": 0.0,
+      "paired95": [
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "scope": "Finite v04 complete summary audit; continuous SMC results and generated final paper not yet certified.",
+  "interpretation": {
+    "supported": "Adaptive policy improves declared combined target over all tested fixed/random policies. Camera-only is the strongest final fixed baseline on that combined metric, not fixed-mixed.",
+    "negative": "Fixed-mixed and probe-only outperform adaptive for changed-load and material errors; moment-independence mean-error effect is inconclusive; mismatch degrades coverage.",
+    "limits": "Known geometry/surface correspondences, finite prior, two fixed geometries, scalar costs; no raw RGB or true unknown-force dynamics validation.",
+    "relative_total_gain_vs_fixed_view": 0.15606070670474537,
+    "relative_total_gain_vs_fixed_mixed": 0.19577921171555157
+  },
+  "paper_extractor_review": {
+    "missing_point_control_coverage": "Correctly emits --, not fabricated zero coverage.",
+    "hierarchy_completion_gate": "Now requires completion audit and finalizer.",
+    "continuous_filter": "Tables filter main continuous-coarse population. Continuous aggregation must additionally distinguish diagnostic/source jobs, pending completed summary.",
+    "wording_correction_requested": "Do not call fixed-mixed strongest fixed schedule; fixed-view final combined error is lower.",
+    "final_paper_claim_certification": "Pending final generated text and continuous/dependence reports."
+  },
+  "sources_sha256": {
+    "reports/joint-field-surface-v04/summary.json": "82268c43cdde1e9192c88de8f17ce77fd196f7843e942a3a8afdcce42e1ded23",
+    "scripts/joint_field_identification/paper_results.py": "71a0ee973c4f2453bd82b766783b4b6106ee5f7db46ff9ba4684bb33ca8a9bef"
+  }
+}

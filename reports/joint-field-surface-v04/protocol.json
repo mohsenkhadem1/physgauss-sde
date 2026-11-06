@@ -1,0 +1,522 @@
+{
+  "version": "joint-field-surface-v04",
+  "frozen_utc": "2026-11-06T20:39:08.867270+00:00",
+  "deadline_utc": "2026-11-07T07:37:29+00:00",
+  "shapes": [
+    "block",
+    "step"
+  ],
+  "dictionary_levels": 5,
+  "hypotheses": 3125,
+  "parameter_order": [
+    "log_E_Pa",
+    "material_contrast",
+    "support_x_m",
+    "log_support_N_per_m",
+    "load_x_m"
+  ],
+  "bounds": [
+    [
+      8.987196820661973,
+      10.373491181781864
+    ],
+    [
+      -0.8,
+      0.8
+    ],
+    [
+      -0.025,
+      0.025
+    ],
+    [
+      8.294049640102028,
+      9.680344001221918
+    ],
+    [
+      -0.04,
+      0.04
+    ]
+  ],
+  "prior": "Uniform finite dictionary for primary; independent uniform coordinate continuous priors for continuous-coarse and offgrid truth; log coordinates as listed.",
+  "inference_cells": [
+    8,
+    4,
+    4
+  ],
+  "fine_truth_cells": [
+    12,
+    6,
+    6
+  ],
+  "force_std_N": 0.08,
+  "probe_force_N": 0.08,
+  "noise_m": 2e-05,
+  "force_modes": 2,
+  "time_count": 8,
+  "force_prior": "Matern3/2 correlation length0.30; force-prior stress truth0.10 with estimator unchanged",
+  "budget": 4,
+  "acquisition_mc": 128,
+  "acquisition_audit_mc": 1024,
+  "case_counts": {
+    "matched": 64,
+    "continuous-coarse": 32,
+    "offgrid-fine": 32,
+    "force-prior": 32
+  },
+  "development_cases_per_shape": 12,
+  "development_seeds": [
+    121001,
+    121002
+  ],
+  "test_seed_rule": "131001 +10000*(shape==step) + population_offset (matched0/offgrid1000/forceprior2000/continuous3000)",
+  "planner_seed_rule": "test_seed+1000000+100*case+step; separate from data RNG",
+  "target": "192 original displacement coordinates at never-acquired points +192 reset displacement coordinates under4held loads at x\u00b1.02; equal scalar-coordinate weights, metres",
+  "action_cost": "One noisy scalar displacement per view-track or calibrated reset-probe; no execution/time costs",
+  "policies": [
+    "active",
+    "fixed",
+    "fixed-view",
+    "fixed-probe",
+    "random"
+  ],
+  "fixed_schedules": {
+    "block": {
+      "fixed": {
+        "actions": [
+          9,
+          0,
+          7,
+          14
+        ],
+        "history": [
+          {
+            "action": 9,
+            "development_mse_m2": 2.630468605430919e-09
+          },
+          {
+            "action": 0,
+            "development_mse_m2": 2.0767514047756966e-09
+          },
+          {
+            "action": 7,
+            "development_mse_m2": 1.6963449314212867e-09
+          },
+          {
+            "action": 14,
+            "development_mse_m2": 1.335084103579582e-09
+          }
+        ]
+      },
+      "fixed-view": {
+        "actions": [
+          9,
+          0,
+          7,
+          8
+        ],
+        "history": [
+          {
+            "action": 9,
+            "development_mse_m2": 2.630468605430919e-09
+          },
+          {
+            "action": 0,
+            "development_mse_m2": 2.0767514047756966e-09
+          },
+          {
+            "action": 7,
+            "development_mse_m2": 1.6963449314212867e-09
+          },
+          {
+            "action": 8,
+            "development_mse_m2": 1.4840317804506597e-09
+          }
+        ]
+      },
+      "fixed-probe": {
+        "actions": [
+          14,
+          15,
+          11,
+          13
+        ],
+        "history": [
+          {
+            "action": 14,
+            "development_mse_m2": 3.1557291864972695e-09
+          },
+          {
+            "action": 15,
+            "development_mse_m2": 3.1219264640698284e-09
+          },
+          {
+            "action": 11,
+            "development_mse_m2": 3.0870788397492003e-09
+          },
+          {
+            "action": 13,
+            "development_mse_m2": 3.0818527328985447e-09
+          }
+        ]
+      }
+    },
+    "step": {
+      "fixed": {
+        "actions": [
+          4,
+          1,
+          14,
+          8
+        ],
+        "history": [
+          {
+            "action": 4,
+            "development_mse_m2": 3.6765175808593112e-09
+          },
+          {
+            "action": 1,
+            "development_mse_m2": 2.824224601561953e-09
+          },
+          {
+            "action": 14,
+            "development_mse_m2": 2.228143201118545e-09
+          },
+          {
+            "action": 8,
+            "development_mse_m2": 1.757560618949668e-09
+          }
+        ]
+      },
+      "fixed-view": {
+        "actions": [
+          4,
+          1,
+          3,
+          8
+        ],
+        "history": [
+          {
+            "action": 4,
+            "development_mse_m2": 3.6765175808593112e-09
+          },
+          {
+            "action": 1,
+            "development_mse_m2": 2.824224601561953e-09
+          },
+          {
+            "action": 3,
+            "development_mse_m2": 2.2879981304123852e-09
+          },
+          {
+            "action": 8,
+            "development_mse_m2": 1.8394534364162955e-09
+          }
+        ]
+      },
+      "fixed-probe": {
+        "actions": [
+          14,
+          10,
+          15,
+          11
+        ],
+        "history": [
+          {
+            "action": 14,
+            "development_mse_m2": 4.415421496379045e-09
+          },
+          {
+            "action": 10,
+            "development_mse_m2": 4.309036990020983e-09
+          },
+          {
+            "action": 15,
+            "development_mse_m2": 4.231807039067524e-09
+          },
+          {
+            "action": 11,
+            "development_mse_m2": 4.198818571495463e-09
+          }
+        ]
+      }
+    }
+  },
+  "point_baselines": [
+    "marginal-map",
+    "joint-map",
+    "uniform-material",
+    "fixed-interaction",
+    "independent-moments"
+  ],
+  "intervals": "90% equal-tail coordinate marginals;24fixed prediction coordinates,20materialqueries,16forcecoefficients. Not simultaneous coverage.",
+  "source_sha256": {
+    "scripts/joint_field_identification/surface.py": "7345451f5393c6a90903fcced4b6a30a62e6cc5d02c5749d6d948e97f520b918",
+    "scripts/joint_field_identification/surface_campaign.py": "d4be23edea2b3e16627cdc758a23b190e79fa0c5d9c4daf9dffc418b4d7820de",
+    "scripts/joint_field_identification/mechanics.py": "f7fea5b80cf6fd9a8c7b2701dc8e7e9408a5fcd0bf7d793a8739524b6cab8b4b",
+    "scripts/joint_field_identification/inference.py": "e67824cb3570730e8c729f125956b780185cd96a0f6b69015996fb977d4ba5ac"
+  },
+  "bank_sha256": {
+    "block": "dc8b334babe8248df562b30447f904c408d0e984b80bba114f940598ef01f1ed",
+    "step": "6dd62ab09a7b2766eb15c88c18fae3141bae6a3d0bf53b6a7e0871806d23aea5"
+  },
+  "observation_correction": "Tracks at y=+-0.03 boundary surface, front x/z projections, back oblique horizontal projection (x+y)/sqrt2, front oblique side-probe projection (x+y)/sqrt2; fresh development/final seeds; v01 retained.",
+  "camera_actions": [
+    {
+      "name": "view_back_oblique_t1_p3",
+      "kind": "view",
+      "time": 1,
+      "point": 3,
+      "projection": [
+        0.7071067811865475,
+        0.7071067811865475,
+        0.0
+      ],
+      "camera_direction": [
+        -0.7071067811865475,
+        0.7071067811865475,
+        -0.0
+      ]
+    },
+    {
+      "name": "view_back_oblique_t1_p11",
+      "kind": "view",
+      "time": 1,
+      "point": 11,
+      "projection": [
+        0.7071067811865475,
+        0.7071067811865475,
+        0.0
+      ],
+      "camera_direction": [
+        -0.7071067811865475,
+        0.7071067811865475,
+        -0.0
+      ]
+    },
+    {
+      "name": "view_back_oblique_t4_p3",
+      "kind": "view",
+      "time": 4,
+      "point": 3,
+      "projection": [
+        0.7071067811865475,
+        0.7071067811865475,
+        0.0
+      ],
+      "camera_direction": [
+        -0.7071067811865475,
+        0.7071067811865475,
+        -0.0
+      ]
+    },
+    {
+      "name": "view_back_oblique_t4_p11",
+      "kind": "view",
+      "time": 4,
+      "point": 11,
+      "projection": [
+        0.7071067811865475,
+        0.7071067811865475,
+        0.0
+      ],
+      "camera_direction": [
+        -0.7071067811865475,
+        0.7071067811865475,
+        -0.0
+      ]
+    },
+    {
+      "name": "view_back_oblique_t6_p3",
+      "kind": "view",
+      "time": 6,
+      "point": 3,
+      "projection": [
+        0.7071067811865475,
+        0.7071067811865475,
+        0.0
+      ],
+      "camera_direction": [
+        -0.7071067811865475,
+        0.7071067811865475,
+        -0.0
+      ]
+    },
+    {
+      "name": "view_back_oblique_t6_p11",
+      "kind": "view",
+      "time": 6,
+      "point": 11,
+      "projection": [
+        0.7071067811865475,
+        0.7071067811865475,
+        0.0
+      ],
+      "camera_direction": [
+        -0.7071067811865475,
+        0.7071067811865475,
+        -0.0
+      ]
+    },
+    {
+      "name": "view_front_z_t2_p1",
+      "kind": "view",
+      "time": 2,
+      "point": 1,
+      "projection": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "camera_direction": [
+        0.0,
+        -1.0,
+        0.0
+      ]
+    },
+    {
+      "name": "view_front_z_t2_p13",
+      "kind": "view",
+      "time": 2,
+      "point": 13,
+      "projection": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "camera_direction": [
+        0.0,
+        -1.0,
+        0.0
+      ]
+    },
+    {
+      "name": "view_front_z_t5_p1",
+      "kind": "view",
+      "time": 5,
+      "point": 1,
+      "projection": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "camera_direction": [
+        0.0,
+        -1.0,
+        0.0
+      ]
+    },
+    {
+      "name": "view_front_z_t5_p13",
+      "kind": "view",
+      "time": 5,
+      "point": 13,
+      "projection": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "camera_direction": [
+        0.0,
+        -1.0,
+        0.0
+      ]
+    },
+    {
+      "name": "probe_0",
+      "kind": "probe",
+      "probe": 0,
+      "point": 13,
+      "projection": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "camera_direction": [
+        0.0,
+        -1.0,
+        0.0
+      ]
+    },
+    {
+      "name": "probe_1",
+      "kind": "probe",
+      "probe": 1,
+      "point": 13,
+      "projection": [
+        0.7071067811865475,
+        0.7071067811865475,
+        0.0
+      ],
+      "camera_direction": [
+        0.7071067811865475,
+        -0.7071067811865475,
+        0.0
+      ]
+    },
+    {
+      "name": "probe_2",
+      "kind": "probe",
+      "probe": 2,
+      "point": 13,
+      "projection": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "camera_direction": [
+        0.0,
+        -1.0,
+        0.0
+      ]
+    },
+    {
+      "name": "probe_3",
+      "kind": "probe",
+      "probe": 3,
+      "point": 13,
+      "projection": [
+        0.7071067811865475,
+        0.7071067811865475,
+        0.0
+      ],
+      "camera_direction": [
+        0.7071067811865475,
+        -0.7071067811865475,
+        0.0
+      ]
+    },
+    {
+      "name": "probe_4",
+      "kind": "probe",
+      "probe": 4,
+      "point": 13,
+      "projection": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "camera_direction": [
+        0.0,
+        -1.0,
+        0.0
+      ]
+    },
+    {
+      "name": "probe_5",
+      "kind": "probe",
+      "probe": 5,
+      "point": 13,
+      "projection": [
+        0.7071067811865475,
+        0.7071067811865475,
+        0.0
+      ],
+      "camera_direction": [
+        0.7071067811865475,
+        -0.7071067811865475,
+        0.0
+      ]
+    }
+  ],
+  "scope": "Known geometry/cameras/surface correspondences, linear small-strain 3D quasistatics, low-dimensional spatial fields, signed loads and bilateral supports. No raw RGB inversion or contact discovery."
+}

@@ -1,0 +1,19 @@
+On 32 fresh high-resolution truths, initial coordinate RMSE is 0.0687\,mm for the coarse inverse model and 0.0670\,mm for the finer model. After their respective four adaptive measurements, errors are 0.0415/0.0403\,mm and nominal 90\% coverages are 76.7\%/87.2\%. Active actions may differ across inverse models; fixed schedules and potential observation noise remain paired. This comparison tests numerical model mismatch with interior sensors, not raw-video performance.
+\begin{table*}[!t]\centering\small\setlength{\tabcolsep}{4pt}
+\caption{Paired coarse/fine inverse reference on 32 independently generated 32-mesh truths. Both inverse models use the same 3125 parameter atoms. Sensors are interior material coordinates.}
+\begin{tabular}{llrrrrr}\toprule
+Inverse & Evidence & Total mm & Hidden mm & New-load mm & Material rel. & Pred. cov.\\\midrule
+coarse8 & initial & 0.0687 & 0.0888 & 0.0325 & 0.457 & 78.1\\
+fine24 & initial & 0.0670 & 0.0868 & 0.0306 & 0.456 & 85.2\\
+coarse8 & active & 0.0415 & 0.0537 & 0.0205 & 0.378 & 76.7\\
+fine24 & active & 0.0403 & 0.0521 & 0.0184 & 0.353 & 87.2\\
+coarse8 & fixed & 0.0446 & 0.0581 & 0.0202 & 0.388 & 80.3\\
+fine24 & fixed & 0.0417 & 0.0548 & 0.0175 & 0.361 & 88.2\\
+coarse8 & fixed-view & 0.0502 & 0.0613 & 0.0297 & 0.424 & 77.2\\
+fine24 & fixed-view & 0.0476 & 0.0581 & 0.0281 & 0.418 & 85.9\\
+coarse8 & fixed-probe & 0.0615 & 0.0847 & 0.0169 & 0.390 & 71.9\\
+fine24 & fixed-probe & 0.0599 & 0.0831 & 0.0120 & 0.299 & 86.6\\
+coarse8 & random & 0.0534 & 0.0704 & 0.0206 & 0.390 & 75.8\\
+fine24 & random & 0.0510 & 0.0681 & 0.0168 & 0.355 & 85.9\\
+\bottomrule\end{tabular}
+\end{table*}

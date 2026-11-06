@@ -1,0 +1,46 @@
+{
+  "frozen_utc": "2026-11-06T20:52:07.595592+00:00",
+  "label": "Posthoc diagnostic frozen before examining field-error outcomes, not an original confirmatory endpoint",
+  "cases_per_shape": 64,
+  "shapes": [
+    "block",
+    "step"
+  ],
+  "population": "matched",
+  "stages": [
+    "initial",
+    "fixed",
+    "active"
+  ],
+  "budget": 4,
+  "units": "Pa=N/m^2",
+  "metric": "sqrt(sum_t timeweight[t] integral_top+side ||mean traction-truth traction||^2 dA / (area_top+area_side))",
+  "time_weights": [
+    0.07142857142857142,
+    0.14285714285714285,
+    0.14285714285714285,
+    0.14285714285714285,
+    0.14285714285714285,
+    0.14285714285714285,
+    0.14285714285714285,
+    0.07142857142857142
+  ],
+  "quadrature": "Same8x4x4surface triangles anddegree2quadrature asfrozenFEM; eachGaussian footprint normalizedbysurfaceintegral",
+  "dependence": "Jointposterior mean sum_h p_h g_h(X) E[a_t|h,y] vs product sum_h p_hg_h(X) times sum_h p_h E[a_t|h,y], identicalevidence",
+  "aggregation": "Mean per-case RMSE; paired4000bootstrap with64resamples per each fixedshape,seed193001. Bothmodearea weighting; nooutcome exclusions.",
+  "controls": [
+    "Unit footprint integrals",
+    "ExactFEMnodalforce-scatterparity",
+    "Totalposteriorforceintegrals recoveramplitude means everytime"
+  ],
+  "source_sha256": {
+    "scripts/joint_field_identification/surface_traction.py": "cd70ddfd64c6e1bf45c31d44cfcf0b7c25cdfaeeaa5d8bd11bcaf82fa196ed19",
+    "scripts/joint_field_identification/surface.py": "7345451f5393c6a90903fcced4b6a30a62e6cc5d02c5749d6d948e97f520b918",
+    "scripts/joint_field_identification/surface_campaign.py": "d4be23edea2b3e16627cdc758a23b190e79fa0c5d9c4daf9dffc418b4d7820de",
+    "scripts/joint_field_identification/mechanics.py": "f7fea5b80cf6fd9a8c7b2701dc8e7e9408a5fcd0bf7d793a8739524b6cab8b4b"
+  },
+  "bank_sha256": {
+    "block": "dc8b334babe8248df562b30447f904c408d0e984b80bba114f940598ef01f1ed",
+    "step": "6dd62ab09a7b2766eb15c88c18fae3141bae6a3d0bf53b6a7e0871806d23aea5"
+  }
+}

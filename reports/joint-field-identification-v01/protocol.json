@@ -1,0 +1,263 @@
+{
+  "version": "joint-field-identification-v01",
+  "frozen_utc": "2026-11-06T19:53:03.233878+00:00",
+  "deadline_utc": "2026-11-07T07:37:29+00:00",
+  "shapes": [
+    "block",
+    "step"
+  ],
+  "dictionary_levels": 5,
+  "hypotheses": 3125,
+  "parameter_order": [
+    "log_E_Pa",
+    "material_contrast",
+    "support_x_m",
+    "log_support_N_per_m",
+    "load_x_m"
+  ],
+  "bounds": [
+    [
+      8.987196820661973,
+      10.373491181781864
+    ],
+    [
+      -0.8,
+      0.8
+    ],
+    [
+      -0.025,
+      0.025
+    ],
+    [
+      8.294049640102028,
+      9.680344001221918
+    ],
+    [
+      -0.04,
+      0.04
+    ]
+  ],
+  "prior": "Uniform finite dictionary for primary; independent uniform coordinate continuous priors for continuous-coarse and offgrid truth; log coordinates as listed.",
+  "inference_cells": [
+    8,
+    4,
+    4
+  ],
+  "fine_truth_cells": [
+    12,
+    6,
+    6
+  ],
+  "force_std_N": 0.08,
+  "probe_force_N": 0.08,
+  "noise_m": 2e-05,
+  "force_modes": 2,
+  "time_count": 8,
+  "force_prior": "Matern3/2 correlation length0.30; force-prior stress truth0.10 with estimator unchanged",
+  "budget": 4,
+  "acquisition_mc": 128,
+  "acquisition_audit_mc": 1024,
+  "case_counts": {
+    "matched": 64,
+    "continuous-coarse": 32,
+    "offgrid-fine": 32,
+    "force-prior": 32
+  },
+  "development_cases_per_shape": 12,
+  "development_seeds": [
+    19001,
+    19002
+  ],
+  "test_seed_rule": "29001 +10000*(shape==step) + population_offset (matched0/offgrid1000/forceprior2000/continuous3000)",
+  "planner_seed_rule": "test_seed+1000000+100*case+step; separate from data RNG",
+  "target": "192 original displacement coordinates at never-acquired points +192 reset displacement coordinates under4held loads at x\u00b1.02; equal scalar-coordinate weights, metres",
+  "action_cost": "One noisy scalar displacement per view-track or calibrated reset-probe; no execution/time costs",
+  "policies": [
+    "active",
+    "fixed",
+    "fixed-view",
+    "fixed-probe",
+    "random"
+  ],
+  "fixed_schedules": {
+    "block": {
+      "fixed": {
+        "actions": [
+          5,
+          14,
+          1,
+          9
+        ],
+        "history": [
+          {
+            "action": 5,
+            "development_mse_m2": 2.5832321928502067e-09
+          },
+          {
+            "action": 14,
+            "development_mse_m2": 1.8572348991271906e-09
+          },
+          {
+            "action": 1,
+            "development_mse_m2": 1.4795873970459418e-09
+          },
+          {
+            "action": 9,
+            "development_mse_m2": 1.1291027567271965e-09
+          }
+        ]
+      },
+      "fixed-view": {
+        "actions": [
+          5,
+          1,
+          8,
+          4
+        ],
+        "history": [
+          {
+            "action": 5,
+            "development_mse_m2": 2.5832321928502067e-09
+          },
+          {
+            "action": 1,
+            "development_mse_m2": 2.1431769826909466e-09
+          },
+          {
+            "action": 8,
+            "development_mse_m2": 1.7356817999639286e-09
+          },
+          {
+            "action": 4,
+            "development_mse_m2": 1.5090583230248427e-09
+          }
+        ]
+      },
+      "fixed-probe": {
+        "actions": [
+          14,
+          13,
+          15,
+          12
+        ],
+        "history": [
+          {
+            "action": 14,
+            "development_mse_m2": 2.686971678709142e-09
+          },
+          {
+            "action": 13,
+            "development_mse_m2": 2.6700826205584537e-09
+          },
+          {
+            "action": 15,
+            "development_mse_m2": 2.655859415555567e-09
+          },
+          {
+            "action": 12,
+            "development_mse_m2": 2.64005378730358e-09
+          }
+        ]
+      }
+    },
+    "step": {
+      "fixed": {
+        "actions": [
+          9,
+          1,
+          2,
+          5
+        ],
+        "history": [
+          {
+            "action": 9,
+            "development_mse_m2": 3.3117737237747114e-09
+          },
+          {
+            "action": 1,
+            "development_mse_m2": 2.7884556891968102e-09
+          },
+          {
+            "action": 2,
+            "development_mse_m2": 2.1809236074798616e-09
+          },
+          {
+            "action": 5,
+            "development_mse_m2": 1.7059772402538306e-09
+          }
+        ]
+      },
+      "fixed-view": {
+        "actions": [
+          9,
+          1,
+          2,
+          5
+        ],
+        "history": [
+          {
+            "action": 9,
+            "development_mse_m2": 3.3117737237747114e-09
+          },
+          {
+            "action": 1,
+            "development_mse_m2": 2.7884556891968102e-09
+          },
+          {
+            "action": 2,
+            "development_mse_m2": 2.1809236074798616e-09
+          },
+          {
+            "action": 5,
+            "development_mse_m2": 1.7059772402538306e-09
+          }
+        ]
+      },
+      "fixed-probe": {
+        "actions": [
+          14,
+          12,
+          11,
+          10
+        ],
+        "history": [
+          {
+            "action": 14,
+            "development_mse_m2": 6.1505853597050555e-09
+          },
+          {
+            "action": 12,
+            "development_mse_m2": 6.117882184111664e-09
+          },
+          {
+            "action": 11,
+            "development_mse_m2": 6.0984718664169156e-09
+          },
+          {
+            "action": 10,
+            "development_mse_m2": 6.091704292576542e-09
+          }
+        ]
+      }
+    }
+  },
+  "point_baselines": [
+    "marginal-map",
+    "joint-map",
+    "uniform-material",
+    "fixed-interaction",
+    "independent-moments"
+  ],
+  "intervals": "90% equal-tail coordinate marginals;24fixed prediction coordinates,20materialqueries,16forcecoefficients. Not simultaneous coverage.",
+  "source_sha256": {
+    "scripts/joint_field_identification/bank.py": "2939ebe11ff42d6f73c2149a58fb99716053340fd09a178ceb1d6e776b12acb2",
+    "scripts/joint_field_identification/campaign.py": "0df98e820b11817ce0a0ff757658d4cf39f10c1cba4ff582b105bf05f198b5d9",
+    "scripts/joint_field_identification/mechanics.py": "f7fea5b80cf6fd9a8c7b2701dc8e7e9408a5fcd0bf7d793a8739524b6cab8b4b",
+    "scripts/joint_field_identification/inference.py": "e67824cb3570730e8c729f125956b780185cd96a0f6b69015996fb977d4ba5ac"
+  },
+  "bank_sha256": {
+    "block": "24110083469666a8efe630f45276ec8527344ace58b5171e9fae83d027323b9f",
+    "step": "9f959175e9c378a500adc3f5477283d9efeb6987931dcc159bede11ddcd76cc9"
+  },
+  "scope": "Known geometry/cameras/correspondences, linear small-strain 3D quasistatics, low-dimensional spatial fields, signed loads and bilateral supports. No raw RGB inversion or contact discovery."
+}

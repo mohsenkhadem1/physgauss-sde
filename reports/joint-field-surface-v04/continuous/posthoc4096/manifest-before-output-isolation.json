@@ -1,0 +1,96 @@
+{
+  "version": "surface-posthoc4096-diagnostic-v01",
+  "created_utc": "2026-11-06T22:39:23.003518+00:00",
+  "deadline_utc": "2026-11-07T07:37:29Z",
+  "bounds": [
+    [
+      8.987196820661973,
+      10.373491181781864
+    ],
+    [
+      -0.8,
+      0.8
+    ],
+    [
+      -0.025,
+      0.025
+    ],
+    [
+      8.294049640102028,
+      9.680344001221918
+    ],
+    [
+      -0.04,
+      0.04
+    ]
+  ],
+  "moves": 4,
+  "batch_size": 16,
+  "main_jobs": 0,
+  "diagnostic_jobs": 2,
+  "allowed_jobs": [
+    {
+      "shape": "block",
+      "population": "matched",
+      "case": 1,
+      "stage": "fixed",
+      "particles": 4096,
+      "seed": 271001,
+      "cells": [
+        8,
+        4,
+        4
+      ]
+    },
+    {
+      "shape": "block",
+      "population": "matched",
+      "case": 1,
+      "stage": "fixed",
+      "particles": 4096,
+      "seed": 271002,
+      "cells": [
+        8,
+        4,
+        4
+      ]
+    }
+  ],
+  "source_sha256": {
+    "scripts/joint_field_identification/surface.py": "7345451f5393c6a90903fcced4b6a30a62e6cc5d02c5749d6d948e97f520b918",
+    "scripts/joint_field_identification/mechanics.py": "f7fea5b80cf6fd9a8c7b2701dc8e7e9408a5fcd0bf7d793a8739524b6cab8b4b",
+    "scripts/joint_field_identification/inference.py": "e67824cb3570730e8c729f125956b780185cd96a0f6b69015996fb977d4ba5ac",
+    "scripts/joint_field_identification/continuous.py": "2ecb24a2bdbbe87b0c2d035ed5d3a2e0ce10d567a1706d8af32246ecc0cf6fe5",
+    "scripts/joint_field_identification/surface_campaign.py": "d4be23edea2b3e16627cdc758a23b190e79fa0c5d9c4daf9dffc418b4d7820de",
+    "scripts/joint_field_identification/surface_continuous.py": "adf8716aa09a904f151c0fdd8b49b85c3b0f90fdd7a866cdad270d3b9151eeb5",
+    "scripts/joint_field_identification/surface_supervisor.py": "0301749c790b4dc26d0a9fe587db33a3111d464d3f8f6a36668bcee4cd3692f6",
+    "scripts/joint_field_identification/continuous_supplement.py": "a4ca509d83328554e1c46cbd539091e21ed6784913d0e96538d9c76278b1e1fc"
+  },
+  "main_cohort": "None: targeted numerical followup only.",
+  "main_seed": null,
+  "diagnostic_seeds": [
+    271001,
+    271002
+  ],
+  "diagnostic_counts": [
+    4096
+  ],
+  "action_budget": 4,
+  "acquisition": "Replay initial and final active/fixed evidence from the frozen finite-dictionary planner. No continuous policy superiority claim.",
+  "inference": "Uniform in declared theta coordinates; exact force elimination conditional on theta, approximate continuous posterior by SMC.",
+  "convergence": "Compare independent seeds and particle counts for first2matched/offgrid cases per shape; retain all differences. No post-resampling ESS convergence claim.",
+  "no_truth_selection": true,
+  "raw_data_local": true,
+  "main_protocol_sha256": "ba2acfdde95f2144675972f0fe3128b780b7b0e7c057a32143f442e95d154421",
+  "main_protocol_path": "reports/joint-field-surface-v04/protocol.json",
+  "original_manifest_sha256": "a88a8073d157d6301eaac32bcd14c5e0cc65f9dc6d0f4ad18df860e0d75308b3",
+  "posthoc": true,
+  "selection_reason": "Original block/matched/case1/fixed CDF sensitivity exceeded.1 for2048seed171002 versus both1024seeds; all original flags retained.",
+  "no_original_replacement": true,
+  "launch_gate": "After both original continuous cohorts and surface dynamic dispatcher complete.",
+  "followup_thresholds": {
+    "cdf": 0.1,
+    "prediction_mean_rms_mm": 0.01
+  },
+  "analysis": "Report all pairwise original and4096 differences; no model updates or exclusions."
+}

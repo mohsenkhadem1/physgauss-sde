@@ -1,0 +1,68 @@
+{
+  "version": "joint-field-hierarchy-v02",
+  "case_counts": {
+    "block": 64,
+    "step": 64
+  },
+  "seeds": {
+    "block": 61001,
+    "step": 61002
+  },
+  "spatial_prior": "Uniform existing3125spatialdictionary, independently sampled from discrete load scale.",
+  "tau_values": [
+    0.5,
+    0.7071067811865476,
+    1.0,
+    1.414213562373095,
+    2.0
+  ],
+  "tau_weights": [
+    0.2,
+    0.2,
+    0.2,
+    0.2,
+    0.2
+  ],
+  "force_std_base_N": 0.08,
+  "force_correlation_length": 0.3,
+  "variance_matched_std_multiplier": 1.2449899597988732,
+  "variance_matched_base_std_N": 0.09959919678390985,
+  "schedules": {
+    "probes": [
+      10,
+      12,
+      13,
+      14
+    ],
+    "views": [
+      0,
+      2,
+      4,
+      9
+    ]
+  },
+  "models": [
+    "hierarchical",
+    "fixed-nominal",
+    "variance-matched",
+    "oracle-scale"
+  ],
+  "observation_noise_m": 2e-05,
+  "known_probe_force_N": 0.08,
+  "initial_observations": 24,
+  "prediction_target": "Identical v01 never-acquired192original+192changedload coordinates; equal coordinate weights.",
+  "intervals": "90%equal-tail marginal mixture intervals:12hidden+12changedpredictioncoordinates,20materialqueries,16forcecoefficients; no simultaneous or real-world claim.",
+  "source_sha256": {
+    "scripts/joint_field_identification/bank.py": "2939ebe11ff42d6f73c2149a58fb99716053340fd09a178ceb1d6e776b12acb2",
+    "scripts/joint_field_identification/campaign.py": "0df98e820b11817ce0a0ff757658d4cf39f10c1cba4ff582b105bf05f198b5d9",
+    "scripts/joint_field_identification/mechanics.py": "f7fea5b80cf6fd9a8c7b2701dc8e7e9408a5fcd0bf7d793a8739524b6cab8b4b",
+    "scripts/joint_field_identification/inference.py": "e67824cb3570730e8c729f125956b780185cd96a0f6b69015996fb977d4ba5ac",
+    "scripts/joint_field_identification/hierarchy.py": "bfcefdd5ed5f5271054d92edccc05ab9d4f58615aad04b4bf036311e2099422c"
+  },
+  "bank_sha256": {
+    "block": "24110083469666a8efe630f45276ec8527344ace58b5171e9fae83d027323b9f",
+    "step": "9f959175e9c378a500adc3f5477283d9efeb6987931dcc159bede11ddcd76cc9"
+  },
+  "bootstrap": "2048pairedcase resamples within each geometry, seed63001; no shape-population inference.",
+  "scope": "Freshmatched finite-prior hierarchy only; no continuous-tau or new-force-identifiability claim. Fourfixed calibrated or camera measurements; no action reselection. Knowngeometry and signedtractions, quasistatic no gravity/contact."
+}

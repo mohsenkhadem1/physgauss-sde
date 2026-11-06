@@ -1,0 +1,27 @@
+Surface-track hierarchical force-scale reference: fresh128case finite-prior cohort
+
+Five equiprobable log-spaced scale values; exact finite mixture, not a continuous hyperprior.
+Same original observations and four fixed calibrated-probe or camera measurements for every method.
+No inference tuning or action reselection on this cohort. Oracle receives only true load-prior scale.
+Gaussian broader control matches exact mixture prior variance: std multiplier 1.244990.
+
+condition | model | prediction mm | changed-load mm | material relative RMSE | force N | pred90 coverage | material90 | force90
+initial | hierarchical | 0.07257 | 0.02738 | 0.4767 | 0.05353 | 0.895 | 0.951 | 0.891
+initial | fixed-nominal | 0.07304 | 0.02936 | 0.4785 | 0.05476 | 0.842 | 0.882 | 0.812
+initial | variance-matched | 0.07287 | 0.02806 | 0.5020 | 0.05502 | 0.867 | 0.899 | 0.864
+initial | oracle-scale | 0.07164 | 0.02452 | 0.4554 | 0.05149 | 0.899 | 0.942 | 0.892
+views | hierarchical | 0.05110 | 0.02656 | 0.4775 | 0.04248 | 0.903 | 0.951 | 0.892
+views | fixed-nominal | 0.05311 | 0.03021 | 0.5040 | 0.04588 | 0.804 | 0.804 | 0.771
+views | variance-matched | 0.05235 | 0.02884 | 0.5314 | 0.04590 | 0.829 | 0.832 | 0.820
+views | oracle-scale | 0.05017 | 0.02336 | 0.4529 | 0.03983 | 0.900 | 0.920 | 0.890
+probes | hierarchical | 0.06827 | 0.01414 | 0.3816 | 0.05051 | 0.907 | 0.944 | 0.888
+probes | fixed-nominal | 0.06916 | 0.01596 | 0.4038 | 0.05184 | 0.855 | 0.916 | 0.819
+probes | variance-matched | 0.06908 | 0.01539 | 0.4141 | 0.05204 | 0.875 | 0.911 | 0.866
+probes | oracle-scale | 0.06800 | 0.01289 | 0.3658 | 0.04977 | 0.906 | 0.955 | 0.883
+
+Intervals are coordinate marginals; discrete fields/scale have atoms and may be conservative.
+Endpoint mass must be compared with the finite prior endpoint mass0.4, not treated automatically as failure.
+Full widths, paired case-bootstrap intervals, covariance decomposition and joint stiffness/scale diagnostics are in JSON.
+No claim of recovered unique physical truth, continuous-tau calibration, real-video inference or computational speed superiority.
+Historical interior-point v01/v02 results are retained as mathematical sensor references, not visible RGB landmarks.
+Force-profile metric is a normalized longitudinal load-basis proxy, not the complete stepped-side physical traction profile.

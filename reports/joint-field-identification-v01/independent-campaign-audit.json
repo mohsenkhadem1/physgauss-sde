@@ -1,0 +1,38 @@
+{
+  "scope": "Independent pre-final source/data-contract audit; no final population scores read; finite-model exactness only.",
+  "tests": {
+    "returncode": 0,
+    "output": "test_force_ordering_and_physical_units (tests.test_joint_field_campaign_audit.TestCampaignContract.test_force_ordering_and_physical_units) ... ok\ntest_generation_reproducibility_and_disjoint_development_seed (tests.test_joint_field_campaign_audit.TestCampaignContract.test_generation_reproducibility_and_disjoint_development_seed) ... ok\ntest_joint_map_uses_conditional_density_volume (tests.test_joint_field_campaign_audit.TestCampaignContract.test_joint_map_uses_conditional_density_volume) ... ok\ntest_representation_ablation_prior_support_nonempty (tests.test_joint_field_campaign_audit.TestCampaignContract.test_representation_ablation_prior_support_nonempty) ... ok\ntest_target_excludes_acquired_original_coordinates_and_probe_loads (tests.test_joint_field_campaign_audit.TestCampaignContract.test_target_excludes_acquired_original_coordinates_and_probe_loads) ... ok\ntest_bad_noise_and_zero_prior (tests.test_joint_field_inference.TestJointFieldInference.test_bad_noise_and_zero_prior) ... ok\ntest_cached_target_moments_identical (tests.test_joint_field_inference.TestJointFieldInference.test_cached_target_moments_identical) ... ok\ntest_explicit_joint_gaussian_identity_and_determinants (tests.test_joint_field_inference.TestJointFieldInference.test_explicit_joint_gaussian_identity_and_determinants) ... ok\ntest_high_signal_noise_covariance_remains_positive (tests.test_joint_field_inference.TestJointFieldInference.test_high_signal_noise_covariance_remains_positive) ... ok\ntest_known_hypothesis_analytic_risk (tests.test_joint_field_inference.TestJointFieldInference.test_known_hypothesis_analytic_risk) ... ok\ntest_mc_matches_quadrature_and_reproducible (tests.test_joint_field_inference.TestJointFieldInference.test_mc_matches_quadrature_and_reproducible) ... ok\ntest_order_independence_and_batch_equivalence (tests.test_joint_field_inference.TestJointFieldInference.test_order_independence_and_batch_equivalence) ... ok\ntest_probe_preserves_force_conditionals (tests.test_joint_field_inference.TestJointFieldInference.test_probe_preserves_force_conditionals) ... ok\ntest_sample_moments_and_quantiles (tests.test_joint_field_inference.TestJointFieldInference.test_sample_moments_and_quantiles) ... ok\ntest_total_covariance_includes_between_hypothesis_term (tests.test_joint_field_inference.TestJointFieldInference.test_total_covariance_includes_between_hypothesis_term) ... ok\ntest_vectorized_risks_equal_explicit_updates (tests.test_joint_field_inference.TestJointFieldInference.test_vectorized_risks_equal_explicit_updates) ... ok\n\n----------------------------------------------------------------------\nRan 16 tests in 0.276s\n\nOK\n"
+  },
+  "checks": {
+    "separate_development_and_final_generation_seeds": true,
+    "separate_truth_and_acquisition_rng_namespace": true,
+    "source_fingerprints_checked_before_test": true,
+    "truth_and_case_resume_protocol_hash_checked": true,
+    "target_original_coordinates_never_acquired": true,
+    "held_reset_loads_distinct_from_acquired_probes": true,
+    "target_fixed_across_actions_and_policies": true,
+    "target_equal_original_and_changed_load_coordinate_counts": true,
+    "force_ordering_time_major_two_modes": true,
+    "joint_map_has_conditional_gaussian_volume_correction": true,
+    "planning_inputs_exclude_true_parameters_and_target_values": true,
+    "fixed_baseline_trained_only_on_development_truth": true
+  },
+  "scientific_notes": [
+    "Primary errors are coordinate RMSE in mm, not vector RMS.",
+    "Matched finite-prior coverage is not continuous or model-mismatch calibration.",
+    "Fixed schedules use actual development MSE, legitimately giving a strong separately selected baseline.",
+    "Point-only independent-moments ablation preserves first two force moments, not the full force-mixture law.",
+    "Force-prior and offgrid/finer-mesh stress are distinct populations; no per-stress tuning.",
+    "A camera action is one scalar projected displacement; equal scalar counts do not imply equal physical acquisition cost.",
+    "Force and support fields are signed traction/bilateral springs; no contact-state inference.",
+    "Acquisition Monte Carlo scores need larger-budget audit because minimum noisy scores can be optimistic."
+  ],
+  "source_sha256": {
+    "scripts/joint_field_identification/campaign.py": "726d5e8d529459b79ff3df24439a409246460226a7c44759473dcf708cdf732c",
+    "scripts/joint_field_identification/bank.py": "2939ebe11ff42d6f73c2149a58fb99716053340fd09a178ceb1d6e776b12acb2",
+    "scripts/joint_field_identification/inference.py": "e67824cb3570730e8c729f125956b780185cd96a0f6b69015996fb977d4ba5ac",
+    "tests/test_joint_field_campaign_audit.py": "5782ffe3ddb58c14316320d85e50cc25a28805caf94a26c2e2a58d26dbb6f067"
+  },
+  "passed": true
+}
