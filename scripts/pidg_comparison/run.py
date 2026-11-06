@@ -42,7 +42,7 @@ def main():
         from utils.sh_utils import SH2RGB
         dataset_readers.storePly(str(local/'points3d.ply'),np.random.random((100000,3))*2.6-1.3,SH2RGB(np.random.random((100000,3))/255.)*255.)
     source_path=EXTERNAL/'upstream/train_pidg.py';code=source_path.read_text()
-    changes={'renderer_default_flow_flag':False,'camera_fov_assignment':'FoVx=fovx,FoVy=fovy','checkpoint_scalar':'float(cur_psnr) instead of cur_psnr.item()','input_time':'common physical frame index normalized to [0,1]','validation':'upstream test slot contains only 11 reserved train images','flow_enabled':a.flow,'unresized_mask_layout':'HWC to CHW; matches resized branch','gpu_image_loading':'eager; broken optional on-the-fly path not used'}
+    changes={'renderer_default_flow_flag':False,'camera_fov_assignment':'FoVx=fovx,FoVy=fovy','checkpoint_scalar':'float(cur_psnr) instead of cur_psnr.item()','input_time':'common physical frame index normalized to [0,1]','validation':f"upstream test slot contains only {len(json.loads((data/'transforms_test.json').read_text())['frames'])} reserved train images",'flow_enabled':a.flow,'unresized_mask_layout':'HWC to CHW; matches resized branch','gpu_image_loading':'eager; broken optional on-the-fly path not used'}
     code=code.replace('cur_psnr.item()','float(cur_psnr)')
     if a.warm_from:
         from scene_PIDG import Scene,DeformModel
