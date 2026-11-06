@@ -10,7 +10,7 @@ from scripts.pidg_comparison.prepare import get,BASE
 ROOT=Path('runs/pidg-comparison-v01/data/balls_reaction')
 def main():
     global ROOT
-    parser=argparse.ArgumentParser();parser.add_argument('--scene',default='balls_reaction');args=parser.parse_args();ROOT=Path('runs/pidg-comparison-v01/data')/args.scene
+    parser=argparse.ArgumentParser();parser.add_argument('--data-root',default='runs/pidg-comparison-v01/data');parser.add_argument('--scene',default='balls_reaction');args=parser.parse_args();ROOT=Path(args.data_root)/args.scene
     cv2.setNumThreads(1);raw=ROOT/'released';fit=ROOT/'fit';out=ROOT/'fit320';out.mkdir(exist_ok=True)
     docs={s:json.loads((fit/f'transforms_{s}.json').read_text()) for s in ['train','test']}
     for s,d in docs.items():(out/f'transforms_{s}.json').write_text(json.dumps(d,indent=2))

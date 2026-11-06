@@ -1,0 +1,51 @@
+{
+  "status": "training_complete",
+  "started": 1793980509.7367053,
+  "arguments": {
+    "data_root": "runs/pidg-solver-forecast-v01/data",
+    "dense_weight": 0.0,
+    "warm_from": "/home/bayespc2/vscode/guassianSDE/runs/pidg-solver-forecast-v01/rubber_duck/native-base",
+    "gpu": 1,
+    "weight": 0,
+    "steps": 5000,
+    "width": 320,
+    "output": "/home/bayespc2/vscode/guassianSDE/runs/pidg-solver-forecast-v01/rubber_duck/native-refined",
+    "scene": "rubber_duck",
+    "flow": false
+  },
+  "upstream_commit": "b77fd2107a50c875d7219bb4f82388d5e5ea1319",
+  "runtime_changes": {
+    "renderer_default_flow_flag": false,
+    "camera_fov_assignment": "FoVx=fovx,FoVy=fovy",
+    "checkpoint_scalar": "float(cur_psnr) instead of cur_psnr.item()",
+    "input_time": "common physical frame index normalized to [0,1]",
+    "validation": "upstream test slot contains only 9 reserved train images",
+    "flow_enabled": false,
+    "unresized_mask_layout": "HWC to CHW; matches resized branch",
+    "gpu_image_loading": "eager; broken optional on-the-fly path not used",
+    "warm_restart": {
+      "from": "/home/bayespc2/vscode/guassianSDE/runs/pidg-solver-forecast-v01/rubber_duck/native-base",
+      "iteration": 50000,
+      "optimizer": "fresh, identical schedules across arms",
+      "velocity_and_stress_net": "reinitialized in all arms; upstream checkpoints omit these weights",
+      "densification": "disabled; preserve each model final geometry population"
+    }
+  },
+  "label": "PIDG compatible reproduction \u2014 without optical flow",
+  "source_sha256": {
+    "scripts/pidg_comparison/finish.py": "ba2a35040d85179e94d55781d59995182843f88c339f86f39ffad1237d6b3ea8",
+    "scripts/pidg_comparison/test_mechanics.py": "478ab0f02e69d19f894a385f6cd049326f144b9c05d61b9fbb85a2b2d0f760ef",
+    "scripts/pidg_comparison/audit_views.py": "02e4f72992aa1190367c6c1693edf6181f1f855651a1360ae7b9a3eb562b8951",
+    "scripts/pidg_comparison/compare.py": "dc26e793e704160d5bce2016a7525e487b81266ff3705d835f4f35c1b32ab32c",
+    "scripts/pidg_comparison/evaluate.py": "af07253be2feb5988843ffa19db883b662fbcc927910b8d95c3b4ed2ea728eba",
+    "scripts/pidg_comparison/finish_refinement.py": "31ff6d6772ded7bf15ede1cb12ea8ebcb8e83d339063041bf6e57a52155c5787",
+    "scripts/pidg_comparison/audit.py": "608cf193060d1fe119fa3890e0fecaee4753c79f3da8752cd469dcc1dcb5afa7",
+    "scripts/pidg_comparison/audit_results.py": "5f90c6ba73ce12b4452598a252ddcbdc7d5af8999a0cd588db16b167b7aefa2a",
+    "scripts/pidg_comparison/run.py": "c889a4e2d72d50854893b2c24c0b752a8bf6eaaa02b01d22023bea801a67a2a5",
+    "scripts/pidg_comparison/prepare.py": "c3c034e540a9a9209b18beb9c568fe18bb2de026344c01dbc2864ad9c687c3d4",
+    "scripts/pidg_comparison/novel_views.py": "235f8005955a2ad9c2dbf8d37f66eec0db94878fdd15b57c13f7fa19cface08a",
+    "scripts/pidg_comparison/preprocess.py": "a0b4756dcae65ff0e2c138e94b578cca9bd932605a4c36f09a893dfcafc7eaa0",
+    "scripts/pidg_comparison/mechanics.py": "6b2f2939c84161addd610b374e9bb0083b7287e11c05a2dc5b453f7ff9080c30"
+  },
+  "finished": 1793980773.2481828
+}

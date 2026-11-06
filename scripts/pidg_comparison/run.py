@@ -11,7 +11,7 @@ def configure(gpu):
     includes=[env/'targets/x86_64-linux/include',*sorted((env/'lib/python3.10/site-packages/nvidia').glob('*/include'))]
     os.environ['CPATH']=os.environ['CPLUS_INCLUDE_PATH']=':'.join(map(str,includes));os.environ['PATH']=str(env/'bin')+':'+os.environ['PATH']
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--dense-weight',type=float,default=0);p.add_argument('--warm-from',default='');p.add_argument('--gpu',type=int,choices=[0,1,2],required=True);p.add_argument('--weight',type=float,default=0);p.add_argument('--steps',type=int,default=5000);p.add_argument('--width',type=int,default=320);p.add_argument('--output',required=True);p.add_argument('--scene',default='balls_reaction');p.add_argument('--flow',action='store_true');a=p.parse_args();configure(a.gpu)
+    p=argparse.ArgumentParser();p.add_argument('--data-root',default='runs/pidg-comparison-v01/data');p.add_argument('--dense-weight',type=float,default=0);p.add_argument('--warm-from',default='');p.add_argument('--gpu',type=int,choices=[0,1,2],required=True);p.add_argument('--weight',type=float,default=0);p.add_argument('--steps',type=int,default=5000);p.add_argument('--width',type=int,default=320);p.add_argument('--output',required=True);p.add_argument('--scene',default='balls_reaction');p.add_argument('--flow',action='store_true');a=p.parse_args();configure(a.gpu)
     sys.path.insert(0,str(ROOT));sys.path.insert(0,str(EXTERNAL/'upstream'))
     import torch,numpy as np
     import gaussian_renderer
@@ -30,7 +30,7 @@ def main():
     gaussian_renderer.render=compatible_render
     out=Path(a.output).resolve();out.mkdir(parents=True,exist_ok=True)
     # Each run owns its initial point file; identical seed and data access.
-    data=ROOT/'runs/pidg-comparison-v01/data'/a.scene/('fit320' if a.flow else 'fit')
+    data=ROOT/a.data_root/a.scene/('fit320' if a.flow else 'fit')
     if a.flow and not (data/'preprocessing.json').exists():raise RuntimeError('Training-only flow preprocessing must finish first')
     local=out/'input';local.mkdir(exist_ok=True)
     for item in data.iterdir():
