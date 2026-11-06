@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import figure_style
 from matplotlib.patches import Rectangle
 from matplotlib.collections import PolyCollection
 from scipy.spatial import cKDTree,ConvexHull
@@ -20,7 +21,7 @@ def read(p):return json.loads(record(ROOT/p).read_text())
 def arr(p):
  with np.load(record(p)) as f:return f['predicted'].copy()
 plt.rcParams.update({'font.family':'DejaVu Sans','font.size':8,'pdf.fonttype':42,'savefig.facecolor':'white'})
-fig=plt.figure(figsize=(7.05,5.15));outer=fig.add_gridspec(2,1,left=.025,right=.985,top=.88,bottom=.10,hspace=.68)
+fig=plt.figure(figsize=(7.05,4.25));outer=fig.add_gridspec(2,1,left=.025,right=.985,top=.88,bottom=.10,hspace=.55)
 manifest={'selection':{},'scope':'Illustrative selected wins; unchanged saved forecasts, no new fitting. Real panels are manual-landmark overlays on the same recorded RGB, not predicted RGB or rendering-quality evidence.'}
 # Real: strongest qualifying transfer gain, fixed final frame and recorded camera0.
 source='single_lift_sloth';case='single_push_sloth';key=source+'--'+case
@@ -58,6 +59,7 @@ for j,(name,color) in enumerate([('Recorded + manual tracks',INK),('Frozen PhysT
 fig.text(.025,.98,'A  PhysTwin real transfer: lift → push',color=INK,weight='bold',fontsize=9,va='top')
 fig.text(.025,.947,'Selected successful pair · full-interaction error: 58.23 → 42.78 mm · camera 0, final frame',fontsize=7,color=INK,va='top')
 manifest['selection']['phystwin']={'source':source,'target':case,'frame':t,'camera':0,'valid_landmarks':int(valid.sum()),'highlighted_valid_landmark_index':point,'selection_rule':'Only qualifying pair with lower neural than native transfer error; final shared frame; largest 3D per-landmark improvement determines common zoom. All valid landmarks visible in overview.','highlight_error_mm':{'native':float(err[1][point]),'ours':float(err[2][point])},'frame_mean_3d_mm':{'native':float(err[1].mean()),'ours':float(err[2].mean())},'zoom_xyxy':[*zl.tolist(),*zh.tolist()]}
+real_summary=(rgb.copy(),zl.copy(),zh.copy(),[u.copy() for u in uv],point,[e.copy() for e in err])
 # SoftVT: established strongest episode, fixed75percent forecast frame.
 case='spatial-soft-task2-demo41';d=load(dict(subset='spatial-soft',task=2,episode=41));t=d['train_end']+int(.75*(len(d['times'])-d['train_end']-1));p=record(ROOT/f'runs/benchmark-improvement-v14/robust/evaluation/prospective_softvt_phase_b/{case}/predictions.npz')
 with np.load(p) as z:seq=[d['evaluation']['points'],expand_prediction(d,z['contact_scene_state']),expand_prediction(d,z['benchmark_v14'])]
@@ -88,3 +90,23 @@ cax=fig.add_axes([.73,.025,.24,.008]);cb=fig.colorbar(plt.cm.ScalarMappable(norm
 manifest['selection']['softvt']={'case':case,'frame':int(t),'selection_rule':'Largest episode-level gain among40fresh episodes, fixed75percent forecast time; zoom uses largest projected-point improvement among nodes improving in3D, identical world-space crop for allmethods.','highlighted_point_index':idx,'highlight_error_mm':{'baseline':float(errors[1][idx]),'ours':float(errors[2][idx])},'frame_coordinate_rmse_mm':{'baseline':float(np.sqrt(np.mean((pts[1]-pts[0])**2))*1000),'ours':float(np.sqrt(np.mean((pts[2]-pts[0])**2))*1000)},'zoom_xyxy':[*zl.tolist(),*zh.tolist()],'surface':'Initial convex hull connectivity, visualization only; unchanged saved nodepositions.','color_scale_mm':[0,30]}
 for ext in ['pdf','png']:fig.savefig(OUT/f'public-dataset-wins.{ext}',dpi=220,bbox_inches='tight',pad_inches=.035)
 plt.close(fig);manifest['sources_sha256']=sources;manifest['script_sha256']=hashlib.sha256(Path(__file__).read_bytes()).hexdigest();(OUT/'public-dataset-wins-provenance.json').write_text(json.dumps(manifest,indent=2)+'\n');print(json.dumps(manifest['selection'],indent=2))
+
+# Compact first-page highlight: the same two selected points, not new trials.
+f=plt.figure(figsize=(7.15,1.38))
+real_rgb,rl,rh,ru,rp,re=real_summary
+for j,label in enumerate(['Reference','PhysTwin*','Ours']):
+ a=f.add_axes([.005+j*.163,.18,.157,.60]);a.imshow(real_rgb);a.set(xlim=(rl[0],rh[0]),ylim=(rh[1],rl[1]));a.axis('off');a.set_title(label,fontsize=8,pad=2)
+ a.scatter(*ru[0][rp],s=23,facecolors='none',edgecolors='white',linewidth=1)
+ if j:
+  col=ORANGE if j==1 else TEAL;a.plot([ru[0][rp,0],ru[j][rp,0]],[ru[0][rp,1],ru[j][rp,1]],color=col,lw=1.6);a.scatter(*ru[j][rp],s=20,c=col,edgecolors='white',linewidth=.5);a.text(.5,-.06,f'{re[j][rp]:.1f} mm',ha='center',va='top',transform=a.transAxes,fontsize=8)
+f.text(.005,.96,'Real transfer: selected landmark',fontsize=9,weight='bold')
+for j,label in enumerate(['Reference','Contact','Ours']):
+ a=f.add_axes([.515+j*.163,.18,.157,.60]);a.set(xlim=(zl[0],zh[0]),ylim=(zl[1],zh[1]),aspect='equal');a.axis('off');a.set_title(label,fontsize=8,pad=2)
+ order=np.argsort(p2[j][tri,2].mean(1));ts=tri[order];fc=np.tile([.55,.65,.71,1.],(len(ts),1)) if j==0 else cm(norm(errors[j][ts].mean(1)));a.add_collection(PolyCollection(p2[j][ts,:2],facecolors=fc,edgecolors=(1,1,1,.3),linewidths=.18))
+ a.scatter(*p2[0][idx,:2],s=22,facecolors='white',edgecolors='black',linewidth=.5,zorder=8)
+ if j:
+  col=ORANGE if j==1 else TEAL;a.plot([p2[0][idx,0],p2[j][idx,0]],[p2[0][idx,1],p2[j][idx,1]],color=col,lw=1.4,zorder=7);a.scatter(*p2[j][idx,:2],s=20,c=col,edgecolors='white',linewidth=.5,zorder=9);a.text(.5,-.06,f'{errors[j][idx]:.1f} mm',ha='center',va='top',transform=a.transAxes,fontsize=8)
+f.text(.515,.96,'SoftVT: selected material point',fontsize=9,weight='bold')
+f.text(.5,.015,'Matched zooms from Figure 6; local errors, not cohort means. Real panels use recorded RGB + geometric overlays.',ha='center',fontsize=7)
+for ext in ['pdf','png']:f.savefig(OUT/f'public-wins-teaser.{ext}',dpi=240,bbox_inches='tight',pad_inches=.025)
+plt.close(f)

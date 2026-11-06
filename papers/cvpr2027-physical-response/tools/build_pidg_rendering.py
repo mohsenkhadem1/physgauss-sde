@@ -4,6 +4,7 @@ import json,hashlib,sys
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
+import figure_style
 from matplotlib import font_manager
 from matplotlib.patches import FancyBboxPatch,FancyArrowPatch
 ROOT=Path(__file__).resolve().parents[3];PAPER=Path(__file__).resolve().parents[1];OUT=PAPER/'figures'

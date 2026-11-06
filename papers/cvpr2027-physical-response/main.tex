@@ -9,18 +9,24 @@
 \newcommand{\R}{\mathbb{R}}
 \title{Beyond Visual Agreement:\\Compositional Mechanics for Position-Driven Deformable Twins}
 \author{Anonymous submission}
+\setlength{\textfloatsep}{9pt plus 1pt minus 1pt}
+\setlength{\dbltextfloatsep}{9pt plus 1pt minus 1pt}
+\setlength{\floatsep}{7pt plus 1pt minus 1pt}
+\setlength{\intextsep}{7pt plus 1pt minus 1pt}
 \begin{document}
 \twocolumn[{
 \renewcommand{\twocolumn}[1][]{#1}
 \maketitle
 \begin{center}
 \includegraphics[width=.98\textwidth]{figures/cohesive-teaser.pdf}
-\captionof{figure}{\textbf{Predicting changed interactions, including two deformable objects.} Saved final-frame forecasts for curved contact, obstacle drop and two-body interaction (first world, first query). Each row shares geometry scale and camera; colors encode point error and labels report frame RMS. *Family-specific baseline adaptations. These are simulation surfaces, not RGB renders. The full study covers 24 worlds and six interaction families, alongside public benchmarks.}
+\par\vspace{2pt}
+\includegraphics[width=.98\textwidth]{figures/public-wins-teaser.pdf}
+\captionof{figure}{\textbf{Changed interactions: simulation and public-dataset successes.} Top: saved final-frame forecasts for curved contact, obstacle drop and two soft bodies (first world/query); shared cameras, scales and point-error colors. Labels give frame RMS; * denotes baseline adaptations. Bottom: matched zooms from Fig.~\ref{fig:publicwins}, with local 3D errors. Real panels overlay predictions on recorded RGB. These selected examples complement the full-cohort results.}
 \label{fig:teaser}
 \end{center}
 }]
 \begin{abstract}
-A deformable reconstruction can match observed images without identifying the physical response to a new interaction. We study position-driven twins that separate material-attached constitutive response, tool-relative attachments, world-space interactions and Gaussian appearance. Compact energy decoders are pretrained and frozen; scene parameters are fitted to observed positions, then queried with new tool trajectories or initial conditions. We instantiate this representation in controlled coupled mechanics, a reduced manipulation adapter and a real-object equilibrium adapter, with their different assumptions explicit. Across six simulated interaction families and 24 material worlds, motion RMS is 1.97\,mm versus 10.80 and 11.27\,mm for adapted PhysTwin and Spring-Gaus, while a matched analytic control achieves 1.84\,mm. Slip-aware prediction reduces average error across 40 fresh SoftVTBench episodes, and a two-pair real-transfer pilot improves tracking from 44.63 to 39.16\,mm over a frozen PhysTwin adaptation. The full real continuation benchmark still favors PhysTwin. An exact scale ambiguity and an additional-observation experiment explain why rendering, physical response and uncertainty must be evaluated separately. These results establish useful interaction-specific gains without equating visual agreement with identified physics.
+A deformable reconstruction can match observed images without identifying the physical response to a new interaction. We study position-driven twins that separate material-attached constitutive response, tool-relative attachments, world-space interactions and Gaussian appearance. Compact energy decoders are pretrained and frozen; scene parameters are fitted to observed positions, then queried with new tool trajectories or initial conditions. We instantiate this representation in controlled coupled mechanics, a reduced manipulation adapter and a real-object equilibrium adapter, with their different assumptions explicit. Across six simulated interaction families and 24 material worlds, motion RMS is 1.97\,mm versus 10.80 and 11.27\,mm for adapted PhysTwin and Spring-Gaus, while a matched analytic control achieves 1.84\,mm. Slip-aware prediction reduces average error across 40 fresh SoftVTBench episodes, and a two-pair real-transfer pilot improves tracking from 44.63 to 39.16\,mm over a frozen PhysTwin adaptation. The full real continuation benchmark still favors PhysTwin. An exact scale ambiguity and an additional-observation experiment explain why rendering, physical response and uncertainty must be evaluated separately. Visual agreement alone does not identify physics.
 \end{abstract}
 
 \section{Introduction}

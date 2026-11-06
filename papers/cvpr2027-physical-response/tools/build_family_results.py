@@ -10,6 +10,7 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import figure_style
 ROOT=Path(__file__).resolve().parents[3]
 OUT=Path(__file__).resolve().parents[1]/'figures'
 SOURCE=ROOT/'reports/complex-scenes-v18/held-physical-results.json'
@@ -36,7 +37,7 @@ for a,family,title in zip(axs.flat,FAMILIES,TITLES):
  a.set(ylim=(0,32),xlim=(-.5,3.5),xticks=range(4),xticklabels=LABELS,yticks=[0,10,20,30]);a.set_title(title,fontsize=8.5,weight='bold',pad=5);a.tick_params(axis='x',length=0,pad=4,labelsize=7);a.tick_params(axis='y',length=2,labelsize=7);a.grid(axis='y',color='#e6ebef',lw=.7);a.set_axisbelow(True)
 for a in axs[:,0]:a.set_ylabel('Motion RMS (mm)',fontsize=7.5)
 fig.subplots_adjust(left=.065,right=.99,bottom=.16,top=.925,hspace=.60,wspace=.16)
-fig.text(.5,.018,'Open points: 4 worlds per family, 2 queries per world. Colored bars and labels: world means. Lower is better.',ha='center',fontsize=7,color='#65798a')
+fig.text(.5,.018,'Open points: 4 worlds per family, 2 queries per world. Colored bars: world means. Lower is better.',ha='center',fontsize=7,color='#65798a')
 for ext in ['pdf','png']:fig.savefig(OUT/('cohesive-family-results.'+ext),bbox_inches='tight',pad_inches=.025,dpi=220)
 plt.close(fig)
 manifest=dict(scope=__doc__,source=str(SOURCE.relative_to(ROOT)),source_sha256=hashlib.sha256(SOURCE.read_bytes()).hexdigest(),script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),coverage={m:48 for m in METHODS},total_worlds=24,total_queries_per_method=48,aggregation='Exactly two queryvectorRMS values averaged within eachworld, then fourworldmean per family. No confidence intervals plotted.',rows=records,excluded='UniPhy has1completed,7failed,40unsupported; not plotted as comparable fullcohort method.',reference_caveat=D.get('numerical_reference_note'))

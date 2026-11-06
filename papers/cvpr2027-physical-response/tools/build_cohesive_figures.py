@@ -10,6 +10,7 @@ sys.path.insert(0,str(ROOT));sys.path.insert(0,str(ROOT/'papers/cvpr2027-composi
 import design_editorial_figures as e
 import numpy as np
 import matplotlib.pyplot as plt
+import figure_style
 from matplotlib.patches import Rectangle,FancyBboxPatch,FancyArrowPatch,Ellipse
 from matplotlib.collections import PolyCollection
 D=e.d;OUT=Path(__file__).resolve().parents[1]/'figures';OUT.mkdir(exist_ok=True)
@@ -30,7 +31,7 @@ def teaser():
   if path.suffix.lower()=='.ttf':font_manager.fontManager.addfont(str(path))
  assert font_manager.findfont('Arial',fallback_to_default=False)
  with plt.rc_context({'font.family':'Arial','text.color':'black','axes.labelcolor':'black','xtick.color':'black','ytick.color':'black'}):
-  f=plt.figure(figsize=(7.15,2.78));methods=['reference','ours','phystwin','spring-gaus'];rec=[]
+  f=plt.figure(figsize=(7.15,2.55));methods=['reference','ours','phystwin','spring-gaus'];rec=[]
   for j,m in enumerate(methods):
    txt(f,.235+j*.215,.958,{'reference':'Reference','ours':'Ours','phystwin':'PhysTwin*','spring-gaus':'Spring-Gaus*'}[m],10,'black','bold',ha='center')
   for row,family in enumerate(['curved_push','container_drop','deformable_pair']):
