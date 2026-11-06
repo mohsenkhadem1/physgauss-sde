@@ -1,7 +1,7 @@
 """Training-only TV-L1 flow between actual retained neighbors; released depth.
 The adapter never computes flow through validation or final-test images.
 """
-import concurrent.futures,hashlib,json,sys
+import argparse,concurrent.futures,hashlib,json,sys
 from pathlib import Path
 import cv2,numpy as np
 from PIL import Image
@@ -9,6 +9,8 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 from scripts.pidg_comparison.prepare import get,BASE
 ROOT=Path('runs/pidg-comparison-v01/data/balls_reaction')
 def main():
+    global ROOT
+    parser=argparse.ArgumentParser();parser.add_argument('--scene',default='balls_reaction');args=parser.parse_args();ROOT=Path('runs/pidg-comparison-v01/data')/args.scene
     cv2.setNumThreads(1);raw=ROOT/'released';fit=ROOT/'fit';out=ROOT/'fit320';out.mkdir(exist_ok=True)
     docs={s:json.loads((fit/f'transforms_{s}.json').read_text()) for s in ['train','test']}
     for s,d in docs.items():(out/f'transforms_{s}.json').write_text(json.dumps(d,indent=2))
@@ -19,7 +21,7 @@ def main():
             mask=out/'resized_mask'/(Path(path).name+'.png');mask.parent.mkdir(exist_ok=True);im.getchannel('A').save(mask)
     train=docs['train']['frames'];jobs=[]
     for f in train:
-        name=Path(f['file_path']).name+'.npy';jobs.append((f'{BASE}/balls_reaction/depth_distill/{name}',raw/'depth_distill'/name))
+        name=Path(f['file_path']).name+'.npy';jobs.append((f'{BASE}/{args.scene}/depth_distill/{name}',raw/'depth_distill'/name))
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as ex:list(ex.map(lambda x:get(*x),jobs))
     depthout=out/'depth_distill';depthout.mkdir(exist_ok=True)
     for f in train:

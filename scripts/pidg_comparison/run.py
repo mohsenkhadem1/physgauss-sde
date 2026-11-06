@@ -11,7 +11,7 @@ def configure(gpu):
     includes=[env/'targets/x86_64-linux/include',*sorted((env/'lib/python3.10/site-packages/nvidia').glob('*/include'))]
     os.environ['CPATH']=os.environ['CPLUS_INCLUDE_PATH']=':'.join(map(str,includes));os.environ['PATH']=str(env/'bin')+':'+os.environ['PATH']
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--warm-from',default='');p.add_argument('--gpu',type=int,choices=[0,1,2],required=True);p.add_argument('--weight',type=float,default=0);p.add_argument('--steps',type=int,default=5000);p.add_argument('--width',type=int,default=320);p.add_argument('--output',required=True);p.add_argument('--scene',default='balls_reaction');p.add_argument('--flow',action='store_true');a=p.parse_args();configure(a.gpu)
+    p=argparse.ArgumentParser();p.add_argument('--dense-weight',type=float,default=0);p.add_argument('--warm-from',default='');p.add_argument('--gpu',type=int,choices=[0,1,2],required=True);p.add_argument('--weight',type=float,default=0);p.add_argument('--steps',type=int,default=5000);p.add_argument('--width',type=int,default=320);p.add_argument('--output',required=True);p.add_argument('--scene',default='balls_reaction');p.add_argument('--flow',action='store_true');a=p.parse_args();configure(a.gpu)
     sys.path.insert(0,str(ROOT));sys.path.insert(0,str(EXTERNAL/'upstream'))
     import torch,numpy as np
     import gaussian_renderer
@@ -57,20 +57,28 @@ def main():
         Scene.__init__=warm_scene;DeformModel.train_setting=warm_deform
         changes['warm_restart']={'from':str(warm),'iteration':warm_step,'optimizer':'fresh, identical schedules across arms','velocity_and_stress_net':'reinitialized in all arms; upstream checkpoints omit these weights','densification':'disabled; preserve each model final geometry population'}
     prior=None
-    if a.weight:
+    if a.weight or a.dense_weight:
         from scripts.pidg_comparison.mechanics import ConstitutivePrior,CHECKPOINT
-        prior=ConstitutivePrior()
+        if a.dense_weight:
+            from scripts.pidg_dense_mechanics.field import DenseMechanics
+            prior=DenseMechanics()
+        else:prior=ConstitutivePrior()
         needle='        loss.backward()';assert code.count(needle)==1
         code=code.replace(needle,'        if iteration > opt.warm_up:\n            loss = loss + mechanics_weight * mechanics_prior(deform, gaussians, fid)\n'+needle)
+        if a.dense_weight:
+            code=code.replace('        loss.backward()', '        loss.backward()\n        mechanics_prior.step(mechanics_weight)')
+            changes['dense_mechanics']='Frozen bulk law + 16 spatial Gaussian load/attachment fields, 16 temporal knots; dense renderer retained'
         changes['constitutive_checkpoint_sha256']=hashlib.sha256(CHECKPOINT.read_bytes()).hexdigest()
-    cfg=out/'config.py';cfg.write_text((EXTERNAL/'upstream/arguments/pidg'/f'{a.scene}.py').read_text()+f'\nuse_flow = {a.flow!r}\nsave_image_dir = {str(out / "flow_debug")!r}\n')
+    cfg=out/'config.py';cfg.write_text((EXTERNAL/'upstream/arguments/pidg'/f'{dict(rubber_duck="rubber_dack").get(a.scene,a.scene)}.py').read_text()+f'\nuse_flow = {a.flow!r}\nsave_image_dir = {str(out / "flow_debug")!r}\n')
     if a.warm_from:
         with cfg.open('a') as f:f.write(f'\nwarm_up=0\ndensify_until_iter=0\nposition_lr_init=1.6e-6\nposition_lr_final=1.6e-7\nposition_lr_max_steps={a.steps}\ndeform_lr_max_steps={a.steps}\nfeature_lr=0.0005\nopacity_lr=0.005\nscaling_lr=0.0001\nrotation_lr=0.0001\n')
-    metadata={'status':'running','started':time.time(),'arguments':vars(a),'upstream_commit':'b77fd2107a50c875d7219bb4f82388d5e5ea1319','runtime_changes':changes,'label':('PIDG + frozen shared material energy (integration ablation)' if a.weight else 'PIDG compatible reproduction')+('' if a.flow else ' — without optical flow'),'source_sha256':{str(x.relative_to(ROOT)):hashlib.sha256(x.read_bytes()).hexdigest() for x in Path(__file__).parent.glob('*.py')}}
+    metadata={'status':'running','started':time.time(),'arguments':vars(a),'upstream_commit':'b77fd2107a50c875d7219bb4f82388d5e5ea1319','runtime_changes':changes,'label':('Dense renderer + shared material and Gaussian boundary mechanics' if a.dense_weight else 'PIDG + frozen shared material energy (integration ablation)' if a.weight else 'PIDG compatible reproduction')+('' if a.flow else ' — without optical flow'),'source_sha256':{str(x.relative_to(ROOT)):hashlib.sha256(x.read_bytes()).hexdigest() for x in Path(__file__).parent.glob('*.py')}}
+    if a.dense_weight:metadata['source_sha256'].update({str(x.relative_to(ROOT)):hashlib.sha256(x.read_bytes()).hexdigest() for x in (ROOT/'scripts/pidg_dense_mechanics').glob('*.py')})
     (out/'run.json').write_text(json.dumps(metadata,indent=2))
     sys.argv=[str(source_path),'-s',str(local),'-m',str(out/'model'),'--conf',str(cfg),'--iterations',str(a.steps),'--resolution',str(a.width),'--test_iterations',str(a.steps),'--save_iterations',str(a.steps)]
     try:
-        exec(compile(code,str(source_path),'exec'),{'__name__':'__main__','__file__':str(source_path),'mechanics_prior':prior,'mechanics_weight':a.weight})
+        exec(compile(code,str(source_path),'exec'),{'__name__':'__main__','__file__':str(source_path),'mechanics_prior':prior,'mechanics_weight':a.dense_weight or a.weight})
+        if a.dense_weight:prior.save(out/'dense-mechanics.pt');metadata['dense_mechanics_last']=prior.last
         metadata['status']='training_complete'
     except BaseException as e:
         metadata.update(status='failed',error=type(e).__name__+': '+str(e));raise

@@ -1,0 +1,42 @@
+{
+  "scenes": [
+    "balls_reaction",
+    "rubber_duck",
+    "motion_kuro"
+  ],
+  "split": "Released test; every tenth released fitting image at offset five reserved for validation. Shared numeric frame clock.",
+  "base_steps": 50000,
+  "refinement_steps": 5000,
+  "width": 320,
+  "physics_weights": [
+    1e-05,
+    0.0001,
+    0.001
+  ],
+  "selection": "Highest validation foreground PSNR among positive weights",
+  "comparators": "Native PIDG refined for the same 5000 steps from the same 50000-step base; independent optimizer restart in each arm. No post-test tuning.",
+  "parity_criteria": {
+    "full_psnr_db_loss_max": 0.5,
+    "foreground_psnr_db_loss_max": 0.5,
+    "lpips_increase_max": 0.005
+  },
+  "test_widths": [
+    320,
+    640,
+    1600
+  ],
+  "physics": "Frozen shared material energy; meshfree strain/internal force; Gaussian load/compliant attachment/damping field; normalized-time acceleration residual. Soft constraint on retained dense renderer, not full position-driven solved mechanics.",
+  "data_fixes": [
+    "Strip .png in transforms_all before merging",
+    "rubber_duck release maps to upstream rubber_dack config",
+    "Common frame-index clock",
+    "Retain declared baseline compatibility fixes"
+  ],
+  "raw_data": "Local only",
+  "gpus": [
+    0,
+    1,
+    2
+  ],
+  "test_reuse": "Balls Reaction previously exposed; two additional scenes not evaluated before this campaign."
+}

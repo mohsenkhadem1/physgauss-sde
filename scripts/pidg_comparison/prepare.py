@@ -23,7 +23,7 @@ def main():
         get(f'{BASE}/{a.scene}/{name}',raw/name)
     original={k:json.loads((raw/f'transforms_{k}.json').read_text()) for k in ('all','train','test')}
     for document in original.values():
-        for f in document['frames']: f['file_path']=f['file_path'].replace('\\','/')
+        for f in document['frames']: f['file_path']=f['file_path'].replace('\\','/'); f['file_path']=f['file_path'][:-4] if f['file_path'].lower().endswith('.png') else f['file_path']
     frames={f['file_path']:f for k in original for f in original[k]['frames']}
     jobs=[(f'{BASE}/{a.scene}/{name}.png',raw/(name+'.png')) for name in sorted(frames)]
     with concurrent.futures.ThreadPoolExecutor(max_workers=6) as ex:list(ex.map(lambda x:get(*x),jobs))
