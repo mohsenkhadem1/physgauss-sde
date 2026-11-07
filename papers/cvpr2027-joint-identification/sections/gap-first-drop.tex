@@ -1,0 +1,19 @@
+We replay the released ReconPhys~\cite{reconphys} solver and Gaussian renderer on the first three lexicographically ordered released assets (pastry, shell, bottle), with 2,048 control anchors, 30 frames and four native cameras. Worlds A and B use $(m,k,d)=(1,300,1)$ and $(2,600,2)$, respectively, with identical geometry, initial state and friction. Scaling mass, spring stiffness and damping together preserves gravity-driven motion in this native hard-floor model. The largest numerical state discrepancy is $1.79\times10^{-7}$ scene units; passive RGB agreement is 94.60--100.08\,dB. Holding mass fixed while changing stiffness instead produces trajectory coordinate RMS differences of 0.0301--0.0424. A known uniform upward body force of 20 units \emph{per anchor}, applied during frames 12--17, breaks the scale ambiguity (Table~\ref{tab:drop}). These are native normalized scene units and spring coefficients, not calibrated SI material parameters or a localized contact poke.
+
+Figure~\ref{fig:drop-teaser} shows the first predeclared asset; the released comparison video and full contact sheet include all three.
+
+\begin{table}[t]
+\centering\small\setlength{\tabcolsep}{3pt}
+\caption{Native drop counterexample. Gap and errors are scalar-coordinate RMS of the 3D centroid over frames 18--24, in normalized scene units. MAP is updated using the same corrective observation.}
+\label{tab:drop}
+\begin{tabular}{lrrr}\toprule
+Asset & Passive PSNR & Force gap & MAP before $\to$ after\\\midrule
+Pastry & 97.60 & 0.188 & $0.0938\to0$\\
+Shell & 100.08 & 0.121 & $0.0604\to0$\\
+Bottle & 94.60 & 0.219 & $0.1096\to0$\\\bottomrule
+\end{tabular}
+\end{table}
+A separate horizontal calibration force supplies a camera-0 foreground-centroid displacement, with total Gaussian measurement noise $\sigma=0.002$ in normalized image coordinates. With a balanced two-world prior, 100 noise repeats per world and asset select the correct world in all 600 trials; prior failure risk is 0.5 and no corrected prediction exceeds the declared 0.01 coordinate-RMS tolerance. These are three geometries with repeated noise, not 600 independent objects. The same-evidence MAP baseline attains identical point accuracy. This is a finite-candidate identification control, not a demonstration of continuous calibration or a superior acquisition policy.
+
+\paragraph{Whose prediction is at risk?}
+In a separately frozen posthoc extension, the unchanged pretrained ReconPhys predictor receives each constructed passive-A movie before its inferred parameters are replayed under the held force. Mean response errors are 0.2245, 0.1666 and 0.2635; both candidate worlds exceed tolerance, so the reference posterior assigns this named prediction risk one. The native predictor remains fixed after calibration; the corrected MAP is a separate refit, not a retrained network. On constructed passive sequences, its view-0 pooled-MSE future-image PSNR is 18.87--21.84\,dB, so model-fit error is distinct from the exact forward ambiguity. Separately, original released-video controls give mean per-frame, four-view future PSNR 18.55/17.74/20.79\,dB for pretrained parameters versus 20.14/21.66/21.43\,dB for released ground-truth parameters under the demo's sampled anchor graph. The imperfect latter replay prevents attributing all discrepancy to the predictor. The extension has no native-success cases and therefore does not establish risk discrimination across the network's operating range. Neither the scale counterexample nor this small extension establishes general end-to-end video identification failure.

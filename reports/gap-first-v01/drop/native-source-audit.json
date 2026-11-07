@@ -1,0 +1,24 @@
+{
+  "created_utc": "2026-11-07T10:09:45.106478+00:00",
+  "official_repository": "https://github.com/chuanshuogushi/ReconPhys",
+  "official_checkpoint": "https://huggingface.co/chuanshuogushi/ReconPhys",
+  "official_dataset": "https://huggingface.co/datasets/chuanshuogushi/ReconPhys_dataset",
+  "paper": "https://arxiv.org/abs/2604.07882",
+  "native_commit": "184b53f93d6f75d445e3197af52eae48c2492ad6",
+  "symmetry": "With fixed geometry/topology/initial state and identical friction, common scaling(m,k,d) multiplies spring,damping,gravityforces byc and massbyc; native hard-floor position/velocity projection is massindependent. Therefore exact arithmetic trajectories/renderedappearances are invariant.",
+  "exceptions": [
+    "Known externalforce notscaled breaks symmetry viaF/m.",
+    "Springpenaltycontact requires scaling k_bc too.",
+    "Fixed controller springstrength wouldbreak symmetry.",
+    "Native float32 can have roundoff differences; those are measured not assumedzero."
+  ],
+  "contact": "Default spring_bc=False: normalposition clippedtofloor, normalvelocityzero, tangentialvelocitymultipliedbytransformedfriction. rebound_k iscomputed butunused in apply_bc; observedbounce arises frominternal elasticresponse. No restitutionidentification claim.",
+  "rendering": "Native Gaussiancenters advected byfixed Gaussianbindingweights; scale/orientation unchanged. Internal _xyz coordinates includeAABB normalization, rendererget_xyz mapsback; floor-.2internal corresponds-.7renderedz withdefaultAABB.",
+  "force_adapter": "Only compute_force override adds explicitpercontrolpointforce. Native force-specificmodule NOTused because interpolation andinitialization differ.",
+  "native_force_extension_differences": "Spring_Mass_simplify_force.py defaults make_rest_on_ground=True and usesinverse-distanceabsolute-position interpolation; demo usesGaussianweighted displacement interpolation.",
+  "units": "Native mass per2048controlanchor;springcoefficient notFEMYoungmodulus; geometrynormalized not metrically calibrated. Total knownforce is2048timesper-anchorvalue.",
+  "predictor_scope": "Officialcheckpoint strictload successful onthreefirstlexicographicreleasedsamples; givenreleasedGaussiangeometry, unknowntraining/testmembership. Separate from controlledforwardambiguity.",
+  "model_revision": "a47db7c6a562eac93f1cbcb852a48123663fc3cb",
+  "dataset_revision": "e77d3ea11d368db73b7db4ba9fa67bab0d3262e9",
+  "backbone_revision": "8f86a5e87697180b439811ca69fabbfccd38d996"
+}

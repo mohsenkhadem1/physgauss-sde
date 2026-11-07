@@ -1,0 +1,88 @@
+{
+  "scope": "Development numerical qualification, not held-out benchmark outcomes",
+  "decision": "Proceed as a bounded nonlinear contact approximation and explicit model-discretization stress test; no continuum-truth, exact-contact, or real-physics calibration claim",
+  "geometry": "Identical piecewise-linear tapered curved solid across refinements, mass0.12809501019059244kg; known open hemispherical bowl with no rim thickness",
+  "checks": {
+    "E2500": {
+      "mesh_target_point_rms_difference_mm": 1.4193689633408262,
+      "inference_min_j": 0.37443181012819604,
+      "reference_min_j": 0.27124987438623727,
+      "inference": {
+        "path": "runs/gap-first-v01/bowl/refinement-development-n6-E2500.npz",
+        "visibility_checks": 8,
+        "visibility_failures": [],
+        "dense_saved_surface_penetration_mm": 0.40549831482636356,
+        "pusher_sufficient_clearance_mm": 3.3431126704845693,
+        "integrator_min_j": 0.37443181012819604,
+        "integrator_contact_penetration_mm": 0.2656608505365622
+      },
+      "reference": {
+        "path": "runs/gap-first-v01/bowl/refinement-development-n12-E2500.npz",
+        "visibility_checks": 8,
+        "visibility_failures": [],
+        "dense_saved_surface_penetration_mm": 0.21904425543509132,
+        "pusher_sufficient_clearance_mm": 3.3431126704845693,
+        "integrator_min_j": 0.27124987438623727,
+        "integrator_contact_penetration_mm": 0.17227581947536208
+      }
+    },
+    "E10000": {
+      "mesh_target_point_rms_difference_mm": 2.808853450583847,
+      "inference_min_j": 0.44023590126578194,
+      "reference_min_j": 0.372335552502126,
+      "inference": {
+        "path": "runs/gap-first-v01/bowl/refinement-development-n6-E10000.npz",
+        "visibility_checks": 8,
+        "visibility_failures": [],
+        "dense_saved_surface_penetration_mm": 0.5425678438863851,
+        "pusher_sufficient_clearance_mm": 3.3431126704845693,
+        "integrator_min_j": 0.44023590126578194,
+        "integrator_contact_penetration_mm": 0.4974844163317185
+      },
+      "reference": {
+        "path": "runs/gap-first-v01/bowl/refinement-development-n12-E10000.npz",
+        "visibility_checks": 8,
+        "visibility_failures": [],
+        "dense_saved_surface_penetration_mm": 0.3666700084831165,
+        "pusher_sufficient_clearance_mm": 3.3431126704845693,
+        "integrator_min_j": 0.372335552502126,
+        "integrator_contact_penetration_mm": 0.26849837992985737
+      }
+    },
+    "half_dt": {
+      "target_point_rms_difference_mm": 0.3497824781984338,
+      "dt_s": 2.5e-05,
+      "refined_dt_s": 1.25e-05
+    }
+  },
+  "files": {
+    "runs/gap-first-v01/bowl/refinement-development-n6-E2500.npz": "419f3cb076e66aa1b82994e1c4ef0b814858a9c0b4041d6bded26b4a961a62de",
+    "runs/gap-first-v01/bowl/refinement-development-n12-E2500.npz": "8da7b2ae01e93577464d7ca9920bb37389149712b03a4aff711c78a5e1239292",
+    "runs/gap-first-v01/bowl/refinement-development-n6-E10000.npz": "02a75495f56706c31ceab26c4ce78f282617b3320c10bfd26c67fa3d69e43876",
+    "runs/gap-first-v01/bowl/refinement-development-n12-E10000.npz": "c5b82174cad9715c2437337661529200a37fd4b125ecf1acff22bec151fcbead"
+  },
+  "limitations": [
+    "No continuous collision detection or self-contact",
+    "Penalty permits small penetration",
+    "Regularized friction has no exact stiction",
+    "Known geometry, density, viscosity and prescribed rigid motion",
+    "Reference mesh is not a continuum convergence certificate"
+  ],
+  "gpu_equation_parity": {
+    "max_position_difference_m": 5.551115123125783e-17,
+    "gpu_seconds": 59.64124059677124,
+    "min_j": [
+      0.5113082141153195
+    ],
+    "max_penetration_m": [
+      0.0004804375889659873
+    ]
+  },
+  "gpu_boxcar_parity": {
+    "position_max_m": 6.245004513516506e-17,
+    "boxcar_reaction_max_N": 8.881784197001252e-15,
+    "linear_momentum_impulse_error_Ns": 3.2612801348363973e-16,
+    "rotating_contact_max_force_error_N": 7.815970093361102e-14
+  },
+  "adapter_qualification": "PhysTwin spring-force core adapter failed positive-volume validity across CPU/GPU and timestep refinement; no native-method accuracy ranking"
+}

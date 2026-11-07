@@ -1,0 +1,141 @@
+GAP-FIRST CAMPAIGN: COMPLETE SCIENTIFIC RESULTS
+Question: does uncertainty about the object matter for its next specified interaction?
+
+SCOPE
+Three separate studies: native ReconPhys drop, compliant stem, and nonlinear bowl contact.
+The user explicitly added the bowl after initial goal creation. Raw datasets remain local.
+These studies do not constitute a newly trained end-to-end raw-video model.
+Earlier manuscript, supplement, spatial-field inference and public-data results are preserved.
+
+1. NATIVE DROP
+Three lexicographically selected released assets; 27 primary native runs.
+Same geometry, anchors, initial state and friction; (m,k,d)=(1,300,1) or (2,600,2).
+Force is a known uniform body force per anchor, not a localized contact poke.
+Coordinates and spring parameters are native normalized units, not calibrated SI material values.
+Passive PSNR below pools pixel MSE over the four frozen cameras and all frames.
+Changed-response error is 21-coordinate centroid RMS over frames 18–24.
+asset | passive PSNR dB | changed-response gap | MAP mean error before -> after
+00e2a405dcff4701a8f57d2e67e306b8 | 97.6017 | 0.18764586 | 0.09382293 -> 0.00000000
+01b7a0ecc6124991a6c67b4be0e0218f | 100.0761 | 0.12073016 | 0.06036508 -> 0.00000000
+02030956a7624c5ebaf329207cd69dd8 | 94.5975 | 0.21920012 | 0.10960006 -> 0.00000000
+
+Each world has 100 observation-noise repeats: 600 trials across three assets, not 600 objects.
+The same-evidence MAP estimator has identical corrected point accuracy; no unique accuracy win.
+The separately frozen native-network extension scores a different, unchanged point prediction.
+It has no native-success cases; it cannot establish risk discrimination over all operating conditions.
+Native 00e2a405dcff4701a8f57d2e67e306b8: mean coordinate RMS=0.22451228, predicted failure=1.000000, realized failure=1.000000.
+Native 01b7a0ecc6124991a6c67b4be0e0218f: mean coordinate RMS=0.16655774, predicted failure=1.000000, realized failure=1.000000.
+Native 02030956a7624c5ebaf329207cd69dd8: mean coordinate RMS=0.26348457, predicted failure=1.000000, realized failure=1.000000.
+
+The imperfect released-ground-truth-parameter replay prevents assigning all recorded-video error to the predictor.
+Constructed-sequence PSNR is view-0 pooled MSE; released-video controls use mean per-frame four-view PSNR.
+Final illustration cameras fit all states and differ from the frozen quantitative cameras.
+
+2. COMPLIANT STEM
+96 independent physical cases, each in three paired task/access conditions; 288 records.
+Known force, geometry and calibrated synthetic sensor noise. Independent beam FEM verification.
+Tip-only observations constrain bending+base compliance; corrective load locations exclude the held-out 0.75L load.
+Risk and action choices were saved before held-out responses were evaluated.
+The next table reports across-case scalar displacement RMSE, not a mean of vector RMS values.
+condition | policy | point predictor | RMSE mm | failure rate | predicted failure | Brier | action counts
+repeat_tip | proceed | posterior_mean | 0.103743 | 0.000000 | 0.000001 | 0.000000 | {"proceed": 96}
+repeat_tip | proceed | maximum_likelihood | 0.105564 | 0.000000 | 0.000000 | 0.000000 | {"proceed": 96}
+repeat_tip | fixed_look | posterior_mean | 0.071250 | 0.000000 | 0.000000 | 0.000000 | {"look": 96}
+repeat_tip | fixed_look | maximum_likelihood | 0.076607 | 0.000000 | 0.000000 | 0.000000 | {"look": 96}
+repeat_tip | fixed_half_push | posterior_mean | 0.104709 | 0.000000 | 0.000001 | 0.000000 | {"push_0.50": 96}
+repeat_tip | fixed_half_push | maximum_likelihood | 0.106586 | 0.000000 | 0.000000 | 0.000000 | {"push_0.50": 96}
+repeat_tip | random | posterior_mean | 0.094412 | 0.000000 | 0.000000 | 0.000000 | {"look": 28, "push_0.35": 28, "push_0.50": 22, "push_0.65": 18}
+repeat_tip | random | maximum_likelihood | 0.100759 | 0.000000 | 0.000000 | 0.000000 | {"look": 28, "push_0.35": 28, "push_0.50": 22, "push_0.65": 18}
+repeat_tip | covariance | posterior_mean | 0.071250 | 0.000000 | 0.000000 | 0.000000 | {"look": 96}
+repeat_tip | covariance | maximum_likelihood | 0.076607 | 0.000000 | 0.000000 | 0.000000 | {"look": 96}
+repeat_tip | covariance_cost | posterior_mean | 0.071250 | 0.000000 | 0.000000 | 0.000000 | {"look": 96}
+repeat_tip | covariance_cost | maximum_likelihood | 0.076607 | 0.000000 | 0.000000 | 0.000000 | {"look": 96}
+repeat_tip | covariance_gaussian | posterior_mean | 0.103743 | 0.000000 | 0.000001 | 0.000000 | {"proceed": 96}
+repeat_tip | covariance_gaussian | maximum_likelihood | 0.105564 | 0.000000 | 0.000000 | 0.000000 | {"proceed": 96}
+repeat_tip | risk_policy | posterior_mean | 0.103743 | 0.000000 | 0.000001 | 0.000000 | {"proceed": 96}
+repeat_tip | risk_policy | maximum_likelihood | 0.105564 | 0.000000 | 0.000000 | 0.000000 | {"proceed": 96}
+visible_base | proceed | posterior_mean | 0.939374 | 0.541667 | 0.622648 | 0.219411 | {"proceed": 96}
+visible_base | proceed | maximum_likelihood | 0.941371 | 0.531250 | 0.624346 | 0.220865 | {"proceed": 96}
+visible_base | fixed_look | posterior_mean | 0.070932 | 0.000000 | 0.000000 | 0.000000 | {"look": 96}
+visible_base | fixed_look | maximum_likelihood | 0.072353 | 0.000000 | 0.000000 | 0.000000 | {"look": 96}
+visible_base | fixed_half_push | posterior_mean | 0.096546 | 0.000000 | 0.000002 | 0.000000 | {"push_0.50": 96}
+visible_base | fixed_half_push | maximum_likelihood | 0.099449 | 0.000000 | 0.000002 | 0.000000 | {"push_0.50": 96}
+visible_base | random | posterior_mean | 0.100539 | 0.000000 | 0.000006 | 0.000000 | {"look": 28, "push_0.35": 28, "push_0.50": 22, "push_0.65": 18}
+visible_base | random | maximum_likelihood | 0.101661 | 0.000000 | 0.000008 | 0.000000 | {"look": 28, "push_0.35": 28, "push_0.50": 22, "push_0.65": 18}
+visible_base | covariance | posterior_mean | 0.070932 | 0.000000 | 0.000000 | 0.000000 | {"look": 96}
+visible_base | covariance | maximum_likelihood | 0.072353 | 0.000000 | 0.000000 | 0.000000 | {"look": 96}
+visible_base | covariance_cost | posterior_mean | 0.070932 | 0.000000 | 0.000000 | 0.000000 | {"look": 96}
+visible_base | covariance_cost | maximum_likelihood | 0.072353 | 0.000000 | 0.000000 | 0.000000 | {"look": 96}
+visible_base | covariance_gaussian | posterior_mean | 0.072925 | 0.000000 | 0.000014 | 0.000000 | {"look": 93, "proceed": 3}
+visible_base | covariance_gaussian | maximum_likelihood | 0.074846 | 0.000000 | 0.000023 | 0.000000 | {"look": 93, "proceed": 3}
+visible_base | risk_policy | posterior_mean | 0.072988 | 0.000000 | 0.000109 | 0.000001 | {"look": 92, "proceed": 4}
+visible_base | risk_policy | maximum_likelihood | 0.075350 | 0.000000 | 0.000232 | 0.000004 | {"look": 92, "proceed": 4}
+concealed_base | proceed | posterior_mean | 0.939374 | 0.541667 | 0.622648 | 0.219411 | {"proceed": 96}
+concealed_base | proceed | maximum_likelihood | 0.941371 | 0.531250 | 0.624346 | 0.220865 | {"proceed": 96}
+concealed_base | fixed_look | posterior_mean | 0.931596 | 0.541667 | 0.622502 | 0.217448 | {"look": 96}
+concealed_base | fixed_look | maximum_likelihood | 0.929739 | 0.562500 | 0.625347 | 0.210731 | {"look": 96}
+concealed_base | fixed_half_push | posterior_mean | 0.096546 | 0.000000 | 0.000002 | 0.000000 | {"push_0.50": 96}
+concealed_base | fixed_half_push | maximum_likelihood | 0.099449 | 0.000000 | 0.000002 | 0.000000 | {"push_0.50": 96}
+concealed_base | random | posterior_mean | 0.510771 | 0.166667 | 0.189051 | 0.069624 | {"look": 28, "push_0.35": 28, "push_0.50": 22, "push_0.65": 18}
+concealed_base | random | maximum_likelihood | 0.510118 | 0.166667 | 0.189927 | 0.069742 | {"look": 28, "push_0.35": 28, "push_0.50": 22, "push_0.65": 18}
+concealed_base | covariance | posterior_mean | 0.113395 | 0.000000 | 0.000000 | 0.000000 | {"push_0.35": 96}
+concealed_base | covariance | maximum_likelihood | 0.114303 | 0.000000 | 0.000000 | 0.000000 | {"push_0.35": 96}
+concealed_base | covariance_cost | posterior_mean | 0.112406 | 0.000000 | 0.000001 | 0.000000 | {"proceed": 2, "push_0.35": 94}
+concealed_base | covariance_cost | maximum_likelihood | 0.111985 | 0.000000 | 0.000001 | 0.000000 | {"proceed": 2, "push_0.35": 94}
+concealed_base | covariance_gaussian | posterior_mean | 0.113601 | 0.000000 | 0.000014 | 0.000000 | {"proceed": 3, "push_0.35": 93}
+concealed_base | covariance_gaussian | maximum_likelihood | 0.113612 | 0.000000 | 0.000024 | 0.000000 | {"proceed": 3, "push_0.35": 93}
+concealed_base | risk_policy | posterior_mean | 0.118849 | 0.000000 | 0.000319 | 0.000005 | {"proceed": 5, "push_0.35": 91}
+concealed_base | risk_policy | maximum_likelihood | 0.119513 | 0.000000 | 0.000386 | 0.000006 | {"proceed": 5, "push_0.35": 91}
+
+Paired decision-loss differences: full posterior policy minus control.
+Loss = threshold failure + declared observation cost; bootstrap clusters by 96 physical cases.
+fixed_look: -0.17812500, 95% interval [-0.21241449652777775, -0.14381857638888892]
+fixed_half_push: -0.02256944, 95% interval [-0.023472222222222224, -0.02185763888888889]
+random: -0.07083333, 95% interval [-0.09442708333333334, -0.04836762152777779]
+covariance: -0.00590278, 95% interval [-0.006805555555555558, -0.005190972222222224]
+covariance_cost: -0.00562500, 95% interval [-0.006302083333333336, -0.005104166666666669]
+covariance_gaussian: -0.00032986, 95% interval [-0.0008506944444444444, 0.0]
+There is no convincing advantage over the strong cost-aware Gaussian moment-risk baseline.
+Some fixed controls have lower RMSE; adaptive selection trades accuracy against measurement cost.
+A fresh-workspace reproduction exactly matches the complete stem summary.
+
+3. NONLINEAR BOWL
+One nonbox geometry and 16 material/contact parameter worlds, with two noise repeats per world.
+Coarse and finer settings are paired numerical variants of those worlds, not additional independent objects.
+Neo-Hookean dynamics, gravity, concave bowl penalty contact and regularized friction.
+Exactly one position-controlled push or bowl-rotation calibration episode; no proceed/cost claim here.
+The stronger transverse held-out push is separate from calibration. No reaction force is observed during fitting.
+The finer-space/time simulation is a numerical-model stress reference, not certified continuum truth.
+The secondary resolution mixture includes that finer model by construction with equal resolution prior.
+Motion entries are means of per-case point-Euclidean RMS in mm.
+Forces are separate bowl/tool vector RMS in N after a 20 ms trailing boxcar average.
+model/cohort/stage | motion MAP RMS mm | predicted failure | actual failure | 90% coordinate coverage | bowl force RMS N | tool force RMS N
+fem/matched/initial | 7.5879771 | 0.5286218 | 0.6250000 | 1.0000000 | 0.6560956 | 0.6544674
+fem/matched/fixed_push | 0.1997714 | 0.0000021 | 0.0000000 | 0.9687500 | 0.0045215 | 0.0044262
+fem/matched/fixed_tilt | 0.0000000 | 0.0003239 | 0.0000000 | 1.0000000 | 0.0000000 | 0.0000000
+fem/matched/active | 0.0225464 | 0.0000000 | 0.0000000 | 1.0000000 | 0.0014867 | 0.0009924
+fem/mesh-mismatch/initial | 6.9809972 | 0.4718009 | 0.7187500 | 0.5363498 | 0.5793307 | 0.5618475
+fem/mesh-mismatch/fixed_push | 3.4593444 | 0.0350122 | 0.5937500 | 0.0498047 | 0.4242571 | 0.4067967
+fem/mesh-mismatch/fixed_tilt | 3.2935443 | 0.0050505 | 0.3125000 | 0.0279405 | 0.3332707 | 0.3331282
+fem/mesh-mismatch/active | 3.0909341 | 0.0185590 | 0.4375000 | 0.0614149 | 0.3352459 | 0.3354640
+resolution-mixture/matched/initial | 8.0734120 | 0.5647909 | 0.6250000 | 0.9520942 | 0.6915964 | 0.6937995
+resolution-mixture/matched/fixed_push | 0.1997714 | 0.0002102 | 0.0000000 | 0.9687500 | 0.0045215 | 0.0044262
+resolution-mixture/matched/fixed_tilt | 0.0407033 | 0.0005242 | 0.0000000 | 1.0000000 | 0.0063817 | 0.0061753
+resolution-mixture/matched/active | 0.0632497 | 0.0000184 | 0.0000000 | 1.0000000 | 0.0078683 | 0.0071677
+resolution-mixture/matched/shared_coarse_active | 0.0632497 | 0.0000184 | 0.0000000 | 1.0000000 | 0.0078683 | 0.0071677
+resolution-mixture/mesh-mismatch/initial | 3.2262142 | 0.4966050 | 0.4062500 | 0.9935438 | 0.3359867 | 0.3379018
+resolution-mixture/mesh-mismatch/fixed_push | 0.0000000 | 0.0125794 | 0.0000000 | 1.0000000 | 0.0000000 | 0.0000000
+resolution-mixture/mesh-mismatch/fixed_tilt | 0.0702405 | 0.0003187 | 0.0000000 | 1.0000000 | 0.0063430 | 0.0068421
+resolution-mixture/mesh-mismatch/active | 0.0509775 | 0.0000050 | 0.0000000 | 1.0000000 | 0.0049216 | 0.0057197
+resolution-mixture/mesh-mismatch/shared_coarse_active | 0.0509775 | 0.0000210 | 0.0000000 | 1.0000000 | 0.0049216 | 0.0057197
+
+All-state geometry audit: 96 trajectory files; 1280 visibility checks; 0 failures.
+Full paired cluster intervals, action counts, force coverage and interval widths are in bowl/summary.json.
+Numerical failures and the failed adapted spring-core qualification are retained; neither is a native PhysTwin accuracy ranking.
+
+REPRODUCTION AND DELIVERY
+See README.txt and drop/README.txt, bowl/README.txt for commands, sources, assumptions and raw-data policy.
+Video/figure directories: output/gap-first-v01/drop, stem and bowl.
+Paper addendum and editable source: papers/cvpr2027-joint-identification/.
+The final completion/publication audit is separate from this scientific report.
+All results remain conditional on the declared physical, numerical, visibility and noise models.

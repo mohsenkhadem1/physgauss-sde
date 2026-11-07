@@ -1,0 +1,83 @@
+{
+  "reviewed_utc": "2026-11-07T13:06:22.866326+00:00",
+  "summary_sha256": "394255686a61f69174741e546e8cb139fc283c66fe4f84205bed1844b2ba4c70",
+  "selected_group_values": {
+    "fem/matched/initial": {
+      "map_rms_mm": 7.587977077085489,
+      "posterior_mean_rms_mm": 5.68622078996964,
+      "predicted_failure_probability": 0.5286218151891107,
+      "actual_failure": 0.625,
+      "brier": 0.22213331091038335,
+      "coordinate_coverage90": 1.0,
+      "coordinate_width90_mm": 7.206328618185056,
+      "bowl_reaction_mean_vector_rms_N": 0.5249097083925915,
+      "bowl_reaction_map_vector_rms_N": 0.6560956227023098,
+      "bowl_reaction_coordinate_coverage90": 1.0,
+      "bowl_reaction_coordinate_width90_N": 0.735279089088078,
+      "tool_reaction_mean_vector_rms_N": 0.5275016918127042,
+      "tool_reaction_map_vector_rms_N": 0.6544673552780705,
+      "tool_reaction_coordinate_coverage90": 1.0,
+      "tool_reaction_coordinate_width90_N": 0.7539911340753638
+    },
+    "fem/matched/active": {
+      "map_rms_mm": 0.022546352637126933,
+      "posterior_mean_rms_mm": 0.05959929956777214,
+      "predicted_failure_probability": 1.522347822746075e-13,
+      "actual_failure": 0.0,
+      "brier": 3.2496318093482046e-25,
+      "coordinate_coverage90": 1.0,
+      "coordinate_width90_mm": 0.09866818169014721,
+      "bowl_reaction_mean_vector_rms_N": 0.002107534613326554,
+      "bowl_reaction_map_vector_rms_N": 0.0014866533861330826,
+      "bowl_reaction_coordinate_coverage90": 1.0,
+      "bowl_reaction_coordinate_width90_N": 0.003596448569879138,
+      "tool_reaction_mean_vector_rms_N": 0.0016382014885413837,
+      "tool_reaction_map_vector_rms_N": 0.0009924169609474025,
+      "tool_reaction_coordinate_coverage90": 1.0,
+      "tool_reaction_coordinate_width90_N": 0.0028694998528059493
+    },
+    "fem/mesh-mismatch/active": {
+      "map_rms_mm": 3.090934055089088,
+      "posterior_mean_rms_mm": 3.0179632572178834,
+      "predicted_failure_probability": 0.018558968250646533,
+      "actual_failure": 0.4375,
+      "brier": 0.41182285385074435,
+      "coordinate_coverage90": 0.06141493055555555,
+      "coordinate_width90_mm": 0.4067374079527757,
+      "bowl_reaction_mean_vector_rms_N": 0.3226546797032261,
+      "bowl_reaction_map_vector_rms_N": 0.3352459205866306,
+      "bowl_reaction_coordinate_coverage90": 0.06597222222222222,
+      "bowl_reaction_coordinate_width90_N": 0.047253144069491576,
+      "tool_reaction_mean_vector_rms_N": 0.3226894553020534,
+      "tool_reaction_map_vector_rms_N": 0.3354639801435984,
+      "tool_reaction_coordinate_coverage90": 0.07291666666666666,
+      "tool_reaction_coordinate_width90_N": 0.04737894523321406
+    },
+    "resolution-mixture/mesh-mismatch/shared_coarse_active": {
+      "map_rms_mm": 0.05097752762068838,
+      "posterior_mean_rms_mm": 0.0651485403563917,
+      "predicted_failure_probability": 2.096270848303971e-05,
+      "actual_failure": 0.0,
+      "brier": 3.715489300035136e-09,
+      "coordinate_coverage90": 1.0,
+      "coordinate_width90_mm": 0.09431563012143146,
+      "bowl_reaction_mean_vector_rms_N": 0.005888824051817026,
+      "bowl_reaction_map_vector_rms_N": 0.004921554698493828,
+      "bowl_reaction_coordinate_coverage90": 1.0,
+      "bowl_reaction_coordinate_width90_N": 0.00654053760409924,
+      "tool_reaction_mean_vector_rms_N": 0.006837293046035398,
+      "tool_reaction_map_vector_rms_N": 0.005719748400426167,
+      "tool_reaction_coordinate_coverage90": 1.0,
+      "tool_reaction_coordinate_width90_N": 0.006883606689993963
+    }
+  },
+  "interpretation": [
+    "Matched known-dictionary correction succeeds, but fixed tilt also succeeds; no demonstrated advantage over the best fixed action.",
+    "Coarse-only finer-truth active posterior remains severely overconfident despite improved mean prediction.",
+    "Resolution mixture improves finer-truth predictions with identical corrective evidence; fine truth family is explicitly included in candidates by construction.",
+    "Same-evidence mixture slightly worsens matched mean MAP error (.02255 to .06325mm) while both have zero observed tolerance failures.",
+    "Reported force intervals fail under omitted discretization discrepancy too; force means and motion accuracy are distinct outcomes.",
+    "All uncertainty comparisons describe16parameter-world clusters and two noise repeats per resolution; not64 independent physical worlds.",
+    "Pooled resolution-mixture prior predictive calibration and conditional per-resolution coverage must not be conflated."
+  ]
+}

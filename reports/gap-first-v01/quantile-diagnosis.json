@@ -1,0 +1,17 @@
+{
+  "confirmed": true,
+  "old_upper_repr": "0.008999999999999998",
+  "true_upper_atom_repr": "0.009",
+  "corrected_upper_repr": "0.009",
+  "old_false_exclusion": true,
+  "cause": "Returning final bisection midpoint can round below upper atom or above lower atom. Inclusive coverage then falsely excludes exact atoms, despite negligible numerical endpoint error.",
+  "fix": "Explicit generalized-inverse atom jump handling, exact atom values, no thresholding positive variance; continuous components retain numerical inverse CDF. Extreme probabilities use normal quantile brackets rather than fixed12sigma.",
+  "scope": "Newnamespace only. Historical inference/source and saved scores preserved; no old-results correction silently applied.",
+  "tests": "7 tests pass: historicalregression,atoms/duplicates/plateaus,Gaussian+atom jumps,independent continuous root,extremetails,coordinate/scale equivariance,validation",
+  "source_sha256": {
+    "scripts/gap_first_v01/quantiles.py": "d5f8f4377b728a84793929dec0db83874f219ae2ef2aa2960a7375828aba3508",
+    "tests/test_gap_first_quantiles.py": "f03e3335cf16415b4159f1a0ac3e56d50a92b1623ea282364d6d9903a5260ad8",
+    "scripts/joint_field_identification/inference.py": "e67824cb3570730e8c729f125956b780185cd96a0f6b69015996fb977d4ba5ac"
+  },
+  "complexity": "Pureatomic branch uses stable sorting/grouped longdouble cumulative mass, O(HlogH); mixed Gaussian jumps retain directCDFchecks."
+}

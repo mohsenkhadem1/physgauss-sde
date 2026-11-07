@@ -1,0 +1,92 @@
+{
+  "status": "failed adapter qualification; excluded from accuracy ranking",
+  "scope": "Not evidence that native PhysTwin fails on bowls. This tetra-edge/shared-contact adapter violates its imposed positive-volume check under impact.",
+  "metadata": {
+    "label": "PhysTwin native spring-force core + shared v13 contact/integrator",
+    "author_repository": "https://github.com/Jianghanxiao/PhysTwin",
+    "author_checkout": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+    "kernel_ast_sha256": "bb1948de9203b491237f9cf5064ff9c6fd47c8ae3fae113238f4bec0653a127d",
+    "kernel_matches_author_checkout": true,
+    "local_source_amendment": "Existing simulator constructor gravity_scale option; eval_springs unchanged; v13 bypasses native constructor",
+    "full_author_method": false,
+    "unchanged_kernel": "eval_springs",
+    "upstream_source": "runs/third_party/PhysTwin/qqtt/model/diff_simulator/spring_mass_warp.py",
+    "upstream_sha256": "d89b30d871c5ffe8aed67fabd3624d8c6a9b80b41da4ed4a106afb7da9f13ac7",
+    "upstream_license": "MIT, Copyright (c) 2025 Hanxiao Jiang",
+    "device": "cpu",
+    "graph": "tetrahedral edges; no control attachment springs",
+    "mass": "identical SI lumped masses as v13 FEM, not upstream unit particle masses",
+    "fitted_parameter": "effective spring scale; not identified Young modulus",
+    "spring_coefficient": "effective_scale * tributary_tet_volume / rest_length (N)",
+    "dashpot_coefficient": 0.0021385428948817358,
+    "shared": "initial geometry, node identities, gravity, boundary conditions, contact forces, friction, rigid-body response, integration, positive-J failure checks",
+    "replaced": "native graph, optimizer, per-spring inference, mass convention, collision and integration",
+    "upstream_capability": "native core separately supports multi-object particle impulses; not used by this controlled material-core comparison"
+  },
+  "development_scales": [
+    {
+      "scale": 15000,
+      "sim_time_s": 0.07105000000000034,
+      "elapsed_s": 1.7979609966278076,
+      "minJ": 0.023152164396535706,
+      "maxpen_mm": 0.4814887710472976,
+      "error": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+    },
+    {
+      "scale": 30000,
+      "sim_time_s": 0.07105000000000034,
+      "elapsed_s": 1.7936310768127441,
+      "minJ": 0.02078038406338974,
+      "maxpen_mm": 0.5016668021258358,
+      "error": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+    },
+    {
+      "scale": 60000,
+      "sim_time_s": 0.07110000000000033,
+      "elapsed_s": 1.7835369110107422,
+      "minJ": 0.025360361262640064,
+      "maxpen_mm": 0.5122165313306559,
+      "error": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+    },
+    {
+      "scale": 120000,
+      "sim_time_s": 0.07185000000000025,
+      "elapsed_s": 1.81693696975708,
+      "minJ": 0.025779632005961523,
+      "maxpen_mm": 0.46409622136450723,
+      "error": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+    }
+  ],
+  "dt_cpu_checks": [
+    {
+      "scale": 120000,
+      "dt": 2.5e-05,
+      "device": "cuda:0",
+      "sim_time_s": 0.07192499999999616,
+      "elapsed_s": 3.683523654937744,
+      "minJ": 0.022012510309976845,
+      "maxpen_mm": 0.4658450096671346,
+      "error": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+    },
+    {
+      "scale": 120000,
+      "dt": 2.5e-05,
+      "device": "cpu",
+      "sim_time_s": 0.07192499999999616,
+      "elapsed_s": 3.1986002922058105,
+      "minJ": 0.02201286463789171,
+      "maxpen_mm": 0.46584513382938453,
+      "error": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+    },
+    {
+      "scale": 1000000,
+      "dt": 5e-05,
+      "device": "cuda:0",
+      "sim_time_s": 0.0696000000000005,
+      "elapsed_s": 1.7432734966278076,
+      "minJ": 0.0320461711849433,
+      "maxpen_mm": 0.8024536039620694,
+      "error": "FloatingPointError('Step inverted/degenerate FEM element; reduce dt')"
+    }
+  ]
+}

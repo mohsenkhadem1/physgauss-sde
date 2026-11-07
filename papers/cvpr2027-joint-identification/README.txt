@@ -1,3 +1,12 @@
+7 NOVEMBER EXPERIMENTAL ADDENDUM
+The existing main.pdf, supplement.pdf and release/latex-source.zip are preserved.
+Read gap-first-addendum.pdf for the separate native-drop, compliant-stem and
+nonlinear-bowl studies. Complete results: ../../reports/gap-first-v01/REPORT.txt.
+Reproduction: ../../reports/gap-first-v01/README.txt. Editable addendum source:
+release/gap-first-latex-source.zip (standalone; run sh build.sh after extraction).
+The strong fixed/Gaussian controls and coarse-model overconfidence are retained.
+The resolution-mixture bowl control includes the finer reference by construction.
+
 Seeing Motion Is Not Identifying Mechanics
 Joint Material–Interaction Inference with Marginalized Loads
 

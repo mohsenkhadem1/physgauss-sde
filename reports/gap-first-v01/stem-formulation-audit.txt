@@ -1,0 +1,52 @@
+COMPLIANT-STEM FORMULATION AUDIT
+
+Model: uniform Euler–Bernoulli beam of lengthL, bending rigidityEI, base lateral
+spring stiffnesskb. Base translation is free/compliant but base rotation is
+constrained. Tip is otherwise free; small-deflection, static linear response.
+For a transverse point forceF applied at s, displacement at x is
+ u(x;s)=F G(x,s),
+ G(x,s)=1/kb + min(x,s)^2 [3max(x,s)-min(x,s)]/(6EI).
+Units: G m/N; EI N m²; kb N/m. G is reciprocal in x,s.
+
+Let total tip complianceC=1/kb+L³/(3EI), bending fractionalpha=(L³/3EI)/C.
+Two alternatives alpha=.8 andalpha=.2 with sameC give identical tip response.
+These are intrinsic observational alternatives, not forward-solver failures.
+
+DISTINGUISH TWO DIFFERENT HALF-HEIGHT EXPERIMENTS
+1. Keep original force at tip s=L and observe x=L/2:
+   G(L/2,L)/C=(1-alpha)+(5/16)alpha.
+   A80/20:0.450; B20/80:0.8625.
+2. Apply a NEW force at s=L/2 and measure there x=L/2:
+   G(L/2,L/2)/C=(1-alpha)+(1/8)alpha.
+   A80/20:0.300; B20/80:0.825.
+The user/root .300/.825 proposal is correct for experiment2.
+Loadlocation and observationlocation must remain separate in code/captions.
+
+OBSERVABILITY
+With known F, parameterize beta=(1/kb,1/EI). Each measurement has row
+F[1,g(x,s)] with g=min²(3max-min)/6. Two measurements have rank2 iff
+nonzero forces and distinctg. Repeated tip observations cannot distinguish
+support/material, even at more camera angles. Interiorlook orhalfheightpush
+adds rank when the displacement component is visible. With unknown originalF,
+shape information alone retains common(EI,kb,F) scaling ambiguity. Knownprobe
+anchors absolute scale. Here primaryF isknown, so isolate support/material.
+A held third-location response must not also be acquired/evaluated astraining.
+
+DECISION-SPECIFIC RISK
+Freeze predictionq and its toleranceepsilon before truth. For a chosen fitted
+pointmodel predictionqhat(D), compute
+ P(||q-qhat(D)||>epsilon |D), integrating hypotheses/conditionalforces.
+For scalar Gaussian mixtures this is sum_h w_h[Phi((qhat-epsilon-mu_h)/sd_h)
+ +Phi((mu_h-qhat-epsilon)/sd_h)]. For zero sd use exact strict indicator
+abs(mu_h-qhat)>epsilon. Target noise/discrepancy must be explicitly declared;
+measurementnoise goes in the actionlikelihood, not automatically in targetrisk.
+For vectornorms use reproducibleposterior draws or exact finite sums; report MC
+uncertainty when relevant. Variance alone is not this failureprobability.
+
+Score proceed/look/push by predeclared failurecost plus acquisitioncost and
+expected postmeasurement decisionloss, integrating potentialmeasurements before
+hidden truth. Policies/baselines share availableactions, units/noise, budget,
+potentialnoise and correctiveobservations. Refit pointbaseline after its/same
+correctiveevidence; do not compare updatedposterior with a frozenwrongmodel.
+Separate exactwithinfamily ambiguity from misspecifiedmechanics/boundaries and
+numericalfailure. More extreme/complex scenes are not evidenceofidentifiability.

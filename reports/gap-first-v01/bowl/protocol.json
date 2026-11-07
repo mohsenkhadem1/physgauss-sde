@@ -1,0 +1,161 @@
+{
+  "status": "pre-outcome protocol",
+  "scope": "Controlled finite-hypothesis nonlinear contact; supplied metric overhead surface tracks, not RGB reconstruction",
+  "hypotheses": [
+    [
+      2500.0,
+      0.1
+    ],
+    [
+      2500.0,
+      0.25
+    ],
+    [
+      2500.0,
+      0.45
+    ],
+    [
+      2500.0,
+      0.7
+    ],
+    [
+      4000.0,
+      0.1
+    ],
+    [
+      4000.0,
+      0.25
+    ],
+    [
+      4000.0,
+      0.45
+    ],
+    [
+      4000.0,
+      0.7
+    ],
+    [
+      6500.0,
+      0.1
+    ],
+    [
+      6500.0,
+      0.25
+    ],
+    [
+      6500.0,
+      0.45
+    ],
+    [
+      6500.0,
+      0.7
+    ],
+    [
+      10000.0,
+      0.1
+    ],
+    [
+      10000.0,
+      0.25
+    ],
+    [
+      10000.0,
+      0.45
+    ],
+    [
+      10000.0,
+      0.7
+    ]
+  ],
+  "spring_label": "Attempted unchanged PhysTwin spring-force core adapter failed development qualification; no accuracy ranking or claim about native full method",
+  "mesh": {
+    "inference_cells": 6,
+    "matched_truth_cells": 6,
+    "mismatch_truth_cells": 12,
+    "geometry": "same piecewise-linear tapered ellipsoid; refinement preserves volume and boundary"
+  },
+  "initial_times_s": [
+    0.08,
+    0.12
+  ],
+  "calibration_times_s": [
+    0.94,
+    1.2
+  ],
+  "target_times_s": [
+    1.1,
+    1.2,
+    1.3
+  ],
+  "marker_indices": [
+    39,
+    43,
+    55,
+    59
+  ],
+  "camera": "orthographic overhead, image x/y metric coordinates; visibility audit required",
+  "noise_sigma_m": 0.0005,
+  "decision_tolerance_m": 0.003,
+  "risk": "posterior probability that the MAP-model 3D point RMS error exceeds tolerance",
+  "known_parameters": {
+    "density_kg_m3": 1000,
+    "poisson_ratio": 0.3,
+    "viscosity_Pa_s": 2,
+    "gravity_m_s2": [
+      0,
+      0,
+      -9.81
+    ],
+    "bowl_radius_m": 0.09,
+    "bowl_center_m": [
+      0,
+      0,
+      0.09
+    ],
+    "pusher_radius_m": 0.018
+  },
+  "target_metric": "3D Euclidean point RMS over64 common material nodes andthree held-out times; includes simulation-only interior ground-truth nodes",
+  "secondary_force_metric": "For bowl and tool separately: vector RMS in N across trailing20ms mean reactions at1.1/1.2/1.3s, accumulated from every timestep, posterior-mean andMAP predictions; marginal90% coordinate coverage/width. Sign: force exerted by soft object on rigid body. No force observations, no acquisition retuning using force outcomes.",
+  "friction_model": "one unknown coefficient shared by bowl and pusher; Coulomb-capped viscous slip, no exact static friction",
+  "bowl_rotation": "0.2rad about fixed spherical center; unchanged gravity, normal field below rim; informative tangential omega-cross-arm wall velocity",
+  "actions": [
+    "calibration_push",
+    "calibration_tilt"
+  ],
+  "target_interaction": "heldout_push: transverse y push, 45mm travel, after descending through open rim; calibration x push 25mm or 0.2rad bowl rotation",
+  "acquisition_budget": "Exactly one reset calibration episode providing16 projected coordinates; initial/no-correction is a control. Fixed-budget action comparison, not proceed-or-acquire or energy/cost optimization.",
+  "control_inputs": "Position-controlled pusher trajectory and prescribed bowl rotation; gravity known. Reaction forces are withheld outputs, never input measurements.",
+  "reset": "Every action and held-out interaction starts at identical known initial rest state; calibration observations never come from target trajectory",
+  "inference_dt_s": 2.5e-05,
+  "reference_dt_s": 1.25e-05,
+  "contact_penalty_N_per_m_per_reference_patch": 38400.0,
+  "reference_patch_area_m2": 0.0004,
+  "duration_s": 1.3,
+  "cohorts": {
+    "matched": 32,
+    "mesh-mismatch": 32
+  },
+  "noise_replicates_per_material": 2,
+  "independent_parameter_worlds": 16,
+  "cohort_pairing": "Same16 parameter worlds across two discretizations; independent predeclared noise seeds per cohort, not64 independent objects",
+  "secondary_resolution_mixture": "32 hypotheses: P(resolution6)=P(resolution12)=0.5 and uniform16-parameter prior within each. Fine reference model lies in this mixture by construction. This is a controlled numerical-model-uncertainty comparator, not unknown-model calibration; primary16-coarse results remain separate.",
+  "secondary_shared_evidence": "Resolution mixture also receives exactly the action observation chosen by the coarse-only policy (shared_coarse_active), in addition to its own policy and both fixed controls.",
+  "hard_deadline_utc": "2026-11-07T21:44:00+00:00",
+  "checkpoint": "Atomic restartable GPU state every approximately0.2 simulated seconds; source/parameter validation on resume",
+  "exclusions": "None. Any solver/visibility failure retained and reported; no silent replacement. Required bank failure stops accuracy evaluation after attempting all hypotheses. Visibility failures preclude a camera-accessible claim, without filtering cases.",
+  "baselines": [
+    "MAP point prediction using exactly the same posterior/evidence",
+    "fixed gentle x-push",
+    "fixed small bowl rotation"
+  ],
+  "utilities": "Expected posterior failure risk; all16 hypotheses,128 common Gaussian noise draws/hypothesis; seed110701",
+  "reporting_risk_threshold": 0.2,
+  "summary": "RMS, Brier, selective risk at reporting threshold, coordinate90% intervals, paired active-minus-each-fixed; bootstrap clustered by16 material/contact worlds, not32 noise replicates",
+  "source_sha256": {
+    "scripts/gap_first_v01/bowl_campaign.py": "f38243bfe1fba023e616a508d206e572bc74a7e8ee2add9cbba6533c3e9eeaab",
+    "scripts/gap_first_v01/bowl_physics.py": "83e2f95df1c83954b580147f83232668386b3e180208b58f6fff92a4b98da3cd",
+    "scripts/gap_first_v01/bowl_native.py": "8203d073d93f8ce8de17d9c13941a12d6e1688ec07157caed5592b4b5dbace35",
+    "scripts/gap_first_v01/bowl_torch.py": "2a876d59d7397ea70cdeab809f3514fae429e5866e2500bd3796926ed8472b30",
+    "scripts/gap_first_v01/quantiles.py": "d5f8f4377b728a84793929dec0db83874f219ae2ef2aa2960a7375828aba3508"
+  }
+}

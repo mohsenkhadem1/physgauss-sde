@@ -1,0 +1,20 @@
+"""Freeze native sources/assets/initial states/cameras before counterfactual tests."""
+from pathlib import Path
+import sys,json,datetime,subprocess,hashlib
+ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT))
+from scripts.gap_first_v01.drop_run import geometry,render_utils,BASE,REPORT,VENDOR,sha,config
+import numpy as np
+p=REPORT/'protocol.json'
+if p.exists():raise RuntimeError('Protocol already frozen')
+assets=sorted(x.name for x in (BASE/'assets').iterdir());assert len(assets)==3
+pilot=json.loads((BASE/'pilot'/assets[0]/'passive-A/result.json').read_text());assert pilot['complete'] and pilot['frames']==4
+for asset in assets:geometry(asset)
+extr,intr=render_utils.yaw_pitch_r_fov_to_extrinsics_intrinsics([0,np.pi/2,np.pi,3*np.pi/2],[0]*4,2,40)
+camerapath=BASE/'initial/cameras.npz';np.savez(camerapath,extrinsics=np.stack([x.cpu().numpy() for x in extr]),intrinsics=np.stack([x.cpu().numpy() for x in intr]),resolution=np.array([512,512]),near=np.array(.8),far=np.array(1.6))
+files=[ROOT/'scripts/gap_first_v01'/f for f in ['drop_run.py','drop_protocol.py','drop_analysis.py','drop_native_metrics.py','drop_predict.py','drop_freeze.py','drop_supervisor.py','quantiles.py']]
+tracked=subprocess.check_output(['git','-C',str(VENDOR),'ls-files'],text=True).splitlines();files += [VENDOR/f for f in tracked if f.endswith(('.py','.yaml'))]
+files += list((BASE/'assets').rglob('*'));files=[f for f in files if f.is_file()];files+=list((BASE/'initial').glob('*'))+[BASE/'ckpt.pt',REPORT/'environment.json',REPORT/'native-source-audit.json']+list((BASE/'internvit').glob('*'))+[REPORT/f'{a}-native-predictor.json' for a in assets]
+frozen={str(f.relative_to(ROOT)):sha(f) for f in files}
+cases=['passive-A','passive-B','calibration-A','calibration-B','changed-A','changed-B','known-mass','native-predicted','native-groundtruth']
+d=dict(version='native-reconphys-gap-drop-v01',frozen_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),deadline_utc='2026-11-07T21:44:00+00:00',assets=assets,cases=cases,source_sha256={k:v for k,v in frozen.items() if k.startswith('scripts/')},frozen_sha256=frozen,native_commit=subprocess.check_output(['git','-C',str(VENDOR),'rev-parse','HEAD'],text=True).strip(),frames=30,dt=.03,substeps=100,seed=123,per_anchor_parameters=dict(A=dict(m=1,k=300,damp=1,fric_k=0),B=dict(m=2,k=600,damp=2,fric_k=0)),controls=2048,known_mass_control=dict(m=1,k=600,damp=1,fric_k=0),forces=dict(calibration_per_anchor=[4,0,0],changed_per_anchor=[0,0,20],inclusive_frames=[12,17],total_force_multiplier=2048),camera=dict(order_yaw=[0,float(np.pi/2),float(np.pi),float(3*np.pi/2)],pitch=0,radius=2,fov_degrees=40,resolution=[512,512],matrices=str(camerapath.relative_to(ROOT))),measurement=dict(view=0,frame=18,reference='passive same world frame18',operator='mean x-coordinate of pixels with maxRGB>8, divided by512; calibration minus passive',total_delta_noise_std=.002,units='normalized image coordinate'),target=dict(frames=list(range(18,25)),operator='control centroid xyz flattened21components under changed force',failure_event='sqrt(mean21squared errors)>tolerance',tolerance=.01,units='native normalized scene length'),inference=dict(hypotheses=2,prior=[.5,.5],noise_seed=90123,noise_repeats_per_world=100,both_worlds=True,point_tie='A',point_refit='MAP after identical correctiveimage evidence',pre_noise_bank_digest=True),camera_acquisition_control=False,raw_data_local=True,no_asset_outcome_selection=True,native_config=config().dump(),draft=(REPORT/'PROTOCOL-DRAFT.txt').read_text(),limits=['Native normalized coordinates and mass/force PERCONTROLANCHOR, not calibrated real-worldSI.','Passive twins are a controllednativeforwardambiguity example, not end-to-endpredictorfailure.','Nativepretrained predictor replay uses givenreleased Gaussiangeometry and unknownreleasedtrain/testsplit.','Knownforceadapter changes only nativecompute_force additiveinput; no contactlaw or restitution estimation.','No positiveaccuracy result is required; all declaredassets retained including failures.'])
+p.write_text(json.dumps(d,indent=2));print(sha(p))

@@ -1,0 +1,88 @@
+{
+  "version": "gap-first-stem-v01",
+  "status": "preregistered-before-cohort-evaluation",
+  "lengths_m": [
+    0.1,
+    0.12,
+    0.15
+  ],
+  "width_m": 0.01,
+  "thickness_m": 0.008,
+  "initial_force_n": 0.02,
+  "initial_observation": "tip displacement under known tip force",
+  "initial_sigma_m": 0.0001,
+  "look_sigma_m": 0.0001,
+  "push_sigma_m": 0.00015,
+  "compliance_prior_m_per_n": [
+    0.04,
+    0.48
+  ],
+  "prior": "independent uniform bending and translating-base compliances",
+  "grid_size": 129,
+  "refinement_grid_sizes": [
+    257,
+    513
+  ],
+  "risk_tolerance_m": 0.0005,
+  "proceed_risk_threshold": 0.1,
+  "look_cost_in_failure_probability_units": 0.015,
+  "push_cost_in_failure_probability_units": 0.04,
+  "push_candidates_fraction": [
+    0.35,
+    0.5,
+    0.65
+  ],
+  "heldout_load_fraction": 0.75,
+  "heldout_force_n": 0.02,
+  "conditions": [
+    "repeat_tip",
+    "visible_base",
+    "concealed_base"
+  ],
+  "new_view_visible_base": "simultaneous base marker under original tip force",
+  "new_view_concealed_base": "independent second tip measurement only",
+  "push_measurement": "displacement at calibrated force application location",
+  "continuous_prior_test_cases_per_condition": 96,
+  "dev_seed": 71107,
+  "test_seed": 971107,
+  "paired_examples_compliances": [
+    [
+      0.4,
+      0.1
+    ],
+    [
+      0.1,
+      0.4
+    ]
+  ],
+  "quadrature_predictive_observation_bins": 161,
+  "action_controls": [
+    "proceed",
+    "fixed_look",
+    "fixed_half_push",
+    "random",
+    "covariance",
+    "covariance_cost",
+    "covariance_gaussian",
+    "risk_policy"
+  ],
+  "point_models": [
+    "posterior_mean",
+    "maximum_likelihood"
+  ],
+  "evidence_contract": "Every point model receives exactly the chosen corrective measurement. Future task load specification is known for planning; its RESPONSE and hidden parameters are never used for fitting or action selection.",
+  "uncertainty_contract": "Known geometry, load magnitude, cameras and linear constitutive law; uncertainty covers bending and support compliance. Observation-noise model is calibrated by construction. Real video calibration and nonlinear mismatch are not claimed.",
+  "freeze_rule": "Protocol hash and pre-action prediction/risk records are written before revealing evaluation outcomes. Development or additional sensitivity experiments must be labeled separately.",
+  "repeat_tip_target": "Repeat original tip force and measure tip; other conditions predict response at 0.75 L under force applied there.",
+  "point_model_tie_rule": "Uniform-prior MAP equals grid maximum likelihood; ties within 1e-9 log likelihood choose smallest Euclidean distance to prior center, then grid order.",
+  "policy_loss": "Expected threshold-exceedance risk of posterior-MEAN prediction plus stated action cost. Mean is squared-error-optimal, not generally threshold-loss-optimal.",
+  "visibility_limit": "Concealed-base scenario restricts all permitted new cameras to tip marker; this is an explicit limited-access observation model, not a claim about every possible camera.",
+  "predictive_bin_refinements": [
+    321,
+    641
+  ],
+  "covariance_control": "Fixed-budget linear variance-reduction action, always acquiring; interpret cost against this limitation.",
+  "covariance_cost_control": "Cost-aware linear-MSE Markov-bound surrogate min(1,(Var(q)-Cov(q,z)^2/Var(z))/tol^2)+cost, with proceed included at min(1,Var(q)/tol^2). Uses same observations, tolerance, and action costs.",
+  "random_control": "Uniform choice among one look and three pushes, fixed acquisition budget; proceed baseline and cost-aware covariance separately included.",
+  "covariance_gaussian_control": "Cost-aware moment-matched Gaussian risk 2 Phi(-tol/sqrt(Var(q)-Cov(q,z)^2/Var(z)))+cost, with proceed using current variance. Same tolerance, noise and action costs. Strong simple baseline; no advantage over it assumed."
+}

@@ -1,0 +1,57 @@
+{
+  "passed": true,
+  "reviewed_utc": "2026-11-07T10:37:59.624109+00:00",
+  "independent_numeric_checks": 9618,
+  "summary": [
+    {
+      "asset": "00e2a405dcff4701a8f57d2e67e306b8",
+      "force_coordinate_rms_gap": 0.18764585748621562,
+      "prior_MAP_risk": 0.5,
+      "named_native_prior_risk": 1.0,
+      "named_native_mean_error": 0.2245122817424301,
+      "MAP_before_mean_error": 0.09382292874310781,
+      "MAP_after_mean_error": 0.0
+    },
+    {
+      "asset": "01b7a0ecc6124991a6c67b4be0e0218f",
+      "force_coordinate_rms_gap": 0.12073016184347685,
+      "prior_MAP_risk": 0.5,
+      "named_native_prior_risk": 1.0,
+      "named_native_mean_error": 0.16655773757342268,
+      "MAP_before_mean_error": 0.06036508092173842,
+      "MAP_after_mean_error": 0.0
+    },
+    {
+      "asset": "02030956a7624c5ebaf329207cd69dd8",
+      "force_coordinate_rms_gap": 0.21920011647125218,
+      "prior_MAP_risk": 0.5,
+      "named_native_prior_risk": 1.0,
+      "named_native_mean_error": 0.2634845690877045,
+      "MAP_before_mean_error": 0.10960005823562609,
+      "MAP_after_mean_error": 0.0
+    }
+  ],
+  "dataflow_review": [
+    "Native loader returns [3,T,H,W] in sequential frame order; [:,:,:20] on batched tensor restricts network to passive frames0..19.",
+    "Known force is a separate reset rollout; overlapping frame numbers do not expose held-force observations to predictor.",
+    "Named native parameter output is frozen before replay and never updated after calibration.",
+    "Reference target bank is prospective two-world model prediction; indexed true-world evaluation happens only after qhat/risk are saved.",
+    "Primary MAP risk .5 differs from named NN risk1 because they assess different fixed point predictions.",
+    "All600 noise trials come from three geometry/two-world combinations; no independent-object performance claim."
+  ],
+  "scope": [
+    "Coordinate RMS over21scalar coordinates, not point-Euclidean RMS; normalized scene coordinates, not mm.",
+    "Original GT-parameter replay is imperfect; no clean end-to-end accuracy superiority claim.",
+    "Runtime values are local wall-clock observations including synchronization/rendering/setup; not controlled speed comparison.",
+    "Native future image score is view0 pooled-MSE PSNR, whereas released-video control aggregates per-frame PSNR across4views; describe different protocols."
+  ],
+  "source_sha256": {
+    "papers/cvpr2027-joint-identification/sections/gap-first-drop.tex": "71b23a1ef1a9a95ee9e43a1fd526b7bacbe9f5166029e9520814ad8b6b2c816d",
+    "scripts/gap_first_v01/drop_native_extension.py": "760be2033960eee8f08d74938565c7de40d4173f9e122eafed49a4361577e67d",
+    "scripts/gap_first_v01/drop_analysis.py": "072da8371b285fd330d2aea11cd1c5c2f3db8472ee094ec61e49c72cbbf3775a",
+    "scripts/gap_first_v01/drop_predict.py": "24d7a527da88e2d1ac9c4fb6db54fc255127ac17bc65e657e252892dbbf1aa17",
+    "runs/gap-first-v01/drop/vendor/ReconPhys/release_utils.py": "3bff11e052ebe94ed22860034142a9b168fac84a039c07d8f080005b4b19ea7c",
+    "reports/gap-first-v01/drop/protocol.json": "b4d1fda9e101faa8b48b11ce7991604283b2475883d354770c1d127b01d2efd2",
+    "reports/gap-first-v01/drop/native-reference-extension/protocol.json": "9fe5845b7483c87530a550281b6cb3f66db7522408e1533d4b2aabaf00778a56"
+  }
+}

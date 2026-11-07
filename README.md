@@ -1,5 +1,17 @@
 # PhysGauss-SDE
 
+**7 November 2026: gap-first experimental addendum.**
+[Paper](papers/cvpr2027-joint-identification/gap-first-addendum.pdf) ·
+[Complete results](reports/gap-first-v01/REPORT.txt) ·
+[Reproduction and videos](reports/gap-first-v01/README.txt).
+Native ReconPhys drops, a compliant stem and nonlinear bowl contact test when
+uncertainty changes the next interaction. Calibration improves predictions,
+but the bowl stress also exposes overconfidence under model mismatch.
+Strong fixed and Gaussian-risk controls remain competitive; the finer-model
+mixture is a controlled repair, not arbitrary-physics robustness.
+The [earlier main manuscript](papers/cvpr2027-joint-identification/main.pdf) and
+its historical rendering/contact/public-data results remain unchanged.
+
 **Current coupled-contact campaign (30 October 2026): [status and scope](reports/coupled-surface-v13/CAMPAIGN-STATUS.txt).**
 The new controlled study fits stiffness and friction from observed positions,
 then predicts different commanded interactions with a deformable block and
