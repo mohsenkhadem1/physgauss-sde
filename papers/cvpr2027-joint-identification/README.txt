@@ -7,6 +7,14 @@ release/gap-first-latex-source.zip (standalone; run sh build.sh after extraction
 The strong fixed/Gaussian controls and coarse-model overconfidence are retained.
 The resolution-mixture bowl control includes the finer reference by construction.
 
+SCOPE CORRECTION: this addendum is a limited pilot, not the requested complete
+cross-method rendering/physics benchmark. PhysConvex, MASIV, M-PhyGs, PhysTwin,
+and GIC/PAC-NeRF on PhysGaia still require qualified native comparisons under
+the paired rendering and held-out-interaction protocol. Published paper numbers
+are not our reproduced results. The failed bowl spring-core adapter is not a
+native PhysTwin failure. Track this outstanding work in
+../../reports/gap-crossmethod-v02/scope-and-evidence.json.
+
 Seeing Motion Is Not Identifying Mechanics
 Joint Material–Interaction Inference with Marginalized Loads
 

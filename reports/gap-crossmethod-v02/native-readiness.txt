@@ -1,0 +1,196 @@
+NATIVE CROSS-METHOD READINESS — 2026-11-07
+Read-only scientific inventory; new small upstream source checkouts only.
+NO new method inference, training, simulation or benchmark has been executed.
+No old campaign source/result was changed. No large dataset was downloaded.
+
+SUMMARY / DECISION
+The best immediate native preparation target is MASIV or GIC on the released
+PAC-NeRF Torus sequence, followed by M-PhyGs PushCarnation -> PullCarnation IF
+the advertised preprocessed archive actually contains the required checkpoint.
+None of these new methods is currently qualified as an end-to-end runnable
+benchmark on this machine: data/checkpoint and environment gates remain.
+Do not replace absent native results with a renamed spring/FEM adapter.
+
+1. PHYS CONVEX — RELEASE NOT VERIFIED / BLOCKED
+Primary author page: https://danalaina.github.io/
+Author-linked project: https://danalaina.github.io/physconvex_webpage/
+Paper: https://arxiv.org/abs/2602.18886
+The author project describes boundary-driven convex primitives, reduced-order
+mechanics, future prediction and changed forces/materials/boundaries. However,
+the current project page has paper/poster/media links, NO public code link.
+Candidate https://github.com/DanWang-98/PhysConvex from secondary search results
+returns HTTP404 both through GitHub page lookup and repository API. It is not
+an available implementation. No local source/checkpoint/assets were found.
+Controls: paper/project demonstrates force and boundary changes; actual API,
+position control, units and intervention timing cannot be audited without code.
+Next runnable experiment: none until an official accessible implementation or
+checkpoint is located. Do not claim a native comparison or reproduce paper
+numbers as our experimental measurements. The 404 could mean unpublished,
+renamed or private code; it does not prove the method is intrinsically unusable.
+
+2. MASIV — REAL SOURCE AND SMALL CONSTITUTIVE WEIGHTS AVAILABLE
+Official repo requested by parent: https://github.com/Skaldak/MASIV
+This resolves to the same current source as https://github.com/yizhou42/MASIV .
+Paper: https://arxiv.org/abs/2508.01112
+Pinned checkout: runs/gap-crossmethod-v02/vendor/masiv
+Commit f05ff177b33198023c0980669b6df416767af688, clean working tree.
+Sparse checkout contains simulator, nclaw, config, arguments, pretrained and
+root entry points. Omitted source directories can be materialized from this
+same pinned Git tree; this is not a complete installed environment.
+Actual code includes train_dynamic.py, predict.py, generalize.py and learned
+constitutive models. Its README still has unchecked release TODOs and stale
+run.py examples; the Git tree, not those TODOs, establishes code availability.
+Bundled pretrained/jelly_0300.pt, plasticine_0300.pt and sand_0300.pt are ~48KB
+each. These are constitutive initializers, NOT reconstructed scene checkpoints.
+
+Control interface inspected: generalize.py --novel_gravity (3-vector),
+--novel_velocity (3-vector) and --novel_material. Native uniform acceleration
+and initial velocity are exposed. Do not equate gravity acceleration with a
+known force in newtons independent of mass. No verified released position-
+controlled gripper or arbitrary force-time-history CLI was found in this pass.
+The native generalize entry loads initial particle geometry and trained scene
+weights via Estimator.load_weights(... phase='constitution') and then retrains
+appearance. It is NOT a plug-and-play forward script with only the 48KB files.
+
+Dependencies: Python3.10, CUDA12.4 per environment.yml; NumPy<2, Torch, Taichi,
+Warp, mmcv, torch-scatter, PyTorch3D, simple-knn, and the GIC custom rasterizer
+at b1e1cb83e27923579983a9ed19640c6031112b94. Author tests A10080GB; no 11GB memory
+qualification has been run. Existing ReconPhys/PIDG rasterizers are not assumed
+interchangeable. No new environment installation attempted.
+Immediate sequence: inspect --help/source to fix README argument mismatch;
+fetch one native Torus image/camera/particle sequence; qualify native training
+and reconstruction on a bounded pilot; retain fit and future-view/frame metrics;
+only then run its exposed changed-gravity/velocity intervention. Novel gravity
+alone is not a calibrated-force ambiguity test. Current blockers: complete raw
+native dataset, trained scene state, compiled environment and memory smoke test.
+
+3. M-PHYGS — CODE AVAILABLE; CHECKPOINT REPLAY IS CONDITIONAL
+Official code: https://github.com/kyotovision-public/m-phygs
+Paper: https://arxiv.org/abs/2512.16885
+Pinned checkout: runs/gap-crossmethod-v02/vendor/m-phygs
+Commit 8cba5519c6dca09ebdef928ef45a88eac17b6846.
+Sparse checkout includes mphygs, scripts, confs, environment and root scripts;
+heavy submodules NOT recursively downloaded or built.
+Advertised Phlowers / preprocessed data:
+https://drive.google.com/drive/folders/1q77y9Xlptlt_LFhN-YvHijqjP7mqEvTK
+README says annotations, sampled particles and dynamic Gaussians are supplied.
+This audit has NOT verified that Drive actually contains material_field.ckpt;
+the README example path is NOT evidence that an accessible checkpoint exists.
+No Phlowers/raw/preprocessed/material checkpoint was located locally.
+
+Native cross-sequence command, after assets and dependencies are qualified:
+  python -m scripts.test_parallel_photo_opt --config ./confs/pull_carnation.json --grid_reso 90 --dt_opt --material_checkpoint_path ./run/PushCarnation/alternating_photo_opt_50frames_bs50_grid90_dt_opt_old/photometric_00_mat/chunk_00000/material_field.ckpt
+This entry point also loads Gaussian/static reconstruction, particle pyramids,
+cluster features/probabilities, moving masks, particle_modifier.pt and contact
+motion.pt tracks. A material checkpoint alone is insufficient.
+
+Position control is central: scripts/test_parallel_photo_opt.py loads supplied
+contact trajectories and moves selected particles; this is not inferred unknown
+force. Native mphygs/warp_mpm/mpm_solver_diff.py also exposes
+set_velocity_on_cuboid, enforce_particle_velocity_translation, and an impulse
+operation whose update is particle_v += force/particle_mass*dt (lines674+).
+The existence of that low-level force API does not establish that the released
+photo-fitting CLI observes or estimates applied forces. Gravity and static parts
+are explicit in confs/pull_carnation.json.
+
+Dependencies: Python3.10; environment/m-phygs.def and pip_freeze.txt plus exact
+submodules are authoritative. Full preprocessing expects SAM2/SAM2.1 and gated
+DINOv3 ViT-B/16, COLMAP, GARField/DiG and annotations. Supplied preprocessing
+could bypass those stages; verify all files first. Parent's paper review reports
+80–141GB training memory and 80–100h training, beyond the current 11GB/GPU setup;
+we therefore do not promise a full fit. Single-sequence checkpoint forward replay
+is the readiness target, but its own memory fit remains untested.
+
+4. GIC — COMPLETE SMALL SOURCE NOW PINNED, NO FITTED SCENE
+Official: https://github.com/Jukgei/gic
+Project: https://jukgei.github.io/project/gic
+Paper: https://arxiv.org/abs/2406.14927
+Existing runs/baseline-research/gic was a PARTIAL source snapshot: README,
+config, scene and simulator, metadata commit b523851ed4343109ff67b0ea123e0a154af2a40c;
+it lacked the root training/prediction entry points. Running git remote inside
+that old folder misleadingly found the parent physgauss repo, not upstream.
+New pinned source: runs/gap-crossmethod-v02/vendor/gic at the same commit.
+Root train_dynamic.py and new_trajectory.py now present, with config/simulator.
+Historical runs/baseline-research/audit.json explicitly says baseline_training_run
+false. No discovered native fitted GIC scene checkpoint supersedes that record.
+
+Native commands after data/environment preparation:
+  python prepare_pacnerf_data.py --data_folder=data/pacnerf/torus
+  python train_dynamic.py -c config/pacnerf/torus.json -s data/pacnerf/torus -m output/pacnerf/torus --reg_scale --reg_alpha
+  python new_trajectory.py -c config/predict/elastic.json -s data/pacnerf/torus -m output/pacnerf/torus -vid 3 -cid 0 --reg_alpha
+Native prediction config specifies E, nu, rho, initial velocity, gravity and
+plane boundary. simulator/mpm_simulator.py applies dt*gravity and supports
+static surface/cylinder colliders. No native arbitrary moving gripper/known
+force-history CLI was verified. Changing gravity is acceleration, not F/m.
+Environment.yml: Python3.9, Torch2.4/CUDA12.1, Taichi1.2, mmcv2.1, custom
+GIC rasterizer, torch-scatter, PyTorch3D, simple-knn. Need dedicated build and
+one-frame/prefix memory/gradient check. Raw Torus and segmentation assets absent
+in native directory structure; see shared-data inventory below.
+
+5. PAC-NERF — NATIVE SOURCE AVAILABLE, PRIOR LOCAL WORK IS DIFFERENT
+Official: https://github.com/xuan-li/PAC-NeRF
+Paper: https://arxiv.org/abs/2303.05512
+New pinned source: runs/gap-crossmethod-v02/vendor/pac-nerf
+Commit b613048557d0648e885697ececbef80297defac0.
+Native train.py/test.py and lib/configs present. Requirements include Taichi1.2,
+Torch, torch-scatter, mmcv and CUDA11.6 nvcc; README recommends Python3.9.
+Commands after qualified environment/raw data:
+  python train.py --config=configs/torus.py
+  python test.py --config=configs/torus.py --num-frame=14 --cam-id=0
+lib/engine/mpm_simulator.py applies gravity acceleration and static plane/cylinder
+colliders. No verified native position-trajectory gripper or independent force
+sensor/history CLI. Native force interventions would require an explicit adapter
+and should be labeled, not presented as an unmodified published test.
+Prior scripts/pacnerf_* and examples/pacnerf-* are OUR inference experiments on
+PAC-NeRF-derived observations, not evidence of native author-code execution.
+
+SHARED PAC-NERF DATA INVENTORY
+runs/inputs contains bird-inputs.pt, bird-evaluation.pt, torus-inputs.pt,
+torus-evaluation.pt and archived original-download manifests; these are prepared
+artifacts, not the native full image directory/checkpoint. A bounded filesystem
+search found no all_data.json native scene tree under /home/bayespc2. Do not
+assume the original downloaded images still exist simply because hashes remain.
+Official data+groundtruth+matting weights:
+https://ucla.app.box.com/s/039jwttn9ibac73h3kit5vsuiepy7j4y
+Existing scripts/fetch_pacnerf.py can fetch selected ZIP members using byte ranges
+and verify CRC. First use --list, then recover Torus only into the NEW namespace.
+No data download executed during this audit. Existing prepared data may support
+a development check, but silently converting it to native data would change
+image resolution, camera/split/segmentation and must be documented/qualified.
+
+6. PHYSGAIA — DATASET/EVALUATION, NOT A COMPETING PREDICTOR
+Official project: https://cv.snu.ac.kr/research/PhysGaia/
+Code: https://github.com/mjmjeong/PhysGaia
+Dataset: https://huggingface.co/datasets/mijeongkim/PhysGaia
+Paper: https://arxiv.org/abs/2506.02794
+Main branch b92de9a8dc47062d7ca978cbb8f687d2bd53335e contains README only, but
+official README explicitly points to implementation branches MoSca, SOM,
+4DGS_hex, spacetime and deformable. Do NOT infer absent code from main alone.
+Scene archives advertise train/test renders, camera JSON, Houdini .hipnc source
+and particle trajectories; COLMAP initialization is a separate Drive download.
+No local PhysGaia scene located; no archive downloaded or schema verified.
+Useful next benchmark: one rheological multi-body scene, native baseline branch
+versus ours on identical train/test cameras and particle correspondence metric.
+This establishes rendering/trajectory fidelity, not controlled-force OOD unless
+the released Houdini scene can generate independently specified held interactions.
+It is not legitimate to score PhysGaia as a method or to assert that its synthetic
+physics is continuum truth. Official README license: CC-BY-NC4.0.
+
+RECOMMENDED BOUNDED GATES
+A. MASIV/GIC: obtain one full native Torus sequence and compile one native stack;
+verify native reconstruction/forecast before changing gravity or force interfaces.
+B. M-PhyGs: inventory Drive files WITHOUT bulk download; confirm trained material
+checkpoint plus all replay inputs. If absent, report checkpoint gate, not promise
+80GB training on 11GB devices. If present, one forward replay before adaptation.
+C. PhysConvex: blocked on official code; keep literature comparison separate.
+D. PhysGaia: choose dataset after confirming native baseline pipeline, not as a
+substitute for an executed physical model.
+Every subsequent comparison must freeze input evidence, splits, controls, units,
+targets and baseline refitting budget. Native, native+control-adapter, and our
+shared-solver references must remain separate rows. No superiority is assumed.
+
+Parent runtime check received after inventory: base .venv lacks Taichi, Warp,
+Nerfstudio, diff_gaussian_rasterization, PyTorch3D, mmcv and torch_scatter.
+Other isolated runtime environments exist under runs, but compatibility with
+these pinned methods has not been qualified. Do not install into the base env
+or declare these methods executable because Torch alone imports successfully.

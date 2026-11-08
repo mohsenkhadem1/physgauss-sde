@@ -1,0 +1,23 @@
+INDEPENDENT MASIV DIAGNOSTIC REVIEW
+Source: scripts/gap_crossmethod_v02/masiv_native_forward.py and native nclaw/sim/mpm.py, nclaw/material/meta.py. Numerical decomposition script masiv_geometry_audit.py, hashes in masiv-independent-geometry-audit.json. No upstream mechanics edits by reviewer.
+
+MATHEMATICS/STATE UPDATE PASS
+Common stress scaling c and density scaling c preserves P2G stress-to-mass and momentum-to-mass ratios under gravity and mass-independent boundary projections. Finite grid mass-activity threshold andfloat32 explain why bit equality is not guaranteed.
+Alternating current/next states avoid input-output alias: from_torch wraps current inputs, next is distinct, and plastic(trial) constructs a new F. Gaussian impulse clones v; uniform force modifies only gravity. No current state is cleared in forward, only grid accumulators.
+Uniform F/M is total applied force divided by totalmass. Gaussian weights normalize to1 in rest-material coordinates; dt*F*w/(rho*particlevolume) is a correct per-particle velocity increment. LocalGaussian loads are a declared explicitforce adapter, not an upstream force-history CLI.
+Geometry uses .018mvoxelvolume and declared1000kg/m3density; physicalunits follow those assumptions. Constitutive_scale.05 is an explicitly rescaled pretrained neural law, not an unmodified fitted scene material. Densityuncertainty is an extension beyond this MASIV configuration's knownrho assumption; no native known-density failure claim.
+
+RENDERING SCOPE
+The shared fixed3DGS renderer is not fitted MASIV appearance. Passive pair PSNR measures near-identical rendered forward histories, not accuracy against a held-out observed video. Mask min(A,B)<.99 onwhitebackground is UNIONforeground, not reference-only foreground. Coordinatecameras/scales/identitycolors fixed acrosspair; disclosure required.
+Geometry metric implementation computes Euclidean pointRMS correctly. Independent float64 recomputation agrees with initial output metrics up to float32 rounding (~1e-6mm). Timing is not a full-pipeline speed benchmark.
+
+INDEPENDENT RIGID/NONRIGID CHECK
+Kabsch removes rotation+translation only, never scale. Original Gaussian20Nz finalpair gaps:
+Torus raw13.765330mm -> rigid-aligned.038888mm.
+Ellipsoid raw15.562533mm -> rigid-aligned.043907mm.
+Thus original final differences are overwhelmingly rigid-body separation. Preserve these original results and avoid calling them substantial elastic-response separation.
+The new contact-v02 test is separately declared; available torus20Nz finalgap8.134759mm -> rigid-aligned1.606746mm, so real differential deformation remains. Torus10Nx finalgap4.858745mm -> aligned1.262040mm. Final ellipsoidcontact pairs now independently verified:20Nz finalraw8.654823mm -> aligned1.406918mm;10Nx5.507840mm -> aligned1.598590mm. All12contact trajectories are included in the refreshed independentgeometry JSON, with hashes. Both geometries show genuine differential deformation in this separately declared softer no-slip condition.
+
+QUALIFICATION LIMITS
+MPM G2P clips positions to domainbounds. Boundarycontact is intentional but numerical clipping is not a continuum-accuracy guarantee. minJ/finite assertions check savedstates, not every integrationstep; no continuous-stability claim. CFL/dt/mesh sensitivity not independently certified here.
+Use parentplanned rendered2Dforegroundcentroid calibration sigma.5pixels, not oracle3Dcentroid, for the follow-up uncertainty demonstration. Freeze image observation and distinct heldinteraction before scoring. Corrected twohypothesis MAP is a conditional reference estimator, not a retrained MASIV neural scene fit; same-evidence MAPmusthaveidenticalpointaccuracy. Keep densityassumptions and syntheticreference nature explicit.

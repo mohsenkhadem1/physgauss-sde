@@ -1,0 +1,34 @@
+{
+  "utc": "2026-11-06T20:57:11.411258+00:00",
+  "decision": "Share GPU0/1 with unchanged v01workers; restart only childless surface waiters without legacy gate.",
+  "reason": "GPU0/1 had426/352MiB used of11264MiB and70/65percent utilization; adequate headroom for second fixed-size SMC process.",
+  "stopped_waiters": {
+    "313445": ".venv/bin/python -m scripts.joint_field_identification.surface_supervisor --shard 1 --shards 3 --device cuda:0 --wait-for-legacy-shard 0 ",
+    "313447": ".venv/bin/python -m scripts.joint_field_identification.surface_supervisor --shard 2 --shards 3 --device cuda:1 --wait-for-legacy-shard 1 "
+  },
+  "main_manifest_sha256": "a88a8073d157d6301eaac32bcd14c5e0cc65f9dc6d0f4ad18df860e0d75308b3",
+  "unchanged": "Inference sources, jobs, shards, seeds, ordering within each shard, observations, stopping criteria and deadline. No outcome-based selection. GPU3 untouched.",
+  "pre_gpu_state": "index, memory.total [MiB], memory.used [MiB], utilization.gpu [%]\n0, 11264 MiB, 426 MiB, 75 %\n1, 11264 MiB, 352 MiB, 69 %\n2, 11264 MiB, 1018 MiB, 1 %\n3, 11264 MiB, 475 MiB, 1 %\n",
+  "restarted_supervisors": {
+    "1": {
+      "pid": 334328,
+      "device": "cuda:0",
+      "status": "running",
+      "child_pid": 334362
+    },
+    "2": {
+      "pid": 334327,
+      "device": "cuda:1",
+      "status": "running",
+      "child_pid": 334364
+    }
+  },
+  "initial_shared_gpu_memory_MiB": {
+    "0": 768,
+    "1": 768
+  },
+  "initial_shared_gpu_utilization_percent": {
+    "0": 97,
+    "1": 97
+  }
+}

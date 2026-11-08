@@ -1,0 +1,3326 @@
+{
+  "scope": "Separate widened-interface development rerun; preserve original model failures.\n\nGPU0 only. n4 follows only if all15 n2 solves satisfy numerical validity; no\naccuracy-based case selection or tolerance adjustment is allowed.\n",
+  "source_sha256": {
+    "scripts/compositional_neural_mechanics/qualification_wide_interface.py": "50afafd443db9663f8606a0c6d1fa45a6996ba6ab158b19fad90d854670ad78d",
+    "runs/compositional-neural-mechanics-v16/scale-separated-prototype/shared-law.pt": "20aef4ac9eac62b418852dd0f79dfd6899d8e544b2428916819be9179988f0e8",
+    "runs/compositional-neural-mechanics-v16/interface-wide-range-warm/shared-interface.pt": "93234fcdc0d66f9b7dabb5186258c8fd63427af22d8605d541351a332ca2d996",
+    "scripts/compositional_neural_mechanics/mechanics.py": "5c203470ae371e6d61100342e15dc9f765dfe20414753d0791c0b79f7e4e5f71",
+    "scripts/compositional_neural_mechanics/scenes.py": "c879ac975573f7a0dce9f30413f31711dca971f4058e816ea60744c7b86f48f0",
+    "scripts/compositional_neural_mechanics/interfaces.py": "69bd652386e8d0ab9f8183ed4a0ab64cdfbc2b8a52b71eb05eb5c5a1c02838d7",
+    "scripts/compositional_neural_mechanics/materials.py": "0391cf340a18133f46d35c3e07886df241164ba155d4e01deecfd7474590a313",
+    "scripts/compositional_neural_mechanics/scale_separated_material.py": "1f90892f144b963f6556591c6e21672ec58185968614765bcc7f3ca6508837b3",
+    "scripts/compositional_neural_mechanics/qualification.py": "b320df50583c37aa08d19d765b2affc9dcd912f74f610c44e7cd52f2968b4b4d",
+    "scripts/compositional_neural_mechanics/qualification_nonlinear_range.py": "7ef52b472aceabbe55f64d780ff58fb7ab544d8410850088ed22ae8f7ecb8dda",
+    "runs/compositional-neural-mechanics-v16/nonlinear-range-development/manifest.json": "d594daf2ed0aaa1e6320228cb74d57411d8a7371f398bc8cf9b2ced247af4d2c",
+    "runs/compositional-neural-mechanics-v16/nonlinear-range-development/report.json": "21fb07ae217478b77d42f711fcfd6a678f6eb10b4913b63cd44162a946ab01e3",
+    "runs/compositional-neural-mechanics-v16/crossed-soft-saturated-development/manifest.json": "edecbc65797f2a9b5a01b1f0e62026dfb3e96acf5c4d3e262446b3e06794f812",
+    "runs/compositional-neural-mechanics-v16/crossed-soft-saturated-development/report.json": "75ecd26c2c1cbdfc797a39daa29c746828346d2cfaadc9c55197b45c464e13d9"
+  },
+  "plan_sha256": "233f59f1fd224e5791082e8923a2577eb06cf19285bb3237d33cf21f6c0bd5e4",
+  "rows": [
+    {
+      "case": "development-range-0",
+      "model": "shared_wide",
+      "n": 2,
+      "action": "stretch",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-0/n2/stretch.npz",
+      "sha256": "a69735dac4c386beb28016243ef2744cdc5ee6aabce7aebdae717b8645dc8d55",
+      "residual_N": 7.029608605618514e-11,
+      "minimum_J": 0.9667491430839671,
+      "force_balance_N": 4.5591254415051406e-11,
+      "nonrigid_rms_mm": 6.65749202126088,
+      "diagnostics": {
+        "q1": {
+          "min": 0.0005806633136553607,
+          "max": 0.17987119731832957,
+          "volume_weighted_mean": 0.07100633107665542,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.07038932000671339,
+            0.12336000026901559,
+            0.16005827502941136
+          ]
+        },
+        "q2": {
+          "min": 0.0005818918273794438,
+          "max": 0.1538243858220394,
+          "volume_weighted_mean": 0.06397729338261007,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0637683786832246,
+            0.10872114270931993,
+            0.1381306311092672
+          ]
+        },
+        "J": {
+          "min": 0.9929676707788128,
+          "max": 1.12225960065559,
+          "volume_weighted_mean": 1.0305202281323995,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.0285992084915487,
+            1.0520931434332363,
+            1.1023903731204923
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.899864724471215,
+          1.2856627035257358
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 1.5935724080485496,
+            "max": 7.421963836928933,
+            "weighted_mean": 2.201366830153591,
+            "quadrature_unweighted_percentiles50_95_99": [
+              3.5440061424369222,
+              6.728287624380839,
+              7.2257503602954145
+            ]
+          },
+          {
+            "min": 1.5875124060130037,
+            "max": 7.848329015314579,
+            "weighted_mean": 2.1901844496203493,
+            "quadrature_unweighted_percentiles50_95_99": [
+              3.6554339982645643,
+              7.158994742944217,
+              7.608087401646542
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.14208584280097641,
+          "energy_integral_Yeoh_J": 0.1509792638307388,
+          "volume_weighted_stress_difference_rms_Pa": 43.31115214646521,
+          "relative_stress_L2_to_MR": 0.10401063186584077
+        }
+      },
+      "elapsed_seconds": 9.767673010006547
+    },
+    {
+      "case": "development-range-0",
+      "model": "shared_wide",
+      "n": 2,
+      "action": "right_bend",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-0/n2/right_bend.npz",
+      "sha256": "803ca3844aaf7aab1d6e14eae6e586445c4e29b9dc6d948e8a13a424181450e8",
+      "residual_N": 1.7969574729300056e-13,
+      "minimum_J": 0.9312005077628168,
+      "force_balance_N": 5.05293117487784e-16,
+      "nonrigid_rms_mm": 1.985450161417816,
+      "diagnostics": {
+        "q1": {
+          "min": 9.491082985313426e-06,
+          "max": 0.03500492473337813,
+          "volume_weighted_mean": 0.003546272533829561,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0013457173552804402,
+            0.01549342725704787,
+            0.024864376343653682
+          ]
+        },
+        "q2": {
+          "min": 9.491069502320926e-06,
+          "max": 0.03764564287194716,
+          "volume_weighted_mean": 0.003559139914693326,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0013551510061500238,
+            0.015550074857232303,
+            0.024465168304907248
+          ]
+        },
+        "J": {
+          "min": 0.9453510651482389,
+          "max": 1.0414333743010744,
+          "volume_weighted_mean": 0.9998327183911813,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.0000177807403978,
+            1.0099981974661087,
+            1.0172385122382082
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.8896936735783522,
+          1.1045686720567103
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.6101351193375667,
+            "max": 1.8287147579481533,
+            "weighted_mean": 0.7572223290625613,
+            "quadrature_unweighted_percentiles50_95_99": [
+              1.0596278618926336,
+              1.5870235755417499,
+              1.7570437079882602
+            ]
+          },
+          {
+            "min": 0.1877438422201035,
+            "max": 6.850071672446087,
+            "weighted_mean": 1.145168654081417,
+            "quadrature_unweighted_percentiles50_95_99": [
+              2.5491145987228,
+              5.882892876148746,
+              6.690472149790048
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.007181524418043321,
+          "energy_integral_Yeoh_J": 0.007208397400342801,
+          "volume_weighted_stress_difference_rms_Pa": 1.9875402336693424,
+          "relative_stress_L2_to_MR": 0.01879986915442807
+        }
+      },
+      "elapsed_seconds": 7.190669959993102
+    },
+    {
+      "case": "development-range-0",
+      "model": "shared_wide",
+      "n": 2,
+      "action": "opposed_twist",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-0/n2/opposed_twist.npz",
+      "sha256": "5fb0163f9545c3acb3e3a0cebe7171ddd1c1503c9d2c0694641b29d90da038a6",
+      "residual_N": 2.2350195180769584e-13,
+      "minimum_J": 0.9782762296751666,
+      "force_balance_N": 7.507798810263239e-16,
+      "nonrigid_rms_mm": 4.4912306203270695,
+      "diagnostics": {
+        "q1": {
+          "min": 3.540092198806022e-05,
+          "max": 0.039137102205864416,
+          "volume_weighted_mean": 0.00793777293449173,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.006744842195230971,
+            0.021139943319722423,
+            0.027216988252586203
+          ]
+        },
+        "q2": {
+          "min": 3.534954275963287e-05,
+          "max": 0.040753037515247836,
+          "volume_weighted_mean": 0.007924648399854548,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.006680713881015432,
+            0.02117895196635748,
+            0.027199952755407215
+          ]
+        },
+        "J": {
+          "min": 0.9859450465446634,
+          "max": 1.007875432408316,
+          "volume_weighted_mean": 0.9998209266881141,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.9997795999224346,
+            1.002037452365722,
+            1.004342528688396
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.8928167893858269,
+          1.1121503078678225
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.08082187966981304,
+            "max": 6.250968298440827,
+            "weighted_mean": 1.1043812034688463,
+            "quadrature_unweighted_percentiles50_95_99": [
+              2.5714199942685285,
+              5.2415682800642225,
+              5.900357279511556
+            ]
+          },
+          {
+            "min": 0.15036894302927747,
+            "max": 6.615015986502864,
+            "weighted_mean": 1.1073175659639931,
+            "quadrature_unweighted_percentiles50_95_99": [
+              2.5573164020868404,
+              5.613582954861771,
+              6.326448818533706
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.014782727947974167,
+          "energy_integral_Yeoh_J": 0.0148601852634168,
+          "volume_weighted_stress_difference_rms_Pa": 3.118072170151157,
+          "relative_stress_L2_to_MR": 0.02484838626053014
+        }
+      },
+      "elapsed_seconds": 9.11635969299823
+    },
+    {
+      "case": "development-range-1",
+      "model": "shared_wide",
+      "n": 2,
+      "action": "stretch",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-1/n2/stretch.npz",
+      "sha256": "26c0215f842444287707625c632e68530e23f75133c67e38c371983330f809ea",
+      "residual_N": 2.0849841089441676e-11,
+      "minimum_J": 0.9707058112024369,
+      "force_balance_N": 2.973502798656915e-11,
+      "nonrigid_rms_mm": 8.654622517843832,
+      "diagnostics": {
+        "q1": {
+          "min": 0.00024218735666714508,
+          "max": 0.36286493990360214,
+          "volume_weighted_mean": 0.07451454477495789,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.07259958887706874,
+            0.21019805881783998,
+            0.3196834170450632
+          ]
+        },
+        "q2": {
+          "min": 0.00024176845608536723,
+          "max": 0.29188131023472286,
+          "volume_weighted_mean": 0.06629621369848644,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0656268702014664,
+            0.17862757328876053,
+            0.2613556309334617
+          ]
+        },
+        "J": {
+          "min": 0.9963928514135615,
+          "max": 1.286479741817848,
+          "volume_weighted_mean": 1.0348234820087727,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.034825690670956,
+            1.072105553127355,
+            1.202210220940251
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.8626085469241926,
+          1.4846423146070427
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.7907925398681108,
+            "max": 8.284942703770437,
+            "weighted_mean": 1.7347876465953442,
+            "quadrature_unweighted_percentiles50_95_99": [
+              3.6174419173427563,
+              7.287798617887985,
+              8.016802634305677
+            ]
+          },
+          {
+            "min": 0.8932766455532899,
+            "max": 7.094076282120368,
+            "weighted_mean": 1.7236662150570996,
+            "quadrature_unweighted_percentiles50_95_99": [
+              3.2472566497848487,
+              6.686174219460901,
+              6.942004280122521
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.2970697166396203,
+          "energy_integral_Yeoh_J": 0.32469890379329286,
+          "volume_weighted_stress_difference_rms_Pa": 136.32400594965637,
+          "relative_stress_L2_to_MR": 0.16656314065753736
+        }
+      },
+      "elapsed_seconds": 6.387624850962311
+    },
+    {
+      "case": "development-range-1",
+      "model": "shared_wide",
+      "n": 2,
+      "action": "right_bend",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-1/n2/right_bend.npz",
+      "sha256": "e265fffc8e69cdcaf069b3e38dd95d98be7470932d510992c00299ca469c9b52",
+      "residual_N": 3.415663740602263e-13,
+      "minimum_J": 0.9288937455480726,
+      "force_balance_N": 7.111943135632468e-16,
+      "nonrigid_rms_mm": 3.4021064890511394,
+      "diagnostics": {
+        "q1": {
+          "min": 4.053067692977308e-05,
+          "max": 0.027952334750530827,
+          "volume_weighted_mean": 0.0045419911841334615,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.00233937399064299,
+            0.012874741087473562,
+            0.01850794988999537
+          ]
+        },
+        "q2": {
+          "min": 4.048205763496071e-05,
+          "max": 0.02980402743632915,
+          "volume_weighted_mean": 0.0045547099480611935,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0023343179129857727,
+            0.012796539982538444,
+            0.018760636375745963
+          ]
+        },
+        "J": {
+          "min": 0.9407999926907172,
+          "max": 1.0472782625265764,
+          "volume_weighted_mean": 1.0000595256402756,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.0003750770410198,
+            1.011468665950771,
+            1.0169458443243191
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.9015792813946327,
+          1.0846675675803799
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.07917411807794457,
+            "max": 1.80948566864885,
+            "weighted_mean": 0.28033785256224253,
+            "quadrature_unweighted_percentiles50_95_99": [
+              0.6557659573350548,
+              1.371325081864926,
+              1.6966592210632128
+            ]
+          },
+          {
+            "min": 0.0819472372871943,
+            "max": 6.506525177584251,
+            "weighted_mean": 0.9118061795785657,
+            "quadrature_unweighted_percentiles50_95_99": [
+              2.2019755873214333,
+              5.744546939902818,
+              6.4101433107746635
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.018190626439297572,
+          "energy_integral_Yeoh_J": 0.018256538489665356,
+          "volume_weighted_stress_difference_rms_Pa": 4.298716572869109,
+          "relative_stress_L2_to_MR": 0.01910514616293582
+        }
+      },
+      "elapsed_seconds": 5.407492712954991
+    },
+    {
+      "case": "development-range-1",
+      "model": "shared_wide",
+      "n": 2,
+      "action": "opposed_twist",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-1/n2/opposed_twist.npz",
+      "sha256": "386b40c0c549a184ad79fdd7f83004f367b85521d9fbc86887623e59b2c3fe80",
+      "residual_N": 3.0599163677403635e-13,
+      "minimum_J": 0.9686716862017751,
+      "force_balance_N": 5.337679583406748e-16,
+      "nonrigid_rms_mm": 4.4695418818806685,
+      "diagnostics": {
+        "q1": {
+          "min": 1.638988989460799e-05,
+          "max": 0.09034667270962471,
+          "volume_weighted_mean": 0.005445548672059531,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.003872406566105102,
+            0.029961671470456,
+            0.052161448984705074
+          ]
+        },
+        "q2": {
+          "min": 1.6393340264375666e-05,
+          "max": 0.09618828275033486,
+          "volume_weighted_mean": 0.005447664798702259,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0038718874536274317,
+            0.029803933736927076,
+            0.05335628204124332
+          ]
+        },
+        "J": {
+          "min": 0.9840508350318311,
+          "max": 1.016956053855624,
+          "volume_weighted_mean": 0.9998598023571437,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.9998302412208443,
+            1.0022257779754526,
+            1.0065328564699632
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.8445042813903155,
+          1.1646702215237148
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.03925193787475707,
+            "max": 5.12541727612908,
+            "weighted_mean": 0.5198881537269846,
+            "quadrature_unweighted_percentiles50_95_99": [
+              1.5731667610554045,
+              4.28772956351463,
+              4.9530287348862005
+            ]
+          },
+          {
+            "min": 0.049128883596238425,
+            "max": 3.042391756277183,
+            "weighted_mean": 0.38518238376267944,
+            "quadrature_unweighted_percentiles50_95_99": [
+              1.0638944104285457,
+              2.5538979237015544,
+              2.857566530771602
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.01990118688616064,
+          "energy_integral_Yeoh_J": 0.02005288326587251,
+          "volume_weighted_stress_difference_rms_Pa": 7.131785750713441,
+          "relative_stress_L2_to_MR": 0.037322762496827436
+        }
+      },
+      "elapsed_seconds": 7.05191667098552
+    },
+    {
+      "case": "development-range-2",
+      "model": "shared_wide",
+      "n": 2,
+      "action": "stretch",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-2/n2/stretch.npz",
+      "sha256": "c3e81c0ead94c1f239f76324c45da7144d7252878d734425fc2816b5df8690fb",
+      "residual_N": 1.2937120466081706e-13,
+      "minimum_J": 0.9645128427906067,
+      "force_balance_N": 1.95840815287352e-14,
+      "nonrigid_rms_mm": 7.41016956858496,
+      "diagnostics": {
+        "q1": {
+          "min": 0.001472706226192777,
+          "max": 0.20241996848810162,
+          "volume_weighted_mean": 0.07433129554808003,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.07226401740319366,
+            0.13519424164815627,
+            0.16975950552632674
+          ]
+        },
+        "q2": {
+          "min": 0.0014709494736604434,
+          "max": 0.17164175337148269,
+          "volume_weighted_mean": 0.06666958770582725,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.06535404544748391,
+            0.11802572221176334,
+            0.1460072088717116
+          ]
+        },
+        "J": {
+          "min": 0.9930242319207676,
+          "max": 1.1340302583853166,
+          "volume_weighted_mean": 1.030976288136063,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.0283644005801222,
+            1.050551406133421,
+            1.1042429158026759
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.8899496570422553,
+          1.3035817624962338
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.5066574295920677,
+            "max": 5.705824674317992,
+            "weighted_mean": 0.8001597460328336,
+            "quadrature_unweighted_percentiles50_95_99": [
+              1.5384592520712248,
+              4.4437789019968275,
+              5.287265980309254
+            ]
+          },
+          {
+            "min": 1.8547795343512337,
+            "max": 9.33325258370436,
+            "weighted_mean": 2.5231431678704874,
+            "quadrature_unweighted_percentiles50_95_99": [
+              4.06744247449191,
+              8.590230199688023,
+              9.128327425125653
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.12900288506531327,
+          "energy_integral_Yeoh_J": 0.13964526615836043,
+          "volume_weighted_stress_difference_rms_Pa": 58.99283444551989,
+          "relative_stress_L2_to_MR": 0.1405264335821808
+        }
+      },
+      "elapsed_seconds": 12.43173321802169
+    },
+    {
+      "case": "development-range-2",
+      "model": "shared_wide",
+      "n": 2,
+      "action": "right_bend",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-2/n2/right_bend.npz",
+      "sha256": "2fc8bc0905ad78a51326b3d7b6727b58cb5f5fa67c57bd166a0fb2ddad49f0cd",
+      "residual_N": 2.4246427716633735e-09,
+      "minimum_J": 0.9378466173194957,
+      "force_balance_N": 2.906148631674938e-09,
+      "nonrigid_rms_mm": 1.7111020043907728,
+      "diagnostics": {
+        "q1": {
+          "min": 5.068784947326321e-06,
+          "max": 0.028559405911972924,
+          "volume_weighted_mean": 0.0027870253480559784,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0010041713398349916,
+            0.012722178141644912,
+            0.021178608110490278
+          ]
+        },
+        "q2": {
+          "min": 5.072641686254542e-06,
+          "max": 0.03047516678117157,
+          "volume_weighted_mean": 0.002801187935478032,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0010033449689561547,
+            0.012957231969129,
+            0.02052142556591548
+          ]
+        },
+        "J": {
+          "min": 0.9508357184256815,
+          "max": 1.0359661464011765,
+          "volume_weighted_mean": 0.9997925433073639,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.999995604486224,
+            1.0083618080300152,
+            1.0156582761846944
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.8999690678566895,
+          1.0917803629129774
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.05856813288637652,
+            "max": 0.9926516860601542,
+            "weighted_mean": 0.16578828180390476,
+            "quadrature_unweighted_percentiles50_95_99": [
+              0.4110725990819195,
+              0.8192454207275655,
+              0.9233500315820845
+            ]
+          },
+          {
+            "min": 0.2566068740613199,
+            "max": 7.233590931630669,
+            "weighted_mean": 1.2971017860562082,
+            "quadrature_unweighted_percentiles50_95_99": [
+              2.7087443136741514,
+              6.215847701084498,
+              7.051398431334755
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.004921546368482543,
+          "energy_integral_Yeoh_J": 0.0049388393940378575,
+          "volume_weighted_stress_difference_rms_Pa": 1.9329045341532558,
+          "relative_stress_L2_to_MR": 0.020796993732720127
+        }
+      },
+      "elapsed_seconds": 6.132882404956035
+    },
+    {
+      "case": "development-range-2",
+      "model": "shared_wide",
+      "n": 2,
+      "action": "opposed_twist",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-2/n2/opposed_twist.npz",
+      "sha256": "d1d09531465512a3a04524d209a00abcf91056775aec0e966cb7d32383a4bbee",
+      "residual_N": 2.2420112401604118e-09,
+      "minimum_J": 0.9749828103101604,
+      "force_balance_N": 3.793864970218637e-09,
+      "nonrigid_rms_mm": 4.650141588611684,
+      "diagnostics": {
+        "q1": {
+          "min": 1.6135826459429126e-05,
+          "max": 0.04627430780020925,
+          "volume_weighted_mean": 0.008003694279704956,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.007001609562900857,
+            0.021675066262120048,
+            0.024779228038573128
+          ]
+        },
+        "q2": {
+          "min": 1.61585225444405e-05,
+          "max": 0.04872359053474584,
+          "volume_weighted_mean": 0.007996707213309119,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0069839874071513375,
+            0.02176263225445286,
+            0.024899616205396942
+          ]
+        },
+        "J": {
+          "min": 0.9810101915192971,
+          "max": 1.0113324509550858,
+          "volume_weighted_mean": 0.999724901759226,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.9995495825038669,
+            1.0035083889431957,
+            1.0067858316807283
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.881373921136862,
+          1.095347450810375
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.013163494826662054,
+            "max": 3.0898402797470834,
+            "weighted_mean": 0.3392910435669218,
+            "quadrature_unweighted_percentiles50_95_99": [
+              0.9925294678955376,
+              2.467643856085115,
+              2.8982154256122032
+            ]
+          },
+          {
+            "min": 0.14014678782612078,
+            "max": 7.4742867361657845,
+            "weighted_mean": 1.30230924897277,
+            "quadrature_unweighted_percentiles50_95_99": [
+              3.0240663412616677,
+              6.27998393780979,
+              7.105728587809423
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.01309172540872047,
+          "energy_integral_Yeoh_J": 0.013169128886902241,
+          "volume_weighted_stress_difference_rms_Pa": 3.737182850324809,
+          "relative_stress_L2_to_MR": 0.02932032182176061
+        }
+      },
+      "elapsed_seconds": 10.189556816942059
+    },
+    {
+      "case": "development-range-3",
+      "model": "shared_wide",
+      "n": 2,
+      "action": "stretch",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-3/n2/stretch.npz",
+      "sha256": "b65026d7ece0a9e6639930c85431c25cb7c75b834fff9654e0dd814a97b6aa17",
+      "residual_N": 1.0319439518649928e-11,
+      "minimum_J": 0.9764491769425211,
+      "force_balance_N": 1.4856739153832516e-11,
+      "nonrigid_rms_mm": 4.440539262745123,
+      "diagnostics": {
+        "q1": {
+          "min": 1.8620229023103008e-05,
+          "max": 0.41636053992598043,
+          "volume_weighted_mean": 0.023000771585692224,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.014004618350901499,
+            0.1138189713666872,
+            0.26631680359579946
+          ]
+        },
+        "q2": {
+          "min": 1.861236976852254e-05,
+          "max": 0.33154899380750713,
+          "volume_weighted_mean": 0.02095314240044238,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.013388020553317004,
+            0.10066312286015429,
+            0.2217352779014018
+          ]
+        },
+        "J": {
+          "min": 0.9985216524303642,
+          "max": 1.238222992619943,
+          "volume_weighted_mean": 1.0156289158527092,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.0141803018118976,
+            1.04308600878451,
+            1.1335982471242014
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.8754909305952806,
+          1.5143363893772939
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 12.196723852710102,
+            "max": 19.566512616038274,
+            "weighted_mean": 14.019636423951868,
+            "quadrature_unweighted_percentiles50_95_99": [
+              16.2763698050957,
+              19.13646522143316,
+              19.392574789422547
+            ]
+          },
+          {
+            "min": 0.7092743154641016,
+            "max": 3.247944788960937,
+            "weighted_mean": 1.0956845140549234,
+            "quadrature_unweighted_percentiles50_95_99": [
+              1.6437567241414124,
+              3.036465824924548,
+              3.1671925357915356
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.07500327659770956,
+          "energy_integral_Yeoh_J": 0.08120442934136168,
+          "volume_weighted_stress_difference_rms_Pa": 60.151478783647164,
+          "relative_stress_L2_to_MR": 0.15391052966198224
+        }
+      },
+      "elapsed_seconds": 6.12053300102707
+    },
+    {
+      "case": "development-range-3",
+      "model": "shared_wide",
+      "n": 2,
+      "action": "right_bend",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-3/n2/right_bend.npz",
+      "sha256": "0c9ac5e00c4e0c67ffb8f217fc14ea7429b0f6740d30fce865a26ee9cd3dd82c",
+      "residual_N": 4.074984382516479e-13,
+      "minimum_J": 0.9498261898355608,
+      "force_balance_N": 9.44287741619218e-16,
+      "nonrigid_rms_mm": 3.744005112945783,
+      "diagnostics": {
+        "q1": {
+          "min": 4.4775380825257116e-05,
+          "max": 0.018692388968064133,
+          "volume_weighted_mean": 0.0035677327278471073,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.002795633727070035,
+            0.009624348517130737,
+            0.01093511227540834
+          ]
+        },
+        "q2": {
+          "min": 4.4761026365858214e-05,
+          "max": 0.0183836761933609,
+          "volume_weighted_mean": 0.0035504783843439613,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.002799099257132065,
+            0.009271439254851471,
+            0.010508270924086406
+          ]
+        },
+        "J": {
+          "min": 0.9603102382334353,
+          "max": 1.037262570566237,
+          "volume_weighted_mean": 1.000371774470526,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.0004826695926032,
+            1.0116486426220106,
+            1.0125232792754597
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.9429990893643935,
+          1.0799229972946731
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 1.298236116658534,
+            "max": 3.8956661549072833,
+            "weighted_mean": 1.67344899015813,
+            "quadrature_unweighted_percentiles50_95_99": [
+              2.2310214731662277,
+              3.435087926363518,
+              3.7682604737664627
+            ]
+          },
+          {
+            "min": 0.10616328550735574,
+            "max": 6.229078912861495,
+            "weighted_mean": 1.0952837954471875,
+            "quadrature_unweighted_percentiles50_95_99": [
+              2.4080694106327725,
+              5.484182699201268,
+              6.063275518957868
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.01571516239897363,
+          "energy_integral_Yeoh_J": 0.015798172311399718,
+          "volume_weighted_stress_difference_rms_Pa": 4.597114642962735,
+          "relative_stress_L2_to_MR": 0.0204053323090328
+        }
+      },
+      "elapsed_seconds": 6.6394507070071995
+    },
+    {
+      "case": "development-range-3",
+      "model": "shared_wide",
+      "n": 2,
+      "action": "opposed_twist",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-3/n2/opposed_twist.npz",
+      "sha256": "f1bd0447e751c28c21af819d2e12b7d0b319becfe2e7160cb309d40416664fde",
+      "residual_N": 2.6794463854966637e-11,
+      "minimum_J": 0.934321693292774,
+      "force_balance_N": 8.389655707918791e-13,
+      "nonrigid_rms_mm": 1.8252236784396367,
+      "diagnostics": {
+        "q1": {
+          "min": 1.7460077708086885e-06,
+          "max": 0.036554445801720625,
+          "volume_weighted_mean": 0.0010922312269121806,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.000401098593103999,
+            0.007876773279303157,
+            0.018302818471495737
+          ]
+        },
+        "q2": {
+          "min": 1.7457205037096912e-06,
+          "max": 0.037647023248896794,
+          "volume_weighted_mean": 0.0010910940650701829,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0004019383760454076,
+            0.007817148508834568,
+            0.018349179064532473
+          ]
+        },
+        "J": {
+          "min": 0.9724680644854351,
+          "max": 1.0114761132440342,
+          "volume_weighted_mean": 0.9998822579607262,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.9999253624756798,
+            1.001252708278628,
+            1.003292749359085
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.9025833097492446,
+          1.1059816537575855
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.5483363477387112,
+            "max": 13.982805134877172,
+            "weighted_mean": 3.134185384446669,
+            "quadrature_unweighted_percentiles50_95_99": [
+              6.5976804920775205,
+              12.239240045576414,
+              13.50903030153521
+            ]
+          },
+          {
+            "min": 0.03347687618823128,
+            "max": 1.2005085443404944,
+            "weighted_mean": 0.19699705441659682,
+            "quadrature_unweighted_percentiles50_95_99": [
+              0.47956692808380114,
+              0.9845654242067251,
+              1.1258271905718769
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.0031680661188831748,
+          "energy_integral_Yeoh_J": 0.003181793827943929,
+          "volume_weighted_stress_difference_rms_Pa": 1.7852278829403574,
+          "relative_stress_L2_to_MR": 0.025695658419894785
+        }
+      },
+      "elapsed_seconds": 6.912383168004453
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "model": "shared_wide",
+      "n": 2,
+      "action": "stretch",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-crossed-soft-saturated/n2/stretch.npz",
+      "sha256": "3c7599e2c053a011c75b3c0387bdfac244af0439b27a8a828306c79ba14e5580",
+      "residual_N": 1.2431738297627556e-09,
+      "minimum_J": 0.9657579351821992,
+      "force_balance_N": 6.012307860299109e-13,
+      "nonrigid_rms_mm": 2.8690938141467877,
+      "diagnostics": {
+        "q1": {
+          "min": 2.4927896498549984e-05,
+          "max": 0.06724438860684323,
+          "volume_weighted_mean": 0.013715005469411946,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.010735749089871627,
+            0.0377831401956385,
+            0.05775004101180464
+          ]
+        },
+        "q2": {
+          "min": 2.494149387022304e-05,
+          "max": 0.061083546393595256,
+          "volume_weighted_mean": 0.01298502990966691,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.01032524582224803,
+            0.035128170174701906,
+            0.052850204720638234
+          ]
+        },
+        "J": {
+          "min": 0.9949899520285085,
+          "max": 1.1000470227026908,
+          "volume_weighted_mean": 1.0115019481253573,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.0101283099692142,
+            1.024810775893249,
+            1.0679991978532208
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.9294518295712363,
+          1.1870664683698098
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 6.4190541969058525,
+            "max": 11.364623112350044,
+            "weighted_mean": 7.474229001650055,
+            "quadrature_unweighted_percentiles50_95_99": [
+              8.887418744424066,
+              11.029565834801115,
+              11.233168105314386
+            ]
+          },
+          {
+            "min": 6.304082645373526,
+            "max": 11.631046560571717,
+            "weighted_mean": 7.473902868458029,
+            "quadrature_unweighted_percentiles50_95_99": [
+              8.993122753052244,
+              11.366550624251374,
+              11.519172868805633
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.027585200573195343,
+          "energy_integral_Yeoh_J": 0.028296600073238393,
+          "volume_weighted_stress_difference_rms_Pa": 7.964166520829816,
+          "relative_stress_L2_to_MR": 0.04076253131788385
+        }
+      },
+      "elapsed_seconds": 5.54523105698172
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "model": "shared_wide",
+      "n": 2,
+      "action": "right_bend",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-crossed-soft-saturated/n2/right_bend.npz",
+      "sha256": "8cdd785e04f9358309ab47c9fcf4bbc005f567ff559d37e078b0549e3207fdb8",
+      "residual_N": 6.163275078723723e-11,
+      "minimum_J": 0.9661754237401149,
+      "force_balance_N": 8.945088263913867e-11,
+      "nonrigid_rms_mm": 0.4296224542536752,
+      "diagnostics": {
+        "q1": {
+          "min": 2.4621144056879984e-07,
+          "max": 0.0036030018239716632,
+          "volume_weighted_mean": 0.00021561695967346962,
+          "quadrature_unweighted_percentiles50_95_99": [
+            6.802104647918306e-05,
+            0.0010111738528055779,
+            0.0016927544647321736
+          ]
+        },
+        "q2": {
+          "min": 2.4624630023950544e-07,
+          "max": 0.0036626262859149605,
+          "volume_weighted_mean": 0.00021628364883015527,
+          "quadrature_unweighted_percentiles50_95_99": [
+            6.816954485788784e-05,
+            0.0010033028032473855,
+            0.0017125025545547514
+          ]
+        },
+        "J": {
+          "min": 0.9730535786495547,
+          "max": 1.0160269388122394,
+          "volume_weighted_mean": 0.9998392129038629,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.9999505746573503,
+            1.00207434630367,
+            1.0045767090992115
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.9633424209764743,
+          1.0259453631852766
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.3354652803912597,
+            "max": 0.6293475380012382,
+            "weighted_mean": 0.3824497995272255,
+            "quadrature_unweighted_percentiles50_95_99": [
+              0.4297462676947308,
+              0.593317247493499,
+              0.6174536385390749
+            ]
+          },
+          {
+            "min": 0.2173355426248923,
+            "max": 8.24522934030961,
+            "weighted_mean": 2.130017994554299,
+            "quadrature_unweighted_percentiles50_95_99": [
+              3.885941420031158,
+              8.015436653725724,
+              8.186638576943224
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.0004447634033826601,
+          "energy_integral_Yeoh_J": 0.00044459772711146227,
+          "volume_weighted_stress_difference_rms_Pa": 0.11603517826731397,
+          "relative_stress_L2_to_MR": 0.004168631286841259
+        }
+      },
+      "elapsed_seconds": 4.977168375975452
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "model": "shared_wide",
+      "n": 2,
+      "action": "opposed_twist",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-crossed-soft-saturated/n2/opposed_twist.npz",
+      "sha256": "f439fa03dc80ac6c09f1246bf0e4552d9ee65fbd0471d7873c3637a3ed35f301",
+      "residual_N": 1.305265354177338e-09,
+      "minimum_J": 0.973562273177776,
+      "force_balance_N": 1.0129798727350855e-11,
+      "nonrigid_rms_mm": 1.8962296474197748,
+      "diagnostics": {
+        "q1": {
+          "min": 4.380763854783254e-06,
+          "max": 0.0146979126800173,
+          "volume_weighted_mean": 0.0016597741004441679,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0012799528533158355,
+            0.004673152981143656,
+            0.009180327120615629
+          ]
+        },
+        "q2": {
+          "min": 4.378682758154895e-06,
+          "max": 0.014560332925725117,
+          "volume_weighted_mean": 0.001657642385055049,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.001277811805969753,
+            0.0046557359792826145,
+            0.009127882139669854
+          ]
+        },
+        "J": {
+          "min": 0.9885039090741886,
+          "max": 1.0074355078785915,
+          "volume_weighted_mean": 0.9999259400546922,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.0000024500041667,
+            1.0013307699000553,
+            1.0037557258931196
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.9414700243131826,
+          1.062140741010345
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.5218861367325319,
+            "max": 10.94341351944411,
+            "weighted_mean": 2.4599865612036464,
+            "quadrature_unweighted_percentiles50_95_99": [
+              5.3714136541907385,
+              9.542868442352507,
+              10.452389382074733
+            ]
+          },
+          {
+            "min": 0.32803996446127315,
+            "max": 11.57509168057115,
+            "weighted_mean": 2.4863159444070124,
+            "quadrature_unweighted_percentiles50_95_99": [
+              5.529759178632821,
+              10.16490458212786,
+              11.166885494876118
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.0030924092899229055,
+          "energy_integral_Yeoh_J": 0.003097478641440681,
+          "volume_weighted_stress_difference_rms_Pa": 0.6815451525094267,
+          "relative_stress_L2_to_MR": 0.011828531972925684
+        }
+      },
+      "elapsed_seconds": 5.105291701969691
+    },
+    {
+      "case": "development-range-0",
+      "model": "shared_wide",
+      "n": 4,
+      "action": "stretch",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-0/n4/stretch.npz",
+      "sha256": "aa46cc03cf410c2faf55b8d6dc287350e3df1a635f5af54d68a21abc60c2be45",
+      "residual_N": 7.880662991723064e-11,
+      "minimum_J": 0.9790194731554127,
+      "force_balance_N": 5.988595268284469e-11,
+      "nonrigid_rms_mm": 6.623273451351042,
+      "diagnostics": {
+        "q1": {
+          "min": 5.9643573437462294e-05,
+          "max": 0.15848014591046589,
+          "volume_weighted_mean": 0.07069372739127663,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0706647595261134,
+            0.12523141319722245,
+            0.1465464216191708
+          ]
+        },
+        "q2": {
+          "min": 5.969679613659906e-05,
+          "max": 0.13679281331946935,
+          "volume_weighted_mean": 0.0636895914724579,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0640118815915387,
+            0.10997058865857991,
+            0.12727023981089908
+          ]
+        },
+        "J": {
+          "min": 0.9948622782685238,
+          "max": 1.1172674247107257,
+          "volume_weighted_mean": 1.0303102886636162,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.0286790505355405,
+            1.0577571991504044,
+            1.0929634502110905
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.8999378103368935,
+          1.2702143297042408
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 1.6086963895729618,
+            "max": 7.643805455357368,
+            "weighted_mean": 2.1944470413499646,
+            "quadrature_unweighted_percentiles50_95_99": [
+              3.4862481261026916,
+              6.6627180595750275,
+              7.338601036350888
+            ]
+          },
+          {
+            "min": 1.5936717566333973,
+            "max": 8.072938897579343,
+            "weighted_mean": 2.1837440745176617,
+            "quadrature_unweighted_percentiles50_95_99": [
+              3.625105970456187,
+              7.106030383918648,
+              7.702425085233791
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.1410104342552569,
+          "energy_integral_Yeoh_J": 0.14989237277638406,
+          "volume_weighted_stress_difference_rms_Pa": 43.371270003488576,
+          "relative_stress_L2_to_MR": 0.10558492568320035
+        }
+      },
+      "elapsed_seconds": 17.519759949995205
+    },
+    {
+      "case": "development-range-0",
+      "model": "shared_wide",
+      "n": 4,
+      "action": "right_bend",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-0/n4/right_bend.npz",
+      "sha256": "6223072addf6381b07a2e76a722ce06d13a82be68bb1d530706c2adb2beed5bf",
+      "residual_N": 2.6218537015255053e-13,
+      "minimum_J": 0.8935805768884649,
+      "force_balance_N": 4.469430116748126e-16,
+      "nonrigid_rms_mm": 1.9155981668740065,
+      "diagnostics": {
+        "q1": {
+          "min": 7.022053507554915e-07,
+          "max": 0.04698916182300161,
+          "volume_weighted_mean": 0.0034985947963248947,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0012948841689643942,
+            0.015199652932129057,
+            0.026641005544759136
+          ]
+        },
+        "q2": {
+          "min": 7.024006389855231e-07,
+          "max": 0.050940790529212965,
+          "volume_weighted_mean": 0.0035151375302829957,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0012964697130930514,
+            0.0152969671346854,
+            0.026645651724387834
+          ]
+        },
+        "J": {
+          "min": 0.9139750947462386,
+          "max": 1.0543078215959116,
+          "volume_weighted_mean": 0.9998545984790854,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.00013720280073,
+            1.0095851839738088,
+            1.015540212987263
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.8677168119202705,
+          1.1169864407699945
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.5936888998023703,
+            "max": 1.827979295904207,
+            "weighted_mean": 0.7481703058385087,
+            "quadrature_unweighted_percentiles50_95_99": [
+              1.0201129216545572,
+              1.5778408480074444,
+              1.7128356653822099
+            ]
+          },
+          {
+            "min": 0.1427464520372778,
+            "max": 7.042713310926609,
+            "weighted_mean": 1.1997480067810127,
+            "quadrature_unweighted_percentiles50_95_99": [
+              2.313292792277501,
+              5.821356981905761,
+              6.686231029629527
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.007045005224426047,
+          "energy_integral_Yeoh_J": 0.007071377324793283,
+          "volume_weighted_stress_difference_rms_Pa": 2.0259669151873596,
+          "relative_stress_L2_to_MR": 0.01952377566490015
+        }
+      },
+      "elapsed_seconds": 12.868732518982142
+    },
+    {
+      "case": "development-range-0",
+      "model": "shared_wide",
+      "n": 4,
+      "action": "opposed_twist",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-0/n4/opposed_twist.npz",
+      "sha256": "6c2e696714a37cb617b1c35ee1db0368548ccafa2478f63265c7fffcd2103353",
+      "residual_N": 2.576519195429375e-13,
+      "minimum_J": 0.9818575267090502,
+      "force_balance_N": 9.287075066663575e-16,
+      "nonrigid_rms_mm": 4.487477896632654,
+      "diagnostics": {
+        "q1": {
+          "min": 8.016764569962476e-06,
+          "max": 0.04507661105576055,
+          "volume_weighted_mean": 0.00784594200709592,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.006355907723099019,
+            0.020080394552674272,
+            0.028041754082545573
+          ]
+        },
+        "q2": {
+          "min": 8.01293478369658e-06,
+          "max": 0.046983170699297805,
+          "volume_weighted_mean": 0.007833246335433029,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.006366496502253405,
+            0.02008638267802578,
+            0.028006176070457526
+          ]
+        },
+        "J": {
+          "min": 0.9875734269694337,
+          "max": 1.0090975492294694,
+          "volume_weighted_mean": 0.9998323433127396,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.9996512634624768,
+            1.0021164402411928,
+            1.004148878973053
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.8884793390724537,
+          1.1145985616056193
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.04897338134346306,
+            "max": 6.258954362175452,
+            "weighted_mean": 1.1176810325781483,
+            "quadrature_unweighted_percentiles50_95_99": [
+              2.3275329552542674,
+              5.009676881145495,
+              5.8084192353171
+            ]
+          },
+          {
+            "min": 0.05902314902526004,
+            "max": 6.6261008717549394,
+            "weighted_mean": 1.1194364195370623,
+            "quadrature_unweighted_percentiles50_95_99": [
+              2.4742776446424344,
+              5.42859717525435,
+              6.208853366311484
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.014532836231119818,
+          "energy_integral_Yeoh_J": 0.014606537769185112,
+          "volume_weighted_stress_difference_rms_Pa": 3.006669657990256,
+          "relative_stress_L2_to_MR": 0.024240692535018014
+        }
+      },
+      "elapsed_seconds": 17.093317969003692
+    },
+    {
+      "case": "development-range-1",
+      "model": "shared_wide",
+      "n": 4,
+      "action": "stretch",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-1/n4/stretch.npz",
+      "sha256": "ccf9fc46161a52371f06e2cb41dad8f97eee528dccad8322d42a23722acd4039",
+      "residual_N": 1.6850274299831638e-11,
+      "minimum_J": 0.978731964135585,
+      "force_balance_N": 2.064251729110262e-11,
+      "nonrigid_rms_mm": 8.593546560975286,
+      "diagnostics": {
+        "q1": {
+          "min": 4.94545062146301e-05,
+          "max": 0.4046145899425997,
+          "volume_weighted_mean": 0.0740141913202195,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.07171322453935991,
+            0.2163957318802089,
+            0.32929107520641904
+          ]
+        },
+        "q2": {
+          "min": 4.9547653266035496e-05,
+          "max": 0.3221766074055816,
+          "volume_weighted_mean": 0.06582845652078435,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.06489948750266983,
+            0.18271743850571256,
+            0.2685605500253369
+          ]
+        },
+        "J": {
+          "min": 0.9941086422150363,
+          "max": 1.3104408096504405,
+          "volume_weighted_mean": 1.0344988244764204,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.0346018884855477,
+            1.0721087284223785,
+            1.1585181820793298
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.863772901680547,
+          1.4826169459057883
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.8839122172044191,
+            "max": 8.685718760483143,
+            "weighted_mean": 1.7202611701090418,
+            "quadrature_unweighted_percentiles50_95_99": [
+              3.7233212515152827,
+              7.345830474723597,
+              8.210614519828445
+            ]
+          },
+          {
+            "min": 0.9151024212953303,
+            "max": 7.31841804233982,
+            "weighted_mean": 1.7121643163651976,
+            "quadrature_unweighted_percentiles50_95_99": [
+              3.2808071424963696,
+              6.63137049170335,
+              7.045895386164461
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.29411043511956514,
+          "energy_integral_Yeoh_J": 0.32182051015646745,
+          "volume_weighted_stress_difference_rms_Pa": 138.89804133430474,
+          "relative_stress_L2_to_MR": 0.1720852973760494
+        }
+      },
+      "elapsed_seconds": 12.05516973498743
+    },
+    {
+      "case": "development-range-1",
+      "model": "shared_wide",
+      "n": 4,
+      "action": "right_bend",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-1/n4/right_bend.npz",
+      "sha256": "59a57065bac98c9ece3436a5310f691a7ef5c9d480b220dca0da5990be8e55dd",
+      "residual_N": 5.019825761309301e-13,
+      "minimum_J": 0.9074312445614761,
+      "force_balance_N": 1.3845569554148555e-14,
+      "nonrigid_rms_mm": 3.3387218033756976,
+      "diagnostics": {
+        "q1": {
+          "min": 1.022863660793405e-05,
+          "max": 0.04151586814509578,
+          "volume_weighted_mean": 0.004518504078420611,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.002243401571416781,
+            0.012947650304313526,
+            0.021495953405642563
+          ]
+        },
+        "q2": {
+          "min": 1.0229205430256627e-05,
+          "max": 0.04458719923090371,
+          "volume_weighted_mean": 0.00453627909381045,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0022464786194027475,
+            0.012941827228713412,
+            0.022152181272274557
+          ]
+        },
+        "J": {
+          "min": 0.9290313732243252,
+          "max": 1.056073345309265,
+          "volume_weighted_mean": 1.0000648365249725,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.0003915509325763,
+            1.011006922810618,
+            1.016203519001837
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.8807193097454478,
+          1.1036392763070906
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.08440122250468504,
+            "max": 1.810617194876709,
+            "weighted_mean": 0.2728380338964601,
+            "quadrature_unweighted_percentiles50_95_99": [
+              0.6245186043415838,
+              1.3551934385975377,
+              1.6588797163993754
+            ]
+          },
+          {
+            "min": 0.0838414620158267,
+            "max": 6.751496422010476,
+            "weighted_mean": 0.9108303587783053,
+            "quadrature_unweighted_percentiles50_95_99": [
+              2.126904598505054,
+              5.8183631228818,
+              6.466911585345089
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.01782396926359534,
+          "energy_integral_Yeoh_J": 0.01788729533990294,
+          "volume_weighted_stress_difference_rms_Pa": 4.400704315386355,
+          "relative_stress_L2_to_MR": 0.02031216023364941
+        }
+      },
+      "elapsed_seconds": 12.015377709059976
+    },
+    {
+      "case": "development-range-1",
+      "model": "shared_wide",
+      "n": 4,
+      "action": "opposed_twist",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-1/n4/opposed_twist.npz",
+      "sha256": "d6787cc4b35fe4813bcf33deab009312c752d5120902601a7be221ff83e1b0ea",
+      "residual_N": 5.082653199012134e-13,
+      "minimum_J": 0.9705915288810238,
+      "force_balance_N": 1.436821305835498e-15,
+      "nonrigid_rms_mm": 4.452542516810264,
+      "diagnostics": {
+        "q1": {
+          "min": 8.014510415321752e-07,
+          "max": 0.10440648304763611,
+          "volume_weighted_mean": 0.005333719686545653,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0035196670076844683,
+            0.026525331536562776,
+            0.05237425152946554
+          ]
+        },
+        "q2": {
+          "min": 8.015968893104741e-07,
+          "max": 0.11163050437796596,
+          "volume_weighted_mean": 0.0053349339568497765,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0035168885122596194,
+            0.026608587509869164,
+            0.052903248841388736
+          ]
+        },
+        "J": {
+          "min": 0.9824203930987333,
+          "max": 1.01830774504263,
+          "volume_weighted_mean": 0.9998725927304981,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.999780180951565,
+            1.002097727355344,
+            1.005295209146679
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.8331255486408324,
+          1.1674182545085778
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.01970839886954126,
+            "max": 5.263115762946122,
+            "weighted_mean": 0.5091086551609671,
+            "quadrature_unweighted_percentiles50_95_99": [
+              1.5120734434628083,
+              4.253273355057646,
+              4.891306700880984
+            ]
+          },
+          {
+            "min": 0.02240060220435691,
+            "max": 3.0599857344253336,
+            "weighted_mean": 0.37430962356679054,
+            "quadrature_unweighted_percentiles50_95_99": [
+              1.0260436707317064,
+              2.479646855881591,
+              2.8008934541690422
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.01939235813754191,
+          "energy_integral_Yeoh_J": 0.019541028226138634,
+          "volume_weighted_stress_difference_rms_Pa": 7.064877060091589,
+          "relative_stress_L2_to_MR": 0.03762428531059292
+        }
+      },
+      "elapsed_seconds": 15.511961065931246
+    },
+    {
+      "case": "development-range-2",
+      "model": "shared_wide",
+      "n": 4,
+      "action": "stretch",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-2/n4/stretch.npz",
+      "sha256": "6679cd984cb7cdb1fe38951704f2a62dc93363ba022469a3d3f08936bb2206b7",
+      "residual_N": 1.7392214898254617e-13,
+      "minimum_J": 0.9776558705377508,
+      "force_balance_N": 3.822632951715005e-14,
+      "nonrigid_rms_mm": 7.378384960417274,
+      "diagnostics": {
+        "q1": {
+          "min": 3.579741140269377e-05,
+          "max": 0.1902813868662978,
+          "volume_weighted_mean": 0.0740312455498445,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.07167627207182004,
+            0.13467902857407785,
+            0.1623972263553653
+          ]
+        },
+        "q2": {
+          "min": 3.578034492557336e-05,
+          "max": 0.16248780370086058,
+          "volume_weighted_mean": 0.06639032265107085,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.06489808869314428,
+            0.11774793285251493,
+            0.1399842182426327
+          ]
+        },
+        "J": {
+          "min": 0.995588041815428,
+          "max": 1.1333537775443605,
+          "volume_weighted_mean": 1.0307534733224746,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.029185724905226,
+            1.0555383762171944,
+            1.092262678280514
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.8938232688288573,
+          1.3013514688552301
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.48498142598225613,
+            "max": 5.902194950532989,
+            "weighted_mean": 0.7971854514159373,
+            "quadrature_unweighted_percentiles50_95_99": [
+              1.4259289921506153,
+              4.405563844778797,
+              5.277552409811248
+            ]
+          },
+          {
+            "min": 1.8200136398218938,
+            "max": 9.610831379256801,
+            "weighted_mean": 2.516993125384131,
+            "quadrature_unweighted_percentiles50_95_99": [
+              3.9830684797080904,
+              8.598430535950753,
+              9.260772148194247
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.12803931403750607,
+          "energy_integral_Yeoh_J": 0.13867643264431312,
+          "volume_weighted_stress_difference_rms_Pa": 59.10296894176775,
+          "relative_stress_L2_to_MR": 0.1428235988815858
+        }
+      },
+      "elapsed_seconds": 21.987415805924684
+    },
+    {
+      "case": "development-range-2",
+      "model": "shared_wide",
+      "n": 4,
+      "action": "right_bend",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-2/n4/right_bend.npz",
+      "sha256": "dfb20701dd2c437b32cc75b1a506e0a1f0f0c74b01cd43c9f33266c957b74031",
+      "residual_N": 1.6167836580086796e-09,
+      "minimum_J": 0.9053381333166685,
+      "force_balance_N": 3.781576792573832e-09,
+      "nonrigid_rms_mm": 1.65313998625394,
+      "diagnostics": {
+        "q1": {
+          "min": 1.5482210931061502e-06,
+          "max": 0.040381236841665835,
+          "volume_weighted_mean": 0.002757315815710247,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0009260597834934714,
+            0.012626538571752886,
+            0.02198333394154581
+          ]
+        },
+        "q2": {
+          "min": 1.548235952775201e-06,
+          "max": 0.04363897071376899,
+          "volume_weighted_mean": 0.0027741745337236372,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0009244042868121749,
+            0.012744732478085363,
+            0.022499317104999497
+          ]
+        },
+        "J": {
+          "min": 0.9236062402034303,
+          "max": 1.0479489601319507,
+          "volume_weighted_mean": 0.9998164447115727,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.0000714145954712,
+            1.0078249691497307,
+            1.0137501436957885
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.879643284172364,
+          1.1052098614450603
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.055189676442282336,
+            "max": 0.9872581689463185,
+            "weighted_mean": 0.16056668600136775,
+            "quadrature_unweighted_percentiles50_95_99": [
+              0.37642077564166854,
+              0.7968236510357577,
+              0.8861463802620385
+            ]
+          },
+          {
+            "min": 0.1762779832377988,
+            "max": 7.426524913598926,
+            "weighted_mean": 1.3426940895163382,
+            "quadrature_unweighted_percentiles50_95_99": [
+              2.528545638089259,
+              6.237434196778955,
+              7.057400498964671
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.004835537639054909,
+          "energy_integral_Yeoh_J": 0.004852586807815359,
+          "volume_weighted_stress_difference_rms_Pa": 1.979379605087421,
+          "relative_stress_L2_to_MR": 0.021721150630828943
+        }
+      },
+      "elapsed_seconds": 11.421225794008933
+    },
+    {
+      "case": "development-range-2",
+      "model": "shared_wide",
+      "n": 4,
+      "action": "opposed_twist",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-2/n4/opposed_twist.npz",
+      "sha256": "41067dbe7a662dc9cb57a943f79c013ac3765b316824884c08d898999a207bdf",
+      "residual_N": 1.934870739042541e-09,
+      "minimum_J": 0.975288158212147,
+      "force_balance_N": 5.692476429347444e-09,
+      "nonrigid_rms_mm": 4.649678938800582,
+      "diagnostics": {
+        "q1": {
+          "min": 1.6902030243848287e-05,
+          "max": 0.050110750523505665,
+          "volume_weighted_mean": 0.007914094264476722,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.006680352198961348,
+            0.02017104292084848,
+            0.025352126117360013
+          ]
+        },
+        "q2": {
+          "min": 1.6888334244846703e-05,
+          "max": 0.052680221782030134,
+          "volume_weighted_mean": 0.007907337790840765,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.006657563800640753,
+            0.020185728913362497,
+            0.025416165385003874
+          ]
+        },
+        "J": {
+          "min": 0.9809147752604975,
+          "max": 1.0131220253177857,
+          "volume_weighted_mean": 0.9997388993154455,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.9994909258658118,
+            1.0035834764998202,
+            1.0065039355957974
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.8785527673179789,
+          1.105168041156611
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.010475664610228013,
+            "max": 3.1019615178307807,
+            "weighted_mean": 0.33660198558345744,
+            "quadrature_unweighted_percentiles50_95_99": [
+              0.8844408247974254,
+              2.3208912325676128,
+              2.809426775372839
+            ]
+          },
+          {
+            "min": 0.06583262545963323,
+            "max": 7.519940153306313,
+            "weighted_mean": 1.3102632913103953,
+            "quadrature_unweighted_percentiles50_95_99": [
+              2.8249328832595877,
+              6.0623141307551265,
+              7.0390869238729605
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.0128767333430103,
+          "energy_integral_Yeoh_J": 0.012950301449626831,
+          "volume_weighted_stress_difference_rms_Pa": 3.606487532645813,
+          "relative_stress_L2_to_MR": 0.028619573913095206
+        }
+      },
+      "elapsed_seconds": 18.94889371097088
+    },
+    {
+      "case": "development-range-3",
+      "model": "shared_wide",
+      "n": 4,
+      "action": "stretch",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-3/n4/stretch.npz",
+      "sha256": "b187e8a91cfd7d30e0518ce644a203fb1ae3890a27f915d51f3f398e181bb08b",
+      "residual_N": 9.851248974157836e-12,
+      "minimum_J": 0.9820779111073078,
+      "force_balance_N": 2.243304622645611e-11,
+      "nonrigid_rms_mm": 4.402192723445685,
+      "diagnostics": {
+        "q1": {
+          "min": 4.145045919834445e-06,
+          "max": 0.4922865717778837,
+          "volume_weighted_mean": 0.022897931887511543,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.013722680389271158,
+            0.11454953482432567,
+            0.2601085593959349
+          ]
+        },
+        "q2": {
+          "min": 4.144918292592337e-06,
+          "max": 0.3831327003877818,
+          "volume_weighted_mean": 0.020824478134979632,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.013124438127876115,
+            0.1011097063641382,
+            0.21630449792737313
+          ]
+        },
+        "J": {
+          "min": 0.9917961606124148,
+          "max": 1.3298122113966435,
+          "volume_weighted_mean": 1.015521780854525,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.0143584474530911,
+            1.0425371538452342,
+            1.1059493885985912
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.8760391244796587,
+          1.6002943452193046
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 12.039781891253178,
+            "max": 19.79136398139584,
+            "weighted_mean": 13.926575273041186,
+            "quadrature_unweighted_percentiles50_95_99": [
+              16.329620885032536,
+              19.19172804099891,
+              19.533798669406693
+            ]
+          },
+          {
+            "min": 0.7108029165732382,
+            "max": 3.314215331707038,
+            "weighted_mean": 1.089110888054312,
+            "quadrature_unweighted_percentiles50_95_99": [
+              1.6561948499194492,
+              3.0330956010104724,
+              3.175839722153384
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.07446220862375115,
+          "energy_integral_Yeoh_J": 0.0808368034226141,
+          "volume_weighted_stress_difference_rms_Pa": 63.110161956233654,
+          "relative_stress_L2_to_MR": 0.16311712137643708
+        }
+      },
+      "elapsed_seconds": 11.904120122897439
+    },
+    {
+      "case": "development-range-3",
+      "model": "shared_wide",
+      "n": 4,
+      "action": "right_bend",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-3/n4/right_bend.npz",
+      "sha256": "3a9ae3f8f5da64b38545654770479f07d986c860eda0344fc2f91900dffbbebf",
+      "residual_N": 6.628070456146067e-13,
+      "minimum_J": 0.929242464190649,
+      "force_balance_N": 3.638544369131152e-17,
+      "nonrigid_rms_mm": 3.6865245444292536,
+      "diagnostics": {
+        "q1": {
+          "min": 9.59321528704038e-06,
+          "max": 0.024854090911764715,
+          "volume_weighted_mean": 0.003540005165697774,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0027827955299766227,
+            0.009675768760123993,
+            0.011714950483560655
+          ]
+        },
+        "q2": {
+          "min": 9.598607643823698e-06,
+          "max": 0.02452955707791382,
+          "volume_weighted_mean": 0.0035241812447920854,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0027891925196417144,
+            0.00967600841184062,
+            0.011616486615724389
+          ]
+        },
+        "J": {
+          "min": 0.948668500507206,
+          "max": 1.043162925199976,
+          "volume_weighted_mean": 1.0003663281920931,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.000507240542344,
+            1.010811192298803,
+            1.0128733611940055
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.9255677116797445,
+          1.0901215796451873
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 1.245290428044866,
+            "max": 3.8966446694406818,
+            "weighted_mean": 1.6487151673113296,
+            "quadrature_unweighted_percentiles50_95_99": [
+              2.18764845418791,
+              3.358437853869317,
+              3.6953175400436407
+            ]
+          },
+          {
+            "min": 0.06073159089191044,
+            "max": 6.428228469850272,
+            "weighted_mean": 1.0749712585849984,
+            "quadrature_unweighted_percentiles50_95_99": [
+              2.3042605697840646,
+              5.566759685518051,
+              6.102841015030713
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.015489166281131969,
+          "energy_integral_Yeoh_J": 0.015570671917806096,
+          "volume_weighted_stress_difference_rms_Pa": 4.736637261645096,
+          "relative_stress_L2_to_MR": 0.02189167371608954
+        }
+      },
+      "elapsed_seconds": 11.058935969951563
+    },
+    {
+      "case": "development-range-3",
+      "model": "shared_wide",
+      "n": 4,
+      "action": "opposed_twist",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-range-3/n4/opposed_twist.npz",
+      "sha256": "d823850a9c49a26295efb7ba7299198ccd3d3b0b8813b1f6be51473901e08ce7",
+      "residual_N": 1.426395940586262e-11,
+      "minimum_J": 0.9641227903705905,
+      "force_balance_N": 8.758070913113545e-13,
+      "nonrigid_rms_mm": 1.8288471421864363,
+      "diagnostics": {
+        "q1": {
+          "min": 1.8564593418091135e-08,
+          "max": 0.0625396866156609,
+          "volume_weighted_mean": 0.001101519308139792,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0003747130721301062,
+            0.006822743188746092,
+            0.021490568597814355
+          ]
+        },
+        "q2": {
+          "min": 1.8565185389007866e-08,
+          "max": 0.06549953297482825,
+          "volume_weighted_mean": 0.001098410367458712,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.00037447772521548295,
+            0.006813592714340854,
+            0.021046299199236777
+          ]
+        },
+        "J": {
+          "min": 0.9759556288538974,
+          "max": 1.0105130157984876,
+          "volume_weighted_mean": 0.9998924249493468,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.9999156017057566,
+            1.0009884146707153,
+            1.0027952502191613
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.8684222381381415,
+          1.1276709992719645
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.3387273990428061,
+            "max": 14.193806480493517,
+            "weighted_mean": 3.041708507411818,
+            "quadrature_unweighted_percentiles50_95_99": [
+              6.460273531245832,
+              11.915965164392473,
+              13.36127639429996
+            ]
+          },
+          {
+            "min": 0.01619214748534296,
+            "max": 1.219807709393624,
+            "weighted_mean": 0.1899360052032587,
+            "quadrature_unweighted_percentiles50_95_99": [
+              0.4633493992182265,
+              0.9663292041987831,
+              1.0974924177579557
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.003167802978148274,
+          "energy_integral_Yeoh_J": 0.003187800966288971,
+          "volume_weighted_stress_difference_rms_Pa": 2.184448756377836,
+          "relative_stress_L2_to_MR": 0.031804464272271044
+        }
+      },
+      "elapsed_seconds": 13.91295853909105
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "model": "shared_wide",
+      "n": 4,
+      "action": "stretch",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-crossed-soft-saturated/n4/stretch.npz",
+      "sha256": "57543165fc11d86a80e45932f1c555d5c3c18206ae7cb287a9a7509c5ca68696",
+      "residual_N": 1.3982284873010856e-09,
+      "minimum_J": 0.9831515619482246,
+      "force_balance_N": 1.0168952549365036e-12,
+      "nonrigid_rms_mm": 2.8522219815369034,
+      "diagnostics": {
+        "q1": {
+          "min": 9.888107531885737e-06,
+          "max": 0.0977277419118665,
+          "volume_weighted_mean": 0.013815908580454568,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.010731606024414475,
+            0.03910342332676401,
+            0.0657393415603109
+          ]
+        },
+        "q2": {
+          "min": 9.881738264105877e-06,
+          "max": 0.08711536889944904,
+          "volume_weighted_mean": 0.013061888803852525,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.010329467402651948,
+            0.03642685449226977,
+            0.05978292781100313
+          ]
+        },
+        "J": {
+          "min": 0.9956576893679517,
+          "max": 1.1104354515154073,
+          "volume_weighted_mean": 1.0114149410293503,
+          "quadrature_unweighted_percentiles50_95_99": [
+            1.0101835612990389,
+            1.024589575324387,
+            1.0553943377172255
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.9212732744890814,
+          1.2105991948195032
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 6.2475286906991805,
+            "max": 11.4416577115965,
+            "weighted_mean": 7.419115128304352,
+            "quadrature_unweighted_percentiles50_95_99": [
+              8.879151307912814,
+              11.018458900095176,
+              11.225146010611207
+            ]
+          },
+          {
+            "min": 6.165647158583291,
+            "max": 11.696220682638474,
+            "weighted_mean": 7.418868485145725,
+            "quadrature_unweighted_percentiles50_95_99": [
+              9.073843267005417,
+              11.334841069749064,
+              11.507770170224427
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.027624290221949833,
+          "energy_integral_Yeoh_J": 0.02837182159185557,
+          "volume_weighted_stress_difference_rms_Pa": 8.50142041921316,
+          "relative_stress_L2_to_MR": 0.044142339734580614
+        }
+      },
+      "elapsed_seconds": 11.538590935058892
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "model": "shared_wide",
+      "n": 4,
+      "action": "right_bend",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-crossed-soft-saturated/n4/right_bend.npz",
+      "sha256": "065b7790a2f6d288a1c7260de602f489d280aecb97a0299f925443c3102fbdaa",
+      "residual_N": 3.2727619917092956e-11,
+      "minimum_J": 0.9460788469631957,
+      "force_balance_N": 8.495105907659073e-11,
+      "nonrigid_rms_mm": 0.4302550740682965,
+      "diagnostics": {
+        "q1": {
+          "min": 2.9218692354504583e-08,
+          "max": 0.005989554535596575,
+          "volume_weighted_mean": 0.0002306889851012879,
+          "quadrature_unweighted_percentiles50_95_99": [
+            6.575796273566858e-05,
+            0.0010603006808041155,
+            0.002584969108778223
+          ]
+        },
+        "q2": {
+          "min": 2.922027153573481e-08,
+          "max": 0.00616913139940678,
+          "volume_weighted_mean": 0.00023160419722602685,
+          "quadrature_unweighted_percentiles50_95_99": [
+            6.575147673260062e-05,
+            0.001063241609814347,
+            0.0026161162796149583
+          ]
+        },
+        "J": {
+          "min": 0.9631131360757784,
+          "max": 1.0212125121717561,
+          "volume_weighted_mean": 0.9998443878032544,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.999950233487497,
+            1.0019526382343928,
+            1.0041370571975716
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.9499887738653487,
+          1.035492967000206
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.3311046931144124,
+            "max": 0.630584729925126,
+            "weighted_mean": 0.37923873373308004,
+            "quadrature_unweighted_percentiles50_95_99": [
+              0.4284618802554173,
+              0.5898087149213603,
+              0.6124739350913205
+            ]
+          },
+          {
+            "min": 0.15157951837170308,
+            "max": 8.407298579237311,
+            "weighted_mean": 2.1027310339091185,
+            "quadrature_unweighted_percentiles50_95_99": [
+              3.9617362260221576,
+              8.071431532812511,
+              8.301289651487538
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.0004630338894663481,
+          "energy_integral_Yeoh_J": 0.00046278619323533385,
+          "volume_weighted_stress_difference_rms_Pa": 0.13955735373026498,
+          "relative_stress_L2_to_MR": 0.005168744792934143
+        }
+      },
+      "elapsed_seconds": 9.154101631953381
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "model": "shared_wide",
+      "n": 4,
+      "action": "opposed_twist",
+      "state": "complete",
+      "artifact": "runs/compositional-neural-mechanics-v16/wide-interface-equilibrium-development/development-crossed-soft-saturated/n4/opposed_twist.npz",
+      "sha256": "464bee9451f0b811ecdb212e77752cfc405df72bafdfcf46b0c574381b591ced",
+      "residual_N": 2.223423792019958e-09,
+      "minimum_J": 0.9849774408128387,
+      "force_balance_N": 3.515966351692696e-11,
+      "nonrigid_rms_mm": 1.9132695948499756,
+      "diagnostics": {
+        "q1": {
+          "min": 1.6124480342050163e-06,
+          "max": 0.02818584729297946,
+          "volume_weighted_mean": 0.0016816511415630015,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0012160753166658989,
+            0.004494346046748276,
+            0.01101317372194417
+          ]
+        },
+        "q2": {
+          "min": 1.6127032065327285e-06,
+          "max": 0.028863017636326482,
+          "volume_weighted_mean": 0.001678737666845867,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.0012159794954975656,
+            0.0044807032889120114,
+            0.010945287727558062
+          ]
+        },
+        "J": {
+          "min": 0.9908770564846169,
+          "max": 1.005841110915963,
+          "volume_weighted_mean": 0.9999314469835747,
+          "quadrature_unweighted_percentiles50_95_99": [
+            0.99997635584686,
+            1.001122198038689,
+            1.0027605788038603
+          ]
+        },
+        "principal_stretch_min_max": [
+          0.911754386153412,
+          1.0908273330434017
+        ],
+        "interface_slip_over_delta_ref": [
+          {
+            "min": 0.26335953893939584,
+            "max": 11.080075529690557,
+            "weighted_mean": 2.4080274093844594,
+            "quadrature_unweighted_percentiles50_95_99": [
+              5.082597894786975,
+              9.1009639919857,
+              10.369783651748286
+            ]
+          },
+          {
+            "min": 0.06703895146086183,
+            "max": 11.730127360035217,
+            "weighted_mean": 2.434254819836185,
+            "quadrature_unweighted_percentiles50_95_99": [
+              5.442203505087514,
+              9.80528002986511,
+              11.05743673125043
+            ]
+          }
+        ],
+        "same_F_family_difference": {
+          "energy_integral_MR_J": 0.0031113484411678612,
+          "energy_integral_Yeoh_J": 0.003117471277923429,
+          "volume_weighted_stress_difference_rms_Pa": 0.7426464139629079,
+          "relative_stress_L2_to_MR": 0.012962119269047752
+        }
+      },
+      "elapsed_seconds": 7.684742588084191
+    }
+  ],
+  "comparisons": [
+    {
+      "case": "development-range-0",
+      "action": "stretch",
+      "n": 2,
+      "comparison": "matched_teacher",
+      "reference_sha256": "92f38161ba7b768b6ab36e9cf44245aa5ab7cb6d9db70d40f2be72f00a0919bf",
+      "field_rms_mm": 0.016249842045220387,
+      "force_difference_N": [
+        0.07402111126152268,
+        0.07402111125956423
+      ],
+      "torque_difference_Nm": [
+        0.0003784394319002637,
+        0.0004746872687654183
+      ]
+    },
+    {
+      "case": "development-range-0",
+      "action": "stretch",
+      "n": 2,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "60bebf5b9e4a387734a4357dc1dd6c949671353fdd438d2aa7f00353ce2bf283",
+      "field_rms_mm": 0.10523975625220043,
+      "force_difference_N": [
+        0.028510528759571416,
+        0.02851052876661557
+      ],
+      "torque_difference_Nm": [
+        0.0006554624972084215,
+        0.0008050993927767179
+      ]
+    },
+    {
+      "case": "development-range-0",
+      "action": "right_bend",
+      "n": 2,
+      "comparison": "matched_teacher",
+      "reference_sha256": "c4e8ec6f7cb7c11319824f14f52c4ba44e487232210164e718e0fc916ec71da0",
+      "field_rms_mm": 0.012247043483197328,
+      "force_difference_N": [
+        0.002648316773263271,
+        0.0026483167732634875
+      ],
+      "torque_difference_Nm": [
+        2.7820681923843305e-05,
+        0.0005452725883497721
+      ]
+    },
+    {
+      "case": "development-range-0",
+      "action": "right_bend",
+      "n": 2,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "9139b776381042a131794e94e277cd5862eddcfd903ab0cf573c0e295aa0d41f",
+      "field_rms_mm": 0.13570767848308882,
+      "force_difference_N": [
+        0.0067578718712749085,
+        0.00675787187127463
+      ],
+      "torque_difference_Nm": [
+        0.00012636633253246195,
+        0.0012311984123272448
+      ]
+    },
+    {
+      "case": "development-range-0",
+      "action": "opposed_twist",
+      "n": 2,
+      "comparison": "matched_teacher",
+      "reference_sha256": "e8efa338a8ce19a604da827b1fecd15ed44e30bf9dd2368787dcd5103bcea845",
+      "field_rms_mm": 0.012883200016615933,
+      "force_difference_N": [
+        0.0003115285793095519,
+        0.00031152857930872603
+      ],
+      "torque_difference_Nm": [
+        0.0005776751428163466,
+        0.0005775311484988603
+      ]
+    },
+    {
+      "case": "development-range-0",
+      "action": "opposed_twist",
+      "n": 2,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "c1b74b516a14fd09602cc86fbf3b514ffbcc3e2cfd8a77c901e32a805e7a030c",
+      "field_rms_mm": 0.06574087385211193,
+      "force_difference_N": [
+        0.0018594017377575902,
+        0.0018594017377571493
+      ],
+      "torque_difference_Nm": [
+        0.00038796503174095295,
+        0.00039601118742274604
+      ]
+    },
+    {
+      "case": "development-range-1",
+      "action": "stretch",
+      "n": 2,
+      "comparison": "matched_teacher",
+      "reference_sha256": "535314cd4980df336bc51b53a33b7e1067b0583f5f1ee3b75157f1b8dbd771f5",
+      "field_rms_mm": 0.013558808710523113,
+      "force_difference_N": [
+        0.015088553780280586,
+        0.015088553750671937
+      ],
+      "torque_difference_Nm": [
+        0.00021274903792509314,
+        0.00041800158012707755
+      ]
+    },
+    {
+      "case": "development-range-1",
+      "action": "stretch",
+      "n": 2,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "e9d68b9583aae440933c9ff4ebffc7effdfb437824969453b22622a2b8e8dd78",
+      "field_rms_mm": 0.1438199402198373,
+      "force_difference_N": [
+        0.12205629919913336,
+        0.1220562991694472
+      ],
+      "torque_difference_Nm": [
+        0.00012772014297656874,
+        0.0005562686296295012
+      ]
+    },
+    {
+      "case": "development-range-1",
+      "action": "right_bend",
+      "n": 2,
+      "comparison": "matched_teacher",
+      "reference_sha256": "7cb224e7473c96a277c7418d5aa01f36ceb82d528b43126cc691c3dfeff0b705",
+      "field_rms_mm": 0.006504436782719252,
+      "force_difference_N": [
+        0.0019454703683222064,
+        0.0019454703683219872
+      ],
+      "torque_difference_Nm": [
+        3.8019877778190984e-05,
+        0.0004501107971695582
+      ]
+    },
+    {
+      "case": "development-range-1",
+      "action": "right_bend",
+      "n": 2,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "b54a5456213d10c037199f4b572216a3a0e4b96b4994821186ec2956f1d2aef3",
+      "field_rms_mm": 0.11721529383617442,
+      "force_difference_N": [
+        0.021753173965385127,
+        0.0217531739653865
+      ],
+      "torque_difference_Nm": [
+        0.0006292287750429714,
+        0.004155971575505915
+      ]
+    },
+    {
+      "case": "development-range-1",
+      "action": "opposed_twist",
+      "n": 2,
+      "comparison": "matched_teacher",
+      "reference_sha256": "bdf831532e8aa06934b43ac7b0854f6881f78585a44704d89226de2ae2af4a54",
+      "field_rms_mm": 0.0053227021909611075,
+      "force_difference_N": [
+        0.0006683511858158596,
+        0.0006683511858158114
+      ],
+      "torque_difference_Nm": [
+        0.00025513811160962705,
+        0.00025515934543851826
+      ]
+    },
+    {
+      "case": "development-range-1",
+      "action": "opposed_twist",
+      "n": 2,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "dc42820b6ae8cd5b627eed4e0930ed88dc6676ff0d81619559242cc35a27141c",
+      "field_rms_mm": 0.07389801670631256,
+      "force_difference_N": [
+        0.00439212608891744,
+        0.004392126088916899
+      ],
+      "torque_difference_Nm": [
+        0.00173609454659617,
+        0.001733932719180406
+      ]
+    },
+    {
+      "case": "development-range-2",
+      "action": "stretch",
+      "n": 2,
+      "comparison": "matched_teacher",
+      "reference_sha256": "7e5dec361ae9049d83d206df11528a60a0d6b9688bcff7fa648d94cf2a9b34a2",
+      "field_rms_mm": 0.017134500570782203,
+      "force_difference_N": [
+        0.0764881539634738,
+        0.0764881539634738
+      ],
+      "torque_difference_Nm": [
+        0.0001810434275685358,
+        0.00023991251614928908
+      ]
+    },
+    {
+      "case": "development-range-2",
+      "action": "stretch",
+      "n": 2,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "cd96d9c8a7e980debc19538d7811ca0e07797ecc0d5f395d13d5268e6c748b53",
+      "field_rms_mm": 0.11067744730988904,
+      "force_difference_N": [
+        0.03603601435667217,
+        0.03603601435666063
+      ],
+      "torque_difference_Nm": [
+        0.0004871516332817044,
+        0.0009815602852295108
+      ]
+    },
+    {
+      "case": "development-range-2",
+      "action": "right_bend",
+      "n": 2,
+      "comparison": "matched_teacher",
+      "reference_sha256": "09a8daf909363ae8b0d72f8c0d7956327c84ac8d615885f8a207903731fd261d",
+      "field_rms_mm": 0.012612260365809536,
+      "force_difference_N": [
+        0.0019650668939595675,
+        0.00196506688711511
+      ],
+      "torque_difference_Nm": [
+        1.3601702143456447e-05,
+        0.00039800572017605567
+      ]
+    },
+    {
+      "case": "development-range-2",
+      "action": "right_bend",
+      "n": 2,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "fa9c1a1693c3eb7a70e0991ed44dd0cd4550968e05ae727f6f7a5ede691ae0b4",
+      "field_rms_mm": 0.11885906527964767,
+      "force_difference_N": [
+        0.006776065179464186,
+        0.006776064764473049
+      ],
+      "torque_difference_Nm": [
+        0.00030678891834833033,
+        0.0009829078668352983
+      ]
+    },
+    {
+      "case": "development-range-2",
+      "action": "opposed_twist",
+      "n": 2,
+      "comparison": "matched_teacher",
+      "reference_sha256": "5614d18e2c0d89838a8a784a8d931ed2b75fcad42b33fc5ff85c8104b1f79801",
+      "field_rms_mm": 0.014280414053224125,
+      "force_difference_N": [
+        0.0002090013137098853,
+        0.0002090011948469364
+      ],
+      "torque_difference_Nm": [
+        0.0004978528836681209,
+        0.000497859337009549
+      ]
+    },
+    {
+      "case": "development-range-2",
+      "action": "opposed_twist",
+      "n": 2,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "15249a4ac4585f8c93cb81e236eda2b3c2fe8dd454df6b5134f14b640873546a",
+      "field_rms_mm": 0.06464764343436222,
+      "force_difference_N": [
+        0.0024766107188498266,
+        0.0024766101914190423
+      ],
+      "torque_difference_Nm": [
+        0.00028775843390189005,
+        0.0002838859639560251
+      ]
+    },
+    {
+      "case": "development-range-3",
+      "action": "stretch",
+      "n": 2,
+      "comparison": "matched_teacher",
+      "reference_sha256": "51205b3a1b8a2de98207aec0cfd58e18705124074ac187b40950759d2e1ba769",
+      "field_rms_mm": 0.07869294333184318,
+      "force_difference_N": [
+        0.048179327491983365,
+        0.04817932750669826
+      ],
+      "torque_difference_Nm": [
+        6.123070192089865e-05,
+        0.00043175199765969614
+      ]
+    },
+    {
+      "case": "development-range-3",
+      "action": "stretch",
+      "n": 2,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "5e9a38c83cb157d987da2516a54d015328eb87d1da364e1eb00e2dde7b1e567e",
+      "field_rms_mm": 0.15328542564917588,
+      "force_difference_N": [
+        0.09243441729260787,
+        0.09243441730731929
+      ],
+      "torque_difference_Nm": [
+        0.00033330048807908927,
+        0.0005139976917010326
+      ]
+    },
+    {
+      "case": "development-range-3",
+      "action": "right_bend",
+      "n": 2,
+      "comparison": "matched_teacher",
+      "reference_sha256": "2c925cb00f58edea0643afc9fb7bb2031b7ef9b3b8d2535c97c6ebbdf096305f",
+      "field_rms_mm": 0.0020276057806618026,
+      "force_difference_N": [
+        0.00033188892120812,
+        0.00033188892120967524
+      ],
+      "torque_difference_Nm": [
+        3.489984046147074e-06,
+        4.186903931474312e-05
+      ]
+    },
+    {
+      "case": "development-range-3",
+      "action": "right_bend",
+      "n": 2,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "351265218a9eb09695f98387b9ece3c454e3fb6e55fb8b5c19742ebc3abb40dd",
+      "field_rms_mm": 0.09573943799978421,
+      "force_difference_N": [
+        0.01181808268197848,
+        0.011818082681978287
+      ],
+      "torque_difference_Nm": [
+        6.374730146015842e-05,
+        0.002613370322553771
+      ]
+    },
+    {
+      "case": "development-range-3",
+      "action": "opposed_twist",
+      "n": 2,
+      "comparison": "matched_teacher",
+      "reference_sha256": "83bdaa2db21e478c180e1a8b060bdd4dabae21c263386511c544e421521e441b",
+      "field_rms_mm": 0.008729303823193816,
+      "force_difference_N": [
+        8.921309764992191e-05,
+        8.921309746112313e-05
+      ],
+      "torque_difference_Nm": [
+        7.649810953662613e-05,
+        7.780586354107916e-05
+      ]
+    },
+    {
+      "case": "development-range-3",
+      "action": "opposed_twist",
+      "n": 2,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "eb714ba415400152f6fbd10596ab766aac6667d0f5c5bff48810be1507a75f0c",
+      "field_rms_mm": 0.04467420496647832,
+      "force_difference_N": [
+        0.0032934595233781224,
+        0.0032934595233268813
+      ],
+      "torque_difference_Nm": [
+        0.0003614185849893101,
+        0.0003709760186343531
+      ]
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "action": "stretch",
+      "n": 2,
+      "comparison": "matched_teacher",
+      "reference_sha256": "bb61a4a44b30272a53c38814550716b52b0b2b501f17059494ca75bf6f7fbc9f",
+      "field_rms_mm": 0.004980485454326398,
+      "force_difference_N": [
+        0.03940966097808295,
+        0.03940966097783127
+      ],
+      "torque_difference_Nm": [
+        0.0004579347626308303,
+        0.0005380009574347705
+      ]
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "action": "stretch",
+      "n": 2,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "70de62f87f1cdff2e34bfef7d193df2e0d2297efdb4434322081a25a771b4668",
+      "field_rms_mm": 0.07733404323808642,
+      "force_difference_N": [
+        0.014646495873312517,
+        0.01464649587298954
+      ],
+      "torque_difference_Nm": [
+        0.00019497368233861126,
+        0.00023210912526934883
+      ]
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "action": "right_bend",
+      "n": 2,
+      "comparison": "matched_teacher",
+      "reference_sha256": "fa789b8d89c13b537dcbd91f5ae1f5f997a65cf928eba9dddf120df44a344644",
+      "field_rms_mm": 0.006364960717606775,
+      "force_difference_N": [
+        0.0005465122156011683,
+        0.0005465122286763602
+      ],
+      "torque_difference_Nm": [
+        5.792052862371475e-06,
+        9.319647917214949e-05
+      ]
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "action": "right_bend",
+      "n": 2,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "0e480901ea74b26619f7720e8fd51a5ec10ef71b8c98840b9fee781c15deeeb1",
+      "field_rms_mm": 0.02356135752094983,
+      "force_difference_N": [
+        0.0003985512570234311,
+        0.00039855123962603215
+      ],
+      "torque_difference_Nm": [
+        3.833535033029395e-06,
+        7.934933147780659e-05
+      ]
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "action": "opposed_twist",
+      "n": 2,
+      "comparison": "matched_teacher",
+      "reference_sha256": "990993734db5a068b15cc10b2f9fde9b0587fefc7637cdd0a13ed82093fea1cf",
+      "field_rms_mm": 0.01354563947216586,
+      "force_difference_N": [
+        0.0001833409712877524,
+        0.00018334097295801278
+      ],
+      "torque_difference_Nm": [
+        0.0001623874627176468,
+        0.00016242471290164672
+      ]
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "action": "opposed_twist",
+      "n": 2,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "8f0c5d21eabfa58822a680e9f45186783010882bc4cb8a34f2667a3fb67d4d17",
+      "field_rms_mm": 0.05045667254311908,
+      "force_difference_N": [
+        0.0005980675222366302,
+        0.0005980675286495805
+      ],
+      "torque_difference_Nm": [
+        0.00019614706435192356,
+        0.00019763512546505717
+      ]
+    },
+    {
+      "case": "development-range-0",
+      "action": "stretch",
+      "n": 4,
+      "comparison": "matched_teacher",
+      "reference_sha256": "c453abccd2893edbd5f68f7d7cb2f126950ea02106cb1657a4052193431bb6e9",
+      "field_rms_mm": 0.015467779151884846,
+      "force_difference_N": [
+        0.07390572070822808,
+        0.07390572070590497
+      ],
+      "torque_difference_Nm": [
+        0.00037623027486948565,
+        0.0004735512186673211
+      ]
+    },
+    {
+      "case": "development-range-0",
+      "action": "stretch",
+      "n": 4,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "60bebf5b9e4a387734a4357dc1dd6c949671353fdd438d2aa7f00353ce2bf283",
+      "field_rms_mm": 0.03138460896784839,
+      "force_difference_N": [
+        0.06902854517503099,
+        0.06902854517520543
+      ],
+      "torque_difference_Nm": [
+        0.0003311965459896146,
+        0.00039955938816481747
+      ]
+    },
+    {
+      "case": "development-range-0",
+      "action": "right_bend",
+      "n": 4,
+      "comparison": "matched_teacher",
+      "reference_sha256": "95b884c85ab556619225254914d6716b75cf684ce9928f6baf92816859f063b6",
+      "field_rms_mm": 0.011768063320492123,
+      "force_difference_N": [
+        0.002613041594875275,
+        0.0026130415948754015
+      ],
+      "torque_difference_Nm": [
+        2.6559540950441143e-05,
+        0.0005368769587457923
+      ]
+    },
+    {
+      "case": "development-range-0",
+      "action": "right_bend",
+      "n": 4,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "9139b776381042a131794e94e277cd5862eddcfd903ab0cf573c0e295aa0d41f",
+      "field_rms_mm": 0.03172861663616531,
+      "force_difference_N": [
+        0.0012911425295893289,
+        0.001291142529589577
+      ],
+      "torque_difference_Nm": [
+        3.3252956654038884e-05,
+        0.00028344142330099956
+      ]
+    },
+    {
+      "case": "development-range-0",
+      "action": "opposed_twist",
+      "n": 4,
+      "comparison": "matched_teacher",
+      "reference_sha256": "a2a4ea85a5d078a35b9bb88d5ec1cffa3ceff9e8249385a21d7c3b7c8f0d05cc",
+      "field_rms_mm": 0.013033721802270961,
+      "force_difference_N": [
+        0.00030777999226291446,
+        0.0003077799922628031
+      ],
+      "torque_difference_Nm": [
+        0.0005672632262041369,
+        0.0005671334631278481
+      ]
+    },
+    {
+      "case": "development-range-0",
+      "action": "opposed_twist",
+      "n": 4,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "c1b74b516a14fd09602cc86fbf3b514ffbcc3e2cfd8a77c901e32a805e7a030c",
+      "field_rms_mm": 0.018461217138225294,
+      "force_difference_N": [
+        0.0004016714003481116,
+        0.00040167140034805634
+      ],
+      "torque_difference_Nm": [
+        0.0004818907629395803,
+        0.0004818669383836141
+      ]
+    },
+    {
+      "case": "development-range-1",
+      "action": "stretch",
+      "n": 4,
+      "comparison": "matched_teacher",
+      "reference_sha256": "7a6ef07d1a006ec2c9c36ccaa0bca3a39cf4f791cd0b3aae52bbe7eb57ceb54d",
+      "field_rms_mm": 0.014068705785321715,
+      "force_difference_N": [
+        0.014415671959030523,
+        0.014415671938682699
+      ],
+      "torque_difference_Nm": [
+        0.00022695085669853236,
+        0.0004338851306487864
+      ]
+    },
+    {
+      "case": "development-range-1",
+      "action": "stretch",
+      "n": 4,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "e9d68b9583aae440933c9ff4ebffc7effdfb437824969453b22622a2b8e8dd78",
+      "field_rms_mm": 0.027272372981043676,
+      "force_difference_N": [
+        0.02454037302038866,
+        0.02454037300004549
+      ],
+      "torque_difference_Nm": [
+        0.0004172282417083763,
+        0.0007223723836411351
+      ]
+    },
+    {
+      "case": "development-range-1",
+      "action": "right_bend",
+      "n": 4,
+      "comparison": "matched_teacher",
+      "reference_sha256": "15baac76c2eb8d18aacbd75b0d734a064f5d0a90a551fd14fbf472d55d034819",
+      "field_rms_mm": 0.006932095352809448,
+      "force_difference_N": [
+        0.0020037246584938486,
+        0.002003724658492352
+      ],
+      "torque_difference_Nm": [
+        3.4893306231761045e-05,
+        0.00042931819129208676
+      ]
+    },
+    {
+      "case": "development-range-1",
+      "action": "right_bend",
+      "n": 4,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "b54a5456213d10c037199f4b572216a3a0e4b96b4994821186ec2956f1d2aef3",
+      "field_rms_mm": 0.016376109507739208,
+      "force_difference_N": [
+        0.004241069198473818,
+        0.004241069198464482
+      ],
+      "torque_difference_Nm": [
+        8.06299699412729e-05,
+        0.0009305176510809857
+      ]
+    },
+    {
+      "case": "development-range-1",
+      "action": "opposed_twist",
+      "n": 4,
+      "comparison": "matched_teacher",
+      "reference_sha256": "7d7913b67e2453dae119479c40c82ab9941bf07531171babf9676fbf0aa00fa2",
+      "field_rms_mm": 0.005499950815568511,
+      "force_difference_N": [
+        0.0006506477344432099,
+        0.0006506477344429844
+      ],
+      "torque_difference_Nm": [
+        0.00024807881437349084,
+        0.00024810577601984684
+      ]
+    },
+    {
+      "case": "development-range-1",
+      "action": "opposed_twist",
+      "n": 4,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "dc42820b6ae8cd5b627eed4e0930ed88dc6676ff0d81619559242cc35a27141c",
+      "field_rms_mm": 0.014089052194452285,
+      "force_difference_N": [
+        0.0009725571263507824,
+        0.0009725571263507369
+      ],
+      "torque_difference_Nm": [
+        0.0003890981033125058,
+        0.00038951987583687493
+      ]
+    },
+    {
+      "case": "development-range-2",
+      "action": "stretch",
+      "n": 4,
+      "comparison": "matched_teacher",
+      "reference_sha256": "e1d6f8bcee62c2f555e3ddf5dd799b174480f5c1c82536e672792b001ee870dd",
+      "field_rms_mm": 0.01663016080829982,
+      "force_difference_N": [
+        0.07619293273187207,
+        0.07619293273188096
+      ],
+      "torque_difference_Nm": [
+        0.00017360826359466517,
+        0.0002470611624481508
+      ]
+    },
+    {
+      "case": "development-range-2",
+      "action": "stretch",
+      "n": 4,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "cd96d9c8a7e980debc19538d7811ca0e07797ecc0d5f395d13d5268e6c748b53",
+      "field_rms_mm": 0.03335909391357899,
+      "force_difference_N": [
+        0.07153682720071532,
+        0.07153682720072242
+      ],
+      "torque_difference_Nm": [
+        9.869944063680123e-05,
+        0.00021657617701400505
+      ]
+    },
+    {
+      "case": "development-range-2",
+      "action": "right_bend",
+      "n": 4,
+      "comparison": "matched_teacher",
+      "reference_sha256": "da4872b8c097afc5ee398493186805fc9f3363bead01758e6da3824255bc349d",
+      "field_rms_mm": 0.01216949406613933,
+      "force_difference_N": [
+        0.0019532829626124084,
+        0.0019532829582251526
+      ],
+      "torque_difference_Nm": [
+        1.1854514949073947e-05,
+        0.0003925823334921873
+      ]
+    },
+    {
+      "case": "development-range-2",
+      "action": "right_bend",
+      "n": 4,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "fa9c1a1693c3eb7a70e0991ed44dd0cd4550968e05ae727f6f7a5ede691ae0b4",
+      "field_rms_mm": 0.02853235000978347,
+      "force_difference_N": [
+        0.001059192135026502,
+        0.001059192075925985
+      ],
+      "torque_difference_Nm": [
+        5.019607676073561e-05,
+        0.00020171252894660312
+      ]
+    },
+    {
+      "case": "development-range-2",
+      "action": "opposed_twist",
+      "n": 4,
+      "comparison": "matched_teacher",
+      "reference_sha256": "6f0226e143e0316ebe723ce3ce831fb78b0506b047fe4205800bf40240dc869e",
+      "field_rms_mm": 0.014314417088958928,
+      "force_difference_N": [
+        0.00020707032129890673,
+        0.00020707014332985678
+      ],
+      "torque_difference_Nm": [
+        0.0004904058997752052,
+        0.0004904095655127152
+      ]
+    },
+    {
+      "case": "development-range-2",
+      "action": "opposed_twist",
+      "n": 4,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "15249a4ac4585f8c93cb81e236eda2b3c2fe8dd454df6b5134f14b640873546a",
+      "field_rms_mm": 0.018190524768686118,
+      "force_difference_N": [
+        0.0004058014454812136,
+        0.00040580144184958135
+      ],
+      "torque_difference_Nm": [
+        0.00042083144458250914,
+        0.0004208309283186921
+      ]
+    },
+    {
+      "case": "development-range-3",
+      "action": "stretch",
+      "n": 4,
+      "comparison": "matched_teacher",
+      "reference_sha256": "264ff1405780181fe42476db23a59d58531a799255f796ebce42982d83a90e66",
+      "field_rms_mm": 0.07733311024093216,
+      "force_difference_N": [
+        0.04688921121862196,
+        0.046889211240867854
+      ],
+      "torque_difference_Nm": [
+        6.511896136515062e-05,
+        0.0004265529813432678
+      ]
+    },
+    {
+      "case": "development-range-3",
+      "action": "stretch",
+      "n": 4,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "5e9a38c83cb157d987da2516a54d015328eb87d1da364e1eb00e2dde7b1e567e",
+      "field_rms_mm": 0.08399118360895272,
+      "force_difference_N": [
+        0.050231140443238204,
+        0.05023114046550738
+      ],
+      "torque_difference_Nm": [
+        0.00011587384066340763,
+        0.000521616537375988
+      ]
+    },
+    {
+      "case": "development-range-3",
+      "action": "right_bend",
+      "n": 4,
+      "comparison": "matched_teacher",
+      "reference_sha256": "904e5a4a092d1651ae171a681e77d0be934357353d998d1cf963270148d5b1df",
+      "field_rms_mm": 0.002271282899470946,
+      "force_difference_N": [
+        0.00041471275685035487,
+        0.00041471275684961935
+      ],
+      "torque_difference_Nm": [
+        3.5864729299091296e-06,
+        5.9642676674143235e-05
+      ]
+    },
+    {
+      "case": "development-range-3",
+      "action": "right_bend",
+      "n": 4,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "351265218a9eb09695f98387b9ece3c454e3fb6e55fb8b5c19742ebc3abb40dd",
+      "field_rms_mm": 0.01522333190891648,
+      "force_difference_N": [
+        0.001231117648937374,
+        0.001231117648937714
+      ],
+      "torque_difference_Nm": [
+        1.222462068150757e-05,
+        0.00027735547856522224
+      ]
+    },
+    {
+      "case": "development-range-3",
+      "action": "opposed_twist",
+      "n": 4,
+      "comparison": "matched_teacher",
+      "reference_sha256": "97b1b9a726e9a670151fb609744c175c4ee2c57e3ed7dfb73fd590763e91d98a",
+      "field_rms_mm": 0.008577242526472711,
+      "force_difference_N": [
+        9.06319720293922e-05,
+        9.063197183964372e-05
+      ],
+      "torque_difference_Nm": [
+        7.485403781732701e-05,
+        7.625842132709409e-05
+      ]
+    },
+    {
+      "case": "development-range-3",
+      "action": "opposed_twist",
+      "n": 4,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "eb714ba415400152f6fbd10596ab766aac6667d0f5c5bff48810be1507a75f0c",
+      "field_rms_mm": 0.011989742119688512,
+      "force_difference_N": [
+        0.000617935118888485,
+        0.000617935118827647
+      ],
+      "torque_difference_Nm": [
+        3.0279352013246053e-05,
+        2.9938595612996488e-05
+      ]
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "action": "stretch",
+      "n": 4,
+      "comparison": "matched_teacher",
+      "reference_sha256": "5e4d67460afb25947f17f836a2f187d0110f7d7e6a06f5acb9beca0da7d98459",
+      "field_rms_mm": 0.004688747571192664,
+      "force_difference_N": [
+        0.039090548763198465,
+        0.03909054876253095
+      ],
+      "torque_difference_Nm": [
+        0.0004553620650392295,
+        0.0005349154901441198
+      ]
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "action": "stretch",
+      "n": 4,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "70de62f87f1cdff2e34bfef7d193df2e0d2297efdb4434322081a25a771b4668",
+      "field_rms_mm": 0.0122525333061462,
+      "force_difference_N": [
+        0.03736720480212484,
+        0.037367204801459476
+      ],
+      "torque_difference_Nm": [
+        0.0004203203538920449,
+        0.0004926486098072229
+      ]
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "action": "right_bend",
+      "n": 4,
+      "comparison": "matched_teacher",
+      "reference_sha256": "2a1cfca4242d1e479388d98943bdc2b3b01effda326a7265c31536a103f96af1",
+      "field_rms_mm": 0.006224194961797823,
+      "force_difference_N": [
+        0.0005298735759133366,
+        0.0005298735882657768
+      ],
+      "torque_difference_Nm": [
+        5.523183938080235e-06,
+        9.418029023758965e-05
+      ]
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "action": "right_bend",
+      "n": 4,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "0e480901ea74b26619f7720e8fd51a5ec10ef71b8c98840b9fee781c15deeeb1",
+      "field_rms_mm": 0.007947701901147441,
+      "force_difference_N": [
+        0.0003916014607302567,
+        0.00039160147354713894
+      ],
+      "torque_difference_Nm": [
+        3.474263918765988e-06,
+        7.273553536156517e-05
+      ]
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "action": "opposed_twist",
+      "n": 4,
+      "comparison": "matched_teacher",
+      "reference_sha256": "c9a46be550981d9a3827aef6647350aa0e450bed541fd05a57bf685c8336b573",
+      "field_rms_mm": 0.013389901234065932,
+      "force_difference_N": [
+        0.00017849950068532522,
+        0.00017849949847608228
+      ],
+      "torque_difference_Nm": [
+        0.00016339324465141486,
+        0.00016343451286329733
+      ]
+    },
+    {
+      "case": "development-crossed-soft-saturated",
+      "action": "opposed_twist",
+      "n": 4,
+      "comparison": "fine_teacher_total_error",
+      "reference_sha256": "8f0c5d21eabfa58822a680e9f45186783010882bc4cb8a34f2667a3fb67d4d17",
+      "field_rms_mm": 0.016048010176474028,
+      "force_difference_N": [
+        0.00020813538560342706,
+        0.00020813537395528208
+      ],
+      "torque_difference_Nm": [
+        0.00012938286068410584,
+        0.0001293601698114271
+      ]
+    }
+  ],
+  "failed_solves": 0,
+  "limitation": "Knownoraclelatents anddevelopment-only scenes; meshbias andmodelerror separatelyreported; noreserved scoring"
+}

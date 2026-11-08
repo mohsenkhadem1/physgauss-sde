@@ -1,0 +1,689 @@
+{
+  "scope": "Two historically exposed development cases; fixed derived v02 policy, no selection or retraining",
+  "policy_source_sha256": "6c0c1fe22d3b65a22cdaf2c88423957ebdc411353a2efbe5b48933f11ce46fd4",
+  "cases": {
+    "single_push_sloth": {
+      "methods": {
+        "flow_raw": {
+          "coordinate_rmse_mm": 154.6547224621635,
+          "mean_l2_mm": 245.03679789160344,
+          "vector_rms_mm": 267.8698369349309,
+          "aligned_shape_rmse_mm": 45.14884338656204,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "flow_tracking": {
+          "coordinate_rmse_mm": 155.52194365840947,
+          "mean_l2_mm": 246.46489631511145,
+          "vector_rms_mm": 269.3719081082295,
+          "aligned_shape_rmse_mm": 44.904624405914255,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "mixture_raw": {
+          "coordinate_rmse_mm": 61.577430539926105,
+          "mean_l2_mm": 75.38146323949218,
+          "vector_rms_mm": 106.65523829469542,
+          "aligned_shape_rmse_mm": 47.06644891513698,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "mixture_tracking": {
+          "coordinate_rmse_mm": 61.79730898107006,
+          "mean_l2_mm": 77.55258183758426,
+          "vector_rms_mm": 107.03607892624579,
+          "aligned_shape_rmse_mm": 47.37266908747932,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "prefix_persistence": {
+          "coordinate_rmse_mm": 66.53161071752224,
+          "mean_l2_mm": 106.69085781432689,
+          "vector_rms_mm": 115.23613007214259,
+          "aligned_shape_rmse_mm": 26.44332625356864,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "prefix_velocity": {
+          "coordinate_rmse_mm": 36.341256637158125,
+          "mean_l2_mm": 48.43810679682553,
+          "vector_rms_mm": 62.944902906457564,
+          "aligned_shape_rmse_mm": 27.316284088230322,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "flow_pose": {
+          "coordinate_rmse_mm": 48.80774430692565,
+          "mean_l2_mm": 71.90180464848558,
+          "vector_rms_mm": 84.53749294242586,
+          "aligned_shape_rmse_mm": 45.53140405611165,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "mixture_pose": {
+          "coordinate_rmse_mm": 50.414995857536994,
+          "mean_l2_mm": 74.38539608476377,
+          "vector_rms_mm": 87.32133428862853,
+          "aligned_shape_rmse_mm": 46.89197103296886,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        }
+      },
+      "derived_intervals": {
+        "flow_pose": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.0822593673697931,
+          "average_width_mm": 2.8199844534449716,
+          "samples": 31,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        },
+        "mixture_pose": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.2280250041306383,
+          "average_width_mm": 15.329570209872184,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        }
+      },
+      "floor_applicability": {
+        "flow": {
+          "maximum_m": 0.010089200000738159,
+          "sample_fraction_with_any_penetration": 1.0,
+          "sample_fraction_over_1mm": 0.8709677419354839,
+          "applicability_failure": true,
+          "criterion": "Post-hoc known-plane applicability diagnostic, not a fitted correction; any >1mm penetration fails physical applicability",
+          "floor_m": -0.0010933835811019054
+        },
+        "mixture": {
+          "maximum_m": 0.01810927914208077,
+          "sample_fraction_with_any_penetration": 0.71875,
+          "sample_fraction_over_1mm": 0.6875,
+          "applicability_failure": true,
+          "criterion": "Post-hoc known-plane applicability diagnostic, not a fitted correction; any >1mm penetration fails physical applicability",
+          "floor_m": -0.0010933835811019054
+        }
+      },
+      "policy_metadata": {
+        "flow": {
+          "policy": {
+            "version": 1,
+            "velocity_frames": 8,
+            "gravity_m_s2": [
+              0.0,
+              0.0,
+              -9.81
+            ],
+            "inferred_slip": false,
+            "release": "first prescribed inactive frame; irreversible",
+            "impacts": "unsupported; no collision response",
+            "shape": "raw FEM shape while held; freeze at separation",
+            "fallback": "none; fail explicitly",
+            "scope": "split pose/shape prediction, not coupled contact"
+          },
+          "prefix_frames": [
+            0,
+            4,
+            8,
+            12,
+            16,
+            20,
+            25,
+            29,
+            33,
+            37,
+            41,
+            46
+          ],
+          "point_ids": [
+            2524,
+            0,
+            4828,
+            2410,
+            697,
+            4023,
+            630,
+            4186,
+            801,
+            2646,
+            3866,
+            2353,
+            330,
+            3599,
+            989,
+            4523,
+            1538,
+            3174,
+            3266,
+            2072,
+            4441,
+            1744,
+            383,
+            1068,
+            1751,
+            3490,
+            2378,
+            1631,
+            1900,
+            3284,
+            1416,
+            210,
+            4668,
+            1445,
+            3523,
+            3453,
+            3024,
+            102,
+            4019,
+            4682,
+            4150,
+            1843,
+            2694,
+            2892,
+            534,
+            997,
+            4464,
+            1907
+          ],
+          "shared_points": 14,
+          "prescribed_release_frame": null,
+          "inferred_release_frame": null,
+          "calibration_frame": 46,
+          "node_shape_preserved_while_held": true,
+          "uncertainty": "Rigid pose is a point estimate; only raw FEM shape sample uncertainty retained",
+          "limitations": "No reaction forces, momentum coupling, collision response or calibrated pose uncertainty"
+        },
+        "mixture": {
+          "policy": {
+            "version": 1,
+            "velocity_frames": 8,
+            "gravity_m_s2": [
+              0.0,
+              0.0,
+              -9.81
+            ],
+            "inferred_slip": false,
+            "release": "first prescribed inactive frame; irreversible",
+            "impacts": "unsupported; no collision response",
+            "shape": "raw FEM shape while held; freeze at separation",
+            "fallback": "none; fail explicitly",
+            "scope": "split pose/shape prediction, not coupled contact"
+          },
+          "prefix_frames": [
+            0,
+            4,
+            8,
+            12,
+            16,
+            20,
+            25,
+            29,
+            33,
+            37,
+            41,
+            46
+          ],
+          "point_ids": [
+            2524,
+            0,
+            4828,
+            2410,
+            697,
+            4023,
+            630,
+            4186,
+            801,
+            2646,
+            3866,
+            2353,
+            330,
+            3599,
+            989,
+            4523,
+            1538,
+            3174,
+            3266,
+            2072,
+            4441,
+            1744,
+            383,
+            1068,
+            1751,
+            3490,
+            2378,
+            1631,
+            1900,
+            3284,
+            1416,
+            210,
+            4668,
+            1445,
+            3523,
+            3453,
+            3024,
+            102,
+            4019,
+            4682,
+            4150,
+            1843,
+            2694,
+            2892,
+            534,
+            997,
+            4464,
+            1907
+          ],
+          "shared_points": 14,
+          "prescribed_release_frame": null,
+          "inferred_release_frame": null,
+          "calibration_frame": 46,
+          "node_shape_preserved_while_held": true,
+          "uncertainty": "Rigid pose is a point estimate; only raw FEM shape sample uncertainty retained",
+          "limitations": "No reaction forces, momentum coupling, collision response or calibrated pose uncertainty"
+        }
+      },
+      "inherited_forecast_samples": {
+        "flow": {
+          "requested": 32,
+          "valid": 31,
+          "failures": [
+            {
+              "sample": 12,
+              "error": "Equilibrium iteration limit frame=38 residual=0.000107167"
+            }
+          ]
+        },
+        "mixture": {
+          "requested": 32,
+          "valid": 32,
+          "failures": []
+        }
+      },
+      "source_report_sha256": {
+        "push-sloth-package-pilot-scores.json": "e62f872bbb0123780619a623d52d2785afd4a9be54dbe118e84dc42b42f698c8",
+        "pose-push-sloth-scores.json": "8a0485f00920af9ee8a5ba7808a5a625546751d591aa862dee60d24c2e63ec04"
+      },
+      "prediction_sha256": "1b06e628aa3b48a7341e46a9aeb5b734c09c9106f4b675cafed6c8ac92c42c90"
+    },
+    "object-soft-task1-demo0": {
+      "methods": {
+        "flow_raw": {
+          "coordinate_rmse_mm": 56.219385975718865,
+          "mean_l2_mm": 97.16025890234556,
+          "vector_rms_mm": 97.37483288027029,
+          "aligned_shape_rmse_mm": 2.592935853317721,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "flow_tracking": {
+          "coordinate_rmse_mm": 55.88473793294107,
+          "mean_l2_mm": 96.57474979958886,
+          "vector_rms_mm": 96.79520546752565,
+          "aligned_shape_rmse_mm": 2.5928588514910893,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "mixture_raw": {
+          "coordinate_rmse_mm": 57.7376555387132,
+          "mean_l2_mm": 99.81334538815126,
+          "vector_rms_mm": 100.00455290296185,
+          "aligned_shape_rmse_mm": 3.4223921109392044,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "mixture_tracking": {
+          "coordinate_rmse_mm": 57.04704073102056,
+          "mean_l2_mm": 98.61298742695651,
+          "vector_rms_mm": 98.80837296757879,
+          "aligned_shape_rmse_mm": 3.4478276305237956,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "prefix_persistence": {
+          "coordinate_rmse_mm": 156.5673298773347,
+          "mean_l2_mm": 271.18098962248223,
+          "vector_rms_mm": 271.1825701529404,
+          "aligned_shape_rmse_mm": 0.41975082145086917,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "prefix_velocity": {
+          "coordinate_rmse_mm": 146.510800811054,
+          "mean_l2_mm": 253.76284467623952,
+          "vector_rms_mm": 253.764150862349,
+          "aligned_shape_rmse_mm": 0.8128752449407317,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "flow_pose": {
+          "coordinate_rmse_mm": 59.74722419157405,
+          "mean_l2_mm": 103.13122900635261,
+          "vector_rms_mm": 103.48522791101458,
+          "aligned_shape_rmse_mm": 2.5740388901542683,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "mixture_pose": {
+          "coordinate_rmse_mm": 60.26853084236254,
+          "mean_l2_mm": 103.98247718279602,
+          "vector_rms_mm": 104.38815751650384,
+          "aligned_shape_rmse_mm": 3.6171702151540956,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        }
+      },
+      "derived_intervals": {
+        "flow_pose": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.030815972222222224,
+          "average_width_mm": 0.19172745914860456,
+          "samples": 29,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 29,
+            "failed": 3
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        },
+        "mixture_pose": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.05324074074074074,
+          "average_width_mm": 0.8376394621038694,
+          "samples": 31,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 31,
+            "failed": 1
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        }
+      },
+      "floor_applicability": {
+        "flow": {
+          "maximum_m": 1.0718725702875687,
+          "sample_fraction_with_any_penetration": 1.0,
+          "sample_fraction_over_1mm": 1.0,
+          "applicability_failure": true,
+          "criterion": "Post-hoc known-plane applicability diagnostic, not a fitted correction; any >1mm penetration fails physical applicability",
+          "floor_m": -0.011920439079403877
+        },
+        "mixture": {
+          "maximum_m": 1.074391461707906,
+          "sample_fraction_with_any_penetration": 1.0,
+          "sample_fraction_over_1mm": 1.0,
+          "applicability_failure": true,
+          "criterion": "Post-hoc known-plane applicability diagnostic, not a fitted correction; any >1mm penetration fails physical applicability",
+          "floor_m": -0.011920439079403877
+        }
+      },
+      "policy_metadata": {
+        "flow": {
+          "policy": {
+            "version": 1,
+            "velocity_frames": 8,
+            "gravity_m_s2": [
+              0.0,
+              0.0,
+              -9.81
+            ],
+            "inferred_slip": false,
+            "release": "first prescribed inactive frame; irreversible",
+            "impacts": "unsupported; no collision response",
+            "shape": "raw FEM shape while held; freeze at separation",
+            "fallback": "none; fail explicitly",
+            "scope": "split pose/shape prediction, not coupled contact"
+          },
+          "prefix_frames": [
+            0,
+            6,
+            12,
+            19,
+            25,
+            32,
+            38,
+            45,
+            51,
+            58,
+            64,
+            71
+          ],
+          "point_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47
+          ],
+          "shared_points": 48,
+          "prescribed_release_frame": 110,
+          "inferred_release_frame": null,
+          "calibration_frame": 71,
+          "node_shape_preserved_while_held": true,
+          "uncertainty": "Rigid pose is a point estimate; only raw FEM shape sample uncertainty retained",
+          "limitations": "No reaction forces, momentum coupling, collision response or calibrated pose uncertainty"
+        },
+        "mixture": {
+          "policy": {
+            "version": 1,
+            "velocity_frames": 8,
+            "gravity_m_s2": [
+              0.0,
+              0.0,
+              -9.81
+            ],
+            "inferred_slip": false,
+            "release": "first prescribed inactive frame; irreversible",
+            "impacts": "unsupported; no collision response",
+            "shape": "raw FEM shape while held; freeze at separation",
+            "fallback": "none; fail explicitly",
+            "scope": "split pose/shape prediction, not coupled contact"
+          },
+          "prefix_frames": [
+            0,
+            6,
+            12,
+            19,
+            25,
+            32,
+            38,
+            45,
+            51,
+            58,
+            64,
+            71
+          ],
+          "point_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47
+          ],
+          "shared_points": 48,
+          "prescribed_release_frame": 110,
+          "inferred_release_frame": null,
+          "calibration_frame": 71,
+          "node_shape_preserved_while_held": true,
+          "uncertainty": "Rigid pose is a point estimate; only raw FEM shape sample uncertainty retained",
+          "limitations": "No reaction forces, momentum coupling, collision response or calibrated pose uncertainty"
+        }
+      },
+      "inherited_forecast_samples": {
+        "flow": {
+          "requested": 32,
+          "valid": 29,
+          "failures": [
+            {
+              "sample": 15,
+              "error": "Equilibrium iteration limit frame=61 residual=0.000726108"
+            },
+            {
+              "sample": 17,
+              "error": "Equilibrium iteration limit frame=110 residual=2.79827e-05"
+            },
+            {
+              "sample": 29,
+              "error": "Equilibrium iteration limit frame=110 residual=1.79488e-05"
+            }
+          ]
+        },
+        "mixture": {
+          "requested": 32,
+          "valid": 31,
+          "failures": [
+            {
+              "sample": 29,
+              "error": "Equilibrium iteration limit frame=110 residual=3.32092e-05"
+            }
+          ]
+        }
+      },
+      "source_report_sha256": {
+        "softvt-package-pilot-scores.json": "96ec34fea7899f16ceb7b278148559f2188565e5bb3babd6e415c6b6e2b813f3",
+        "pose-softvt-scores.json": "771d02b784709b1bfb3c27a52315dd502a7b6a51b8c9e98c8e875bf8049ab4f7"
+      },
+      "prediction_sha256": "bf872ef8ef75119748c9c282e7dabe73360a2cda13e3ce1d7416571b82b89e6f"
+    }
+  },
+  "decision": "Do not promote globally: push-sloth coordinate errors improve versus raw but remain worse than velocity and retain shape failure; SoftVT worsens and free-flight penetrates the floor. Preserve frozen policy and negative results.",
+  "uncertainty": "Pose point estimates remove pose-sample variation; intervals reflect transformed FEM shape samples only and exclude failed inherited samples. Not calibrated joint uncertainty."
+}

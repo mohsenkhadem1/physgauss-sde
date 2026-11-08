@@ -1,0 +1,537 @@
+     Position-Conditioned Deformation Prediction with Unknown Material and
+                           Environmental Interactions
+
+                                                  Anonymous authors
+                                                Research manuscript draft
+
+
+                         Abstract                                        Material properties alone do not determine the observed
+                                                                     response. Fixtures may deform, constraints may be only
+Predicting deformation from visual observations requires             partially visible, and distributed forces may act throughout
+distinguishing an object’s material response from the effects        the volume. A model that explains an observed trajectory
+of its environment. Similar observed motions can result              by changing material stiffness can reproduce that trajectory
+from different combinations of elasticity, ﬁxture compliance,        while predicting a different interaction incorrectly. The re-
+gravity, and spatial loading. We study position-conditioned          sulting ambiguity is especially consequential outside the in-
+prediction: a model observes a short sequence of object po-          teraction patterns used for reconstruction.
+sitions and prescribed tool poses, then predicts deforma-                We investigate a spatially factored model of this prob-
+tion under a new positional interaction without receiving            lem. Material coordinates index the object, while environ-
+the true force history. Our formulation separates object-            mental interactions are evaluated at the current spatial posi-
+attached material properties from environmental interac-             tions and tool poses. This representation makes the action
+tion ﬁelds and ﬁts their latent parameters through implic-           interface positional and allows forces to emerge from the in-
+itly differentiated nonlinear equilibrium. We develop a con-         ferred interaction model. We evaluate generalization across
+trolled benchmark that separates familiar positional mo-             explicitly declared interaction groups rather than treating
+tions from held-out interaction families and evaluates pre-          additional noisy observations of the same motion as inde-
+diction before and after additional observations. Numerical          pendent out-of-distribution evidence.
+reference checks and matched observation interfaces sup-                 We formulate position-conditioned inverse mechanics
+port comparisons with physical digital-twin methods and              with distinct material and spatial interaction ﬁelds, and de-
+learned positional predictors. Across 42 held objects, the           rive a whole-object translation test that distinguishes their
+spatial inverse reduces new-interaction error by 43.1%,              physical explanations. We develop an independently re-
+78.3% and 68.9% in the familiar-parameter, material-shift            ﬁned simulation benchmark with material, environmental-
+and environmental-shift cohorts, respectively, relative to a         parameter, and force-law shifts. Finally, we evaluate
+positional neural baseline trained on all local interaction          matched-information prediction and one-observation adap-
+families. On nine spatial-transfer objects, one additional           tation against learned and physical component baselines.
+response reduces held-target error by 73.2%; sensitivity-                Our study builds on complementary advances in phys-
+based acquisition matches a strong ﬁxed probe. The results           ical Gaussian representations and visual system identiﬁca-
+demonstrate the value of inferring object-speciﬁc material           tion. PhysGaussian [7] couples continuum simulation and
+and environmental explanations from a shared positional              Gaussian rendering, while PhysTwin [3] reconstructs visual
+observation interface.                                               and physical object models from interaction videos. These
+                                                                     systems establish strong tools for building and using digi-
+                                                                     tal twins. Our experiments target the additional question of
+1. Introduction                                                      how unknown environmental interactions affect positional
+                                                                     generalization, and how limited new observations can re-
+Physical digital twins connect visual reconstruction to pre-
+                                                                     solve those ambiguities.
+dictions about how an object responds to interaction. A
+useful twin should answer a positional query: if a gripper           2. Related Work
+moves here or changes its orientation, how will the object
+deform? The reaction forces are consequences of the in-              Differentiable mechanics. DiffPD [2] develops efﬁcient
+teraction, rather than necessarily available inputs. This dis-       differentiable soft-body simulation through implicit projec-
+tinction matters when deploying a model without calibrated           tive dynamics, including contact models and applications to
+force sensing.                                                       system identiﬁcation and control. Our inverse model uses
+
+                                                                 1
+                                            Material field
+      Observed prefix                     Rest coordinates X                     Nonlinear                     New tool poses
+      RGB-D positions                                                           equilibrium                   Predicted shape
+        Tool poses                                                            Implicit gradients             Calibrated intervals
+                                         Environmental field
+                                        Spatial coordinates x
+
+                          Select one positional probe; update from its observed response
+Figure 1. Position-conditioned inverse mechanics. Observed object positions constrain material and environmental explanations. New tool
+poses are converted to interaction through the inferred model; true force histories are not supplied. Local predictive sensitivities support
+selecting an additional observation.
+
+
+equilibrium sensitivities to ﬁt settled observations. We fo-             are already important capabilities of existing work. Our
+cus on separating object-attached material variation from                controlled study addresses their interaction with unknown
+spatial environmental loading, and on testing the resulting              environmental explanations and the selection of additional
+explanations under new positional queries.                               positional observations. ParticleGS [6] learns latent particle
+                                                                         dynamics from multi-view videos with a neural ODE and
+Physical visual representations. PhysGaussian [7] inte-                  decodes the evolved states into Gaussian deformations for
+grates 3D Gaussian rendering with material-point simula-                 future rendering. Its temporal extrapolation task comple-
+tion. Its representation supports a broad range of mate-                 ments our counterfactual positional queries: we prescribe
+rial behaviors and prescribed scene interactions. PhysT-                 new tool poses and evaluate the resulting settled geometry.
+win [3] combines spring-mass simulation, geometric recon-
+struction, and Gaussian appearance modeling to infer de-                 Acquiring informative interactions. AuRA [8] auto-
+formable twins from sparse interaction videos. We com-                   mates robot interaction and data preparation for deformable
+pare compatible physical prediction components under a                   digital-twin reconstruction. Its focus on efﬁcient acquisi-
+common observation interface and identify adaptations ex-                tion complements our study of uncertainty in the physi-
+plicitly; our controlled experiments do not substitute for an            cal explanation of an observed interaction. We distinguish
+evaluation of every capability of these complete systems.                initial generalization from adaptation after collecting ad-
+                                                                         ditional observations, and report acquisition and computa-
+Learning physical response. Spring-Gaus [10] identiﬁes                   tional costs separately.
+elastic spring-mass models from video and evaluates future
+simulation under changed initial states and environmental                3. Problem Formulation
+parameters. PhysDreamer [9] uses video-generation priors                 Let X ∈ Ω0 denote a material point in a canonical object,
+to estimate spatial material ﬁelds and synthesize plausible              and let x(X, a) = X + u(X, a) be its spatial position un-
+interactions. UniPhy [5] learns a shared latent-conditioned              der a positional action a. The action speciﬁes tool transla-
+constitutive model across elastic, plastic, granular, and ﬂuid           tions and rotations. An observed preﬁx D = {aj , yj }m    j=1
+materials, then optimizes a latent from observed positions               contains partial position observations obtained through the
+for re-simulation under new conditions. PhysHO [4] de-                   visual pipeline. The prediction task is to estimate u(X, a∗ )
+rives human actuation from pose trajectories through a PD                for an unseen action a∗ , together with predictive uncertainty
+controller coupled to MPM and learns spatial residual con-               when supported by the ﬁtted model.
+stitutive models. It demonstrates position-driven physical                  The latent variables are divided into material parameters
+prediction under new human actions. These results estab-                 θm and environmental parameters θe . True reaction forces
+lish that material inference and interaction generalization              and simulator material labels are excluded from the primary
+
+
+                                                                     2
+model inputs. Privileged experiments that supply such la-            end-face coordinates, tapered to zero at the perimeter. We
+bels are reported separately. Known geometry and camera              infer its total stiffness Kk and select among three footprint-
+calibration are explicit assumptions of the controlled proto-        layout hypotheses. With nonnegative footprint wk (X),
+col.
+                                                                                                    Kk wk (X)
+                                                                                      κk (X) = R              .                 (5)
+4. Spatially Factored Inverse Mechanics                                                              w (X) dS
+                                                                                                   Γk k
+
+4.1. Position-driven equilibrium                                     The normalization separates contact location from total
+We model settled deformation as a stationary point of total          coupling stiffness. The smooth ﬁnite footprint also avoids
+potential energy,                                                    an abrupt traction transition at an idealized half-face attach-
+                                                                     ment.
+ u∗ (a, θ) = arg min Π(u, a, θ),                     (1)                Gravity has known magnitude and unknown direction in
+                   u
+             Z                                                       the observation frame. Density, Poisson ratio, canonical ge-
+        Π=        W (F ; θm ) dX                                     ometry, and tool kinematics are shared known quantities.
+               Ω0
+                X1Z
+                                                                     Thus the study isolates uncertainty in stiffness, attachment,
+             +            κk (X)∥u − dk (a)∥2 dS                     and environmental loading. Material OOD tests change
+                    2 Γk                                             elastic coefﬁcients and heterogeneity within this constitu-
+                 k
+                Z                Z                                   tive family.
+                      ⊤
+             −      ρg u dX +      ϕ(X + u; θe ) dX. (2)
+                 Ω0                Ω0
+                                                                     Why spatial transfer distinguishes the explanations.
+Here F = I + ∇X u, dk (a) is the displacement prescribed             Consider translating both tools by the same vector t. With
+by a rigid tool pose, and κk represents compliant coupling           material-indexed body loads, gravity, and the compliant at-
+to that tool or ﬁxture. Gravity is a body force; surface             tachments above, u(a + t) = u(a) + t is an equilibrium
+constraints and spatial loading retain their distinct physical       whenever u(a) is: deformation gradients and relative tool
+roles. The potential ϕ is evaluated in spatial coordinates,          displacements are unchanged. A spatially varying load gen-
+so its force changes as material moves through the environ-          erally breaks this symmetry. Let T repeat a translation at
+ment.                                                                every node and let Kϕ be the spatial-potential contribution
+   The initial constitutive implementation uses a compress-          to the tangent. Implicit differentiation gives
+ible Neo-Hookean energy,
+                                                                                        ∂u∗
+          µ                                                                                 = T − K −1 Kϕ T.                    (6)
+  W (F ) = (tr(F ⊤ F ) − 3) − µ log J                                                    ∂t
+          2
+                       λ                                             Thus a whole-object positional query directly exposes the
+                    + (log J)2 ,      J = det F.          (3)        spatial curvature of the environmental potential. This local
+                        2
+                                                                     identity assumes a nonsingular equilibrium and applies to
+The simulator enforces a positive-Jacobian guard and                 the stated conservative model. It motivates the transfer ex-
+checks equilibrium residuals. Reference solutions use                periment and the matched material-indexed-load ablation.
+quadratic ﬁnite elements with spatial and quadrature reﬁne-
+ment. Displacement qualiﬁcation does not imply conver-               4.3. Inference from positional observations
+gence of every derived stress or traction quantity.                  For an observation operator Hj , we ﬁt latent parameters by
+4.2. Material and environmental ﬁelds                                minimizing a position discrepancy,
+                                                                                X
+The material ﬁeld is attached to the reference object. In the           L(θ) =      ∥Hj û(aj , θ) − yj ∥2Σ−1 + ∥z − z0 ∥2Λ . (7)
+                                                                                                           j
+controlled study,                                                                 j
+
+          E(X) = E0 exp[h (b1 (X) − b2 (X))] ,            (4)        Here z denotes scaled latent coordinates, with log coordi-
+                                                                     nates for positive stiffnesses and ﬁeld width. Weak regu-
+where bi are ﬁxed radial basis functions along the block’s           larization constrains poorly identiﬁed directions. We screen
+length. The coefﬁcient h controls spatial stiffness varia-           the three attachment layouts using a coarse model and reﬁne
+tion. The environmental potential is a spatial Gaussian,             layouts within one normalized loss unit of the best candi-
+ϕ(x) = A|Ω0 |−1 exp(−∥x − c∥2 /(2s2 )), with inferred                date. Parameter bounds and initialization are selected on de-
+energy amplitude A, center c, and width s. Its force is              velopment cases before the held-out evaluation. The predic-
+−∇x ϕ(x) and changes as the object traverses the ﬁeld.               tor receives the positional action, not the forces computed
+Two compliant surface footprints couple the object to the            internally by the equilibrium model.
+position-controlled tools. Each footprint is a Gaussian in the
+
+                                                                 3
+   Let R(u, θ, a) = ∂Π/∂u and K = ∂R/∂u. At a nonsin-                 of the n object scores determines a common interval mul-
+gular equilibrium, an adjoint solve gives                             tiplier. Under object exchangeability, this construction tar-
+                                                                      gets at least 90% coordinate coverage for 90% of objects,
+                  ∂L          dL   ∂L        ∂R
+        K ⊤v =       ,           =      − v⊤    .          (8)        marginally over calibration and test draws. For spatial-
+                  ∂u          dθ   ∂θ u      ∂θ                       transfer experiments, we ﬁt separate multipliers before ac-
+                                                                      quisition and after each acquisition policy on 12 indepen-
+We verify the implementation against an independent sparse            dent calibration objects, using the same held-target protocol
+assembly and ﬁnite differences of the equilibrium solution.           as evaluation. This separates covariance contraction from
+                                                                      demonstrated post-acquisition coverage. The benchmark
+Reducing forward discretization bias. A coarse forward                ﬁxes balanced attachment-layout counts, and the shifted co-
+model can explain its own numerical error by changing ma-             horts additionally change their parameter distributions. We
+terial or environmental parameters. We therefore combine              therefore report coverage empirically for this design, rather
+equilibrium predictions at two resolutions,                           than assert an exchangeability guarantee for every cohort.
+                          9u3 − 4P2→3 u2                              4.5. Generalization and adaptation
+                   û =                  ,                 (9)
+                                 5
+                                                                      We distinguish three questions: prediction under a new
+where un uses 4n × n × n quadratic elements and P2→3 in-              action before its response is observed; calibration of un-
+terpolates the coarse ﬁeld. This removes a leading quadratic          certainty about that response; and prediction after a lim-
+resolution term when that error model applies. We as-                 ited adaptation budget. Each object’s environment remains
+sess the correction on development oracle cases, differen-            ﬁxed during these experiments; positional actions change
+tiate both equilibrium solves, and retain a positive-Jacobian         how the object samples that environment. Environmen-
+check on the corrected ﬁeld. The corrected ﬁeld approx-               tal OOD changes the distribution of ﬁelds across objects,
+imates the continuum response; remaining discrepancy is               whose preﬁxes remain observable. Completely unobserved
+included in predictive calibration.                                   time-varying changes in external loading are outside this
+                                                                      protocol.
+4.4. Predictive sensitivity and probing
+Let Ja = ∂ û(a, θ̂)/∂z denote the positional sensitivity at          5. Experimental Protocol
+the ﬁtted explanation. We construct a regularized local co-
+                                                                      Draft status. Reference qualiﬁcation, the 42-object pri-
+variance                              −1
+                        ⊤ −1                                          mary prediction comparison, and its interval evaluation are
+                C = JD   Σ JD + Λ         ,             (10)
+                                                                      complete. The remaining physical baseline, force-law and
+where Λ encodes weak parameter-scale regularization. This             acquisition comparisons are in progress; their ﬁnal tables
+local approximation describes sensitivity around a ﬁtted ex-          will use complete declared cohorts.
+planation, conditioned on its selected attachment layout. A
+separate object-level calibration stage sets the predictive in-       Geometry and observations. The controlled object is a
+terval scale.                                                         240 × 80 × 80 mm deformable block with known canonical
+   For a candidate probe a, observing its visible points              geometry, density 625 kg/m3 , and Poisson ratio 0.35. Two
+yields an approximate covariance Ca = (C −1 +                         position-controlled tools couple to unknown smooth Gaus-
+Ja⊤ Ha⊤ Σ−1 Ha Ja )−1 . We choose the probe that maximizes            sian attachment footprints. The observed preﬁx contains
+the reduction in target predictive variance,                          three settled conﬁgurations: nominal tool poses, a 6 mm
+                                                                    right-tool translation along y, and a 6 mm translation along
+            a∗ = arg max tr J∗ (C − Ca ) J∗⊤ .            (11)        z. A 640 × 480 rendered RGB-D marker pipeline provides
+                          a
+                                                                      the same 27 visible point positions to all methods. Known
+Probe selection uses predicted sensitivities, without observ-         synthetic marker IDs establish correspondence; depth has
+ing candidate responses. The selected response is then ac-            independent 0.3 mm Gaussian noise and image sampling in-
+quired and the inverse problem is reﬁtted. A separate target          troduces pixel quantization. The positional objective uses a
+interaction remains unobserved throughout adaptation.                 common 0.3 mm coordinate scale. No force, reaction, mate-
+                                                                      rial, or attachment labels are supplied. Predictions are eval-
+Object-level calibration. For each calibration object, we             uated at 81 canonical query points, with visible and hidden-
+take the 90th percentile
+                   √      of absolute held-action coordinate          surface subsets reported separately.
+errors divided by σ 2 + ϵ2 , where σ 2 = diag(Ja CJa⊤ )
+and ϵ = 20 µm is a ﬁxed scale ﬂoor. Following split confor-           Cohorts and shifts. The protocol declares nine devel-
+mal calibration [1], the order statistic at rank ⌈0.9(n + 1)⌉         opment objects, twelve calibration objects, and three dis-
+
+
+                                                                  4
+joint test cohorts: eighteen objects from the development           is 0.727. These checks qualify the displacement references
+parameter ranges, twelve with extrapolated elastic coefﬁ-           used for evaluation.
+cients and spatial heterogeneity, and twelve with shifted               Across all 42 test objects, the median object-average
+environmental-ﬁeld amplitude, center, width, and gravity            nonrigid coordinate RMS over the ﬁve new interaction pat-
+direction. Material coefﬁcients within development range            terns is 4.64 mm, with an object range of 2.24–12.38 mm.
+from 8 to 40 kPa, and total attachment stiffnesses from             Relative to the already-deformed nominal conﬁguration,
+1500 to 15000 N/m. Each object has a new 3 mm familiar-             the median nonrigid change induced by those actions is
+direction query, ﬁve new positional interaction patterns, and       0.89 mm (range 0.64–1.19 mm), after removing the best
+a doubled-amplitude query. New patterns include stretch-            rigid transform between conﬁgurations. The benchmark
+ing, opposed tool motion, twisting, bending, and diagonal           therefore contains substantial shape change at both the con-
+translation. An additional transfer challenge translates both       ﬁguration and interaction levels.
+tools together through the ﬁxed spatial ﬁeld. These are de-
+clared interaction and parameter shifts; the reference mate-        Comparisons. The physical baselines use ofﬁcial PhysT-
+rial law remains Neo-Hookean.                                       win spring-mass and PhysGaussian material-point simula-
+                                                                    tion components with documented adapters for the shared
+Unseen environmental force laws. A separately declared              positional interface. They retain their own constitutive rep-
+six-object extension tests anisotropic harmonic ﬁelds and           resentations. PhysTwin learns per-spring parameters; the
+signed two-Gaussian ﬁelds, with three objects per law and           MPM adapter ﬁts material variation, compliant tool cou-
+one per attachment layout. Both laws lie outside the single-        pling, and gravity direction. We tune initialization, dis-
+Gaussian environmental family used by the inverse predic-           cretization, and settling on development cases. A positional
+tor. Each object supplies the same three preﬁx observations         neural predictor is trained on a separate synthetic object
+and is queried with the ten local actions and six whole-            bank, with an ID-action training variant and a separately
+object translations. Materials, gravity direction, and com-         reported variant exposed to all local action families. Con-
+pliant coupling remain unknown. All six predictors retain           trolled ablations ﬁx environmental loading to its nominal
+their frozen settings and learned weights; extension results        value or freeze the spatial force at each material point’s
+are reported separately from the primary cohorts. All six           canonical position. The main predictor and neural compar-
+reference ﬁelds pass the original numerical qualiﬁcation cri-       isons cover all 42 declared test objects. The more expensive
+teria. The supplement gives the potentials and protocol.            physical comparisons use the ﬁrst six objects in each test
+                                                                    cohort, giving two objects per attachment layout and an 18-
+Numerical references. Reference geometry uses                       object matched subset selected before test inference. Full
+quadratic ﬁnite elements and independent spatial and                Gaussian appearance reconstruction is outside this compo-
+quadrature reﬁnement. Every action must have a displace-            nent benchmark.
+ment RMS change below 20 µm, equilibrium residual
+below 10−9 N, positive deformation Jacobians above 0.1,             Metrics and adaptation. The primary error is coordinate
+and reaction balance below 10−7 N. Maximum-coordinate               RMS displacement error,
+reﬁnement changes are retained separately, since local-                               v
+                                                                                      u
+ized attachment-edge behavior converges more slowly.                                  u 1 X  N
+
+Acceptance in an RMS norm does not certify pointwise                              e=t           ∥ûi − ui ∥22 .        (12)
+                                                                                         3N i=1
+stress convergence. The inverse predictor uses a smaller
+discretization and an independently checked dense tangent           We also report Euclidean point RMSE, hidden-surface er-
+implementation. A development-only sharp-attachment                 ror, and residual motion after removing the best rigid trans-
+pilot motivated the ﬁnite smooth footprint: its localized           form. Incremental error compares û(a) − û(a0 ) against
+compression reached the Jacobian guard under reﬁnement,             u(a) − u(a0 ), separating the predicted response to the
+whereas the smooth version retained substantial nonrigid            new action from static shape-completion error. Aggre-
+deformation and passed the original numerical thresholds.           gation treats the object as the independent unit. Paired
+                                                                    comparisons resample objects rather than frames or points.
+Deformation content. All 87 reference ﬁelds pass the de-            Probing compares a ﬁxed +40 mm y translation, a repro-
+clared criteria: 63 independent development, calibration,           ducible random action, and the sensitivity-based policy,
+and test objects, plus 24 spatial-transfer ﬁelds that reuse         all with one additional acquired response and a separate
+their physical parameters. The largest spatial-reﬁnement            −40 mm y target. Twelve independent calibration objects
+RMS change is 19.34 µm, the largest quadrature-reﬁnement            set separate pre- and post-acquisition interval scales; the
+change is 0.278 µm, and the smallest deformation Jacobian           ﬁrst nine familiar-parameter test objects evaluate transfer.
+                                                                    A material-indexed-load ablation receives exactly the probe
+
+                                                                5
+                                        Familiar parameters        Material shift          Environment shift
+            Method                   New motions 2× amplitude New motions 2× amplitude New motions 2× amplitude
+            Spatial inverse (ours)          0.068           0.071           0.087           0.089           0.067           0.073
+            Neural (ID actions)             1.528           0.130           1.551           0.423           1.488           0.218
+            Neural (all actions)            0.119           0.119           0.402           0.377           0.216           0.223
+
+Table 1. Coordinate RMSE (mm), lower is better. All 42 declared test objects: 18 familiar, 12 material-shift and 12 environmental-shift.
+Neural all-action training includes the local interaction families on disjoint objects. Object-level bootstrap intervals and familiar-direction
+queries are provided in the accompanying reports.
+
+
+response selected for the spatial model. Before acquisition,              umented development-selected settings. It concerns the
+the two neural baselines also predict all nine transfer ob-               adapted physical components, with the constitutive and en-
+jects; physical baselines reuse their original ﬁts on the ﬁrst            vironmental representations described above.
+six objects, with no additional observed responses.                           On the six matched familiar-parameter objects, new-
+                                                                          motion errors are 0.075, 0.310 and 0.860 mm for the spa-
+6. Prediction Results                                                     tial inverse, MPM and PhysTwin adaptations, respectively.
+                                                                          The paired advantage over MPM is 0.235 mm with 95% in-
+Generalization across interactions and physical shifts.
+                                                                          terval [0.169, 0.302] mm. On the six material-shift objects,
+Table 1 reports all 42 test objects. With only three posi-
+                                                                          the spatial inverse and PhysTwin adaptation give errors
+tional observations, the spatial inverse achieves new-motion
+                                                                          of 0.091 and 1.495 mm, with paired advantage 1.404 mm
+coordinate RMSE of 0.068, 0.087 and 0.067 mm for fa-
+                                                                          and 95% interval [0.903, 2.017] mm. Their material-shift
+miliar parameters, material shifts and environmental shifts,
+                                                                          incremental-response errors are 0.021 and 0.639 mm, re-
+respectively. Relative to the neural predictor trained on
+                                                                          spectively. These complete the three predeclared PhysT-
+all local interaction families, the reductions are 43.1%,
+                                                                          win subsets; remaining MPM comparisons retain the same
+78.3% and 68.9%. The paired mean advantages are 0.051,
+                                                                          matched objects.
+0.315 and 0.149 mm, with 95% object-bootstrap intervals
+[0.037, 0.066], [0.212, 0.448] and [0.066, 0.276] mm. Since
+all-action neural training includes these interaction families            Accounting for the environment. On the same six
+on disjoint objects, this comparison tests the beneﬁt of per-             environmental-shift objects, the nominal-environment ab-
+object inference beyond action-family exposure.                           lation ﬁxes gravity downward and omits the spatial ﬁeld.
+    The spatial inverse retains low error at doubled ac-                  Its new-motion error is 3.050 mm, versus 0.065 mm for
+tion amplitude (0.071–0.089 mm). On material-shift ob-                    the spatial inverse. Incremental-response error is 0.281
+jects, its incremental new-motion error is 0.020 mm ver-                  versus 0.031 mm, so the beneﬁt extends beyond correct-
+sus 0.195 mm for all-action training, indicating improved                 ing the nominal shape. This compares the declared abla-
+response prediction beyond reconstruction of the nominal                  tion settings, including their regularization choices. With
+shape. These material shifts remain within the reference                  the same constitutive model, inverse resolution and regular-
+constitutive family. The remaining material-shift MPM                     ization, material-indexed loading gives 0.075 mm on these
+comparisons are still being evaluated.                                    environmental-shift objects; the spatial model has paired
+                                                                          advantage 0.010 mm with 95% interval [0.001, 0.019] mm.
+                                                                          On six familiar-parameter objects, the two are nearly tied
+Matched physical component comparison. On the six
+                                                                          (0.075 mm spatial, 0.074 mm material-indexed). On the
+predeclared environmental-shift objects, new-motion er-
+                                                                          six material-shift objects, errors are 0.091 and 0.096 mm,
+ror is 0.065 mm for the spatial inverse, 0.303 mm for
+                                                                          respectively, with paired advantage 0.005 mm and interval
+the PhysGaussian MPM adaptation and 1.061 mm for
+                                                                          [−0.0001, 0.0114] mm. Thus all three local-query cohorts
+the PhysTwin core adaptation; the all-action neural base-
+                                                                          show only a modest distinction between these coordinate-
+line gives 0.297 mm on these same objects. The paired
+                                                                          frame explanations.
+advantages over MPM and spring-mass adaptations are
+0.238 and 0.996 mm, with 95% object-bootstrap inter-
+vals [0.166, 0.305] and [0.811, 1.189] mm. Incremental-                   Predictive interval coverage. With one interval scale
+response errors are 0.031, 0.208 and 0.655 mm for the                     ﬁxed on twelve independent calibration objects, average
+spatial inverse, MPM and spring-mass adaptations, respec-                 held-coordinate coverage is 98.3%, 95.9% and 98.7%
+tively, showing a difference in response prediction beyond                for familiar parameters, material shifts and environmental
+nominal-shape reconstruction. This comparison uses the                    shifts, respectively. Mean half-widths are 0.169, 0.168 and
+common three-observation positional interface and doc-                    0.181 mm. At least 90% of held coordinates are covered for
+
+
+                                                                      6
+18/18, 10/12 and 12/12 objects, respectively; the lowest             One-response acquisition and predictive uncertainty.
+material-shift coverage is 88.9%. These results use all seven        Table 3 and Figure 2 report all nine objects. Fixed
+held local actions per object and the unchanged calibration          and sensitivity-based probing reduce held-target error by
+scale. They measure predictive uncertainty before acquisi-           73.2%, from 0.314 to 0.084 mm; reproducible random
+tion, separately from material-parameter identiﬁability and          probing gives 0.163 mm. Their paired advantage over ran-
+post-probe performance. The supplement reports coverage              dom probing is 0.079 mm with 95% object-bootstrap inter-
+and width together.                                                  val [0.013, 0.151] mm. The ﬁxed probe is a strong mirror of
+                                                                     the held target, and the sensitivity policy selects it for ev-
+Whole-object translation before acquisition. Across six              ery object, yielding identical predictions. The experiment
+translations on all nine declared transfer objects, coordinate       therefore demonstrates useful one-response adaptation and
+RMSE is 0.183 mm for the spatial inverse and 0.141 mm                an advantage over these random draws, without an advan-
+for material-indexed loading, versus 11.436 and 16.514 mm            tage over the ﬁxed choice.
+for all-action and ID-action neural training. Neither neural            With policy-speciﬁc scales frozen on twelve indepen-
+variant was trained on these large global translations. The          dent calibration objects, ﬁxed/adaptive probing raises mean
+paired spatial-model advantage over material-indexed load-           coordinate coverage from 81.9% to 92.0% while reducing
+ing is −0.042 mm with 95% interval [−0.110, 0.039] mm.               mean interval half-width from 0.373 to 0.157 mm. Random
+On the separately held −40 mm y target, errors are 0.314             probing gives 88.1% coverage and 0.238 mm half-width.
+and 0.248 mm, respectively. Thus mechanics supports                  Six of nine objects reach 90% coordinate coverage after
+strong positional transfer, but three local observations do          each policy, compared with ﬁve before acquisition. Thus
+not establish a predictive advantage for the spatial coor-           narrower intervals accompany improved aggregate cover-
+dinate choice before acquisition. The independently cali-            age and prediction, although object-level coverage remains
+brated pre-acquisition intervals cover 81.9% of held-target          uneven in this small transfer cohort.
+coordinates with mean half-width 0.373 mm; 5/9 objects
+reach 90% coverage. The post-probe comparison evaluates              Prediction under unseen force laws. The separate six-
+an additional response through prediction error, coverage            object extension replaces the reference ﬁeld with an
+and width together.                                                  anisotropic harmonic potential or a signed two-Gaussian
+   On the six predeclared physical-baseline transfer objects         potential, while retaining the frozen single-Gaussian inverse
+(Table 2), translation errors are 0.194, 0.368 and 0.804 mm          model and original three observations. Across three ob-
+for the spatial inverse, MPM and PhysTwin adaptations,               jects per law, spatial-inverse new-motion errors are 0.082
+respectively. Paired advantages over MPM and PhysTwin                and 0.068 mm, versus 0.136 and 0.139 mm for all-action
+are 0.175 and 0.610 mm, with 95% intervals [0.076, 0.274]            neural training. Whole-object translation errors are 0.392
+and [0.423, 0.799] mm. Held-target errors are 0.330, 0.533           and 0.267 mm for the spatial inverse, compared with 0.665
+and 0.830 mm, respectively. Every model reuses its original          and 0.249 mm for material-indexed loading. Thus the spa-
+three-observation ﬁt. This subset comparison uses no newly           tial representation helps under harmonic loading in these
+acquired responses and is separate from the nine-object ac-          cases, while the two-Gaussian cases slightly favor material-
+quisition study.                                                     indexed loading. The all-action neural errors are 11.041
+                                                                     and 11.413 mm on these translations. The PhysTwin core
+Using the same additional positional response. The                   adaptation gives new-motion errors of 0.733 and 0.864 mm
+complete nine-object matched-frame comparison separates              and translation errors of 0.945 and 0.773 mm for the two
+the value of the environmental representation from probe             laws, respectively. These are small, predeclared force-law
+selection. After observing the same additional response,             groups; the accompanying report retains each object’s re-
+held-target error falls from 0.314 to 0.084 mm for the               sult. The MPM comparison is still being completed.
+spatial model, while material-indexed loading changes
+from 0.248 to 0.297 mm. The post-acquisition paired ad-              7. Discussion
+vantage is 0.213 mm with 95% object-bootstrap interval               The aim is reliable prediction under changed interactions,
+[0.057, 0.409] mm. The spatial model can use the new                 rather than recovering a unique physical label when ob-
+observation to improve predictions across the ﬁxed world             servations do not identify it. A positional benchmark can
+ﬁeld; a material-indexed explanation cannot reproduce that           expose explanatory ambiguities that remain hidden when
+position dependence. All nine sensitivity-based choices              models receive true force histories. Spatially factored mod-
+equal the ﬁxed +40 mm y probe. This result supports the              els provide a direct mechanism for investigating these am-
+representation’s use of additional evidence, while the adap-         biguities, while strong learned and physical baselines estab-
+tive and ﬁxed policies make identical acquisitions on these          lish when that structure is useful.
+objects.
+
+
+                                                                 7
+             Prediction error (mm)                Coordinate coverage             Mean interval half-width (mm)            Matched-frame error (mm)
+                                      1.0                                                                         0.8
+ 0.4                                                                      0.4
+                                      0.8
+                                                                                                                  0.6
+ 0.3                                                                      0.3
+                                      0.6                                                                                              Material-indexed load
+                                                                          0.2                                     0.4                  Spatial load
+ 0.2                                  0.4
+ 0.1                                  0.2                                 0.1                                     0.2
+
+ 0.0                                  0.0                                 0.0                                     0.0
+        re        d              e           re        d              e            re       d              e                 e                                 be
+   Befo       Fixe Random daptiv        Befo       Fixe Random daptiv         Befo      Fixe Random daptiv              Befor                            pro
+                         A                                    A                                    A                                                same
+                                                                                                                                              After
+
+Figure 2. One-response adaptation on nine held objects. Error, predictive coverage and interval width are evaluated together, using
+independent calibration for each policy. Points denote objects and bars show object-bootstrap intervals. The ﬁnal panel compares spatial
+and material-indexed loading before and after the same acquired response.
+
+
+       Method                               Translations Target
+       Spatial inverse (ours)                       0.194 0.330
+       Neural (ID actions)                         16.528 14.298
+       Neural (all actions)                        11.390 7.534
+       PhysTwin core adaptation                     0.804 0.830
+       PhysGaussian MPM adaptation                  0.368 0.533
+       Material-indexed load                        0.169 0.316
+
+Table 2. Spatial-transfer coordinate RMSE (mm) before acqui-
+sition, on six matched objects. Every model reuses its original
+three-observation ﬁt. The held target is the −40 mm y translation.
+
+              Acquisition Error Coverage Half-width
+              Before          0.314    81.9%           0.373
+              Fixed           0.084    92.0%           0.157
+              Random          0.163    88.1%           0.238
+              Adaptive        0.084    92.0%           0.157
+
+Table 3. Held spatial target before and after one acquired response
+on nine objects. Error is coordinate RMSE and widths are in mm.
+Each policy uses a separately ﬁtted scale from twelve calibration
+objects; coverage and width are assessed together.
+
+
+    The reference and proposed predictor share a Neo-
+Hookean constitutive family, while the native physical base-
+lines retain their original constitutive representations. The
+comparison therefore measures these adapted predictors
+within the declared family. The matched material-indexed-
+load ablation isolates the coordinate-frame choice using the
+same constitutive model and inverse solver. Known geome-
+try, synthetic correspondence, and settled conservative me-
+chanics make this a controlled study of physical prediction;
+dynamic impact and release, real visual correspondence,
+and broader constitutive families are natural extensions.
+
+
+
+
+                                                                          8
+LLM Usage Statement
+OpenAI Codex assisted with research planning, implemen-
+tation, experiment execution and analysis, related-work
+lookup, ﬁgure preparation, and manuscript drafting. The
+manuscript and its experimental claims require review and
+approval by the human authors before submission.
+
+References
+ [1] Anastasios N. Angelopoulos and Stephen Bates. A gentle in-
+     troduction to conformal prediction and distribution-free un-
+     certainty quantiﬁcation. arXiv preprint arXiv:2107.07511,
+     2021.
+ [2] Tao Du, Kui Wu, Pingchuan Ma, Sebastien Wah, Andrew
+     Spielberg, Daniela Rus, and Wojciech Matusik. DiffPD:
+     Differentiable projective dynamics. ACM Transactions on
+     Graphics, 41(2):13:1–13:21, 2022.
+ [3] Hanxiao Jiang, Hao-Yu Hsu, Kaifeng Zhang, Hsin-Ni Yu,
+     Shenlong Wang, and Yunzhu Li. PhysTwin: Physics-
+     informed reconstruction and simulation of deformable ob-
+     jects from videos. In Proceedings of the IEEE/CVF Inter-
+     national Conference on Computer Vision, pages 7219–7230,
+     2025.
+ [4] Suyi Jiang and Gim Hee Lee. PhysHO: Physics-based dy-
+     namic 3D gaussian human and object from monocular video.
+     In Proceedings of the IEEE/CVF Conference on Computer
+     Vision and Pattern Recognition, pages 32507–32517, 2026.
+ [5] Himangi Mittal, Peiye Zhuang, Hsin-Ying Lee, and Shub-
+     ham Tulsiani. UniPhy: Learning a uniﬁed constitutive
+     model for inverse physics simulation. In Proceedings of
+     the IEEE/CVF Conference on Computer Vision and Pattern
+     Recognition, pages 16208–16218, 2025.
+ [6] Jinsheng Quan, Qiaowei Miao, Yichao Xu, Zizhuo Lin,
+     Ying Li, Wei Yang, Zhihui Li, and Yawei Luo. ParticleGS:
+     Learning neural gaussian particle dynamics from videos for
+     prior-free physical motion extrapolation. In Proceedings of
+     the IEEE/CVF Conference on Computer Vision and Pattern
+     Recognition, pages 8331–8341, 2026.
+ [7] Tianyi Xie, Zeshun Zong, Yuxing Qiu, Xuan Li, Yutao Feng,
+     Yin Yang, and Chenfanfu Jiang. PhysGaussian: Physics-
+     integrated 3D gaussians for generative dynamics. In Pro-
+     ceedings of the IEEE/CVF Conference on Computer Vision
+     and Pattern Recognition, pages 4389–4398, 2024.
+ [8] Xinchen Yu, Yoonkyo Jung, Haoran Chen, Zikui Cai,
+     Aayush Talreja, Seungjae Lee, Hyunjin Kim, and Furong
+     Huang. AuRA: From atoms to bits through autonomous
+     robot interaction. arXiv preprint arXiv:2610.34452, 2026.
+ [9] Tianyuan Zhang, Hong-Xing Yu, Rundi Wu, Brandon Y.
+     Feng, Changxi Zheng, Noah Snavely, Jiajun Wu, and
+     William T. Freeman. PhysDreamer: Physics-based inter-
+     action with 3D objects via video generation. In European
+     Conference on Computer Vision, 2024.
+[10] Licheng Zhong, Hong-Xing Yu, Jiajun Wu, and Yunzhu Li.
+     Reconstruction and simulation of elastic objects with spring-
+     mass 3D gaussians. In European Conference on Computer
+     Vision, 2024.
+
+
+
+                                                                     9
+

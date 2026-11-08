@@ -1,0 +1,77 @@
+[Taichi] version 1.2.2, llvm 10.0.0, commit 608e4b57, linux, python 3.10.22
+/home/bayespc2/vscode/guassianSDE/runs/gap-crossmethod-v02/pacnerf-env/lib/python3.10/site-packages/_distutils_hack/__init__.py:15: UserWarning: Distutils was imported before Setuptools, but importing Setuptools also replaces the `distutils` module in `sys.modules`. This may lead to undesirable behaviors or errors. To avoid these issues, avoid using distutils directly, ensure that setuptools is installed in the traditional way (e.g. not an editable install), and/or make sure that setuptools is always imported before distutils.
+  warnings.warn(
+/home/bayespc2/vscode/guassianSDE/runs/gap-crossmethod-v02/pacnerf-env/lib/python3.10/site-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils. Support for replacing an already imported distutils is deprecated. In the future, this condition will fail. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+[Taichi] Starting on arch=cuda
+cuda_chunk_size:  100
+damping coeff: 0.0
+Generate xyz list
+Material info: material: 10 E: 993543.0 nu: 0.22962641716003418 
+Init velocity: [-0.19844619929790497, -0.5033760070800781, -0.19113731384277344]
+Generate trajectory:   0%|          | 0/14 [00:00<?, ?it/s]Generate trajectory:   7%|▋         | 1/14 [00:00<00:02,  4.56it/s][W 11/07/26 22:05:24.613 1399446] [type_check.cpp:type_check_store@36] [$4588] Local store may lose precision: f32 <- f64
+
+[W 11/07/26 22:05:24.613 1399446] [type_check.cpp:type_check_store@36] [$4590] Local store may lose precision: f32 <- f64
+
+[W 11/07/26 22:05:24.613 1399446] [type_check.cpp:type_check_store@36] [$4592] Local store may lose precision: f32 <- f64
+
+[W 11/07/26 22:05:24.613 1399446] [type_check.cpp:type_check_store@36] [$4594] Local store may lose precision: f32 <- f64
+
+[W 11/07/26 22:05:24.613 1399446] [type_check.cpp:type_check_store@36] [$4596] Local store may lose precision: f32 <- f64
+
+[W 11/07/26 22:05:24.613 1399446] [type_check.cpp:type_check_store@36] [$4598] Local store may lose precision: f32 <- f64
+
+[W 11/07/26 22:05:24.613 1399446] [type_check.cpp:type_check_store@36] [$4600] Local store may lose precision: f32 <- f64
+
+[W 11/07/26 22:05:24.613 1399446] [type_check.cpp:type_check_store@36] [$4602] Local store may lose precision: f32 <- f64
+
+[W 11/07/26 22:05:24.613 1399446] [type_check.cpp:type_check_store@36] [$4604] Local store may lose precision: f32 <- f64
+
+[W 11/07/26 22:05:34.641 1399446] [type_check.cpp:type_check_store@36] [$65204] Global store may lose precision: i8 <- i32
+File "/home/bayespc2/vscode/guassianSDE/runs/gap-crossmethod-v02/vendor/gic/simulator/mpm_simulator.py", line 359, in check_cfl:
+                self.cfl_satisfy[None] = 0
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+[W 11/07/26 22:05:34.641 1399446] [type_check.cpp:type_check_store@36] [$65243] Global store may lose precision: i8 <- i32
+File "/home/bayespc2/vscode/guassianSDE/runs/gap-crossmethod-v02/vendor/gic/simulator/mpm_simulator.py", line 362, in check_cfl:
+                self.cfl_satisfy[None] = 0
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Generate trajectory:  14%|█▍        | 2/14 [00:12<01:29,  7.42s/it]Generate trajectory:  21%|██▏       | 3/14 [00:13<00:47,  4.31s/it]Generate trajectory:  29%|██▊       | 4/14 [00:13<00:28,  2.85s/it]Generate trajectory:  36%|███▌      | 5/14 [00:14<00:18,  2.04s/it]Generate trajectory:  43%|████▎     | 6/14 [00:15<00:12,  1.56s/it]Generate trajectory:  50%|█████     | 7/14 [00:15<00:08,  1.25s/it]Generate trajectory:  57%|█████▋    | 8/14 [00:16<00:06,  1.06s/it]Generate trajectory:  64%|██████▍   | 9/14 [00:17<00:04,  1.08it/s]Generate trajectory:  71%|███████▏  | 10/14 [00:17<00:03,  1.20it/s]Generate trajectory:  79%|███████▊  | 11/14 [00:18<00:02,  1.30it/s]Generate trajectory:  86%|████████▌ | 12/14 [00:18<00:01,  1.38it/s]Generate trajectory:  93%|█████████▎| 13/14 [00:19<00:00,  1.44it/s]Generate trajectory: 100%|██████████| 14/14 [00:20<00:00,  1.49it/s]Generate trajectory: 100%|██████████| 14/14 [00:20<00:00,  1.44s/it]
+cuda_chunk_size:  100
+damping coeff: 0.0
+Taichi JIT:0: allocate_from_buffer: block: [0,0,0], thread: [0,0,0] Assertion `Out of CUDA pre-allocated memory.
+Consider using ti.init(device_memory_fraction=0.9) or ti.init(device_memory_GB=4) to allocate more GPU memory` failed.
+[E 11/07/26 22:05:43.759 1399446] [cuda_driver.h:operator()@87] CUDA Error CUDA_ERROR_ASSERT: device-side assert triggered while calling stream_synchronize (cuStreamSynchronize)
+
+
+Traceback (most recent call last):
+  File "/home/bayespc2/vscode/guassianSDE/scripts/gap_crossmethod_v02/gic_counterfactual.py", line 33, in <module>
+    if __name__=='__main__':main()
+  File "/home/bayespc2/vscode/guassianSDE/scripts/gap_crossmethod_v02/gic_counterfactual.py", line 25, in main
+    sim=Simulator(Namespace(**p),vol);seq=gen_xyz_list(sim,14,diff=False)
+  File "/home/bayespc2/vscode/guassianSDE/runs/gap-crossmethod-v02/vendor/gic/simulator/simulator.py", line 32, in __init__
+    self.sim = MPMSimulator(ti.f32, dt, frame_dt,
+  File "/home/bayespc2/vscode/guassianSDE/runs/gap-crossmethod-v02/vendor/gic/simulator/mpm_simulator.py", line 116, in __init__
+    self.gravity[None] = gravity
+  File "/home/bayespc2/vscode/guassianSDE/runs/gap-crossmethod-v02/pacnerf-env/lib/python3.10/site-packages/taichi/lang/util.py", line 297, in wrapped
+    return func(*args, **kwargs)
+  File "/home/bayespc2/vscode/guassianSDE/runs/gap-crossmethod-v02/pacnerf-env/lib/python3.10/site-packages/taichi/lang/matrix.py", line 1752, in __setitem__
+    self[key]._set_entries(value)
+  File "/home/bayespc2/vscode/guassianSDE/runs/gap-crossmethod-v02/pacnerf-env/lib/python3.10/site-packages/taichi/lang/util.py", line 297, in wrapped
+    return func(*args, **kwargs)
+  File "/home/bayespc2/vscode/guassianSDE/runs/gap-crossmethod-v02/pacnerf-env/lib/python3.10/site-packages/taichi/lang/matrix.py", line 635, in _set_entries
+    self._impl._set_entries(value)
+  File "/home/bayespc2/vscode/guassianSDE/runs/gap-crossmethod-v02/pacnerf-env/lib/python3.10/site-packages/taichi/lang/matrix.py", line 234, in _set_entries
+    self[i, j] = value[i][j]
+  File "/home/bayespc2/vscode/guassianSDE/runs/gap-crossmethod-v02/pacnerf-env/lib/python3.10/site-packages/taichi/lang/util.py", line 297, in wrapped
+    return func(*args, **kwargs)
+  File "/home/bayespc2/vscode/guassianSDE/runs/gap-crossmethod-v02/pacnerf-env/lib/python3.10/site-packages/taichi/lang/matrix.py", line 210, in __setitem__
+    self.entries[idx].accessor.setter(item, *self.entries[idx].key)
+  File "/home/bayespc2/vscode/guassianSDE/runs/gap-crossmethod-v02/pacnerf-env/lib/python3.10/site-packages/taichi/lang/field.py", line 380, in setter
+    snode.write_float(key, value)
+RuntimeError: [cuda_driver.h:operator()@87] CUDA Error CUDA_ERROR_ASSERT: device-side assert triggered while calling stream_synchronize (cuStreamSynchronize)
+[E 11/07/26 22:05:44.393 1399446] [cuda_driver.h:operator()@87] CUDA Error CUDA_ERROR_ASSERT: device-side assert triggered while calling stream_synchronize (cuStreamSynchronize)
+
+
+terminate called after throwing an instance of 'std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >'

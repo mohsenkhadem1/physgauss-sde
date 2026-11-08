@@ -1,0 +1,74 @@
+diff --git a/scene/cameras.py b/scene/cameras.py
+index 6875893..b129e0d 100644
+--- a/scene/cameras.py
++++ b/scene/cameras.py
+@@ -68,6 +68,7 @@ class Camera(nn.Module):
+         self.camera_center = self.world_view_transform.inverse()[3, :3]
+ 
+     def load2device(self, data_device='cuda'):
++        self.gt_alpha_mask = self.gt_alpha_mask.to(data_device)
+         self.original_image = self.original_image.to(data_device)
+         self.world_view_transform = self.world_view_transform.to(data_device)
+         self.projection_matrix = self.projection_matrix.to(data_device)
+diff --git a/scene/dataset_readers.py b/scene/dataset_readers.py
+index 0b123a9..fb545a1 100644
+--- a/scene/dataset_readers.py
++++ b/scene/dataset_readers.py
+@@ -231,7 +231,7 @@ def readCamerasFromTransforms(path, transformsfile, white_background, extension=
+             arr = norm_data[:, :, :3] * norm_data[:, :,
+                                                   3:4] + bg * (1 - norm_data[:, :, 3:4])
+             image = Image.fromarray(
+-                np.array(arr * 255.0, dtype=np.byte), "RGB")
++                np.array(arr * 255.0, dtype=np.uint8), "RGB")
+ 
+             fovy = focal2fov(fov2focal(fovx, image.size[0]), image.size[1])
+             FovY = fovx
+@@ -344,7 +344,7 @@ def readSpringGausCaptureRealCameras(root_dir, obj_name, white_background):
+         mask = np.array(mask)[:, :, np.newaxis] / 255.0
+         bg = np.array([1, 1, 1]) if white_background else np.array([0, 0, 0])
+         arr = (im_data / 255.0) * mask + bg * (1 - mask)
+-        image = Image.fromarray(np.array(arr * 255.0, dtype=np.byte), "RGB")
++        image = Image.fromarray(np.array(arr * 255.0, dtype=np.uint8), "RGB")
+         
+         static_cams.append(CameraInfo(
+             uid=i+3, 
+@@ -399,7 +399,7 @@ def readSpringGausCaptureRealCameras(root_dir, obj_name, white_background):
+             mask = Image.open(mask_path)
+             mask = np.array(mask)[:, :, np.newaxis] / 255.0
+             arr = (im_data / 255.0) * mask + bg * (1 - mask)
+-            image = Image.fromarray(np.array(arr * 255.0, dtype=np.byte), "RGB")
++            image = Image.fromarray(np.array(arr * 255.0, dtype=np.uint8), "RGB")
+ 
+             dynamic_cams.append(
+                 CameraInfo(
+@@ -482,7 +482,7 @@ def readCamerasFromAllData(path, white_background):
+             mask = (image.astype(int).sum(-1, keepdims=True) != 255 * 3).astype(float)
+             arr = norm_data * mask + bg * (1 - mask)
+             image = Image.fromarray(
+-                np.array(arr * 255.0, dtype=np.byte), "RGB")
++                np.array(arr * 255.0, dtype=np.uint8), "RGB")
+             
+             frame_time = frame['time']
+             
+@@ -592,7 +592,7 @@ def readCamerasFromFrameAndCamera(path, white_background):
+             mask = norm_data[..., 3:4]
+             arr = norm_data[:, :, :3] * mask + bg * (1 - mask)
+             image = Image.fromarray(
+-                np.array(arr * 255.0, dtype=np.byte), "RGB")
++                np.array(arr * 255.0, dtype=np.uint8), "RGB")
+             
+             fovy = focal2fov(intrinsic[1][1], image.size[0])
+             fovx = focal2fov(intrinsic[0][0], image.size[1])
+diff --git a/train_gs.py b/train_gs.py
+index d27f123..9d7e2bf 100644
+--- a/train_gs.py
++++ b/train_gs.py
+@@ -259,7 +259,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations):
+                     ).export(os.path.join(dataset.model_path, f'gs/gs_{iteration}.ply'))
+                 cat_img = torch.cat([image, gt_image], dim=2)
+                 torchvision.utils.save_image(cat_img, os.path.join(dataset.model_path, f'img/ren_gt_{iteration}.png'))
+-                cat_mask = torch.cat([alpha, viewpoint_cam.gt_alpha_mask], dim=2)
++                cat_mask = torch.cat([alpha, viewpoint_cam.gt_alpha_mask.to(alpha.device)], dim=2)
+                 torchvision.utils.save_image(cat_mask, os.path.join(dataset.model_path, f'img/mask_ren_gt_{iteration}.png'))
+             
+             # Optimizer step

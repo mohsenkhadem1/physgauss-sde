@@ -1,0 +1,52 @@
+\subsection{Six-family interaction transfer}
+We extend the comparison to movable/released clamps, curved-obstacle
+pushing, drops into containers and obstacles, finite-mass rigid strikers,
+two interacting deformable objects, and heterogeneous material. A frozen
+protocol draws four independent material worlds per family. Each method
+fits one short position-track prefix, seals its parameters, and predicts
+two changed interactions without refitting: 24 worlds and 48 queries.
+Geometry, mass and boundary recipes are supplied; materials are unknown.
+This study tests changes within explicit interaction families, not discovery
+of arbitrary unknown contact laws. A development-selected extension of our
+bulk energy adds an independently fitted volumetric coefficient and
+per-body/spatial material descriptors; prior-study results are preserved.
+
+Table~\ref{tab:complex-main} compares native PhysTwin and Spring-Gaus
+adaptations, our model and a fitted analytic control with knowledge of the
+reference constitutive family. Every method uses the declared common
+observations and queries; native spring parameterizations and fitting
+budgets differ from continuum parameterizations. UniPhy is evaluated on
+eight supported drop queries: one completes and seven fail with native CFL
+errors; 40 other slots are unsupported by this adapter. No complete
+paired world exists for UniPhy. Figure~\ref{fig:teaser} illustrates two held cases. The supplement gives all-family plots, implementations,
+budgets, coverage and development controls.
+
+\begin{table}[t]
+\centering\small\setlength{\tabcolsep}{4pt}
+\caption{\textbf{Six-family held interaction transfer.} All listed methods
+complete 48 queries. Physical vector RMS is in mm. Foreground PSNR uses
+shared Gaussian appearance and transport, averaged over noninitial query
+frames. This is not native end-to-end reconstruction quality.}
+\label{tab:complex-main}
+\begin{tabular}{lrrr}
+\toprule Method & Motion & Shape & FG PSNR \\
+\midrule
+\textcolor{oursteal}{\textbf{Ours}} & \textbf{1.97} & \textbf{1.25} & \textbf{35.61} \\
+Analytic control & 1.84 & 1.16 & 36.02 \\
+PhysTwin adaptation & 10.80 & 5.94 & 25.68 \\
+Spring-Gaus adaptation & 11.27 & 6.00 & 25.88 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Our paired motion-error difference is $-8.83$\,mm against PhysTwin
+(world-bootstrap 95\% interval $[-12.18,-5.83]$) and $-9.30$\,mm
+against Spring-Gaus ($[-12.40,-6.50]$). Ours has lower mean motion
+error in each family than either native adaptation. Against the analytic
+control, the difference is $+0.13$\,mm ($[-0.01,0.27]$), so an
+advantage over that control is not established. Common sampled material-grid
+inversions occur in 0/48 queries for ours and analytic, 33/48 for PhysTwin
+and 37/48 for Spring-Gaus; these diagnostics do not certify continuous
+validity. Eleven of twelve refinement comparisons complete;
+the stacking run times out (supplement). The shared-renderer scores measure the image consequences of
+predicted motion independently of appearance optimization.

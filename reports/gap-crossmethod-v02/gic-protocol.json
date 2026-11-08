@@ -1,0 +1,38 @@
+{
+  "frozen_unix": 1794077219.109199,
+  "method": "native GIC b523851ed4343109ff67b0ea123e0a154af2a40c",
+  "rasterizer": "b1e1cb83e27923579983a9ed19640c6031112b94",
+  "observations": "Official foreground masks and RGB, fitting cameras1\u201310 frames0\u20137 only",
+  "test": "Camera0 frames0\u20137 held camera; frames8\u201313 held camera and future",
+  "metrics": [
+    "PSNR",
+    "SSIM",
+    "LPIPS if dependency available",
+    "trajectory Chamfer when native groundtruth available"
+  ],
+  "changes": [
+    "Explicit camera0 holdout removes native preparation overlap",
+    "8-frame temporal prefix instead of14",
+    "CPU image storage/on-the-fly transfers to fit11GB GPU; numerical model unchanged",
+    "Compatibility: numpy uint8 replaces signed byte in Pillow RGB input, identical byte values; no mechanics change",
+    "Compatibility: Camera.load2device also transfers alpha mask; native on-the-fly path omitted it and failed before first gradient",
+    "Diagnostic-only alpha montage moves mask to rendered alpha device after native camera offload; fixed1000-step logging failure, optimization restarted seed0"
+  ],
+  "native_budgets": {
+    "appearance": 40000,
+    "velocity": 100,
+    "physical": 100
+  },
+  "intervention": "Native changed gravity forward diagnostic without measured intervention reference; no OOD accuracy claim",
+  "source_sha256": {
+    "runs/gap-crossmethod-v02/gic-inputs/torus/transforms_train.json": "1540949ecef02c0e0d43b40dcf5a7138353a1e8d588d240e9f84ecdd4846a626",
+    "runs/gap-crossmethod-v02/gic-inputs/torus/transforms_test.json": "f79a57ed7ae30f91b97a1b0e5ab7ad7f61d69bbede01674c49b99517ead7d35b",
+    "runs/gap-crossmethod-v02/gic-torus-prefix.json": "a879588d1970a122d203b63480e94cb2b6a09cb537c8cd9ccf26f6d084a289d3",
+    "scripts/gap_crossmethod_v02/gic_native_entry.py": "05370979fc662581b69433516233f2d4d01068b6541d3b9b0815bdd0c8702e30",
+    "runs/gap-crossmethod-v02/vendor/gic/scene/dataset_readers.py": "0e4f6119b3c7022cfec41c59301df63889f3ba934c9b95c3f1de5eac524a3596",
+    "runs/gap-crossmethod-v02/vendor/gic/scene/cameras.py": "e27f745065a5e2fb614bac12c6dd468e65435b1877204dcc6c4ce985fce1b993",
+    "runs/gap-crossmethod-v02/vendor/gic/train_gs.py": "1664fd2b68f0d904e344a6c49864011905eea1347746cf4a3a3741b0ff97a938"
+  },
+  "no_assumed_win": true,
+  "pretraining_correction": "Native PAC reader uses all_data rather than transforms; wrapper filters actual CameraInfo train/test before any optimization. First attempt failed Pillow type handling before optimization."
+}

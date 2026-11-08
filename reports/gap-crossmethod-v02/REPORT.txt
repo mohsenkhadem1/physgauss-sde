@@ -1,0 +1,121 @@
+GAP CROSS-METHOD v02: CONSOLIDATED AUDITED RESULTS
+2026-11-07. Supersedes nothing; gap-first-v01 results are unchanged.
+Question: when a method renders an observed episode well, does it predict
+the next physical response well, and can added evidence repair ambiguity?
+
+ROSTER STATUS (gate G0/G1)
+method     | status                         | what was actually run
+PAC-NeRF   | NATIVE, COMPLETE               | official code b613048, Torus, prefix fit + held camera/future
+GIC        | NATIVE, COMPLETE               | official code b523851, same Torus split, appearance+velocity+material fit, forecast
+MASIV      | NATIVE MECHANICS ONLY          | official MPM + rescaled pretrained law; no fitted scene, shared fixed renderer
+M-PhyGs    | NATIVE MECHANICS ONLY          | official Warp MPM; photometric fit blocked (tinycudann not built)
+ReconPhys  | NATIVE (in gap-first-v01)      | see reports/gap-first-v01/REPORT.txt
+PhysTwin   | NOT RUN NATIVELY HERE          | spring-core adapter failure in gap-first is NOT native evidence
+PhysConvex | BLOCKED                        | no public code (candidate repo HTTP 404)
+PhysGaia   | NOT A METHOD; no scene fetched | benchmark role only
+The requested breadth is only partially met. Unsupported cells are not failures.
+
+1. PAC-NeRF vs GIC ON TORUS (the only paired, fully native comparison)
+Identical evidence: cameras 1-10, frames 0-7 (8-frame prefix). Held out: camera 0
+for all 14 frames; frames 8-13 are also future. Both assume density 1000 and native
+gravity/ground plane. Neither saw camera 0 or frames 8-13 during fitting or selection.
+
+Fitted parameters (paper Table 1 Torus: E=1e6 Pa, nu=0.3)
+  PAC-NeRF  E=1.016e6  nu=0.281  v0=(-0.200,-0.499,-0.201)
+  GIC       E=0.994e6  nu=0.230  v0=(-0.198,-0.503,-0.191)
+
+1a. Paired held-camera foreground PSNR (dB), mean per frame
+Mask: reference foreground min(RGB on white)<0.95. Reference foreground pixels were
+verified identical across PAC (white bg) and GIC (black bg) archives. Full-frame PSNR
+is NOT comparable across the two methods because of different backgrounds.
+predictor                               | frames 0-7 | future 8-13 | hold frame-7 image, 8-13
+PAC-NeRF native physics forecast        | 18.29      | 18.01       | 9.11
+GIC deformation network (no physics)    | 20.47      |  8.29       | 9.50
+GIC native physics forecast             | 17.79      | 18.44       | 9.38
+Headline: within one method, GIC's deformation network renders the observed window
+best of all (20.47 dB) but is worse than a frozen image in the future (8.29 vs 9.50).
+GIC's physics-driven render is 2.7 dB worse on observed frames yet 10.2 dB better on
+future frames. Both physics forecasts (PAC 18.01, GIC 18.44) are similar.
+Observed-window rendering quality did not rank future prediction quality.
+(GIC native full-frame black-bg PSNR: 29.89 fit / 30.72 future; its own Chamfer
+3.16/3.29 mm matches the independent raw recomputation.)
+
+1b. Geometry vs released ground-truth simulation particles (mm)
+Symmetric mean nearest-neighbour Chamfer; count-matched to N=48,691 particles
+(fixed seed) because raw Chamfer favours denser clouds (GIC has 116,984).
+Sampling floor (random GT subsample vs full GT): 2.54 mm.
+predictor                          | fit 0-7 | future 8-13 | frame 13 | centroid err f13
+PAC-NeRF forecast (native dt)      | 4.20    | 4.55        | 4.90     | 11.46
+PAC-NeRF replay fitted, dt/4       | 4.20    | 4.43        | 4.75     | 15.45
+PAC-NeRF replay paper E/nu, dt/4   | 4.20    | 4.42        | 4.66     | 15.89
+GIC native forecast                | 3.99    | 4.13        | 4.35     | 12.28
+Frozen frame-7 particles, future   | ~107-109 for all methods
+Both physics forecasts are close to the floor and to each other. Timestep alone moves
+PAC-NeRF centroid error by 4 mm, comparable to the between-method gap: no geometric
+winner is claimed. Raw (unmatched) GIC Chamfer 3.29 mm future is a density artefact.
+
+1c. Conditional counterfactuals (solver references, NOT measured ground truth)
+Fitted vs paper E/nu on identical particles; particle RMS disagreement (mm).
+PAC-NeRF (dt/4):        original final 5.15; gravity+(2.5,0,0) final 6.57
+GIC:                    original fit-window 0.95, future 8.25, final 12.70
+                        half gravity future 3.69, final 5.90
+                        +0.5 m/s transverse velocity future 10.98, final 16.90
+GIC's nu error (0.23 vs 0.30) is nearly invisible in the fitting window (<1 mm) but
+grows to 8-17 mm afterwards and under changed conditions. Gravity/velocity changes are
+native accelerations/initial conditions, not calibrated forces.
+
+2. MASIV (native mechanics, constructed two-world ambiguity)
+Two density/material-scale worlds give identical passive rollouts (~1e-4 mm; PSNR >103 dB).
+Under localized forces they differ: torus 20 N final 8.13 mm raw / 1.61 mm after rigid
+alignment; ellipsoid 8.65 / 1.41 mm. Original Gaussian-load gaps (~14-16 mm) were almost
+entirely rigid (0.04 mm aligned) and must not be called elastic separation.
+One rendered-centroid calibration (sigma 0.5 px), 400 noise trials:
+prior error 4.20 mm, failure 0.5 -> posterior error 0, failure 0.
+Posterior risk: torus mean 0.0044 (max 0.36), ellipsoid 0.0002; Brier <=0.0008.
+Same-evidence MAP has identical accuracy; truth is in the hypothesis set by construction.
+Contact uses native position clipping (283 coordinates at bound in every run).
+
+3. M-PhyGs (native Warp MPM, supplied parameters)
+Second interaction (two E/rho worlds, 100 noise repeats each): held gap 6.0e-4
+native units (tolerance 1e-4); prior failure 0.5 -> 0 after calibration; same-evidence MAP identical.
+Shared shapes v01: FAILED physical qualification (collapse to native clamp); retained.
+Shared shapes v02 (floor raised to 3dx), audited here for the first time:
+  passive pairs identical (2e-5 mm); held 20 N z: torus 5.84 mm final raw / 0.45 aligned,
+  ellipsoid 13.97 / 0.45 mm. Differences are mostly rigid displacement.
+  Physical gate: no clamp coordinates, height preserved; floor penetration torus 3.6 mm,
+  ellipsoid 6.9-7.9 mm. Passes a 0.5-dx (15.6 mm) gate, FAILS a strict 5 mm gate. Both
+  thresholds were set by the auditor after v01 was known. Min deformation Jacobian 0.77-0.81
+  even when passive (local compression at sticky floor), far above bulk gravity strain.
+
+AUDIT FINDINGS AND FIXES MADE IN THIS PASS
+- GIC physics stage crashed (camera fid/transforms on CPU from the 11GB offload option).
+  Fixed by a physics-stage config with GPU-resident cameras (upstream default); the
+  completed 40k appearance checkpoint was reused, hashed in gic-appearance-checkpoint.sha256.
+- gic_physics_evaluate.py built optimizer params from cfg_args (no optimizer fields);
+  fixed to native defaults + --reg_scale --reg_alpha, matching the native run.
+- gic_counterfactual.py exhausted Taichi memory with six simulators in one process;
+  now one process per case. Failed first-attempt logs retained (*-attempt1-failed.log).
+- GIC eval scripts now archive raw renders so the paired foreground metric is computed
+  independently (they had not been run before this change; no outcome was seen first).
+- PAC-NeRF prefix results recorded nu=None (lookup bug); true fitted nu=0.281 from checkpoint.
+- PAC-NeRF counterfactual replays use dt/4, not the scored forecast's native dt.
+- M-PhyGs v02 shared-shape runs had no audit (script hard-coded v01); added v02 audit.
+- Raw Chamfer is density-biased; count-matched comparison added.
+- Independent recomputation (G8): crossmethod-independent-audit.json reproduces every PAC-NeRF
+  per-frame PSNR within 1e-3 dB and the frozen baseline rows; reads archives only.
+
+LIMITS
+One scene (Torus), one seed per method, synthetic data with native-solver ground truth.
+This is a case study, not a benchmark win. No calibrated-force or position-controlled
+held interaction exists for PAC-NeRF/GIC natively; MASIV/M-PhyGs ambiguity studies use
+supplied parameters and two-world hypothesis sets that contain the truth.
+
+FILES
+crossmethod-independent-audit.json, mphygs-shared-shapes-v02-audit.json,
+gic-physics-evaluation.json, gic-appearance-40000.json, gic-counterfactual.json,
+pacnerf-*.json, masiv-*, mphygs-*; renders in output/gap-crossmethod-v02/.
+Figure: output/gap-crossmethod-v02/torus-paired-heldcamera.png (camera 0, frames 7/10/13;
+GIC panels composited onto white with an intensity alpha proxy, causing thin dark edges;
+metrics above use the raw archives, not this figure).
+Scripts: scripts/gap_crossmethod_v02/ (crossmethod_independent_audit.py,
+mphygs_shared_audit_v02.py, gic_launch_physics.py added in this pass).

@@ -1,0 +1,35 @@
+M-PHYGS: EXECUTED NATIVE MECHANICS AND ASSET QUALIFICATION
+2026-11-07. Official source commit8cba5519c6dca09ebdef928ef45a88eac17b6846.
+
+ACTUALLY RUN ON GPU2
+Unmodified M-PhyGs MPMWARPDiff, MPMStateStruct and MPMModelStruct. Supplied512particles,32^3grid, jelly constitutive branch, Poisson.3. WorldA E2000/rho1000, worldB E4000/rho2000. Native gravity and sticky-plane boundary. No modified native forces/integration or shared FEM replacement.
+Free-fall400steps and contact800steps atdt.0002; four initial rollouts each. Contact planez.4, particlecube.42..58. Common E/rho scaling preserves passive contact trajectories within1.1921e-7 native units. Native+0.01x force per particle during.08-.10s creates1.6460e-4 scalar-coordinate trajectoryRMS difference. Centered-shape change.01729 confirms nonrigid contact deformation. This diagnostic has no rendered-image result and no trained material checkpoint.
+Known-density control E4000/rho1000 versus E2000/rho1000 yields.00272772 coordinateRMS difference; symmetry requires density scaling, not just stiffness.
+
+SECOND INTERACTION
+Separate reset+y.015force-per-particle target, distinct from+x.01calibration. Calibration observation is final x-centroid as supplied calibrated metric orthographic coordinate, Gaussian sigma.00002. Target is point-Euclidean trajectoryRMS across savedframes40..79; tolerance.0001 native units. Two-hypothesis prior.5/.5,100noise repeats/world. Freeze includes declared action/target/noise before target generation and candidate-risk archive before true-world scoring.
+Held candidate gap.0006047603 pointRMS; priorMAP meanerror.0003023802 andfailure.5; aftercalibration meanerror0 andobservedfailure0. Same-evidence MAP has identical pointaccuracy. This is a conditional finite-world reference, not a unique neural-inference win or real-world uncertainty calibration. Independent1,600 arithmetic checks pass.
+
+IMPORTANT SCOPE CORRECTION
+An initial conservative protocol note incorrectly said native fitting normally assumes density known. Current official mphygs/material_field.py predicts density(logits b, lines97–101) alongside normalized stiffness; test_parallel_photo_opt.py has optional --density override defaultNone. Thus E/rho ambiguity is relevant to its native parameterization. The original protocol is retained; mphygs-independent-audit.json records this correction. No trained native parameter estimate was tested, so this does not demonstrate an end-to-end M-PhyGs failure.
+
+ENVIRONMENT AND COMMANDS
+Base environments untouched. New runs/gap-crossmethod-v02/mphygs-env uses Python3.10.16, localWarp1.3.2, NumPy1.26.4, jaxtyping.3.2 and plyfile. Read-only .pth imports existing Torch2.4.0+cu121 runtime from runs/phystwin-env; upstream listed Torch2.4+cu118. Successful low-level CUDA runs qualify this particular mechanics path, not full upstream binary parity.
+CUDA_VISIBLE_DEVICES=2 OPENBLAS_NUM_THREADS=1 runs/gap-crossmethod-v02/mphygs-env/bin/python scripts/gap_crossmethod_v02/mphygs_native_smoke.py
+CUDA_VISIBLE_DEVICES=2 OPENBLAS_NUM_THREADS=1 runs/gap-crossmethod-v02/mphygs-env/bin/python scripts/gap_crossmethod_v02/mphygs_native_contact.py
+CUDA_VISIBLE_DEVICES=2 OPENBLAS_NUM_THREADS=1 runs/gap-crossmethod-v02/mphygs-env/bin/python scripts/gap_crossmethod_v02/mphygs_second_interaction.py
+CUDA_VISIBLE_DEVICES=2 OPENBLAS_NUM_THREADS=1 runs/gap-crossmethod-v02/mphygs-env/bin/python scripts/gap_crossmethod_v02/mphygs_known_density_control.py
+OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/gap_crossmethod_v02/mphygs_result_audit.py
+The second-interaction script refuses protocol overwrite; reproduce in a fresh output namespace. Initial missing-path harness attempt retained as mphygs-second-interaction-protocol-failed-path.json. Output namespaces corrected before successful scored run. Source hashes/native clean checkout verified. Local times exclude initial module/JIT setup and are NOT cross-method speed measurements.
+
+FULL PHOTO-FITTING CLI ATTEMPTS
+CUDA_VISIBLE_DEVICES=2 PYTHONPATH=runs/gap-crossmethod-v02/vendor/m-phygs runs/gap-crossmethod-v02/mphygs-env/bin/python -m scripts.test_parallel_photo_opt --help
+First attempt: missinggsplat. Installed declaredgsplat1.4.0 in isolatedenv, no parentenvironment change. Second attempt: missingtinycudann. Logs retained as mphygs-photo-cli-attempt.log and mphygs-photo-cli-attempt-2.log. Full photometric stack not qualified; no claim that training is impossible from paper memory numbers. Compiledtinycudann plus scene/checkpoint gate still required.
+
+PUBLIC ASSETS
+Public Drive metadata and full folder listing succeeded:30data/preprocessing tar archives. Carnationdata4,964,304,074bytes; PushCarnationrun4,257,870,489bytes; PullCarnationrun2,702,049,957bytes.
+Single complete PullCarnationrun inventory streamed,9,553members, no checkpoint/ckpt/photometric-optimization state in that archive. Contains annotated contactmotion, segmentation masks, dynamicGaussian/particle preprocessing and tracked particles. Only small motion/modifier assets retained, bulk image caches skipped. Rawdata stayslocal. Full PushCarnationrun archive (the README checkpoint example's scene) also inventoried: 11779members, 4257870489compressedbytes, complete=True. No ckpt/checkpoint/photometric/alternating optimization state found. Both advertised Carnationrun archives provide preprocessing but no trained material_field.ckpt. This is evidence for these two archives only, not a claim about every scene in Drive.
+
+WHAT IS AND IS NOT DELIVERED
+Delivered actual native low-level mechanical forward execution, contact deformation, known-density sensitivity, unknown-scale ambiguity and separate corrective/held-force diagnostic.
+Not delivered fitted M-PhyGs appearance/material inference, rendering PSNR, native prescribed-position cross-sequence comparison, or benchmark victory. Preserve these distinctions in consolidated tables.

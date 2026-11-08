@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "checks": 1600,
+  "source_hashes_verified": true,
+  "scope_correction": {
+    "incorrect_old_text": "native full pipeline normally supplies density / beyond known-density native fit assumptions",
+    "corrected": "Current official material_field.py predicts density from learned logits, and predicts E through stiffness times density. Density override in test_parallel_photo_opt.py is optional. Unknown-density symmetry is relevant to its native parameterization, but this experiment does not evaluate trained material-field fitting or native rendering.",
+    "evidence": [
+      "mphygs/material_field.py lines71 and97\u2013104",
+      "scripts/test_parallel_photo_opt.py optional --density defaultNone and material-field outputs lines536+"
+    ],
+    "frozen_protocol_original_preserved": true
+  },
+  "limitations": [
+    "Finite synthetic two-world forward reference includes truth by construction.",
+    "No measured ground-truth rendering comparison or native trained inference.",
+    "Same-evidence MAP prediction has identical accuracy.",
+    "Local timing excludes initialization/JIT and is not a speed benchmark.",
+    "Scalar coordinate RMS in smoke/contact report differs from Euclidean-point RMS in second-interaction target."
+  ]
+}

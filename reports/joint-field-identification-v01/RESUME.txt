@@ -1,0 +1,179 @@
+ACTIVE CAMPAIGN: joint spatial material/interaction inference with analytically marginalized loads.
+User authorized up to12h, agents, compute, publishing. Start2026-11-06 19:37:29UTC;
+hard deadline2026-11-07 07:37:29UTC. Goal tool active. CPU/GPU0-2 only, rawdata local.
+
+Do not modify frozen bank.py/campaign.py/mechanics.py/inference.py or continuous source.
+Primary frozen protocol reports/joint-field-identification-v01/protocol.json.
+Source scripts/joint_field_identification/. Raw runs/joint-field-identification-v01/.
+8finite jobs launched: block/step x matched64, continuous-coarse32, offgrid-fine32,
+force-prior32 =320cases. Eachcase five4-action policies andpointablations. Logs
+runs/.../{shape}-{population}.log. EachJSON atomiccaseboundary resumable. Commands
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 .venv/bin/python -m
+scripts.joint_field_identification.campaign --shape SHAPE --phase test --kind POP
+--cases64|32 --device cuda:0|1|2. Nooutcomes maytune frozenmethods.
+
+Continuous frozen manifest reports/.../continuous/manifest.json.192main jobs:
+32continuouscoarsecases x2shapes xinitial/active/fixed,1024particles seed81001.
+96diagnostics:first2matched/offgridcases x2shapes x3stages x2seeds x1024/2048.
+GPU0supervisorPID264534, GPU1PID264567, logs runs/.../continuous/supervisor-{0,1}.log.
+Supervisors waitfinitecaseactions/resume/checkdeadline; statuses inreportscontinuous.
+288jobs expected, nofailures at20:00. SMCreusesfinitepolicyactions, notcontinuousplanning.
+Priorcontinuous differsuniformfiniteendpointprior; don'tclaimsameposterioridentity.
+
+Agents:
+- joint_field_mechanics: mechanics/tests, qualificationexcitation, all3Dfigures/videos,
+  balanced-probe developmentdiagnostic complete. Recommendation notreplaceprobes
+  wholesale: balanceoften lowerssignalnearnoise. Allassetsactual, case0fixed.
+- joint_field_inventory: SMC/runner/supervisors, literature+methodfigure+draftauditdone.
+- joint_field_formulation_audit: exactfiniteinference/tests, MCauditdone; NOW implementing
+  separatelyfrozenhierarchicalforcescale followup scripts/.../hierarchy.py +reports
+  joint-field-hierarchy-v02, fresh64cases/shape,5discreteτlevels .5..2. Fourmodels:
+  hierarchy, fixednominal, variance-matchedbroaderGaussian, oracleτ. Initial vs4fixed
+  probe [10,12,13,14] vs4views[0,2,4,9]. Noactivesearch, rawdata local. Awaitagentstatus.
+
+Coretests33passed beforefreeze. Mainqualification: stiffness/support/loadscale2.5
+preservesprojections, calibratedsameprobe response .4. Mediumfine discretization errors
+.027–.209mm reported. Signedtraction/bilateral supports, known geometry, noisetrack
+.02mm, force .08N. Quasistatic/reference, NOTrawRGBinference/dynamicforecast/contact.
+Audit128vs1024MC:28/32sameaction, maxestimatedregret.397%currentrisk. Priorsensitivity
+8cases: forcepriorstdhalf/double changesmaterial28–34%; include inmainpaper.
+
+Newpaper papers/cvpr2027-joint-identification/main.tex exists (workingdraft placeholders,
+DO NOTpublishascomplete). Maincompiled8pages total beforefullresults added. Legacy
+papers/cvpr2027-physical-response untouched. Newmainneeds finalmacros/resultstext,
+continuous/hierarchyresults, supplementary+legacyretention, visualQA/sourcearchive.
+PDFskill read; marker SUCCESSFULLYRUNonce via
+/usr/lib/chatgpt/resources/cua_node/bin/node [pdfskill]/container_tools/mark_artifact_operation_started.mjs
+--operation-kindcreate --expected-output-count2 --output-formatpdf. No needrepeat.
+Tectonic runs/toolchain/tectonic -Xcompile PAPER/main.tex. FigureArialblacktext.
+
+Figures output/joint-field-identification-v01: ambiguity,method,changed-load-comparison,
+material-fields,force-fields,acquisition,coverage PDF/PNG,block/step-quasistatic-replay.mp4.
+Exclude DEVELOPMENT-* smoke. First3figuregenerators undernewscriptfolder, manifests.
+Report scripts/.../report.py aggregatesallcaseCSV/summary, figures +acquisitiontable.
+Currently interim; rerunaftercomplete. Needcontinuousaggregator/evidenceaudit/finaltests.
+Paper main alreadyfixedfinite-onlyJoseph andcontinuousactionpolicywording.
+
+Publication remote main lastverified42defcd15ced10998ab094fc4035e3a6c9450a99.
+LocalHEADold/unrelatedworktreechanges: neverreset/gitaddall. Gitfetchworks, localpush
+historicallynoauth. UseGitHubconnectorblob/tree/commit/CAS, selectedmanifest only;
+rawtrajectories/checkpoints/datasets staylocal. PublishcompactallcaseCSV +summary/audits,
+selectedfigures/videos, completedpaperandzip/source, notthousandsrawJSON/checkpoint.
+Afterpublicationfetchverifyeveryblob. Updatepapers/LATEST.txt onlyafterverifiednewPDF.
+Goalcompleteonlyaftertests,figures,paper,resultsandpushactuallycomplete.
+
+CRITICAL CORRECTION discovered20:32UTC: original bank.points y±.025 are INTERIOR.
+Do not call v01/v02 projected-marker references RGB-visible surface tests. Preserve them
+as mathematical reference. NEW MAIN camera-facing experiment v04 underway:
+- Inventory agent owns surface.py/surface_campaign.py/surface_continuous.py newfiles,
+  dirs reports/runs joint-field-surface-v04. Points y±.03surface, samepriors/supportx±.025
+  (pre-freeze globalreplacementbug caughtandcorrected), frontcamera xz;
+  backviewprojection e=(1,1,0)/sqrt2 atbackp3/11, c=(-1,1,0)/sqrt2;
+  sideprobe atfrontp13 uses e=(1,1,0)/sqrt2,c=(1,-1,0)/sqrt2. Otherzviewsunchanged.
+  Freshdev121001/121002; primary131001/141001 +populationoffsets;320caseslikev01.
+  Newcontinuous192main+96diagnostic; GPU2first, GPUs0/1whenoldfinish. Freezebeforefinal.
+- Formulationagent owns hierarchy_surface.py +joint-field-hierarchy-surface-v05,
+  same4priormodels/3conditions asv02 withcorrected surface maps, fresh151001/151002.
+- Mechanicsagent owns surface_visibility.py auditingactualsurfaceandrayvisibilityall
+  deformedtruthstates/newprobeviews. Noocclusionfailures maybesilentlydropped.
+Mainpaper currentlytextbasedv01andneedsupdate tosurface v04/v05 primary whencomplete.
+
+Additional numericalfixv03 (referenceonly, interior observations retained):
+Mechanicsagent fine_reference.py, frozen reports/joint-field-fine-v03/protocol.json,
+CPU2workers295035block/295036step constructing24x12x12sparseFEMdictionary625Kgroups
+with5forcecenters/RHSreuse; fresh16truthcases/shape on32x16x16, seeds91001/91002.
+Materialvolume-centeringcorrected so SAMEcontinuousphysicalfieldsacrossmeshes.
+Parentfine_evaluate.py +evaluation-plan.json frozen, waiting directexecsessions38640/
+30817. Comparescoarse8vsfine24onidenticalfine32truth, samev01fixedschedules,4actions.
+Do not change these sources. Expectedfinish~21:15UTC. Highrescheck24→32coordinateRMS
+max.0169mmsoftstep, notabsolutecontinuumconvergencecertification.
+
+v01 all320cases/9600rows COMPLETE, auditpassed. Matched128 activeerror.0313619mm vs
+fixed.0356235mm (11.96%improvement, CI diff[-.005938,-.002661]);random.0416758mm.
+Coverage90.01%; forcepriorcorrelationmismatchcoverage77.73%. TheseareINTERIORreference,
+notnewcamera-main numbers; don'tsubstituteintov04paperbeforefreshsurfaceevaluation.
+
+v02hierarchy COMPLETE128cases/1536rows. Fourpriormodels+3branches:initial/views/probes.
+Knownprobeshalvechangedloaderror .028071→.014159mm, camerasimprovehiddenmotion
+.076666→.049374mm. Hierarchyvsbroaderafterprobes material.4039vs.4387; forcecoverage
+90.9%vsfixed85.7. Wideintervals; no uniqueidentification. v02figures output/joint-field-
+hierarchy-v02, allsource/provenance. Newv05reruns withsurface beforemainclaims.
+
+Metricclarification: frozenforce_profile_rmse_N_per_m is normalized1DGaussianbasis
+proxy, NOTexactsurfaceintegratedtraction onsteppedsidevaryingheight. Report/paperlabels
+corrected; forcefig regeneratedwithsamecurves. No numericmetricchanges.
+
+Auditor initialdetachedPIDdied; parent restarted evidence_audit --watch in directsession
+95518, PID294677, log runs/.../evidence-audit-supervisor.log. Oldcontinuous stillrunning
+~100+/288 jobs. Dependency audit all128casesinitial/active running inventorysession35435
+PID303989; extraexactindependentproduct100kMCfirst4cases/shape. Scopeinversemeans only
+minorpointdifference; covariancebenefitmustmeasured, noassumedwin.
+
+Newpaper main.tex+supplement.tex exist. Maincompiled8pagesbeforefullresultstext, still
+pendingmacros. Supplnewpartcompiled~6pages; pdfpagesconflictswithCVPRinlinedeso-pic,
+so use pdfunite afterTeXcompile toappend unchanged legacy-supporting-evidence.pdf(30pp).
+Bothcompilewithruns/toolchain/tectonic. Buildscript/sourcezip stillneeded.
+
+UPDATE20:53UTC:
+Surfacev04 primary320cases running~160done. V05hierarchy~80/128. All448truthcases actual
+surfacevisibility passed27,776checks. Currentmain/supplement/docs nowcorrectsurface
+coords/cameraimageplane/projection and hierarchy; no longer v01assumptions.
+33corepytestpassed6.08s (runs/joint-field-surface-v04/final-unit-tests.log).
+Main8pagesdraft withpendingresults, laterfullresultsadd~1page. NeedfinallayoutQA.
+Newparentpaper_results.py refusesincompletefinalaudit, generates finaltex/figcopies.
+Newfine_report.py andagentfine_report_audit.py runwhen64modelcasescomplete viaagent
+supervisorPID325605. Stepbank+16truthcomplete, block~400/625. Fineevalworkerswaiting/running.
+Surfacefigs/videos completefixedcase0, new actualsurfaceforcearrowsfig +methodformula
+correctedmatchingpaper(theta,a,Lambda). Copyalreadydoneexceptfinalcohortplots/hierarchy.
+Surfaceacquisitionauditcomplete29/32choicesagree,maxestimatedregret1.529%risk; sensitivity
+halfpriorpostcoverage73.96vsnominal91.67. Texsectiongeneratedandincluded.
+Docs/JOINT_FIELD_IDENTIFICATION.md, paperREADME.txt/build.shcreated. PDFmain/suppcompile.
+Need buildfinalcombinedsupp via./build.sh, sourcezip, renderQA, main8contentpages+refs.
+Newposthoc actualtractionfield diagnostic ownedmechanicsagent, frozenreports/v04/traction/
+protocol.json; CPU1PID328549 surface_traction.py. All128matchedinitial/active/fixed,
+area/timeweightedvectortractionRMSEPa, comparefulljointmeanvsproductmarginalmeans.
+Noalteredprimarystatistics. This supplements1Dproxywithreal3Dsurfacefieldmetric.
+Agentinventoryowns surfaceacqcoveragefinalfigs +reporttable, waitingcomplete; surface
+continuoussummaries/evidenceauditwatch restartedPID323206/sess91672duefiguremanifest
+schemafix(nonexperiment). SurfaceSMC14/288,old171/288, allhealthyGPUs0/1oldthennew,2new.
+Paperresultgeneratorneedsadditionalfine/dependence/tractiontablesandfinalscientificaudit.
+NoGitHubpublicationyet. Remote42defcd15ced10998ab094fc4035e3a6c9450a99 unchanged.
+
+UPDATE21:12UTC:
+Surfacev04all320finite COMPLETE; independent1200summarymetrics +80pairedcomparisons exact.
+Matched initial.057847→active.034005; fixedmixed.042283 (19.6%gain); fixedVIEW.040293
+is STRONGERthanmixed(final). Activegainvsview15.6%,CI diff[-.008322,-.004328]. Paper
+wordingcorrected,abstractbothfixedbaseline macros, no strongestmixedclaim. Activeworse
+newload/materialthanmixed/probeonly. Coverage92.0%matched→86.4continuous86.1fine79.2forceprior.
+Surfacefigs/acqtable completeQA;coverage-predictionnowexplicit70–100%axis forcolumn
+legibility; full3panelcoverageforsupp. Hierarchy-summary changedfullwidthfigure*.
+V05complete128/1536auditpassed: views hidden.093922→.062564(33.4%); probes newload
+.027377→.014139(48.4%),material.476688→.381573(20.0%). Forcecov88.77vsnominal81.88,
+broader86.57; intervalwidth.157623vsbroader.162702. AllfigsArial/renderedQA,copyinpaper.
+Actualtractionposthoccomplete128+audit:10.151Pa initial→8.038fixed→7.180active,active-
+fixedCI[-1.194,-.537]Pa. Independentmeanproductnearlyidentical; no dependenceaccuracygain.
+Surfaceall320truthstrainchecked: max4.30%,median.77%,p95 1.90,none>5%,minJ.9817.
+V05 max8.18%,3/128>5%,none>10%; reportednolinearvaliditycertificate.
+FineblockbankCOMPLETE,32-meshtruth~7/16; stepevaluationall32modelcasesdone. Fineaggregate
+andindependentreportauditwaiterPID325605alive, autowrites summary/aggregation-audit.
+SurfaceSMC~60/288,old~210/288; GPU0/1nowSHAREDold+new byprecisewaiterrestart audit,
+no frozenchanges,mempeaks842/768MiBafter10min,zeroOOM. NewshardsPID334328/334327GPU0/1,
+GPU2shard0PID313446unchanged. Manifests andoutputsfullypreserved.
+NEW targetedv06temporalcovariancefollowup (motivatedbyknownforce-priorfailure, explicit
+posthoc): agentformulationowns temporal.py etc under scripts/joint_field_identification,
+reports/runs joint-field-temporal-v06. Frozen21:12ish SHA02120714afb6e84e8097b0bcb80e2cb5a1a5ac565ca037e956bf3189da426276.
+64freshcases(32/shape),truecorr.1,tau5values; estimator15hypercomponents(tau5×corr.1/.3/.6)
+46875spatialmixture; controlsamponly,fixednominal,oracletruecovariance. Samefourview/probe
+branches. Noactivepolicynewclaim. IndependentinventoryNumPyidentitypreflight<5e-16.
+2CPUworkersrunning~20–40min estimate. Mechanicsagentwillvisibility/strainauditall64
+separately(notoverwritev04/v05). Includeallnegativeoutputs, no assumedcalibrationwin.
+Paperparentaddedv06formulation/protocolparagraphs; temporal-results.tex stillpending.
+Parentpaper_results.py nowfinalgates v04SMC/evidenceallcomplete,hierarchycompletionaudit,
+dep/traction/finecomplete; autoresults/table/macros/figcopies/provenance, fine-results.tex.
+Needaddv06gates/results whencomplete, dependencenumericalsummarytext, finalreport.txt.
+Main~3267words+~750results; mayneedtrimto8contentpages+refs afterfinalcompile.
+Build.shcreated pdfunite newsupp+legacy30pages; README/docs/release_index.pycreated.
+Releaseindex exportsall288fits +stageCSVsperv01/v04,1536hierrowsperv02/v05;rawstaylocal.
+NoGitHubpublicationyet; remote42defcd... unchanged. Needfinalallchecks,renderPDF,sourceZIP
+selfcontainedbuildcheck, publishselectedsource/reports/figs/video/paper viaGitHubblobs/tree/
+commit/CAS, verifyremote, updateLATESTandgoalcompleteonlythen.

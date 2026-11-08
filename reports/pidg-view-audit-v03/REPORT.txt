@@ -1,0 +1,48 @@
+PIDG paper PSNR and off-path camera audit
+=======================================
+The published AAAI paper Table 1 reports 33.31 dB for Balls Reaction.
+Its stated training resolution is 1600x900. No published PSNR typo was
+established. The official standalone NCHW evaluator computes standard RGB
+PSNR. Its CHW training logger instead averages channel PSNR; this is a
+separate convention and not proof that the published table is incorrect.
+
+Both existing matched checkpoints were trained at 320x180. Re-rendering all
+38 untouched test views at 1600x900 gives:
+                             PIDG        PIDG + frozen material prior
+Whole-image PSNR             31.6412     31.6382 dB
+Foreground PSNR              22.4114     22.6231 dB
+SSIM                         0.97123     0.97189
+LPIPS-Alex                   0.03230     0.03235
+These are resolution stress tests of the existing models, not a reproduction
+of the authors' 1600x900 training. Full results remain in audit.json. Earlier
+320px and 640px results have not been replaced.
+
+The integration is our frozen material regularizer inside PIDG, not our full
+mechanics/contact/force-inference model. No substantial PSNR advantage is
+established by this experiment.
+
+Novel camera experiment
+-----------------------
+Frozen models, 3 predeclared times (first/middle/last test samples), 7 yaw
+offsets (-90,-60,-30,0,30,60,90 degrees), shared camera poses and rendering.
+42 images total across both methods. Rotation is about the world Z axis and
+world origin. Nonzero camera positions are checked against all released
+poses in the manifests. Original test orientations are within about 1.73
+degrees of a fitting-camera orientation. Off-path images are visibly much
+harder: both methods show fragmented surfaces and floating appearance.
+There is no clear qualitative victory for this material-prior integration.
+
+No reference images exist locally for these invented camera/time pairs.
+Consequently no PSNR, SSIM, LPIPS or ground-truth error colors are assigned
+to them. Comparing to a nearby captured view would be invalid for dynamic
+geometry. The contact sheet includes every predeclared view, not selected wins.
+
+Next useful controlled test: obtain original Blender scene assets and rerender
+identical states from independent camera trajectories, or use a dataset with
+synchronized held-out cameras. Improve view-independent geometry/appearance
+alongside the material prior; an inversion penalty alone did not prevent the
+observed unseen-view artifacts.
+
+Reproduce with scripts/pidg_comparison/novel_views.py for each selected v02
+checkpoint, evaluate.py --render-width 1600 --split test, and audit_views.py.
+Raw RGB, per-view predictions and checkpoints remain local under runs/.

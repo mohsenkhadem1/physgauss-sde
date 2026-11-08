@@ -1,0 +1,124 @@
+{
+  "status": "case_study_complete_partial_roster",
+  "purpose": "Test whether visual reconstruction quality predicts physical accuracy under a second held-out interaction, and whether additional observations resolve task-relevant ambiguity.",
+  "previous_release": {
+    "name": "gap-first-v01",
+    "scope_correction": "Native ReconPhys drop plus our stem and bowl controls do not complete the requested recent-method cross-framework benchmark. The failed PhysTwin spring-core bowl adapter is not evidence of native PhysTwin failure."
+  },
+  "required_methods": [
+    "PhysConvex",
+    "MASIV",
+    "M-PhyGs",
+    "PhysTwin",
+    "GIC",
+    "PAC-NeRF",
+    "ReconPhys",
+    "ours"
+  ],
+  "benchmark": "PhysGaia is a dataset/benchmark, not a prediction method.",
+  "published_evidence_not_our_reproduction": [
+    {
+      "method": "PhysConvex",
+      "source": "https://arxiv.org/html/2602.18886v1",
+      "location": "Ablation, convex vertices K=6 versus K=8",
+      "reconstruction_psnr_db": [
+        30.0,
+        30.19
+      ],
+      "future_psnr_db": [
+        25.71,
+        25.38
+      ],
+      "mean_absolute_log_stiffness_error": [
+        0.37,
+        0.47
+      ],
+      "interpretation": "Within this ablation, higher reconstruction PSNR does not select the better physical estimate or future prediction. It does not establish universal method failure."
+    },
+    {
+      "method": "PAC-NeRF and GIC on PhysGaia",
+      "source": "https://arxiv.org/html/2506.02794v2",
+      "location": "Table 7, bouncing balls",
+      "young_modulus_pa": {
+        "truth": 100000,
+        "PAC-NeRF": 1700,
+        "GIC": 23400
+      },
+      "interpretation": "Published parameter identification errors; new paired rendering and interaction measurements remain required."
+    },
+    {
+      "method": "MASIV",
+      "source": "https://arxiv.org/html/2508.01112v1",
+      "location": "Section 4.5",
+      "interpretation": "Authors state that material and external forces are not explicitly disentangled and assume uniform gravity. This is a stated scope limitation, not our measured failure."
+    },
+    {
+      "method": "M-PhyGs",
+      "source": "https://arxiv.org/html/2512.16885v1",
+      "cross_sequence_silhouette_iou_percent": 65.13,
+      "location": "Dynamics prediction table; Appendix B",
+      "interpretation": "Strong changed-interaction comparison; estimated contact motion is imposed through velocity boundary conditions. Force-controlled prediction must not receive the resulting indentation as input."
+    }
+  ],
+  "experiment_contract": {
+    "families": [
+      "drop",
+      "compliant flexible stem",
+      "soft object in bowl"
+    ],
+    "qualification": "Reproduce each supported native setting first. Pin code, checkpoints, units, camera, preprocessing, and input evidence. Report adaptations separately. Unsupported scenarios are not failures.",
+    "fit": "Use an observation prefix only. Separate known geometry/density/force/controller assumptions explicitly for every method.",
+    "freeze": "Freeze each model's task prediction and our model-specific predicted risk before revealing the outcome.",
+    "correct": "Supply identical additional view or calibrated interaction evidence to ordinary refitting and uncertainty-aware approaches. Select evidence without access to the true hidden world.",
+    "test": "Predict a second, different held-out interaction from a reset state. Neither its trajectory nor indentation is input under force control.",
+    "render_metrics": [
+      "foreground PSNR",
+      "full-image PSNR",
+      "SSIM",
+      "LPIPS on cameras with recorded ground truth"
+    ],
+    "physics_metrics": [
+      "material-point trajectory error",
+      "task displacement error",
+      "contact penetration",
+      "force error when measured",
+      "parameter error as secondary diagnostic"
+    ],
+    "uncertainty_metrics": [
+      "Brier score for frozen model failure",
+      "response interval coverage and width",
+      "risk versus realized error",
+      "measurement cost"
+    ],
+    "controls": [
+      "predictable repeated action despite parameter ambiguity",
+      "known-boundary control",
+      "point estimator with identical corrective evidence",
+      "fixed measurement",
+      "random measurement",
+      "oracle clearly labeled"
+    ],
+    "claim": "Good rendering alone cannot certify action-relevant physics under insufficient observations. Do not claim rendering and accurate simulation can never coexist."
+  },
+  "completion": {
+    "date": "2026-11-07",
+    "report": "reports/gap-crossmethod-v02/REPORT.txt",
+    "native_complete": [
+      "PAC-NeRF",
+      "GIC"
+    ],
+    "native_mechanics_only": [
+      "MASIV",
+      "M-PhyGs"
+    ],
+    "blocked": [
+      "PhysConvex"
+    ],
+    "not_run_natively": [
+      "PhysTwin"
+    ],
+    "prior_campaign": [
+      "ReconPhys"
+    ]
+  }
+}

@@ -1,0 +1,1545 @@
+{
+  "scope": "Two historically exposed development cases; fixed derived v02 policy, no selection or retraining",
+  "policy_source_sha256": "43614fa422517d8766d9a047245aba4566ceed47df6c87d2c4974b7cfa44fa64",
+  "cases": {
+    "single_push_sloth": {
+      "methods": {
+        "flow_raw": {
+          "coordinate_rmse_mm": 154.6547224621635,
+          "mean_l2_mm": 245.03679789160344,
+          "vector_rms_mm": 267.8698369349309,
+          "aligned_shape_rmse_mm": 45.14884338656204,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "flow_tracking": {
+          "coordinate_rmse_mm": 155.52194365840947,
+          "mean_l2_mm": 246.46489631511145,
+          "vector_rms_mm": 269.3719081082295,
+          "aligned_shape_rmse_mm": 44.904624405914255,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "mixture_raw": {
+          "coordinate_rmse_mm": 61.577430539926105,
+          "mean_l2_mm": 75.38146323949218,
+          "vector_rms_mm": 106.65523829469542,
+          "aligned_shape_rmse_mm": 47.06644891513698,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "mixture_tracking": {
+          "coordinate_rmse_mm": 61.79730898107006,
+          "mean_l2_mm": 77.55258183758426,
+          "vector_rms_mm": 107.03607892624579,
+          "aligned_shape_rmse_mm": 47.37266908747932,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "prefix_persistence": {
+          "coordinate_rmse_mm": 66.53161071752224,
+          "mean_l2_mm": 106.69085781432689,
+          "vector_rms_mm": 115.23613007214259,
+          "aligned_shape_rmse_mm": 26.44332625356864,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "prefix_velocity": {
+          "coordinate_rmse_mm": 36.341256637158125,
+          "mean_l2_mm": 48.43810679682553,
+          "vector_rms_mm": 62.944902906457564,
+          "aligned_shape_rmse_mm": 27.316284088230322,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "flow_pose": {
+          "coordinate_rmse_mm": 48.808466133569695,
+          "mean_l2_mm": 71.9028745087451,
+          "vector_rms_mm": 84.5387431828476,
+          "aligned_shape_rmse_mm": 45.53140405611165,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "mixture_pose": {
+          "coordinate_rmse_mm": 50.43371788370804,
+          "mean_l2_mm": 74.40267696687776,
+          "vector_rms_mm": 87.35376178917747,
+          "aligned_shape_rmse_mm": 46.89197103296886,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        }
+      },
+      "derived_intervals": {
+        "flow_pose": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.1185217822327477,
+          "average_width_mm": 3.425818168298608,
+          "samples": 31,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        },
+        "mixture_pose": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.2673257329588221,
+          "average_width_mm": 16.904110370068263,
+          "samples": 32,
+          "transport": "Joint node trajectories mapped before pointwise quantiles"
+        }
+      },
+      "floor_applicability": {
+        "flow": {
+          "maximum_m": 6.505213034913027e-19,
+          "sample_fraction_with_any_penetration": 0.03225806451612903,
+          "sample_fraction_over_1mm": 0.0,
+          "applicability_failure": false,
+          "criterion": "Post-hoc known-plane applicability diagnostic, not a fitted correction; any >1mm penetration fails physical applicability",
+          "floor_m": -0.0010933835811019054
+        },
+        "mixture": {
+          "maximum_m": 6.505213034913027e-19,
+          "sample_fraction_with_any_penetration": 0.40625,
+          "sample_fraction_over_1mm": 0.0,
+          "applicability_failure": false,
+          "criterion": "Post-hoc known-plane applicability diagnostic, not a fitted correction; any >1mm penetration fails physical applicability",
+          "floor_m": -0.0010933835811019054
+        }
+      },
+      "policy_metadata": {
+        "flow": {
+          "policy": {
+            "version": 2,
+            "gravity_m_s2": 9.81,
+            "substeps": 80,
+            "friction": 0.5,
+            "restitution": 0.0,
+            "release": "first prescribed inactive attachment; irreversible",
+            "inferred_slip": false,
+            "held_contact": "whole-cloud vertical translation onto supplied initial min-z plane",
+            "released_contact": "archived integrate_pose unchanged; unit mass and rigid node-cloud inertia",
+            "geometry": "supplied initial min-z plane only; no inferred or future scene geometry",
+            "shape": "raw FEM shape while held; rigid shape after separation",
+            "fallback": "none; all cases and inherited sample failures retained",
+            "scope": "kinematic/rigid contact baseline; not coupled FEM or physically validated contact"
+          },
+          "prefix_frames": [
+            0,
+            4,
+            8,
+            12,
+            16,
+            20,
+            25,
+            29,
+            33,
+            37,
+            41,
+            46
+          ],
+          "point_ids": [
+            2524,
+            0,
+            4828,
+            2410,
+            697,
+            4023,
+            630,
+            4186,
+            801,
+            2646,
+            3866,
+            2353,
+            330,
+            3599,
+            989,
+            4523,
+            1538,
+            3174,
+            3266,
+            2072,
+            4441,
+            1744,
+            383,
+            1068,
+            1751,
+            3490,
+            2378,
+            1631,
+            1900,
+            3284,
+            1416,
+            210,
+            4668,
+            1445,
+            3523,
+            3453,
+            3024,
+            102,
+            4019,
+            4682,
+            4150,
+            1843,
+            2694,
+            2892,
+            534,
+            997,
+            4464,
+            1907
+          ],
+          "shared_points": 14,
+          "prescribed_release_frame": null,
+          "inferred_release_frame": null,
+          "calibration_frame": 46,
+          "node_shape_preserved_while_held": true,
+          "uncertainty": "Rigid pose is a point estimate; only raw FEM shape sample uncertainty retained",
+          "limitations": "Projection/impulses correct rigid pose only; no elastic feedback, inferred forces, or energy accuracy claim",
+          "contact_diagnostics": [
+            {
+              "maximum_held_vertical_projection_m": 0.0013691399991198761,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0015451311092674967,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0015216752876298443,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.001170983544624548,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0012237464733152118,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.001107545551747039,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.000998701389341703,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0011385798806227913,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0011303822794794672,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0010909187202719293,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0007413460209786053,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0006763016012342963,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0011181701292150576,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0012909755209900779,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0011686945752749165,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0013432800876069801,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0005054082295468255,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0011136091760927328,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0015430264646660939,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0017049560966331749,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.001152941823337008,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.001690363169396921,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0011980557968559672,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0011860074954817632,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.007441922556771064,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0011600034035850824,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0013459273130898084,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.010089200000738159,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 6.505213034913027e-19
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.001117324605499654,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.001042821938732335,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0015486071785559975,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            }
+          ],
+          "inherited_pose_policy": {
+            "version": 1,
+            "velocity_frames": 8,
+            "gravity_m_s2": [
+              0.0,
+              0.0,
+              -9.81
+            ],
+            "inferred_slip": false,
+            "release": "first prescribed inactive frame; irreversible",
+            "impacts": "unsupported; no collision response",
+            "shape": "raw FEM shape while held; freeze at separation",
+            "fallback": "none; fail explicitly",
+            "scope": "split pose/shape prediction, not coupled contact"
+          }
+        },
+        "mixture": {
+          "policy": {
+            "version": 2,
+            "gravity_m_s2": 9.81,
+            "substeps": 80,
+            "friction": 0.5,
+            "restitution": 0.0,
+            "release": "first prescribed inactive attachment; irreversible",
+            "inferred_slip": false,
+            "held_contact": "whole-cloud vertical translation onto supplied initial min-z plane",
+            "released_contact": "archived integrate_pose unchanged; unit mass and rigid node-cloud inertia",
+            "geometry": "supplied initial min-z plane only; no inferred or future scene geometry",
+            "shape": "raw FEM shape while held; rigid shape after separation",
+            "fallback": "none; all cases and inherited sample failures retained",
+            "scope": "kinematic/rigid contact baseline; not coupled FEM or physically validated contact"
+          },
+          "prefix_frames": [
+            0,
+            4,
+            8,
+            12,
+            16,
+            20,
+            25,
+            29,
+            33,
+            37,
+            41,
+            46
+          ],
+          "point_ids": [
+            2524,
+            0,
+            4828,
+            2410,
+            697,
+            4023,
+            630,
+            4186,
+            801,
+            2646,
+            3866,
+            2353,
+            330,
+            3599,
+            989,
+            4523,
+            1538,
+            3174,
+            3266,
+            2072,
+            4441,
+            1744,
+            383,
+            1068,
+            1751,
+            3490,
+            2378,
+            1631,
+            1900,
+            3284,
+            1416,
+            210,
+            4668,
+            1445,
+            3523,
+            3453,
+            3024,
+            102,
+            4019,
+            4682,
+            4150,
+            1843,
+            2694,
+            2892,
+            534,
+            997,
+            4464,
+            1907
+          ],
+          "shared_points": 14,
+          "prescribed_release_frame": null,
+          "inferred_release_frame": null,
+          "calibration_frame": 46,
+          "node_shape_preserved_while_held": true,
+          "uncertainty": "Rigid pose is a point estimate; only raw FEM shape sample uncertainty retained",
+          "limitations": "Projection/impulses correct rigid pose only; no elastic feedback, inferred forces, or energy accuracy claim",
+          "contact_diagnostics": [
+            {
+              "maximum_held_vertical_projection_m": 0.0019229144880094438,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0015170804971988562,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.010907594462269701,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 6.505213034913027e-19
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.009677103866642202,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 6.505213034913027e-19
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.012035599775906063,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 6.505213034913027e-19
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.01810927914208077,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 6.505213034913027e-19
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.009477964116159372,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 6.505213034913027e-19
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0011346635107953521,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0005845785627042403,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.007946390552299273,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 6.505213034913027e-19
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.006945789555010352,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.010525610452194654,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 6.505213034913027e-19
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.006744383024771186,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.01156897663119872,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 6.505213034913027e-19
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.005711694867606116,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0036599043629051012,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.013645460828591013,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 6.505213034913027e-19
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.006012403210487718,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.009481944897273692,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 6.505213034913027e-19
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.01288583737987161,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 6.505213034913027e-19
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.010679797174570842,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 6.505213034913027e-19
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.014916131559278852,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 6.505213034913027e-19
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0094377092331243,
+              "contact_substeps": 0,
+              "maximum_preprojection_penetration_m": 0.0,
+              "maximum_returned_penetration_m": 6.505213034913027e-19
+            }
+          ],
+          "inherited_pose_policy": {
+            "version": 1,
+            "velocity_frames": 8,
+            "gravity_m_s2": [
+              0.0,
+              0.0,
+              -9.81
+            ],
+            "inferred_slip": false,
+            "release": "first prescribed inactive frame; irreversible",
+            "impacts": "unsupported; no collision response",
+            "shape": "raw FEM shape while held; freeze at separation",
+            "fallback": "none; fail explicitly",
+            "scope": "split pose/shape prediction, not coupled contact"
+          }
+        }
+      },
+      "inherited_forecast_samples": {
+        "flow": {
+          "requested": 32,
+          "valid": 31,
+          "failures": [
+            {
+              "sample": 12,
+              "error": "Equilibrium iteration limit frame=38 residual=0.000107167"
+            }
+          ]
+        },
+        "mixture": {
+          "requested": 32,
+          "valid": 32,
+          "failures": []
+        }
+      },
+      "source_report_sha256": {
+        "push-sloth-package-pilot-scores.json": "e62f872bbb0123780619a623d52d2785afd4a9be54dbe118e84dc42b42f698c8",
+        "pose-contact-push-sloth-scores.json": "19eddafec0e16441f07bdd63610e8f16f912847dd2d3c808d4699575930c0cd4"
+      },
+      "prediction_sha256": "c56fca01677962f80507e8daa4c0436d2f468651422d0698f408b8855468108f",
+      "previous_no_contact_v1": {
+        "flow_pose": {
+          "coordinate_rmse_mm": 48.80774430692565,
+          "mean_l2_mm": 71.90180464848558,
+          "vector_rms_mm": 84.53749294242586,
+          "aligned_shape_rmse_mm": 45.53140405611165,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "mixture_pose": {
+          "coordinate_rmse_mm": 50.414995857536994,
+          "mean_l2_mm": 74.38539608476377,
+          "vector_rms_mm": 87.32133428862853,
+          "aligned_shape_rmse_mm": 46.89197103296886,
+          "total_frames": 21,
+          "valid_frames": 21,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        }
+      },
+      "floor_applicability_note": "Projection enforces this plane; not evidence of force balance or physical accuracy. Sub-attometre negative gaps are floating-point roundoff."
+    },
+    "object-soft-task1-demo0": {
+      "methods": {
+        "flow_raw": {
+          "coordinate_rmse_mm": 56.219385975718865,
+          "mean_l2_mm": 97.16025890234556,
+          "vector_rms_mm": 97.37483288027029,
+          "aligned_shape_rmse_mm": 2.592935853317721,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "flow_tracking": {
+          "coordinate_rmse_mm": 55.88473793294107,
+          "mean_l2_mm": 96.57474979958886,
+          "vector_rms_mm": 96.79520546752565,
+          "aligned_shape_rmse_mm": 2.5928588514910893,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "mixture_raw": {
+          "coordinate_rmse_mm": 57.7376555387132,
+          "mean_l2_mm": 99.81334538815126,
+          "vector_rms_mm": 100.00455290296185,
+          "aligned_shape_rmse_mm": 3.4223921109392044,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "mixture_tracking": {
+          "coordinate_rmse_mm": 57.04704073102056,
+          "mean_l2_mm": 98.61298742695651,
+          "vector_rms_mm": 98.80837296757879,
+          "aligned_shape_rmse_mm": 3.4478276305237956,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "prefix_persistence": {
+          "coordinate_rmse_mm": 156.5673298773347,
+          "mean_l2_mm": 271.18098962248223,
+          "vector_rms_mm": 271.1825701529404,
+          "aligned_shape_rmse_mm": 0.41975082145086917,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "prefix_velocity": {
+          "coordinate_rmse_mm": 146.510800811054,
+          "mean_l2_mm": 253.76284467623952,
+          "vector_rms_mm": 253.764150862349,
+          "aligned_shape_rmse_mm": 0.8128752449407317,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "flow_pose": {
+          "coordinate_rmse_mm": 18.30926264737114,
+          "mean_l2_mm": 31.355520393139532,
+          "vector_rms_mm": 31.712573154369853,
+          "aligned_shape_rmse_mm": 2.576898250353922,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "mixture_pose": {
+          "coordinate_rmse_mm": 18.663168420074644,
+          "mean_l2_mm": 31.91585402765604,
+          "vector_rms_mm": 32.32555593378425,
+          "aligned_shape_rmse_mm": 3.618928668086666,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        }
+      },
+      "derived_intervals": {
+        "flow_pose": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.04615162037037037,
+          "average_width_mm": 0.6179482916604749,
+          "samples": 29,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 29,
+            "failed": 3
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        },
+        "mixture_pose": {
+          "available": true,
+          "nominal_coverage": 0.9,
+          "coordinate_coverage": 0.0685763888888889,
+          "average_width_mm": 1.1663180154024597,
+          "samples": 31,
+          "transport": "Joint node trajectories mapped before pointwise quantiles",
+          "forecast_selection": {
+            "requested": 32,
+            "valid": 31,
+            "failed": 1
+          },
+          "interpretation": "Coverage of solver-successful stored trajectories only; not calibrated unconditional posterior coverage. Failed trajectories remain reported."
+        }
+      },
+      "floor_applicability": {
+        "flow": {
+          "maximum_m": 0.0,
+          "sample_fraction_with_any_penetration": 0.0,
+          "sample_fraction_over_1mm": 0.0,
+          "applicability_failure": false,
+          "criterion": "Post-hoc known-plane applicability diagnostic, not a fitted correction; any >1mm penetration fails physical applicability",
+          "floor_m": -0.011920439079403877
+        },
+        "mixture": {
+          "maximum_m": 0.0,
+          "sample_fraction_with_any_penetration": 0.0,
+          "sample_fraction_over_1mm": 0.0,
+          "applicability_failure": false,
+          "criterion": "Post-hoc known-plane applicability diagnostic, not a fitted correction; any >1mm penetration fails physical applicability",
+          "floor_m": -0.011920439079403877
+        }
+      },
+      "policy_metadata": {
+        "flow": {
+          "policy": {
+            "version": 2,
+            "gravity_m_s2": 9.81,
+            "substeps": 80,
+            "friction": 0.5,
+            "restitution": 0.0,
+            "release": "first prescribed inactive attachment; irreversible",
+            "inferred_slip": false,
+            "held_contact": "whole-cloud vertical translation onto supplied initial min-z plane",
+            "released_contact": "archived integrate_pose unchanged; unit mass and rigid node-cloud inertia",
+            "geometry": "supplied initial min-z plane only; no inferred or future scene geometry",
+            "shape": "raw FEM shape while held; rigid shape after separation",
+            "fallback": "none; all cases and inherited sample failures retained",
+            "scope": "kinematic/rigid contact baseline; not coupled FEM or physically validated contact"
+          },
+          "prefix_frames": [
+            0,
+            6,
+            12,
+            19,
+            25,
+            32,
+            38,
+            45,
+            51,
+            58,
+            64,
+            71
+          ],
+          "point_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47
+          ],
+          "shared_points": 48,
+          "prescribed_release_frame": 110,
+          "inferred_release_frame": null,
+          "calibration_frame": 71,
+          "node_shape_preserved_while_held": true,
+          "uncertainty": "Rigid pose is a point estimate; only raw FEM shape sample uncertainty retained",
+          "limitations": "Projection/impulses correct rigid pose only; no elastic feedback, inferred forces, or energy accuracy claim",
+          "contact_diagnostics": [
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 500,
+              "maximum_preprojection_penetration_m": 0.0011762011025751532,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 499,
+              "maximum_preprojection_penetration_m": 0.001172458131190086,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 502,
+              "maximum_preprojection_penetration_m": 0.00115111037562045,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 505,
+              "maximum_preprojection_penetration_m": 0.0010525000254357677,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 501,
+              "maximum_preprojection_penetration_m": 0.0011542857094253081,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 502,
+              "maximum_preprojection_penetration_m": 0.0011311586458441613,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 497,
+              "maximum_preprojection_penetration_m": 0.0011676512686597806,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 501,
+              "maximum_preprojection_penetration_m": 0.0011595674334448757,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 502,
+              "maximum_preprojection_penetration_m": 0.0009514958990348519,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 501,
+              "maximum_preprojection_penetration_m": 0.0011704649108219365,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 502,
+              "maximum_preprojection_penetration_m": 0.0011745255334314232,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 502,
+              "maximum_preprojection_penetration_m": 0.0011469638526346686,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 502,
+              "maximum_preprojection_penetration_m": 0.0011793918573496601,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 497,
+              "maximum_preprojection_penetration_m": 0.0011859605948755965,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 499,
+              "maximum_preprojection_penetration_m": 0.001162327169815876,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 502,
+              "maximum_preprojection_penetration_m": 0.001114934070134712,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 497,
+              "maximum_preprojection_penetration_m": 0.0011706561687168642,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 501,
+              "maximum_preprojection_penetration_m": 0.0011407160562863158,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 501,
+              "maximum_preprojection_penetration_m": 0.0010987664538491555,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 501,
+              "maximum_preprojection_penetration_m": 0.0011151557011777006,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 502,
+              "maximum_preprojection_penetration_m": 0.0011372876715916198,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 502,
+              "maximum_preprojection_penetration_m": 0.000967249953325271,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 502,
+              "maximum_preprojection_penetration_m": 0.0011499622526672248,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 505,
+              "maximum_preprojection_penetration_m": 0.0010554365554453007,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 501,
+              "maximum_preprojection_penetration_m": 0.0011270547646864849,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 495,
+              "maximum_preprojection_penetration_m": 0.0011068099124921602,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 500,
+              "maximum_preprojection_penetration_m": 0.0011673785312148847,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 499,
+              "maximum_preprojection_penetration_m": 0.0011586282575045005,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 502,
+              "maximum_preprojection_penetration_m": 0.0009585040896869946,
+              "maximum_returned_penetration_m": 0.0
+            }
+          ],
+          "inherited_pose_policy": {
+            "version": 1,
+            "velocity_frames": 8,
+            "gravity_m_s2": [
+              0.0,
+              0.0,
+              -9.81
+            ],
+            "inferred_slip": false,
+            "release": "first prescribed inactive frame; irreversible",
+            "impacts": "unsupported; no collision response",
+            "shape": "raw FEM shape while held; freeze at separation",
+            "fallback": "none; fail explicitly",
+            "scope": "split pose/shape prediction, not coupled contact"
+          }
+        },
+        "mixture": {
+          "policy": {
+            "version": 2,
+            "gravity_m_s2": 9.81,
+            "substeps": 80,
+            "friction": 0.5,
+            "restitution": 0.0,
+            "release": "first prescribed inactive attachment; irreversible",
+            "inferred_slip": false,
+            "held_contact": "whole-cloud vertical translation onto supplied initial min-z plane",
+            "released_contact": "archived integrate_pose unchanged; unit mass and rigid node-cloud inertia",
+            "geometry": "supplied initial min-z plane only; no inferred or future scene geometry",
+            "shape": "raw FEM shape while held; rigid shape after separation",
+            "fallback": "none; all cases and inherited sample failures retained",
+            "scope": "kinematic/rigid contact baseline; not coupled FEM or physically validated contact"
+          },
+          "prefix_frames": [
+            0,
+            6,
+            12,
+            19,
+            25,
+            32,
+            38,
+            45,
+            51,
+            58,
+            64,
+            71
+          ],
+          "point_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47
+          ],
+          "shared_points": 48,
+          "prescribed_release_frame": 110,
+          "inferred_release_frame": null,
+          "calibration_frame": 71,
+          "node_shape_preserved_while_held": true,
+          "uncertainty": "Rigid pose is a point estimate; only raw FEM shape sample uncertainty retained",
+          "limitations": "Projection/impulses correct rigid pose only; no elastic feedback, inferred forces, or energy accuracy claim",
+          "contact_diagnostics": [
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 511,
+              "maximum_preprojection_penetration_m": 0.0010118841113242565,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 510,
+              "maximum_preprojection_penetration_m": 0.0010139039200198728,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 509,
+              "maximum_preprojection_penetration_m": 0.001036325532154882,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 510,
+              "maximum_preprojection_penetration_m": 0.0009943167131106784,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 508,
+              "maximum_preprojection_penetration_m": 0.0003081723929012799,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 508,
+              "maximum_preprojection_penetration_m": 0.00030624003856124203,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 505,
+              "maximum_preprojection_penetration_m": 0.0006648446630806576,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 510,
+              "maximum_preprojection_penetration_m": 0.0010158133176978862,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 508,
+              "maximum_preprojection_penetration_m": 0.00030709005601511213,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 507,
+              "maximum_preprojection_penetration_m": 0.00030431785683420615,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 508,
+              "maximum_preprojection_penetration_m": 0.0003045356064262771,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 510,
+              "maximum_preprojection_penetration_m": 0.0010019684949648042,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 509,
+              "maximum_preprojection_penetration_m": 0.001023570225661987,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 510,
+              "maximum_preprojection_penetration_m": 0.0010482446997649286,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 507,
+              "maximum_preprojection_penetration_m": 0.00030680571780269776,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 508,
+              "maximum_preprojection_penetration_m": 0.0003032998062780512,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 510,
+              "maximum_preprojection_penetration_m": 0.0010048010366146918,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 508,
+              "maximum_preprojection_penetration_m": 0.0003041297527040833,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 507,
+              "maximum_preprojection_penetration_m": 0.0003107407043947217,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 511,
+              "maximum_preprojection_penetration_m": 0.0010185416112097143,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 510,
+              "maximum_preprojection_penetration_m": 0.001020417479232906,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 508,
+              "maximum_preprojection_penetration_m": 0.00030709411662270883,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 508,
+              "maximum_preprojection_penetration_m": 0.0010211886696396433,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 508,
+              "maximum_preprojection_penetration_m": 0.00030173304213146866,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 509,
+              "maximum_preprojection_penetration_m": 0.0010254135983343085,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 509,
+              "maximum_preprojection_penetration_m": 0.0010257631514279698,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 508,
+              "maximum_preprojection_penetration_m": 0.00029689778217923193,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 508,
+              "maximum_preprojection_penetration_m": 0.00029631371078034895,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 510,
+              "maximum_preprojection_penetration_m": 0.0010120923810233787,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 508,
+              "maximum_preprojection_penetration_m": 0.0003055161004121461,
+              "maximum_returned_penetration_m": 0.0
+            },
+            {
+              "maximum_held_vertical_projection_m": 0.0,
+              "contact_substeps": 508,
+              "maximum_preprojection_penetration_m": 0.0002959273800566143,
+              "maximum_returned_penetration_m": 0.0
+            }
+          ],
+          "inherited_pose_policy": {
+            "version": 1,
+            "velocity_frames": 8,
+            "gravity_m_s2": [
+              0.0,
+              0.0,
+              -9.81
+            ],
+            "inferred_slip": false,
+            "release": "first prescribed inactive frame; irreversible",
+            "impacts": "unsupported; no collision response",
+            "shape": "raw FEM shape while held; freeze at separation",
+            "fallback": "none; fail explicitly",
+            "scope": "split pose/shape prediction, not coupled contact"
+          }
+        }
+      },
+      "inherited_forecast_samples": {
+        "flow": {
+          "requested": 32,
+          "valid": 29,
+          "failures": [
+            {
+              "sample": 15,
+              "error": "Equilibrium iteration limit frame=61 residual=0.000726108"
+            },
+            {
+              "sample": 17,
+              "error": "Equilibrium iteration limit frame=110 residual=2.79827e-05"
+            },
+            {
+              "sample": 29,
+              "error": "Equilibrium iteration limit frame=110 residual=1.79488e-05"
+            }
+          ]
+        },
+        "mixture": {
+          "requested": 32,
+          "valid": 31,
+          "failures": [
+            {
+              "sample": 29,
+              "error": "Equilibrium iteration limit frame=110 residual=3.32092e-05"
+            }
+          ]
+        }
+      },
+      "source_report_sha256": {
+        "softvt-package-pilot-scores.json": "96ec34fea7899f16ceb7b278148559f2188565e5bb3babd6e415c6b6e2b813f3",
+        "pose-contact-softvt-scores.json": "e586722e548a7eaebefaef948b2ddad89fa8e8b2bf5ab052c6379f5a67a91216"
+      },
+      "prediction_sha256": "9fe1c1c061667a27c96a729299a7373211cd546c2c45137a0177bee8dfbb67b4",
+      "previous_no_contact_v1": {
+        "flow_pose": {
+          "coordinate_rmse_mm": 59.74722419157405,
+          "mean_l2_mm": 103.13122900635261,
+          "vector_rms_mm": 103.48522791101458,
+          "aligned_shape_rmse_mm": 2.5740388901542683,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        },
+        "mixture_pose": {
+          "coordinate_rmse_mm": 60.26853084236254,
+          "mean_l2_mm": 103.98247718279602,
+          "vector_rms_mm": 104.38815751650384,
+          "aligned_shape_rmse_mm": 3.6171702151540956,
+          "total_frames": 48,
+          "valid_frames": 48,
+          "failed_frames": 0,
+          "no_reference_frames": 0,
+          "aggregation": "Equal frame means within this sequence; do not pool frame counts across sequences"
+        }
+      },
+      "floor_applicability_note": "Projection enforces this plane; not evidence of force balance or physical accuracy. Sub-attometre negative gaps are floating-point roundoff."
+    }
+  },
+  "decision": "Restoring archived rigid floor response improves SoftVT pose prediction substantially; push sloth remains worse than velocity and retains shape mismatch. A useful approximate baseline, not calibrated or coupled physical mechanics.",
+  "uncertainty": "Pose point estimates remove pose-sample variation; intervals reflect transformed FEM shape samples only and exclude failed inherited samples. Not calibrated joint uncertainty."
+}

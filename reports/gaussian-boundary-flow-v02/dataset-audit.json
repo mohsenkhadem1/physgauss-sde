@@ -1,0 +1,1010 @@
+{
+  "audit_date": "2026-11-04",
+  "scope": "Metadata and existing source/report audit. No fresh SoftVT trajectories or target arrays were opened; only HDF5 keys/asset attributes and exposed demo0 key names were inspected.",
+  "priority_decision": [
+    "First integrate strict predictor/evaluator contracts using exposed SoftVT and eight PhysTwin plush cases.",
+    "Then train/validate on old/development data, freeze protocol and checkpoints, and score fresh SoftVT episodes.",
+    "Use Isaac 272 episodes and v18 complex scenes as regression/generalization suites, naming historical exposure and simulator limitations.",
+    "Expand PhysTwin to 22 sequences as exploratory transfer; do not apply solid-tet model to ropes/cloth without representation qualification.",
+    "PokeFlex pending approved data; Deform360 stays paused."
+  ],
+  "SoftVTBench": {
+    "available": true,
+    "kind": "external synthetic Isaac manipulation data",
+    "files": [
+      {
+        "path": "runs/external-benchmark-v11/raw/SoftVTBench/object-soft/libero_object/libero_object_task0/replayed_demos/libero_object_task0_pick_up_the_white_swirled_pastry_and_place_it_in_the_basket_replayed_demo.hdf5",
+        "bytes": 91129463,
+        "episodes": 100,
+        "episode_range": [
+          0,
+          99
+        ],
+        "assets": {
+          "soft_pastry001": 100
+        },
+        "observations_in_exposed_demo0": [
+          "actions",
+          "applied_torque",
+          "arm_joint_pos",
+          "computed_torque",
+          "eef_axis_angle",
+          "eef_pose",
+          "fem_bbox_dims",
+          "fem_deformation_max",
+          "fem_deformation_rms",
+          "fem_kabsch_max_pct",
+          "fem_kabsch_rms_pct",
+          "finger_force",
+          "gripper_binary",
+          "gripper_close_norm",
+          "gripper_marker_motion",
+          "gripper_net_force",
+          "gripper_pos",
+          "gripper_width"
+        ]
+      },
+      {
+        "path": "runs/external-benchmark-v11/raw/SoftVTBench/object-soft/libero_object/libero_object_task1/replayed_demos/libero_object_task1_pick_up_the_panda_face_pastry_and_place_it_in_the_basket_replayed_demo.hdf5",
+        "bytes": 97311861,
+        "episodes": 100,
+        "episode_range": [
+          0,
+          99
+        ],
+        "assets": {
+          "soft_pastry002": 100
+        },
+        "observations_in_exposed_demo0": [
+          "actions",
+          "applied_torque",
+          "arm_joint_pos",
+          "computed_torque",
+          "eef_axis_angle",
+          "eef_pose",
+          "fem_bbox_dims",
+          "fem_deformation_max",
+          "fem_deformation_rms",
+          "fem_kabsch_max_pct",
+          "fem_kabsch_rms_pct",
+          "finger_force",
+          "gripper_binary",
+          "gripper_close_norm",
+          "gripper_marker_motion",
+          "gripper_net_force",
+          "gripper_pos",
+          "gripper_width"
+        ]
+      },
+      {
+        "path": "runs/external-benchmark-v11/raw/SoftVTBench/object-soft/libero_object/libero_object_task2/replayed_demos/libero_object_task2_pick_up_the_small_chocolate_rectangular_pastry_and_place_it_in_the_basket_replayed_demo.hdf5",
+        "bytes": 85444096,
+        "episodes": 100,
+        "episode_range": [
+          0,
+          99
+        ],
+        "assets": {
+          "soft_pastry003": 100
+        },
+        "observations_in_exposed_demo0": [
+          "actions",
+          "applied_torque",
+          "arm_joint_pos",
+          "computed_torque",
+          "eef_axis_angle",
+          "eef_pose",
+          "fem_bbox_dims",
+          "fem_deformation_max",
+          "fem_deformation_rms",
+          "fem_kabsch_max_pct",
+          "fem_kabsch_rms_pct",
+          "finger_force",
+          "gripper_binary",
+          "gripper_close_norm",
+          "gripper_marker_motion",
+          "gripper_net_force",
+          "gripper_pos",
+          "gripper_width"
+        ]
+      },
+      {
+        "path": "runs/external-benchmark-v11/raw/SoftVTBench/spatial-soft/libero_spatial/libero_spatial_task0/replayed_demos/libero_spatial_task0_pick_up_the_left_white_swirled_pastry_and_place_it_on_the_plate_replayed_demo.hdf5",
+        "bytes": 132709256,
+        "episodes": 100,
+        "episode_range": [
+          0,
+          99
+        ],
+        "assets": {
+          "soft_pastry001": 100
+        },
+        "observations_in_exposed_demo0": [
+          "actions",
+          "applied_torque",
+          "arm_joint_pos",
+          "computed_torque",
+          "eef_axis_angle",
+          "eef_pose",
+          "fem_bbox_dims",
+          "fem_deformation_max",
+          "fem_deformation_rms",
+          "fem_kabsch_max_pct",
+          "fem_kabsch_rms_pct",
+          "finger_force",
+          "gripper_binary",
+          "gripper_close_norm",
+          "gripper_marker_motion",
+          "gripper_net_force",
+          "gripper_pos",
+          "gripper_width"
+        ]
+      },
+      {
+        "path": "runs/external-benchmark-v11/raw/SoftVTBench/spatial-soft/libero_spatial/libero_spatial_task1/replayed_demos/libero_spatial_task1_pick_up_the_right_panda_face_pastry_and_place_it_on_the_plate_replayed_demo.hdf5",
+        "bytes": 154942128,
+        "episodes": 100,
+        "episode_range": [
+          0,
+          99
+        ],
+        "assets": {
+          "soft_pastry002": 100
+        },
+        "observations_in_exposed_demo0": [
+          "actions",
+          "applied_torque",
+          "arm_joint_pos",
+          "computed_torque",
+          "eef_axis_angle",
+          "eef_pose",
+          "fem_bbox_dims",
+          "fem_deformation_max",
+          "fem_deformation_rms",
+          "fem_kabsch_max_pct",
+          "fem_kabsch_rms_pct",
+          "finger_force",
+          "gripper_binary",
+          "gripper_close_norm",
+          "gripper_marker_motion",
+          "gripper_net_force",
+          "gripper_pos",
+          "gripper_width"
+        ]
+      },
+      {
+        "path": "runs/external-benchmark-v11/raw/SoftVTBench/spatial-soft/libero_spatial/libero_spatial_task2/replayed_demos/libero_spatial_task2_pick_up_the_left_small_chocolate_rectangular_pastry_and_place_it_on_the_plate_replayed_demo.hdf5",
+        "bytes": 128019060,
+        "episodes": 100,
+        "episode_range": [
+          0,
+          99
+        ],
+        "assets": {
+          "soft_pastry003": 100
+        },
+        "observations_in_exposed_demo0": [
+          "actions",
+          "applied_torque",
+          "arm_joint_pos",
+          "computed_torque",
+          "eef_axis_angle",
+          "eef_pose",
+          "fem_bbox_dims",
+          "fem_deformation_max",
+          "fem_deformation_rms",
+          "fem_kabsch_max_pct",
+          "fem_kabsch_rms_pct",
+          "finger_force",
+          "gripper_binary",
+          "gripper_close_norm",
+          "gripper_marker_motion",
+          "gripper_net_force",
+          "gripper_pos",
+          "gripper_width"
+        ]
+      }
+    ],
+    "total_episodes": 600,
+    "unique_asset_ids": 3,
+    "historically_named_artifact_cases": 220,
+    "named_exposure_ranges": {
+      "both_suites_task0": [
+        0,
+        9
+      ],
+      "both_suites_tasks1_2": [
+        0,
+        49
+      ]
+    },
+    "candidate_fresh": {
+      "all_six_files": [
+        50,
+        99
+      ],
+      "count": 300,
+      "status": "No named prior artifacts found in benchmark/contact/prefix/real-transfer roots; metadata-only candidates, not proof nobody previously read data."
+    },
+    "additional_candidate_fresh_task0_each_suite": [
+      10,
+      49
+    ],
+    "recommended_prospective_roles": {
+      "train_and_method_development": "Existing 220 exposed cases; prefix truncations for validation, keep legacy scores frozen.",
+      "fresh_validation": "Demos50-59 across six suite/task cells (60 cases).",
+      "fresh_calibration": "Demos60-69 across six cells (60 cases).",
+      "sealed_confirmation": "Demos70-99 across six cells (180 cases), do not open trajectories before model/protocol seal."
+    },
+    "role_proposal_not_frozen": true,
+    "inputs": [
+      "initial volumetric nodes",
+      "48 upper-node prefix positions at20Hz",
+      "known future eef position/orientation and gripper width/binary command"
+    ],
+    "labels_not_inputs": [
+      "future nodal positions",
+      "fem deformation summaries",
+      "finger_force/gripper_net_force/applied_torque/computed_torque",
+      "asset/material attributes not explicitly declared known"
+    ],
+    "RGB_status": "No RGB arrays in the six local HDF5 obs groups; geometry benchmark only.",
+    "safe_API": "scripts.prefix_ridge_switch_v13.inputs.load_pair(spec), save_payload, load_payload; HDF5 slices object data to prefix before construction. Do not use external_benchmark.data.softvt directly in predictor, because it loads full object trajectory into evaluation dict.",
+    "metric_scope": "Per-episode suffix geometry RMSE, rigid-aligned deformation, release/contact timing and finite coverage; not official DSR manipulation success.",
+    "OOD_scope": "Fresh episodes/position trajectories, only three repeated assets. This is not unseen-object/material or unseen-force-family evidence."
+  },
+  "PhysTwin": {
+    "available": true,
+    "kind": "real multiview RGB and author-estimated tracks plus manual3D annotations",
+    "legacy_root": "runs/third_party/PhysTwin/data/different_types",
+    "legacy_cases": 8,
+    "full_RGB_root": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types",
+    "full_case_count": 22,
+    "cases": [
+      {
+        "case": "double_lift_cloth_1",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/double_lift_cloth_1",
+        "split": {
+          "frame_len": 116,
+          "train": [
+            0,
+            81
+          ],
+          "test": [
+            81,
+            116
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 348,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "double_lift_cloth_3",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/double_lift_cloth_3",
+        "split": {
+          "frame_len": 118,
+          "train": [
+            0,
+            82
+          ],
+          "test": [
+            82,
+            118
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 354,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "double_lift_sloth",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/double_lift_sloth",
+        "split": {
+          "frame_len": 62,
+          "train": [
+            0,
+            43
+          ],
+          "test": [
+            43,
+            62
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 186,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "double_lift_zebra",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/double_lift_zebra",
+        "split": {
+          "frame_len": 58,
+          "train": [
+            0,
+            40
+          ],
+          "test": [
+            40,
+            58
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 174,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "double_stretch_sloth",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/double_stretch_sloth",
+        "split": {
+          "frame_len": 192,
+          "train": [
+            0,
+            134
+          ],
+          "test": [
+            134,
+            192
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 576,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "double_stretch_zebra",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/double_stretch_zebra",
+        "split": {
+          "frame_len": 198,
+          "train": [
+            0,
+            138
+          ],
+          "test": [
+            138,
+            198
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 594,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "rope_double_hand",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/rope_double_hand",
+        "split": {
+          "frame_len": 264,
+          "train": [
+            0,
+            184
+          ],
+          "test": [
+            184,
+            264
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 792,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "single_clift_cloth_1",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_clift_cloth_1",
+        "split": {
+          "frame_len": 80,
+          "train": [
+            0,
+            56
+          ],
+          "test": [
+            56,
+            80
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 240,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "single_clift_cloth_3",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_clift_cloth_3",
+        "split": {
+          "frame_len": 97,
+          "train": [
+            0,
+            67
+          ],
+          "test": [
+            67,
+            97
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 291,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "single_lift_cloth",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_lift_cloth",
+        "split": {
+          "frame_len": 173,
+          "train": [
+            0,
+            121
+          ],
+          "test": [
+            121,
+            173
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 519,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "single_lift_cloth_1",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_lift_cloth_1",
+        "split": {
+          "frame_len": 110,
+          "train": [
+            0,
+            77
+          ],
+          "test": [
+            77,
+            110
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 330,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "single_lift_cloth_3",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_lift_cloth_3",
+        "split": {
+          "frame_len": 156,
+          "train": [
+            0,
+            109
+          ],
+          "test": [
+            109,
+            156
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 468,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "single_lift_cloth_4",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_lift_cloth_4",
+        "split": {
+          "frame_len": 172,
+          "train": [
+            0,
+            120
+          ],
+          "test": [
+            120,
+            172
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 516,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "single_lift_dinosor",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_lift_dinosor",
+        "split": {
+          "frame_len": 86,
+          "train": [
+            0,
+            60
+          ],
+          "test": [
+            60,
+            86
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 258,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "single_lift_rope",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_lift_rope",
+        "split": {
+          "frame_len": 50,
+          "train": [
+            0,
+            35
+          ],
+          "test": [
+            35,
+            50
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 150,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "single_lift_sloth",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_lift_sloth",
+        "split": {
+          "frame_len": 85,
+          "train": [
+            0,
+            59
+          ],
+          "test": [
+            59,
+            85
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 255,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "single_lift_zebra",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_lift_zebra",
+        "split": {
+          "frame_len": 66,
+          "train": [
+            0,
+            46
+          ],
+          "test": [
+            46,
+            66
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 198,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "single_push_rope",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_push_rope",
+        "split": {
+          "frame_len": 58,
+          "train": [
+            0,
+            40
+          ],
+          "test": [
+            40,
+            58
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 174,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "single_push_rope_1",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_push_rope_1",
+        "split": {
+          "frame_len": 92,
+          "train": [
+            0,
+            64
+          ],
+          "test": [
+            64,
+            92
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 276,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "single_push_rope_4",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_push_rope_4",
+        "split": {
+          "frame_len": 83,
+          "train": [
+            0,
+            58
+          ],
+          "test": [
+            58,
+            83
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 249,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "single_push_sloth",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/single_push_sloth",
+        "split": {
+          "frame_len": 68,
+          "train": [
+            0,
+            47
+          ],
+          "test": [
+            47,
+            68
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 204,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "case": "weird_package",
+        "path": "runs/editable-scene-v23/phystwin-full-rgb/data/different_types/weird_package",
+        "split": {
+          "frame_len": 39,
+          "train": [
+            0,
+            27
+          ],
+          "test": [
+            27,
+            39
+          ]
+        },
+        "final_data": true,
+        "manual": true,
+        "RGB_images": 117,
+        "cameras": [
+          "0",
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "RGB_total": 7269,
+    "prior_exposure": "Eight plush cases repeatedly fit/scored in v11-v22; all22 full-RGB cases entered v24 observed-video reconstruction. No current case should be called a newly sealed untouched benchmark.",
+    "prior_split_file": "reports/video-scene-v24/protocol.json",
+    "corrected_prefix_API": "scripts.real_transfer_v19.phystwin_run.load(case,nodes,development), export(case,nodes), cached under runs/real-transfer-v19/inputs/incoming-v22.",
+    "critical_mask_warning": "scripts.prefix_ridge_switch_v13.inputs.phystwin_payload still uses outgoing object_motions_valid[t]; corrected external_benchmark.data.phystwin_position_mask uses incoming[t-1]. Do not reuse old masks.",
+    "all22_adapter_gap": "legacy phystwin() hardcodes eight-case root. A new isolated exporter is needed for fullRGB root and corrected masks; no need to change old protocol.",
+    "allowed_inputs": [
+      "initial supplied geometry",
+      "visible prefix tracks and masks",
+      "known camera calibration",
+      "future controller positions",
+      "prefix RGB only for forecasting"
+    ],
+    "targets": [
+      "manual suffix3D tracks",
+      "held recorded-camera RGB",
+      "author suffix reconstruction as secondary pseudo-label metric"
+    ],
+    "physical_labels": "No trusted material or force truth. Cannot score physical-parameter coverage without separate calibrated experiments.",
+    "representation_gate": "Rope and cloth need shell/rod or qualified volumetric approximation; do not silently exclude failures.",
+    "v24_leakage_warning": "v24 Sequence.sample(t) includes target-time camera0/1 images. Reusing that input path for forecasting would leak future observations.",
+    "novel_view_scope": "Unrecorded cameras have no RGB ground truth; visual inspection only. Held recorded camera/time is required for PSNR/SSIM/LPIPS."
+  },
+  "Isaac_controlled": {
+    "available": true,
+    "kind": "in-house fixed-discretization simulated block data",
+    "catalogs": [
+      {
+        "path": "runs/isaac-boundary-orbit-v01",
+        "planned": 48,
+        "splits": {
+          "train": 24,
+          "validation": 12,
+          "test": 12
+        },
+        "episode_dirs": 48,
+        "summary_files": 48,
+        "validation_files": 48
+      },
+      {
+        "path": "runs/gaussian-boundary-neural-v01",
+        "planned": 224,
+        "splits": {
+          "train": 128,
+          "validation": 32,
+          "test": 64
+        },
+        "episode_dirs": 224,
+        "summary_files": 224,
+        "validation_files": 224
+      }
+    ],
+    "passive_total": 272,
+    "historical_roles_total": {
+      "train": 152,
+      "validation": 44,
+      "test": 76
+    },
+    "historical_test_exposure": "64 original fresh test layouts and12 original triplet episodes have already been evaluated; reused now only as regression/retrospective tests. See docs/GAUSSIAN_RECOVERY_CAMPAIGN.md.",
+    "safe_APIs": [
+      "experiments.isaac_dataset.load_model_inputs(episode)",
+      "experiments.evaluate_gaussian_inverse.load_public_observations(...,max_time_s=...)",
+      "experiments.gaussian_observed_features.load_observed_arrays"
+    ],
+    "observable_inputs": [
+      "reference geometry",
+      "RGB",
+      "mask",
+      "known camera poses",
+      "optional explicitly labeled depth"
+    ],
+    "private_labels": [
+      "recipes",
+      "material parameters",
+      "support/load labels",
+      "truth nodal trajectories",
+      "force histories"
+    ],
+    "acquisition_roots": [
+      "runs/isaac-acquisition-test-v01",
+      "runs/isaac-acquisition-fresh-validation-v01",
+      "runs/isaac-calibrated-probes-train-v01",
+      "runs/isaac-calibrated-probes-validation-v02",
+      "runs/isaac-calibrated-probes-test-v01"
+    ],
+    "limits": "Original48 have zero gravity and no floor/sliding contact; matched material triplets share layout and must remain in same role. Existing sparse frame schedule can include frames after a gap: interpolation, not causal forecast. Forward calibration failures in prior diagnostic must remain visible."
+  },
+  "complex_scenes_v18": {
+    "available": true,
+    "kind": "in-house nonlinear coupled mechanics",
+    "root": "runs/complex-scenes-v18/held-campaign-01",
+    "public_prefixes": "runs/complex-scenes-v18/held-campaign-01/prefixes",
+    "families": [
+      "clamp_release",
+      "curved_push",
+      "container_drop",
+      "rigid_impact",
+      "deformable_pair",
+      "heterogeneous"
+    ],
+    "worlds": 24,
+    "held_queries": 48,
+    "prior_protocol": "unknown material, known public boundaries, shared appearance; not unknown-boundary inference",
+    "safe_API": "scripts.complex_scenes_v18.export_public_prefix.export(reference,out,cut,split), observation.npz + metadata; never private-worlds.json/reference trajectory in predictor.",
+    "historical_exposure": "Held results are now published and exposed; regression suite or add newly seeded worlds with prospective roles.",
+    "qualification": "Some reference sensitivity/solver qualification remains incomplete. Preserve failures and domain-specific mesh/time tests."
+  },
+  "other_controlled": {
+    "v17": "runs/compositional-dynamics-v17 and reports/compositional-dynamics-v17; development/simulation baselines, not independent public dataset.",
+    "v23": "runs/editable-scene-v23 ten lift/release, drop, force-pulse rollouts; wiring/physics checks, not learned inference population.",
+    "analytic_inverse": "Existing bar/compliant-fixture/C38 studies offer small reference-inference diagnostics, not visual benchmark superiority.",
+    "Bird": "Historically stopped by user; not resumed by this audit or recommended as a deformable-boundary benchmark."
+  },
+  "PokeFlex": {
+    "available": false,
+    "local_code": "runs/third_party/PokeFlex-v19",
+    "raw_data_found": false,
+    "official_portal": "https://pokeflex.ait.ethz.ch/",
+    "official_code": "https://github.com/pokeflex-dataset/reconstruction",
+    "official_project": "https://pokeflex-dataset.github.io/",
+    "access_checked": "2026-11-04 official portal still requires institutional-email request and agreement to dataset terms. No request submitted.",
+    "license_summary": "Noncommercial academic use; no redistribution of data/model material. User must establish approved access before acquisition.",
+    "missing": [
+      "approved download access",
+      "raw RGB-D/robot/force records",
+      "processed template_mesh/template_mesh.obj",
+      "processed triangle_meshes",
+      "processed robot_data.json",
+      "pretrained weights referenced by testing.yml"
+    ],
+    "evidence": "config/preprocessing.yml points to absent author /home/pokingrobot/Record3/final; config/testing.yml points to author cluster paths. Local dataset/ contains Python loaders, not recordings.",
+    "future_protocol": "Position-only predictor must not receive measured force/torque values; use them as evaluation targets or a separately labeled force-informed baseline. Released robot-data model directly uses force history, so match modalities before comparison."
+  },
+  "Deform360": {
+    "available_raw": true,
+    "status": "PAUSED per user; do not resume automatically",
+    "root": "runs/real-transfer-v19/Deform360",
+    "objects": [
+      "043-dog",
+      "046-sponge",
+      "047-rectangle-sponge",
+      "048-butter-sponge",
+      "049-ball",
+      "051-cube"
+    ],
+    "downloaded_files": 5308,
+    "bytes": 7748388421,
+    "preprocessing_status": "Partial alignment/masks/reconstruction smoke tests. No complete qualified physics forecast adapter. SAM3 auth blocked; fallback masks do not remove user pause.",
+    "source_report": "reports/real-transfer-v19/deform360-acquisition-summary.json"
+  },
+  "recommended_exposed_smoke_cases": {
+    "SoftVTBench": [
+      {
+        "subset": "object-soft",
+        "task": 1,
+        "episode": 0
+      },
+      {
+        "subset": "spatial-soft",
+        "task": 1,
+        "episode": 0
+      },
+      {
+        "subset": "object-soft",
+        "task": 2,
+        "episode": 0
+      },
+      {
+        "subset": "spatial-soft",
+        "task": 2,
+        "episode": 0
+      }
+    ],
+    "PhysTwin": [
+      "single_lift_sloth",
+      "single_push_sloth",
+      "single_lift_zebra",
+      "double_lift_zebra"
+    ],
+    "synthetic": [
+      "runs/isaac-boundary-orbit-v01/episodes/e0000",
+      "v18 development clamp_release and curved_push before drop/contact families"
+    ]
+  },
+  "prospective_seal_paths": {
+    "recommended_protocol": "reports/gaussian-boundary-flow-v02/benchmark-protocol.json",
+    "recommended_access_ledger": "reports/gaussian-boundary-flow-v02/benchmark-access-ledger.json",
+    "recommended_checkpoint_seal": "reports/gaussian-boundary-flow-v02/benchmark-seal.json",
+    "status": "Proposed paths only; root agent should freeze before new data-array reads.",
+    "legacy_examples": [
+      "reports/benchmark-improvement-v14/inventory-b.json",
+      "reports/gaussian-sealed-study-v01/passive-seal.json",
+      "scripts/complex_scenes_v18/held_protocol.py"
+    ]
+  },
+  "shared_adapter_contract": {
+    "input_fields": [
+      "dataset_id, case_id, physical_object_group, role, units, provenance_hashes",
+      "reference geometry, optional mesh, initial appearance/cameras (known-geometry condition explicit)",
+      "observed_times <= cutoff; prefix positions/RGB/depth; masks using incoming transitions",
+      "action_times and future prescribed tool positions/orientations/opening, optional declared commanded forces",
+      "geometry normalization and reversible world/material transforms",
+      "known_parameter_flags; unknown masses/materials must not be silently treated as measured"
+    ],
+    "forbidden_input_fields": [
+      "future object tracks/RGB/depth",
+      "manual suffix targets",
+      "true reactions/contact/material labels",
+      "diagnostic deformation summaries",
+      "private world parameters",
+      "reference solver states after cutoff"
+    ],
+    "evaluation_only_fields": [
+      "future correspondence geometry/manual markers and valid mask",
+      "held recorded RGB/camera/mask",
+      "physical truth where actually known",
+      "success/failure and numerical qualification"
+    ],
+    "isolation": "Export predictor.npz + metadata into a predictor-only folder; evaluator reads separate files/process. Perturb all withheld arrays and assert predictor export hashes unchanged. No future-derived visibility/query selection.",
+    "comparability": "Freeze units, input budget, cutoff, Gaussian skinning and camera settings; report all failures, rigid pose vs shape errors, per-object aggregation, and whether calibration uses target domain.",
+    "architecture_gap": "Current flow assumes fixed8 observed corners, known material frame and6 block parameters. External transfer needs variable-geometry/visibility encoder and boundary parameterization; simply scaling the cube or renaming tests is not valid."
+  },
+  "implemented_adapter": {
+    "path": "scripts/gaussian_boundary_flow_v02/benchmark_inputs.py",
+    "tests": "tests/test_gbf_v02_dataset_adapter_audit.py",
+    "test_result": "5 passed",
+    "test_interpreter": "runs/phystwin-env/bin/python",
+    "smoke_audit": "reports/gaussian-boundary-flow-v02/adapter-smoke-audit.json",
+    "ready_predictor_exports": "All22 PhysTwin sequences and4 exposed SoftVT demos load correctly; no model/physics qualification implied",
+    "functions": [
+      "load_phystwin_predictor(case,max_nodes=120,prefix_end=None,include_rgb_paths=False,root=PHYSTWIN)",
+      "load_softvt_predictor(subset,task,episode,prefix_end=None,root=SOFTVT)",
+      "load_phystwin_evaluation(case,root=PHYSTWIN)",
+      "load_softvt_evaluation(subset,task,episode,root=SOFTVT)",
+      "metadata_inventory(softvt_root=SOFTVT,phystwin_root=PHYSTWIN)",
+      "predictor_digest(data)"
+    ],
+    "fresh_guard": "SoftVT predictor/evaluator refuse task0 episodes>=10 and task1/2 episodes>=50 before file access. A later frozen-protocol adapter extension is required."
+  }
+}

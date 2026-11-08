@@ -1,0 +1,2406 @@
+{
+  "plan": {
+    "scope": "Quasistatic supplied-plane mechanical qualification, no impact or dataset inference",
+    "nodes_per_axis": 4,
+    "block_side_m": 0.1,
+    "push_m": 0.006,
+    "withdraw_above_initial_m": 0.02,
+    "increments_per_phase": [
+      8,
+      16,
+      32
+    ],
+    "bottom_stiffness": 100000.0,
+    "top_stiffness": 1000.0,
+    "gaussian_xy_sigma_m": 0.035,
+    "gaussian_z_sigma_m": 0.003,
+    "gravity": false,
+    "floor": false,
+    "maxiter": 100,
+    "preferred_solver_residual": 1e-09,
+    "gates": {
+      "maximum_residual": 1e-07,
+      "minimum_J": 0.03,
+      "shared_command_refinement_rms_m": 0.0001,
+      "separated_force_norm": 1e-10,
+      "final_unilateral_return_rms_m": 0.0001
+    },
+    "failure_policy": "Preserve every solver/gate failure; no tolerance relaxation or omitted worlds",
+    "source_sha256": {
+      "/home/bayespc2/vscode/guassianSDE/scripts/gaussian_boundary_flow_v02/unilateral_qualification.py": "92610384e5457fcc595fe4666f456bd35078baa53ac984eb32160b3353e8ffd2",
+      "scripts/gaussian_boundary_flow_v02/unilateral_attachment.py": "01d39ac08aa650608d64574d2a2c98e4250de5b7bd4855b35ffda6bf6ade6611",
+      "scripts/external_benchmark/fem.py": "07a348cd303504858ae7d9b4622493a757ace53fe142c17c373eb7735c915ed2"
+    }
+  },
+  "passed": true,
+  "records": {
+    "bilateral_8": {
+      "method": "bilateral",
+      "increments": 8,
+      "completed": true,
+      "frames": [
+        {
+          "frame": 0,
+          "command_m": 0.0,
+          "residual": 2.1485797505012464e-16,
+          "minJ": 0.9999999999999996,
+          "displacement_coordinate_rms_m": 2.0030861316495456e-18,
+          "rigid_removed_coordinate_rms_m": 6.57337330318395e-18,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 1,
+          "command_m": -0.00075,
+          "residual": 1.9475560230164158e-10,
+          "minJ": 0.992690284376404,
+          "displacement_coordinate_rms_m": 0.0002767409215215534,
+          "rigid_removed_coordinate_rms_m": 0.0001720600836787757,
+          "top_patch_force_norm": 0.00263732272632409,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 2,
+          "command_m": -0.0015,
+          "residual": 2.013564467983839e-10,
+          "minJ": 0.985376843144427,
+          "displacement_coordinate_rms_m": 0.000553562077119261,
+          "rigid_removed_coordinate_rms_m": 0.0003442318957610196,
+          "top_patch_force_norm": 0.005304355159154677,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 3,
+          "command_m": -0.0022500000000000003,
+          "residual": 2.0824889300684293e-10,
+          "minJ": 0.9780596766470533,
+          "displacement_coordinate_rms_m": 0.0008304649053717727,
+          "rigid_removed_coordinate_rms_m": 0.0005165174157812925,
+          "top_patch_force_norm": 0.008001876986708609,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 4,
+          "command_m": -0.003,
+          "residual": 2.1568326389075218e-10,
+          "minJ": 0.9707387904588728,
+          "displacement_coordinate_rms_m": 0.0011074508874409775,
+          "rigid_removed_coordinate_rms_m": 0.0006889186866896758,
+          "top_patch_force_norm": 0.010730696571148479,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 5,
+          "command_m": -0.00375,
+          "residual": 2.2327041285349987e-10,
+          "minJ": 0.9634141956206245,
+          "displacement_coordinate_rms_m": 0.0013845215481502315,
+          "rigid_removed_coordinate_rms_m": 0.0008614378167341061,
+          "top_patch_force_norm": 0.013491652271167848,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 6,
+          "command_m": -0.0045000000000000005,
+          "residual": 2.3158731204466747e-10,
+          "minJ": 0.9560859088997026,
+          "displacement_coordinate_rms_m": 0.0016616784575537301,
+          "rigid_removed_coordinate_rms_m": 0.001034076981904831,
+          "top_patch_force_norm": 0.01628561383916997,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 7,
+          "command_m": -0.00525,
+          "residual": 2.4023499060689684e-10,
+          "minJ": 0.9487539530551937,
+          "displacement_coordinate_rms_m": 0.0019389232325602572,
+          "rigid_removed_coordinate_rms_m": 0.0012068384284729598,
+          "top_patch_force_norm": 0.01911348389556286,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 8,
+          "command_m": -0.006,
+          "residual": 2.49367567385665e-10,
+          "minJ": 0.9414183571070449,
+          "displacement_coordinate_rms_m": 0.002216257538612805,
+          "rigid_removed_coordinate_rms_m": 0.0013797244756266092,
+          "top_patch_force_norm": 0.021976199484906235,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 9,
+          "command_m": -0.00275,
+          "residual": 1.0655701592126657e-12,
+          "minJ": 0.9731794986106492,
+          "displacement_coordinate_rms_m": 0.0010151128947084283,
+          "rigid_removed_coordinate_rms_m": 0.0006314386069263354,
+          "top_patch_force_norm": 0.009817561399660883,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 10,
+          "command_m": 0.0005000000000000004,
+          "residual": 6.009059868223053e-13,
+          "minJ": 1.0004237455625287,
+          "displacement_coordinate_rms_m": 0.00018445006590466195,
+          "rigid_removed_coordinate_rms_m": 0.0001146456019504509,
+          "top_patch_force_norm": 0.0017420823468486085,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 11,
+          "command_m": 0.0037500000000000016,
+          "residual": 4.968799050828002e-13,
+          "minJ": 1.0033396044113554,
+          "displacement_coordinate_rms_m": 0.001382548701155812,
+          "rigid_removed_coordinate_rms_m": 0.0008586896749401831,
+          "top_patch_force_norm": 0.012766403250430294,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 12,
+          "command_m": 0.007000000000000001,
+          "residual": 6.413976729039421e-13,
+          "minJ": 1.0065135472625766,
+          "displacement_coordinate_rms_m": 0.0025792867977702054,
+          "rigid_removed_coordinate_rms_m": 0.0016008349289776801,
+          "top_patch_force_norm": 0.023310033433985907,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 13,
+          "command_m": 0.01025,
+          "residual": 6.580955744591545e-13,
+          "minJ": 1.0099162435790092,
+          "displacement_coordinate_rms_m": 0.0037747565016978102,
+          "rigid_removed_coordinate_rms_m": 0.0023412054391747554,
+          "top_patch_force_norm": 0.03342011541582747,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 14,
+          "command_m": 0.013500000000000003,
+          "residual": 6.878481897542008e-13,
+          "minJ": 1.0135199093293883,
+          "displacement_coordinate_rms_m": 0.0049690399727397834,
+          "rigid_removed_coordinate_rms_m": 0.003079910567037226,
+          "top_patch_force_norm": 0.043137547042064836,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 15,
+          "command_m": 0.01675,
+          "residual": 6.444312447186067e-13,
+          "minJ": 1.017298396008345,
+          "displacement_coordinate_rms_m": 0.006162210798998598,
+          "rigid_removed_coordinate_rms_m": 0.0038170471182019197,
+          "top_patch_force_norm": 0.052497988104712276,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 16,
+          "command_m": 0.02,
+          "residual": 6.299538669847766e-13,
+          "minJ": 1.021227238588145,
+          "displacement_coordinate_rms_m": 0.007354335203611359,
+          "rigid_removed_coordinate_rms_m": 0.004552701185165098,
+          "top_patch_force_norm": 0.06153267945540694,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        }
+      ],
+      "failure": null
+    },
+    "unilateral_8": {
+      "method": "unilateral",
+      "increments": 8,
+      "completed": true,
+      "frames": [
+        {
+          "frame": 0,
+          "command_m": 0.0,
+          "residual": 2.1485797505012464e-16,
+          "minJ": 0.9999999999999996,
+          "displacement_coordinate_rms_m": 2.0030861316495456e-18,
+          "rigid_removed_coordinate_rms_m": 6.57337330318395e-18,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 1,
+          "command_m": -0.00075,
+          "residual": 2.231288013948697e-10,
+          "minJ": 0.9935707205025015,
+          "displacement_coordinate_rms_m": 0.00027448447641881653,
+          "rigid_removed_coordinate_rms_m": 0.0001770571659600974,
+          "top_patch_force_norm": 0.002294879846587024,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 2,
+          "command_m": -0.0015,
+          "residual": 2.2946951775907812e-10,
+          "minJ": 0.9871337982271171,
+          "displacement_coordinate_rms_m": 0.0005491918950443316,
+          "rigid_removed_coordinate_rms_m": 0.0003543412207957528,
+          "top_patch_force_norm": 0.004619831438701068,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 3,
+          "command_m": -0.0022500000000000003,
+          "residual": 2.3624246176817063e-10,
+          "minJ": 0.9806889233592099,
+          "displacement_coordinate_rms_m": 0.00082412830994778,
+          "rigid_removed_coordinate_rms_m": 0.0005318567147998805,
+          "top_patch_force_norm": 0.006975687276104545,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 4,
+          "command_m": -0.003,
+          "residual": 2.43357212305052e-10,
+          "minJ": 0.9742357832781063,
+          "displacement_coordinate_rms_m": 0.0010992999686044152,
+          "rigid_removed_coordinate_rms_m": 0.0007096083282659114,
+          "top_patch_force_norm": 0.00936330965992431,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 5,
+          "command_m": -0.00375,
+          "residual": 2.506954435297297e-10,
+          "minJ": 0.9677740626753075,
+          "displacement_coordinate_rms_m": 0.0013747133213118418,
+          "rigid_removed_coordinate_rms_m": 0.0008876008747881039,
+          "top_patch_force_norm": 0.01178359203352938,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 6,
+          "command_m": -0.0045000000000000005,
+          "residual": 2.585361492867714e-10,
+          "minJ": 0.9613034437170637,
+          "displacement_coordinate_rms_m": 0.0016503750320354814,
+          "rigid_removed_coordinate_rms_m": 0.0010658393060984177,
+          "top_patch_force_norm": 0.01423746036111812,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 7,
+          "command_m": -0.00525,
+          "residual": 2.668041958265217e-10,
+          "minJ": 0.9548236062225459,
+          "displacement_coordinate_rms_m": 0.0019262919900935416,
+          "rigid_removed_coordinate_rms_m": 0.0012443287171101252,
+          "top_patch_force_norm": 0.016725874578660493,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 8,
+          "command_m": -0.006,
+          "residual": 2.754891096406944e-10,
+          "minJ": 0.9483342278589386,
+          "displacement_coordinate_rms_m": 0.0022024713227599482,
+          "rigid_removed_coordinate_rms_m": 0.001423074351176818,
+          "top_patch_force_norm": 0.01924983012142966,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 9,
+          "command_m": -0.00275,
+          "residual": 1.2117242646011808e-12,
+          "minJ": 0.9763877677613625,
+          "displacement_coordinate_rms_m": 0.0010075495510276098,
+          "rigid_removed_coordinate_rms_m": 0.0006503312620868631,
+          "top_patch_force_norm": 0.008563851387316882,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 10,
+          "command_m": 0.0005000000000000004,
+          "residual": 4.194294981120315e-13,
+          "minJ": 0.9999999999985278,
+          "displacement_coordinate_rms_m": 5.872846074941446e-14,
+          "rigid_removed_coordinate_rms_m": 2.111038908433101e-14,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 11,
+          "command_m": 0.0037500000000000016,
+          "residual": 4.194003658999409e-13,
+          "minJ": 0.9999999999985278,
+          "displacement_coordinate_rms_m": 5.872846074941446e-14,
+          "rigid_removed_coordinate_rms_m": 2.111038908433101e-14,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 12,
+          "command_m": 0.007000000000000001,
+          "residual": 4.19403584033821e-13,
+          "minJ": 0.9999999999985278,
+          "displacement_coordinate_rms_m": 5.872846074941446e-14,
+          "rigid_removed_coordinate_rms_m": 2.111038908433101e-14,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 13,
+          "command_m": 0.01025,
+          "residual": 4.1943020983805325e-13,
+          "minJ": 0.9999999999985278,
+          "displacement_coordinate_rms_m": 5.872846074941446e-14,
+          "rigid_removed_coordinate_rms_m": 2.111038908433101e-14,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 14,
+          "command_m": 0.013500000000000003,
+          "residual": 4.19558084188475e-13,
+          "minJ": 0.9999999999985278,
+          "displacement_coordinate_rms_m": 5.872846074941446e-14,
+          "rigid_removed_coordinate_rms_m": 2.111038908433101e-14,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 15,
+          "command_m": 0.01675,
+          "residual": 4.195562039656821e-13,
+          "minJ": 0.9999999999985278,
+          "displacement_coordinate_rms_m": 5.872846074941446e-14,
+          "rigid_removed_coordinate_rms_m": 2.111038908433101e-14,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 16,
+          "command_m": 0.02,
+          "residual": 4.1954139691672354e-13,
+          "minJ": 0.9999999999985278,
+          "displacement_coordinate_rms_m": 5.872846074941446e-14,
+          "rigid_removed_coordinate_rms_m": 2.111038908433101e-14,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        }
+      ],
+      "failure": null
+    },
+    "bilateral_16": {
+      "method": "bilateral",
+      "increments": 16,
+      "completed": true,
+      "frames": [
+        {
+          "frame": 0,
+          "command_m": 0.0,
+          "residual": 2.1485797505012464e-16,
+          "minJ": 0.9999999999999996,
+          "displacement_coordinate_rms_m": 2.0030861316495456e-18,
+          "rigid_removed_coordinate_rms_m": 6.57337330318395e-18,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 1,
+          "command_m": -0.000375,
+          "residual": 1.2098692345323328e-11,
+          "minJ": 0.9963456077274256,
+          "displacement_coordinate_rms_m": 0.00013836052008520615,
+          "rigid_removed_coordinate_rms_m": 8.601619741406112e-05,
+          "top_patch_force_norm": 0.0013149952966709988,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 2,
+          "command_m": -0.00075,
+          "residual": 1.235420787927043e-11,
+          "minJ": 0.9926902843966083,
+          "displacement_coordinate_rms_m": 0.00027674092194228324,
+          "rigid_removed_coordinate_rms_m": 0.000172060084132247,
+          "top_patch_force_norm": 0.0026373227286541345,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 3,
+          "command_m": -0.0011250000000000001,
+          "residual": 1.2579933570023513e-11,
+          "minJ": 0.9890340295809373,
+          "displacement_coordinate_rms_m": 0.0004151413815733985,
+          "rigid_removed_coordinate_rms_m": 0.00025813190188546956,
+          "top_patch_force_norm": 0.003967077158485717,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 4,
+          "command_m": -0.0015,
+          "residual": 1.2766104702233477e-11,
+          "minJ": 0.9853768431650933,
+          "displacement_coordinate_rms_m": 0.0005535620775504725,
+          "rigid_removed_coordinate_rms_m": 0.00034423189622600977,
+          "top_patch_force_norm": 0.005304355161817785,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 5,
+          "command_m": -0.001875,
+          "residual": 1.2994701601417792e-11,
+          "minJ": 0.981718725351503,
+          "displacement_coordinate_rms_m": 0.0006920031910329135,
+          "rigid_removed_coordinate_rms_m": 0.0004303603165678403,
+          "top_patch_force_norm": 0.006649255065971781,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 6,
+          "command_m": -0.0022500000000000003,
+          "residual": 1.3298934296103844e-11,
+          "minJ": 0.9780596766682096,
+          "displacement_coordinate_rms_m": 0.0008304649058137993,
+          "rigid_removed_coordinate_rms_m": 0.0005165174162582879,
+          "top_patch_force_norm": 0.008001876989734315,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 7,
+          "command_m": -0.002625,
+          "residual": 1.3428947973595783e-11,
+          "minJ": 0.9743996979768238,
+          "displacement_coordinate_rms_m": 0.000968947408366834,
+          "rigid_removed_coordinate_rms_m": 0.0006027034526507456,
+          "top_patch_force_norm": 0.009362322884173884,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 8,
+          "command_m": -0.003,
+          "residual": 1.3666228704110923e-11,
+          "minJ": 0.970738790480551,
+          "displacement_coordinate_rms_m": 0.0011074508878941617,
+          "rigid_removed_coordinate_rms_m": 0.0006889186871792154,
+          "top_patch_force_norm": 0.010730696574574155,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 9,
+          "command_m": -0.003375,
+          "residual": 1.3961762589549842e-11,
+          "minJ": 0.9670769557323,
+          "displacement_coordinate_rms_m": 0.001245975536374962,
+          "rigid_removed_coordinate_rms_m": 0.0007751633854334826,
+          "top_patch_force_norm": 0.012107103803502505,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 10,
+          "command_m": -0.00375,
+          "residual": 1.4274857665148587e-11,
+          "minJ": 0.9634141956428587,
+          "displacement_coordinate_rms_m": 0.0013845215486149275,
+          "rigid_removed_coordinate_rms_m": 0.0008614378172366863,
+          "top_patch_force_norm": 0.013491652275031154,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 11,
+          "command_m": -0.004125,
+          "residual": 1.4461923927470343e-11,
+          "minJ": 0.9597505124891466,
+          "displacement_coordinate_rms_m": 0.0015230891222965488,
+          "rigid_removed_coordinate_rms_m": 0.0009477422567236968,
+          "top_patch_force_norm": 0.014884451700157255,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 12,
+          "command_m": -0.0045000000000000005,
+          "residual": 1.468131602678282e-11,
+          "minJ": 0.9560859089225304,
+          "displacement_coordinate_rms_m": 0.0016616784580303023,
+          "rigid_removed_coordinate_rms_m": 0.0010340769824210543,
+          "top_patch_force_norm": 0.016285613843507504,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 13,
+          "command_m": -0.004875,
+          "residual": 1.499300396361572e-11,
+          "minJ": 0.9524203879772092,
+          "displacement_coordinate_rms_m": 0.00180028975940667,
+          "rigid_removed_coordinate_rms_m": 0.0011204422773288547,
+          "top_patch_force_norm": 0.01769525257125901,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 14,
+          "command_m": -0.00525,
+          "residual": 1.5271315491014863e-11,
+          "minJ": 0.9487539530786554,
+          "displacement_coordinate_rms_m": 0.001938923233049082,
+          "rigid_removed_coordinate_rms_m": 0.00120683842900346,
+          "top_patch_force_norm": 0.01911348390042261,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 15,
+          "command_m": -0.005625,
+          "residual": 1.5509147523708582e-11,
+          "minJ": 0.9450866080521195,
+          "displacement_coordinate_rms_m": 0.002077579088667721,
+          "rigid_removed_coordinate_rms_m": 0.0012932657296427555,
+          "top_patch_force_norm": 0.020540426049460752,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 16,
+          "command_m": -0.006,
+          "residual": 1.5865574734524303e-11,
+          "minJ": 0.9414183571311849,
+          "displacement_coordinate_rms_m": 0.002216257539114264,
+          "rigid_removed_coordinate_rms_m": 0.001379724476172017,
+          "top_patch_force_norm": 0.02197619949033086,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 17,
+          "command_m": -0.004375,
+          "residual": 1.2337669389637584e-12,
+          "minJ": 0.9573075455350473,
+          "displacement_coordinate_rms_m": 0.001615479582306463,
+          "rigid_removed_coordinate_rms_m": 0.001005295358045947,
+          "top_patch_force_norm": 0.015817623620101324,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 18,
+          "command_m": -0.00275,
+          "residual": 1.065726965348959e-12,
+          "minJ": 0.9731794986106488,
+          "displacement_coordinate_rms_m": 0.0010151128947084402,
+          "rigid_removed_coordinate_rms_m": 0.0006314386069263097,
+          "top_patch_force_norm": 0.009817561399661704,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 19,
+          "command_m": -0.0011249999999999993,
+          "residual": 1.1958735962930829e-12,
+          "minJ": 0.989034029582317,
+          "displacement_coordinate_rms_m": 0.00041514138160207075,
+          "rigid_removed_coordinate_rms_m": 0.0002581319019163989,
+          "top_patch_force_norm": 0.003967077158657742,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 20,
+          "command_m": 0.0005000000000000004,
+          "residual": 6.011388458043021e-13,
+          "minJ": 1.0004237455625313,
+          "displacement_coordinate_rms_m": 0.00018445006590465216,
+          "rigid_removed_coordinate_rms_m": 0.00011464560195043691,
+          "top_patch_force_norm": 0.0017420823468489296,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 21,
+          "command_m": 0.002125,
+          "residual": 5.421742142941929e-13,
+          "minJ": 1.001847524349268,
+          "displacement_coordinate_rms_m": 0.0007836756435134057,
+          "rigid_removed_coordinate_rms_m": 0.00048691338658078865,
+          "top_patch_force_norm": 0.007317551623836031,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 22,
+          "command_m": 0.0037500000000000016,
+          "residual": 4.970257352428324e-13,
+          "minJ": 1.0033396044113572,
+          "displacement_coordinate_rms_m": 0.0013825487011558048,
+          "rigid_removed_coordinate_rms_m": 0.0008586896749401769,
+          "top_patch_force_norm": 0.012766403250430294,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 23,
+          "command_m": 0.005375000000000001,
+          "residual": 4.935707100217063e-13,
+          "minJ": 1.004896183376197,
+          "displacement_coordinate_rms_m": 0.0019810818054874103,
+          "rigid_removed_coordinate_rms_m": 0.0012299915271147626,
+          "top_patch_force_norm": 0.018095198633045255,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 24,
+          "command_m": 0.007000000000000001,
+          "residual": 6.415025229300794e-13,
+          "minJ": 1.006513547262578,
+          "displacement_coordinate_rms_m": 0.0025792867977702,
+          "rigid_removed_coordinate_rms_m": 0.001600834928977672,
+          "top_patch_force_norm": 0.023310033433985907,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 25,
+          "command_m": 0.008625,
+          "residual": 1.414177331642983e-09,
+          "minJ": 1.008188073664993,
+          "displacement_coordinate_rms_m": 0.0031771748510508596,
+          "rigid_removed_coordinate_rms_m": 0.0019712348779470333,
+          "top_patch_force_norm": 0.028416578287643005,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 26,
+          "command_m": 0.01025,
+          "residual": 6.581578482046098e-13,
+          "minJ": 1.0099162435790108,
+          "displacement_coordinate_rms_m": 0.0037747565016978063,
+          "rigid_removed_coordinate_rms_m": 0.002341205439174744,
+          "top_patch_force_norm": 0.033420115415828615,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 27,
+          "command_m": 0.011875000000000002,
+          "residual": 1.0537255868889574e-09,
+          "minJ": 1.0116946274379979,
+          "displacement_coordinate_rms_m": 0.004372041733881968,
+          "rigid_removed_coordinate_rms_m": 0.0027107598571577676,
+          "top_patch_force_norm": 0.0383255714245137,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 28,
+          "command_m": 0.013500000000000003,
+          "residual": 6.879682363192987e-13,
+          "minJ": 1.0135199093293898,
+          "displacement_coordinate_rms_m": 0.004969039972739779,
+          "rigid_removed_coordinate_rms_m": 0.0030799105670372244,
+          "top_patch_force_norm": 0.043137547042064836,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 29,
+          "command_m": 0.015125000000000001,
+          "residual": 5.138227915236244e-13,
+          "minJ": 1.0153888688932406,
+          "displacement_coordinate_rms_m": 0.005565760167757279,
+          "rigid_removed_coordinate_rms_m": 0.003448669302491586,
+          "top_patch_force_norm": 0.04786034377399476,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 30,
+          "command_m": 0.01675,
+          "residual": 6.443907177546081e-13,
+          "minJ": 1.017298396008346,
+          "displacement_coordinate_rms_m": 0.006162210798998595,
+          "rigid_removed_coordinate_rms_m": 0.0038170471182019153,
+          "top_patch_force_norm": 0.052497988104712276,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 31,
+          "command_m": 0.018375000000000002,
+          "residual": 5.533374823392913e-13,
+          "minJ": 1.0192454855070923,
+          "displacement_coordinate_rms_m": 0.00675839992354836,
+          "rigid_removed_coordinate_rms_m": 0.004185054455215236,
+          "top_patch_force_norm": 0.05705425334532575,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 32,
+          "command_m": 0.02,
+          "residual": 3.53541258230348e-11,
+          "minJ": 1.0212272385637038,
+          "displacement_coordinate_rms_m": 0.0073543352038259804,
+          "rigid_removed_coordinate_rms_m": 0.004552701185353477,
+          "top_patch_force_norm": 0.06153267944603193,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        }
+      ],
+      "failure": null
+    },
+    "unilateral_16": {
+      "method": "unilateral",
+      "increments": 16,
+      "completed": true,
+      "frames": [
+        {
+          "frame": 0,
+          "command_m": 0.0,
+          "residual": 2.1485797505012464e-16,
+          "minJ": 0.9999999999999996,
+          "displacement_coordinate_rms_m": 2.0030861316495456e-18,
+          "rigid_removed_coordinate_rms_m": 6.57337330318395e-18,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 1,
+          "command_m": -0.000375,
+          "residual": 1.3947846345215623e-11,
+          "minJ": 0.9967862963675392,
+          "displacement_coordinate_rms_m": 0.0001372147419633914,
+          "rigid_removed_coordinate_rms_m": 8.85005022147273e-05,
+          "top_patch_force_norm": 0.0011437318361928476,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 2,
+          "command_m": -0.00075,
+          "residual": 1.4136646739654293e-11,
+          "minJ": 0.9935707205289164,
+          "displacement_coordinate_rms_m": 0.00027448447705066495,
+          "rigid_removed_coordinate_rms_m": 0.00017705716724968445,
+          "top_patch_force_norm": 0.0022948798174069105,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 3,
+          "command_m": -0.0011250000000000001,
+          "residual": 1.4346811087398799e-11,
+          "minJ": 0.9903532340347431,
+          "displacement_coordinate_rms_m": 0.0004118099446609386,
+          "rigid_removed_coordinate_rms_m": 0.00026567055222838576,
+          "top_patch_force_norm": 0.0034535452960640384,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 4,
+          "command_m": -0.0015,
+          "residual": 1.4619452171042114e-11,
+          "minJ": 0.9871337982517132,
+          "displacement_coordinate_rms_m": 0.0005491918956906787,
+          "rigid_removed_coordinate_rms_m": 0.0003543412221205196,
+          "top_patch_force_norm": 0.004619831408820642,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 5,
+          "command_m": -0.001875,
+          "residual": 1.4725370045075595e-11,
+          "minJ": 0.9839123743648562,
+          "displacement_coordinate_rms_m": 0.0006866310927795112,
+          "rigid_removed_coordinate_rms_m": 0.0004430697497950873,
+          "top_patch_force_norm": 0.005793843116895558,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 6,
+          "command_m": -0.0022500000000000003,
+          "residual": 1.4991047668017787e-11,
+          "minJ": 0.9806889233818464,
+          "displacement_coordinate_rms_m": 0.000824128310608164,
+          "rigid_removed_coordinate_rms_m": 0.0005318567161608714,
+          "top_patch_force_norm": 0.006975687245497937,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 7,
+          "command_m": -0.002625,
+          "residual": 1.515126984978868e-11,
+          "minJ": 0.9774634061375268,
+          "displacement_coordinate_rms_m": 0.000961684336207366,
+          "rigid_removed_coordinate_rms_m": 0.0006207027103099757,
+          "top_patch_force_norm": 0.008165472524241324,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 8,
+          "command_m": -0.003,
+          "residual": 1.5453039925144623e-11,
+          "minJ": 0.9742357832986354,
+          "displacement_coordinate_rms_m": 0.0010992999692782562,
+          "rigid_removed_coordinate_rms_m": 0.000709608329664288,
+          "top_patch_force_norm": 0.009363309628577964,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 9,
+          "command_m": -0.003375,
+          "residual": 1.5662926366068373e-11,
+          "minJ": 0.9710060153687669,
+          "displacement_coordinate_rms_m": 0.001236976022524742,
+          "rigid_removed_coordinate_rms_m": 0.0007985741801248651,
+          "top_patch_force_norm": 0.01056931122236807,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 10,
+          "command_m": -0.00375,
+          "residual": 1.592788904413706e-11,
+          "minJ": 0.9677740626935675,
+          "displacement_coordinate_rms_m": 0.0013747133219984258,
+          "rigid_removed_coordinate_rms_m": 0.0008876008762249463,
+          "top_patch_force_norm": 0.011783592001425291,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 11,
+          "command_m": -0.004125,
+          "residual": 1.6152844590190247e-11,
+          "minJ": 0.9645398854661711,
+          "displacement_coordinate_rms_m": 0.0015125127074565976,
+          "rigid_removed_coordinate_rms_m": 0.0009766890412855587,
+          "top_patch_force_norm": 0.013006268738311212,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 12,
+          "command_m": -0.0045000000000000005,
+          "residual": 1.6404801311785413e-11,
+          "minJ": 0.9613034437328832,
+          "displacement_coordinate_rms_m": 0.00165037503273394,
+          "rigid_removed_coordinate_rms_m": 0.0010658393075749202,
+          "top_patch_force_norm": 0.014237460328233562,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 13,
+          "command_m": -0.004875,
+          "residual": 1.6632555146343466e-11,
+          "minJ": 0.9580646973991422,
+          "displacement_coordinate_rms_m": 0.0017883011661285276,
+          "rigid_removed_coordinate_rms_m": 0.0011550523164709481,
+          "top_patch_force_norm": 0.015477287836114819,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 14,
+          "command_m": -0.00525,
+          "residual": 1.6950142662658258e-11,
+          "minJ": 0.9548236062357398,
+          "displacement_coordinate_rms_m": 0.0019262919908028349,
+          "rigid_removed_coordinate_rms_m": 0.0012443287186273836,
+          "top_patch_force_norm": 0.01672587454496613,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 15,
+          "command_m": -0.005625,
+          "residual": 1.7179820027681207e-11,
+          "minJ": 0.9515801298853455,
+          "displacement_coordinate_rms_m": 0.002064348405200385,
+          "rigid_removed_coordinate_rms_m": 0.0013336691741432623,
+          "top_patch_force_norm": 0.017983346005477605,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 16,
+          "command_m": -0.006,
+          "residual": 1.7408142250605855e-11,
+          "minJ": 0.9483342278693093,
+          "displacement_coordinate_rms_m": 0.0022024713234788406,
+          "rigid_removed_coordinate_rms_m": 0.001423074352736129,
+          "top_patch_force_norm": 0.019249830086911467,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 17,
+          "command_m": -0.004375,
+          "residual": 1.3045244638790972e-12,
+          "minJ": 0.9623825117289335,
+          "displacement_coordinate_rms_m": 0.0016044138777450989,
+          "rigid_removed_coordinate_rms_m": 0.0010361156127056447,
+          "top_patch_force_norm": 0.013826109606632485,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 18,
+          "command_m": -0.00275,
+          "residual": 1.2114077296918144e-12,
+          "minJ": 0.9763877677613687,
+          "displacement_coordinate_rms_m": 0.0010075495510276165,
+          "rigid_removed_coordinate_rms_m": 0.000650331262086871,
+          "top_patch_force_norm": 0.00856385138731724,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 19,
+          "command_m": -0.0011249999999999993,
+          "residual": 1.1711439210053116e-12,
+          "minJ": 0.9903532340364228,
+          "displacement_coordinate_rms_m": 0.0004118099447039972,
+          "rigid_removed_coordinate_rms_m": 0.0002656705523164778,
+          "top_patch_force_norm": 0.0034535452940797464,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 20,
+          "command_m": 0.0005000000000000004,
+          "residual": 4.467694292042461e-16,
+          "minJ": 0.9999999999999992,
+          "displacement_coordinate_rms_m": 4.5465532577437143e-17,
+          "rigid_removed_coordinate_rms_m": 2.9760660690062006e-17,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 21,
+          "command_m": 0.002125,
+          "residual": 3.953093714077306e-16,
+          "minJ": 0.9999999999999992,
+          "displacement_coordinate_rms_m": 4.5465532577437143e-17,
+          "rigid_removed_coordinate_rms_m": 2.9760660690062006e-17,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 22,
+          "command_m": 0.0037500000000000016,
+          "residual": 3.953093714077306e-16,
+          "minJ": 0.9999999999999992,
+          "displacement_coordinate_rms_m": 4.5465532577437143e-17,
+          "rigid_removed_coordinate_rms_m": 2.9760660690062006e-17,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 23,
+          "command_m": 0.005375000000000001,
+          "residual": 3.953093714077306e-16,
+          "minJ": 0.9999999999999992,
+          "displacement_coordinate_rms_m": 4.5465532577437143e-17,
+          "rigid_removed_coordinate_rms_m": 2.9760660690062006e-17,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 24,
+          "command_m": 0.007000000000000001,
+          "residual": 3.953093714077306e-16,
+          "minJ": 0.9999999999999992,
+          "displacement_coordinate_rms_m": 4.5465532577437143e-17,
+          "rigid_removed_coordinate_rms_m": 2.9760660690062006e-17,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 25,
+          "command_m": 0.008625,
+          "residual": 3.953093714077306e-16,
+          "minJ": 0.9999999999999992,
+          "displacement_coordinate_rms_m": 4.5465532577437143e-17,
+          "rigid_removed_coordinate_rms_m": 2.9760660690062006e-17,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 26,
+          "command_m": 0.01025,
+          "residual": 3.953093714077306e-16,
+          "minJ": 0.9999999999999992,
+          "displacement_coordinate_rms_m": 4.5465532577437143e-17,
+          "rigid_removed_coordinate_rms_m": 2.9760660690062006e-17,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 27,
+          "command_m": 0.011875000000000002,
+          "residual": 3.953093714077306e-16,
+          "minJ": 0.9999999999999992,
+          "displacement_coordinate_rms_m": 4.5465532577437143e-17,
+          "rigid_removed_coordinate_rms_m": 2.9760660690062006e-17,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 28,
+          "command_m": 0.013500000000000003,
+          "residual": 3.953093714077306e-16,
+          "minJ": 0.9999999999999992,
+          "displacement_coordinate_rms_m": 4.5465532577437143e-17,
+          "rigid_removed_coordinate_rms_m": 2.9760660690062006e-17,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 29,
+          "command_m": 0.015125000000000001,
+          "residual": 3.953093714077306e-16,
+          "minJ": 0.9999999999999992,
+          "displacement_coordinate_rms_m": 4.5465532577437143e-17,
+          "rigid_removed_coordinate_rms_m": 2.9760660690062006e-17,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 30,
+          "command_m": 0.01675,
+          "residual": 3.953093714077306e-16,
+          "minJ": 0.9999999999999992,
+          "displacement_coordinate_rms_m": 4.5465532577437143e-17,
+          "rigid_removed_coordinate_rms_m": 2.9760660690062006e-17,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 31,
+          "command_m": 0.018375000000000002,
+          "residual": 3.953093714077306e-16,
+          "minJ": 0.9999999999999992,
+          "displacement_coordinate_rms_m": 4.5465532577437143e-17,
+          "rigid_removed_coordinate_rms_m": 2.9760660690062006e-17,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 32,
+          "command_m": 0.02,
+          "residual": 3.953093714077306e-16,
+          "minJ": 0.9999999999999992,
+          "displacement_coordinate_rms_m": 4.5465532577437143e-17,
+          "rigid_removed_coordinate_rms_m": 2.9760660690062006e-17,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        }
+      ],
+      "failure": null
+    },
+    "bilateral_32": {
+      "method": "bilateral",
+      "increments": 32,
+      "completed": true,
+      "frames": [
+        {
+          "frame": 0,
+          "command_m": 0.0,
+          "residual": 2.1485797505012464e-16,
+          "minJ": 0.9999999999999996,
+          "displacement_coordinate_rms_m": 2.0030861316495456e-18,
+          "rigid_removed_coordinate_rms_m": 6.57337330318395e-18,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 1,
+          "command_m": -0.0001875,
+          "residual": 1.5561081146344907e-12,
+          "minJ": 0.9981729202082731,
+          "displacement_coordinate_rms_m": 6.917778574059903e-05,
+          "rigid_removed_coordinate_rms_m": 4.3004652524757044e-05,
+          "top_patch_force_norm": 0.000656586994544242,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 2,
+          "command_m": -0.000375,
+          "residual": 1.5007237851541348e-12,
+          "minJ": 0.9963456077286892,
+          "displacement_coordinate_rms_m": 0.00013836052011142626,
+          "rigid_removed_coordinate_rms_m": 8.601619744231114e-05,
+          "top_patch_force_norm": 0.001314995296807589,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 3,
+          "command_m": -0.0005625000000000001,
+          "residual": 1.5736417664129124e-12,
+          "minJ": 0.9945180624794882,
+          "displacement_coordinate_rms_m": 0.0002075482248792865,
+          "rigid_removed_coordinate_rms_m": 0.00012903466462028506,
+          "top_patch_force_norm": 0.001975236606689782,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 4,
+          "command_m": -0.00075,
+          "residual": 1.5354435732042553e-12,
+          "minJ": 0.9926902843978863,
+          "displacement_coordinate_rms_m": 0.00027674092196882765,
+          "rigid_removed_coordinate_rms_m": 0.0001720600841608752,
+          "top_patch_force_norm": 0.0026373227287994584,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 5,
+          "command_m": -0.0009375,
+          "residual": 1.241029369774041e-12,
+          "minJ": 0.9908622734402278,
+          "displacement_coordinate_rms_m": 0.00034593863346215405,
+          "rigid_removed_coordinate_rms_m": 0.0002150924864009394,
+          "top_patch_force_norm": 0.0033012655736071885,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 6,
+          "command_m": -0.0011250000000000001,
+          "residual": 1.4338681289480254e-12,
+          "minJ": 0.9890340295822302,
+          "displacement_coordinate_rms_m": 0.0004151413816002705,
+          "rigid_removed_coordinate_rms_m": 0.00025813190191446877,
+          "top_patch_force_norm": 0.003967077158646374,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 7,
+          "command_m": -0.0013125,
+          "residual": 1.4235859247328078e-12,
+          "minJ": 0.9872055528192243,
+          "displacement_coordinate_rms_m": 0.00048434918878444556,
+          "rigid_removed_coordinate_rms_m": 0.0003011783615144848,
+          "top_patch_force_norm": 0.004634769609687664,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 8,
+          "command_m": -0.0015,
+          "residual": 1.3381494651695913e-12,
+          "minJ": 0.9853768431664012,
+          "displacement_coordinate_rms_m": 0.0005535620775776795,
+          "rigid_removed_coordinate_rms_m": 0.0003442318962553746,
+          "top_patch_force_norm": 0.005304355161988811,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 9,
+          "command_m": -0.0016875,
+          "residual": 1.3475757870271554e-12,
+          "minJ": 0.9835479006590538,
+          "displacement_coordinate_rms_m": 0.000622780070706101,
+          "rigid_removed_coordinate_rms_m": 0.00038729253743515423,
+          "top_patch_force_norm": 0.005975846161506696,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 10,
+          "command_m": -0.001875,
+          "residual": 1.2910904281216677e-12,
+          "minJ": 0.9817187253528263,
+          "displacement_coordinate_rms_m": 0.0006920031910604604,
+          "rigid_removed_coordinate_rms_m": 0.0004303603165975731,
+          "top_patch_force_norm": 0.0066492550661544775,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 11,
+          "command_m": -0.0020625,
+          "residual": 1.2014101842586913e-12,
+          "minJ": 0.9798893173239618,
+          "displacement_coordinate_rms_m": 0.0007612314616975446,
+          "rigid_removed_coordinate_rms_m": 0.0004734352655345614,
+          "top_patch_force_norm": 0.007324594447078016,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 12,
+          "command_m": -0.0022500000000000003,
+          "residual": 1.349506788608074e-12,
+          "minJ": 0.9780596766695491,
+          "displacement_coordinate_rms_m": 0.0008304649058416893,
+          "rigid_removed_coordinate_rms_m": 0.0005165174162884103,
+          "top_patch_force_norm": 0.008001876989927494,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 13,
+          "command_m": -0.0024375,
+          "residual": 1.4975825893996528e-12,
+          "minJ": 0.9762298035077766,
+          "displacement_coordinate_rms_m": 0.000899703546886239,
+          "rigid_removed_coordinate_rms_m": 0.000559606801153983,
+          "top_patch_force_norm": 0.00868111549616462,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 14,
+          "command_m": -0.002625,
+          "residual": 1.3795614279930515e-12,
+          "minJ": 0.9743996979781797,
+          "displacement_coordinate_rms_m": 0.0009689474083950748,
+          "rigid_removed_coordinate_rms_m": 0.0006027034526813095,
+          "top_patch_force_norm": 0.009362322884381331,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 15,
+          "command_m": -0.0028125,
+          "residual": 1.3527684770661724e-12,
+          "minJ": 0.9725693602418973,
+          "displacement_coordinate_rms_m": 0.0010381965141040908,
+          "rigid_removed_coordinate_rms_m": 0.0006458074036776551,
+          "top_patch_force_norm": 0.01004551219163002,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 16,
+          "command_m": -0.003,
+          "residual": 1.3406836168390203e-12,
+          "minJ": 0.9707387904819241,
+          "displacement_coordinate_rms_m": 0.001107450887922759,
+          "rigid_removed_coordinate_rms_m": 0.0006889186872101575,
+          "top_patch_force_norm": 0.010730696574794774,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 17,
+          "command_m": -0.0031875000000000002,
+          "residual": 1.351560356202853e-12,
+          "minJ": 0.9689079889033649,
+          "displacement_coordinate_rms_m": 0.0011767105539356281,
+          "rigid_removed_coordinate_rms_m": 0.0007320373366079339,
+          "top_patch_force_norm": 0.011417889311944365,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 18,
+          "command_m": -0.003375,
+          "residual": 1.3267139949611895e-12,
+          "minJ": 0.9670769557336908,
+          "displacement_coordinate_rms_m": 0.0012459755364039207,
+          "rigid_removed_coordinate_rms_m": 0.000775163385464798,
+          "top_patch_force_norm": 0.01210710380373658,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 19,
+          "command_m": -0.0035625,
+          "residual": 1.4158750131789517e-12,
+          "minJ": 0.9652456912229991,
+          "displacement_coordinate_rms_m": 0.0013152458597670536,
+          "rigid_removed_coordinate_rms_m": 0.0008182968676415578,
+          "top_patch_force_norm": 0.01279835357482212,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 20,
+          "command_m": -0.00375,
+          "residual": 1.2333227027403843e-12,
+          "minJ": 0.9634141956442678,
+          "displacement_coordinate_rms_m": 0.0013845215486442534,
+          "rigid_removed_coordinate_rms_m": 0.0008614378172684486,
+          "top_patch_force_norm": 0.013491652275275462,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 21,
+          "command_m": -0.0039375,
+          "residual": 1.5962497054578421e-12,
+          "minJ": 0.9615824692936186,
+          "displacement_coordinate_rms_m": 0.0014538026278361148,
+          "rigid_removed_coordinate_rms_m": 0.0009045862687476724,
+          "top_patch_force_norm": 0.01418701368204453,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 22,
+          "command_m": -0.004125,
+          "residual": 1.393711326534083e-12,
+          "minJ": 0.9597505124905745,
+          "displacement_coordinate_rms_m": 0.0015230891223262486,
+          "rigid_removed_coordinate_rms_m": 0.0009477422567558667,
+          "top_patch_force_norm": 0.0148844517004177,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 23,
+          "command_m": -0.0043125,
+          "residual": 1.5103501109113617e-12,
+          "minJ": 0.9579183255783228,
+          "displacement_coordinate_rms_m": 0.0015923810572828494,
+          "rigid_removed_coordinate_rms_m": 0.0009909058162468338,
+          "top_patch_force_norm": 0.015583980365511877,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 24,
+          "command_m": -0.0045000000000000005,
+          "residual": 1.3735878329326665e-12,
+          "minJ": 0.9560859089239775,
+          "displacement_coordinate_rms_m": 0.0016616784580603808,
+          "rigid_removed_coordinate_rms_m": 0.0010340769824536977,
+          "top_patch_force_norm": 0.016285613843785903,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 25,
+          "command_m": -0.0046875,
+          "residual": 1.3758037292446135e-12,
+          "minJ": 0.954253262918843,
+          "displacement_coordinate_rms_m": 0.001730981350201172,
+          "rigid_removed_coordinate_rms_m": 0.001077255790891997,
+          "top_patch_force_norm": 0.016989366434550734,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 26,
+          "command_m": -0.004875,
+          "residual": 1.4269409600457983e-12,
+          "minJ": 0.9524203879786763,
+          "displacement_coordinate_rms_m": 0.0018002897594371313,
+          "rigid_removed_coordinate_rms_m": 0.0011204422773619255,
+          "top_patch_force_norm": 0.0176952525715543,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 27,
+          "command_m": -0.0050625,
+          "residual": 1.1990652003644358e-12,
+          "minJ": 0.950587284543956,
+          "displacement_coordinate_rms_m": 0.001869603711691372,
+          "rigid_removed_coordinate_rms_m": 0.0011636364779510566,
+          "top_patch_force_norm": 0.018403286824508473,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 28,
+          "command_m": -0.00525,
+          "residual": 1.4048160017880214e-12,
+          "minJ": 0.9487539530801434,
+          "displacement_coordinate_rms_m": 0.0019389232330799338,
+          "rigid_removed_coordinate_rms_m": 0.0012068384290370125,
+          "top_patch_force_norm": 0.019113483900730196,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 29,
+          "command_m": -0.0054375000000000005,
+          "residual": 1.7129452195800577e-12,
+          "minJ": 0.9469203940779564,
+          "displacement_coordinate_rms_m": 0.0020082483499134656,
+          "rigid_removed_coordinate_rms_m": 0.0012500481672903002,
+          "top_patch_force_norm": 0.01982585864671327,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 30,
+          "command_m": -0.005625,
+          "residual": 1.350280452354701e-12,
+          "minJ": 0.9450866080536294,
+          "displacement_coordinate_rms_m": 0.0020775790886989696,
+          "rigid_removed_coordinate_rms_m": 0.00129326572967676,
+          "top_patch_force_norm": 0.02054042604978843,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 31,
+          "command_m": -0.0058125,
+          "residual": 1.4563060938667155e-12,
+          "minJ": 0.9432525955491883,
+          "displacement_coordinate_rms_m": 0.002146915476141494,
+          "rigid_removed_coordinate_rms_m": 0.001336491153460513,
+          "top_patch_force_norm": 0.02125720123977949,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 32,
+          "command_m": -0.006,
+          "residual": 1.3773629898204228e-12,
+          "minJ": 0.9414183571327176,
+          "displacement_coordinate_rms_m": 0.002216257539145916,
+          "rigid_removed_coordinate_rms_m": 0.0013797244762065023,
+          "top_patch_force_norm": 0.02197619949067781,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 33,
+          "command_m": -0.0051875,
+          "residual": 3.4761102584444213e-10,
+          "minJ": 0.9493650888384131,
+          "displacement_coordinate_rms_m": 0.001915816104793491,
+          "rigid_removed_coordinate_rms_m": 0.0011924369144389441,
+          "top_patch_force_norm": 0.018876510307043307,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 34,
+          "command_m": -0.004375,
+          "residual": 3.337832873201113e-10,
+          "minJ": 0.9573075454996239,
+          "displacement_coordinate_rms_m": 0.0016154795815807182,
+          "rigid_removed_coordinate_rms_m": 0.0010052953572557979,
+          "top_patch_force_norm": 0.015817623613271933,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 35,
+          "command_m": -0.0035624999999999997,
+          "residual": 3.208893020195736e-10,
+          "minJ": 0.9652456911887304,
+          "displacement_coordinate_rms_m": 0.001315245859063027,
+          "rigid_removed_coordinate_rms_m": 0.0008182968668766833,
+          "top_patch_force_norm": 0.012798353568810702,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 36,
+          "command_m": -0.00275,
+          "residual": 3.0865927821400947e-10,
+          "minJ": 0.973179498577275,
+          "displacement_coordinate_rms_m": 0.0010151128940215678,
+          "rigid_removed_coordinate_rms_m": 0.0006314386061814145,
+          "top_patch_force_norm": 0.009817561394359464,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 37,
+          "command_m": -0.0019375,
+          "residual": 2.972655872023126e-10,
+          "minJ": 0.9811089484978818,
+          "displacement_coordinate_rms_m": 0.0007150787072092096,
+          "rigid_removed_coordinate_rms_m": 0.00044471783396929045,
+          "top_patch_force_norm": 0.006874153067051019,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 38,
+          "command_m": -0.0011249999999999993,
+          "residual": 2.8640083552397064e-10,
+          "minJ": 0.9890340295507244,
+          "displacement_coordinate_rms_m": 0.00041514138095151735,
+          "rigid_removed_coordinate_rms_m": 0.0002581319012126541,
+          "top_patch_force_norm": 0.0039670771546164154,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 39,
+          "command_m": -0.0003124999999999994,
+          "residual": 2.761504361558339e-10,
+          "minJ": 0.9969547377174908,
+          "displacement_coordinate_rms_m": 0.0001152990568347856,
+          "rigid_removed_coordinate_rms_m": 7.167824746027795e-05,
+          "top_patch_force_norm": 0.0010953227716425323,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 40,
+          "command_m": 0.0005000000000000004,
+          "residual": 2.6654784589011804e-10,
+          "minJ": 1.0004237452726077,
+          "displacement_coordinate_rms_m": 0.00018445006652128169,
+          "rigid_removed_coordinate_rms_m": 0.00011464560261660536,
+          "top_patch_force_norm": 0.0017420823498454651,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 41,
+          "command_m": 0.0013125000000000003,
+          "residual": 2.574092367932184e-10,
+          "minJ": 1.0011268560637843,
+          "displacement_coordinate_rms_m": 0.0004841077356089521,
+          "rigid_removed_coordinate_rms_m": 0.00030084204254038214,
+          "top_patch_force_norm": 0.004546073682602796,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 42,
+          "command_m": 0.002125,
+          "residual": 2.488368510055708e-10,
+          "minJ": 1.001847524075549,
+          "displacement_coordinate_rms_m": 0.000783675644098343,
+          "rigid_removed_coordinate_rms_m": 0.00048691338721257814,
+          "top_patch_force_norm": 0.0073175516259694085,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 43,
+          "command_m": 0.002937500000000001,
+          "residual": 2.4062492480797205e-10,
+          "minJ": 1.0025852661124872,
+          "displacement_coordinate_rms_m": 0.0010831554348263456,
+          "rigid_removed_coordinate_rms_m": 0.0006728618759733102,
+          "top_patch_force_norm": 0.01005738313345843,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 44,
+          "command_m": 0.0037500000000000016,
+          "residual": 2.3289766854019166e-10,
+          "minJ": 1.0033396041527838,
+          "displacement_coordinate_rms_m": 0.001382548701711133,
+          "rigid_removed_coordinate_rms_m": 0.0008586896755404498,
+          "top_patch_force_norm": 0.012766403251848761,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 45,
+          "command_m": 0.004562500000000001,
+          "residual": 2.2550480020083126e-10,
+          "minJ": 1.0041100655354986,
+          "displacement_coordinate_rms_m": 0.001681856991594561,
+          "rigid_removed_coordinate_rms_m": 0.0010443988828333192,
+          "top_patch_force_norm": 0.015445416577375524,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 46,
+          "command_m": 0.005375000000000001,
+          "residual": 2.185374838942354e-10,
+          "minJ": 1.0048961831317795,
+          "displacement_coordinate_rms_m": 0.001981081806015059,
+          "rigid_removed_coordinate_rms_m": 0.0012299915276860198,
+          "top_patch_force_norm": 0.018095198633885725,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 47,
+          "command_m": 0.0061875,
+          "residual": 2.119262061205023e-10,
+          "minJ": 1.0056974955008298,
+          "displacement_coordinate_rms_m": 0.0022802246029131282,
+          "rigid_removed_coordinate_rms_m": 0.001415469575454524,
+          "top_patch_force_norm": 0.020716497177829363,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 48,
+          "command_m": 0.007000000000000001,
+          "residual": 2.0558855533954785e-10,
+          "minJ": 1.0065135470313937,
+          "displacement_coordinate_rms_m": 0.002579286798271956,
+          "rigid_removed_coordinate_rms_m": 0.0016008349295221875,
+          "top_patch_force_norm": 0.023310033434350483,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 49,
+          "command_m": 0.007812500000000002,
+          "residual": 1.995059026160664e-10,
+          "minJ": 1.0073438880694985,
+          "displacement_coordinate_rms_m": 0.0028782697676952257,
+          "rigid_removed_coordinate_rms_m": 0.0017860894337078563,
+          "top_patch_force_norm": 0.02587650326871238,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 50,
+          "command_m": 0.008625,
+          "residual": 1.9378669647408855e-10,
+          "minJ": 1.0081880750331709,
+          "displacement_coordinate_rms_m": 0.0031771748479244386,
+          "rigid_removed_coordinate_rms_m": 0.001971234874580269,
+          "top_patch_force_norm": 0.028416578296740245,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 51,
+          "command_m": 0.009437500000000001,
+          "residual": 1.8833441964418855e-10,
+          "minJ": 1.009045670514793,
+          "displacement_coordinate_rms_m": 0.0034760033382977757,
+          "rigid_removed_coordinate_rms_m": 0.0021562729836827163,
+          "top_patch_force_norm": 0.030930906938098485,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 52,
+          "command_m": 0.01025,
+          "residual": 1.8305725519454004e-10,
+          "minJ": 1.00991624337176,
+          "displacement_coordinate_rms_m": 0.0037747565021526066,
+          "rigid_removed_coordinate_rms_m": 0.002341205439671571,
+          "top_patch_force_norm": 0.03342011541548579,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 53,
+          "command_m": 0.011062500000000001,
+          "residual": 1.7804306948381437e-10,
+          "minJ": 1.0107993688060501,
+          "displacement_coordinate_rms_m": 0.0040734355681737115,
+          "rigid_removed_coordinate_rms_m": 0.002526033870371935,
+          "top_patch_force_norm": 0.035884808703124035,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 54,
+          "command_m": 0.011875000000000002,
+          "residual": 1.7332356141869402e-10,
+          "minJ": 1.011694628433302,
+          "displacement_coordinate_rms_m": 0.004372041731689031,
+          "rigid_removed_coordinate_rms_m": 0.0027107598547538685,
+          "top_patch_force_norm": 0.03832557142731439,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 55,
+          "command_m": 0.012687500000000003,
+          "residual": 1.6875535818124333e-10,
+          "minJ": 1.0126016103419644,
+          "displacement_coordinate_rms_m": 0.00467057615591502,
+          "rigid_removed_coordinate_rms_m": 0.0028953849248321423,
+          "top_patch_force_norm": 0.04074296872191255,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 56,
+          "command_m": 0.013500000000000003,
+          "residual": 1.6431916237303083e-10,
+          "minJ": 1.0135199091430565,
+          "displacement_coordinate_rms_m": 0.004969039973153264,
+          "rigid_removed_coordinate_rms_m": 0.0030799105674927814,
+          "top_patch_force_norm": 0.04313754704128538,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 57,
+          "command_m": 0.0143125,
+          "residual": 1.601471480222405e-10,
+          "minJ": 1.0144491260110482,
+          "displacement_coordinate_rms_m": 0.005267434285940257,
+          "rigid_removed_coordinate_rms_m": 0.0032643382262488724,
+          "top_patch_force_norm": 0.0455098349330503,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 58,
+          "command_m": 0.015125000000000001,
+          "residual": 1.5605058088978941e-10,
+          "minJ": 1.015388868716357,
+          "displacement_coordinate_rms_m": 0.005565760168151951,
+          "rigid_removed_coordinate_rms_m": 0.0034486693029285474,
+          "top_patch_force_norm": 0.047860343773060886,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 59,
+          "command_m": 0.0159375,
+          "residual": 1.522141716488862e-10,
+          "minJ": 1.0163387516499243,
+          "displacement_coordinate_rms_m": 0.005864018666064929,
+          "rigid_removed_coordinate_rms_m": 0.0036329051592979807,
+          "top_patch_force_norm": 0.05018956846457579,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 60,
+          "command_m": 0.01675,
+          "residual": 1.4850734415991863e-10,
+          "minJ": 1.0172983958402981,
+          "displacement_coordinate_rms_m": 0.006162210799375561,
+          "rigid_removed_coordinate_rms_m": 0.003817047118621426,
+          "top_patch_force_norm": 0.05249798810366697,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 61,
+          "command_m": 0.0175625,
+          "residual": 1.4492550914240128e-10,
+          "minJ": 1.0182674289636824,
+          "displacement_coordinate_rms_m": 0.0064603375621788885,
+          "rigid_removed_coordinate_rms_m": 0.004001096467160976,
+          "top_patch_force_norm": 0.05478606661278685,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 62,
+          "command_m": 0.018375000000000002,
+          "residual": 1.4147012820821085e-10,
+          "minJ": 1.0192454853473072,
+          "displacement_coordinate_rms_m": 0.00675839992390864,
+          "rigid_removed_coordinate_rms_m": 0.004185054455618325,
+          "top_patch_force_norm": 0.05705425334418327,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 63,
+          "command_m": 0.019187500000000003,
+          "residual": 1.3821341216968006e-10,
+          "minJ": 1.020232205966541,
+          "displacement_coordinate_rms_m": 0.007056398830239926,
+          "rigid_removed_coordinate_rms_m": 0.004368922300520659,
+          "top_patch_force_norm": 0.05930298365479693,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 64,
+          "command_m": 0.02,
+          "residual": 1.3496139665425212e-10,
+          "minJ": 1.0212272384360883,
+          "displacement_coordinate_rms_m": 0.00735433520395589,
+          "rigid_removed_coordinate_rms_m": 0.004552701185552741,
+          "top_patch_force_norm": 0.06153267945419799,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        }
+      ],
+      "failure": null
+    },
+    "unilateral_32": {
+      "method": "unilateral",
+      "increments": 32,
+      "completed": true,
+      "frames": [
+        {
+          "frame": 0,
+          "command_m": 0.0,
+          "residual": 2.1485797505012464e-16,
+          "minJ": 0.9999999999999996,
+          "displacement_coordinate_rms_m": 2.0030861316495456e-18,
+          "rigid_removed_coordinate_rms_m": 6.57337330318395e-18,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 1,
+          "command_m": -0.0001875,
+          "residual": 1.5588735491916885e-12,
+          "minJ": 0.998393379814952,
+          "displacement_coordinate_rms_m": 6.860054264001875e-05,
+          "rigid_removed_coordinate_rms_m": 4.42432653289207e-05,
+          "top_patch_force_norm": 0.0005709451645492564,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 2,
+          "command_m": -0.000375,
+          "residual": 1.4195645499250673e-12,
+          "minJ": 0.9967862963692266,
+          "displacement_coordinate_rms_m": 0.00013721474200282277,
+          "rigid_removed_coordinate_rms_m": 8.850050229507264e-05,
+          "top_patch_force_norm": 0.001143731834375169,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 3,
+          "command_m": -0.0005625000000000001,
+          "residual": 1.4406925907002617e-12,
+          "minJ": 0.9951787448744605,
+          "displacement_coordinate_rms_m": 0.00020584268946155515,
+          "rigid_removed_coordinate_rms_m": 0.00013277177982595905,
+          "top_patch_force_norm": 0.001718372513616291,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 4,
+          "command_m": -0.00075,
+          "residual": 1.4897789199435844e-12,
+          "minJ": 0.9935707205305492,
+          "displacement_coordinate_rms_m": 0.000274484477090561,
+          "rigid_removed_coordinate_rms_m": 0.00017705716733112242,
+          "top_patch_force_norm": 0.002294879815564097,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 5,
+          "command_m": -0.0009375,
+          "residual": 1.4832194357121162e-12,
+          "minJ": 0.9919622185256531,
+          "displacement_coordinate_rms_m": 0.0003431401976713322,
+          "rigid_removed_coordinate_rms_m": 0.00022135673470096597,
+          "top_patch_force_norm": 0.0028732664639681818,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 6,
+          "command_m": -0.0011250000000000001,
+          "residual": 1.4720081034700524e-12,
+          "minJ": 0.9903532340363185,
+          "displacement_coordinate_rms_m": 0.0004118099447012928,
+          "rigid_removed_coordinate_rms_m": 0.0002656705523109783,
+          "top_patch_force_norm": 0.0034535452942002346,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 7,
+          "command_m": -0.0013125,
+          "residual": 1.446559569868094e-12,
+          "minJ": 0.9887437622276092,
+          "displacement_coordinate_rms_m": 0.00048049381240264713,
+          "rigid_removed_coordinate_rms_m": 0.00030999869102583147,
+          "top_patch_force_norm": 0.004035729254449908,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 8,
+          "command_m": -0.0015,
+          "residual": 1.2131797433244088e-12,
+          "minJ": 0.9871337982532298,
+          "displacement_coordinate_rms_m": 0.0005491918957314843,
+          "rigid_removed_coordinate_rms_m": 0.00035434122220415556,
+          "top_patch_force_norm": 0.004619831406935563,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 9,
+          "command_m": -0.0016875,
+          "residual": 1.5707186590932353e-12,
+          "minJ": 0.9855233372556645,
+          "displacement_coordinate_rms_m": 0.0006179042903869677,
+          "rigid_removed_coordinate_rms_m": 0.0003986982177025055,
+          "top_patch_force_norm": 0.005205864929125863,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 10,
+          "command_m": -0.001875,
+          "residual": 1.4766202424573311e-12,
+          "minJ": 0.9839123743663108,
+          "displacement_coordinate_rms_m": 0.0006866310928207615,
+          "rigid_removed_coordinate_rms_m": 0.0004430697498798874,
+          "top_patch_force_norm": 0.0057938431149881725,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 11,
+          "command_m": -0.0020625,
+          "residual": 1.4637820766982654e-12,
+          "minJ": 0.9823009047056198,
+          "displacement_coordinate_rms_m": 0.0007553724002465579,
+          "rigid_removed_coordinate_rms_m": 0.00048745589160218285,
+          "top_patch_force_norm": 0.006383779376226997,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 12,
+          "command_m": -0.0022500000000000003,
+          "residual": 1.557199508080498e-12,
+          "minJ": 0.9806889233832382,
+          "displacement_coordinate_rms_m": 0.0008241283106498507,
+          "rigid_removed_coordinate_rms_m": 0.0005318567162468062,
+          "top_patch_force_norm": 0.006975687243566695,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 13,
+          "command_m": -0.0024375,
+          "residual": 1.414920299031777e-12,
+          "minJ": 0.9790764254981554,
+          "displacement_coordinate_rms_m": 0.000892898922797822,
+          "rigid_removed_coordinate_rms_m": 0.0005762722977071426,
+          "top_patch_force_norm": 0.007569580368045168,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 14,
+          "command_m": -0.002625,
+          "residual": 1.3235887040321293e-12,
+          "minJ": 0.9774634061388524,
+          "displacement_coordinate_rms_m": 0.0009616843362494803,
+          "rigid_removed_coordinate_rms_m": 0.0006207027103971094,
+          "top_patch_force_norm": 0.008165472522284195,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 15,
+          "command_m": -0.0028125,
+          "residual": 1.4730180999226839e-12,
+          "minJ": 0.9758498603834553,
+          "displacement_coordinate_rms_m": 0.0010304846513659103,
+          "rigid_removed_coordinate_rms_m": 0.0006651480292558888,
+          "top_patch_force_norm": 0.00876337760185872,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 16,
+          "command_m": -0.003,
+          "residual": 1.3641559440840755e-12,
+          "minJ": 0.9742357832998915,
+          "displacement_coordinate_rms_m": 0.001099299969320787,
+          "rigid_removed_coordinate_rms_m": 0.0007096083297525774,
+          "top_patch_force_norm": 0.00936330962660386,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 17,
+          "command_m": -0.0031875000000000002,
+          "residual": 1.477007881514074e-12,
+          "minJ": 0.9726211699460524,
+          "displacement_coordinate_rms_m": 0.0011681303921110206,
+          "rigid_removed_coordinate_rms_m": 0.0007540836878909922,
+          "top_patch_force_norm": 0.009965282741957784,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 18,
+          "command_m": -0.003375,
+          "residual": 1.6007037130981358e-12,
+          "minJ": 0.9710060153699519,
+          "displacement_coordinate_rms_m": 0.001236976022567676,
+          "rigid_removed_coordinate_rms_m": 0.0007985741802144,
+          "top_patch_force_norm": 0.010569311220365288,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 19,
+          "command_m": -0.0035625,
+          "residual": 1.4434584040602842e-12,
+          "minJ": 0.9693903146099024,
+          "displacement_coordinate_rms_m": 0.001305836964366998,
+          "rigid_removed_coordinate_rms_m": 0.0008430798838103374,
+          "top_patch_force_norm": 0.011175409462644033,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 20,
+          "command_m": -0.00375,
+          "residual": 1.3673506993551408e-12,
+          "minJ": 0.9677740626946804,
+          "displacement_coordinate_rms_m": 0.0013747133220417527,
+          "rigid_removed_coordinate_rms_m": 0.000887600876315677,
+          "top_patch_force_norm": 0.011783591999397389,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 21,
+          "command_m": -0.0039375,
+          "residual": 1.46398445328339e-12,
+          "minJ": 0.9661572546437015,
+          "displacement_coordinate_rms_m": 0.0014436052009926892,
+          "rigid_removed_coordinate_rms_m": 0.0009321372359213664,
+          "top_patch_force_norm": 0.012393873492448138,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 22,
+          "command_m": -0.004125,
+          "residual": 1.4407475722987378e-12,
+          "minJ": 0.9645398854672067,
+          "displacement_coordinate_rms_m": 0.0015125127075003035,
+          "rigid_removed_coordinate_rms_m": 0.000976689041377534,
+          "top_patch_force_norm": 0.013006268736263375,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 23,
+          "command_m": -0.0043125,
+          "residual": 1.5325124937523767e-12,
+          "minJ": 0.9629219501664397,
+          "displacement_coordinate_rms_m": 0.0015814359487367404,
+          "rigid_removed_coordinate_rms_m": 0.0010212563719985389,
+          "top_patch_force_norm": 0.013620792659435893,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 24,
+          "command_m": -0.0045000000000000005,
+          "residual": 1.4188530313186228e-12,
+          "minJ": 0.9613034437338398,
+          "displacement_coordinate_rms_m": 0.001650375032778009,
+          "rigid_removed_coordinate_rms_m": 0.0010658393076681898,
+          "top_patch_force_norm": 0.014237460326157438,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 25,
+          "command_m": -0.0046875,
+          "residual": 1.6832725873885217e-12,
+          "minJ": 0.959684361153229,
+          "displacement_coordinate_rms_m": 0.0017193300686163535,
+          "rigid_removed_coordinate_rms_m": 0.0011104379288444932,
+          "top_patch_force_norm": 0.014856286937713582,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 26,
+          "command_m": -0.004875,
+          "residual": 1.4947449727667234e-12,
+          "minJ": 0.958064697400016,
+          "displacement_coordinate_rms_m": 0.001788301166172941,
+          "rigid_removed_coordinate_rms_m": 0.0011550523165654789,
+          "top_patch_force_norm": 0.015477287834015299,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 27,
+          "command_m": -0.0050625,
+          "residual": 1.612081826568585e-12,
+          "minJ": 0.9564444474413887,
+          "displacement_coordinate_rms_m": 0.0018572884363107177,
+          "rigid_removed_coordinate_rms_m": 0.0011996825524540201,
+          "top_patch_force_norm": 0.016100478495129134,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 28,
+          "command_m": -0.00525,
+          "residual": 1.4063446717858913e-12,
+          "minJ": 0.9548236062365283,
+          "displacement_coordinate_rms_m": 0.0019262919908475766,
+          "rigid_removed_coordinate_rms_m": 0.0012443287187232576,
+          "top_patch_force_norm": 0.0167258745428435,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 29,
+          "command_m": -0.0054375000000000005,
+          "residual": 1.384154819511934e-12,
+          "minJ": 0.9532021687368152,
+          "displacement_coordinate_rms_m": 0.0019953119425697367,
+          "rigid_removed_coordinate_rms_m": 0.0012889908981820618,
+          "top_patch_force_norm": 0.017353491742245795,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 30,
+          "command_m": -0.005625,
+          "residual": 1.635216535514875e-12,
+          "minJ": 0.9515801298860448,
+          "displacement_coordinate_rms_m": 0.002064348405245435,
+          "rigid_removed_coordinate_rms_m": 0.0013336691742404428,
+          "top_patch_force_norm": 0.01798334600332689,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 31,
+          "command_m": -0.0058125,
+          "residual": 1.5614796970122749e-12,
+          "minJ": 0.9499574846206478,
+          "displacement_coordinate_rms_m": 0.002133401493638817,
+          "rigid_removed_coordinate_rms_m": 0.0013783636309150236,
+          "top_patch_force_norm": 0.018615453382597225,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 32,
+          "command_m": -0.006,
+          "residual": 1.8096989913962748e-12,
+          "minJ": 0.9483342278699171,
+          "displacement_coordinate_rms_m": 0.002202471323524176,
+          "rigid_removed_coordinate_rms_m": 0.0014230743528346407,
+          "top_patch_force_norm": 0.019249830084733556,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 33,
+          "command_m": -0.0051875,
+          "residual": 7.99401306579607e-13,
+          "minJ": 0.9553639526437121,
+          "displacement_coordinate_rms_m": 0.0019032889896852306,
+          "rigid_removed_coordinate_rms_m": 0.001229444888164943,
+          "top_patch_force_norm": 0.01651716318031834,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 34,
+          "command_m": -0.004375,
+          "residual": 1.3045189846959559e-12,
+          "minJ": 0.9623825117289335,
+          "displacement_coordinate_rms_m": 0.0016044138777451004,
+          "rigid_removed_coordinate_rms_m": 0.0010361156127056685,
+          "top_patch_force_norm": 0.013826109606632622,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 35,
+          "command_m": -0.0035624999999999997,
+          "residual": 1.0715960655596136e-12,
+          "minJ": 0.9693903146099779,
+          "displacement_coordinate_rms_m": 0.001305836964369888,
+          "rigid_removed_coordinate_rms_m": 0.000843079883816381,
+          "top_patch_force_norm": 0.011175409462505408,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 36,
+          "command_m": -0.00275,
+          "residual": 1.2116636183897705e-12,
+          "minJ": 0.9763877677613704,
+          "displacement_coordinate_rms_m": 0.0010075495510276117,
+          "rigid_removed_coordinate_rms_m": 0.0006503312620868257,
+          "top_patch_force_norm": 0.008563851387317037,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 37,
+          "command_m": -0.0019375,
+          "residual": 1.1714968154489857e-12,
+          "minJ": 0.9833752743620465,
+          "displacement_coordinate_rms_m": 0.0007095432454768678,
+          "rigid_removed_coordinate_rms_m": 0.00045786350356388474,
+          "top_patch_force_norm": 0.005990270305618797,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 38,
+          "command_m": -0.0011249999999999993,
+          "residual": 1.1711903925271037e-12,
+          "minJ": 0.9903532340364228,
+          "displacement_coordinate_rms_m": 0.00041180994470399647,
+          "rigid_removed_coordinate_rms_m": 0.00026567055231643745,
+          "top_patch_force_norm": 0.0034535452940797464,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 39,
+          "command_m": -0.0003124999999999994,
+          "residual": 2.583043544023114e-10,
+          "minJ": 0.9973220425157261,
+          "displacement_coordinate_rms_m": 0.00011434181843311556,
+          "rigid_removed_coordinate_rms_m": 7.374653168007679e-05,
+          "top_patch_force_norm": 0.0009525974923539225,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 40,
+          "command_m": 0.0005000000000000004,
+          "residual": 4.426850542608447e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 41,
+          "command_m": 0.0013125000000000003,
+          "residual": 4.426846596489896e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 42,
+          "command_m": 0.002125,
+          "residual": 4.426857346418415e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 43,
+          "command_m": 0.002937500000000001,
+          "residual": 4.4268567368982426e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 44,
+          "command_m": 0.0037500000000000016,
+          "residual": 4.426871381926088e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 45,
+          "command_m": 0.004562500000000001,
+          "residual": 4.42687943091273e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 46,
+          "command_m": 0.005375000000000001,
+          "residual": 4.4268820081278906e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 47,
+          "command_m": 0.0061875,
+          "residual": 4.4268820081278906e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 48,
+          "command_m": 0.007000000000000001,
+          "residual": 4.426826932172351e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 49,
+          "command_m": 0.007812500000000002,
+          "residual": 4.426807052795248e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 50,
+          "command_m": 0.008625,
+          "residual": 4.426807052795248e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 51,
+          "command_m": 0.009437500000000001,
+          "residual": 4.426807052795248e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 52,
+          "command_m": 0.01025,
+          "residual": 4.4268018984432163e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 53,
+          "command_m": 0.011062500000000001,
+          "residual": 4.4268018984432163e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 54,
+          "command_m": 0.011875000000000002,
+          "residual": 4.4268018984432163e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 55,
+          "command_m": 0.012687500000000003,
+          "residual": 4.4267503303126273e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 56,
+          "command_m": 0.013500000000000003,
+          "residual": 4.4267503303126273e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 57,
+          "command_m": 0.0143125,
+          "residual": 4.4267503303126273e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 58,
+          "command_m": 0.015125000000000001,
+          "residual": 4.4267503303126273e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 59,
+          "command_m": 0.0159375,
+          "residual": 4.426716086660614e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 60,
+          "command_m": 0.01675,
+          "residual": 4.426716086660614e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 61,
+          "command_m": 0.0175625,
+          "residual": 4.426716086660614e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 62,
+          "command_m": 0.018375000000000002,
+          "residual": 4.426716086660614e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 63,
+          "command_m": 0.019187500000000003,
+          "residual": 4.426716086660614e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        },
+        {
+          "frame": 64,
+          "command_m": 0.02,
+          "residual": 4.426726396226776e-11,
+          "minJ": 0.9999999998943894,
+          "displacement_coordinate_rms_m": 4.1444717359358715e-12,
+          "rigid_removed_coordinate_rms_m": 2.187725014320088e-12,
+          "top_patch_force_norm": 0.0,
+          "force_units": "dimensionless energy-gradient units, not Newtons"
+        }
+      ],
+      "failure": null
+    }
+  },
+  "refinements": {
+    "bilateral_8_16": {
+      "shared_command_rms_m": 1.7249887345026567e-12,
+      "passed": true
+    },
+    "bilateral_16_32": {
+      "shared_command_rms_m": 3.756745563545225e-12,
+      "passed": true
+    },
+    "unilateral_8_16": {
+      "shared_command_rms_m": 7.735705944275682e-12,
+      "passed": true
+    },
+    "unilateral_16_32": {
+      "shared_command_rms_m": 2.647501980256123e-12,
+      "passed": true
+    }
+  },
+  "seconds": 18.175796508789062,
+  "limits": "Known-normal quasistatic block only; no force-scale calibration, friction, impact, contact discovery or dataset gain"
+}
