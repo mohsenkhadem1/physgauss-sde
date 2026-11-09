@@ -1,0 +1,97 @@
+STEM TRIAL v01: GIC vs OURS, SAME PASSIVE MOTION, SAME CALIBRATION POKE, HELD-OUT PUSH
+2026-11-09. Protocol frozen 2026-11-08 before any trial truth existed (scripts/stem_trial_v01/protocol.json).
+Predictions sealed 2026-11-09T08:32:17Z (prediction-freeze.json, 23 sha256) BEFORE D2 truth was generated.
+
+QUESTION
+Fit both methods to the same passive motion of a clamped stem, predict the 3D response to a known
+lateral force at 0.75 L, then give both the same measured poke at 0.50 L and predict again.
+
+DESIGN
+Stem: 0.44 x 0.08 x 0.08 m, clamped over its first 0.04 m (free length L = 0.40 m), gravity -y.
+Three worlds with identical E/rho = 4000 m^2/s^2: rho = 500 / 1000 / 2000 kg/m^3, E = 2 / 4 / 8 MPa, nu 0.3.
+Passive gravity motion depends only on E/rho, so the passive video is identical in all worlds
+(verified: max difference 4e-17 m). A known force does not scale with density, so only a calibrated
+input can fix the stiffness scale. This is the paper's identifiability argument made physical.
+ D0  passive release under gravity, 0.5 s, 48 fps (shared fitting evidence)
+ D1  same release + 40 N lateral (+z) poke spread over material at 0.50 L, cosine ramp 0.25 s (fitting evidence)
+ D2  same release + 20 N lateral push at 0.75 L (held out; generated only after sealing)
+Truth: independent nonlinear neo-Hookean quadratic-tetrahedron FEM (implicit Newmark + Newton),
+mesh (33,6,6). Numerical qualification on the largest-motion episode: coarser mesh changes
+station positions by 0.16 mm RMS, half time step by 0.07 mm, against 25.7 mm of motion.
+Inputs: GIC (official b523851) gets raw RGB from cameras 1-10 (camera 0 held out), rendered by an
+independent rasterizer. Ours gets supplied 3D tracks of 8 surface markers with 1 mm noise
+(supplied-correspondence stratum, not RGB). Both get the same episodes and the same known forces.
+Score: 3D displacement of four material stations (0.25 L, 0.50 L, 0.75 L, tip), RMS over all
+37 D2 frames, in mm, against truth. Failure threshold 3 mm.
+
+RESULTS (RMS mm over the held-out push; lower is better)
+predictor                                       rho=500  rho=1000  rho=2000
+frozen shape (no motion)                          25.0     16.1      12.9
+GIC, passive fit only                             11.7      3.2       6.2
+GIC, native refit after poke                      10.5      1.3       8.3
+GIC simulator with TRUE E/nu/rho (oracle)          8.4      7.3       7.0
+ours, passive only (posterior mean)                7.0      4.1       9.7   predicted risk 0.86, all three fail
+ours, after poke (posterior mean = MAP)            1.4      0.6       0.4   predicted risk 0.00, none fail
+ours, after poke, off-grid prior (truth not a hypothesis)  1.5  0.7     0.5
+ours MAP, passive only                            22.6     33.3      38.9   (picks an extreme density)
+
+Peak lateral displacement at 0.75 L, predicted / true (mm):
+ GIC passive 15.2 in every world / truth 30.7, 15.4, 7.7. GIC refit 18.0, 16.3, 8.3. Ours after poke 30.7, 15.3, 7.7.
+
+FINDINGS
+1. A passive video cannot predict a force response; this is not fixable by better fitting. GIC's
+   passive-only prediction is the same in every world (15.2 mm peak), right only where its built-in
+   density assumption (1000) happens to be true. Ours also cannot predict it from D0, but says so:
+   risk 0.86, posterior density interval 280-3600 kg/m^3, and all three cases did fail.
+2. One calibrated poke repairs ours in every world: 5-22x lower error, 0.4-1.4 mm, risk 0.
+   The off-grid prior (truth halfway between grid points) gives the same result (0.5-1.5 mm).
+3. GIC's native refit cannot use the poke properly. With density fixed by its config, one
+   stiffness must explain both the gravity sag (needs E/rho) and the poke (needs E). It trades
+   them off: at rho=2000 the refit doubles E, fixing lateral error (5.3 -> 0.9 mm) but breaking the
+   sag (vertical 3.1 -> 8.2 mm), so total error gets worse (6.2 -> 8.3). At rho=500 it barely
+   moves E (3.24 -> 3.25 MPa). Only at rho=1000, where its assumption is correct, does it improve.
+4. GIC also has a floor unrelated to inference: its own simulator with the true parameters is off by
+   7-8 mm, mostly vertical phase. Its reconstruction has 29% too much volume (an extra particle
+   layer), so the section is stiffer in bending; its passive fit compensates with lower E (3.24 MPa)
+   and spurious initial velocity (0.079 m/s up; truth 0) and negative Poisson ratio (-0.14).
+
+WHAT THIS DOES AND DOES NOT SHOW
+Shows: the paper's central claim on a concrete paired trial. Passive motion leaves the force
+scale unidentified, a calibrated poke identifies it, and a method that represents that
+uncertainty both warns before the poke and exploits it after. A strong native baseline with a
+fixed density assumption cannot exploit the same poke.
+Does not show: a general accuracy win over GIC. Ours receives supplied 3D tracks rather than RGB
+and uses an FEM forward model of the same family as the truth solver (different mesh, linear);
+GIC must reconstruct from images and uses MPM. The oracle row shows how much of GIC's error is
+reconstruction/simulator fidelity rather than inference. One geometry, three worlds: a case study.
+The primary grid contained the true values (positive control); the off-grid variant was added
+before sealing to address this. GIC refits were initialised from its D0 fit, per protocol.
+
+ADAPTERS AND AUDIT (G3 parity, recorded in runs/stem-trial-v01/parity/)
+- GIC force adapter (gic_force_adapter.py): one extra Taichi kernel scatters the known force
+  impulse into grid momentum after native P2G, with its gradient. Zero force matches native within
+  native run-to-run GPU noise (1.8e-7 vs 2.4e-7 m); momentum test consistent with discrete time
+  stepping (0.18%); scatter gradient matches finite differences within float32 noise. Adapter
+  logs confirm exactly 40 N (D1) and 20 N (D2) applied.
+- GIC camera convention: GIC's PAC-NeRF reader negates the x camera translation. Harmless for
+  PAC-NeRF (cameras aim at the origin) but it shifted our first scenes. All cameras now aim at a
+  point on the world y-axis; GIC's camera then matches the correct one to 3e-16. Earlier
+  off-centre runs were discarded (runs/stem-trial-v01/discarded-offcentre-cameras/), no outcome seen.
+- GIC config: native torus hyperparameters and iteration counts; stem-specific grid size, frame
+  rate, sticky cylinder clamp, Taichi GPU pool capped (memory only) to fit 370 images on 11 GB.
+- Renderer projection validated on PAC-NeRF torus masks (IoU 0.98-0.99; mirrored control 0.33-0.82).
+- FEM checks (fem-checks.json): tangent vs finite differences 3e-10, mass exact, static beam within
+  2% of Timoshenko, small-load linear/nonlinear agreement 4e-5.
+
+INCIDENT: SESSION CRASHES ON 2026-11-08 (FIXED)
+systemd-oomd killed the whole VS Code scope twice (19:18, 20:02) on session memory pressure,
+taking all jobs with it. Root cause: pypardiso keeps every factorization in native memory until
+freed; repeated factorizations leaked ~1.4 GB per 10 s. Fixed in fem.py (factorizations freed on
+collection; verified flat at 0.36 GB over 40 refactorizations). All long jobs now run as separate
+systemd user units with hard memory caps (run_unit.sh), so a runaway job is contained.
+Reference results generated before the fix are numerically unaffected (memory release only).
+
+FILES
+scores.json, prediction-freeze.json, fem-checks.json (this folder); figure
+output/stem-trial-v01/d2-lateral-075L.png/.pdf; code scripts/stem_trial_v01/; trajectories,
+scenes, GIC runs and predictions in runs/stem-trial-v01/ (local, git-ignored).

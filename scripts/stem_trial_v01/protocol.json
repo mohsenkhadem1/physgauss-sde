@@ -1,0 +1,151 @@
+{
+ "name": "stem-trial-v01",
+ "status": "frozen before any trial ground truth was generated",
+ "date": "2026-11-08",
+ "question": "Fit GIC and our method to the same passive release motion of a clamped stem, predict the response to a known lateral force at 0.75 L, then give both the same measured calibration poke at 0.50 L and re-predict. Score both against held-out 3D motion.",
+ "scope_labels": {
+  "GIC": "native official code b523851 on raw multi-view RGB (10 cameras, camera 0 held out) with one labelled adapter: a known external body force added to the MPM grid momentum (G3 parity tests). Density is fixed by native config (1000 kg/m^3), as in GIC's released configs; GIC has no native density parameter.",
+  "ours": "joint posterior over material scale/density with a linear T10 FEM forward model on a coarser mesh; supplied 3D surface-marker tracks with 1 mm noise (supplied-correspondence stratum, not raw RGB).",
+  "truth": "independent nonlinear neo-Hookean T10 FEM, Newmark average acceleration with Newton; not GIC MPM, not our linear model, not the same mesh."
+ },
+ "geometry_m": {
+  "x": [
+   -0.24,
+   0.2
+  ],
+  "y": [
+   0.56,
+   0.64
+  ],
+  "z": [
+   -0.04,
+   0.04
+  ],
+  "clamp": "all material with reference x <= -0.20 fixed",
+  "free_length": 0.4,
+  "section": "0.08 x 0.08 square"
+ },
+ "gravity": [
+  0,
+  -9.8,
+  0
+ ],
+ "worlds": {
+  "W500": {
+   "rho": 500,
+   "E": 2000000.0,
+   "nu": 0.3
+  },
+  "W1000": {
+   "rho": 1000,
+   "E": 4000000.0,
+   "nu": 0.3
+  },
+  "W2000": {
+   "rho": 2000,
+   "E": 8000000.0,
+   "nu": 0.3
+  }
+ },
+ "world_design": "E/rho = 4000 m^2/s^2 in every world. Passive gravity motion depends only on E/rho and nu (exact scaling of the continuum equations), so D0 cannot identify absolute stiffness; a known force can.",
+ "episodes": {
+  "D0": {
+   "role": "shared passive fitting evidence",
+   "load": "gravity release from straight rest state at t=0",
+   "duration_s": 0.5,
+   "fps": 48,
+   "frames": 25
+  },
+  "D1": {
+   "role": "calibration poke, fitting evidence",
+   "load": "gravity release + 40 N total along +z, uniform body force over material with reference x in [-0.015, 0.015) (0.50 L station), raised by 0.5(1-cos(pi t/0.25)) then held",
+   "duration_s": 0.75,
+   "fps": 48,
+   "frames": 37
+  },
+  "D2": {
+   "role": "held-out interaction; never used for fitting or selection; generated only after predictions are sealed",
+   "load": "gravity release + 20 N total along +z, uniform body force over material with reference x in [0.085, 0.115) (0.75 L station), same ramp",
+   "duration_s": 0.75,
+   "fps": 48,
+   "frames": 37
+  }
+ },
+ "truth_numerics": {
+  "mesh_cells": [
+   33,
+   6,
+   6
+  ],
+  "element": "T10",
+  "dt_s": 0.0020833333333333333,
+  "newton_rel_tol": 1e-08,
+  "qualification": "mesh (22,4,4) and dt/2 differences reported; D2 qualification only after sealing"
+ },
+ "rendering": {
+  "cameras": 11,
+  "held_camera": 0,
+  "size": [
+   800,
+   800
+  ],
+  "focal_px": 1000,
+  "background": "white; images supplied pre-matted (m_ files identical to r_ files), equivalent to perfect matting"
+ },
+ "gic": {
+  "fit_cameras": "1-10, all frames of the episode",
+  "rho_config": 1000,
+  "D0_fit": "native pipeline on D0 (shared by all worlds because D0 is identical up to solver rounding; identity verified numerically)",
+  "D1_refit": "native pipeline on each world's D1 video with the force adapter, init_E = D0 fit",
+  "prediction": "native Simulator from the run's reconstructed particles with the force adapter; stations by particle reference position"
+ },
+ "ours": {
+  "mesh_cells": [
+   22,
+   4,
+   4
+  ],
+  "forward": "linear T10 elastodynamics, Newmark, dt 1/480",
+  "markers": "8 surface points: top-centre (y=0.64,z=0) and +z side centre (y=0.60,z=0.04) at x = -0.10, 0.00, 0.10, 0.20",
+  "noise_sd_m": 0.001,
+  "noise_seed": 20261108,
+  "prior": {
+   "c=E/rho": "log-uniform grid [1000,16000], 49 points",
+   "rho": "log-uniform grid [250,4000], 49 points",
+   "nu": [
+    0.2,
+    0.25,
+    0.3,
+    0.35,
+    0.4,
+    0.45
+   ]
+  },
+  "point_prediction": "posterior mean trajectory",
+  "risk": "posterior probability that station-centroid RMS error of the point prediction exceeds delta = 3 mm"
+ },
+ "scoring": {
+  "stations": "material with reference x in [-0.11,-0.09), [-0.01,0.01), [0.09,0.11), [0.18,0.20]",
+  "primary": "RMS over all D2 frames and the four stations of the 3D error in station-centroid DISPLACEMENT from each method's own frame 0 (mm), against truth; removes static reconstruction offsets",
+  "secondary": [
+   "final-frame station RMS",
+   "lateral (z) component RMS",
+   "peak lateral displacement of the 0.75 L station",
+   "absolute station-centroid position error (includes reconstruction offset)"
+  ],
+  "controls": [
+   "frozen undeformed-shape baseline",
+   "GIC D0-only and D1-refit",
+   "ours D0-only and D0+D1"
+  ],
+  "rule": "predictions for D2 from every method are written and sha256-sealed before D2 truth is generated"
+ },
+ "limits": "One geometry, three worlds; a case study, not a benchmark. Truth is a numerical reference, not measured physics. GIC's fixed density is its native assumption, so this trial tests exactly that assumption plus its refit; ours receives supplied tracks rather than RGB.",
+ "amendments": [
+  {
+   "date": "2026-11-08",
+   "before_any_outcome": true,
+   "change": "primary metric stated as displacement from own frame 0 (was ambiguous: centroid error)"
+  }
+ ]
+}
