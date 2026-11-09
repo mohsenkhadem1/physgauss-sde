@@ -1,0 +1,34 @@
+\subsection{Does the observed motion identify the next response?}
+\label{sec:interaction-trials}
+\paragraph{Fit and forecast on the same camera.}
+We fitted the released GIC~\cite{cai2024gic} and PAC-NeRF~\cite{li2023pacnerf} implementations to eight frames of the synthetic Torus sequence from ten cameras. We reserved camera~0 throughout and measured mean per-frame foreground PSNR there. GIC's deformation network reproduced the observed motion at 20.47\,dB, ahead of its physics replay at 17.79\,dB. Over the next six frames the deformation network scored 8.29\,dB, below its frozen last frame (9.50\,dB), while the physics forecast reached 18.44\,dB. PAC-NeRF's physics forecast scored 18.01\,dB. This experiment tests continuation of observed motion. A separate intervention on three released ReconPhys assets~\cite{wang2026reconphys} probes absolute scale. Doubling mass, stiffness and damping together gave 94.6--100.1\,dB between simulated drop movies, yet the two versions responded differently to the same uniform force per anchor.
+
+\paragraph{A calibrated intervention on visually identical stems.}
+Three stems have densities of 500, 1000 and 2000\,kg/m$^3$ and proportional elastic moduli of 2, 4 and 8\,MPa. They sag identically under gravity. A 20\,N lateral load at three quarters of the free length produces peak lateral displacements of 30.7, 15.4 and 7.7\,mm in the nonlinear FEM reference. To test transfer, we sealed predictions of a new 25\,N diagonal load at the same location before generating its reference. All methods received the known commands. GIC reconstructed the stem from ten RGB views and fixed density at 1000\,kg/m$^3$. Our estimator used 16 surface points tracked in two RGB views with noisy rendered depth and known rest geometry. Its coarse linear tetrahedral model shares its element family with the nonlinear reference.
+
+\begin{table}[t]
+\centering\small
+\caption{New diagonal push. RMS 3D displacement error (mm) across four stations and 37 frames, before and after one 40\,N midpoint poke.}
+\label{tab:diagonal-push}
+\begin{tabular}{@{}lrrr@{}}\toprule
+Density (kg/m$^3$) & 500 & 1000 & 2000 \\ \midrule
+GIC, RGB, before & 14.33 & 3.08 & 7.18 \\
+GIC, RGB, after & 12.98 & 1.88 & 8.08 \\
+Ours, RGB-D, before & 8.74 & 5.30 & 12.08 \\
+Ours, RGB-D, after & 2.75 & 1.12 & 0.65 \\ \bottomrule
+\end{tabular}
+\end{table}
+
+Calibration brought our errors below the 3\,mm tolerance in all three cases (Table~\ref{tab:diagonal-push}). In the earlier 20\,N lateral-push trial, the same-bank posterior mode and posterior mean gave the same calibrated point forecast. GIC improved on the two lighter stems and crossed the threshold at its assumed density. On the withheld camera its deformation network rendered passive sag at 24.9\,dB and its physics replay at 20.6\,dB. For the light stem, the passive physics forecast scored 16.3\,dB on the diagonal push. A subsequent rendering analysis (Fig.~\ref{fig:heldrender}) drove the same fixed GIC appearance with our calibrated motion or the reference motion, yielding 21.27 and 21.49\,dB, respectively. We sealed the motion forecasts prospectively and finalized the common-renderer analysis and its foreground-error aggregation separately.
+
+\paragraph{Choosing whether to measure.}
+In an independent beam study, 96 draws of bending and base compliance each faced three task or visibility conditions. All policies saw the same noisy tip measurement. With a tolerance of 0.50\,mm, a view and a calibrated push cost 0.015 and 0.040 in failure-probability units. For a repeated tip load the risk policy proceeded in all 96 cases (0.104\,mm RMSE). For a shifted load the initial RMSE was 0.939\,mm. With a visible base it acquired a view in 92 cases (0.073\,mm). With a concealed base it probed in 91 (0.119\,mm). It proceeded in the remaining cases. Against a cost-aware rule using Gaussian moments, the paired decision-loss difference (full minus Gaussian) was $-0.00033$ with a 95\% world-bootstrap interval of $[-0.00085,0]$.
+
+\paragraph{Image and impulse rankings under contact.}
+In an earlier six-family study, adapted Spring-Gaus~\cite{zhong2024springgaus} and PhysTwin~\cite{jiang2025phystwin} mechanics received identical calibration tracks, geometry, density and boundary conditions. A common renderer displayed their forecasts. On eight held-out striker impacts across four material worlds, Spring-Gaus exceeded PhysTwin's foreground PSNR in every world (mean advantage 1.22\,dB), yet its 3D motion error was higher (4.80 versus 4.01\,mm) and its net impulse error was 0.0419 versus 0.0231\,N\,s. On eight curved-obstacle pushes Spring-Gaus gained 2.35\,dB and reduced motion error from 4.97 to 3.15\,mm. These measurements characterize the two adapted mechanics implementations under supplied tracks.
+
+\paragraph{Sensitivity to model error.}
+A deformable body in a concave bowl was pushed or tilted once before a stronger transverse push. Across 16 material/contact settings with two noise draws each, the coarse model predicted 1.86\% failure after adaptive calibration, compared with 43.75\% realized against a finer simulation. A mixture including the finer solver by construction improved coverage. Risk estimates consequently depend on which mechanical discrepancies the posterior represents.
+
+\paragraph{Three-scenario comparison protocol.}
+The RGB-only protocol pairs GIC, PAC-NeRF and our estimator on a new stem push, an off-centre press on a block with a hidden stiff region, and a freely rebounding striker. The push and impact reuse the stem geometry. The protocol specifies triangulated RGB observations and held-out displacement or impulse. Aggregate results for this comparison are pending.

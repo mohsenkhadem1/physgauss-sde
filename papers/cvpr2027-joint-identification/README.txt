@@ -1,68 +1,65 @@
-7 NOVEMBER EXPERIMENTAL ADDENDUM
-The existing main.pdf, supplement.pdf and release/latex-source.zip are preserved.
-Read gap-first-addendum.pdf for the separate native-drop, compliant-stem and
-nonlinear-bowl studies. Complete results: ../../reports/gap-first-v01/REPORT.txt.
-Reproduction: ../../reports/gap-first-v01/README.txt. Editable addendum source:
-release/gap-first-latex-source.zip (standalone; run sh build.sh after extraction).
-The strong fixed/Gaussian controls and coarse-model overconfidence are retained.
-The resolution-mixture bowl control includes the finer reference by construction.
+When Is Video Enough? Predicting Deformable Object Responses to New Interactions
+Anonymous review manuscript, 9 November 2026
 
-SCOPE CORRECTION: this addendum is a limited pilot, not the requested complete
-cross-method rendering/physics benchmark. PhysConvex, MASIV, M-PhyGs, PhysTwin,
-and GIC/PAC-NeRF on PhysGaia still require qualified native comparisons under
-the paired rendering and held-out-interaction protocol. Published paper numbers
-are not our reproduced results. The failed bowl spring-core adapter is not a
-native PhysTwin failure. Track this outstanding work in
-../../reports/gap-crossmethod-v02/scope-and-evidence.json.
+Read main.pdf and supplement.pdf together. The source is in main.tex,
+supplement.tex and sections/. The standalone release is release/latex-source.zip.
 
-Seeing Motion Is Not Identifying Mechanics
-Joint Material–Interaction Inference with Marginalized Loads
+What is evaluated
+-----------------
+The joint-field experiment infers spatial material, support and load fields from
+known-geometry projected displacements. It integrates unknown Gaussian temporal
+load amplitudes analytically when the mechanical observation map is affine in load.
+The separate dynamic trials infer material hypotheses under known commands. The
+completed prospective diagonal push uses RGB-D surface tracks for ours and ten
+RGB fitting views for GIC. The 96-case beam study evaluates the decision to
+proceed, look or push under known costs and a separate tolerance.
 
-This manuscript studies physical identification from sparse visible-surface
-movement, with known geometry, camera projection and point correspondences.
-It does not claim a completed raw-RGB-to-force-field system.
+The new RGB-only protocol pairs GIC, PAC-NeRF and our model across a 20 N stem
+push (D2c), a held off-centre block press, and a free-striker impact. S1 and S3
+share the stem geometry and calibration episodes. No new comparison scores were
+published at the evidence revision below. The earlier lateral push D2, diagonal
+push D2b, torus continuation, and contact comparisons have distinct evaluation
+conditions. None supplies a missing cell in that matrix.
 
-WHAT IS NEW
-The unknowns are spatial material contrast, compliant support location/stiffness,
-and a spatial load footprint. Two temporal force histories are integrated out
-analytically, not fixed to a single fitted answer. Posterior predictions preserve
-material/force dependence. Additional camera tracks and calibrated reset loads
-are compared against a fixed predictive objective. A separate hierarchical
-experiment also infers uncertainty in the force-prior amplitude scale.
-FEM supplies the forward response; the contribution is the joint identification,
-uncertainty and evidence-selection system and its controlled evaluation.
+Evidence and source map (paths relative to the repository root)
+--------------------------------------------------------------
+docs/JOINT_FIELD_IDENTIFICATION.md                 inference, assumptions and implementation
+reports/joint-field-surface-v04/                  matched, continuous and mismatch cohorts
+reports/joint-field-hierarchy-surface-v05/        independent uncertain-force-scale study
+reports/joint-field-temporal-v06/                 temporal-prior follow-up
+reports/joint-field-fine-v03/                     interior-sensor resolution control
+reports/gap-first-v01/                            native drop, 96-case stem and bowl contact
+reports/gap-crossmethod-v02/                      paired GIC/PAC-NeRF torus and audit
+reports/stem-trial-v01/                           20 N/25 N stem scores and prediction seals
+reports/complex-scenes-v18/                       matched-track, shared-renderer contact controls
+scripts/fig1_v01/protocol_fig1.json               new unscored RGB-only benchmark specification
+results-provenance.json                           SHA-256 hashes for the joint-field study
+interaction-provenance.json                       SHA-256 hashes for dynamic results, figures and protocols
 
-MAIN EVIDENCE
-reports/joint-field-surface-v04/ — surface-track finite/continuous posterior,
-320 cases, fixed/random/acquisition controls, dependence and visibility audits.
-reports/joint-field-hierarchy-surface-v05/ — independent128-case force-scale
-mixture, nominal/broader/oracle controls, separate four-view/four-probe branches.
-reports/joint-field-temporal-v06/ — fresh64-case temporal-covariance stress follow-up;
-full mixture versus amplitude-only/fixed/covariance-oracle controls.
-reports/joint-field-fine-v03/ — separate32-case coarse/fine numerical reference,
-interior material sensors, not a camera experiment.
-reports/joint-field-identification-v01/ and joint-field-hierarchy-v02/ — historical
-interior-sensor mathematical references. Preserved, not pooled with surface data.
+Completion status checked against c610ef6ee85c42c5a1f653f18d1588ac6ced123e.
+The common-appearance scoring analysis for the 25 N diagonal push changed after
+the recorded protocol; the motion predictions had already been sealed. The
+supplement describes the amendment. Real PokeFlex recordings and trained-model
+assets are outside this paper release.
+To verify the archived inputs and regenerate the source bundle in a repository
+checkout, run python scripts/joint_field_identification/package_paper.py at its root.
 
-All primary test cases are retained. No final case selects a schedule or prior.
-Means of per-case coordinate RMSE differ from volume-weighted nodal visual errors.
-Time indexes replayed quasistatic load states, not inertial future forecasting.
-No gravity, impact, friction, unilateral contact or unknown geometry is inferred
-by the new reference. These capabilities in earlier platform experiments use
-separate adapters and are preserved in the archived supplement.
+Build
+-----
+Run bash build.sh in this directory (or after extracting the source ZIP).
+The script compiles both anonymous PDFs using Tectonic or latexmk. The repository
+copy reads the recorded stem panels under output/; the source release includes
+the same panels in figures/ for a standalone build. All figures needed for
+typesetting are supplied as PDFs. To regenerate the teaser from the original
+evidence in the repository, run python figures/make_task_teaser.py.
 
-BUILD
-Run bash build.sh from this directory. It uses Tectonic if available at the project
-runs/toolchain/tectonic path or on PATH; otherwise latexmk. Poppler pdfunite appends
-the unchanged historical supplement to the new study supplement. Source archive
-is release/latex-source.zip. The source archive includes all figure PDFs and the
-historical supplement; it does not require experiment banks to build the paper.
-The anonymous submission identifier is intentionally unset until registration.
+The main paper includes the LLM Usage Statement before the references. No
+OpenReview submission identifier has been supplied. The author should review the
+statement, author information and Figure 1 benchmark status before submission.
 
-REPRODUCTION
-See docs/JOINT_FIELD_IDENTIFICATION.md for protocol/commands and version scope.
-The scripts under scripts/joint_field_identification are the implementation.
-Published compact summaries, CSVs, frozen hashes, numerical audits and source
-allow checking reported values. Raw banks/recordings/checkpoints stay local.
-Do not rerun --freeze into a completed report directory: retain frozen evidence.
-Use a separate checkout/output namespace for new experiments.
+Earlier release
+---------------
+gap-first-addendum.pdf and release/gap-first-latex-source.zip are the 7 November
+addendum. The earlier new-study-supplement.pdf and legacy-supporting-evidence.pdf
+remain historical files. The current supplement is self-contained; rebuilding
+it no longer appends the older platform paper.

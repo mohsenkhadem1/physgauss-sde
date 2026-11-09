@@ -11,6 +11,3 @@ else
   latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
   latexmk -pdf -interaction=nonstopmode -halt-on-error supplement.tex
 fi
-cp supplement.pdf new-study-supplement.pdf
-pdfunite new-study-supplement.pdf legacy-supporting-evidence.pdf supplement-combined.pdf
-mv supplement-combined.pdf supplement.pdf

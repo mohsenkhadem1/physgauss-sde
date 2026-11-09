@@ -2,141 +2,151 @@
 \usepackage[T1]{fontenc}
 \usepackage[review]{cvpr}
 \usepackage{graphicx,amsmath,amssymb,booktabs,microtype,longtable}
-\usepackage[breaklinks,colorlinks,allcolors=black]{hyperref}
+\usepackage[pagebackref,breaklinks,colorlinks,allcolors=black]{hyperref}
 \def\confName{CVPR}\def\confYear{2027}
-\title{Seeing Motion Is Not Identifying Mechanics:\\Supplementary Evidence and Preserved Platform Studies}
+\title{When Is Video Enough? Predicting Deformable Object Responses to New Interactions\\[2pt]\large Supplementary Material}
 \author{Anonymous manuscript}
 \newcommand{\R}{\mathbb{R}}
 \begin{document}
 \maketitle
-\section{Reading this supplement}
-The first part documents the new joint-field identification campaign. It distinguishes the exact finite model, approximate continuous inference, and a separately frozen hierarchical-force-scale study. The final part reproduces the previous platform supplement unchanged, preserving nonlinear contacts, rendering studies, public-data comparisons and their negative results. The archived experiments use different adapters; their results are not outputs of the newly marginalized joint-field posterior.
+\section{Experimental settings}
+The dynamic stem experiment measures the response to a calibrated load, once with noisy supplied tracks and once with tracks extracted from RGB-D. A separate compliant-base stem tests the decision to proceed, obtain a new view or apply a probe. Torus, drop and bowl experiments examine temporal extrapolation, mechanical ambiguity and numerical mismatch. The RGB-only three-interaction protocol describes the next comparison separately from completed measurements.
 
-The new reference is a known-geometry, known-camera, known-correspondence, small-strain quasistatic experiment. Observations are noisy projected displacements. Its rendered surfaces visualize mechanical states; they do not constitute RGB reconstruction quality measurements. Loading times index correlated quasistatic experiments, not an integrated dynamic trajectory. Original unobserved times are interpolation because initial observations include times 0,3,7. New-load targets are independent reset experiments under known loads, not future frames with unknown actions.
+The joint-field experiments later in this supplement use known geometry, calibrated cameras and supplied surface correspondences. They assess how uncertainty in applied loads, supports and material fields affects quasistatic displacements. The original observations span the loading history, so unmeasured times test interpolation. Separate reset loads test prediction under changed interactions.
+
+\input{sections/interaction-supplement}
 
 \section{Coordinates, units and discretization}
-Both objects have bounding box $[-.06,.06]\times[-.03,.03]\times[0,.06]$ metres. The stepped object removes the upper-right quarter of the longitudinal/vertical bounding rectangle ($x>0$, $z>.03$ m), leaving 75\% of the bounding volume. A regular grid is split into six tetrahedra per cell, consistently oriented. The primary grid uses $(8,4,4)$ cells:225 nodes/768 tetrahedra for block and 185 nodes/576 tetrahedra for step. Fine truth uses $(12,6,6)$ cells. Density is 500 kg/m$^3$, but is not identified and does not enter quasistatic equilibrium. Poisson ratio is 0.30. Gravity is omitted in the incremental reference; the symmetry argument must not be transferred unchanged to a known, nonzero gravitational load.
+Both quasistatic objects have bounding box $[-.06,.06]\times[-.03,.03]\times[0,.06]$ metres. The stepped object removes the upper-right quarter of the longitudinal/vertical bounding rectangle ($x>0$, $z>.03$ m), leaving 75\% of the bounding volume. A regular grid is split into six tetrahedra per cell, consistently oriented. The primary grid uses $(8,4,4)$ cells, giving 225 nodes and 768 tetrahedra for the block and 185 nodes and 576 tetrahedra for the stepped block. Fine truth uses $(12,6,6)$ cells. Density is 500 kg/m$^3$, but is not identified and does not enter quasistatic equilibrium. Poisson ratio is 0.30. Gravity is omitted in the incremental reference. A known, nonzero gravity term requires a separate symmetry argument.
 
-For linear tetrahedra, element stiffness is assembled from the exact constant shape gradients and isotropic Lam\'e coefficients. Elastic stiffness has the expected rigid modes. The only anchoring is the declared positive distributed Gaussian support. There is no hidden diagonal jitter or fixed corner. Cholesky factorization failures would be failures of the declared solve, not silently repaired changes to the model.
+For linear tetrahedra, element stiffness is assembled from the exact constant shape gradients and isotropic Lam\'e coefficients. Elastic stiffness has the expected rigid modes. The only anchoring is the declared positive distributed Gaussian support. We use unregularized Cholesky factorization and count factorization failures.
 
-Surface integrals use three degree-two quadrature points per triangular face. Gaussian traction weights are normalized over the relevant surface and scattered through the face shape functions; each mode sums to a unit force. Support stiffness uses a lumped nodal diagonal from the same normalized quadrature. This is a declared discretization, not the consistent surface mass matrix. Normalization preserves total force under refinement but does not guarantee a converged displacement field.
-
-\section{Material and interaction families}
-Material kernel centers are $(-.035,0,.03)$ and $(.035,0,.03)$ metres, with scales $(.035,.06,.06)$ metres. Normalized kernel values define a partition of unity. Their difference is centered by the element-volume average before multiplying log contrast. Thus the reference modulus parameter is a volume-geometric mean, rather than the arithmetic average of local moduli.
-
-All support/load footprints have a fixed longitudinal width 0.018 m and are broad in the other surface coordinate. Unknown support location lies in$[-.025,.025]$m; unknown top/side load location lies in$[-.04,.04]$m and is shared between the two modes. The top footprint on the step includes both horizontal terraces. Support stiffness lies in$[4000,16000]$N/m, reference modulus in$[8000,32000]$Pa, and log contrast in$[-.8,.8]$. Material and support scales have uniform priors in their log coordinates. Five equally spaced values in every coordinate define the primary 3125-component dictionary.
-
-The two unknown traction modes act along$-z$ on the top and$-y$ on a side. Their amplitudes may be positive or negative. Accordingly, these experiments represent applied signed tractions and bilateral compliant supports. They do not discover contact labels, nonpenetration, friction or detachment. A negative top amplitude would require a pulling actuator; it is not an ordinary unilateral poke.
+Surface integrals use three degree-two quadrature points per triangular face. Gaussian traction weights are normalized over the relevant surface and scattered through the face shape functions. Each mode sums to a unit force. Support stiffness uses a lumped nodal diagonal from the same normalized quadrature. The lumped diagonal approximates the consistent surface mass matrix. Normalization preserves total force under refinement but does not guarantee a converged displacement field.
 
 \begin{figure*}[!t]
-\centering\includegraphics[width=.98\textwidth]{figures/coverage.pdf}
-\caption{\textbf{Complete surface-study marginal coverage.} Initial versus four-adaptive-measurement results, including material and load coverage. Same-model calibration and mismatch robustness are distinct tests.}
+\centering\includegraphics[width=.89\textwidth]{figures/material-fields.pdf}
+\caption{\textbf{Material estimates and remaining uncertainty.} Fixed case zero, shared modulus scale and true geometry. These inferred fields can remain uncertain or incorrect despite improving some response predictions. Interval widths are posterior marginal quantities, with cohort coverage evaluated separately.}
+\end{figure*}
+
+\section{Material and interaction families}
+Material kernel centers are $(-.035,0,.03)$ and $(.035,0,.03)$ metres, with scales $(.035,.06,.06)$ metres. Normalized kernel values define a partition of unity. Their difference is centered by the element-volume average before multiplying log contrast. The reference modulus is the volume-weighted geometric mean of the element moduli.
+
+All support/load footprints have a fixed longitudinal width 0.018 m and are broad in the other surface coordinate. Unknown support location lies in $[-.025,.025]$ m. The unknown top/side load location lies in $[-.04,.04]$ m and is shared between the two modes. The top footprint on the step includes both horizontal terraces. Support stiffness lies in $[4000,16000]$ N/m, reference modulus in $[8000,32000]$ Pa, and log contrast in $[-.8,.8]$. The scale priors for material and support are log-uniform. Five equally spaced values in every coordinate define the primary 3125-component dictionary.
+
+The two unknown traction modes act along $-z$ on the top and $-y$ on a side. Their amplitudes may have either sign, so a negative top amplitude represents a pulling actuator. The model assumes signed tractions and bilateral compliant support.
+
+\begin{figure*}[!t]
+\centering\includegraphics[width=.89\textwidth]{figures/spatial-force-fields.pdf}
+\caption{\textbf{Joint material and actual surface force distributions.} Fixed case zero, time index 4. Color shows inferred material modulus. Arrows show integrated force per surface patch in newtons, obtained from the exact FEM surface quadrature. All panels share an explicitly stated arrow glyph scale. The stepped object's posterior-mean top-force sign remains incorrect, despite improving response predictions.}
 \end{figure*}
 
 \section{Observations and targets}
-Twenty reference points are declared without using any data. Sixteen span$x\in\{-.045,-.015,.015,.045\}$, $y\in\{-.03,.03\}$ and$z\in\{.015,.025\}$m. Four additional points use$x\in\{-.045,-.015\}$, both$y$ values and$z=.05$m. These coordinates lie on the front/back surfaces of both geometries. The primary acquisition and force-scale studies use this surface protocol (v04/v05), as does the temporal follow-up (v06). Earlier v01/v02/v03 reference studies used interior material coordinates at $y=\pm.025$ m and are retained only as mathematical sensor/numerical references. Their order is fixed by the Cartesian-product construction.
+Twenty reference points are declared without using any data. Sixteen span $x\in\{-.045,-.015,.015,.045\}$, $y\in\{-.03,.03\}$ and $z\in\{.015,.025\}$ m. Four additional points use $x\in\{-.045,-.015\}$, both $y$ values and $z=.05$ m. These coordinates lie on the front/back surfaces of both geometries. The primary acquisition and force-scale studies use this surface protocol (v04/v05), as does the temporal follow-up (v06). Earlier v01/v02/v03 reference studies used interior material coordinates at $y=\pm.025$ m and are retained only as mathematical sensor/numerical references. The Cartesian-product ordering fixes all point indices.
 
-Initial measurements use points 1,5,9,13, components$x,z$, and loading times 0,3,7:24 scalar observations. Independent measurement noise has standard deviation$2\times 10^{-5}$m. Two force modes at eight uniformly spaced loading times have a separable Mat\'ern-$3/2$ temporal covariance with correlation length 0.30 and amplitude 0.08 N; directions are a priori independent.
+Initial measurements use points 1,5,9,13, components $x,z$, and loading times 0, 3 and 7, for 24 scalar observations. Independent measurement noise has standard deviation $2\times 10^{-5}$ m. Two force modes at eight uniformly spaced loading times have a separable Mat\'ern-$3/2$ temporal covariance with correlation length 0.30 and amplitude 0.08 N. The two directions are independent under the prior.
 
-The ten camera candidates are six oblique measurements at back-surface points 3,11 and times 1,4,6, plus four $z$-component measurements at front points 1,13 and times 2,5. For the back view, the outward camera direction is $(-1,1,0)/\sqrt2$ and measured direction is $(1,1,0)/\sqrt2$. Initial/front views use camera direction $(0,-1,0)$. Six calibrated probes use top/side 0.08 N loads at $x=-.04,0,.04$m and measure point 13. Top probes measure $z$ from the front; side probes measure $(1,1,0)/\sqrt2$ with outward camera direction $(1,-1,0)/\sqrt2$. Thus each measured direction lies in its camera image plane. A deformed-surface visibility audit checks all loading times and all six probe states, using explicit ray--triangle intersection, surface membership and outward normals. It checks 27,776 marker/view instances over all 320 primary and 128 hierarchical cases, with zero failures. This verifies geometric visibility of supplied markers, not correspondence correctness or recoverability from RGB. Each candidate yields one scalar, with the same stated noise. Probe measurements use an unloaded/reset object with unchanged material/support parameters. Original loads are replayable for additional camera observations. The cost model does not equate a physical image with a scalar observation or account for actuator complexity.
+The ten camera candidates comprise six oblique measurements at back-surface points 3 and 11 at times 1, 4 and 6, plus four $z$-component measurements at front points 1 and 13 at times 2 and 5. For the back view, the outward camera direction is $(-1,1,0)/\sqrt2$ and measured direction is $(1,1,0)/\sqrt2$. Initial/front views use camera direction $(0,-1,0)$. Six calibrated probes use top/side 0.08 N loads at $x=-.04,0,.04$ m and measure point 13. Top probes measure $z$ from the front. Side probes measure $(1,1,0)/\sqrt2$ with outward camera direction $(1,-1,0)/\sqrt2$. Thus each measured direction lies in its camera image plane. A deformed-surface visibility audit checks all loading times and all six probe states, using explicit ray--triangle intersection, surface membership and outward normals. It checks 27,776 marker/view instances over all 320 primary and 128 hierarchical cases, with zero failures. This verifies geometric visibility of supplied markers, not correspondence correctness or recoverability from RGB. Each candidate yields one scalar at the same stated noise level. Probe measurements use an unloaded/reset object with unchanged material/support parameters. Original loads are replayable for additional camera observations. The cost model does not equate a physical image with a scalar observation or account for actuator complexity.
 
-The predictive target is fixed before action selection. Eight positive-$y$ points, excluding points 3 and 11, at all eight times give 192 original-motion coordinates. The first sixteen reference points under four reset loads at$x=-.02,+.02$m, top/side, give 192 changed-load coordinates. None of the original target points is acquired, and none of the target reset loads is used as an acquisition probe. This prevents a policy from appearing better merely because its chosen measurement became its evaluation target.
+The predictive target is fixed before action selection. Eight positive-$y$ points, excluding points 3 and 11, at all eight times give 192 original-motion coordinates. The first sixteen reference points under four reset loads at $x=-.02,+.02$ m, top/side, give 192 changed-load coordinates. None of the original target points is acquired, and none of the target reset loads is used as an acquisition probe. This prevents a policy from appearing better merely because its chosen measurement became its evaluation target.
+
+\begin{figure*}[!t]
+\centering\includegraphics[width=.89\textwidth]{figures/force-fields.pdf}
+\caption{\textbf{Unknown spatial loads.} Fixed case zero at the predeclared, initially unobserved time index 4. Normalized longitudinal load-basis profiles and their mixture intervals retain uncertainty in both load amplitudes and their footprint. This profile is a basis proxy: the stepped side surface has varying height, so the one-dimensional profiles and surface-integrated tractions have different normalizations. Ground truth is available only because this is a controlled synthetic experiment.}
+\end{figure*}
 
 \section{Conditional and total uncertainty}
-For hypothesis$h$, write$y=H_ha+d_h+\epsilon$, $a\sim\mathcal N(0,\Lambda)$ and$\epsilon\sim\mathcal N(0,R)$. The normalized marginal likelihood is
+For hypothesis $h$, write $y=H_ha+d_h+\epsilon$, $a\sim\mathcal N(0,\Lambda)$ and $\epsilon\sim\mathcal N(0,R)$. The normalized marginal likelihood is
 \begin{equation}
 \log p(y\mid h)=-\tfrac 12\{r_h^TC_h^{-1}r_h+\log|C_h|+n\log(2\pi)\},
 \end{equation}
-with$r_h=y-d_h$ and$C_h=R+H_h\Lambda H_h^T$. Every changing determinant is retained. The finite posterior weights multiply this likelihood by the declared hypothesis prior.
+with $r_h=y-d_h$ and $C_h=R+H_h\Lambda H_h^T$. Every changing determinant is retained. The finite posterior weights multiply this likelihood by the declared hypothesis prior.
 
-For$q=T_ha+b_h$, conditional means and variances are combined by total expectation and variance. The between-hypothesis term is part of the reported prediction and force uncertainty. Marginal equal-tail intervals invert the full Gaussian-mixture CDF. Deterministic material fields are a weighted discrete distribution; their intervals can be conservative because of atoms. Prediction coverage uses 24 fixed coordinates, material coverage 20 fixed points, and force coverage 16 amplitudes. None is simultaneous whole-field coverage.
+For $q=T_ha+b_h$, conditional means and variances are combined by total expectation and variance. The between-hypothesis term is part of the reported prediction and force uncertainty. Marginal equal-tail intervals invert the full Gaussian-mixture CDF. Deterministic material fields are a weighted discrete distribution, whose atoms can produce conservative intervals. Prediction coverage uses 24 fixed coordinates, material coverage 20 fixed points, and force coverage 16 amplitudes. Coverage is evaluated coordinate by coordinate.
 
-The moment-independence ablation preserves the force mean/covariance and the material marginal, but replaces their dependence with one shared moment-matched Gaussian force distribution. Its mean-prediction calculation is a useful dependence control; the ablation is not the exact product of two full mixture marginals. Joint-MAP selects the maximum of$\log w_h-\tfrac 12\log|S_h|$, whereas marginal-MAP selects$\log w_h$. These are different posterior summaries when the conditional covariance changes.
-
-\section{Acquisition calculation and audits}
-For scalar action$s$, the component predictive mean is$\mu_{s,h}=h_{s,h}m_h+d_{s,h}$ and variance$v_{s,h}=h_{s,h}S_hh_{s,h}^T+\sigma^2$. Hypothetical observations update Gaussian conditionals and mixture weights. The expected average target variance is estimated with 128 posterior-predictive draws. The same random numbers are used across candidates; acquisition RNG has a separate namespace from truth/noise generation. The selected observation alone updates the actual posterior.
-
-Fixed mixed, camera-only and probe-only schedules are greedily selected from twelve separate development cases per shape using their average realized target squared error. No final case selects these schedules. Random chooses without replacement. All policies receive the same case-specific potential observation noise, making their comparison paired.
-
-\IfFileExists{sections/acquisition-audit-text.tex}{\input{sections/acquisition-audit-text}}{The surface acquisition audit is running.}
-
-\section{Hierarchical force-scale protocol}
-A separate fresh cohort samples the same finite spatial prior and one of five equally probable amplitude scales $\tau\in\{.5,1/\sqrt2,1,\sqrt2,2\}$. There are 64 cases per geometry. Conditional forces retain the same temporal correlation. The resulting 15,625-component posterior is evaluated exactly; factorization reuse avoids repeating mechanics solves for different scales. Full mixture distributions, rather than a moment-matched collapse, supply intervals and evidence updates.
-
-Four models receive identical evidence: the hierarchy, fixed nominal scale, a single Gaussian whose variance matches the mixture prior, and an oracle given the true scale. The broader Gaussian's standard-deviation multiplier is $\sqrt{1.55}=1.24499$. Four fixed views (candidate indices 0,2,4,9) and four fixed probes (10,12,13,14) form independent branches from the initial state. Neither branch includes the other branch's observations. No action or hyperprior was selected on this final cohort. Finite-scale posterior endpoint mass should be compared with its prior value 0.4; endpoint mass alone is not evidence of numerical collapse.
-
-\section{Temporal-prior follow-up}
-The v04 force-correlation failure motivated a separately frozen v06 follow-up; it does not replace or relabel the original test. There are 32 fresh cases per geometry. True force correlation length is 0.10, and amplitude scale is sampled from the same five-value prior. The expanded estimator mixes lengths $\{0.10,0.30,0.60\}$ and the five scales, giving 46,875 spatial/hyperparameter components. Controls are amplitude-only uncertainty with nominal length 0.30, fixed nominal covariance, and an oracle given true covariance hyperparameters. The oracle does not receive true spatial material/support/load parameters. All methods receive identical original observations and the same separate four-view/four-probe branches.
-
-Fixed true length 0.10 makes this a conditional stress test, not prior-averaged calibration. It is a follow-up to a recognized model error, not an untouched primary evaluation. Exact conditional Gaussian integration and full finite-mixture updates/intervals remain unchanged. An independent dense Gaussian identity audit verifies component indexing, normalized evidence and camera/probe updates to below $5\times10^{-16}$. Error, coverage and interval width are reported together, with every fresh case retained.
-\IfFileExists{sections/temporal-results.tex}{\input{sections/temporal-results}}{Temporal follow-up evaluation is running.}
-
-\section{Continuous posterior calculation}
-Continuous inference uses the same five physical coordinates with a uniform bounded prior in those coordinates. Gaussian load amplitudes remain integrated exactly. Tempering selects the next likelihood exponent using a conditional effective-sample-size criterion. Systematic resampling and reflected random-walk Metropolis moves update particles; bounded proposal adaptation occurs between stages. Rejected or invalid states are not redrawn until valid. Stage-boundary checkpoints include RNG state and target/source fingerprints.
-
-The main continuous cohort uses 32 fresh continuous-prior cases per geometry on the same mesh. Initial, recorded-active-final and recorded-fixed-final evidence are fitted with 1024 particles. The policies were selected by the finite dictionary, not by continuous SMC. A separate diagnostic repeats the first two finite-matched and off-grid-fine cases, both geometries and all three evidence stages, with two independent seeds and 1024/2048 particles. These checks evaluate numerical sensitivity; they do not prove an exact continuous posterior. The finite and continuous priors differ at the boundaries, so posterior disagreement is not solely quadrature error.
+The moment-independence ablation preserves the force mean/covariance and the material marginal, but replaces their dependence with one shared moment-matched Gaussian force distribution. Its mean-prediction calculation is a useful dependence control. It approximates the product of the full mixture marginals. Joint-MAP selects the maximum of $\log w_h-\tfrac 12\log|S_h|$, whereas marginal-MAP selects $\log w_h$. These are different posterior summaries when the conditional covariance changes.
 
 \begin{figure*}[!t]
-\centering\includegraphics[width=.98\textwidth]{figures/acquisition.pdf}
+\centering\includegraphics[width=.89\textwidth]{figures/coverage.pdf}
+\caption{\textbf{Complete surface-study marginal coverage.} Initial versus four-adaptive-measurement results, including material and load coverage. Same-model calibration and mismatch robustness are distinct tests.}
+\end{figure*}
+
+\section{Acquisition calculation and audits}
+For scalar action $s$, the component predictive mean is $\mu_{s,h}=h_{s,h}m_h+d_{s,h}$ and variance $v_{s,h}=h_{s,h}S_hh_{s,h}^T+\sigma^2$. Hypothetical observations update Gaussian conditionals and mixture weights. The expected average target variance is estimated with 128 posterior-predictive draws. The same random numbers are used across candidates. The acquisition RNG has a separate namespace from truth/noise generation. The selected observation alone updates the actual posterior.
+
+Fixed mixed, camera-only and probe-only schedules are greedily selected from twelve separate development cases per shape using their average realized target squared error. These schedules are fixed across the test cohort. Random chooses without replacement. All policies receive the same case-specific potential observation noise, making their comparison paired.
+
+\input{sections/acquisition-audit-text}
+
+\section{Hierarchical force-scale protocol}
+A separate fresh cohort samples the same finite spatial prior and one of five equally probable amplitude scales $\tau\in\{.5,1/\sqrt2,1,\sqrt2,2\}$. There are 64 cases per geometry. Conditional forces retain the same temporal correlation. The resulting 15,625-component posterior is evaluated exactly by reusing mechanical factorizations across scales. Full mixture distributions, rather than a moment-matched collapse, supply intervals and evidence updates.
+
+The hierarchy, a nominal-scale fit, a single variance-matched Gaussian and an oracle given the true scale receive identical observations. The broader Gaussian's standard-deviation multiplier is $\sqrt{1.55}=1.24499$. Four fixed views (candidate indices 0,2,4,9) and four fixed probes (10,12,13,14) form independent branches from the initial state. Neither branch includes the other branch's observations. No action or hyperprior was selected on this final cohort. Finite-scale posterior endpoint mass should be compared with its prior value 0.4.
+
+
+
+
+
+\section{Temporal-prior follow-up}
+The v04 force-correlation failure motivated a separately frozen v06 follow-up. The original stress-test results remain in the tables. There are 32 fresh cases per geometry. True force correlation length is 0.10, and amplitude scale is sampled from the same five-value prior. The expanded estimator mixes lengths $\{0.10,0.30,0.60\}$ and the five scales, giving 46,875 spatial/hyperparameter components. Controls are amplitude-only uncertainty with nominal length 0.30, fixed nominal covariance, and an oracle given true covariance hyperparameters. The oracle does not receive true spatial material/support/load parameters. All methods receive identical original observations and the same separate four-view/four-probe branches.
+
+Fixed true length 0.10 makes this a conditional stress test, not prior-averaged calibration. It is a follow-up to a recognized model error, not an untouched primary evaluation. Exact conditional Gaussian integration and full finite-mixture updates/intervals remain unchanged. An independent dense Gaussian identity audit verifies component indexing, normalized evidence and camera/probe updates to below $5\times10^{-16}$. Error, coverage and interval width are reported together, with every fresh case retained.
+\input{sections/temporal-results}
+
+\section{Continuous posterior calculation}
+Continuous inference uses the same five physical coordinates with a uniform bounded prior in those coordinates. Gaussian load amplitudes remain integrated exactly. Tempering selects the next likelihood exponent using a conditional effective-sample-size criterion. Systematic resampling and reflected random-walk Metropolis moves update particles, with bounded proposal adaptation between stages. Rejected or invalid states are not redrawn until valid. Stage-boundary checkpoints include RNG state and target/source fingerprints.
+
+The main continuous cohort uses 32 fresh continuous-prior cases per geometry on the same mesh. Initial, recorded-active-final and recorded-fixed-final evidence are fitted with 1024 particles. The policies were selected by the finite dictionary, not by continuous SMC. A separate diagnostic repeats the first two finite-matched and off-grid-fine cases, both geometries and all three evidence stages, with two independent seeds and 1024/2048 particles. These checks evaluate sensitivity to numerical choices. The finite and continuous priors differ at the boundaries, so posterior disagreement is not solely quadrature error.
+
+\begin{figure*}[!t]
+\centering\includegraphics[width=.87\textwidth]{figures/acquisition.pdf}
 \caption{\textbf{All primary acquisition endpoints.} Complete matched-cohort trajectories for hidden motion, new loads, material and unknown-force error. Lower combined prediction error does not imply superiority on each component.}
 \end{figure*}
 
-\IfFileExists{sections/continuous-posthoc.tex}{\input{sections/continuous-posthoc}}{}
+\input{sections/continuous-posthoc}
 
-\section{Complete new results}
-The following tables retain every acquisition policy and representation control, followed by continuous inference, dependence and actual surface-traction diagnostics.
-\IfFileExists{sections/supplement-tables.tex}{\input{sections/supplement-tables}}{The declared evaluation is running; final tables will replace this working-draft notice.}
 
-\begin{figure*}[!t]
-\centering\includegraphics[width=.98\textwidth]{figures/material-fields.pdf}
-\caption{\textbf{Material estimates and remaining uncertainty.} Fixed case zero, shared modulus scale and true geometry. These inferred fields can remain uncertain or incorrect despite improving some response predictions. Interval widths are posterior marginal quantities, with cohort coverage evaluated separately.}
-\end{figure*}
-\begin{figure*}[!t]
-\centering\includegraphics[width=.98\textwidth]{figures/force-fields.pdf}
-\caption{\textbf{Unknown spatial loads.} Fixed case zero at the predeclared, initially unobserved time index 4. Normalized longitudinal load-basis profiles and their mixture intervals retain uncertainty in both load amplitudes and their footprint. This profile is a basis proxy: the stepped side surface has varying height, so the plotted one-dimensional normalization is not its exact surface-integrated traction. Ground truth is available only because this is a controlled synthetic experiment.}
-\end{figure*}
 
-\begin{figure*}[!t]
-\centering\includegraphics[width=.98\textwidth]{figures/spatial-force-fields.pdf}
-\caption{\textbf{Joint material and actual surface force distributions.} Fixed case zero, time index4. Color shows inferred material modulus. Arrows show integrated force per surface patch in newtons, obtained from the exact FEM surface quadrature. All panels share an explicitly stated arrow glyph scale; this is not displacement magnification. The stepped object's posterior-mean top-force sign remains incorrect, despite improving response predictions.}
-\end{figure*}
 
-\begin{figure*}[!t]
-\centering\includegraphics[width=.98\textwidth]{figures/hierarchy-joint-posterior.pdf}
-\caption{\textbf{Material--force-scale dependence.} Fixed case zero in each geometry, with no outcome-based selection. The black cross marks true scale parameters. The finite 5$\times$5 marginal retains coupled explanations; cameras and probes update different aspects. Lower correlation alone is not a guarantee of more accurate identification.}
-\end{figure*}
-\begin{figure*}[!t]
-\centering\includegraphics[width=.98\textwidth]{figures/hierarchy-prior-models.pdf}
-\caption{\textbf{Force-prior controls on all 128 fresh cases.} The broader Gaussian matches the hierarchy's prior variance. Oracle receives the true amplitude scale. Error, interval coverage and width must be read together; a broader interval alone is not a successful recovery.}
-\end{figure*}
 
 
 \section{Excitation and forward-model qualification}
 A development study compared weak, intermediate and strong Gaussian supports before freezing the final cohort. Weak supports produced mostly rigid motion. The chosen 4--16 kN/m range raises median nonrigid/total RMS to 19.5\% for block and 28.2\% for step at the tested corner loads. Representative simultaneous 0.08 N loads give maximum principal strains 2.02\%/2.61\% and maximum rigid rotations 0.0173/0.0237 rad. These deterministic cases are not bounds on an untruncated Gaussian distribution.
 
-A post-generation audit retains all 320 original surface-study truth histories. Maximum absolute principal strain is 4.30\%, median case maximum 0.77\%, and 95th percentile 1.90\%; no case exceeds 5\%. The smallest deformation-gradient determinant is 0.982. In the independent force-scale cohort, maximum strain is 8.18\%, three of 128 cases exceed 5\%, and none exceeds 10\%; the smallest determinant is 0.958. These are checks on the declared linear generator, not validation against nonlinear elasticity.
+A post-generation audit retains all 320 original surface-study truth histories. Maximum absolute principal strain is 4.30\%, median case maximum 0.77\%, and 95th percentile 1.90\%. All cases lie below 5\%. The smallest deformation-gradient determinant is 0.982. In the independent force-scale cohort, maximum strain is 8.18\%, three of 128 cases exceed 5\%, and none exceeds 10\%. The smallest determinant is 0.958. These are checks on the declared linear generator, not validation against nonlinear elasticity.
 
-A further development-only balanced-traction check was not promoted to replace the main action family. Opposing loads can reduce resultant force but introduce torque; three-patch loads can cancel both. At equal total absolute actuator-force budget, a greater deformation fraction often coincided with a smaller absolute signal near the observation noise. Jacobian improvements depended on geometry and measurement location. This negative diagnostic guards against assuming that visually more deformable excitation always produces better identification.
+A further development-only balanced-traction check was not promoted to replace the main action family. Opposing loads can reduce resultant force but introduce torque, while three-patch loads can cancel both. At equal total absolute actuator-force budget, a greater deformation fraction often coincided with a smaller absolute signal near the observation noise. Jacobian improvements depended on geometry and measurement location. This negative diagnostic guards against assuming that visually more deformable excitation always produces better identification.
 
-Refinement checks use medium, fine and further-refined meshes at fixed physical parameters. The last$12\to 16$cell differences range from 0.008 to 0.068 mm; primary$8\to 16$differences range from 0.027 to 0.209 mm. Hence some same-model inference errors are below discretization error. The fine-truth cohort exposes this limitation rather than treating same-mesh agreement as continuous-time or continuum physical accuracy.
-
-\section{Finer-mesh inverse reference}
-A separately frozen numerical study compares an $8\times4\times4$ inverse model with a $24\times12\times12$ model on independent $32\times16\times16$ truth. Material contrast is volume-centered consistently across meshes. Stiffness factorizations are reused across force centers, but the physical model and parameter dictionary remain unchanged. Sixteen fresh cases per geometry use the same four-action budget and fixed target. This v03 diagnostic retains interior material sensors and is not a visible-surface camera experiment. It isolates discretization effects rather than pooling its errors with the v04 surface study.
-\IfFileExists{sections/fine-results.tex}{\input{sections/fine-results}}{}
+Refinement checks use medium, fine and further-refined meshes at fixed physical parameters. The last $12\to 16$ cell differences range from 0.008 to 0.068 mm, and primary $8\to 16$ differences range from 0.027 to 0.209 mm. Some same-model inference errors are below discretization error. The fine-truth cohort exposes this limitation rather than treating same-mesh agreement as continuous-time or continuum physical accuracy.
 
 \section{Implementation, provenance and reproduction}
-All priors, dictionary bounds, source hashes, case counts, observation/action/target contracts and seeds were frozen before final cohort execution. Source changes invalidate resume. Case-level records retain every policy and every acquisition score. Continuous runs retain stage histories, invalid-state counts and independent seed/count comparisons. Raw trajectory dictionaries and posterior checkpoints remain local; compact tables, source, provenance and figures are publishable without raw recordings.
+For the quasistatic campaign, the priors, dictionary bounds, case counts, observation and target definitions, and seeds were fixed before final cohort execution. Case-level records retain every policy and every acquisition score. Continuous runs retain stage histories, invalid-state counts and independent seed/count comparisons. The tables give paired comparisons over the complete evaluation cohorts.
 
-The core unit suite checks rigid-mode strain, stiffness symmetry/positivity, force quadrature, gradients, CPU/GPU parity, affine interpolation, Gaussian marginal/conditional identities, covariance propagation, observation-order invariance, predictive-risk integration and strict target separation. The independent audit verifies that planners do not receive true parameters or unacquired measurements. Tests establish implementation identities and declared data flow, not real-world physical truth.
+Numerical tests check rigid-mode strain, stiffness symmetry/positivity, force quadrature, gradients, CPU/GPU parity, affine interpolation, Gaussian marginal/conditional identities, covariance propagation, observation-order invariance, predictive-risk integration and strict target separation. The independent audit verifies that planners do not receive true parameters or unacquired measurements. Tests establish implementation identities and declared data flow, with numerical references.
 
-The force-elimination predecessor used a nonlinear Neo-Hookean trajectory and sparse rendered RGB. Its fifteen force coefficients were integrated exactly under a fixed full-rank velocity discrepancy model; a local Gaussian approximated the remaining trajectory/material posterior. It had no unknown spatial load footprint. Exact elimination therefore coexisted with approximate uncertainty and nonlinear renderer failures. The present reference deliberately separates these issues.
+\newpage
 
-\paragraph{Historical evidence identifiers.}
-The platform summary is traceable to \texttt{papers/cvpr2027-physical-response/main.tex}, its unchanged appended supplement, and \texttt{evidence/current-audit.json}. The six-family simulation table reports 1.97/10.80/11.27/1.84 mm for the neural continuum, adapted PhysTwin, adapted Spring-Gaus and analytic continuum controls. The real continuation and transfer tables are generated from \texttt{evidence/external-numbers.json} and the saved per-sequence tables. These are archived system-specific results, not new joint-field comparisons. The source package preserves those documents through the archived PDF; the repository retains all original reports.
+\paragraph{Relation to dynamic RGB estimation.} An earlier force-elimination experiment used a nonlinear Neo-Hookean trajectory and sparse rendered RGB. Its fifteen force coefficients were integrated exactly under a fixed full-rank velocity discrepancy model. A local Gaussian approximated the remaining trajectory/material posterior. It had no unknown spatial load footprint. Exact elimination therefore coexisted with approximate uncertainty and nonlinear renderer failures. The quasistatic reference isolates the conditional force calculation from image reconstruction and temporal integration.
 
-\section{Scope of the preserved studies}
-The following archived supplement is reproduced unchanged so that earlier contact, boundary, rendering and public-data evidence remains available. Its numbering, captions and methodological distinctions belong to that earlier manuscript. In particular, its learned material decoder, equilibrium real-data adapter, slip-aware SoftVT predictor, dense PIDG hybrid and solver-driven appearance qualification are distinct systems. They are not interchangeable baselines for the new finite/continuous posterior and do not establish its material/force recovery on real video.
+\onecolumn\raggedbottom
+\section{Complete joint-field results}
+Each row summarizes a prespecified estimator or observation policy. Coordinate errors and marginal coverages are averaged by physical case. The first four tables separate matched and stress populations. Subsequent tables compare prior-scale models, continuous inference, posterior dependence, and the spatial distribution of traction.
 
-\paragraph{Archived platform evidence.}
-The unchanged historical supplement follows the new study. Its figures, numbering and comparisons belong to the earlier platform manuscript. References for the new identification study are listed in the main manuscript.
+\makeatletter
+\captionsetup{hypcap=false,skip=3pt}\renewcommand{\arraystretch}{0.92}\let\small\footnotesize\renewenvironment{table*}[1][]{\par\addvspace{6pt}\noindent\begin{minipage}{\textwidth}\def\@captype{table}}{\end{minipage}\par}
+\makeatother
+\input{sections/supplement-tables}
+\section{Finer-mesh inverse reference}
+A separately frozen numerical study compares an $8\times4\times4$ inverse model with a $24\times12\times12$ model on independent $32\times16\times16$ truth. Material contrast is volume-centered consistently across meshes. Stiffness factorizations are reused across force centers, but the physical model and parameter dictionary remain unchanged. Sixteen fresh cases per geometry use the same four-action budget and fixed target. This v03 diagnostic retains interior material sensors and is not a visible-surface camera experiment. It isolates discretization effects rather than pooling its errors with the v04 surface study.
+\input{sections/fine-results}
+
+
+\par\bigskip
+\noindent\begin{minipage}{\textwidth}\centering
+\includegraphics[width=.88\linewidth]{figures/hierarchy-joint-posterior.pdf}
+\captionof{figure}{\textbf{Material and force scale after an observation.} In the first case for each geometry, the black cross marks the simulated values. The $5\times5$ grids show how additional views and probes update the marginal distribution over modulus and force scale.}
+\end{minipage}\par\bigskip
+\noindent\begin{minipage}{\textwidth}\centering
+\includegraphics[width=.88\linewidth]{figures/hierarchy-prior-models.pdf}
+\captionof{figure}{\textbf{Force-prior controls on 128 cases.} The broader Gaussian matches the hierarchy's prior variance. The oracle receives the true amplitude scale. Bars summarize performance after the same four probe measurements.}
+\end{minipage}
 \end{document}
