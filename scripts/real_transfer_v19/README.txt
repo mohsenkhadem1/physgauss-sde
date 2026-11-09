@@ -58,14 +58,23 @@ reports/real-transfer-v19; raw inputs/predictions/checkpoints live in runs/.
 The fixed campaign entry point is historical, not a general scheduler for new
 recipes. Use a new label and a new protocol for subsequent experiments.
 
-PokeFlex (waiting for licensed access)
--------------------------------------
-The official download portal requires an institutional email request and a
-dataset-license acceptance. No approved local copy was found. The user has
-been asked for approved access or a local path. Do not bypass the portal or
-redistribute licensed raw data. The official reconstruction source was cloned
-to runs/third_party/PokeFlex-v19 for adapter inspection; this is not the data.
-Reference: https://pokeflex.ait.ethz.ch/
+PokeFlex (licensed local recordings)
+-----------------------------------
+ETH issues personal download links for noncommercial academic use. Request access
+at https://pokeflex.ait.ethz.ch/ and paste your own URL at the hidden prompt.
+From the repository root, download all archives (about 500 GB compressed):
+
+    python3 scripts/real_transfer_v19/download_pokeflex.py
+
+For the first foam-dice poking trial only (listed as 4.33G by ETH):
+
+    python3 scripts/real_transfer_v19/download_pokeflex.py poking/FoamDice/FoamDice_T1.zip
+
+Archives keep the portal's directory structure under runs/third_party/PokeFlex-data/.
+This Git-ignored directory sits alongside the official reconstruction code at
+runs/third_party/PokeFlex-v19/. Re-running skips completed archives and retries
+incomplete files. Extract the required trials locally, allowing extra disk space.
+ETH prohibits redistribution. Keep recordings and personal URLs out of Git.
 
 Deform360 (acquisition/preprocessing)
 ------------------------------------
