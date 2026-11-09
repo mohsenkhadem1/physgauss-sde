@@ -17,7 +17,7 @@ phys = Namespace(**json.loads((model/'0-pred.json').read_text()))
 ti.init(arch=ti.cuda, debug=False, fast_math=False, device_memory_fraction=float(__import__('os').environ.get('STEM_TI_MEM', '0.3')))
 vol = load_pcd_file(str(model), 40000)
 sim = Simulator(phys, vol)
-n = P['episodes']['D2']['frames']
+n = int(sys.argv[3]) if len(sys.argv) > 3 else P['episodes']['D2']['frames']
 seq = gen_xyz_list(sim, n, diff=False)
 assert sim.succeed() and all(torch.isfinite(x).all() for x in seq), 'CFL/nonfinite failure (retained)'
 xyz = torch.stack(seq).cpu().numpy(); ref = vol.cpu().numpy()

@@ -16,8 +16,9 @@ def force_fn(mesh, episode, world):
     w = P['worlds'][world]; g = mesh.gravity(w['rho'])
     if episode == 'D0':
         return lambda t: g
-    lo, hi, F = {'D1': (-0.015, 0.015, 40.0), 'D2': (0.085, 0.115, 20.0)}[episode]
-    f = mesh.body_force_region(lo, hi, [0, 0, F])
+    lo, hi, F = {'D1': (-0.015, 0.015, [0, 0, 40.0]), 'D2': (0.085, 0.115, [0, 0, 20.0]),
+                 'D2b': (0.085, 0.115, [0, -15.0, 20.0])}[episode]  # D2b: protocol_v02 part C
+    f = mesh.body_force_region(lo, hi, F)
     return lambda t: g+fem.smooth_ramp(t, 0.25)*f
 
 
@@ -28,7 +29,9 @@ def main():
     a = ap.parse_args()
     if a.episode == 'D2' and not (R/'reports/stem-trial-v01/prediction-freeze.json').exists():
         raise SystemExit('D2 truth is sealed until predictions are frozen')
-    e = P['episodes'][a.episode]; w = P['worlds'][a.world]
+    if a.episode == 'D2b' and not (R/'reports/stem-trial-v01/prediction-freeze-v2.json').exists():
+        raise SystemExit('D2b truth is sealed until round-2 predictions are frozen')
+    e = P['episodes']['D2' if a.episode == 'D2b' else a.episode]; w = P['worlds'][a.world]
     mesh = fem.Mesh(tuple(a.cells)); model = fem.Elastic(mesh, w['E'], w['nu'], w['rho'])
     dt = P['truth_numerics']['dt_s']/a.dt_div; save = round(1/(e['fps']*dt))
     OUT.mkdir(parents=True, exist_ok=True)

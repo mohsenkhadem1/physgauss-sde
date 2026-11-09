@@ -75,7 +75,7 @@ def texture(Xr):
 
 
 @torch.no_grad()
-def render(c2w, K, verts, verts_ref, tris, ss=2, device='cuda'):
+def render(c2w, K, verts, verts_ref, tris, ss=2, device='cuda', return_depth=False):
     """verts (n,3) deformed world positions; verts_ref reference positions; tris (T,3)."""
     Ws, Hs = W*ss, H*ss
     Kss = K.copy(); Kss[:2] *= ss
@@ -123,6 +123,13 @@ def render(c2w, K, verts, verts_ref, tris, ss=2, device='cuda'):
     img[pix] = col.clamp(0, .9); alpha[pix] = 1
     img = img.reshape(Hs, Ws, 3).reshape(H, ss, W, ss, 3).mean((1, 3))
     alpha = alpha.reshape(Hs, Ws).reshape(H, ss, W, ss).mean((1, 3))
+    if return_depth:
+        # camera-space depth (m) along the optical axis; mean of covered subpixels, 0 = background
+        zb = zbuf.reshape(Hs, Ws); cov = torch.isfinite(zb)
+        zs = torch.where(cov, zb, torch.zeros_like(zb)).reshape(H, ss, W, ss).sum((1, 3))
+        n = cov.reshape(H, ss, W, ss).sum((1, 3))
+        depth = torch.where(n > 0, zs/n.clamp(min=1), torch.zeros_like(zs))
+        return img.cpu().numpy(), alpha.cpu().numpy(), depth.cpu().numpy()
     return img.cpu().numpy(), alpha.cpu().numpy()
 
 
@@ -146,3 +153,9 @@ def write_scene(folder, frames_xyz, ref_xyz, tris, fps, cams=None, K=None):
             entries.append(dict(file_path=f'./data/{name}', time=f/fps, c2w=c2w[:3].tolist(), intrinsic=K.tolist()))
     (folder/'all_data.json').write_text(json.dumps(entries))
     return entries
+
+
+def unproject(c2w, K, u, v, depth):
+    """Pixel (u,v) with camera-space depth -> world point (Blender convention)."""
+    pc = np.stack([(u-K[0, 2])*depth/K[0, 0], -(v-K[1, 2])*depth/K[1, 1], -depth], -1)
+    return pc@c2w[:3, :3].T+c2w[:3, 3]

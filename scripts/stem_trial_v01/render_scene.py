@@ -16,7 +16,7 @@ def main(episode, world):
     tris = mesh.surface_triangles()
     frames = z['X'][None]+z['U']
     out = R/f'runs/stem-trial-v01/scenes/{episode}-{world}'
-    render.write_scene(out, frames, z['X'], tris, P['episodes'][episode]['fps'])
+    render.write_scene(out, frames, z['X'], tris, P['episodes'][episode.rstrip('b')]['fps'])
     h = hashlib.sha256()
     for f in sorted((out/'data').glob('m_*.png')):
         h.update(f.read_bytes())

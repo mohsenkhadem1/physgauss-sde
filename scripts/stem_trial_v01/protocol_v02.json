@@ -1,0 +1,30 @@
+{
+ "name": "stem-trial-v01 round 2",
+ "date": "2026-11-09",
+ "status": "frozen before D2b truth exists and before any RGB-D measurement was extracted",
+ "parts": {
+  "A_rendering": {
+   "camera": "camera 0, never used by GIC fitting; reference = rendered truth images",
+   "metric": "PSNR over the reference foreground (non-white pixels) and full-frame PSNR, both after the GIC reader's own compositing (foreground on black); mean over frames",
+   "GIC_observed": "native deformation-network render of its own fitting episode (D0; D1 per world), and native fixed-particle Gaussians driven by its simulated fitting trajectory",
+   "GIC_forecast": "the same fixed-particle Gaussians (appearance trained on cameras 1-10 of the fitting episode only) driven by the sealed forecast particles",
+   "ours": "our predicted displacement field rendered with the known rest mesh and texture by the trial renderer (supplied appearance; isolates motion error)",
+   "D2_status": "D2 predictions were sealed before D2 truth; this rendering metric is added after D2 was opened, so D2 rendering scores are a post-hoc metric on sealed predictions",
+   "D2b_status": "prospective"
+  },
+  "B_rgbd_sensing_for_ours": {
+   "cameras": {"side markers (z=+0.04 face, y=0.60)": 1, "top markers (y=0.64 face, z=0)": 9},
+   "marker_x": [-0.15, -0.10, -0.05, 0.00, 0.05, 0.10, 0.15, 0.18],
+   "rgb": "same rendered RGB images GIC receives (byte-identical), tracked frame-to-frame with OpenCV pyramidal Lucas-Kanade (21x21 window, 3 levels) from the projection of the known rest marker positions at frame 0",
+   "depth": "rendered camera-space depth plus iid Gaussian noise sd 1.5 mm per pixel (seed 20261109 + episode/world), read as the 3x3 median at the tracked pixel, back-projected through the known camera",
+   "likelihood_sd": "estimated once per world as the per-coordinate RMS residual of the best grid fit to D0, then fixed for D0 and D1 (plug-in empirical Bayes); residuals include tracking drift and surface sliding, which are not independent over time",
+   "label": "RGB-D stratum; GIC remains on RGB only, its native input"
+  },
+  "C_prospective_D2b": {
+   "load": "gravity release + 25 N total along (0, -0.6, 0.8) (i.e. 15 N down, 20 N lateral) at the 0.75 L station [0.085, 0.115), same cosine ramp 0.25 s, 0.75 s, 48 fps",
+   "predictions_sealed": ["GIC passive fit", "GIC refit after poke", "GIC simulator with true parameters (oracle control)", "ours tracks (primary grid)", "ours tracks (off-grid)", "ours RGB-D (primary grid)"],
+   "metrics": "same physics metric as D2 plus part A rendering on camera 0",
+   "rule": "freeze-v2 hashes written before D2b truth is generated"
+  }
+ }
+}

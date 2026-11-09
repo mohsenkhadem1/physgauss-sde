@@ -70,6 +70,38 @@ def bank():
     (OUT/'bank.json').write_text(json.dumps(meta, indent=1)); print(meta)
 
 
+MX = [-0.15, -0.10, -0.05, 0.00, 0.05, 0.10, 0.15, 0.18]
+MARKERS_RGBD = np.array([[x, .60, .04] for x in MX]+[[x, .64, 0.] for x in MX])  # side (cam 1), top (cam 9)
+
+
+def _solve2(args):
+    """Round-2 responses: RGB-D markers under gravity/poke, stations under a +y unit load at 0.75 L."""
+    c, nu = args
+    mesh = fem.Mesh(tuple(P['ours']['mesh_cells']))
+    model = fem.Elastic(mesh, c, nu, 1.0)
+    H = mesh.interpolation(MARKERS_RGBD).toarray(); S = station_matrix(mesh)
+    g = mesh.gravity(1.0)
+    fp = mesh.body_force_region(POKE[0], POKE[1], [0, 0, 1.0])
+    fy = mesh.body_force_region(HELD[0], HELD[1], [0, 1.0, 0])
+    save = round(1/(FPS*DT)); T = 0.75
+    Ug, _ = fem.newmark(model, lambda t: g, T, DT, save, nonlinear=False)
+    Up, _ = fem.newmark(model, lambda t: fem.smooth_ramp(t, .25)*fp, T, DT, save, nonlinear=False)
+    Uy, _ = fem.newmark(model, lambda t: fem.smooth_ramp(t, .25)*fy, T, DT, save, nonlinear=False)
+    return dict(mark2_g=np.einsum('mn,fnj->fmj', H, Ug), mark2_p=np.einsum('mn,fnj->fmj', H, Up),
+                st_hy=np.einsum('sn,fnj->fsj', S, Uy))
+
+
+def bank2():
+    jobs = [(c, nu) for c in C_GRID for nu in NU_GRID]
+    t0 = time.time()
+    with Pool(12) as pool:
+        res = pool.map(_solve2, jobs, chunksize=2)
+    arr = {k: np.stack([r[k] for r in res]).reshape(len(C_GRID), len(NU_GRID), *res[0][k].shape) for k in res[0]}
+    np.savez_compressed(OUT/'bank2.npz', c=C_GRID, nu=NU_GRID, markers_rgbd=MARKERS_RGBD, **arr)
+    meta = dict(seconds=time.time()-t0, shapes={k: list(v.shape) for k, v in arr.items()})
+    (OUT/'bank2.json').write_text(json.dumps(meta, indent=1)); print(meta)
+
+
 def observe(episode, world):
     """Noisy marker tracks from truth (the only truth access); seeded per episode/world."""
     src = 'W1000' if episode == 'D0' else world  # D0 is shared; identical across worlds (verified 4e-17 m)
@@ -121,5 +153,7 @@ def infer(world):
 if __name__ == '__main__':
     if sys.argv[1] == 'bank':
         bank()
+    elif sys.argv[1] == 'bank2':
+        bank2()
     else:
         infer(sys.argv[2])
