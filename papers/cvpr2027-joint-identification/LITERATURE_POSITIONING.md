@@ -39,7 +39,7 @@ The proposed method uses known metric rest geometry and calibrated cameras. The 
 - **ReconPhys** (Wang et al., ECCV 2026): feed-forward 3D Gaussian appearance and mass/stiffness/damping/friction predictions from single-view video. [arXiv](https://arxiv.org/abs/2604.07882)
 - **PhysConvex** (Wang et al., ECCV 2026): boundary-driven convex continuum representation and explicit physical generalization. [Project](https://danalaina.github.io/physconvex_webpage/)
 
-**Gap at end of category:** many models already do changed-action simulation. What is not established just by a reconstruction score or selected held-out transfers is whether plausible competing physical explanations lead to materially different outcomes for a specified next force. One fitted point estimate is not an epistemic-risk certificate.
+**Evidence precision:** PhysConvex quantitatively predicts eight frames after sixteen observed frames on twelve FEM-simulated objects, and illustrates changed forces and moving floors. Its novel-force and boundary figures establish that the simulator accepts those changes, but no matched, ambiguity-aware risk calibration is reported there. Its indexed source-repo URL DanWang-98/PhysConvex was not accessible on 9 November; the public project-page repository contains website assets only. **Gap at end of category:** a successful fitted point estimate, future sequence and illustrative intervention do not measure the range of responses among otherwise compatible explanations.
 
 ## 4. Action-conditioned video and learned world models — actions exist, but may have different semantics
 
@@ -50,7 +50,7 @@ The proposed method uses known metric rest geometry and calibrated cameras. The 
 - **PhyCo** (Narayanan et al., CVPR 2026): physical-property-map-conditioned video diffusion. [CVF](https://openaccess.thecvf.com/content/CVPR2026/html/Narayanan_PhyCo_Learning_Controllable_Physical_Priors_for_Generative_Motion_CVPR_2026_paper.html)
 - **tau0-WM** (Zhou et al., 2026 arXiv): multi-view video/action policy plus action-conditioned video simulator and task-progress scoring. [arXiv](https://arxiv.org/abs/2606.01027)
 
-**Gap at end of category:** generating plausible action-conditioned video or progress scores does not imply calibrated metric deformation or reaction-force error for a new load and does not automatically choose what physical measurement to collect next.
+**Evidence precision:** P3Sim's transformed 3D object inputs are converted to sparse/dense target depth and flow; the paper's quantitative results cover NVS and 3DEditBench image/edit scores, while the deformable and collision cases are largely qualitative. An action here may be specified motion, not a known force in newtons. **Gap at end of category:** visual plausibility and geometric edit adherence do not quantify calibrated force-to-deformation or reaction force under ambiguous physical parameters.
 
 ## 5. Interaction calibration and active physical identification
 
@@ -58,7 +58,7 @@ The proposed method uses known metric rest geometry and calibrated cameras. The 
 - **KnockGS** (Ge et al., August 2026 preprint): observes a known calibration probe and freezes inferred physical Gaussian scales to test a new interaction. Already demonstrates probe-to-probe transfer. [arXiv](https://arxiv.org/abs/2608.27365)
 - **PhysCoRe** (Yin et al., CoRL 2026): material inference plus learned residual correction, per-region confidence and exploration; active probing is not new by itself. [Project](https://lunarlab-gatech.github.io/PhysCoRe-website/)
 
-**Gap at end of category:** pre-selected calibration and exploring locally uncertain material are not equivalent to minimizing error for the *particular intended action* at a specified measurement cost. Use strong fixed, point-estimate, and Gaussian-risk controls; our previous 96-case study does not establish a large advantage over the latter.
+**Evidence precision:** KnockGS's released numerical code is a five-feature calibration core only (not its MPM/renderer); its simulations do test Probe-A to Probe-B transfer. PhysCoRe's released code supports trained MPM prediction and RGB-D preprocessing, but its published robot exploration figure shows confidence maps as contact moves, not a matched-cost prospective action-selection test. **Gap at end of category:** neither paper evaluates the same target-specific risk-versus-acquisition-cost decision over proceed/view/probe. Our previous 96-case study does not establish a large advantage over a Gaussian-risk approximation.
 
 ## 6. Benchmarks for physical truth and model reliability
 
