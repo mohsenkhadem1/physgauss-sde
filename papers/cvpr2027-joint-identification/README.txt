@@ -1,3 +1,7 @@
+SOURCE REVISION (9 NOVEMBER 2026)
+---------------------------------
+The current world-model introduction, six-category related work and expanded bibliography are in main.tex and references.bib. A category-by-category source map is in LITERATURE_POSITIONING.md. The existing main.pdf, supplement.pdf and release/latex-source.zip are from the PREVIOUS typeset build. They must be rebuilt and repackaged before a CVPR upload; the prior PDF must not be represented as containing this new literature revision. From this directory run bash build.sh, and regenerate the standalone source using the repository packaging script.
+
 When Is Video Enough? Predicting Deformable Object Responses to New Interactions
 Anonymous review manuscript, 9 November 2026
 

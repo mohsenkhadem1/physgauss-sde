@@ -1,3 +1,5 @@
+**9 November 2026 literature revision:** The current abstract, introduction, and six-category related work are in [main.tex](papers/cvpr2027-joint-identification/main.tex), with 17 new bibliography entries and a [source-by-source literature map](papers/cvpr2027-joint-identification/LITERATURE_POSITIONING.md). The linked `main.pdf`, `supplement.pdf` and source ZIP are from the prior typeset build and do **not** yet contain the revised text; rebuild via the paper directory's `build.sh` before submitting.
+
 # PhysGauss-SDE
 
 **Current manuscript · 9 November 2026**
