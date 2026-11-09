@@ -15,7 +15,6 @@ t<T, then 1. Without STEM_FORCE_JSON the adapter is inert (exact native path).
 import json, os
 import numpy as np
 import taichi as ti
-from simulator.mpm_simulator import MPMSimulator
 
 _SPEC = None
 if os.environ.get('STEM_FORCE_JSON'):
@@ -45,11 +44,11 @@ def _read_x0(sim: ti.template(), out: ti.types.ndarray(), m: ti.types.ndarray())
         m[p] = ti.cast(sim.p_mass[p], ti.f64)
 
 
-_orig_init = MPMSimulator.__init__
+_ORIG = {}
 
 
 def _init(self, *a, **k):
-    _orig_init(self, *a, **k)
+    _ORIG[type(self).__name__+str(id(type(self)))](self, *a, **k)
     n = max(int(self.n_particles[None]), 1)
     self.ext_f = ti.Vector.field(3, dtype=self.dtype, shape=n)
     self.ext_amp = ti.field(dtype=self.dtype, shape=())
@@ -60,13 +59,21 @@ def _prepare(self):
     n = int(self.n_particles[None])
     x = np.zeros((n, 3)); m = np.zeros(n)
     _read_x0(self, x, m)
-    sel = (x[:, 0] >= _SPEC['lo']) & (x[:, 0] < _SPEC['hi'])
+    if 'window' in _SPEC:  # block press: top `top` metres of the body inside an x-z window, measured from
+        (x0, z0), (x1, z1) = _SPEC['window']  # the reconstruction's own top surface in that window
+        inwin = (x[:, 0] >= x0) & (x[:, 0] < x1) & (x[:, 2] >= z0) & (x[:, 2] < z1)
+        sel = inwin & (x[:, 1] >= x[inwin, 1].max()-_SPEC['top'])
+    elif 'box' in _SPEC:  # 3D reference box [[x0,y0,z0],[x1,y1,z1]]
+        lo3, hi3 = np.asarray(_SPEC['box'][0]), np.asarray(_SPEC['box'][1])
+        sel = np.all((x >= lo3) & (x < hi3), 1)
+    else:
+        sel = (x[:, 0] >= _SPEC['lo']) & (x[:, 0] < _SPEC['hi'])
     assert sel.sum() > 0, 'no particles in load region'
     f = np.zeros((self.ext_f.shape[0], 3))
     f[:n][sel] = np.asarray(_SPEC['force'])[None] * (m[sel] / m[sel].sum())[:, None]
     self.ext_f.from_numpy(f.astype(np.float32 if self.dtype == ti.f32 else np.float64))
     AUDIT.update(particles_loaded=int(sel.sum()), particles_total=n, total_force=f.sum(0).tolist(),
-                 loaded_mass=float(m[sel].sum()), region=[_SPEC['lo'], _SPEC['hi']])
+                 loaded_mass=float(m[sel].sum()), region=_SPEC.get('box', [_SPEC.get('lo'), _SPEC.get('hi')]))
     if os.environ.get('STEM_FORCE_AUDIT'):
         open(os.environ['STEM_FORCE_AUDIT'], 'w').write(json.dumps(AUDIT))
 
@@ -80,8 +87,8 @@ def _set_amp(self, s):
 def substep(self, s, cache=True):
     local_index = s % self.cuda_chunk_size
     if self._ext_on:
-        if s == 0:
-            _prepare(self)
+        if s == 0 and cache and not getattr(self, '_ext_ready', False):
+            _prepare(self); self._ext_ready = True  # loaded particle set fixed at the first forward pass
         _set_amp(self, s)
     self.grid.deactivate_all()
     self.compute_F_tmp(local_index)
@@ -122,10 +129,17 @@ def substep_grad(self, s):
     self.compute_F_tmp.grad(local_index)
 
 
-def install():
+def install(cls=None):
+    """Patch an MPM simulator class (GIC's by default; PAC-NeRF's lib.engine.MPMSimulator has the
+    same substep structure). Inert when no force spec is given."""
     if _SPEC is None:
         return None
-    MPMSimulator.__init__ = _init
-    MPMSimulator.substep = substep
-    MPMSimulator.substep_grad = substep_grad
+    if cls is None:
+        from simulator.mpm_simulator import MPMSimulator as cls
+    key = cls.__name__+str(id(cls))
+    if key not in _ORIG:
+        _ORIG[key] = cls.__init__
+        cls.__init__ = _init
+        cls.substep = substep
+        cls.substep_grad = substep_grad
     return _SPEC

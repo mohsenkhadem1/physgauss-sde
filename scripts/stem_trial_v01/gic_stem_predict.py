@@ -5,8 +5,13 @@ from pathlib import Path
 from argparse import Namespace
 R = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(R/'runs/gap-crossmethod-v02/vendor/gic')); sys.path.insert(0, str(Path(__file__).parent))
+import os
 import gic_force_adapter as A
-assert A.install() is not None
+import striker_adapter as SA
+if os.environ.get('STEM_STRIKER_JSON'):
+    assert SA.install() is not None  # striker forecast (no applied force)
+else:
+    assert A.install() is not None
 import numpy as np, torch, taichi as ti
 from simulator import Simulator
 from new_trajectory import load_pcd_file, gen_xyz_list
@@ -24,5 +29,6 @@ xyz = torch.stack(seq).cpu().numpy(); ref = vol.cpu().numpy()
 cent = np.stack([[xyz[f][(ref[:, 0] >= lo) & (ref[:, 0] < hi)].mean(0) for lo, hi in STATIONS] for f in range(n)])
 counts = [int(((ref[:, 0] >= lo) & (ref[:, 0] < hi)).sum()) for lo, hi in STATIONS]
 np.savez_compressed(out, xyz=xyz.astype(np.float32), ref=ref, station_centroid=cent, station_counts=np.array(counts),
-                    params=json.dumps(vars(phys)), adapter_audit=json.dumps(A.AUDIT))
+                    params=json.dumps(vars(phys)), adapter_audit=json.dumps(A.AUDIT),
+                    striker=np.array(SA.STATE['history']) if SA.SPEC else np.zeros((0, 7)))
 print(dict(out=str(out), counts=counts, audit=A.AUDIT, final_disp_mm=((cent[-1]-cent[0])*1e3).round(2).tolist()))

@@ -1,0 +1,26 @@
+{
+ "name": "figure-1 benchmark v01",
+ "date": "2026-11-09",
+ "status": "frozen before any held-out outcome of scenarios S1 (D2c), S2 (block D2) or S3 (striker D3) exists",
+ "common_question": "After the same initial footage and the same single calibration interaction, which method best predicts a new interaction?",
+ "methods": {
+  "ours": "posterior over material parameters with FEM forward model; observations = markers tracked in the SAME RGB frames the baselines receive, triangulated from two fitting cameras (no depth)",
+  "GIC": "official b523851 on raw RGB, cameras 1-10; native fit on initial footage, native refit on calibration footage; labelled force adapter; striker via labelled contact adapter (forecast only)",
+  "PAC-NeRF": "official b613048 on raw RGB, cameras 1-10; same protocol as GIC; same labelled adapters",
+  "M-PhyGs": "blocked: image-fitting stage requires tiny-cuda-nn; not run (reported, not scored)"
+ },
+ "scenarios": {
+  "S1_stem_push": {"worlds": "stem W500/W1000/W2000 (equal E/rho)", "initial": "D0 passive release", "calibration": "D1 40 N poke at 0.50 L",
+                   "held_out": "D2c: 20 N at 0.75 L along (0,-0.8,-0.6) = 16 N down + 12 N toward -z (new direction)",
+                   "score": "3D station-displacement RMS (4 material stations) over all frames, mm"},
+  "S2_block_press": {"worlds": "block 0.24x0.10x0.12 m, bottom glued, E_soft 6e4 Pa, nu 0.4, rho 1000 (known to all), hidden 8x stiffer region |x-xc|<0.04, y>0.555, xc = -0.06 / 0 / +0.06",
+                     "initial": "D0 30 N press, centre of top face", "calibration": "D1 30 N press at x=+0.05",
+                     "held_out": "D2 30 N press at x=-0.07", "score": "3D displacement RMS of 27 top-surface probe points over all frames, mm"},
+  "S3_stem_striker": {"worlds": "same stems (S1)", "initial": "D0", "calibration": "D1",
+                      "held_out": "D3: gravity release + rigid sphere r=0.03 m, m=0.3 kg, centre (0.17,0.60,0.0755), velocity (0,0,-1) m/s; free rebound; contact law b = 1e11*(r-|x-c|)*n N/m^3 for every method",
+                      "score": "striker impulse error |m dv_pred - m dv_true| in N s (primary), striker rebound velocity, stem station RMS mm"}
+ },
+ "rendering": "camera 0 (never used for fitting) foreground PSNR, reported beside physics; appearance per method's own native renderer",
+ "rule": "all predictions for a scenario sealed (sha256) before its held-out truth is generated; failures retained",
+ "known_limits": "S1 and S3 share the stem object and its fits (different held-out interactions). Truth is a numerical FEM reference. Ours uses an FEM forward model of the same family as the reference solver (coarser mesh, linear elasticity)."
+}

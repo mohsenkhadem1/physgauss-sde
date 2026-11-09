@@ -100,9 +100,13 @@ def lattice(order=6):
 
 
 class Mesh:
-    def __init__(self, cells):
+    def __init__(self, cells, bounds=None, fixed_fn=None):
+        """Box mesh. Defaults are the stem (bounds X0..Z1, clamp x <= CLAMP_X); other scenes pass
+        bounds=((x0,y0,z0),(x1,y1,z1)) and fixed_fn(X)->bool mask of fixed nodes."""
         nx, ny, nz = cells
-        ax = [np.linspace(X0, X1, nx+1), np.linspace(Y0, Y1, ny+1), np.linspace(Z0, Z1, nz+1)]
+        lo, hi = bounds if bounds is not None else ((X0, Y0, Z0), (X1, Y1, Z1))
+        self.lo, self.hi = np.asarray(lo, float), np.asarray(hi, float)
+        ax = [np.linspace(lo[0], hi[0], nx+1), np.linspace(lo[1], hi[1], ny+1), np.linspace(lo[2], hi[2], nz+1)]
         P = np.stack(np.meshgrid(*ax, indexing='ij'), -1).reshape(-1, 3)
         ids = np.arange(len(P)).reshape(nx+1, ny+1, nz+1)
         tet = []
@@ -143,7 +147,7 @@ class Mesh:
         pkey = (np.repeat(np.arange(3*self.n), np.diff(pat.indptr)).astype(np.int64)*(3*self.n)+pat.indices)
         self.slot = np.searchsorted(pkey, key)
         assert (pkey[self.slot] == key).all()
-        self.fixed = np.where(self.X[:, 0] <= CLAMP_X+1e-9)[0]
+        self.fixed = np.where(self.X[:, 0] <= CLAMP_X+1e-9)[0] if fixed_fn is None else np.where(fixed_fn(self.X))[0]
         fd = np.zeros(3*self.n, bool); fd[(3*self.fixed[:, None]+np.arange(3)).ravel()] = True
         self.free = np.where(~fd)[0]
         # Consistent unit-density mass.
@@ -169,6 +173,22 @@ class Mesh:
         nw = np.einsum('es,sa->ea', cw, self.sample_N)
         w = np.bincount(self.elem.ravel(), weights=nw.ravel(), minlength=self.n)
         return w/cw.sum(), float(cw.sum())
+
+    def box_weights(self, lo3, hi3):
+        """Node weights (sum 1) for the volume average over the reference box lo3 <= X < hi3."""
+        S = self.sample_X
+        m = np.all((S >= np.asarray(lo3)) & (S < np.asarray(hi3)), -1)
+        cw = self.vol[:, None]*self.sample_w[None]*m
+        nw = np.einsum('es,sa->ea', cw, self.sample_N)
+        w = np.bincount(self.elem.ravel(), weights=nw.ravel(), minlength=self.n)
+        return w/cw.sum(), float(cw.sum())
+
+    def body_force_box(self, lo3, hi3, force):
+        w, _ = self.box_weights(lo3, hi3)
+        return (w[:, None]*np.asarray(force, float)[None]).ravel()
+
+    def element_centroids(self):
+        return self.X[self.elem[:, :4]].mean(1)
 
     def body_force_region(self, lo, hi, force):
         """Nodal forces for total force vector spread uniformly over lo<=X_ref<hi."""
@@ -206,7 +226,7 @@ class Mesh:
         tris = np.concatenate([np.stack([a, ab, ca], 1), np.stack([ab, bb, bc], 1),
                                np.stack([ca, bc, c], 1), np.stack([ab, bc, ca], 1)])
         p = self.X[tris]; nrm = np.cross(p[:, 1]-p[:, 0], p[:, 2]-p[:, 0])
-        centre = np.array([(X0+X1)/2, (Y0+Y1)/2, (Z0+Z1)/2])
+        centre = (self.lo+self.hi)/2
         flip = (nrm*(p.mean(1)-centre[None])).sum(1) < 0
         tris[flip, 1], tris[flip, 2] = tris[flip, 2].copy(), tris[flip, 1].copy()
         return tris
@@ -220,11 +240,17 @@ def neo_hookean(F, mu, lam):
     """First Piola stress and tangent dP/dF for arrays F (...,3,3)."""
     J = np.linalg.det(F); Fi = np.linalg.inv(F); FiT = np.swapaxes(Fi, -1, -2)
     lnJ = np.log(J)
+    mu = np.asarray(mu, float)[..., None, None] if np.ndim(mu) else mu
+    lam = np.asarray(lam, float)[..., None, None] if np.ndim(lam) else lam
     P = mu*(F-FiT)+lam*lnJ[..., None, None]*FiT
+    mu = mu[..., 0, 0] if np.ndim(mu) else mu
+    lam = lam[..., 0, 0] if np.ndim(lam) else lam
     I = np.eye(3)
-    A = (mu*np.einsum('ik,JL->iJkL', I, I)[None]
+    mu4 = np.asarray(mu)[..., None, None, None, None] if np.ndim(mu) else mu
+    lam4 = np.asarray(lam)[..., None, None, None, None] if np.ndim(lam) else lam
+    A = (mu4*np.einsum('ik,JL->iJkL', I, I)[None]
          + (mu-lam*lnJ)[..., None, None, None, None]*np.einsum('...Jk,...Li->...iJkL', Fi, Fi)
-         + lam*np.einsum('...Ji,...Lk->...iJkL', Fi, Fi))
+         + lam4*np.einsum('...Ji,...Lk->...iJkL', Fi, Fi))
     return P, A
 
 
@@ -232,6 +258,8 @@ class Elastic:
     def __init__(self, mesh: Mesh, E, nu, rho):
         self.m = mesh; self.E, self.nu, self.rho = E, nu, rho
         self.mu, self.lam = lame(E, nu)
+        if np.ndim(E):  # per-element modulus: broadcast over the 4 quadrature points
+            self.mu = np.repeat(np.asarray(self.mu, float)[:, None], 4, 1); self.lam = np.repeat(np.asarray(self.lam, float)[:, None], 4, 1)
         self.M = rho*mesh.M1
         self.wq = mesh.vol[:, None]*QW[None]  # (E,4)
 

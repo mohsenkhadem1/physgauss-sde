@@ -1,13 +1,13 @@
 """Our method, round 2: posterior from supplied tracks or RGB-D measurements; D2 and D2b predictions.
-Usage: ours_round2.py SENSOR WORLD   (SENSOR in tracks, rgbd; STEM_OFFGRID=1 for the off-grid prior)
+Usage: ours_round2.py SENSOR WORLD   (SENSOR in tracks, rgbd, rgb; STEM_OFFGRID=1 for the off-grid prior)
 Writes runs/stem-trial-v01/{ours|ours-offgrid}/round2-SENSOR-WORLD.{npz,json}."""
-import json, sys
+import json, os, sys
 from pathlib import Path
 import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ours import OUT, RHO_GRID, C_GRID, NU_GRID, MARKERS_RGBD, P, R, observe
 
-LOADS = {'D2': np.array([0, 0, 20.0]), 'D2b': np.array([0, -15.0, 20.0])}
+LOADS = {'D2': np.array([0, 0, 20.0]), 'D2b': np.array([0, -15.0, 20.0]), 'D2c': np.array([0, -16.0, -12.0])}
 DELTA = 3e-3
 
 
@@ -17,7 +17,8 @@ def main(sensor, world):
         y0, y1 = observe('D0', world), observe('D1', world)
         mg, mp = b['mark_g'], b['mark_p']; sd = P['ours']['noise_sd_m']
     else:
-        o0 = np.load(R/f'runs/stem-trial-v01/rgbd/obs-D0-{world}.npz'); o1 = np.load(R/f'runs/stem-trial-v01/rgbd/obs-D1-{world}.npz')
+        d = 'rgbd' if sensor == 'rgbd' else 'rgb'  # rgb: two-view triangulation of tracked RGB, no depth
+        o0 = np.load(R/f'runs/stem-trial-v01/{d}/obs-D0-{world}.npz'); o1 = np.load(R/f'runs/stem-trial-v01/{d}/obs-D1-{world}.npz')
         assert o0['status'].all() and o1['status'].all()
         y0, y1 = o0['y']-MARKERS_RGBD[None], o1['y']-MARKERS_RGBD[None]
         mg, mp = b2['mark2_g'], b2['mark2_p']; sd = None
@@ -42,7 +43,7 @@ def main(sensor, world):
             arrays[f'pred_{ep}_{stage}'] = mean
             st[f'risk_{ep}'] = float((w*(rms > DELTA)).sum())
         out[stage] = st
-    tag = f'round2-{sensor}-{world}'
+    tag = f"{os.environ.get('STEM_ROUND', 'round3')}-{sensor}-{world}"  # never overwrite sealed round-2 files
     np.savez_compressed(OUT/f'{tag}.npz', **arrays)
     (OUT/f'{tag}.json').write_text(json.dumps(out, indent=1)); print(json.dumps(out))
 
