@@ -40,6 +40,7 @@ jobs:
           python papers/cvpr2027-joint-identification/figures/make_benchmark_summary.py --repo .
           python papers/cvpr2027-joint-identification/figures/make_task_teaser.py --repo .
           python papers/cvpr2027-joint-identification/figures/normalize_predicted_shapes.py --repo .
+          python papers/cvpr2027-joint-identification/figures/generate_visual_story.py --repo .
       - name: Archive existing benchmark figure inputs for visual audit
         uses: actions/upload-artifact@v4
         with:
@@ -85,7 +86,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add papers/cvpr2027-joint-identification/main.pdf papers/cvpr2027-joint-identification/supplement.pdf papers/cvpr2027-joint-identification/release/latex-source.zip papers/cvpr2027-joint-identification/release/source-manifest.json papers/cvpr2027-joint-identification/figures/task-teaser.pdf
-          git add -f papers/cvpr2027-joint-identification/figures/benchmark-summary.pdf papers/cvpr2027-joint-identification/figures/fig4-predicted-shapes.pdf
+          git add -f papers/cvpr2027-joint-identification/figures/*.pdf
           if ! git diff --cached --quiet; then
             git commit -m 'Build revised CVPR paper and supplement PDFs [skip ci]'
             git push

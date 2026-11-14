@@ -21,7 +21,7 @@ def main():
     sources = {name: PAPER / name for name in (
         "main.tex", "supplement.tex", "cvpr.sty", "ieeenat_fullname.bst", "references.bib",
         "README.txt", "build.sh", "results-provenance.json", "interaction-provenance.json",
-        "figures/make_task_teaser.py", "figures/make_benchmark_summary.py", "figures/normalize_predicted_shapes.py",
+        "figures/make_task_teaser.py", "figures/make_benchmark_summary.py", "figures/normalize_predicted_shapes.py", "figures/generate_visual_story.py",
     )}
     for directory, glob in (("sections", "*.tex"), ("figures", "*.pdf")):
         for path in (PAPER / directory).glob(glob):
@@ -32,6 +32,14 @@ def main():
     for source in ("output/paper-figures/fig4-predicted-shapes.pdf",
                    "output/stem-trial-v01/stem-render-physics.pdf"):
         sources.setdefault("figures/" + Path(source).name, ROOT / source)
+
+    # Preserve data and the source vector figure needed to regenerate every plot.
+    for archive_name, source in (
+        ("figures/benchmark-source.pdf", "output/paper-figures/fig1-benchmark.pdf"),
+        ("figures/benchmark-scores.json", "reports/fig1-v01/fig1-scores.json"),
+        ("figures/benchmark-render-scores.json", "reports/fig1-v01/render-scores.json"),
+    ):
+        sources[archive_name] = ROOT / source
 
     release = PAPER / "release"
     release.mkdir(exist_ok=True)

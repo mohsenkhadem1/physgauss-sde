@@ -7,8 +7,6 @@
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\Var}{\operatorname{Var}}
-\newcommand{\stemrender}{../../output/stem-trial-v01/stem-render-physics.pdf}
-\IfFileExists{figures/stem-render-physics.pdf}{\renewcommand{\stemrender}{figures/stem-render-physics.pdf}}{}
 \title{When Is Video Enough? Predicting Deformable Object Responses to New Interactions}
 \author{Anonymous manuscript}
 \begin{document}
@@ -18,8 +16,7 @@
 \maketitle
 \begin{center}
 \includegraphics[width=.98\textwidth]{figures/task-teaser.pdf}
-\captionof{figure}{\textbf{The next interaction determines what the robot needs to know.}
-In the left and centre panels, three simulated cantilevers have the same sag, yet move by 7.7--30.7\,mm under a 20\,N lateral push. GIC fitted to the passive images predicts 15.2\,mm in all three. The right panel shows how, in a separate 96-case beam study, the initial tip observation can justify proceeding, observing the support, or probing, depending on the target and the accessible view.}
+\captionof{figure}{\textbf{Three held-out physical interventions predicted from the same RGB evidence.} Each panel shows reference shape, GIC forecast and our RGB-based forecast under a new action. S1 applies a new-direction force to a deformable cantilever; S2 applies a press above a concealed stiff inclusion; S3 measures free-striker rebound. The numerical labels are mean after-calibration displacement RMSE (S1--S2) or absolute impulse error (S3). Qualitative images are cropped from prospectively sealed benchmark predictions, not newly simulated outcomes.}
 \label{fig:teaser}
 \end{center}
 }]
@@ -88,8 +85,8 @@ For each hypothetical observation we update \emph{both} the weights and the poin
 
 \section{Physical Explanations and Observation Models}
 \begin{figure*}[t]
-\centering\includegraphics[width=.91\textwidth]{figures/method.pdf}
-\caption{\textbf{The unknown-load branch of the method.} Each spatial hypothesis defines a response to unit forces. Integrating over force amplitudes assigns weights to material and support hypotheses and preserves their conditional force distributions. Candidate views and probes are compared in terms of the resulting change in predictive uncertainty. In the known-command dynamic experiments we use the measured command directly.}
+\centering\includegraphics[width=.97\textwidth]{figures/method-overview.pdf}
+\caption{\textbf{Action-dependent physical inference and measurement.} The known-command RGB branch triangulates surface motion, weighs physical hypotheses and rolls them out under a specified new action. The complementary unknown-load branch represents material, boundary and traction fields and marginalizes Gaussian force amplitudes under an affine observation model. Both yield distributions of physical outcomes used to assess response-error tolerance; the separate decision experiment weighs the value of another view or calibrated probe. Appearance rendering is evaluated independently on an unseen camera.}
 \label{fig:method}
 \end{figure*}
 \paragraph{Spatial material, support and load.}
@@ -136,10 +133,9 @@ We keep the noise estimate from the initial fit for the calibration update. We a
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=.98\textwidth,trim=0 265 0 0,clip]{\stemrender}
-\caption{\textbf{Rendering the measured and predicted cantilever motion from a withheld camera.}
-The upper row shows a passive frame. The lower panels show the new diagonal push on the light cantilever with pixel differences magnified fourfold. Numbers in the images are sequence foreground PSNR. Comparisons primarily use one frozen GIC appearance; the GIC refit uses its own appearance. The motion predictions were sealed before reference generation; the common-appearance analysis was finalized subsequently.}
-\label{fig:heldrender}
+\includegraphics[width=.99\textwidth]{figures/render-vs-physics.pdf}
+\caption{\textbf{Rendering quality does not reliably quantify a held-out response.} Each dot is one method's after-calibration prediction, with 3D displacement RMSE compared against shared-appearance foreground PSNR from the reserved camera. Dashed lines are reference-motion rendering scores. In the heterogeneous-block experiment the image score changes little despite substantial differences in physical accuracy. The same frozen Gaussian appearance is driven by each sealed motion field; this is not an end-to-end learned renderer for every comparator.}
+\label{fig:render-versus-physics}
 \end{figure*}
 
 \subsection{Joint spatial identification under unknown loading}

@@ -25,9 +25,27 @@ PAC-NeRF~\cite{li2023pacnerf} & 9.45 & 1.78 & 8.27 & 1.771\\
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=.99\textwidth]{figures/benchmark-summary.pdf}
-\caption{\textbf{Held-out action response error.} Mean errors for the five compared methods, after one known calibration action. The collision impulse panel uses a logarithmic scale. Each bar combines three worlds; per-world values and the effects of the evidence update are tabulated in the supplement.}
+\includegraphics[width=.99\textwidth]{figures/benchmark-deltas.pdf}
+\caption{\textbf{Prospective forecasts before and after one calibrated interaction.} Open symbols show mean error using initial RGB evidence; filled symbols show mean after calibration, and smaller dots are individual held-out worlds. Columns measure cantilever force, hidden-inclusion block, free-impact deformation, and transferred impulse. Predictive improvements depend on the action and physical explanation: the block posterior is already concentrated from the first observation.}
 \label{fig:benchmark}
+\end{figure*}
+\begin{figure*}[t]
+\centering
+\includegraphics[width=.99\textwidth]{figures/qualitative-S1.pdf}
+\caption{\textbf{S1: New-direction cantilever deformation from RGB.} The same reference scene and held-out time are shown for each adapted model after calibration. Surface points are colored by 3D motion error; the right panel plots displacement error over the entire reserved sequence, pooled across the three physical worlds.}
+\label{fig:qual-s1}
+\end{figure*}
+\begin{figure*}[t]
+\centering
+\includegraphics[width=.99\textwidth]{figures/qualitative-S2.pdf}
+\caption{\textbf{S2: Novel press over a concealed stiff region.} The predicted physical shape is evaluated against the withheld heterogeneous FEM reference. The last column follows displacement error over the held-out trajectory. The failed spatial-FEM optimization control remains visible as the green dashed curve, with its diagnosis in the supplementary material.}
+\label{fig:qual-s2}
+\end{figure*}
+\begin{figure*}[t]
+\centering
+\includegraphics[width=.99\textwidth]{figures/qualitative-S3.pdf}
+\caption{\textbf{S3: Deformable cantilever under free striker contact.} All models predict motion after an unseen impact; the figure shows cantilever deformation, while the independent striker-impulse endpoint is reported in Table~\ref{tab:benchmark}. Each method's motion-error trajectory is computed from prospectively sealed predictions.}
+\label{fig:qual-s3}
 \end{figure*}
 
 \paragraph{Changed-direction cantilever push.}
@@ -45,6 +63,13 @@ We render all sealed motion forecasts from the reserved camera using one shared 
 \subsection{Selecting whether to proceed, look, or probe}
 \label{sec:measurement-result}
 We independently evaluate evidence acquisition with a compliant-base cantilever model. Ninety-six physical worlds each face three target/visibility settings. Given the initial noisy tip observation, the policy proceeds without measurement in all 96 repeated-load cases (0.104\,mm RMSE). If the target load changes, it requests a view in 92 of 96 cases when base motion is observable (0.073\,mm final RMSE), or a calibrated push in 91 of 96 cases when the base is hidden (0.119\,mm final RMSE). View and probe costs are 0.015 and 0.040 in threshold-failure units at a 0.50\,mm tolerance. The mean decision-loss advantage over a cost-aware Gaussian-moment policy is small, 0.00033, with a bootstrap confidence interval ending at zero. These are fixed-simulator decision experiments; the RGB benchmark above instead applies the same prescribed calibration to every comparator.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=.97\textwidth]{figures/evidence-decision.pdf}
+\caption{\textbf{Task-dependent evidence selection.} Over 96 independent cantilever configurations per condition, the posterior risk policy proceeds for the repeated action, generally looks when base motion can be observed, and generally probes when the base is concealed. The adjacent bars show held-out response RMSE after the policy decision. This is a separate controlled decision experiment, not the fixed-calibration RGB benchmark.}
+\label{fig:decision}
+\end{figure*}
 
 \subsection{Additional independent physical controls}
 The original torus continuation experiment separates a time-conditioned appearance forecast from a physics rollout: the GIC deformation network reaches 20.47\,dB on observed motion but 8.29\,dB on future frames, whereas GIC physics and PAC-NeRF achieve 18.44 and 18.01\,dB on that continuation. In a separate three-object drop control, scaling mass, stiffness and damping together yields almost indistinguishable passive movies (94.6--100.1\,dB between simulated movies), but different known-force responses. A contact-model stress experiment estimates 1.86\% risk of exceeding a 3\,mm tolerance while realizing 43.75\% failures when tested against a finer reference. These controls motivate both task-conditioned forecasts and explicit treatment of model mismatch.
