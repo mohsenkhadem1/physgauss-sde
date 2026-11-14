@@ -10,6 +10,9 @@ on:
       - 'papers/cvpr2027-joint-identification/figures/**'
       - '.github/workflows/cvpr-manuscript-build.yml'
   workflow_dispatch:
+concurrency:
+  group: cvpr-build-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: write
 jobs:
@@ -19,7 +22,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
+          sparse-checkout: |
+            .github
+            papers
+            scripts
+            reports
+            output
+          sparse-checkout-cone-mode: true
       - name: Install TeX tools
         run: |
           sudo apt-get update
