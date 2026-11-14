@@ -1,0 +1,46 @@
+{
+ "name": "pokeflex-v01",
+ "dataset": "PokeFlex (https://pokeflex-dataset.github.io/), licensed non-commercial / no redistribution. Raw data: runs/third_party/PokeFlex-data; extracted: runs/pokeflex-v01 (git-ignored).",
+ "objects_considered": [
+  "FoamDice",
+  "FoamCylinder",
+  "Sponge",
+  "MemoryFoam",
+  "FoamHalfSphere",
+  "Pillow",
+  "3dPrintedCylinder",
+  "3dPrintedPyramid"
+ ],
+ "development_takes": [
+  "FoamDice/FoamDice_T1"
+ ],
+ "development_policy": "Development takes are used only for pipeline debugging, the segmentation validation and the geometry/units audit. They are excluded from every score and must NOT be used to fit material parameters of any object (its forces and meshes were inspected).",
+ "roles": {
+  "passive": "All dropping takes of the object (textured meshes only, 60 fps, ~1 s). Free.",
+  "complete_poke": "A trajectory segment whose tool tip starts >= 2 mm outside the rest mesh (mesh at the segment start frame) and, at the end frame, has retracted along the approach axis >= 2 mm above the depth at which it met the rest surface (segment.py annotate; free inputs only). Several takes begin mid-press or end mid-press, so poke 1 / the last poke can be incomplete.",
+  "designated_take_rule": "The lowest-numbered non-development poking take of the object that contains a complete poke (FoamDice -> FoamDice_T2).",
+  "calibration": "The FIRST COMPLETE poke of the designated take, plus any earlier (incomplete) poke of that take: robot trajectory, forces AND meshes/confidences/images may be used for fitting. (Deviation from 'poke 1' noted: in FoamDice_T2 poke 1 starts with the tool 12 mm inside the object, so the calibration poke is poke 2.)",
+  "held_out": "Every other complete poke of every non-development poking take of the object. Outcomes (forces, meshes, mesh confidences, camera images) of frames start+1..end of held-out pokes are sealed until reports/pokeflex-v01/prediction-freeze.json exists and verifies.",
+  "excluded": "Incomplete pokes outside the calibration window: sealed like held-out pokes, never scored.",
+  "inputs_always_free": [
+   "robot trajectory (T_WT, T_WE, T_WB, jointPos) of every take",
+   "camera parameters",
+   "segments + flags JSON",
+   "rest state at the START frame of every segment: reconstructed mesh, confidence, images, wrench",
+   "passive dropping meshes",
+   "object table (objects.json) except stiffness_N_per_m, which is reserved for the ranking check"
+  ]
+ },
+ "segmentation": "scripts/pokeflex_v01/segment.py: tool-tip depth along the mean tool z-axis; pokes = peaks with prominence >= 20 mm; boundaries = minima between peaks; first/last pokes bounded by take ends. Uses no forces and no meshes. Validated on the development take only: 4/4 pokes one-to-one with force peaks, force peak 0-1 frame before deepest tool frame, all force-contact frames inside segments.",
+ "frames_scored": "Every frame of a held-out (complete) poke strictly after its start frame up to and including its end frame. robot_data frame k <-> mesh-f0000k (30 fps); audit: geometric and force contact onset agree to <= 1 frame, mesh dent maximum at the deepest tool frame (+0/1 frame).",
+ "scores": {
+  "surface_error_mm": "Per scored frame: symmetric chamfer between the predicted surface and the reconstructed mesh, point-to-mesh both ways (20000 area-weighted samples per side, fixed seed), mean of the two directions, mm. Meshes are per-frame reconstructions: vertex count/topology changes every few frames (piecewise-tracked between keyframes), so no per-vertex error. PRIMARY = 'chamfer_excl_tool': samples within 30 mm of the tool axis (from 1 cm below the tip upward) removed on both sides, because the reconstruction does not resolve the dent under the probe (dev audit: reconstructed surface 20-40 mm shallower than the tool tip at the deepest frame, confidence 0.1-0.3 there). Also reported: plain 'chamfer' and confidence-weighted 'chamfer_confw'. Aggregation: mean over scored frames per poke, mean over pokes per object. Implementation: pokeflex.surface_error_mm(..., tool_tip=T_WT origin, tool_axis=T_WT z-axis).",
+  "force_error_N": "Methods are driven by the tool trajectory and predict the contact force on the tool in the WORLD frame (dataset 'forces'[0:3], N; audit: cos(F, -approach axis) = 0.96-0.99 at peak, tool-frame hypothesis ~0; +y world = up = reaction). Per scored frame |F_pred - F_meas| (N); report RMSE over scored frames and the RMSE of the component along -approach axis separately, per object. Torques (forces[3:6]) are not scored (frame/reference point not established).",
+  "force_baseline": "Sensor offset: per take, the median measured wrench over frames whose tool tip is >= 10 mm outside the rest mesh of its poke (geometric, computed from free inputs) is subtracted from the measured force before scoring; methods predict contact force only (zero out of contact). If a take has no such frame, no offset is subtracted. Implementation: pokeflex.force_offset / free_air_frames.",
+  "stiffness_ranking": "Each method reports one scalar effective stiffness (N/m) per object, fitted from passive + calibration data only. Score: Spearman rank correlation with PokeFlex stiffness_N_per_m across the scored objects, and the number of discordant pairs.",
+  "reference_baselines": "Report alongside every method: (a) null predictor = rest mesh of the poke held fixed (surface) and zero force; dev take at the deepest frame of poke 1: chamfer 8.4 mm, chamfer_excl_tool 7.7 mm; (b) reconstruction noise floor = consecutive-frame chamfer at quasi-static frames (dev: ~0.7 mm)."
+ },
+ "freeze": "scripts/pokeflex_v01/pokeflex.py freeze PRED_DIR writes reports/pokeflex-v01/prediction-freeze.json with sha256 of every prediction file, this protocol, all scripts/pokeflex_v01/*.py and the sealed MANIFEST.sha256.json of every take. Gated loaders verify every hash before returning held-out outcomes.",
+ "units": "OBJ meshes in mm (loaders return m); robot poses in m; forces N (torques Nm).",
+ "world_frame": "World +y is up (drops fall toward -y; tool z-axis ~ -y). Support (table) plane at y ~ +0.275..0.280 m (resting drops, lowest vertices of the poking rest mesh 0.2755-0.278 m) -- i.e. the support is ~0.278 m ABOVE the origin, not the origin above the ground as the dataset readme puts it."
+}

@@ -11,6 +11,8 @@ ST = R/'runs/stem-trial-v01'; BK = R/'runs/fig1-v01/block'; REP = R/'reports/fig
 SW = ['W500', 'W1000', 'W2000']; BW = ['Bleft', 'Bcentre', 'Bright']
 sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
 STR_M, STR_V0 = 0.3, -1.0
+EXT = R/'runs/fig1-v01'; EXTERNAL = ('mphygs', 'phystwin')  # adapters of M-PhyGs and PhysTwin (forecast-{EP}-{D0|D1}-{world})
+EXT_NAME = {'mphygs': 'M-PhyGs', 'phystwin': 'PhysTwin'}
 
 
 def files(scen):
@@ -18,7 +20,8 @@ def files(scen):
     if scen == 'S1':
         for w in SW:
             for s in ('rgb', 'tracks', 'rgbd'):
-                f[f'ours/round3-{s}-{w}.npz'] = ST/f'ours/round3-{s}-{w}.npz'
+                for ext in ('npz', 'json'):
+                    f[f'ours/round3-{s}-{w}.{ext}'] = ST/f'ours/round3-{s}-{w}.{ext}'
             f[f'gic/forecast-D2c-D1-{w}.npz'] = ST/f'gic/forecast-D2c-D1-{w}.npz'
             f[f'gic/forecast-D2c-oracle-{w}.npz'] = ST/f'gic/forecast-D2c-oracle-{w}.npz'
             f[f'pac/forecast-D2c-D1-{w}.npz'] = ST/f'pac/forecast-D2c-D1-{w}.npz'
@@ -26,7 +29,9 @@ def files(scen):
         root = ST; truth = [ST/f'truth/D2c-{w}.npz' for w in SW]
     elif scen == 'S2':
         for w in BW:
-            f[f'ours/pred-rgb-{w}.npz'] = BK/f'ours/pred-rgb-{w}.npz'
+            for ext in ('npz', 'json'):
+                f[f'ours/pred-rgb-{w}.{ext}'] = BK/f'ours/pred-rgb-{w}.{ext}'
+                f[f'control/pred-fem-{w}.{ext}'] = BK/f'control/pred-fem-{w}.{ext}'
             for m in ('D0', 'D1'):
                 f[f'gic/forecast-D2-{m}-{w}.npz'] = BK/f'gic/forecast-D2-{m}-{w}.npz'
                 f[f'pac/forecast-D2-{m}-{w}.npz'] = BK/f'pac/forecast-D2-{m}-{w}.npz'
@@ -34,13 +39,30 @@ def files(scen):
     else:
         for w in SW:
             for st in ('D0', 'D0pD1'):
-                f[f'ours/striker/rgb-{w}-{st}.npz'] = ST/f'ours/striker/rgb-{w}-{st}.npz'
+                for ext in ('npz', 'json'):
+                    f[f'ours/striker/rgb-{w}-{st}.{ext}'] = ST/f'ours/striker/rgb-{w}-{st}.{ext}'
             f[f'gic/forecast-D3-D1-{w}.npz'] = ST/f'gic/forecast-D3-D1-{w}.npz'
             f[f'gic/forecast-D3-oracle-{w}.npz'] = ST/f'gic/forecast-D3-oracle-{w}.npz'
             f[f'pac/forecast-D3-D1-{w}.npz'] = ST/f'pac/forecast-D3-D1-{w}.npz'
         f['gic/forecast-D3-D0.npz'] = ST/'gic/forecast-D3-D0.npz'; f['pac/forecast-D3-D0.npz'] = ST/'pac/forecast-D3-D0.npz'
         root = ST; truth = [ST/f'truth/D3-{w}.npz' for w in SW]
-    return f, root, truth
+    ep = {'S1': 'D2c', 'S2': 'D2', 'S3': 'D3'}[scen]
+    for w in (BW if scen == 'S2' else SW):
+        for meth in EXTERNAL:
+            for st in ('D0', 'D1'):
+                for ext in ('npz', 'json'):
+                    p = EXT/meth/f'forecast-{ep}-{st}-{w}.{ext}'
+                    f[str(p.relative_to(R))] = p
+    for w in (BW if scen == 'S2' else SW):  # ours full-shape predictions (figure rows), sealed with the scores
+        if scen == 'S1':
+            f[f'shape-{w}'] = ST/f'ours-fields/round3-rgb-{w}-D2c.npz'
+        elif scen == 'S2':
+            f[f'shape-{w}'] = BK/f'ours/field-rgb-{w}.npz'
+        else:
+            for st in ('D0', 'D0pD1'):
+                f[f'shape-{w}-{st}'] = ST/f'ours/striker/field-rgb-{w}-{st}.npz'
+    f = {str(p.relative_to(R)): p for p in f.values()}  # every key relative to the repository root
+    return f, R, truth
 
 
 def freeze(scen):
@@ -55,10 +77,15 @@ def freeze(scen):
 
 
 def verify(scen):
+    """Check every sealed hash and return a lookup that yields a path ONLY for sealed files:
+    anything recorded as missing at freeze time (or never listed) is never scored, even if it exists now."""
     fz = json.loads((REP/f'prediction-freeze-{scen}.json').read_text()); _, root, _ = files(scen)
     for k, h in fz['files'].items():
         assert sha(root/k) == h, f'{scen}: changed after sealing: {k}'
-    return fz
+    def sealed(path):
+        k = Path(path).relative_to(root).as_posix()
+        return Path(path) if k in fz['files'] else None
+    return sealed
 
 
 def rms_mm(p, t):
@@ -90,38 +117,52 @@ def score():
     rows = []
     # S1
     if (REP/'prediction-freeze-S1.json').exists() and all((ST/f'truth/D2c-{w}.npz').exists() for w in SW):
-        verify('S1')
+        sealed = verify('S1')
         for w in SW:
             t = stem_truth_stations('D2c', w)
             preds = {('GIC', 'passive only'): ST/'gic/forecast-D2c-D0.npz', ('GIC', 'after poke'): ST/f'gic/forecast-D2c-D1-{w}.npz',
                      ('PAC-NeRF', 'passive only'): ST/'pac/forecast-D2c-D0.npz', ('PAC-NeRF', 'after poke'): ST/f'pac/forecast-D2c-D1-{w}.npz',
                      ('GIC simulator, true parameters', 'oracle'): ST/f'gic/forecast-D2c-oracle-{w}.npz'}
+            for meth in EXTERNAL:
+                preds[(EXT_NAME[meth], 'passive only')] = EXT/meth/f'forecast-D2c-D0-{w}.npz'; preds[(EXT_NAME[meth], 'after poke')] = EXT/meth/f'forecast-D2c-D1-{w}.npz'
             for (m, st), p in preds.items():
-                if p.exists():
+                if sealed(p):
                     rows.append(dict(scenario='S1', world=w, method=m, evidence=st, rms_mm=rms_mm(particle_station_disp(p), t)))
             for s, lab in (('rgb', 'ours (RGB)'), ('rgbd', 'ours (RGB-D)'), ('tracks', 'ours (supplied tracks)')):
-                z = np.load(ST/f'ours/round3-{s}-{w}.npz'); j = json.loads((ST/f'ours/round3-{s}-{w}.json').read_text())
+                zp, jp = sealed(ST/f'ours/round3-{s}-{w}.npz'), sealed(ST/f'ours/round3-{s}-{w}.json')
+                if not (zp and jp):
+                    continue
+                z = np.load(zp); j = json.loads(jp.read_text())
                 for stage, st in (('D0', 'passive only'), ('D0+D1', 'after poke')):
                     rows.append(dict(scenario='S1', world=w, method=lab, evidence=st, rms_mm=rms_mm(z[f'pred_D2c_{stage}'], t),
                                      predicted_risk=j[stage]['risk_D2c']))
     # S2
     if (REP/'prediction-freeze-S2.json').exists() and all((BK/f'truth/D2-{w}.npz').exists() for w in BW):
-        verify('S2')
+        sealed = verify('S2')
         for w in BW:
             z = np.load(BK/f'truth/D2-{w}.npz'); m = B.mesh(tuple(z['cells']))
             t = np.einsum('pn,fnj->fpj', m.interpolation(B.PROBES).toarray(), z['U'])
-            for meth, root in (('GIC', BK/'gic'), ('PAC-NeRF', BK/'pac')):
+            for meth, root, pat in (('GIC', BK/'gic', 'forecast-D2-{mm}-{w}.npz'), ('PAC-NeRF', BK/'pac', 'forecast-D2-{mm}-{w}.npz'),
+                                    *((EXT_NAME[e], EXT/e, 'forecast-D2-{mm}-{w}.npz') for e in EXTERNAL)):
                 for mm, st in (('D0', 'passive only'), ('D1', 'after poke')):
-                    p = root/f'forecast-D2-{mm}-{w}.npz'
-                    if p.exists():
+                    p = root/pat.format(mm=mm, w=w)
+                    if sealed(p):
                         rows.append(dict(scenario='S2', world=w, method=meth, evidence=st, rms_mm=rms_mm(block_probe_disp_particles(p, B.PROBES), t)))
-            o = np.load(BK/f'ours/pred-rgb-{w}.npz'); j = json.loads((BK/f'ours/pred-rgb-{w}.json').read_text())
+            cp = sealed(BK/f'control/pred-fem-{w}.npz')
+            if cp and sealed(BK/f'control/pred-fem-{w}.json'):
+                c = np.load(cp)
+                for stage, st in (('D0', 'passive only'), ('D0+D1', 'after poke')):
+                    rows.append(dict(scenario='S2', world=w, method='fitted spatially varying FEM (control)', evidence=st, rms_mm=rms_mm(c[f'pred_D2_{stage}'], t)))
+            op, jp = sealed(BK/f'ours/pred-rgb-{w}.npz'), sealed(BK/f'ours/pred-rgb-{w}.json')
+            if not (op and jp):
+                continue
+            o = np.load(op); j = json.loads(jp.read_text())
             for stage, st in (('D0', 'passive only'), ('D0+D1', 'after poke')):
                 rows.append(dict(scenario='S2', world=w, method='ours (RGB)', evidence=st, rms_mm=rms_mm(o[f'pred_D2_{stage}'], t),
                                  predicted_risk=j[stage]['risk_rms_gt_3mm']))
     # S3
     if (REP/'prediction-freeze-S3.json').exists() and all((ST/f'truth/D3-{w}.npz').exists() for w in SW):
-        verify('S3')
+        sealed = verify('S3')
         from ours import station_matrix
         for w in SW:
             z = np.load(ST/f'truth/D3-{w}.npz'); m = fem.Mesh(tuple(z['cells'])); t = np.einsum('sn,fnj->fsj', station_matrix(m), z['U'])
@@ -129,13 +170,18 @@ def score():
             preds = {('GIC', 'passive only'): ST/'gic/forecast-D3-D0.npz', ('GIC', 'after poke'): ST/f'gic/forecast-D3-D1-{w}.npz',
                      ('PAC-NeRF', 'passive only'): ST/'pac/forecast-D3-D0.npz', ('PAC-NeRF', 'after poke'): ST/f'pac/forecast-D3-D1-{w}.npz',
                      ('GIC simulator, true parameters', 'oracle'): ST/f'gic/forecast-D3-oracle-{w}.npz'}
+            for meth in EXTERNAL:
+                preds[(EXT_NAME[meth], 'passive only')] = EXT/meth/f'forecast-D3-D0-{w}.npz'; preds[(EXT_NAME[meth], 'after poke')] = EXT/meth/f'forecast-D3-D1-{w}.npz'
             for (mth, st), p in preds.items():
-                if p.exists():
+                if sealed(p):
                     d = np.load(p); h = d['striker']; imp = STR_M*(h[-1][6]-STR_V0)
                     rows.append(dict(scenario='S3', world=w, method=mth, evidence=st, rms_mm=rms_mm(particle_station_disp(p), t),
                                      impulse_err_Ns=float(abs(imp-imp_t)), impulse_pred_Ns=float(imp), impulse_true_Ns=float(imp_t)))
             for stage, st in (('D0', 'passive only'), ('D0pD1', 'after poke')):
-                o = np.load(ST/f'ours/striker/rgb-{w}-{stage}.npz'); j = json.loads((ST/f'ours/striker/rgb-{w}-{stage}.json').read_text())
+                op, jp = sealed(ST/f'ours/striker/rgb-{w}-{stage}.npz'), sealed(ST/f'ours/striker/rgb-{w}-{stage}.json')
+                if not (op and jp):
+                    continue
+                o = np.load(op); j = json.loads(jp.read_text())
                 rows.append(dict(scenario='S3', world=w, method='ours (RGB)', evidence=st, rms_mm=rms_mm(o['station_disp'], t),
                                  impulse_err_Ns=float(abs(j['impulse_mean_Ns']-imp_t)), impulse_pred_Ns=j['impulse_mean_Ns'], impulse_true_Ns=float(imp_t),
                                  predicted_risk=j['risk_station_rms_gt_3mm']))

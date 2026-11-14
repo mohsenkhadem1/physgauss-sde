@@ -35,6 +35,9 @@ def substep(self, s, cache=True):
     local_index = s % self.cuda_chunk_size
     if s == 0:
         _init_state()
+        n = int(self.n_particles[None])
+        if self.ext_f.shape[0] < n:  # PAC-NeRF's replay builds the simulator before its particles exist
+            self.ext_f = ti.Vector.field(3, dtype=self.dtype, shape=n)
     dt = float(self.dt[None])
     self.grid.deactivate_all()
     self.compute_F_tmp(local_index); self.svd(); self.project_F(local_index)

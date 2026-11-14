@@ -53,7 +53,7 @@ PROBES = np.array([[x, TOP, z] for z in (-0.04, 0.0, 0.04) for x in PROBE_X])
 
 
 def truth(episode, world, cells=TRUTH_CELLS, tag=''):
-    if episode == 'D2' and not (R/'reports/fig1-v01/prediction-freeze-block.json').exists():
+    if episode == 'D2' and not (R/'reports/fig1-v01/prediction-freeze-S2.json').exists():
         raise SystemExit('block D2 truth sealed until predictions are frozen')
     m = mesh(cells); model = fem.Elastic(m, modulus(m, WORLDS[world]), NU, RHO)
     dt = 1/480; t0 = time.time(); OUT.mkdir(parents=True, exist_ok=True)

@@ -81,5 +81,27 @@ def infer(world, sensor='rgb'):
     (OUT/f'pred-{sensor}-{world}.json').write_text(json.dumps(res, indent=1)); print(json.dumps(res))
 
 
+def _field(h):
+    xc, k, e, nu = h
+    m = B.mesh(CELLS); model = fem.Elastic(m, B.modulus(m, xc, contrast=k, e_soft=e), nu, B.RHO)
+    save = round(1/(B.EPISODE['fps']*DT)); T = B.EPISODE['duration_s']; ramp = B.EPISODE['ramp_s']
+    b = B.press_box('D2'); f = m.body_force_box(b[0], b[1], [0, -B.FORCE, 0]); g = m.gravity(B.RHO)
+    U, _ = fem.newmark(model, lambda t: g+fem.smooth_ramp(t, ramp)*f, T, DT, save, nonlinear=False)
+    return U
+
+
+def field(world, sensor='rgb', mass=1e-3):
+    """Posterior-mean full displacement field for D2 on the coarse mesh (for shape figures); hypotheses with
+    posterior mass > 1e-3 are simulated and the retained mass renormalised."""
+    hyp = np.load(OUT/'bank.npz')['hyp']; z = np.load(OUT/f'pred-{sensor}-{world}.npz'); out = {}
+    for stage in ('D0', 'D0+D1'):
+        w = z[f'w_{stage}']; idx = np.flatnonzero(w > mass); kept = float(w[idx].sum())
+        hs = [(None if np.isnan(hyp[i, 0]) else float(hyp[i, 0]), *map(float, hyp[i, 1:])) for i in idx]
+        with Pool(min(12, len(hs))) as pool:
+            Us = pool.map(_field, hs)
+        out[stage.replace('+', 'p')] = np.einsum('h,hfnj->fnj', w[idx]/kept, np.stack(Us)); out[f'mass_kept_{stage.replace("+", "p")}'] = kept
+    np.savez_compressed(OUT/f'field-{sensor}-{world}.npz', X=B.mesh(CELLS).X, **out); print(world, {k: v for k, v in out.items() if 'mass' in k})
+
+
 if __name__ == '__main__':
-    bank() if sys.argv[1] == 'bank' else infer(*sys.argv[2:])
+    {'bank': lambda: bank(), 'infer': lambda: infer(*sys.argv[2:]), 'field': lambda: field(*sys.argv[2:])}[sys.argv[1]]()

@@ -2,7 +2,7 @@
 Usage: ours_fields.py SENSOR WORLD EPISODE  (EPISODE in D2, D2b). Uses the saved round-2 posterior
 weights; recomputes full linear fields only for (c, nu) cells carrying posterior mass.
 Writes runs/stem-trial-v01/ours-fields/SENSOR-WORLD-EPISODE.npz with U[stage] (F, n_truth_nodes, 3)."""
-import sys
+import os, sys
 from pathlib import Path
 import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -25,7 +25,8 @@ def fields(c, nu):
 
 
 def main(sensor, world, episode):
-    z = np.load(OUT/f'round2-{sensor}-{world}.npz'); F = LOADS[episode]
+    rnd = os.environ.get('FIELDS_ROUND', 'round2')  # Figure 1 (D2c) uses the round-3 posteriors
+    z = np.load(OUT/f'{rnd}-{sensor}-{world}.npz'); F = LOADS[episode]
     truth_mesh = fem.Mesh(tuple(P['truth_numerics']['mesh_cells']))
     out = {}; cache = {}
     for stage in ('D0', 'D0+D1'):
@@ -44,7 +45,7 @@ def main(sensor, world, episode):
         out[stage] = U; out[f'mass_kept_{stage}'] = kept; out[f'cells_{stage}'] = len(cells)
         print(sensor, world, episode, stage, 'cells', len(cells), 'mass kept', round(float(kept), 6), flush=True)
     d = R/'runs/stem-trial-v01/ours-fields'; d.mkdir(exist_ok=True)
-    np.savez_compressed(d/f'{sensor}-{world}-{episode}.npz', X=truth_mesh.X, **{k.replace('+', 'p'): v for k, v in out.items()})
+    np.savez_compressed(d/(f'{sensor}-{world}-{episode}.npz' if rnd == 'round2' else f'{rnd}-{sensor}-{world}-{episode}.npz'), X=truth_mesh.X, **{k.replace('+', 'p'): v for k, v in out.items()})
 
 
 if __name__ == '__main__':

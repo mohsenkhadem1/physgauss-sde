@@ -69,6 +69,8 @@ def _prepare(self):
     else:
         sel = (x[:, 0] >= _SPEC['lo']) & (x[:, 0] < _SPEC['hi'])
     assert sel.sum() > 0, 'no particles in load region'
+    if self.ext_f.shape[0] < n:  # PAC-NeRF's replay builds the simulator before its particles exist
+        self.ext_f = ti.Vector.field(3, dtype=self.dtype, shape=n)
     f = np.zeros((self.ext_f.shape[0], 3))
     f[:n][sel] = np.asarray(_SPEC['force'])[None] * (m[sel] / m[sel].sum())[:, None]
     self.ext_f.from_numpy(f.astype(np.float32 if self.dtype == ti.f32 else np.float64))

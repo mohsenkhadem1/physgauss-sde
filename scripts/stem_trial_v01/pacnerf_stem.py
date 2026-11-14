@@ -19,6 +19,7 @@ else:
     print('force adapter:', A.install(MPMSimulator), flush=True)
 import train as native
 from lib import PACNeRF
+from lib.pac_nerf import constraint
 P = json.loads((Path(__file__).parent/'protocol.json').read_text())
 DX_SECTION = 0.08/6
 
@@ -54,7 +55,7 @@ def fit(scene, outdir, E=None, nu=0.1):
     native.train_velocity(cfg, model, start, *fit_data)
     model, opt, start = native.create_model_and_optimizer(cfg, 'dynamic', pnerf=model)
     native.train_dynamic(cfg, model, opt, start, *fit_data)
-    res = dict(E=float(10**model.global_E.item()), nu=float(native.constraint(model.global_nu, model.nu_bound).item()),
+    res = dict(E=float(10**model.global_E.item()), nu=float(constraint(model.global_nu, model.nu_bound).item()),
                rho=float(10**model.global_rho.item()), v=model.global_v.detach().cpu().tolist(), seconds=time.time()-t0,
                force=A._SPEC, frames=n, scene=str(scene))
     (outdir/'fit.json').write_text(json.dumps(res, indent=1)); print(res, flush=True)
@@ -62,7 +63,8 @@ def fit(scene, outdir, E=None, nu=0.1):
 
 def forecast(ckdir, out, nframes):
     ckdir = Path(ckdir); saved = torch.load(ckdir/'model/train_dynamic.pt', map_location='cpu', weights_only=False)
-    scene = Path(saved['cfg']['data_dir']); data = torch.load(scene/'data.pt', map_location='cpu', weights_only=False)
+    scene = R/json.loads((ckdir/'fit.json').read_text())['scene']  # checkpoint cfg holds model kwargs only
+    data = torch.load(scene/'data.pt', map_location='cpu', weights_only=False)
     od = Path(out).with_suffix(''); od.mkdir(parents=True, exist_ok=True)
     cfg = config(scene, od, int(nframes), 1e5, .1); cfg.update(saved['cfg']); cfg.update(base_dir=str(od), write_out=True, nerf_bs=16384)
     model = PACNeRF(**cfg).cuda(); model.load_state_dict(saved['model_state_dict'], strict=False)
@@ -75,7 +77,7 @@ def forecast(ckdir, out, nframes):
     from ours import STATIONS
     cent = np.stack([[xyz[f][(ref[:, 0] >= lo) & (ref[:, 0] < hi)].mean(0) for lo, hi in STATIONS] for f in range(len(xyz))])  # stem stations (block scored from xyz)
     np.savez_compressed(out, xyz=xyz.astype(np.float32), station_centroid=cent, rgb=(np.clip(rgb, 0, 1)*255).astype(np.uint8),
-                        params=json.dumps(dict(E=float(10**model.global_E.item()), nu=float(native.constraint(model.global_nu, model.nu_bound).item()),
+                        params=json.dumps(dict(E=float(10**model.global_E.item()), nu=float(constraint(model.global_nu, model.nu_bound).item()),
                                                rho=float(10**model.global_rho.item()), v=model.global_v.detach().cpu().tolist())),
                         adapter_audit=json.dumps(A.AUDIT), striker=np.array(SA.STATE['history']) if SA.SPEC else np.zeros((0, 7)))
     print('forecast', out, A.AUDIT, flush=True)
