@@ -1,0 +1,146 @@
+FIGURE 1 v01 - HELD-OUT CAMERA 0 RENDERING (reported beside physics)
+Protocol (protocol_fig1.json "rendering"): camera 0 (never used for fitting) foreground PSNR, reported
+beside physics; appearance per method's own native renderer.
+Code: scripts/fig1_v01/render_cam0.py (refs | gic | raster | score). Scores: reports/fig1-v01/render-scores.json
+(summary_over_worlds, rows per world incl. full-frame PSNR and physics RMS, per_frame). Renders, references,
+appearance models and logs: runs/fig1-v01/render-cam0/ (local, git-ignored).
+Inputs: only sealed predictions. fig1_score.verify() is called for S1/S2/S3 (all hashes match) before any
+render and again at scoring; every rendered file is looked up through its sealed() map. No sealed source was
+missing (skipped_unsealed is empty).
+
+METRIC
+Reference: truth episode (S1 D2c, S2 block D2, S3 D3) rendered on camera 0 by the trial's own rasteriser
+(scripts/stem_trial_v01/render.py; same camera, texture, shading as every fitting scene), written fresh to
+runs/fig1-v01/render-cam0/scenes/{EP}-{W}/data/r_0_*.png and read from r_ files (m_ here are byte copies
+of r_; no PAC-NeRF preprocessing ever touched these folders).
+Foreground mask: reference pixels that are not pure white (255,255,255) - GIC reader's rule, as round 2.
+fg PSNR = -10 log10 of MSE pooled over the mask over frames 1..end (frame 0 = shared given rest state),
+RGB in [0,1]. Full-frame PSNR also stored. GIC renders on black (its training convention), so its
+reference is composited onto black; PAC-NeRF native and the rasteriser render on white and are compared
+with the white reference. The mask is the TRUE silhouette only: pixels a prediction puts outside it are
+not penalised by fg PSNR (full-frame PSNR does see them).
+Means over worlds are means of per-world dB values.
+
+RENDERERS
+SH  primary: shared GIC appearance. One fixed appearance per object = GIC's own fixed-particle Gaussians
+    (its native appearance stage, train_gs_with_fixed_pcd, 40k it) trained on cameras 1-10 of its D0
+    (initial-footage) fit. Stem (S1, S3): the round-2 model runs/stem-trial-v01/gic/D0 (trained 2026-11-09,
+    reused, not retrained). Block (S2): trained here, one per world on that world's D0 footage
+    (render-cam0/gic-appearance/D0-B*), driven by GIC's native simulator replay of D0.
+    Every method's predicted motion drives the same Gaussians -> PSNR differences isolate motion.
+GN  GIC native, refit: GIC's D1 forecast through its own D1-refit fixed-particle Gaussians (stem: round-2
+    models gic/D1-W*; block: trained here, render-cam0/gic-appearance/D1-B*), with true motion through the
+    same model as its own ceiling. GIC's D0 forecast natively = the SH row (same model, same particles,
+    identity transfer).
+PN  PAC-NeRF native: the 'rgb' array saved in each sealed PAC forecast (render_sequence on rays of camera 0
+    of its fitting scene; camera 0 is identical in every scene; silhouette IoU vs truth camera 0 = 0.93,
+    vs other cameras <= 0.81).
+RA  secondary: true-texture rasteriser = the reference renderer itself with the TRUE rest mesh and texture
+    (privileged appearance; ceiling is exact, i.e. infinite PSNR), driven by each method's motion
+    transferred to the truth mesh nodes. Most motion-sensitive; not a native renderer of anyone.
+M-PhyGs, PhysTwin, ours (RGB): no native renderer in adapter (SH and RA rows only).
+S2 fitted spatially varying FEM (control): NOT rendered - its sealed output is the 27 top-surface probe
+    displacements only; there is no field or particle set to drive an appearance, and re-simulating it
+    from its fitted parameters after truth opened would not be a sealed prediction.
+
+MOTION TRANSFER (same rule for all methods)
+Target points (Gaussian rest centres for SH/GN, truth mesh nodes for RA) get the inverse-distance-squared
+weighted mean displacement of the K=4 nearest source rest points; source rest = frame-0 particles
+(GIC/PAC/M-PhyGs/PhysTwin: xyz[f]-xyz[0]) or FE nodes (ours: X, D0/D0pD1 or U). Identity when the target
+points are the source's own particles (GIC forecast through its own model). True motion is given both
+through the same IDW rule and by exact T10 FE interpolation (round-2 rule); they agree to <=0.02 dB, so
+IDW transfer itself costs nothing measurable for a dense source.
+S3: the striker sphere is NOT rendered in the reference or any prediction; the existing pipeline never
+renders it (no D3 scene existed; render_scene/write_scene draw only the body).
+
+RESULTS - fg PSNR dB on camera 0, mean over worlds [W500/W1000/W2000 or Bleft/Bcentre/Bright];
+physics RMS mm from fig1-scores.json (mean over worlds). D0 = before calibration, D1 = after.
+
+S1 stem push D2c                          SH shared GIC appearance           RA true-texture        phys
+true motion (ceiling, FE / IDW)           21.64 / 21.63 [21.61 21.65 21.66]  exact                    -
+GIC D0 (= GIC native)                     19.44 [18.37 20.05 19.90]          17.96 [16.18 19.00 18.70] 7.44
+GIC D1                                    19.48 [18.68 21.20 18.58]          18.68 [16.69 23.26 16.08] 7.21
+GIC simulator, true params (oracle)       19.07 [18.80 19.16 19.24]          17.03 [16.70 17.18 17.22] 8.09
+PAC-NeRF D0                               19.57 [17.59 19.89 21.24]          18.71 [14.87 18.62 22.65] 9.68
+PAC-NeRF D1                               19.60 [17.83 19.84 21.14]          18.66 [15.17 18.66 22.15] 9.45
+M-PhyGs D0                                20.22 [18.89 21.39 20.37]          20.62 [17.01 24.71 20.15] 5.87
+M-PhyGs D1                                20.33 [19.08 21.58 20.34]          21.96 [17.36 28.32 20.20] 5.26
+PhysTwin D0                               19.84 [18.54 20.77 20.21]          19.05 [16.44 21.15 19.56] 6.66
+PhysTwin D1                               19.75 [18.18 21.37 19.71]          19.43 [15.64 24.61 18.04] 5.46
+ours (RGB) D0                             20.04 [20.17 20.80 19.17]          19.69 [19.64 21.77 17.66] 6.94
+ours (RGB) D1                             21.62 [21.43 21.71 21.73]          30.45 [27.34 30.90 33.12] 1.27
+native: GIC D1 own refit appearance 19.00 [17.50 20.67 18.84] (own ceiling 20.22 [18.96 21.38 20.32]);
+        PAC-NeRF D0 13.56 [12.74 13.78 14.15], D1 12.76 [12.08 13.06 13.13]
+
+S2 block press D2                         SH                                 RA                      phys
+true motion (ceiling, FE / IDW)           20.72 / 20.72 [20.95 20.38 20.82]  exact                    -
+GIC D0 (= GIC native)                     20.73 [21.21 20.37 20.62]          23.77 [27.60 18.82 24.90] 2.62
+GIC D1                                    20.69 [21.21 20.25 20.61]          23.67 [27.30 18.86 24.84] 2.60
+PAC-NeRF D0                               20.51 [21.08 19.80 20.64]          26.66 [28.53 25.66 25.78] 1.79
+PAC-NeRF D1                               20.42 [21.04 19.68 20.55]          27.24 [30.72 25.32 25.67] 1.78
+M-PhyGs D0                                20.51 [20.75 20.05 20.72]          29.84 [30.89 27.76 30.88] 0.90
+M-PhyGs D1                                20.49 [20.63 20.04 20.80]          28.16 [29.41 27.17 27.90] 1.28
+PhysTwin D0                               20.41 [20.62 19.81 20.81]          27.49 [28.83 26.13 27.50] 1.45
+PhysTwin D1                               20.37 [20.53 19.87 20.70]          26.85 [28.31 26.40 25.83] 1.73
+ours (RGB) D0                             20.68 [20.87 20.38 20.79]          34.65 [33.14 35.49 35.33] 0.33
+ours (RGB) D1                             20.68 [20.87 20.38 20.79]          34.65 [33.14 35.49 35.33] 0.33
+FEM control                               not rendered (probe-only sealed output)                    -
+native: GIC D1 own refit appearance 20.40 [20.64 19.83 20.74] (own ceiling 20.58 [20.41 20.23 21.10]);
+        PAC-NeRF D0 14.56 [14.74 14.43 14.51], D1 13.00 [13.13 12.87 13.01]
+
+S3 stem striker D3                        SH                                 RA                      phys
+true motion (ceiling, FE / IDW)           21.70 / 21.69 [21.70 21.70 21.70]  exact                    -
+GIC D0 (= GIC native)                     19.61 [19.75 19.58 19.50]          18.59 [18.72 18.77 18.27] 6.41
+GIC D1                                    19.17 [19.96 19.41 18.15]          17.92 [19.57 18.50 15.70] 7.97
+GIC simulator, true params (oracle)       19.10 [18.99 19.12 19.20]          16.90 [16.73 16.94 17.04] 7.88
+PAC-NeRF D0                               18.91 [18.46 19.55 18.71]          17.01 [16.43 17.92 16.68] 6.92
+PAC-NeRF D1                               18.22 [17.49 19.12 18.05]          15.82 [14.65 17.15 15.66] 8.27
+M-PhyGs D0                                20.97 [20.62 21.15 21.13]          22.43 [21.59 22.68 23.02] 3.49
+M-PhyGs D1                                20.54 [19.16 21.54 20.93]          21.85 [17.24 26.04 22.27] 3.47
+PhysTwin D0                               20.45 [20.70 20.03 20.62]          20.30 [20.97 19.46 20.47] 4.35
+PhysTwin D1                               19.91 [19.64 20.42 19.66]          19.17 [18.16 21.02 18.31] 5.92
+ours (RGB) D0                             21.22 [21.45 20.86 21.34]          24.11 [25.80 22.06 24.47] 2.40
+ours (RGB) D1                             21.75 [21.73 21.76 21.75]          32.82 [31.41 32.96 34.09] 0.51
+native: GIC D1 own refit appearance 18.57 [18.22 19.04 18.45] (own ceiling 20.20 [18.79 21.44 20.37]);
+        PAC-NeRF D0 13.42 [13.32 13.59 13.36], D1 12.33 [11.88 12.80 12.31]
+
+READING
+- Stem (S1, S3): with one shared appearance, ours after calibration reaches the appearance ceiling in every
+  world (21.62 vs 21.64; 21.75 vs 21.70), the only predictor that does; baselines lose 1.3-2.6 dB (S1) and 0.7-3.5 dB (S3).
+  The rasteriser ranks the same way with far more spread (ours D1 30.5/32.8 dB, best baseline 22.0/22.4).
+- Block (S2): the shared GIC appearance cannot discriminate motion - all predictors lie within 0.4 dB of the
+  20.72 dB ceiling (GIC D0 nominally 0.01 dB above it) because block displacements are a few mm while the
+  appearance error is ~20 dB. The rasteriser does discriminate and orders as physics (ours 34.7, M-PhyGs
+  29.8/28.2, PhysTwin, PAC, GIC 23.7). Treat S2 SH as uninformative, not as a tie in physics.
+- PSNR compresses physics: rankings mostly follow RMS, but not exactly (e.g. S1 PAC-NeRF, worst in RMS,
+  is mid-pack in SH because it is good at W2000).
+- PAC-NeRF native renders are appearance-limited (frame-0 fg PSNR ~14 dB: dark, blurred texture), so its
+  native numbers measure its appearance model, not its motion.
+
+DEVIATIONS / LIMITATIONS
+1. Protocol says "appearance per method's own native renderer". Only GIC and PAC-NeRF have one; the
+   primary metric is therefore the shared-appearance PSNR (round-2 design), with native rows where they
+   exist. M-PhyGs and PhysTwin adapters carry no renderer; ours has none (no native renderer in adapter).
+2. Block GIC appearance models (D0 and D1 per world, 6 models, ~9 min each) did not exist and were trained
+   here with GIC's own fixed-particle stage on copies of the GIC runs (render-cam0/gic-appearance/; the
+   original runs/fig1-v01/block/gic dirs are untouched), driven by GIC native-simulator replays of D0/D1
+   (render-cam0/gic-fit/fit-*.npz, generated here with the labelled force adapter). They were trained after
+   the D2 truth existed, but they see only D0/D1 footage from cameras 1-10, so no held-out information.
+3. Image provenance: PAC-NeRF's preprocessing overwrote data/m_*.png (matted) in place in the shared scene
+   folders, and GIC's reader trains on m_. A first block-appearance attempt read those matted m_ images; it
+   was stopped before producing any render and deleted. The block appearances used here were trained on
+   clean copies (render-cam0/clean-scenes/{D0,D1}-B*: all_data.json, r_ images, m_ := r_, GIC's
+   points3d.ply); render_cam0.py asserts m_ == r_ before any appearance training. The stem appearances
+   (trained 2026-11-09 ~10:30) predate any PAC-NeRF run on the stem scenes (first 14:03), and the original
+   GIC block fits (2026-11-09 14:37-20:00) predate the first PAC block run (23:17), so they saw unmatted
+   images. All references are read from freshly rendered r_ files.
+4. ours S2: the sealed field file has identical D0 and D0pD1 fields (also identical physics, 0.33 mm), so
+   both stages render identically. Not a rendering artefact; flagged for checking upstream.
+5. Small exceedances of the ceiling (ours S3 D1 +0.05 dB, GIC S2 D0 +0.01 dB) are within appearance noise:
+   the Gaussians are fit to GIC's own imperfect replay, not to truth motion.
+6. IDW transfer: sparse sources (PhysTwin 3-6k particles) and bloated ones (PAC-NeRF's cloud extends
+   ~5 cm past the body) are resampled by nearest neighbours; any transfer loss is charged to the method.
+   For the dense truth field IDW and FE interpolation agree to 0.02 dB.
+7. Striker sphere not drawn (see above); S3 rendering scores stem motion only.
+8. GIC's refit (D1) appearance absorbed its own refit motion errors; its native row is shown with its own
+   ceiling and is not comparable across methods - SH is the comparison.

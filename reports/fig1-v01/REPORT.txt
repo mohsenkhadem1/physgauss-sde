@@ -1,0 +1,204 @@
+FIGURE 1 BENCHMARK (fig1-v01) - REPORT
+=====================================
+Protocol: scripts/fig1_v01/protocol_fig1.json (frozen 2026-11-09, one amendment the same day, before any freeze).
+Seals:    reports/fig1-v01/prediction-freeze-S{1,2,3}.json, written 2026-11-13 15:46 UTC; S1 56, S2 51, S3 53 files,
+          none missing; each also hashes the protocol and every .py in scripts/fig1_v01 and scripts/stem_trial_v01.
+          No held-out reference existed at sealing (the freeze writer refuses otherwise; the truth generators refuse
+          to run before the matching freeze). Committed a177347c (2026-11-14).
+Scores:   reports/fig1-v01/fig1-scores.json (fig1_score.py score; only sealed files are read; every hash re-checked).
+Figures:  output/paper-figures/fig1-benchmark.{png,pdf}, fig1-scores.{png,pdf} (scripts/fig1_v01/figure1.py;
+          reads predictions only through the sealed manifests).
+Cost:     reports/fig1-v01/compute-cost.json (scripts/fig1_v01/compute_cost.py).
+Rendering: reports/fig1-v01/RENDER.txt, render-scores.json (camera 0, never used for fitting).
+
+
+1. QUESTION AND SET-UP
+After the same initial footage (D0) and the same single calibration interaction (D1), which method best predicts a
+new interaction?  Every method receives the same rendered RGB frames (11 cameras; camera 0 held out) and the same
+known commands.
+  S1  stem, new push D2c: 20 N at 0.75 L along (0,-0.8,-0.6) (unseen direction). Score: RMS 3-D displacement of
+      4 material stations over all 37 frames (mm).
+  S2  block with a hidden 8x stiffer region (left / centre / right), off-centre press D2 at x=-0.07. Score: RMS 3-D
+      displacement of 27 top-surface probes over 25 frames (mm).
+  S3  stem, rigid striker impact D3 (0.3 kg sphere, 1 m/s) and free rebound. Primary score: striker impulse
+      error (N s); also station RMS (mm).
+  Worlds: stem W500/W1000/W2000 (rho 500/1000/2000, equal E/rho); block Bleft/Bcentre/Bright.
+  S1 and S3 share the stem objects and every method's stem fits.
+
+
+2. RESULTS (mean over the 3 worlds; per world in brackets; lower is better)
+
+S1 stem push, station RMS (mm)              initial footage only          after calibration
+  ours (RGB)                                 6.94 [7.20 4.11 9.52]        1.27 [2.18 1.01 0.63]
+  M-PhyGs                                    5.87 [10.77 1.37 5.48]       5.26 [9.48 0.79 5.50]
+  PhysTwin                                   6.66 [11.45 2.62 5.90]       5.46 [8.86 1.48 6.04]
+  GIC                                        7.44 [12.85 3.93 5.55]       7.21 [11.57 1.99 8.06]
+  PAC-NeRF                                   9.68 [18.43 7.70 2.92]       9.45 [17.97 7.49 2.88]
+  GIC simulator, true parameters (oracle)    8.09 [9.54 7.66 7.08]
+  ours (RGB-D) and ours (supplied tracks) give the same after-calibration values to 1e-6 mm (see 4.1).
+
+S2 block press, probe RMS (mm)
+  ours (RGB)                                 0.33 [0.36 0.34 0.30]        0.33 [0.36 0.34 0.30]
+  M-PhyGs                                    0.90 [0.71 1.33 0.66]        1.28 [0.96 1.48 1.41]
+  PhysTwin                                   1.45 [1.30 1.85 1.20]        1.73 [1.40 1.64 2.16]
+  PAC-NeRF                                   1.79 [0.85 2.16 2.35]        1.78 [0.63 2.40 2.31]
+  GIC                                        2.62 [1.06 4.11 2.69]        2.60 [1.12 3.97 2.70]
+  fitted spatially varying FEM (control)     7.96 [5.23 12.22 6.44]       13.46 [11.40 17.79 11.20]
+
+S3 striker, impulse error (N s) | station RMS (mm)
+  ours (RGB)                    0.042 | 2.40                  0.003 [0.008 0.001 0.000] | 0.51 [0.60 0.51 0.43]
+  M-PhyGs                       0.093 | 3.49                  0.073 [0.136 0.029 0.053] | 3.47 [6.46 1.30 2.66]
+  PhysTwin                      0.059 | 4.35                  0.086 [0.123 0.080 0.055] | 5.92 [6.54 5.12 6.11]
+  GIC                           0.068 | 6.41                  0.069 [0.125 0.003 0.079] | 7.97 [6.18 7.24 10.48]
+  PAC-NeRF                      1.540 | 6.92                  1.771 [1.931 1.584 1.798] | 8.27 [10.53 5.58 8.71]
+  GIC simulator, true params    0.023 | 7.88 (oracle)
+  True impulse: 0.509 / 0.386 / 0.469 N s.
+
+Reading: after calibration ours has the lowest error in all three scenarios: 4.1x (S1), 3.9x (S2) and 6.8x (S3
+station RMS) below the best other method on the mean (M-PhyGs in each case); on S3 impulse 23x below the best
+other (GIC 0.069 N s). From the initial footage alone ours is best in S2 and S3 but not S1 (M-PhyGs 5.87, PhysTwin 6.66 vs 6.94).
+Calibration helps ours strongly on the stem and not at all on the block (4.2); it does not consistently help the
+other methods (several get worse after calibration).
+
+
+3. COMPUTE COST (minutes, median over worlds; reports/fig1-v01/compute-cost.json)
+                     fit on initial footage   refit after calibration   forecast per interaction
+  stem (S1, S3)
+    GIC              204                      635 [606-673]             not recorded (round-2 runs)
+    PAC-NeRF         not recorded*            676 [671-821]             2.4
+    M-PhyGs          428 [383-477]            614 [536-841]             0.46
+    PhysTwin         20                       23 [21-27]                0.02
+    ours             one-off simulation bank 49 (CPU); per episode: tracking 0.04, posterior + push prediction
+                     0.01, striker prediction 1.5 [1.1-1.7]
+  block (S2)
+    GIC              271 [266-295]            247 [191-261]             1.0
+    PAC-NeRF         273 [269-341]            279 [276-342]             1.3
+    M-PhyGs          451 [429-458]            412 [349-450]             0.68
+    PhysTwin         9.9                      10.0                      0.01
+    FEM control      35 (both fits, CPU)
+    ours             one-off simulation bank 99 (CPU); per episode: tracking 0.04, posterior + prediction 0.01
+  * the PAC-NeRF stem D0 fit record was recovered from its checkpoint and holds no time.
+Conditions: RTX 2080 Ti, GPU jobs mostly sharing a card with one other job; two cards were in hardware thermal
+slowdown for part of 2026-11-10/11 (section 6). GPU times are upper bounds and only roughly comparable across
+methods. Ours' bank is simulation over a parameter grid before any footage is seen (object geometry and loads
+known); it is amortised across worlds and interactions of the same object. Ours' inference was re-timed on
+2026-11-14 with outputs written to scratch; the re-run reproduces every sealed ours prediction bit-for-bit.
+
+
+4. CAVEATS THAT AFFECT INTERPRETATION (read before quoting the numbers)
+
+4.1 The test is well specified for ours.  The references come from the same FEM family ours uses as its forward
+    model (protocol "known_limits": ours uses a coarser mesh and linear elasticity; the stem reference is
+    nonlinear). On the stem the true (E/rho, nu) = (4000, 0.3) lies exactly on ours' parameter grid
+    (C_GRID = geomspace(1000, 16000, 49)); after calibration the posterior collapses onto that grid point in every
+    world, which is why ours' three sensor variants agree to 1e-9 m. On the block the inclusion position (+-0.06, 0)
+    and nu (0.4) are grid values; only the soft modulus (6e4, deliberately between grid points) and the contrast
+    (true 8, MAP 4) are off-grid. The other methods each use their own simulator; the oracle row (GIC's simulator
+    with the TRUE parameters: 8.1 mm on S1, 7.9 mm on S3) shows that simulator mismatch alone costs them several mm.
+    Much of the gap therefore measures simulator match plus a well-placed hypothesis space, not inference alone.
+    Recommended next test (not part of these sealed results): off-grid true parameters and a reference solver that
+    differs from ours' (other mesh/element order, nonlinear material), and the real-data PokeFlex experiment.
+
+4.2 Ours' block calibration is uninformative.  The posterior over 1443 hypotheses is already a point mass after
+    the initial press, so D1 changes nothing (before = after, identical to machine precision).
+
+4.3 Input provenance: PAC-NeRF rewrites shared scene images (found 2026-11-14, after scoring).
+    Our renderer writes each frame as data/r_C_F.png and an identical data/m_C_F.png. PAC-NeRF's native
+    preprocessing (vendor/pac-nerf/train.py:73) overwrites m_*.png IN PLACE with background-matted versions
+    (pixels with matting alpha < 0.9 set to white) every time it fits a scene. r_*.png are never modified.
+    Who read what:
+      - ours (and M-PhyGs and PhysTwin, which were given ours' RGB-triangulated marker tracks; their photometric
+        losses are off, see 5) read m_*.png through rgb_track.py. The sealed tracks were made 2026-11-09 14:06-14:07:
+        stem D0 from frames PAC-NeRF had matted at 14:03; stem D1 from raw frames (PAC-NeRF matted D1-W500 at
+        18:13 that day and D1-W1000 / D1-W2000 on 2026-11-12). Block tracks were made before any block PAC-NeRF fit.
+      - GIC's reader also reads m_*.png (vendor/gic/scene/dataset_readers.py:474). By file timestamps every GIC
+        fit used here ran on unmatted frames: stem fits 2026-11-08 21:16 to 2026-11-09 08:29 (first stem matting
+        14:03), block fits 2026-11-09 14:37 to 22:52 (first block matting 23:17).
+      - PAC-NeRF reads r_*.png and writes its own m_*.png (its native pipeline).
+    No method received extra information (matting only whitens pixels), but ours is sensitive to it. Post-hoc,
+    UNSEALED sensitivity run (scratch; re-tracked every episode from the current, matted frames, same code):
+      D1 marker-track p95 error rises from 0.7-1.1 mm to 2.6-10.0 mm (LK loses markers near whitened edges);
+      S1 after calibration: ours 1.27 -> 3.10 mm mean [2.70 5.79 0.80];
+      S3 after calibration: station RMS 0.51 -> 1.86 mm [1.19 3.66 0.73], impulse error 0.003 -> 0.034 N s
+      [0.010 0.087 0.006]; S2 unchanged (block tracks change by < 0.01 mm).
+    Ours remains best on the mean in S1 and S3 under this perturbation but not in every world (S1 W1000: 5.79 vs
+    M-PhyGs 0.79). The tracker has no outlier rejection; this is a genuine robustness limit of ours' front end.
+    Fix for future runs: render to a read-only copy per method, or point every reader at r_*.png.
+
+4.4 The FEM control failed.  The 6x2-bin log-E + nu Levenberg-Marquardt fit ran its bins to the bounds (1 kPa to
+    3 MPa against a true 60-480 kPa) and predicts 25-94 mm displacement against ~4 mm. It is a broken control, not
+    evidence for ours. It is reported as sealed; any refit would be post-hoc and must be labelled so.
+
+4.5 PAC-NeRF on S3 is a geometry failure.  Its reconstructed stem is ~0.19 m thick (true 0.08 m), so the striker
+    starts inside the body: at t=0 the striker velocity is (1.0, -0.2, 0.8) m/s instead of (0, 0, -1) and it leaves
+    the scene. The contact adapter is the same one GIC, M-PhyGs and PhysTwin use.
+
+4.6 PhysTwin on S3: off-axis contact on the spring-mass lattice gives a lateral striker rebound (-0.34 m/s in x).
+
+4.7 GIC simulator with true parameters (oracle) is worse than fitted GIC on S1: the GIC MPM with the true E, nu
+    does not reproduce the FEM reference; fitted parameters partly compensate.
+
+
+5. METHOD ADAPTERS AND DEVIATIONS FROM NATIVE (full lists in each method's README)
+GIC (official b523851) and PAC-NeRF (official b613048): raw RGB, cameras 1-10; native fit on D0, native refit on D1
+  (initialised from D0); labelled force adapter (gic_force_adapter.py) and striker contact adapter
+  (striker_adapter.py, contact law b = 1e11 (r - |x-c|) n N/m^3 for every method). PAC-NeRF fixes during the run:
+  the stem D0 fit record (fit.json) was rebuilt from its checkpoint after a crash in the writer (values E 1.494e6,
+  nu -0.165 read from the checkpoint; no time recorded); forecast reads the scene path from fit.json; adapter
+  force buffers are re-allocated on first use (PAC-NeRF creates particles after the simulator). PAC-NeRF nu is
+  bounded to [-0.45, 0.45] natively.
+M-PhyGs (scripts/fig1_v01/mphygs, README lists 16 deviations): no image/DINO stage (gsplat and transformers could
+  not be imported); photometric terms are dummies with weight 0, so M-PhyGs is fitted to the same RGB-triangulated
+  marker tracks as ours; fixed density 1000 and nu 0.3; curriculum 12/24 frames (stem D1 12/24/36), 150 Adam
+  iterations per stage; material initialised at E0 = PAC-NeRF's initial modulus (3e4 block, 4e5 stem) because the
+  native initialisation froze; position loss rescaled to a 1 cm reference (pos_loss_scale recorded per run).
+PhysTwin (upstream 81c7187, isolated copy; scripts/fig1_v01/phystwin): no RGB-D, segmentation, tracking network or
+  shape completion; object points = the same RGB-triangulated markers, completed shape = known rest box lattice;
+  CMA (20 generations) then Adam (200 iterations); stem stiffness cap raised to Y_max 1e6, dt 2.5e-5.
+Ours: posterior over a precomputed FEM grid; observations = markers tracked by Lucas-Kanade in two fitting
+  cameras and triangulated from the same RGB frames (no depth for 'ours (RGB)').
+FEM control (fem_control.py): see 4.4.
+
+
+6. RUN HISTORY THAT AFFECTS RE-RUNS (no sealed file affected)
+- Out-of-memory from co-located GIC refits: GIC block D1-Bright and PAC stem D1-W500 rerun from scratch; partial
+  outputs kept as *-attempt1-oom / *-attempt2-oom.
+- GPU 0000:67:00 dropped off the PCIe bus (Xid 79) under load on 2026-11-10 00:16, 2026-11-10 19:48 and
+  2026-11-11 11:57; root cause: the water cooler had run low (two cards in hardware thermal slowdown while core
+  sensors read 70-77 C). Partial fits from each fault are kept as *-attempt-gpucrash{,2,3} and were never used.
+  From 2026-11-12 the remaining work ran on three cards pinned by UUID (resume_after_reboot.sh), with a guard that
+  stops all jobs on a fatal Xid (gpu_guard.py). Every sealed prediction comes from a run that completed cleanly.
+- Earlier stem trial (reports/stem-trial-v01): 12 of the 35 files sealed in prediction-freeze-v2.json (ours
+  round2-rgbd/tracks) were overwritten in place on 2026-11-09 14:07 by a run of ours_round2.py before its output
+  tag was changed to 'round3'. Round 2 had already been scored (11:16) and committed (db60a0d2, 12:54) from the
+  sealed files, so its reported scores stand, but that seal can no longer be re-verified for those 12 files.
+  Figure-1 seals are unaffected (verified at scoring and again by figure1.py).
+
+
+7. HELD-OUT CAMERA (camera 0) RENDERING - summary; full method, per-world values and deviations in RENDER.txt
+Foreground PSNR (dB), mean over worlds. SH = one shared appearance (GIC's fixed-particle Gaussians trained on
+cameras 1-10 of D0) driven by each method's predicted motion, so differences isolate motion. RA = the true mesh and
+texture driven by each method's motion (privileged appearance; exact ceiling). Rendered after sealing from sealed
+predictions only (verify() before rendering and at scoring); references rendered fresh from r_ files.
+                              S1 SH   S1 RA    S3 SH   S3 RA    S2 SH   S2 RA
+  true motion (ceiling)       21.64   exact    21.70   exact    20.72   exact
+  ours after calibration      21.62   30.45    21.75   32.82    20.68   34.65
+  M-PhyGs after calibration   20.33   21.96    20.54   21.85    20.49   28.16
+  PhysTwin after calibration  19.75   19.43    19.91   19.17    20.37   26.85
+  GIC after calibration       19.48   18.68    19.17   17.92    20.69   23.67
+  PAC-NeRF after calib.       19.60   18.66    18.22   15.82    20.42   27.24
+  Stem: ours after calibration is the only predictor at the shared-appearance ceiling. Block: every predictor is
+  within 0.4 dB of the SH ceiling (mm-scale motion vs ~20 dB appearance error), so S2 SH does not discriminate; RA
+  orders the block methods as the physics scores do. Native renderers: GIC D1 19.00 / 20.40 / 18.57 (S1/S2/S3,
+  own ceiling 20.22 / 20.58 / 20.20); PAC-NeRF native 12.3-14.6 dB, limited by its appearance model (~14 dB at
+  frame 0). M-PhyGs, PhysTwin and ours have no native renderer in their adapters. Not rendered: the FEM control
+  (its sealed output is the 27 probe displacements only) and the S3 striker sphere (never rendered by the pipeline).
+  The block GIC appearances were trained for this step (after the D2 truth existed, from D0/D1 cameras 1-10 only,
+  on clean copies of the scenes with m_ restored from r_).
+
+
+8. REPRODUCE
+  .venv/bin/python scripts/fig1_v01/fig1_score.py score
+  .venv/bin/python scripts/fig1_v01/figure1.py
+  .venv/bin/python scripts/fig1_v01/compute_cost.py reports/fig1-v01/ours-retiming.json
+  scripts/fig1_v01/render_cam0.py  refs / gic / raster / score  (see RENDER.txt)

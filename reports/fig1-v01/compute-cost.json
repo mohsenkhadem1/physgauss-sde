@@ -1,0 +1,212 @@
+{
+ "units": "minutes (median over worlds, with min/max and n)",
+ "notes": "Figure-1 compute cost per method and stage, from each method's own completion records (not the polling log, which\nalso holds runs killed by the GPU faults). Writes reports/fig1-v01/compute-cost.json and prints a table.\nSources:\n  GIC        fit/refit: wall time from the run directory (cfg_args written at start -> 0-pred.json at end); forecast:\n             runs/fig1-v01/timings.jsonl (gic_stem_predict.py). Cross-checked: block refits agree with the log to <1 min.\n  PAC-NeRF   fit/refit: fit.json 'seconds'; forecast: timings.jsonl (pacnerf_stem.py forecast).\n  M-PhyGs    fit: sum of params.json 'seconds' over the curriculum stages that produced the sealed checkpoint; forecast json.\n  PhysTwin   fit: forecast json fit.wall_seconds (CMA + Adam); forecast json 'seconds'.\n  FEM ctrl   pred-fem json 'seconds' (both fits; CPU, 13 processes).\n  ours       one-off simulation bank (bank*.json 'seconds', CPU), RGB marker tracking and posterior inference re-timed on\n             2026-11-14 (outputs to scratch; inference reproduces every sealed prediction bit-for-bit), striker stage json.\nConditions: RTX 2080 Ti; GPU jobs mostly shared a card with one other job, and two cards showed hardware thermal\nslowdown before the cooling fix (2026-11-10/11), so GPU wall times are upper bounds. CPU jobs: 36-core host.",
+ "stem_S1_S3": {
+  "GIC": {
+   "fit_initial": {
+    "median": 204.07479561567305,
+    "min": 204.07479561567305,
+    "max": 204.07479561567305,
+    "n": 1
+   },
+   "refit_calibration": {
+    "median": 634.9166229685147,
+    "min": 606.4903049985568,
+    "max": 672.7156530340512,
+    "n": 3
+   },
+   "forecast": null
+  },
+  "PAC-NeRF": {
+   "fit_initial": null,
+   "refit_calibration": {
+    "median": 676.1012570261955,
+    "min": 671.1658178885777,
+    "max": 821.3322686513264,
+    "n": 3
+   },
+   "forecast": {
+    "median": 2.439547618230184,
+    "min": 2.2750227530797322,
+    "max": 2.5497370600700378,
+    "n": 3
+   }
+  },
+  "M-PhyGs": {
+   "fit_initial": {
+    "median": 427.7834458788236,
+    "min": 382.96142988999685,
+    "max": 477.4730001966158,
+    "n": 3
+   },
+   "refit_calibration": {
+    "median": 613.6778356194496,
+    "min": 536.3592109759649,
+    "max": 841.4068421284358,
+    "n": 3
+   },
+   "forecast": {
+    "median": 0.4562280615170797,
+    "min": 0.4311580300331116,
+    "max": 1.0238794406255087,
+    "n": 3
+   }
+  },
+  "PhysTwin": {
+   "fit_initial": {
+    "median": 20.016563979784646,
+    "min": 19.946196460723876,
+    "max": 20.036469531059264,
+    "n": 3
+   },
+   "refit_calibration": {
+    "median": 22.655406896273295,
+    "min": 21.213436297575633,
+    "max": 27.20693854490916,
+    "n": 3
+   },
+   "forecast": {
+    "median": 0.020827011267344157,
+    "min": 0.019764331976572673,
+    "max": 0.028040762742360434,
+    "n": 3
+   }
+  },
+  "ours": {
+   "one_off_simulation_bank_cpu": {
+    "median": 48.69963537057241,
+    "min": 48.69963537057241,
+    "max": 48.69963537057241,
+    "n": 1
+   },
+   "tracking_per_episode": {
+    "median": 0.04302064776420593,
+    "min": 0.04246687889099121,
+    "max": 0.043574416637420656,
+    "n": 2
+   },
+   "posterior_and_push_prediction": {
+    "median": 0.01119669278462728,
+    "min": 0.011078619956970214,
+    "max": 0.012493288516998291,
+    "n": 3
+   },
+   "striker_prediction": {
+    "median": 1.5040458599726358,
+    "min": 1.1202520648638408,
+    "max": 1.722208062807719,
+    "n": 3
+   }
+  }
+ },
+ "block_S2": {
+  "GIC": {
+   "fit_initial": {
+    "median": 270.9123878121376,
+    "min": 265.5784408291181,
+    "max": 294.64925261735914,
+    "n": 3
+   },
+   "refit_calibration": {
+    "median": 247.21100916465124,
+    "min": 191.4199691295624,
+    "max": 260.88156288464864,
+    "n": 3
+   },
+   "forecast": {
+    "median": 1.0193141162395478,
+    "min": 0.9345218261082967,
+    "max": 1.217821055650711,
+    "n": 3
+   }
+  },
+  "PAC-NeRF": {
+   "fit_initial": {
+    "median": 272.96460029681526,
+    "min": 268.6662081082662,
+    "max": 340.89481105009713,
+    "n": 3
+   },
+   "refit_calibration": {
+    "median": 278.76701498826344,
+    "min": 275.8909202019374,
+    "max": 342.2130371252696,
+    "n": 3
+   },
+   "forecast": {
+    "median": 1.3105227549870808,
+    "min": 1.1818447192509969,
+    "max": 1.6327562570571899,
+    "n": 3
+   }
+  },
+  "M-PhyGs": {
+   "fit_initial": {
+    "median": 451.24633117516834,
+    "min": 429.0379911780357,
+    "max": 458.31524967749914,
+    "n": 3
+   },
+   "refit_calibration": {
+    "median": 412.35985368092855,
+    "min": 348.5692549268405,
+    "max": 450.3043745517731,
+    "n": 3
+   },
+   "forecast": {
+    "median": 0.6807591478029887,
+    "min": 0.3025888681411743,
+    "max": 0.7798260529836019,
+    "n": 3
+   }
+  },
+  "PhysTwin": {
+   "fit_initial": {
+    "median": 9.927308535575866,
+    "min": 9.49353491862615,
+    "max": 10.663068552811941,
+    "n": 3
+   },
+   "refit_calibration": {
+    "median": 9.974819326400757,
+    "min": 9.52113933165868,
+    "max": 10.278474875291188,
+    "n": 3
+   },
+   "forecast": {
+    "median": 0.008071978886922201,
+    "min": 0.006431027253468832,
+    "max": 0.009145502249399822,
+    "n": 3
+   }
+  },
+  "FEM control": {
+   "fit_initial_plus_refit": {
+    "median": 35.468292872111,
+    "min": 29.16079680522283,
+    "max": 41.14246866305669,
+    "n": 3
+   }
+  },
+  "ours": {
+   "one_off_simulation_bank_cpu": {
+    "median": 98.48408945798874,
+    "min": 98.48408945798874,
+    "max": 98.48408945798874,
+    "n": 1
+   },
+   "tracking_per_episode": {
+    "median": 0.03551958799362183,
+    "min": 0.035391088326772055,
+    "max": 0.035648087660471596,
+    "n": 2
+   },
+   "posterior_and_prediction": {
+    "median": 0.014535343647003174,
+    "min": 0.013743766148885091,
+    "max": 0.025503341356913248,
+    "n": 3
+   }
+  }
+ }
+}
