@@ -148,14 +148,9 @@ Means over 128 matched cases. Hidden and new-load errors are coordinate RMSE in 
 \label{tab:acquisition}
 \input{sections/acquisition-table}
 \end{table}
-\begin{figure*}[t]
-\centering\includegraphics[width=.97\textwidth]{figures/acquisition-prediction.pdf}
-\caption{\textbf{Measurement choice depends on the target.} An additional camera can expose the original hidden motion, whereas a known probe directly constrains response under a changed load. Curves average all matched surface-track cases.}
-\label{fig:acquisition}
-\end{figure*}
 
 \paragraph{Acquisition and the target.}
-Across 128 matched cases, four adaptive measurements reduce combined coordinate RMSE from 0.0578 to 0.0340\,mm. Fixed camera-only, fixed mixed and random policies reach 0.0403, 0.0423 and 0.0438\,mm. Against the fixed mixed schedule, the paired difference is $-0.0083$\,mm (95\% case-bootstrap interval $[-0.0110,-0.0058]$). The adaptive policy spends 439 of its 512 measurements on camera observations. Probes alone give the best prediction under known new loads, at 0.0099\,mm against 0.0144\,mm for adaptive selection, but leave more uncertainty in the original hidden motion (Table~\ref{tab:acquisition}, Fig.~\ref{fig:acquisition}). In another 128 cases with uncertain force scale, four fixed views reduce hidden-motion error by 33.4\%, while four calibrated probes reduce new-load error by 48.4\%. Both branches start with the same evidence.
+Across 128 matched cases, four adaptive measurements reduce combined coordinate RMSE from 0.0578 to 0.0340\,mm. Fixed camera-only, fixed mixed and random policies reach 0.0403, 0.0423 and 0.0438\,mm. Against the fixed mixed schedule, the paired difference is $-0.0083$\,mm (95\% case-bootstrap interval $[-0.0110,-0.0058]$). The adaptive policy spends 439 of its 512 measurements on camera observations. Probes alone give the best prediction under known new loads, at 0.0099\,mm against 0.0144\,mm for adaptive selection, but leave more uncertainty in the original hidden motion (Table~\ref{tab:acquisition}). In another 128 cases with uncertain force scale, four fixed views reduce hidden-motion error by 33.4\%, while four calibrated probes reduce new-load error by 48.4\%. Both branches start with the same evidence.
 
 \paragraph{What retaining dependence changes.}
 Retaining the conditional force distribution for each material/support hypothesis gives a mean prediction-interval width of 0.0717\,mm; replacing those conditionals with a common moment-matched distribution gives 0.0863\,mm. Coverage is 92.0\% versus 93.9\% at nominal 90\%, and hidden-motion errors are nearly equal (0.0446 and 0.0449\,mm). In this experiment the practical gain is narrower intervals at similar accuracy. On a separate continuous-prior cohort, sequential Monte Carlo gives 0.0294\,mm after the recorded adaptive actions versus 0.0350\,mm after fixed mixed observations.
