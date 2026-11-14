@@ -24,6 +24,11 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y latexmk texlive-latex-extra texlive-fonts-recommended texlive-pictures texlive-bibtex-extra
+      - name: Generate the sealed-score chart and terminology-correct teaser
+        run: |
+          python -m pip install --quiet numpy matplotlib pillow pymupdf
+          python papers/cvpr2027-joint-identification/figures/make_benchmark_summary.py --repo .
+          python papers/cvpr2027-joint-identification/figures/make_task_teaser.py --repo .
       - name: Compile anonymous review paper and supplement
         run: |
           set -euo pipefail
@@ -49,7 +54,8 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add papers/cvpr2027-joint-identification/main.pdf papers/cvpr2027-joint-identification/supplement.pdf papers/cvpr2027-joint-identification/release/latex-source.zip papers/cvpr2027-joint-identification/release/source-manifest.json
+          git add papers/cvpr2027-joint-identification/main.pdf papers/cvpr2027-joint-identification/supplement.pdf papers/cvpr2027-joint-identification/release/latex-source.zip papers/cvpr2027-joint-identification/release/source-manifest.json papers/cvpr2027-joint-identification/figures/task-teaser.pdf
+          git add -f papers/cvpr2027-joint-identification/figures/benchmark-summary.pdf
           if ! git diff --cached --quiet; then
             git commit -m 'Build revised CVPR paper and supplement PDFs [skip ci]'
             git push

@@ -21,7 +21,7 @@ def main():
     sources = {name: PAPER / name for name in (
         "main.tex", "supplement.tex", "cvpr.sty", "ieeenat_fullname.bst", "references.bib",
         "README.txt", "build.sh", "results-provenance.json", "interaction-provenance.json",
-        "figures/make_task_teaser.py",
+        "figures/make_task_teaser.py", "figures/make_benchmark_summary.py",
     )}
     for directory, glob in (("sections", "*.tex"), ("figures", "*.pdf")):
         for path in (PAPER / directory).glob(glob):

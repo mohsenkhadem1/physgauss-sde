@@ -10,11 +10,12 @@
 \begin{document}
 \maketitle
 \section{Experimental settings}
-The dynamic stem experiment measures the response to a calibrated load, once with noisy supplied tracks and once with tracks extracted from RGB-D. A separate compliant-base stem tests the decision to proceed, obtain a new view or apply a probe. Torus, drop and bowl experiments examine temporal extrapolation, mechanical ambiguity and numerical mismatch. The RGB-only three-interaction protocol describes the next comparison separately from completed measurements.
+The dynamic cantilever experiment measures the response to a calibrated load, once with noisy supplied tracks and once with tracks extracted from RGB-D. A separate compliant-base cantilever tests the decision to proceed, obtain a new view or apply a probe. Torus, drop and bowl experiments examine temporal extrapolation, mechanical ambiguity and numerical mismatch. The completed RGB-only three-interaction benchmark is now scored, with full evidence and controls in Sec.~\ref{sec:supp-fig1}.
 
 The joint-field experiments later in this supplement use known geometry, calibrated cameras and supplied surface correspondences. They assess how uncertainty in applied loads, supports and material fields affects quasistatic displacements. The original observations span the loading history, so unmeasured times test interpolation. Separate reset loads test prediction under changed interactions.
 
 \input{sections/interaction-supplement}
+\input{sections/benchmark-supplement}
 
 \section{Coordinates, units and discretization}
 Both quasistatic objects have bounding box $[-.06,.06]\times[-.03,.03]\times[0,.06]$ metres. The stepped object removes the upper-right quarter of the longitudinal/vertical bounding rectangle ($x>0$, $z>.03$ m), leaving 75\% of the bounding volume. A regular grid is split into six tetrahedra per cell, consistently oriented. The primary grid uses $(8,4,4)$ cells, giving 225 nodes and 768 tetrahedra for the block and 185 nodes and 576 tetrahedra for the stepped block. Fine truth uses $(12,6,6)$ cells. Density is 500 kg/m$^3$, but is not identified and does not enter quasistatic equilibrium. Poisson ratio is 0.30. Gravity is omitted in the incremental reference. A known, nonzero gravity term requires a separate symmetry argument.

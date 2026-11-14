@@ -1,0 +1,78 @@
+\section{Completed RGB-only intervention benchmark}
+\label{sec:supp-fig1}
+
+\paragraph{Registered protocol and freeze.}
+The Figure~1 protocol was frozen on 9 November 2026, with the recorded amendment preceding all prediction freezes. All three intervention forecasts were hashed and sealed at 15:46 UTC on 13 November 2026, before their held-out reference trajectories were generated. The manifests \texttt{reports/fig1-v01/prediction-freeze-S1.json}, \texttt{prediction-freeze-S2.json} and \texttt{prediction-freeze-S3.json} contain respectively 56, 51 and 53 predictions or associated records, none missing, as well as the protocol and source-code digests. The scorer reads through those manifests and verifies their hashes. The scored results are in \texttt{reports/fig1-v01/fig1-scores.json}; generating subsequent figures and held-camera renders does not change the sealed motion forecasts. These details matter because the test answers a genuinely prospective question rather than refitting to the withheld response.
+
+\paragraph{Geometries, episodes and metrics.}
+S1 and S3 share three cantilever objects with square $80\times80$\,mm cross-sections, $L=0.40$\,m free length, $\rho=500$, 1000 or 2000\,kg/m$^3$, proportional moduli 2, 4 or 8\,MPa, and Poisson ratio 0.3. Episode $D_0$ is a passive gravity release and $D_1$ a 40\,N midpoint push. The unseen $D_{2c}$ push is 20\,N at $0.75L$ in direction $(0,-0.8,-0.6)$, i.e. 16\,N down and 12\,N transversely. The S1 error is 3D root-mean-square displacement error across four material stations and all 37 future frames, with each method's rest position subtracted. S3 instead releases a sphere of mass 0.30\,kg and radius 30\,mm toward the cantilever at 1\,m/s; its axial impulse is $m(v_{z,\mathrm{end}}-v_{z,0})$. The sphere freely rebounds and its velocity is not fitted to the withheld outcome. Cantilever station RMSE is secondary. The contact law is the specified penalty function common to the compared simulator adapters.
+
+S2 is a $0.24\times0.10\times0.12$\,m fixed-base block with $E_{\rm soft}=60$\,kPa, density 1000\,kg/m$^3$, $\nu=0.4$ and an eightfold-stiffer region hidden by visually uniform surface texture. The inclusion centre takes $x=-0.06,0,+0.06$\,m. Its 30\,N initial press is centered; $D_1$ presses at $x=+0.05$\,m and the withheld $D_2$ presses at $x=-0.07$\,m. We score the 3D displacement RMS of 27 top-surface evaluation points over 25 frames. All algorithms are given the same action commands, and cameras 1--10 for fitting, while camera 0 is withheld. Our method triangulates surface-marker tracks from two of these RGB views, using known metric rest geometry and marker initialization; no depth is supplied in this completed RGB-only comparison. The other systems use their specified fitting or adapted tracking/geometry inputs.
+
+\begin{table*}[t]
+\centering\small
+\caption{\textbf{After-calibration 3D displacement RMSE (mm) in each world.} Means over the three worlds precede the individual errors in parentheses. S1 and S3 use the same cantilever objects but distinct held-out interactions.}
+\label{tab:supp-fig1-worlds}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Method & S1: new cantilever force & S2: hidden inclusion & S3: free collision motion\\
+\midrule
+Ours (RGB) & 1.27 (2.18, 1.01, 0.63) & 0.33 (0.36, 0.34, 0.30) & 0.51 (0.60, 0.51, 0.43)\\
+M-PhyGs & 5.26 (9.48, 0.79, 5.50) & 1.28 (0.96, 1.48, 1.41) & 3.47 (6.46, 1.30, 2.66)\\
+PhysTwin & 5.46 (8.86, 1.48, 6.04) & 1.73 (1.40, 1.64, 2.16) & 5.92 (6.54, 5.12, 6.11)\\
+GIC & 7.21 (11.57, 1.99, 8.06) & 2.60 (1.12, 3.97, 2.70) & 7.97 (6.18, 7.24, 10.48)\\
+PAC-NeRF & 9.45 (17.97, 7.49, 2.88) & 1.78 (0.63, 2.40, 2.31) & 8.27 (10.53, 5.58, 8.71)\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table}[t]
+\centering\small
+\caption{\textbf{After-calibration axial impulse errors} (N\,s). The true impulse is 0.509, 0.386 or 0.469\,N\,s for the three cantilevers.}
+\label{tab:supp-fig1-impulse}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Method & Mean & 500 & 1000 & 2000\\
+\midrule
+Ours (RGB) & 0.003 & 0.008 & 0.001 & 0.000\\
+M-PhyGs & 0.073 & 0.136 & 0.029 & 0.053\\
+PhysTwin & 0.086 & 0.123 & 0.080 & 0.055\\
+GIC & 0.069 & 0.125 & 0.003 & 0.079\\
+PAC-NeRF & 1.771 & 1.931 & 1.584 & 1.798\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Before- and after-calibration means.}
+For S1, the initial-footage-only scores are 6.94\,mm (ours), 5.87 (M-PhyGs), 6.66 (PhysTwin), 7.44 (GIC) and 9.68 (PAC-NeRF); the after-calibration scores are reported in Tab.~\ref{tab:benchmark}. In S2 the initial-only scores are 0.33, 0.90, 1.45, 2.62 and 1.79\,mm respectively, whereas the calibrated scores are 0.33, 1.28, 1.73, 2.60 and 1.78\,mm. For S3 the initial-only cantilever displacement scores are 2.40, 3.49, 4.35, 6.41 and 6.92\,mm; initial-only impulse errors are 0.042, 0.093, 0.059, 0.068 and 1.540\,N\,s. An additional recorded oracle directly supplies true mechanical parameters to the GIC simulator; its error is 8.09\,mm on S1, 7.88\,mm on S3 deformation and 0.023\,N\,s on S3 impulse, illustrating the influence of forward-model mismatch.
+
+\paragraph{Comparator adaptations.}
+GIC uses upstream commit \texttt{b523851} and PAC-NeRF \texttt{b613048} with the original multiview RGB fitting stages, a labelled known-force adapter and a common spherical-penalty contact adapter for the held-out interaction. PAC-NeRF needed recovery of a fit-record file from an existing checkpoint and two fixes in the force/scene adapter. The M-PhyGs implementation is a mechanics-only adaptation: missing third-party rendering/DINO dependencies necessitated setting photometric terms to zero and fitting to our RGB-triangulated marker tracks instead of running the native image-fitting stage. It uses fixed density and Poisson ratio, curriculum fitting and an adapted position-loss normalization. PhysTwin likewise uses the shared RGB-triangulated marker tracks and a known completed rest lattice in place of its native image, RGB-D and shape-completion front end, with adapted search limits and discretization. The comparison therefore contrasts the completed implementations under the declared inputs, not fully equivalent end-to-end reconstructions. The adapters and changed hyperparameters are recorded under \texttt{scripts/fig1\_v01/mphygs/} and \texttt{scripts/fig1\_v01/phystwin/}.
+
+\paragraph{Matched simulator and hypothesis family.}
+Our parameter bank uses a coarser, linear finite-element model of the same tetrahedral element family as the nonlinear reference. For all three cantilevers, the true $(E/\rho,\nu)=(4000,0.3)$ lies exactly on our candidate grid, and the known-force observation concentrates the posterior at that grid entry. The final RGB, RGB-D and supplied-track variants give identical predictions to numerical precision; hence this benchmark cannot independently establish robustness of the tracker once calibrated. In S2 the inclusion locations and Poisson ratio coincide with bank candidates, while $E_{\rm soft}=60$\,kPa and the true contrast 8 lie off some grid points. The S2 posterior is already a point mass following the initial press, so calibration supplies no additional benefit. Because the compared systems do not use matched physical families, the gaps in Tab.~\ref{tab:benchmark} reflect simulator accuracy, geometry assumptions, hypothesis design and inference together; they cannot be attributed to inference alone. A valid follow-up requires off-grid material settings, an independent forward solver and held-out measured real objects.
+
+\paragraph{Failed spatial FEM fit control.}
+The additional 6-by-2-bin spatial FEM optimization control drove moduli to the fit bounds (1\,kPa--3\,MPa) and did not reproduce the observed block deformation. Its mean S2 error was 7.96\,mm with $D_0$ only and 13.46\,mm with $D_1$, while observed deformation was roughly 4\,mm. The failed control is retained in the full scored record, but omitted from the comparison of functioning model adapters. It is not evidence against an accurately fitted heterogeneous FEM model.
+
+\paragraph{Input-file provenance and unsealed stress test.}
+The original renderer writes matching raw \texttt{r\_*.png} and mutable \texttt{m\_*.png} images. PAC-NeRF's preprocessing modifies the shared \texttt{m\_*.png} files in place, replacing background-matted pixels with white. GIC's original fitting jobs read unmatted images before PAC-NeRF touched them; PAC-NeRF reads \texttt{r\_*.png}. Our and the track-adapted methods read the existing triangulated marker tracks; the original $D_0$ cantilever tracks were obtained from an already matted copy, while cantilever calibration tracks and block tracks were recorded from raw images. The baseline scores remain their sealed record, but the modification can affect tracking reproducibility.
+
+We therefore conducted an explicitly \emph{unsealed} sensitivity check by rerunning our tracker on the later, matted images. Its after-calibration S1 mean rises from 1.27 to 3.10\,mm (worldwise 2.70, 5.79 and 0.80\,mm); S3 displacement rises from 0.51 to 1.86\,mm and impulse error rises from 0.003 to 0.034\,N\,s. The block changes by less than 0.01\,mm. These post-hoc scores must not replace the prospective measurements. The tracker lacks outlier rejection. Further prospective comparisons should expose immutable per-method image copies and use explicit marker-validity filtering.
+
+\paragraph{Contact and reference diagnostics.}
+On S3, PAC-NeRF reconstructs a body about 0.19\,m thick where the reference is 0.08\,m. This places the striker initially inside the reconstructed body, creating a spurious early collision. PhysTwin generates a lateral component of rebound from its off-axis contact with the spring lattice. These errors are kept in the scored outcomes. Each model uses the declared penalty-contact relationship, but its resulting contact geometry differs. The S1 and S3 scores are not six independent test objects: both reuse the same three fits.
+
+\paragraph{Rendering protocol and interpretation.}
+The shared-appearance measurement drives a GIC fixed-particle Gaussian appearance trained only on fitting views with the sealed motion from each method. In the block, new GIC appearance fits were produced after truth generation, but from cameras 1--10 and the $D_0/D_1$ episodes only. An alternative evaluation uses the known true rest mesh and texture as a common motion-sensitive rendering surface, not as a renderer learned by our method. Foreground PSNR pools squared error over all withheld camera-0 reference foreground pixels across frames 1 through the end, with consistent background compositing. The mask only includes the reference silhouette, so extra predicted pixels outside the silhouette are measured by the accompanying full-frame metric rather than foreground PSNR.
+
+For S1/S2/S3 the reference-motion shared-appearance PSNR is 21.64/20.72/21.70\,dB. Our post-calibration prediction scores 21.62/20.68/21.75\,dB; the best other post-calibration scores are 20.33/20.69/20.54\,dB. With reference texture our motion scores 30.45/34.65/32.82\,dB versus the best other post-calibration scores 21.96/28.16/21.85\,dB. The block shared-appearance score is effectively insensitive to motion, whereas the reference-texture variant distinguishes the mechanics strongly. GIC and PAC-NeRF also produce native-renderer scores; the mechanics-only comparator adapters do not. The full records are \texttt{reports/fig1-v01/RENDER.txt} and \texttt{render-scores.json}.
+
+\paragraph{Compute records and run history.}
+All timing data are recorded in \texttt{reports/fig1-v01/compute-cost.json}. On the cantilever the initial fit/refit median wall times in minutes are 204/635 for GIC, 428/614 for M-PhyGs and 20/23 for PhysTwin. PAC-NeRF refit takes 676 minutes; its initial fit time was not recovered. On the block, GIC is 271/247, PAC-NeRF 273/279, M-PhyGs 451/412 and PhysTwin 9.9/10 minutes. Our prior CPU simulation banks require 49 and 99 minutes respectively, amortized across worlds and interactions, while RGB tracking takes roughly 0.04 minutes per episode and posterior estimation plus a push forecast around 0.01 minutes. GPU jobs ran with different co-located workloads and several days of thermal slowdown; timing is descriptive, not an apples-to-apples throughput evaluation. The campaign suffered multiple PCIe GPU failures; every partial failed job was excluded before prediction sealing.
+
+An earlier RGB-D diagonal cantilever trial had 12 of 35 prediction files subsequently overwritten by a round-2 job after its scores had been committed; its original scores stand but its older seal is not completely re-verifiable. The three independent new RGB-only benchmark seals are unaffected, and the benchmark scorer and renderer rechecked them before reporting. All file-level evidence, exceptions and instructions are in \texttt{reports/fig1-v01/REPORT.txt}.
+
+\paragraph{Scope for future validation.}
+The reference observations are simulated, our method is supplied with rest geometry, and all three cantilever truths come from a shared mechanical family with an on-grid true ratio. The spatially varying FEM control was unsuccessful, while M-PhyGs and PhysTwin use adapted non-photometric inputs. Larger independent cohorts, real force/position measurements, off-grid material parameters and an external simulator are required to establish robustness beyond this controlled benchmark. The PokeFlex dataset loader is present in code but no scored real-video results are included in the current release.

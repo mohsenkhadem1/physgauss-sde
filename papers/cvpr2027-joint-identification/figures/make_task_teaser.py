@@ -82,7 +82,7 @@ def draw(repo):
         ax.annotate(f"{x:.1f}", (x, y), xytext=(4, 0), textcoords="offset points",
                     fontsize=7.4, va="center", color=TEAL, fontweight="bold")
     fig.text(.239, .785, "Density (kg/m³)", fontsize=7.2, color=MUTED)
-    fig.text(.239, .028, f"GIC predicts {baseline[0]:.1f} mm for all three stems (dashed).",
+    fig.text(.239, .028, f"GIC predicts {baseline[0]:.1f} mm for all three cantilevers (dashed).",
              fontsize=6.6, color=ORANGE)
 
     ax = fig.add_axes([.615, .18, .382, .565])
