@@ -21,7 +21,7 @@ def main():
     sources = {name: PAPER / name for name in (
         "main.tex", "supplement.tex", "cvpr.sty", "ieeenat_fullname.bst", "references.bib",
         "README.txt", "build.sh", "results-provenance.json", "interaction-provenance.json",
-        "figures/make_task_teaser.py", "figures/make_benchmark_summary.py",
+        "figures/make_task_teaser.py", "figures/make_benchmark_summary.py", "figures/normalize_predicted_shapes.py",
     )}
     for directory, glob in (("sections", "*.tex"), ("figures", "*.pdf")):
         for path in (PAPER / directory).glob(glob):
@@ -31,7 +31,7 @@ def main():
     # so both PDFs build from the source ZIP without a repository checkout.
     for source in ("output/paper-figures/fig4-predicted-shapes.pdf",
                    "output/stem-trial-v01/stem-render-physics.pdf"):
-        sources["figures/" + Path(source).name] = ROOT / source
+        sources.setdefault("figures/" + Path(source).name, ROOT / source)
 
     release = PAPER / "release"
     release.mkdir(exist_ok=True)
