@@ -1,4 +1,6 @@
-The supplement's archived predicted-shape figure is now reproduced with the nomenclature-corrected vector title; only the text label is changed, not the experiment output. The CI generator and standalone ZIP include this revised figure.\n\n14 November: The three held-out RGB benchmark interactions have been scored and incorporated into the main paper. The full caveats, model-family contrasts, numerical controls and post-hoc stress tests are in the supplementary. Paper terminology is deformable cantilever throughout; main length is not restricted to eight pages. Rebuild from GitHub Actions to regenerate PDFs, benchmark plot and source ZIP.
+The supplement's archived predicted-shape figure is now reproduced with the nomenclature-corrected vector title; only the text label is changed, not the experiment output. The CI generator and standalone ZIP include this revised figure.
+
+14 November: The three held-out RGB benchmark interactions have been scored and incorporated into the main paper. The full caveats, model-family contrasts, numerical controls and post-hoc stress tests are in the supplementary. Paper terminology is deformable cantilever throughout; main length is not restricted to eight pages. Rebuild from GitHub Actions to regenerate PDFs, benchmark plot and source ZIP.
 
 SOURCE REVISION (14 NOVEMBER 2026)
 ---------------------------------

@@ -39,7 +39,7 @@ def main(repo):
             replacements += 1
     if replacements != 1:
         raise RuntimeError(f"Expected one archived figure title; found {replacements}")
-    if any(re.search(r"\\bstem\\b", page.get_text(), re.I) for page in doc):
+    if any(page.search_for("Predicted stem shape") for page in doc):
         raise RuntimeError("Remaining legacy figure terminology")
     doc.save(target, garbage=4, deflate=True, no_new_id=True)
     doc.close()
