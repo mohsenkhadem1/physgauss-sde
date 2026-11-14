@@ -1,0 +1,56 @@
+name: Compile CVPR 2027 manuscript
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'papers/cvpr2027-joint-identification/main.tex'
+      - 'papers/cvpr2027-joint-identification/supplement.tex'
+      - 'papers/cvpr2027-joint-identification/references.bib'
+      - 'papers/cvpr2027-joint-identification/sections/**'
+      - 'papers/cvpr2027-joint-identification/figures/**'
+      - '.github/workflows/cvpr-manuscript-build.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install TeX tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y latexmk texlive-latex-extra texlive-fonts-recommended texlive-pictures texlive-bibtex-extra
+      - name: Compile anonymous review paper and supplement
+        run: |
+          set -euo pipefail
+          cd papers/cvpr2027-joint-identification
+          latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+          latexmk -pdf -interaction=nonstopmode -halt-on-error supplement.tex
+          test -s main.pdf && test -s supplement.pdf
+          pdfinfo main.pdf | grep Pages
+          pdfinfo supplement.pdf | grep Pages
+      - name: Regenerate standalone LaTeX source ZIP
+        run: |
+          python scripts/joint_field_identification/package_paper.py
+      - name: Upload PDF build outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: cvpr2027-papers
+          path: |
+            papers/cvpr2027-joint-identification/main.pdf
+            papers/cvpr2027-joint-identification/supplement.pdf
+      - name: Commit PDFs to main
+        if: github.ref == 'refs/heads/main'
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add papers/cvpr2027-joint-identification/main.pdf papers/cvpr2027-joint-identification/supplement.pdf papers/cvpr2027-joint-identification/release/latex-source.zip papers/cvpr2027-joint-identification/release/source-manifest.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Build revised CVPR paper and supplement PDFs [skip ci]'
+            git push
+          fi

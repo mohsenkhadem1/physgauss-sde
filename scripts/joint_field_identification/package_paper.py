@@ -1,30 +1,51 @@
-"""Package the audited paper source without experiment banks or recordings."""
+"""Verify the numerical inputs and package the anonymous paper for a standalone build."""
+import hashlib
+import json
+import zipfile
 from pathlib import Path
-import hashlib,json,zipfile
 
-ROOT=Path(__file__).resolve().parents[2]
-PAPER=ROOT/'papers/cvpr2027-joint-identification'
+ROOT = Path(__file__).resolve().parents[2]
+PAPER = ROOT / "papers/cvpr2027-joint-identification"
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
 
 def main():
-    macros=(PAPER/'sections/results-macros.tex').read_text()
-    assert 'Working draft' not in macros, 'Final result extraction must precede release'
-    provenance=json.loads((PAPER/'results-provenance.json').read_text())
-    for name,digest in provenance.items():
-        assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==digest,name
-    files=[p for p in PAPER.iterdir() if p.suffix in ('.tex','.sty','.bib','.bst')]
-    files += list((PAPER/'sections').glob('*.tex'))
-    files += list((PAPER/'figures').glob('*.pdf'))
-    files += [PAPER/name for name in ['README.txt','build.sh','legacy-supporting-evidence.pdf','results-provenance.json']]
-    files=sorted(set(files)); release=PAPER/'release';release.mkdir(exist_ok=True)
-    manifest={str(p.relative_to(PAPER)):hashlib.sha256(p.read_bytes()).hexdigest() for p in files}
-    (release/'source-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
-    with zipfile.ZipFile(release/'latex-source.zip','w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as z:
-        for p in files:
-            info=zipfile.ZipInfo(str(p.relative_to(PAPER)),date_time=(2026,11,6,0,0,0))
-            info.compress_type=zipfile.ZIP_DEFLATED
-            info.external_attr=(0o100755 if p.name=='build.sh' else 0o100644)<<16
-            z.writestr(info,p.read_bytes())
-        z.writestr('source-manifest.json',json.dumps(manifest,indent=2)+'\n')
-    print(f'Packaged {len(files)} files; {(release/"latex-source.zip").stat().st_size} bytes')
+    assert "Working draft" not in (PAPER / "sections/results-macros.tex").read_text()
+    for name in ("results-provenance.json", "interaction-provenance.json"):
+        for source, expected in json.loads((PAPER / name).read_text()).items():
+            assert digest(ROOT / source) == expected, source
 
-if __name__=='__main__':main()
+    sources = {name: PAPER / name for name in (
+        "main.tex", "supplement.tex", "cvpr.sty", "ieeenat_fullname.bst", "references.bib",
+        "README.txt", "build.sh", "results-provenance.json", "interaction-provenance.json",
+        "figures/make_task_teaser.py",
+    )}
+    for directory, glob in (("sections", "*.tex"), ("figures", "*.pdf")):
+        for path in (PAPER / directory).glob(glob):
+            if not path.name.startswith("gap-first-"):
+                sources[path.relative_to(PAPER).as_posix()] = path
+    # These panels are already tracked with their experiments. Bundle them in figures/
+    # so both PDFs build from the source ZIP without a repository checkout.
+    for source in ("output/paper-figures/fig4-predicted-shapes.pdf",
+                   "output/stem-trial-v01/stem-render-physics.pdf"):
+        sources["figures/" + Path(source).name] = ROOT / source
+
+    release = PAPER / "release"
+    release.mkdir(exist_ok=True)
+    manifest = release / "source-manifest.json"
+    manifest.write_text(json.dumps({n: digest(p) for n, p in sorted(sources.items())}, indent=2) + "\n")
+    sources[manifest.name] = manifest
+    with zipfile.ZipFile(release / "latex-source.zip", "w") as archive:
+        for name, source in sorted(sources.items()):
+            info = zipfile.ZipInfo(name, date_time=(2026, 11, 9, 0, 0, 0))
+            info.external_attr = (0o100755 if name == "build.sh" else 0o100644) << 16
+            archive.writestr(info, source.read_bytes(), compress_type=zipfile.ZIP_DEFLATED,
+                             compresslevel=9)
+    print(f"Packaged {len(sources)} files and verified both study manifests.")
+
+
+if __name__ == "__main__":
+    main()
