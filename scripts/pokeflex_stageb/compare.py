@@ -8,13 +8,25 @@ import json, itertools
 from pathlib import Path
 import numpy as np
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from verify_full import verify_full
+verify_full()  # freeze + code/objects/protocol hashes + pre-freeze commit; raises on any mismatch
+
 R = Path(__file__).resolve().parents[2]
 REP = R/'reports/pokeflex-v01'; PRED = R/'runs/pokeflex-v01/pred'
 OBJECTS = ['FoamDice', 'FoamCylinder', 'Sponge', 'MemoryFoam', 'FoamHalfSphere', 'Pillow', '3dPrintedCylinder', '3dPrintedPyramid']
 V01, SB = json.loads((REP/'scores.json').read_text()), json.loads((REP/'scores-stageB.json').read_text())
 rows = V01['rows']+SB['rows']
+CM = REP/'contact-metrics.json'
+if CM.exists():  # post-hoc contact-region metrics (contact_metrics.py), merged per (method, poke)
+    cm = {(r['method'], r['object'], r['take'], r['poke']): r for r in json.loads(CM.read_text())['rows']}
+    for r in rows:
+        r.update({k: v for k, v in cm.get((r['method'], r['object'], r['take'], r['poke']), {}).items()
+                  if k in ('force_contact_rmse_N', 'force_contact_along_rmse_N', 'peak_force_err_N', 'peak_force_rel', 'tool_region_mm')})
 METHODS = ['ours', 'fem_lsq', 'hooke', 'null', 'PhysTwin', 'PAC-NeRF']
-KEYS = ['force_rmse_N', 'force_along_rmse_N', 'chamfer_excl_tool_mm']
+KEYS = ['force_rmse_N', 'force_along_rmse_N', 'chamfer_excl_tool_mm', 'chamfer_mm']
+KEYS += ['force_contact_rmse_N', 'force_contact_along_rmse_N', 'peak_force_err_N', 'peak_force_rel', 'tool_region_mm'] if CM.exists() else []
 key = lambda r: (r['object'], r['take'], r['poke'])
 by = {m: {key(r): r for r in rows if r['method'] == m} for m in METHODS}
 common = set.intersection(*(set(v) for v in by.values()))
@@ -32,9 +44,10 @@ table = {}
 for m in METHODS:
     for o in OBJECTS:
         rr = [by[m][k] for k in common if k[0] == o]
-        table.setdefault(m, {})[o] = {q: float(np.mean([r[q] for r in rr if q in r])) for q in KEYS} | dict(pokes=len(rr))
+        table.setdefault(m, {})[o] = {q: float(np.mean([r[q] for r in rr if q in r])) if any(q in r for r in rr) else float('nan')
+                                      for q in KEYS} | dict(pokes=len(rr))
     allr = [by[m][k] for k in common]
-    table[m]['_mean_over_objects'] = {q: float(np.mean([table[m][o][q] for o in OBJECTS])) for q in KEYS}
+    table[m]['_mean_over_objects'] = {q: float(np.nanmean([table[m][o][q] for o in OBJECTS])) for q in KEYS}
     table[m]['_pooled_pokes'] = {q: float(np.mean([r[q] for r in allr if q in r])) for q in KEYS} | dict(pokes=len(allr))
 
 wins = {}

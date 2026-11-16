@@ -72,6 +72,53 @@ Per-poke comparison of ours against each method (pokes where ours is better vs w
 | PhysTwin | **52–108 (+0.71 N)** | 61–99 (+0.41 N) | 109–52 (−0.04 mm) |
 | PAC-NeRF | 112–49 (−2.3 N) | 114–47 (−3.5 N) | 159–2 (−4.9 mm) |
 
+## Contact-region metrics (post-hoc, not pre-registered)
+
+These were added after an external review made two points. First, the primary surface metric excludes a 30 mm
+cylinder around the tool axis, which is where contact mechanics matter most. Second, the protocol force RMSE also
+averages over frames with no contact.
+
+The metrics come from `pokeflex_stageb/contact_metrics.py` and are stored in `contact-metrics.json`. They were scored
+after full verification, use the same 161 pokes, and are means over objects.
+
+| Metric | ours | fem_lsq | hooke | null | PhysTwin (B) | PAC-NeRF (B) |
+|---|---|---|---|---|---|---|
+| full-surface chamfer, no exclusion (mm) | 2.79 | 2.81 | 3.27 | 3.27 | **2.77** | 8.58 |
+| **tool-region surface error, contact frames (mm)** | 7.36 | 7.41 | 15.60 | 15.60 | **7.09** | 9.28 |
+| force RMSE, contact frames only (N) | 13.57 | 13.48 | 14.66 | 27.17 | **11.99** | 16.63 |
+| force RMSE along −approach, contact frames (N) | 11.01 | 10.89 | 12.08 | 26.08 | **9.80** | 15.12 |
+| peak-force error (N) | 14.45 | **14.07** | 16.51 | 45.49 | 14.75 | 19.07 |
+| peak-force error / measured peak | 0.39 | **0.38** | 0.52 | 1.00 | 0.40 | 0.52 |
+
+Per-poke comparison of ours against each method (pokes where ours is better vs worse):
+
+| vs | tool region | contact force | peak force |
+|---|---|---|---|
+| hooke / null | 159–1 (−6.4 mm) | hooke 111–50 / null 148–12 | hooke 94–67 / null 151–9 |
+| PhysTwin | 80–80 (0.0 mm) | 52–108 (+0.9 N) | 89–71 (−0.2 N) |
+| PAC-NeRF | 140–18 (−2.1 mm) | 111–50 (−3.2 N) | 110–51 (−3.2 N) |
+
+What these show:
+- **The dent is resolved and modelled.** Under the tool, the rest mesh (hooke/null) is off by 15.6 mm. The deforming models halve that error (ours 7.4 mm, PhysTwin 7.1 mm), and ours beats a rigid surface on 159 of 161 pokes.
+- **Most of the remaining 7 mm is method-independent.** ours, fem_lsq and PhysTwin tie under the tool (80–80), which suggests a shared floor from the reconstruction under the dent.
+- **Contact-only force errors are larger than the protocol's whole-poke averages, but the ranking does not change.** PhysTwin is best on force over the contact phase. On peak force, ours and PhysTwin are level (89–71 for ours, median 0.2 N), and both miss the peak by about 40%.
+
+## Verification of the freeze (gap found in review)
+
+**The gap:** `pokeflex.freeze()` records hashes of every `scripts/pokeflex_v01/*.py` and of `objects.json`, but
+`pokeflex.verify()` never re-checked them. It checked only prediction files, `protocol.json` and the sealed data
+manifests. `pokeflex.py` cannot be patched after the freeze without breaking its own recorded hash.
+
+**The fix:** `pokeflex_stageb/verify_full.py` adds the missing checks:
+- every recorded code hash, and that no unrecorded code file has appeared;
+- `objects.json`;
+- that the frozen code, protocol and objects are byte-identical to the pre-freeze commit fa1a5c9c;
+- that the freeze record matches its committed version (01fbd190).
+
+**Result:** it passes, so no code, protocol or catalogue file changed after the freeze. It also detects a deliberate
+one-byte edit to `objects.json`. `compare.py` and `contact_metrics.py` now refuse to run unless it passes. A v02
+protocol should move these checks into `verify()` itself.
+
 ## Stiffness ranking (Spearman correlation with PokeFlex stiffness_N_per_m, 8 objects, 28 pairs)
 
 | Method | scalar | Spearman | discordant pairs |
