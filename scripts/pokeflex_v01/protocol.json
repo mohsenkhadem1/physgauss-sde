@@ -42,5 +42,19 @@
  },
  "freeze": "scripts/pokeflex_v01/pokeflex.py freeze PRED_DIR writes reports/pokeflex-v01/prediction-freeze.json with sha256 of every prediction file, this protocol, all scripts/pokeflex_v01/*.py and the sealed MANIFEST.sha256.json of every take. Gated loaders verify every hash before returning held-out outcomes.",
  "units": "OBJ meshes in mm (loaders return m); robot poses in m; forces N (torques Nm).",
- "world_frame": "World +y is up (drops fall toward -y; tool z-axis ~ -y). Support (table) plane at y ~ +0.275..0.280 m (resting drops, lowest vertices of the poking rest mesh 0.2755-0.278 m) -- i.e. the support is ~0.278 m ABOVE the origin, not the origin above the ground as the dataset readme puts it."
+ "world_frame": "World +y is up (drops fall toward -y; tool z-axis ~ -y). Support (table) plane at y ~ +0.275..0.280 m (resting drops, lowest vertices of the poking rest mesh 0.2755-0.278 m) -- i.e. the support is ~0.278 m ABOVE the origin, not the origin above the ground as the dataset readme puts it.",
+ "amendments": [
+  {
+   "date": "2026-11-14",
+   "before_any_fit_or_freeze": true,
+   "methods_v01": {
+    "null": "rest mesh of the poke held fixed; zero contact force.",
+    "hooke": "linear spring, the dataset's own stiffness model: F = k * max(0, d) along -approach axis, d = tool-tip depth along the approach axis past the rest surface (geometric contact from free inputs); k by least squares on the calibration poke(s) (offset-corrected forces). Surface = rest mesh. Its k is its stiffness-ranking scalar.",
+    "fem_lsq": "same forward model as ours, single best (E, nu) by least squares on the calibration data (no posterior, no risk). Ablation of the Bayesian part.",
+    "ours": "posterior over homogeneous compressible neo-Hookean (E, nu): E log grid 1e2..1e7 Pa (fine), nu in {0.0, 0.1, 0.2, 0.3, 0.4}; forward model = quasi-static FEM of the poke's rest mesh (start frame, free) closed by the support plane, linear tetrahedra from a voxel grid; support: nodes within one cell of the support plane fixed (bonded; real objects rest with friction); tool = rigid flat-ended cylinder of radius 10 mm (PokeFlex paper: acrylic stick, radius 10 mm), axis = T_WT z, end face at T_WT origin, penalty contact; gravity with density = catalogue mass / reconstructed volume. Displacement-driven contact with penalty stiffness proportional to E makes the deformation independent of E and the force proportional to E (up to gravity), so one simulation per nu covers the E axis. Likelihood: calibration-poke force 3-vectors (offset-corrected) and tool-excluded surface error, Gaussian with plug-in noise levels from the best fit. Outputs per held-out poke: posterior-mean force trajectory, posterior-mean surface, predicted risk (posterior probability that force RMSE > 2 N). Stiffness-ranking scalar: posterior-mean slope dF/dd of its predicted calibration force over the loading half.",
+    "stage_b_not_in_v01": "PhysTwin / M-PhyGs (point-based adapters) and GIC / PAC-NeRF (multi-view RGB; PokeFlex has 2 RGB + 4 RGB-D views of a real scene) need new adapters; reported separately if run, never mixed into this freeze."
+   },
+   "pipeline_development": "Forward-model development and debugging use the development take FoamDice/FoamDice_T1 only."
+  }
+ ]
 }
