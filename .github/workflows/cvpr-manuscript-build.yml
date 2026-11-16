@@ -10,6 +10,9 @@ on:
       - 'papers/cvpr2027-joint-identification/figures/**'
       - '.github/workflows/cvpr-manuscript-build.yml'
   workflow_dispatch:
+concurrency:
+  group: cvpr-build-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: write
 jobs:
@@ -19,11 +22,44 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
+          sparse-checkout: |
+            .github
+            papers
+            scripts
+            reports
+            output
+          sparse-checkout-cone-mode: true
       - name: Install TeX tools
         run: |
           sudo apt-get update
           sudo apt-get install -y latexmk texlive-latex-extra texlive-fonts-recommended texlive-pictures texlive-bibtex-extra
+      - name: Generate the sealed-score chart and terminology-correct teaser
+        run: |
+          python -m pip install --quiet numpy matplotlib pillow pymupdf
+          python papers/cvpr2027-joint-identification/figures/make_benchmark_summary.py --repo .
+          python papers/cvpr2027-joint-identification/figures/make_task_teaser.py --repo .
+          python papers/cvpr2027-joint-identification/figures/normalize_predicted_shapes.py --repo .
+          python papers/cvpr2027-joint-identification/figures/generate_visual_story.py --repo .
+      - name: Archive existing benchmark figure inputs for visual audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: cvpr2027-figure-inputs
+          path: |
+            output/paper-figures/fig1-benchmark.pdf
+            output/paper-figures/fig1-benchmark.png
+            output/paper-figures/fig1-scores.pdf
+            output/paper-figures/fig1-scores.png
+            output/paper-figures/fig1-identical-evidence.pdf
+            output/paper-figures/fig2-rendering-is-not-physics.pdf
+            output/paper-figures/fig3-one-poke.pdf
+            output/paper-figures/fig4-predicted-shapes.pdf
+            papers/cvpr2027-joint-identification/figures/task-teaser.pdf
+            papers/cvpr2027-joint-identification/figures/method.pdf
+            papers/cvpr2027-joint-identification/figures/benchmark-summary.pdf
+            reports/fig1-v01/fig1-scores.json
+            reports/fig1-v01/render-scores.json
+            reports/fig1-v01/compute-cost.json
       - name: Compile anonymous review paper and supplement
         run: |
           set -euo pipefail
@@ -49,7 +85,8 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add papers/cvpr2027-joint-identification/main.pdf papers/cvpr2027-joint-identification/supplement.pdf papers/cvpr2027-joint-identification/release/latex-source.zip papers/cvpr2027-joint-identification/release/source-manifest.json
+          git add papers/cvpr2027-joint-identification/main.pdf papers/cvpr2027-joint-identification/supplement.pdf papers/cvpr2027-joint-identification/release/latex-source.zip papers/cvpr2027-joint-identification/release/source-manifest.json papers/cvpr2027-joint-identification/figures/task-teaser.pdf
+          git add -f papers/cvpr2027-joint-identification/figures/*.pdf
           if ! git diff --cached --quiet; then
             git commit -m 'Build revised CVPR paper and supplement PDFs [skip ci]'
             git push
